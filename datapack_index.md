@@ -64,9 +64,6 @@
   - 数据包结构逻辑
       ~~[https://www.mcbbs.net/thread-1143275-1-1.html]~~
 
-- 强制区块运行 [/forceload](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/forceload)
-  - [(八) 区块与强制加载命令/forceload](https://www.bilibili.com/opus/937515275404705808)
-
 - 函数运行 [/function](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/function)
   - 定时函数运行 [/schedule]()
     - 由/schedule执行的函数，是由服务器执行，执行坐标是世界重生点
@@ -340,6 +337,10 @@
   - 主世界天气 [/weather](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/weather)
 
   - 世界边界 [/worldborder](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/worldborder)
+
+  - 强制区块运行 [/forceload](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/forceload)
+
+  - [(八) 区块与强制加载命令/forceload](https://www.bilibili.com/opus/937515275404705808)
   - 游戏刻速率 [/tick](https://zh.minecraft.wiki/w/命令/tick)
 
 - 外部命令
