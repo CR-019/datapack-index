@@ -1,0 +1,267 @@
+<html>
+<head>
+<title>【原版】particle指令参数对颗粒行为的影响 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04NTI0MjAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【原版】particle指令参数对颗粒行为的影响 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>柘木铃&nbsp; &nbsp; <b>时间: </b>2019-3-23 22:26<br />
+<b>标题: </b>【原版】particle指令参数对颗粒行为的影响<br /><i class="pstatus"> 本帖最后由 柘木铃 于 2020-2-22 12:13 编辑 </i><br />
+<font size="4">颗粒的行为</font><br /><div class="quote"><blockquote>颗粒总会以2D的图标显示，并且会以正前方朝向玩家。它们在一个简短的动画结束之后就消失了，在动画中它们可以改变大小和旋转一定的角度，并在多个动画图标之间循环。——Minecraft 中文 wiki</blockquote></div><br />
+<font size="4">生成颗粒的指令格式</font><br /><div class="blockcode"><div id="code_ngP"><ol><li>particle &lt;颗粒名称&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; [&lt;xd&gt; &lt;yd&gt; &lt;zd&gt;] [飞行速度] [粒子数量] [显示模式] [目标玩家]</ol></div><em onclick="copycode($('code_ngP'));">复制代码</em></div><br />
+粒子在播放动画的同时往往进行一段或长或短的移动，改变数量或是飞行速度可以改变粒子的运动状态<br />
+<br />
+将颗粒的运动分为三种类型：<font size="3"><strong>发散</strong>运动</font>、基于粒子种类的<font size="3"><strong>动画</strong>运动</font>（如 <font color="#000"><font face="monospace, monospace"><font style="background-color:rgb(248, 249, 250)">bubble_column_up </font></font></font>的气泡上升或 <font color="#000"><font face="monospace, monospace"><font style="background-color:rgb(248, 249, 250)">damage_indicator </font></font></font>的心形下降）及<font size="3"><strong>弥散</strong>运动</font><br />
+每一种粒子都有自己的动画运动（ <font style="color:rgb(0, 0, 0)"><font face="monospace, monospace"><font style="background-color:rgb(248, 249, 250)">barrier </font></font></font>是静止），动画运动的速度<strike>大多是不可改变的</strike>用资源包改<br />
+但发散运动的速度受颗粒飞行速度等参数影响，可以通过修改参数调整（部分颗粒的预设速度是0）<br />
+弥散运动取代了药水型粒子的发散运动（猜测药水型粒子的预设速度是0？）<br />
+由此可以将颗粒的移动路径大致归结为三种：<font size="3">固定型、发散型和药水型</font><br />
+<br />
+<font size="3"><strong>固定型：</strong>主要特征是颗粒直接生成在某一位置，并播放动画</font><br />
+<font size="3">固定型颗粒名称列表：</font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">angry_villager,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">barrier,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">current_down,dripping_honey,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">dripping_lava,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">dripping_water,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">elder_guardian,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">explosion,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">explosion_emitter,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">falling_dust</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">,falling_honey,falling_lava,falling_nectar,falling_water,flash,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">heart,item_slime,item_snowball,lava,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">note,rain,sweep_attack,underwater</font></font></font></td></table></div></div><br />
+当由指令生成时，会进行动画运动，移动的速度不受飞行速度影响。<br />
+<img src="static/image/smiley/machine/redstone_torch_on.png" smilieid="1338" border="0" alt="" />当数量为0时，生成位置固定在生成点<br />
+minecraft:note的颜色（即音高）受 &lt;xd&gt; 和速度的乘积影响（这意味着负值是可能的），如乘积为0.25时呈红色（具体变化规律目前不明）数量不为0时，minecraft:explosion 和 minecraft:sweep_attack 的颗粒尺寸范围受速度影响。<br />
+速度增大，颗粒尺寸的范围也随之增大（这意味着更大和更小的颗粒都可能出现）<br />
+左：速度0，右：速度1<br />
+
+<ignore_js_op>
+
+<img id="aimg_1376628" aid="1376628" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/16/112637wriki4ibyvryi77r.png" file="https://attachment.mcbbs.net/forum/201908/16/112637wriki4ibyvryi77r.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1376628" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1376628_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-16_11.14.55.png</strong> <em class="xg1">(88.58 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3NjYyOHwxNWJjZTQ5MnwxNjEzOTc4OTQ1fDI0MTk0ODZ8ODUyNDIw&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-16 11:26 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+上：速度10，<br />
+左：速度0，右：速度1<br />
+
+<ignore_js_op>
+
+<img id="aimg_1376657" aid="1376657" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/16/114537d1u2cummyzii2jyn.png" file="https://attachment.mcbbs.net/forum/201908/16/114537d1u2cummyzii2jyn.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1376657" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1376657_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-16_11.45.04.png</strong> <em class="xg1">(96.39 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3NjY1N3xjYWQ1YWFhOXwxNjEzOTc4OTQ1fDI0MTk0ODZ8ODUyNDIw&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-16 11:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<font size="3"><strong>发散型：</strong>主要特征是颗粒大多沿直线运动，同时播放动画</font><br />
+部分粒子（如 ambient_entity_effect 或 block）并不显示出速度可控的直线运动过程，但其动画运动方向仍可受&lt;xd&gt; &lt;yd&gt; &lt;zd&gt;影响，猜测它的预设速度可能为零<br />
+<font size="3">发散型颗粒名称列表：</font><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">block,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">bubble,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">bubble_column_up,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">bubble_pop,campfire_cozy_smoke,campfire_signal_smoke,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">cloud,composter,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">crit,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">damage_indicator,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">dolphin,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">dragon_breath,dust,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">enchant,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">enchanted_hit,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">end_rod</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">firework,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">fishing,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">flame,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">item,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">large_smoke,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">mycelium,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">nautilus,poof,portal,smoke,sneeze,spit,splash,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">squid_ink,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">totem_of_undying</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"></font></font></td></table></div></div><br />
+当由指令生成且数量不为0时，会以生成点为中心向四周发散（部分是向中心聚拢，如enchant）。<br />
+<img src="static/image/smiley/machine/redstone_torch_on.png" smilieid="1338" border="0" alt="" />当数量为0时，从生成点开始沿某方向运动，运动方向由&lt;xd&gt; &lt;yd&gt; &lt;zd&gt;和飞行速度决定（dust的颜色由额外的颜色通道参数决定，分别代表红色、绿色、蓝色和颗粒大小）。<br />
+&lt;xd&gt; &lt;yd&gt; &lt;zd&gt;三个数字影响颗粒沿该轴方向的分速度，如0 0 1时颗粒向z轴正方向（正南）运动。<br />
+飞行速度影响颗粒整体的移动速度。<br />
+颗粒移动速度由颗粒预设速度、沿各轴方向分速度与整体速度的乘积决定，以下两条指令的显示效果是一样的<br /><div class="blockcode"><div id="code_ab0"><ol><li>/particle minecraft:crit ~ ~1 ~ 0 0 0.5 1 0 normal @a<br /><li>/particle minecraft:crit ~ ~1 ~ 0 0 1 0.5 0 normal @a</ol></div><em onclick="copycode($('code_ab0'));">复制代码</em></div><br />
+当移动速度为0时，停止发散运动，运动状态与固定型相似<br />
+<img src="static/image/smiley/machine/redstone_torch_on.png" smilieid="1338" border="0" alt="" />当数量不为0时，从生成点开始沿某随机方向运动<br />
+此时颗粒移动速度只由预设速度及飞行速度决定，&lt;xd&gt; &lt;yd&gt; &lt;zd&gt;仍影响指定颗粒生成的区域<br />
+当数量和飞行速度均为为0时，生成位置固定在生成点<br />
+<br />
+<font size="3"><strong>药水型：</strong>兼有固定型与发散型颗粒的特征，呈弥散状，不受碰撞箱影响<br />
+药水型颗粒名称列表：</font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">ambient_entity_effect</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">entity_effect</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">effect</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">instant_effect,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">witch</font></font></font></td></table></div></div>
+<ignore_js_op>
+
+<img id="aimg_1376629" aid="1376629" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/16/112637c2970zun798rp88n.png" file="https://attachment.mcbbs.net/forum/201908/16/112637c2970zun798rp88n.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1376629" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1376629_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-15_15.19.23.png</strong> <em class="xg1">(111.16 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3NjYyOXxlOWRlNWQzZnwxNjEzOTc4OTQ1fDI0MTk0ODZ8ODUyNDIw&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-16 11:26 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<img src="static/image/smiley/machine/redstone_torch_on.png" smilieid="1338" border="0" alt="" />当数量为0时，运动状态保留发散型颗粒特征，此时&lt;xd&gt; &lt;yd&gt; &lt;zd&gt;或飞行速度可能影响颗粒颜色。<br />
+minecraft:entity_effect和minecraft:ambient_entity_effect的&lt;xd&gt; &lt;yd&gt; &lt;zd&gt;和飞行速度分别表示红色、绿色、蓝色和亮度，但它们同时会影响粒子的移动速度（x 和 z 对运动方向的影响似乎是一样的，但 y 的影响正常）<br />
+<img src="static/image/smiley/machine/redstone_torch_on.png" smilieid="1338" border="0" alt="" />当数量不为0时，在 &lt;xd&gt; &lt;yd&gt; &lt;zd&gt; 为0的情况下，观测药水型颗粒弥散效果<br />
+这里数量均取50<br />
+从左至右速度分别为：0,1,5,50,1000<br />
+
+<ignore_js_op>
+
+<img id="aimg_1376055" aid="1376055" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/15/163433bdwdduaztuqvgf2w.png" file="https://attachment.mcbbs.net/forum/201908/15/163433bdwdduaztuqvgf2w.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1376055" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1376055_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-15_16.20.38.png</strong> <em class="xg1">(137.5 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3NjA1NXwzM2UxODEzMXwxNjEzOTc4OTQ1fDI0MTk0ODZ8ODUyNDIw&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-15 16:34 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<img src="static/image/smiley/machine/redstone_torch_on.png" smilieid="1338" border="0" alt="" />当速度不为0时，药水型颗粒表现出弥散效果<br />
+一个较高的速度（500左右效果就差不多了）对药水型颗粒就弥散有明显的抑制作用<br />
+<br />
+接下来与常规发散型颗粒（poof）对比<br />
+左侧速度为0，右侧速度为1<br />
+
+<ignore_js_op>
+
+<img id="aimg_1376056" aid="1376056" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/15/163433drlgyyrrvy4yvrc0.png" file="https://attachment.mcbbs.net/forum/201908/15/163433drlgyyrrvy4yvrc0.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1376056" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1376056_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-15_16.29.38.png</strong> <em class="xg1">(192.09 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3NjA1NnxjNGFmZjIwM3wxNjEzOTc4OTQ1fDI0MTk0ODZ8ODUyNDIw&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-15 16:34 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+=============================<br />
+<font size="1"><font color="#f5deb3">稍后可能整理一下</font></font><br />
+不受碰撞箱影响的颗粒名称列表（有一些还真是意料之外？）<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">ambient_entity_effect,angry_villager,barrier,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">cloud,composter,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">crit,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">damage_indicator,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">dolphin,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">dragon_breath,dust,effect,elder_guardian,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">enchant,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">enchanted_hit,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">end_rod</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">flame,happy_villager,instant_effect,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">mycelium,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">nautilus,portal,sneeze,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">squid_ink,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">sweep_attack,</font></font></font><font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(248, 249, 250)"><font face="monospace, monospace">totem_of_undying,underwater,witch</font></font></font></td></table></div></div><br />
+=============================铃子的碎碎念……<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>一开始是在做粒子特效时想总结一下颗粒的行为，然后在总结的过程中发现了一些规律几种状态效果也并入发散型颗粒了，其实和发散型的特征有一些差异的<br />
+好像没什么人写这方面的样子……<br />
+铃子第一次写教程……或者是讨论之类的？总之很紧张（才不会说刚发上来时一堆错字……）<br />
+ε＝ε＝ε＝(#&gt;д&lt;)?有写得不准确的地方也请指出，谢谢大家<br />
+格式什么的随便搞一搞（？<br />
+为什么铃子总是打出一堆只有移动端能删的空行<br />
+为什么一些本该存在的空行总是被吃<br />
+====2020.2.22更新=========<br />
+加入了1.14和1.15的新颗粒<br />
+三等分的滴落系颗粒！（不<br />
+happy_villager是发散的！像这种本来寿命短且初速度慢的颗粒好难观察…</td></table></div></div><br />
+<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[14067345] = ['1376055','1376056','1376628','1376629','1376657'];
+attachimggroup(14067345);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>bjwphTD&nbsp; &nbsp; <b>时间: </b>2019-3-24 00:06<br />
+虽然我看不懂但感觉很厉害的样子<img src="static/image/smiley/rabbit/39.gif" smilieid="689" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2470025543&nbsp; &nbsp; <b>时间: </b>2019-4-2 23:58<br />
+明天可以去尝试一下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>墨仔&nbsp; &nbsp; <b>时间: </b>2019-5-11 14:41<br />
+ 虽然我看不懂但感觉很厉害的样子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>冰火双次元&nbsp; &nbsp; <b>时间: </b>2019-7-4 13:48<br />
+等等我尝试一下 谢谢楼主<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kongbaiyo&nbsp; &nbsp; <b>时间: </b>2019-8-9 12:29<br />
+谢谢总结！不用自己试了（<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>笨笨羊OvO&nbsp; &nbsp; <b>时间: </b>2019-8-20 16:24<br />
+太强了 做特技更容易了点 <img src="static/image/smiley/tong/envy.png" smilieid="1439" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ggg455&nbsp; &nbsp; <b>时间: </b>2019-8-20 20:40<br />
+那这个粒子效果能不能穿墙？是透过墙面继续显示，还是被墙面吸收？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>柘木铃&nbsp; &nbsp; <b>时间: </b>2019-8-21 06:28<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15417359&amp;ptid=852420" target="_blank"><font color="#999999">ggg455 发表于 2019-8-20 20:40</font></a></font><br />
+那这个粒子效果能不能穿墙？是透过墙面继续显示，还是被墙面吸收？</blockquote></div><br />
+受碰撞影响的那些不能穿墙，被墙面阻隔，但仍播放动画直至消失<br />
+不受碰撞箱影响的那些可以穿透墙面，运动路径不会改变<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>XUEYINGqwq&nbsp; &nbsp; <b>时间: </b>2019-8-21 17:18<br />
+哇指令大神啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>墨珂&nbsp; &nbsp; <b>时间: </b>2019-9-24 12:17<br />
+大神，我设定好循环粒子效果以后，靠近粒子就会一直显示【@正在显示粒子******】这种消息，请问有办法去掉吗，不让它一直提示<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC深坑不回头&nbsp; &nbsp; <b>时间: </b>2019-9-24 23:15<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15646670&amp;ptid=852420" target="_blank"><font color="#999999">墨珂 发表于 2019-9-24 12:17</font></a></font><br />
+大神，我设定好循环粒子效果以后，靠近粒子就会一直显示【@正在显示粒子******】这种消息，请问有办法去掉 ...</blockquote></div><br />
+不错的教程耶，有很清楚的对比图<br />
+楼上试试命令:<br />
+/gamerule commandBlockOutput false<br />
+/gamerule logAdiminCommands false<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sawffh&nbsp; &nbsp; <b>时间: </b>2019-9-25 15:21<br />
+学习了 经验拿来<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>墨珂&nbsp; &nbsp; <b>时间: </b>2019-9-26 03:32<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15648303&amp;ptid=852420" target="_blank"><font color="#999999">MC深坑不回头 发表于 2019-9-24 23:15</font></a></font><br />
+不错的教程耶，有很清楚的对比图<br />
+楼上试试命令:<br />
+/gamerule commandBlockOutput false</blockquote></div><br />
+可以用！！！谢谢<img src="static/image/smiley/rabbit/05.gif" smilieid="655" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1179375200&nbsp; &nbsp; <b>时间: </b>2019-9-27 06:45<br />
+大佬好厉害<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1179375200&nbsp; &nbsp; <b>时间: </b>2019-9-27 06:46<br />
+那只灵是不是必须的完全输对呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1179375200&nbsp; &nbsp; <b>时间: </b>2019-9-27 06:46<br />
+中介有没什么可以去除的地方<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1179375200&nbsp; &nbsp; <b>时间: </b>2019-9-27 06:47<br />
+求大佬指点<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1179375200&nbsp; &nbsp; <b>时间: </b>2019-9-27 06:48<br />
+谢谢大佬，在下是个萌新<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1179375200&nbsp; &nbsp; <b>时间: </b>2019-9-27 06:49<br />
+有很多不懂的地方请见谅<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>LHE_WP&nbsp; &nbsp; <b>时间: </b>2019-9-30 18:40<br />
+以后不用自己尝试了 感谢楼主<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2737414049&nbsp; &nbsp; <b>时间: </b>2019-11-18 01:11<br />
+可以可以感谢分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>时之虫&nbsp; &nbsp; <b>时间: </b>2020-2-19 02:28<br />
+感谢LZ的研究<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>时之虫&nbsp; &nbsp; <b>时间: </b>2020-2-20 19:45<br />
+末地烛的颗粒也不受碰撞箱影响？奇怪。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mosheng2333&nbsp; &nbsp; <b>时间: </b>2020-2-21 10:02<br />
+等等尝试一下谢谢大佬了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>muhei&nbsp; &nbsp; <b>时间: </b>2020-2-21 16:49<br />
+我去尝试一下，谢谢大佬
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

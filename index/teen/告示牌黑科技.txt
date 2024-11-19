@@ -1,0 +1,115 @@
+***
+
+## [1.14+] 告示牌黑科技 / 用战利品表实现
+
+没有在论坛里发现类似的教程，所以就来灌水了（[:doge:]
+
+---
+
+### 准备
+
+- `scoreboard objectives add foo dummy`
+  -  先建立一个记分板 foo。
+- `scoreboard players set #temp foo 233`
+  - 将玩家 #temp 的 foo 记分板的分数设置为 233。
+- `tellraw @a ["",{"text":"玩家的分数是 "},{"score":{"objective":"foo","name":"#temp"}}]`
+  - 将玩家 #temp 的 foo 记分板的分数告诉给所有玩家。
+  - 聊天栏里显示：`玩家的分数是 233`。
+
+---
+
+### 思考
+
+如何将分数显示在实体的自定义名称？
+
+- `summon armor_stand ~ ~ ~ {CustomName:'["",{"text":"玩家的分数是 "},{"score":{"objective":"foo","name":"#temp"}}]',CustomNameVisible:1b,Tags:["target"]}`
+  - 盔甲架的自定义名称为：`玩家的分数是 `。
+  - 失败了。
+
+---
+
+### 黑科技
+
+- `data modify entity @e[tag=target,limit=1] CustomName set value ''`
+  - 先将盔甲架的自定义名称清空。
+- `setblock ~ ~ ~ oak_sign{Text1:'["",{"text":"玩家的分数是 "},{"score":{"objective":"foo","name":"#temp"}}]'}`
+  - 放置一个橡木告示牌。
+  - 告示牌第一行的内容为：`玩家的分数是 233`。
+- `data modify entity @e[tag=target,limit=1] CustomName set from block ~ ~ ~ Text1`
+  - 将告示牌第一行的内容复制到盔甲架的自定义名称。
+  - 盔甲架的自定义名称变为：`玩家的分数是 233`。
+  - 成功了。
+
+---
+
+### 延伸
+
+还有没有其他方法？
+
+用战利品表。
+
+- 先写一个战利品表：`foo:example`。
+  - 一块石头，自定义名称为使用该战利品表的实体的分数。
+
+```
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:stone",
+          "functions": [
+            {
+              "function": "minecraft:set_name",
+              "name": [
+                {
+                  "text": "",
+                  "italic": false
+                },
+                {
+                  "text": "玩家的分数是 "
+                },
+                {
+                  "score": {
+                    "objective": "foo",
+                    "name": "*"
+                  }
+                }
+              ],
+              "entity": "this"
+            },
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{ItemMarker:1b}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+- `summon zombie ~ -65 ~ {DeathLootTable:"foo:example",Tags:["marker"]}`
+  - 召唤一只死亡战利品表为上述战利品表的僵尸。
+- `scoreboard players operation @e[tag=marker,limit=1] foo = #temp foo`
+  - 使该僵尸的分数等于 #temp 的分数。
+- `loot spawn ~ -65 ~ kill @e[tag=marker,limit=1]`
+  - 用 loot 命令 "杀死" 该僵尸，掉落物品。
+- `data modify entity @e[tag=target,limit=1] CustomName set from entity @e[type=item,limit=1,nbt={Item:{tag:{ItemMarker:1b}}}] Item.tag.display.Name`
+  - 将物品的 display.Name 复制到盔甲架的自定义名称。
+- `kill @e[tag=marker]`
+  - 移除该僵尸。
+- `kill @e[type=item,nbt={Item:{tag:{ItemMarker:1b}}}]`
+  - 移除该物品。
+
+---
+
+### 结语
+
+本文编写时间仓促，如有发现错误请指出。
+
+---

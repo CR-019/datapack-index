@@ -1,0 +1,308 @@
+<html>
+<head>
+<title>【教程】[1.15] execute 命令入门教程 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05ODk1MDEtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【教程】[1.15] execute 命令入门教程 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-3-19 13:05<br />
+<b>标题: </b>【教程】[1.15] execute 命令入门教程<br /><i class="pstatus"> 本帖最后由 (=°ω°)丿 于 2020-10-1 17:27 编辑 </i><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>[1.15] execute 命令入门教程</strong></font><br />
+<br />
+<font style="font-size:24px"><strong>前言</strong></font><br />
+<br />
+<font style="font-size:16px">本文基于 Minecraft Java 1.15.2 版本，将主要讲述 execute 命令的使用方法。</font><br />
+<br />
+<font style="font-size:16px">本文的部分内容引用自 Minecraft Wiki，感谢 Spgoding 的 Datapack Helper Plus 和 土球球 的 MCBBS Markdown To BBCode Converter 在本文撰写过程中提供的帮助。</font><br />
+<br />
+<font style="font-size:16px">阅读本文需要一定的命令基础，如在阅读过程中发现本文存在错误，请指出。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>主观认识</strong></font><br />
+<br />
+<font style="font-size:16px">我们从 4 个例子出发，让读者先对 execute 命令有一个主观的认识。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:16px">例 1：</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=pig] at @s run summon armor_stand ~ ~ ~</font></font></font><br />
+<br />
+<font style="font-size:16px">此命令可以按顺序拆分成 3 个部分：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as @e[type=pig]</font></font> — 将命令执行者改为所有的猪。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at @s</font></font> — 在命令执行者当前的位置。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">run summon armor_stand ~ ~ ~</font></font> — 运行命令：在当前位置召唤盔甲架。</ul></font><br />
+<font style="font-size:16px">所以整个命令的意思是：以所有的猪的身份，在猪当前的位置召唤盔甲架。</font><br />
+<br />
+<font style="font-size:16px">例 2：</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @a at @s if block ~ ~-1 ~ stone run effect give @s speed 1 0</font></font></font><br />
+<br />
+<font style="font-size:16px">此命令可以按顺序拆分成 4 个部分：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as @a</font></font> — 将命令执行者改为所有的玩家。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at @s</font></font> — 在命令执行者当前的位置。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block ~ ~-1 ~ stone</font></font> — 如果 ~ ~-1 ~ 处的方块为石头。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">run effect give @s speed 1 0</font></font> — 运行命令：给予命令执行者 1 秒的速度 I 效果。</ul></font><br />
+<font style="font-size:16px">所以整个命令的意思是：以所有玩家的身份，如果在玩家当前位置的 ~ ~-1 ~ 处的方块为石头，则给予自己 1 秒的速度 I 效果。</font><br />
+<br />
+<font style="font-size:16px">例 3：</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @a store result score @s foo run data get entity @s SelectedItem.Count</font></font></font><br />
+<br />
+<font style="font-size:16px">此命令可以按顺序拆分成 3 个部分：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as @a</font></font> — 将命令执行者改为所有的玩家。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store result score @s foo</font></font> — 将结果存储为命令执行者 foo 记分板的分数。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">run data get entity @s SelectedItem.Count</font></font> — 运行命令：获取命令执行者手持物品的数量。</ul></font><br />
+<font style="font-size:16px">所以整个命令的意思是：以所有玩家的身份，将自己手持物品的数量存储为自己的 foo 记分板的分数。</font><br />
+<br />
+<font style="font-size:16px">例 4：</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result bossbar foo:example value if entity @e[type=pig]</font></font></font><br />
+<br />
+<font style="font-size:16px">此命令可以按顺序拆分成 2 个部分：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store result bossbar foo:example value</font></font> — 将结果存储到 id 为 foo:example 的 boss 栏的当前值。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if entity @e[type=pig]</font></font> — 如果存在猪（这里为统计猪的数量）。</ul></font><br />
+<font style="font-size:16px">所以整个命令的意思是：统计猪的数量并将结果存储到 id 为 foo:example 的 boss 栏的当前值。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>什么是子命令</strong></font><br />
+<br />
+<font style="font-size:16px">在阅读 execute 命令时，我们通常将其按顺序拆分成几个部分，每个部分被称为 execute 命令的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">子命令</font></font>，一个 execute 命令一般由多个子命令构成。</font><br />
+<br />
+<font style="font-size:16px">我们可以通过对不同子命令的排列组合，实现各种各样的效果。</font><br />
+<br />
+<font style="font-size:24px"><strong>有哪些子命令</strong></font><br />
+<br />
+<font style="font-size:16px">我们根据子命令的作用将其分为以下 4 种：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">修饰子命令</font></font>：更改命令执行的方式，以特定的执行者、执行位置、执行维度和执行朝向执行后续子命令，如例子中的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as @a</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at @s</font></font>。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">存储子命令</font></font>：将命令的返回的结果存储至记分板、实体、方块实体或 storage 的数据中或 boss 栏的最大值或当前值，如例子中的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store result score @s foo</font></font>。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">条件子命令</font></font>：用于限制命令执行的条件或测试指定条件是否成立并返回结果，如例子中的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block ~ ~-1 ~ stone</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if entity @e[type=pig]</font></font>。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">执行子命令</font></font>：用于执行命令，如例子中的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">run effect give @s speed 1 0</font></font>。</ul></font><br />
+<font style="font-size:16px">下面我们将阐述 execute 命令中的各个子命令，如无特殊说明，完整命令皆在玩家的聊天栏内运行。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>修饰子命令</strong></font><br />
+<br />
+<font style="font-size:16px">更改命令执行的方式，以特定的执行者、执行位置、执行维度和执行朝向执行后续子命令。</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>子命令</strong></td><td><strong>更改</strong></td><td><strong>来源/操作</strong></td><td><strong>语法</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as</font></font></td><td>执行者</td><td>&lt;-- 实体</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as &lt;实体&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at</font></font></td><td>执行位置/朝向/维度</td><td>&lt;-- 实体</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at &lt;实体&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned</font></font></td><td>执行位置/维度</td><td>&lt;-- 实体</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned as &lt;实体&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned</font></font></td><td>执行位置</td><td>&lt;-- 坐标</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned &lt;坐标&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">align</font></font></td><td>执行位置</td><td>&lt;-- 坐标向下取整</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">align &lt;坐标轴&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">anchored</font></font></td><td>局部坐标/朝向命令基准点</td><td>&lt;-- 脚部/眼部</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">anchored (feet|eyes)</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated</font></font></td><td>执行朝向</td><td>&lt;-- 朝向</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated &lt;y-旋转角度&gt; &lt;x-旋转角度&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated</font></font></td><td>执行朝向</td><td>&lt;-- 实体</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated as &lt;单个实体&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing</font></font></td><td>执行朝向</td><td>--&gt; 坐标</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing &lt;坐标&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing</font></font></td><td>执行朝向</td><td>--&gt; 实体</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing entity &lt;单个实体&gt; (eyes|feet)</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">in</font></font></td><td>执行维度</td><td>&lt;-- 维度</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">in &lt;维度&gt;</font></font></td></tr></table></div><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as</font></font> : 执行者 &lt;-- 实体</strong></font><br />
+<br />
+<font style="font-size:16px">更改命令的执行者为指定实体。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as &lt;实体&gt;</font></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as @a</font></font> — 以所有玩家的身份<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as @e[type=pig]</font></font> — 以所有猪的身份</ul></font><li>整条命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @a run say 大憨批真好用！</font></font><font style="font-size:16px"><ul><li>所有玩家都说<a href="https://www.mcbbs.net/thread-926724-1-1.html" target="_blank">大憨批</a>真好用！</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at</font></font> : 执行位置/朝向/维度 &lt;-- 实体</strong></font><br />
+<br />
+<font style="font-size:16px">更改命令的执行位置、执行朝向和执行维度为指定实体的坐标、朝向和维度。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at &lt;实体&gt;</font></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at @s</font></font> — 在命令执行者自己的位置<font style="font-size:16px"><ul><li>玩家在聊天栏运行的命令自带 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">as 玩家 at @s</font></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at @e[type=pig]</font></font> — 在所有猪所在的位置</ul></font><li>整条命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute at @e[type=pig] run say 233</font></font><font style="font-size:16px"><ul><li>玩家在所有猪所在的位置说 233。（233 的总数与猪的总数相等）</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=pig] at @s run summon armor_stand ~ ~ ~</font></font><font style="font-size:16px"><ul><li>所有猪在自己当前的位置召唤盔甲架。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute at @e[type=pig] run summon armor_stand ~ ~ ~</font></font><font style="font-size:16px"><ul><li>玩家在所有猪所在的位置召唤盔甲架。<li>效果等价于 2。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=pig] run summon armor_stand ~ ~ ~</font></font><font style="font-size:16px"><ul><li>所有猪（在玩家所在的位置）召唤盔甲架。<li>盔甲架的数量与 2 相同。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=pig] at @e[type=pig] run summon armor_stand ~ ~ ~</font></font><font style="font-size:16px"><ul><li>每只猪在所有猪的位置召唤盔甲架。<li>如果世界上只有 2 只猪，则一共会产生 4 个盔甲架，列表如下：<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>as @e[type=pig]</strong></td><td><strong>at @e[type=pig]</strong></td><td><strong>盔甲架</strong></td></tr><tr><td>猪 A</td><td>猪 A</td><td>+1</td></tr><tr><td>猪 A</td><td>猪 B</td><td>+1</td></tr><tr><td>猪 B</td><td>猪 A</td><td>+1</td></tr><tr><td>猪 B</td><td>猪 B</td><td>+1</td></tr></table></div></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=pig] as @e[type=pig] run summon armor_stand ~ ~ ~</font></font><font style="font-size:16px"><ul><li>盔甲架的位置与 4 相同，数量与 5 相同。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute at @e[type=pig] at @e[type=pig] run summon armor_stand ~ ~ ~</font></font><font style="font-size:16px"><ul><li>效果等价于 5。</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned</font></font> : 执行位置 &lt;-- 坐标/实体</strong></font><br />
+<br />
+<font style="font-size:16px">更改命令的执行位置为指定坐标。<br />
+更改命令的执行位置和执行维度为指定实体的坐标和维度。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned &lt;坐标&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned as &lt;实体&gt;</font></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned 2 3 3</font></font> — 偏移到坐标为（2，3，3）的位置<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned ~ ~2 ~</font></font> — 向上偏移 2 格<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned as @e[type=pig]</font></font> — 偏移到所有猪所在的位置</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute positioned ~ ~2 ~ run setblock ~ ~ ~ stone</font></font><font style="font-size:16px"><ul><li>在玩家当前位置的 ~ ~2 ~ 处放置石头。<li>效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">setblock ~ ~2 ~ stone</font></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute positioned 2 3 3 run locate Village</font></font><font style="font-size:16px"><ul><li>搜索坐标为（2，3，3）的位置附近的村庄。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=pig] positioned as @s run tp @s ^ ^ ^1</font></font><font style="font-size:16px"><ul><li>以所有的猪的身份，偏移到自己的位置，（以玩家的朝向）向前移动 1 格。</ul></font></ul></font></ul></font><li>思考：<font style="font-size:16px"><ul type="1" class="litype_1"><li>以下两条命令有什么区别？<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute positioned 0 0 0 run tp @s ~ ~ ~</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute positioned 0.0 0.0 0.0 run tp @s ~ ~ ~</font></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">align</font></font> : 执行位置 &lt;-- 坐标向下取整</strong></font><br />
+<br />
+<font style="font-size:16px">将执行位置的坐标向下取整。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">align &lt;坐标轴&gt;</font></font><font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&lt;坐标轴&gt;</font></font> 为 x、y、z 中的 1 至 3 个的任意组合。</ul></font><li>例子：<font style="font-size:16px"><ul><li>假设执行位置为（1.2，-3.4，5.6）。<li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">align x</font></font> — x 轴坐标向下取整，坐标变为（1.0，-3.4，5.6）<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">align yz</font></font> — y 轴和 z 轴坐标向下取整，坐标变为（1.2，-4.0，5.0）</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute align xyz run tp @s ~0.5 ~ ~0.5</font></font><font style="font-size:16px"><ul><li>将玩家传送到所在方块的正中央，即（1.5，-4.0，5.5）。</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">anchored</font></font> : 局部坐标基准点 &lt;-- 脚部/眼部</strong></font><br />
+<br />
+<font style="font-size:16px">更改命令在使用局部坐标或朝向命令时的基准点为脚部或眼部，默认在脚部。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">anchored (feet|eyes)</font></font><font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">feet</font></font> 为脚部，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">eyes</font></font> 为眼部。</ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">anchored eyes</font></font> — 将基准点更改为眼部</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute anchored feet run tp @s ^ ^ ^3</font></font><font style="font-size:16px"><ul><li>将玩家的脚部向前传送 3 格，身体各部位的相对位置不变。<li>效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tp @s ^ ^ ^3</font></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute anchored eyes run tp @s ^ ^ ^</font></font><font style="font-size:16px"><ul><li>将玩家的脚部传送到眼部的位置，身体各部位的相对位置不变。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute anchored eyes run tp @s ^ ^ ^3</font></font><font style="font-size:16px"><ul><li>将玩家的脚部传送到眼部所在位置的前方 3 格的位置，身体各部位的相对位置不变。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute anchored eyes run tp @s ~ ~ ~</font></font><font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">anchored</font></font> 子命令并不会影响本地坐标。<li>效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tp @s ~ ~ ~</font></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute anchored eyes positioned ^ ^ ^ run tp @s ~ ~ ~</font></font><font style="font-size:16px"><ul><li>效果等价于 2。</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated</font></font> : 执行朝向 &lt;-- 朝向/实体</strong></font><br />
+<br />
+<font style="font-size:16px">更改命令的执行朝向为指定朝向或指定实体的朝向。<br />
+朝向分为眼部（头）的朝向和脚部（身体）的朝向，使用哪个朝向由 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">anchored</font></font> 子命令决定。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated &lt;y-旋转角度&gt; &lt;x-旋转角度&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated as &lt;单个实体&gt;</font></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated 30 ~45</font></font> — 使执行朝向与水平方向成 30 度角并水平向右旋转 45 度<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rotated as @e[type=pig,limit=1,sort=nearest]</font></font> — 使执行朝向与距离当前位置最近的猪的朝向相同<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">positioned as @s rotated as @s</font></font> — 效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">at @s</font></font></ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute rotated 0 0 run tp @s ~ ~ ~ ~ ~</font></font><font style="font-size:16px"><ul><li>使玩家朝向正北水平方向。<li>效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tp @s ~ ~ ~ 0 0</font></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=pig] at @s rotated as @p run tp @s ^ ^ ^1</font></font><font style="font-size:16px"><ul><li>以所有猪的身份，在自己的位置朝着与距离自己最近的玩家（脚部）的朝向相同的方向向前传送 1 格。</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing</font></font> : 执行朝向 --&gt; 坐标/实体</strong></font><br />
+<br />
+<font style="font-size:16px">使命令的执行朝向朝向指定的坐标或实体的眼部或脚部。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing &lt;坐标&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing entity &lt;单个实体&gt; (eyes|feet)</font></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing 2 3 3</font></font> — 朝向坐标为（2，3，3）的位置<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">facing entity @e[type=pig,limit=1,sort=nearest] feet</font></font> — 朝向距离当前位置最近的猪的脚部</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute facing 2 3 3 run tp @s ~ ~ ~ ~ ~</font></font><font style="font-size:16px"><ul><li>使玩家朝向坐标为（2，3，3）的位置。<li>效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tp @s ~ ~ ~ facing 2 3 3</font></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute anchored eyes facing entity @e[type=pig,limit=1,sort=nearest] feet run tp @s ^ ^ ^1</font></font><font style="font-size:16px"><ul><li>将玩家传送到自己的眼部和距离自己最近的猪的脚部的连线方向向前 1 格的位置。</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">in</font></font> : 执行维度 &lt;-- 维度</strong></font><br />
+<br />
+<font style="font-size:16px">更改命令的执行维度为指定维度。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">in &lt;维度&gt;</font></font><font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&lt;维度&gt;</font></font> 在原版 Minecraft 中有：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:overworld</font></font> — 主世界<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:the_end</font></font> — 末地<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:the_nether</font></font> — 下界</ul></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">in minecraft:the_end</font></font> — 在末地</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute in the_nether run tp @s ~ ~ ~</font></font><font style="font-size:16px"><ul><li>将玩家传送至下界，坐标、朝向等不变。</ul></font></ul></font></ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>存储子命令</strong></font><br />
+<br />
+<font style="font-size:16px">将命令执行之后返回的结果或命令执行成功的次数储存于记分板、实体数据、方块数据、storage 或 boss 栏中。</font><br />
+<br />
+<font style="font-size:16px">关于每条命令运行后返回的结果，可以参考：<br />
+【CBL|SPG】[1.14.4] 命令返回值列表<br />
+<a href="https://www.mcbbs.net/thread-808124-1-1.html" target="_blank">https://www.mcbbs.net/thread-808124-1-1.html</a></font><br />
+<br />
+<font style="font-size:16px">关于如何使用命令对数据进行操作，可以参考：<br />
+【教程】[1.15] 常见的数据操作方法：入门教程<br />
+<a href="https://www.mcbbs.net/thread-993805-1-1.html" target="_blank">https://www.mcbbs.net/thread-993805-1-1.html</a></font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store (result|success) score &lt;实体&gt; &lt;记分板&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store (result|success) block &lt;坐标&gt; &lt;路径&gt; &lt;数据类型&gt; &lt;倍率&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store (result|success) entity &lt;实体&gt; &lt;路径&gt; &lt;数据类型&gt; &lt;倍率&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store (result|success) storage &lt;storage&gt; &lt;路径&gt; &lt;数据类型&gt; &lt;倍率&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">store (result|success) bossbar &lt;boss栏&gt; (value|max)</font></font><font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">result</font></font> 为命令返回的结果，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">success</font></font> 为命令执行成功的次数。<li>存储的结果 = 命令返回值 * &lt;倍率&gt;<li>数据类型有 byte、double、float、int、long 和 short。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">value</font></font> 为 boss 栏的当前值，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">max</font></font> 为 boss 栏的最大值。</ul></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result score @s foo run data get entity @s SelectedItem.Count</font></font><font style="font-size:16px"><ul><li>将命令执行者手持物品的数量存储为自己的 foo 记分板的分数。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result entity @e[type=pig,limit=1,sort=nearest] Health float 0.5 run data get entity @s SelectedItem.Count</font></font><font style="font-size:16px"><ul><li>将命令执行者手持物品的数量转换为 float 数值类型后乘以 0.5，存储为距离自己最近的猪的血量。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result bossbar foo:example value if entity @e[type=pig]</font></font><font style="font-size:16px"><ul><li>统计猪的数量并将结果存储到 id 为 foo:example 的 boss 栏的当前值。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result entity @e[type=pig,limit=1,sort=nearest] Attributes[{Name:&quot;generic.maxHealth&quot;}].Base double 2 run scoreboard players get @s foo</font></font><font style="font-size:16px"><ul><li>将命令执行者 foo 记分板的分数转换为 double 数值类型后乘以 2，存储为距离自己最近的猪的血量上限。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result score #temp foo run give @a[team=red] apple 1</font></font><font style="font-size:16px"><ul><li>给所有红队的玩家 1 个苹果并且统计红队的玩家总数，存为 #temp 的 foo 记分板的分数。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @a store success score @s foo run enchant @s minecraft:sharpness 1</font></font><font style="font-size:16px"><ul><li>给所有玩家手上的物品附魔锋利 I，如果附魔成功，则将其 foo 记分板的分数设置为 1，否则设置为 0。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store success score @s foo run data modify storage foo:example UUIDLeast set from entity @s UUIDLeast</font></font><font style="font-size:16px"><ul><li>假设 id 为 foo:example 的 storage 里已经存储了一位玩家的 UUIDLeast，此命令的作用是尝试用命令执行者的 UUIDLeast 覆盖 storage 里存储的 UUIDLeast，若覆盖成功，则说明两个 UUIDLeast 不同，将自己的 foo 记分板的分数设为 1，否则设为 0。<li>此方法可用于判断两个数据是否相同。</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px">命令返回值的数据类型是 int（即范围从 -2 147 483 648 到 2 147 483 647 的整数），若为小数则会被向下取整。</font><br />
+<br />
+<font style="font-size:16px">假设距离自己最近的僵尸的血量上限为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">12.678d</font></font>，请看以下命令：</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Attributes[{Name:&quot;generic.maxHealth&quot;}].Base</font></font><font style="font-size:16px"><ul><li>获取该僵尸的血量上限，返回 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">12.678d</font></font>。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=zombie,limit=1,sort=nearest] store result entity @s Health float 1 run data get entity @s Attributes[{Name:&quot;generic.maxHealth&quot;}].Base</font></font><font style="font-size:16px"><ul><li>将该僵尸的血量上限转换为 float 数值类型后乘以 1，存为自己的血量，血量变为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">12.0f</font></font>。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Attributes[{Name:&quot;generic.maxHealth&quot;}].Base 100</font></font><font style="font-size:16px"><ul><li>获取该僵尸的血量上限并乘以 100，返回 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1267</font></font>。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=zombie,limit=1,sort=nearest] store result entity @s Health float 0.01 run data get entity @s Attributes[{Name:&quot;generic.maxHealth&quot;}].Base 100</font></font><font style="font-size:16px"><ul><li>先将血量上限乘以 100，向下取整后再乘以 0.01，僵尸的血量变为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">12.67f</font></font>。<li>一种常用的保留小数的方法，这里保留了 2 位小数。</ul></font></ul></font><br />
+<font style="font-size:16px">倍率可以是负数。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>条件子命令</strong></font><br />
+<br />
+<font style="font-size:16px">当位于 execute 命令中间时，条件子命令会让命令在所有条件测试通过后才会继续运行。<br />
+当条件子命令位于 execute 命令的结尾时，检测是否通过并会返回结果。</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>子命令</strong></td><td><strong>检测</strong></td><td><strong>语法</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block</font></font></td><td>方块</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) block &lt;坐标&gt; &lt;方块&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if blocks</font></font></td><td>区域内方块</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) blocks &lt;开始坐标&gt; &lt;结束坐标&gt; &lt;对照区域坐标&gt; (all|masked)</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if entity</font></font></td><td>实体</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) entity &lt;实体&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data</font></font></td><td>方块数据</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) data block &lt;坐标&gt; &lt;NBT&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data</font></font></td><td>实体数据</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) data entity &lt;单个实体&gt; &lt;NBT&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data</font></font></td><td>storage 数据</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) data storage &lt;storage&gt; &lt;NBT&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if score</font></font></td><td>分数</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) score &lt;单个实体&gt; &lt;记分板&gt; matches &lt;范围&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if score</font></font></td><td>分数</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) score &lt;单个实体&gt; &lt;记分板&gt; &lt;运算符&gt; &lt;单个实体&gt; &lt;记分板&gt;</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if predicate</font></font></td><td>断言</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) predicate &lt;断言&gt;</font></font></td></tr></table></div><br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless</font></font> 在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if</font></font> 不通过时通过，类似于取反。</ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block</font></font> : 检测方块</strong></font><br />
+<br />
+<font style="font-size:16px">检测指定位置的方块是否为指定方块或属于指定的方块标签。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block</font></font> 在方块满足条件时返回 1，否则返回 0。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless block</font></font> 在方块不满足条件时返回 1，否则返回 0。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) block &lt;坐标&gt; &lt;方块&gt;</font></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block 2 3 3 stone</font></font> — 如果坐标为（2，3，3）处的方块为石头<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block ~ ~ ~ chest[facing=east]</font></font> — 如果当前坐标处的方块为朝向西方的箱子<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless block ~ ~ ~ chest{CustomName:'&quot;233&quot;'}</font></font> — 如果当前坐标处的方块不是箱子或箱子没有自定义名称或自定义名称不是 '&quot;233&quot;'<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if block ~ ~ ~ furnace[facing=north]{CookTime:300s}</font></font> — 如果当前坐标处的方块是熔炉且面向北方，物品剩余烧炼时间为 300s</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute if block ~ ~-1 ~ #minecraft:logs run effect give @s speed 1 0</font></font><font style="font-size:16px"><ul><li>如果当前坐标处 ~ ~-1 ~ 处的方块拥有 #minecraft:logs 标签，则给予玩家 1 秒的速度 I 效果。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result score #temp foo if block ~ ~ ~ oak_button[powered=true]</font></font><font style="font-size:16px"><ul><li>检测当前坐标处的橡木按钮是否被按下并将结果存储为玩家 #temp 的 foo 记分板的分数。</ul></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if blocks</font></font> : 比对两个区域内的方块</strong></font><br />
+<br />
+<font style="font-size:16px">检测从开始坐标到结束坐标之间的区域与对照区域内的方块是否相同。<br />
+相同是指方块 id、方块状态、方块实体的数据标签均相同。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if blocks</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless blocks</font></font> 均在方块相同时返回其中一个区域内方块的总数量，否则返回 0。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) blocks &lt;开始坐标&gt; &lt;结束坐标&gt; &lt;对照区域坐标&gt; (all|masked)</font></font><font style="font-size:16px"><ul><li>三个坐标与 clone 命令中的坐标类似，对照区域的坐标为对照区域西北下角的方块的坐标。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">all</font></font> 为比对所有方块，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">masked</font></font> 为忽略空气方块。</ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if blocks 1 2 3 4 5 6 7 8 9 all</font></font> — 如果从（1，2，3）到（4，5，6）的所有方块与从（7，8，9）到（10，11，12）的所有方块相同<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless blocks 1 2 3 4 5 6 7 8 9 masked</font></font> — 如果从（1，2，3）到（4，5，6）的所有方块与从（7，8，9）到（10，11，12）的所有方块不相同（忽略空气方块）</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result score #temp foo unless blocks 1 2 3 4 5 6 7 8 9 masked</font></font><font style="font-size:16px"><ul><li>如果从（1，2，3）到（4，5，6）的所有方块与从（7，8，9）到（10，11，12）的所有方块中不相同（忽略空气方块）则通过且返回 0，否则返回其中一个区域内方块的总数量并将结果存储为玩家 #temp 的 foo 记分板的分数。</ul></font></ul></font></ul></font><li>思考：<font style="font-size:16px"><ul type="1" class="litype_1"><li>子命令 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if blocks 4 2 6 1 5 3 7 8 9 all</font></font> 比对的是哪两个区域内的方块？<font style="font-size:16px"><ul><li>该子命令和例 1 的子命令等价，因为从开始坐标到结束坐标之间的区域 1&lt;= x &lt;= 4，2 &lt;= y &lt;= 5，3 &lt;= z &lt;= 6。</ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if entity</font></font> : 检测实体</strong></font><br />
+<br />
+<font style="font-size:16px">检测是否存在指定的实体。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if entity</font></font> 返回满足条件的实体的数量。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless entity</font></font> 返回不满足条件的实体的数量。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) entity &lt;实体&gt;</font></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if entity @e[type=pig,distance=..5]</font></font> — 如果距离小于等于 5 的范围内有猪<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless entity @e[type=sheep]</font></font> — 如果没有羊</ul></font><li>完整命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result score #temp foo if entity @a[level=5]</font></font><font style="font-size:16px"><ul><li>统计等级为 5 的玩家的数量并将结果存储为玩家 #temp 的 foo 记分板的分数。</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute unless entity @e[type=cow] run summon cow</font></font><font style="font-size:16px"><ul><li>如果没有牛，则在当前位置召唤牛。</ul></font></ul></font></ul></font><li>思考：<font style="font-size:16px"><ul type="1" class="litype_1"><li>以下两条子命令有什么区别？<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if entity @e[type=!pig]</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless entity @e[type=pig]</font></font></ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data</font></font> : 检测方块/实体/storage 的数据</strong></font><br />
+<br />
+<font style="font-size:16px">检测指定的方块/实体/storage 是否拥有特定的 NBT 标签或存在特定的 NBT 路径。<br />
+可用于统计字符串的长度、列表和数组中元素的个数等。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless data</font></font> 的返回值相同。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) data block &lt;坐标&gt; &lt;NBT&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) data entity &lt;单个实体&gt; &lt;NBT&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) data storage &lt;storage&gt; &lt;NBT&gt;</font></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data block ~ ~ ~ CustomName</font></font> — 如果当前位置的方块实体有自定义名称 / 统计自定义名称的长度<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data entity @s {SelectedItem:{id:&quot;stone&quot;,Count:1b}}</font></font> — 如果命令执行者手持有石头，且数量为 1<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if data storage foo:example {Happy:1b}</font></font> — 如果 id 为 foo:example 的 storage 拥有 NBT 标签 {Happy:1b}</ul></font><li>完整命令<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result score #temp foo if data storage foo:example List[]</font></font> — 统计 id 为 foo:example 的 storage 里列表 List 中元素的个数并将结果存储为玩家 #temp 的 foo 记分板的分数。</ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if score</font></font> : 检测分数</strong></font><br />
+<br />
+<font style="font-size:16px">检测目标的记分板分数是否在指定范围内或与另一目标的记分板分数符合运算符的关系。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if score</font></font> 在分数满足条件时返回 1，否则返回 0。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless score</font></font> 在分数不满足条件时返回 1，否则返回 0。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) score &lt;单个实体&gt; &lt;记分板&gt; matches &lt;范围&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) score &lt;单个实体&gt; &lt;记分板&gt; &lt;运算符&gt; &lt;单个实体&gt; &lt;记分板&gt;</font></font><font style="font-size:16px"><ul><li>运算符有 &lt;、&lt;=、=、&gt;= 和 &gt;。</ul></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if score @s foo matches 2..5</font></font> — 如果命令执行者的 foo 记分板的分数在 2 与 5 之间（包括 2 和 5）<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if score @s foo &gt; @e[type=pig,limit=1,sort=nearest] haha</font></font> — 如果命令执行者的 foo 记分板的分数大于距离当前位置最近的一只猪的 haha 记分板的分数</ul></font></ul></font></ul></font><br />
+<font style="font-size:16px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if predicate</font></font> : 检测断言</strong></font><br />
+<br />
+<font style="font-size:16px">检测是否满足断言所描述的条件。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if predicate</font></font> 在满足断言所描述的条件时返回 1，否则返回 0。<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless predicate</font></font> 在不满足断言所描述的条件时返回 1，否则返回 0。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(if|unless) predicate &lt;断言&gt;</font></font></ul></font><li>例子：<font style="font-size:16px"><ul><li>子命令：<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if predicate foo:example</font></font> — 如果满足断言 foo:example 所描述的条件。</ul></font></ul></font></ul></font><br />
+<font style="font-size:16px">关于如何编写断言，可以参考：<br />
+【CBL|SPG】[1.15] 断言 —— 数据包的组成文件之一<br />
+<a href="https://www.mcbbs.net/thread-914817-1-1.html" target="_blank">https://www.mcbbs.net/thread-914817-1-1.html</a></font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>执行子命令</strong></font><br />
+<br />
+<font style="font-size:16px">用于执行命令。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">run &lt;命令&gt;</font></font></ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>结语</strong></font><br />
+<br />
+<font style="font-size:16px">我写完了。</font><br />
+<br />
+<hr class="l" /><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>时之虫&nbsp; &nbsp; <b>时间: </b>2020-3-19 13:26<br />
+原来if还有blocks，execute居然还能统计区域内方块数量……学会了学会了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>晴路卡&nbsp; &nbsp; <b>时间: </b>2020-3-19 15:10<br />
+草 看成1.15命令教程了<br />
+我说怎么就单exe呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-3-19 15:14<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17030515&amp;ptid=989501" target="_blank"><font color="#999999">晴路卡 发表于 2020-3-19 15:10</font></a></font><br />
+草 看成1.15命令教程了<br />
+我说怎么就单exe呢</blockquote></div><br />
+我觉得除了 execute 和 data 以外没什么难的（<br />
+所以没写（<img src="static/image/smiley/tong/doge.png" smilieid="1448" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>EternityTQ&nbsp; &nbsp; <b>时间: </b>2020-3-19 16:40<br />
+太感谢了！！非常实用的教程！！<br />
+一直想找一个比较明了的execute教程！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>buzh3&nbsp; &nbsp; <b>时间: </b>2020-3-20 16:53<br />
+楼主辛苦了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1586732167qq&nbsp; &nbsp; <b>时间: </b>2020-3-21 22:35<br />
+看得我一脸懵逼，我果然还是得好好学习<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>沉默是金…&nbsp; &nbsp; <b>时间: </b>2020-5-15 11:36<br />
+非常有用，最近正好发愁怎么检测脚底下的方块。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xiaoben530&nbsp; &nbsp; <b>时间: </b>2020-6-6 17:15<br />
+怎么用这个命令造个园柱啊大神，1.15的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小白小孟&nbsp; &nbsp; <b>时间: </b>2020-6-10 16:01<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>qq1244696403&nbsp; &nbsp; <b>时间: </b>2020-6-10 20:37<br />
+谢谢楼主的分享.<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xiaoshuguang&nbsp; &nbsp; <b>时间: </b>2020-6-11 09:39<br />
+谢谢楼主，支持一下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>泪丶无痕&nbsp; &nbsp; <b>时间: </b>2020-8-8 00:37<br />
+感谢楼主分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-8-9 15:28<br />
+<i class="pstatus"> 本帖最后由 (=°ω°)丿 于 2020-10-1 18:57 编辑 </i><br />
+<br />
+<font style="font-size:16px">本教程已于 10 月 1 日更新，本文的 Markdown 版本：<br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/zip.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1672402" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=misc&amp;action=attachpay&amp;aid=1672402&amp;tid=989501" onclick="showWindow('attachpay', this.href)">execute.zip</a>
+
+<em class="xg1">(6.53 KB, 下载次数: 11, 售价: 1 粒金粒)</em>
+</span>
+<div class="tip tip_4" id="attach_1672402_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2020-10-1 17:28 上传</div>
+点击文件名下载附件
+
+<br />售价: 1 粒金粒	&nbsp;<a href="forum.php?mod=misc&amp;action=viewattachpayments&amp;aid=1672402" onclick="showWindow('attachpay', this.href)" target="_blank">[记录]</a>
+
+&nbsp;[<a href="forum.php?mod=misc&amp;action=attachpay&amp;aid=1672402&amp;tid=989501" onclick="showWindow('attachpay', this.href)" target="_blank">购买</a>]
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+另外，下载他人制作的数据包进行拆包学习是一个不错的提升命令水平的方法。</font><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>18226085696&nbsp; &nbsp; <b>时间: </b>2020-8-10 19:53<br />
+nice~~~~~~~~~~~~~~~~<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>胖虎123&nbsp; &nbsp; <b>时间: </b>2020-8-22 11:46<br />
+新萌=无奈=蹲贴=学到了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lxt123qwe&nbsp; &nbsp; <b>时间: </b>2020-8-22 15:30<br />
+原来if还有blocks，execute居然还能统计区域内方块数量……学会了学会了<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>XWG_sam&nbsp; &nbsp; <b>时间: </b>2020-11-30 00:02<br />
+我想知道一个问题:<br />
+在岩浆里 踩在灵魂沙上 给一个任意物品 应该怎么写判断<br />
+这个问题困扰我很久了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Summer_dreams&nbsp; &nbsp; <b>时间: </b>2020-11-30 20:00<br />
+沙发沙发沙发沙发沙发
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

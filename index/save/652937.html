@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>如何使用结构方块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02NTI5MzctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>如何使用结构方块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-12-7 23:10<br />
+<b>标题: </b>如何使用结构方块<br />结构方块出现已经有还很长一段时间了。但是我发现直到现在很多人仍然不会使用。虽然<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=254361" target="_blank">@bobby825</a> 也写过教程文章，但是结构方块仍然很冷门，并且他的文章有很多不详细的地方。我希望通过这个文章让更多的人掌握结构方块，并且掌握结构方块的高级用法。<br />
+<br />
+本文章以1.11版本为准。没有证实的地方会使用<font style="background-color:gray">灰色背景</font>标出（可能由于需要查阅代码来证明，因为我只能由实验的结果推测。也可能由于加载模式随机功能的缘故，有可能我的测试恰好让我归纳出错误的结论）。表示数据类型在名字后面用绿色标出。<br />
+<br />
+结构方块id是minecraft:structure_block，数字id是255，不能直接从创造模式拿出，必须使用give指令。放置/破坏/开启它需要服务器权限。这个方块有4种模式，分别是Save Load Corner Data。模式会使用NBT中的mode<font color="#00ff00">字符串</font>保存。同时也会用方块元数据0~3保存。<font style="background-color:gray">当不一致时会按照NBT修正方块元数据。</font><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr><td> <br />
+其中data模式只在游戏自己自然生成建筑时能够发挥作用。我们不会详细介绍它。</td><td><img id="aimg_wYmTM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="500" height="281" src="https://hydra-media.cursecdn.com/minecraft.gamepedia.com/thumb/d/dd/StructureDataGUI.png/500px-StructureDataGUI.png?version=ac8870a84cc2b377f0810e07a6009e03" border="0" alt="" /></td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr><td> save模式可以将结构保存成NBT文件。首先输入相对位置（在32到-32之间（含）的整数）（NBT中posX posY posZ <font color="#00ff00">int</font>）和结构大小（比32小（含）的整数）（NBT中sizeX sizeY sizeZ <font color="#00ff00">int</font>）（技巧：可以使用tab切换光标到下一个文本框）。相对位置以结构方块作为坐标原点。当在GUI中按下save按键时即可将选中的区域用结构名称（NBT中name <font color="#00ff00">字符串</font>）为名字保存成.nbt文件。如果该文件已存在则会覆盖已有的文件。保存在存档文件夹中structures文件夹。若使用红石激活将不会保存成文件，只能够临时使用。使用起来和真的生成了文件的情形别无二致，只是在游戏退出后即消失。显示隐形方块按钮可以在选中的所有的空气方块和结构方块上做出标记。保存时会略过结构虚空方块（因此结构虚空加载时不替换原有方块。结构中若真的有结构虚空方块也是会加载的）。若包括实体（NBT中ignoreEntities <font color="#00ff00">byte</font>）开了，则会将碰撞箱和结构方块选择范围有公共部分的实体也保存进文件。</td><td><img id="aimg_BS555" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://hydra-media.cursecdn.com/minecraft.gamepedia.com/thumb/c/cc/StructureSaveGUI.png/500px-StructureSaveGUI.png?version=a2f7c766f81885677a6b83d96341aec8" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /> </td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr><td> corner模式用于辅助save模式。为了避免仔细计算相对位置和结构大小，可以将两个同样结构名称（NBT中name <font color="#00ff00">字符串</font>）corner方块放在结构外包长方体相对定点。在同样名字的save模式方块中点击detect就能够自动设置相对位置和结构大小。如果只找到一个同名corner模式方块，save方块会把自己当作另外一个角。（技巧：虽然禁止空白名字结构保存，但是探测时可以。可以先将save和corner名字留空，探测好后填入save中的名字并保存。）</td><td> <img id="aimg_LKXtJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="500" height="281" src="https://hydra-media.cursecdn.com/minecraft.gamepedia.com/thumb/b/b9/StructureCornerGUI.png/500px-StructureCornerGUI.png?version=b160976054ffee5fea172621661a6c2f" border="0" alt="" /></td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr><td> load模式可以将nbt文件加载入存档。它会寻找以结构名称（NBT中name <font color="#00ff00">字符串</font>）为名的结构文件用于加载。<font style="background-color:gray">在按下加载按钮时，为了防止意外的位置错误，如果发现结构方块的结构大小（NBT中sizeX sizeY sizeZ <font color="#00ff00">int</font>）(在这里不显示)和结构文件中的不一致，则不会加载，它会关闭GUI，将结构大小改成文件中要求的，让你检查是否正确。</font>如果一致就会直接加载了。这个过程也可以用红石完成。红石加载不会进行这个检查，无论是否一致都会直接加载。加载时也可以选择是否将文件中可能存在的实体一同加载。当然加载时会无视实体的pos和UUID这些NBT（但是其他的自然不会无视，造成shulker仍然记住自己所在的方块的坐标，一旦加载会立刻瞬移过去......）。也可以选择绕y轴旋转90°的倍数或者前后反射或者左右反射。（NBT中rotation mirror <font color="#00ff00">字符串</font>）。可以隐藏白色边框(NBT中showboundingbox <font color="#00ff00">byte</font>)。<br />
+<br />
+加载时可以选择随机性部分加载。你可以在加载前填入结构完整性（0~1实数，含0、1）和种子(integrity <font color="#00ff00">float</font> seed <font color="#00ff00">long</font>)。结构完整性代表了里面每个方块被放置的概率。<font style="background-color:gray">可以认为每个方块的放置与否是独立的。</font>若种子填入0是一个特例，表明会随机选择种子。<font style="background-color:gray">方块防止与否和种子、结构完整性、和该方块在结构文件中的顺序（不是指它在结构中的坐标）（比如同样的种子和概率，加载一个游戏产生的5*1*5的结构和10*1*10的结构，前者在前两x方向的列的放置与否和后者在第一个x方向的列的放置与否是一致的）</font>。<font style="background-color:gray">在种子相同的情况下，如果某个方块在小的概率下放置，那么在较大种子下一定放置。（生成0至1随机数然后若小于等于结构完整性就放置？）</font>在游戏第一次被要求加载某个结构的时候，游戏会读取这个结构。之后再要求的时候，游戏不会再读取。</td><td> <img id="aimg_A9ewf" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="500" height="281" src="https://hydra-media.cursecdn.com/minecraft.gamepedia.com/thumb/9/98/StructureLoadGUI.png/500px-StructureLoadGUI.png?version=b4d06fa7ea2e56b025e21282c0b7c1ce" border="0" alt="" /></td></tr></table><br />
+<br />
+结构文件保存在存档中structures文件夹（游戏自带的在jar文件中assets/minecraft/structures）。是压缩的nbt格式。详见<a href="http://minecraft.gamepedia.com/Structure_block_file_format" target="_blank">http://minecraft.gamepedia.com/Structure_block_file_format</a>或者<a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=585433" target="_blank">http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=585433</a>。可以看见里面有三个list，分别是blocks entities和palette。<br />
+palette中有顺序地存储了结构中出现的各种方块（和他们的不同方块状态的变种）。blocks有顺序地存放了每个方块在结构中的位置和他的种类在palette中的编号（还有NBT，如果有的话）上文说的“方块在结构文件中的顺序”就是指在block这个list中的顺序。entities中是结构中每个实体在结构中的位置，还有取整后的位置（作用不明）。<br />
+<br />
+可见,文件中的方块和实体的位置完全可以超出结构大小，甚至超过32*32*32的范围（加载几个区块也是可以的，当然会引起一些卡顿）。可见结构大小只是一个让使用结构的人方便用的参考，他可以通过白色的外框知道放置的位置是否合适。当然结构大小如果有任意一个值超过32，就不能使用GUI加载了（这个值会被自动改回离他最近的符合要求的数，使得结构方块的结构大小和文件要求的不一致，其结果在上文已经写了）。但仍然能用红石加载。<br />
+<br />
+save方块在载入文件的时候按照坐标的字典序将方块写入文件。加载时方块按照方块在结构文件中的顺序依次放置。比如用加载红石块的方法激活命令方块，命令方块会按照红石块的的放置顺序激活。如果有两个方块占据在同一个位置，后放置的会将前面的覆盖。所以如果在list里先有一个红石块，后有一个石块在同一个位置，被放置的位置本来是空气，结构完整性是0.5，那么加载后有二分之一的概率是石块，四分之一的概率是红石块，四分之一的概率是空气。<br />
+<br />
+当结构被加载时，文件中每个方块都会引起方块更新。即使方块前后没有变化，或者随机放置时该方块没被随机到（人工更新某区域内方块（概率设为0））。如果方块前后没有变化，不会引起观察者响应<font style="background-color:gray">（除非该方快具有方块实体）</font>。如果方块结构中有两个方块占据在同一个位置，比如一开始是红石块，文件要求先换成石头再换成红石块，也会让观察者响应，虽然前后都是红石块。<br />
+<br />
+结构方块有一个充能标志（powered <font color="#00ff00">byte</font>）。若加载模式结构方块发现自己被充能（或者接触充能方块）并且充能标志为0，自然会加载并且把充能标志改成1。但是，被加载的或者clone的<font style="background-color:gray">或者fill的或者setblock的</font>或者手动放置到被充能位置的加载模式方块不会自己更新自己。也就是说放（不论什么方式）的时候就放在红石块边上的加载模式方块处于BUD态。当然，如果被加载的或clone的时候相邻位置有其他方块一同被加载（clone），那么就会更新到它让他加载（当然，必须周围有红石块之类的和他接触）（一同加载的方块产生更新条件见上）。<br />
+<br />
+那么如何用cb在某地加载结构呢？可以想到先setblock结构方块然后setblock红石块。但如果直接把相邻的结构方块和红石块一同clone过去（或者想让加载的结构里的结构方块继续加载其他的结构使得不修改文件立即加载很大的建筑），结构方块已经是被激活的，clone过去的也是被激活的，这时就不会让结构方块激活。所以应当让使用blockdata指令修改clone前的结构方块的充能标志，再它被clone过去的时候结构方块周围的方块放置更新它让他加载。<br />
+<br />
+结构方块有一个自我保护机制。具体保护机制触发条件并不清楚。似乎是为了保护自己不陷入死循环。他会将“肇事”的加载模式结构方块替换成屏障方块。<br />
+<br />
+本文中的图片均来自wiki <br />
+<br />
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=47" target="_blank">@719823597</a> <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=1073223" target="_blank">@乙烯_中国</a> <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=193048" target="_blank">@pca006132</a> <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=679293" target="_blank">@FHC红石</a> <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=61635" target="_blank">@jianghr</a> <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=160123" target="_blank">@贰逼</a> <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=513631" target="_blank">@Zero_Exact</a> <br />
+<br />
+最后 申精 <br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2016-12-7 23:28<br />
+这货的用法之前不是有个人专门弄了个索引么……<br />
+<br />
+不过看你这个十分详细，还是顶赞<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2016-12-8 07:29<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11208145&amp;ptid=652937" target="_blank"><font color="#999999">langyo 发表于 2016-12-7 23:28</font></a></font><br />
+这货的用法之前不是有个人专门弄了个索引么……<br />
+<br />
+不过看你这个十分详细，还是顶赞 ...</blockquote></div><br />
+比那详细很多吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>buhuichongfu&nbsp; &nbsp; <b>时间: </b>2016-12-8 12:28<br />
+很详细，赞一个。<br />
+排版很特别，图放左边会不会更舒服一点？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2016-12-8 18:36<br />
+建议把绿色字体改成红色加粗，绿色字体强调作用不高，而且看不清<br />
+然后有背景颜色的字体建议用白色，与黑色反差比较大，更引人注目<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-12-8 18:38<br />
+<div class="quote"><blockquote><font color="#999999">FHC红石 发表于 2016-12-8 18:36</font><br />
+<font color="#999999">建议把绿色字体改成红色加粗，绿色字体强调作用不高，而且看不清<br />
+然后有背景颜色的字体建议用白色，与黑色 ...</font></blockquote></div><br />
+内容上有什么建议吗<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>乙烯_中国&nbsp; &nbsp; <b>时间: </b>2016-12-8 19:34<br />
+<i class="pstatus"> 本帖最后由 乙烯_中国 于 2016-12-8 19:39 编辑 </i><br />
+<br />
+首先，我希望楼主和一些回帖人对别的教程作者抱有<strong>基本的尊重，任何一个认真写的教程也都应该得到尊重</strong>，空口白话带节奏我觉得并不是一个比较好的行为。你们既然说什么比精华贴详细很多就要拿出比那个精华帖更好用的帖子，但是就目前而言我并没有觉得这个帖子有哪里比较好用的，简单的说，有相当的内容玩家读完之后最多也只能到“<strong>知道</strong>”的这样一个地步。<br />
+然后，chyx，昨天你也是和我私聊说过这个问题，比如精华帖没有提到种子的问题。但是你要注意那个时间，这个功能在那时候是没有加入游戏的，这一点你可以从贴内截图是能看到的，那是在刚刚出现结构方块的使用方法的时期写的一个比较优秀的教程贴，及时，好用，大家都能懂，而且从实用性来说认真看完帖子的人至少是能够<strong>使用</strong>起来结构方块的。<br />
+相比之下，确实，从信息量上，你确实是带来了一些新的信息，我并不否定你这个帖子的价值，但是技巧版严格来说是一个让新手变熟手，熟手变大触的地方，既然作为一个教程贴，我希望你能够把他变成一个好的教程贴，及时你是没办法了，但是好用你也不解决，而且你还有这么多没确定的地方，那这样我也是不好说什么。而我最近病的也厉害，恐怕也是没啥精力来帮你做这个证实。<br />
+综上，高亮外加推荐图章，以及首页版主推荐。精华不予考虑。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>cc7w&nbsp; &nbsp; <b>时间: </b>2016-12-15 19:06<br />
+好像bobby介绍过哎<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>TNT嘉音&nbsp; &nbsp; <b>时间: </b>2016-12-16 22:58<br />
+我看不懂。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yyeerai&nbsp; &nbsp; <b>时间: </b>2016-12-24 23:46<br />
+结构方块 日后 谈？<br />
+不要说是我一个人看成这样的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MineCrocodile&nbsp; &nbsp; <b>时间: </b>2016-12-31 00:03<br />
+有没有什么办法保存超过32*32*32范围的方块<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2017-1-2 19:05<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11209643&amp;ptid=652937" target="_blank"><font color="#999999">乙烯_中国 发表于 2016-12-8 19:34</font></a></font><br />
+首先，我希望楼主和一些回帖人对别的教程作者抱有基本的尊重，任何一个认真写的教程也都应该得到尊重，空口 ...</blockquote></div><br />
+chyx的特点就是不顾一切表现出自己的想法，但却不容易被人全盘接受，甚至是不能消化<br />
+这么做只有一个优点，就是能够最直接地明白自己哪里出错……但只有一个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>胡闹0519&nbsp; &nbsp; <b>时间: </b>2017-1-8 03:25<br />
+不错不错，支持！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pineapple_&nbsp; &nbsp; <b>时间: </b>2017-1-9 21:23<br />
+拐角模式还是不懂，<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-1-9 21:50<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11316494&amp;ptid=652937" target="_blank"><font color="#999999">pineapple_ 发表于 2017-1-9 21:23</font></a></font><br />
+拐角模式还是不懂，</blockquote></div><br />
+拐角模式本身没有用处 就是方便保存模式用的<br />
+<br />
+用了之后可以自动计算需要保存的结构的尺寸和位置 而不需要自己数格子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pineapple_&nbsp; &nbsp; <b>时间: </b>2017-1-9 21:52<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11316588&amp;ptid=652937" target="_blank"><font color="#999999">chyx 发表于 2017-1-9 21:50</font></a></font><br />
+拐角模式本身没有用处 就是方便保存模式用的<br />
+<br />
+用了之后可以自动计算需要保存的结构的尺寸和位置 而不需要 ...</blockquote></div><br />
+确实很鸡肋<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-1-9 21:54<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11316599&amp;ptid=652937" target="_blank"><font color="#999999">pineapple_ 发表于 2017-1-9 21:52</font></a></font><br />
+确实很鸡肋</blockquote></div><br />
+虽然用处不大 但是你试一试 真的很方便的！<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pineapple_&nbsp; &nbsp; <b>时间: </b>2017-1-9 21:58<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11316611&amp;ptid=652937" target="_blank"><font color="#999999">chyx 发表于 2017-1-9 21:54</font></a></font><br />
+虽然用处不大 但是你试一试 真的很方便的！</blockquote></div><br />
+那就试试吧，最不喜欢数方块，一数就数错<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>tskdsb&nbsp; &nbsp; <b>时间: </b>2017-10-8 21:52<br />
+好像没提到data方块怎么用？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-10-8 22:23<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=12424075&amp;ptid=652937" target="_blank"><font color="#999999">tskdsb 发表于 2017-10-8 21:52</font></a></font><br />
+好像没提到data方块怎么用？</blockquote></div><br />
+data只有开发者能用<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Slimeboy666&nbsp; &nbsp; <b>时间: </b>2017-10-15 11:45<br />
+加颜色的字体看得不太舒服....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>马可solo&nbsp; &nbsp; <b>时间: </b>2020-3-24 19:13<br />
+图挂了，还有字放大点比较好，看着眼睛疼
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

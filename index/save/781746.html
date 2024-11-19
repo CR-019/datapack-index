@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>求1.13Bossbar指令全用法 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC03ODE3NDYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>求1.13Bossbar指令全用法 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Time_start&nbsp; &nbsp; <b>时间: </b>2018-2-14 12:14<br />
+<b>标题: </b>求1.13Bossbar指令全用法<br /><font size="5">新快照出来了呢。</font><br />
+<font size="5">可是我想玩玩Bossbar这个新指令，有大佬帮忙吗...</font><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pineapple_&nbsp; &nbsp; <b>时间: </b>2018-2-14 12:14<br />
+先补充一下，一个玩家的屏幕上方可以显示多个bossbar，上限为4个<br />
+<br />
+然后，下面的内容需要对execute有一定的了解，没有了解的话，先去新闻版置顶帖里找1.13特性看一遍<br />
+/bossbar get &lt;指定boss栏&gt; (max|players|value|visible)<br />
+这个主要是和execute命令一起用的，就说个最基本的用法好了<br />
+先创建名为Result的记分板/scoreboard objectives add Result dummy<br />
+创建bossbar /bossbar create 123:abc {&quot;text&quot;:&quot;abc&quot;}<br />
+设置成25分/bossbar set 123:abc value 25<br />
+然后/execute store result score result Result run bossbar get 123:abc value<br />
+这样记分版上就有一个25分的result假名<br />
+其实没什么用<br />
+/execute store (result|success) bossbar &lt;目标boss栏&gt; (value|max) &lt;连锁子命令&gt;<br />
+这个用处还算大一点，举个例子，可以弄一个自定义boss的血条<br />
+先生成一个boss,/summon zombie ~ ~ ~ {Tags:[&quot;boss&quot;],Attributes:[{Name:&quot;generic.maxHealt&quot;,Base:150.0}],Health:150.0,ArmorItems:[{},{},{},{id:&quot;diamond_helmet&quot;,Count:1b}]}<br />
+一个tag为boss，150血的僵尸，注意，只可以summon一个，多了不行。<br />
+创建bossbar，/bossbar create boss:zombie {&quot;text&quot;:&quot;BossZombie&quot;}<br />
+然后高频<br />
+/bossbar set boss:zombie players @a保持bossbar显示<br />
+/execute as @e[tag=boss] store result bossbar boss:zombie max run data get entity @s Attributes[0].Base 1<br />
+把boss的血量上限设置为bossbar的最大值<br />
+/execute as @e[tag=boss] store result bossbar boss:zombie value run data get entity @s Health<br />
+把boss的当前血量设置为bossbar的当前值<br />
+这样就可以实时显示boss的血量了<br />
+<br />
+更多用法还需要自己去发现了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⊙v⊙&nbsp; &nbsp; <b>时间: </b>2018-2-14 12:16<br />
+<a href="https://minecraft-zh.gamepedia.com/18w05a" target="_blank">https://minecraft-zh.gamepedia.com/18w05a</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pineapple_&nbsp; &nbsp; <b>时间: </b>2018-2-14 14:33<br />
+复制wiki+解析：<br />
+/bossbar create &lt;boss栏&gt; &lt;显示名称&gt;<br />
+例子/bossbar create abc {&quot;text&quot;:&quot;def&quot;}<br />
+会创建一个显示名称为def的bossbar，boss栏叫minecraft:abc，但是现在不会有显示<br />
+但是通常情况应该给个命名空间/bossbar create 123:abc {&quot;text&quot;:&quot;def&quot;}<br />
+boss栏就叫123:abc而不是minecraft:abc了，因为不给命名空间默认是minecraft，给了就是你规定的那个了<br />
+不建议不写命名空间，易引起冲突<br />
+<br />
+/bossbar set &lt;目标boss栏&gt; players &lt;目标玩家&gt;<br />
+例子/bossbar set minecraft:abc players @p<br />
+这个bossbar就会把上面创建的abc这个bossbar显示在你的屏幕上边，显示名称是def<br />
+<img id="aimg_c452U" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2018/02/14/5a83d352a00af.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+/bossbar set 123:abc players @a 就会把你创建的123:abc显示在你屏幕上边<br />
+注意，这个给玩家显示bossbar的形式不是追加或合并，而是覆盖<br />
+比如先用/bossbar set 123:abc players NOTCH<br />
+一个叫NOTCH的玩家就会看见bossbar<br />
+但是当你使用/bossbar set 123:abc players pine_apple_之后<br />
+并不是NOTCH和pine_apple_都能看见，而是只有pine_apple_能看见<br />
+<br />
+/bossbar set &lt;目标boss栏&gt; name &lt;显示名称&gt;<br />
+例子/bossbar set minecraft:abc name {&quot;text&quot;:&quot;ghi&quot;}<br />
+会把刚刚创建的abc那个bossbar的显示名改成ghi<br />
+/bossbar set 123:abc name {&quot;text&quot;:&quot;ghi&quot;}<br />
+会把123:abc显示名词改成ghi<br />
+<img id="aimg_ObEO7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2018/02/14/5a83d3b39767f.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+/bossbar set &lt;目标boss栏&gt; color （blue|green|pink|purple|red|white|yellow）<br />
+例子/bossbar set 123:abc color green<br />
+把bossbar修改称绿色（这些颜色都有点难看，还是白色的好……）<br />
+<img id="aimg_mVwKa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2018/02/14/5a83d3e7ee8d1.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+/bossbar set &lt;目标boss栏&gt; style （notched_10|notched_12|notched_20|notched_6|progress）<br />
+例子/bossbar set 123:abc style notched_10<br />
+把bossbar分成10段<br />
+[img=]https://i.loli.net/2018/02/14/5a83d4923cfdf.png[/img]<br />
+只支持上面五种形式，progress是一整条，为默认形式<br />
+其余后面的数字是几，就是分成几段<br />
+<br />
+/bossbar set &lt;目标boss栏&gt; value &lt;当前值&gt;<br />
+例子/bossbar set 123:abc value 25<br />
+把123:abc的值设置成25<br />
+<img id="aimg_bIM99" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2018/02/14/5a83d53acf709.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<img id="aimg_tA36v" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2018/02/14/5a83d55fdebd2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+默认为0，所以刚刚看见的bossbar都是空的<br />
+<br />
+/bossbar set &lt;目标boss栏&gt; max &lt;最大值&gt;<br />
+例子/bossbar set 123:abc max 200<br />
+把整条bossbar的上限设成200<br />
+默认为100，所以刚刚那个25占了1/4<br />
+改成200就占1/8咯<br />
+<br />
+/bossbar set &lt;目标boss栏&gt; visible &lt;visible&gt;<br />
+例子/bossbar set 123:abc visible true<br />
+设置为bossbar可见<br />
+默认为可见，设置为false就不管players后面写谁，都不可见<br />
+<br />
+/bossbar remove &lt;目标boss栏&gt;<br />
+例子/bossbar remove 123:abc<br />
+会把123:abc这个bossbar给移除<br />
+<br />
+/bossbar list<br />
+它本身就是个例子<br />
+列出bossbar列表<br />
+<br />
+/bossbar get &lt;指定boss栏&gt; (max|players|value|visible)<br />
+例子/bossbar get 123:abc max<br />
+会反馈当前最大值，为200，配合execute命令使用，有时还要记分板<br />
+<br />
+/execute store (result|success) bossbar &lt;目标boss栏&gt; (value|max) &lt;连锁子命令&gt;<br />
+这个……换一楼说，歇一会<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

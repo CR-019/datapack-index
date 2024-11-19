@@ -1,0 +1,1666 @@
+
+<!-- saved from url=(0061)https://www.mcbbs.net/thread-892563-1-1.html?action=printable -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/common.js.下载" type="text/javascript"></script>
+<script src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'QOr', charset = 'UTF-8', discuz_uid = '703042', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭[已弃用]|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04OTI1NjMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【教程】[1.14] 自定义进度：从入门到弃坑 <b><a href="https://www.mcbbs.net/thread-892563-1-1.html?action=printable###" onclick="this.style.visibility=&#39;hidden&#39;;window.print();this.style.visibility=&#39;visible&#39;">[打印本页]</a></b><br>
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2019-7-30 20:26<br>
+<b>标题: </b>【教程】[1.14] 自定义进度：从入门到弃坑<br><i class="pstatus"> 本帖最后由 隐退 于 2020-2-17 14:44 编辑 </i><br><br>
+<br>
+本文标题：【教程】[1.14] 自定义进度：从入门到弃坑<br>
+本文链接：<a href="http://www.mcbbs.net/thread-892563-1-1.html" target="_blank">http://www.mcbbs.net/thread-892563-1-1.html</a><br>
+作　　者：<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=2337994" target="_blank">@Teenager_Yang</a> 、<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=894447" target="_blank">@897412176</a> <br>
+<br>
+本帖部分内容引自 Minecraft 中文 Wiki 的 <a href="https://minecraft-zh.gamepedia.com/%E8%BF%9B%E5%BA%A6" target="_blank">进度</a> 和 <a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4" target="_blank">命令</a> 页面，并结合个人体验进行了部分修改。<br>
+如果有什么好的建议，或者本帖有什么错误，欢迎回复。<br>
+如果转载，请注明出处。切勿用于商业目的。<br>
+<br>
+可参考：<a href="https://www.mcbbs.net/thread-784662-1-1.html" target="_blank">【1.13-1.14】数据包(原版模组)入门教程</a><br>
+<br>
+<strong><font size="5">简介</font></strong><br>
+<br>
+<img id="aimg_iPwbq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/EsYV5y.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt=""><br>
+<br>
+[ruby=advancement]<strong>进度</strong>[/ruby]，数据包的组成部分，是一种用来逐步引导新手玩家融入游戏，并给予他们需完成的挑战的途径的系统，于 1.12 取代成就系统。自定义进度可在游戏内被用于检测玩家的行为，并给予相对应的奖励。通过 1.12 加入的 <font style="background-color:White">advancement</font> 命令，可以直接给予或移除一位玩家特定的进度。<br>
+<br>
+所有的自定义进度应该放置在数据包的 <font style="background-color:White">data/(命名空间)/advancements</font> 文件夹下，每个 JSON 文件对应一个自定义进度，每一个根进度对应一个选项卡。（因此可以在 advancements 文件夹下，创建多个文件夹，再放入多个根进度来达到多个选项卡的效果）<br>
+<br>
+注：<br>
+1、选项卡：就是图片（进度屏幕，默认按 L 键打开）里上面那一排东西<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt="">，这里有5个（图标从左到右依次是草方块、地图、地狱红砖、末地时和干草块）。<br>
+2、根进度（文件名为 root.json）：你看到那个草方块了没？（我说的是旁边连着木镐的那个），那个就是根进度！<br>
+你说那几个黄色的方格子，连起来像不像一棵树？<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt="">对，那个就叫进度树。（根进度均位于进度树的最左边）<br>
+在教程正式开始之前，你需要对进度有一个大致的了解：<a href="https://minecraft-zh.gamepedia.com/%E8%BF%9B%E5%BA%A6" target="_blank">点这里</a>。<br>
+<br>
+本节完。点击论坛界面右侧的粉色「书签」可以快速回到上方目录。<br>
+<br>
+<br>
+<br>
+<strong><font size="5">格式</font></strong><br>
+<br>
+<strong><font size="4">概述</font></strong><br>
+<br>
+1.14 内进度的格式相比 1.12、1.13 没有较大改动。<br>
+<br>
+一个较为复杂的自定义进度由以下几个部分组成：<br>
+- <font style="background-color:White">display</font>：决定此进度在进度屏幕（默认 L 键打开）的显示效果。（就是你在前面那张图里看到的那个）<br>
+-<font style="background-color:White">parent</font>：决定此进度的父进度（不适用于根进度）。<br>
+- <font style="background-color:White">criteria</font>：决定完成此进度涉及的条件。（如：打僵尸、喝牛奶、放方块等）<br>
+- <font style="background-color:White">requirements</font>：决定各个条件间的关系（与、或）（如：各个条件是都要完成还是挑几个完成？）。<br>
+- <font style="background-color:White">rewards</font>：决定当此进度达成时获得的所有奖励。<br>
+注：<br>
+一个进度的父进度：在该进度的左侧，与该进度通过（折）线段相连的进度，如前面那张图中草方块就是木镐的父进度。子进度恰好相反。根进度没有父进度。<br>
+<br>
+下面，我们一个个来讲。<br>
+<br>
+本节完。点击论坛界面右侧的粉色「书签」可以快速回到上方目录。<br>
+<br>
+<br>
+<br>
+<strong><font size="5">格式</font></strong><br>
+<br>
+<strong><font size="4">display 显示</font></strong><br>
+决定一个进度在进度屏幕的显示效果。（就是你在前面那张图里看到的那个）<br>
+<br>
+<strong>格式：</strong><br>
+<table cellspacing="0" class="t_table"><tbody><tr><td width="568">（复合标签）<font style="background-color:white">根标签</font><br>
+-（复合标签）<font style="background-color:white">display</font>：此进度的显示效果。可选，默认为不在进度屏幕显示。（你啥也看不见！）<br>
+&nbsp; &nbsp; -（复合标签）<font style="background-color:white">icon</font>：此进度显示的图标（物品）。必选。<br>
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;-（字符串）<font style="background-color:white">item</font>：物品的英文ID。必选。<br>
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;-（字符串）<font style="background-color:white">nbt</font>：物品的 Nbt 标签。可选，默认为没有 Nbt 标签。<br>
+&nbsp; &nbsp; -（字符串或复合标签）<font style="background-color:white">title</font>：此进度的标题，可为JSON文本。可选，默认为标题为空。<br>
+&nbsp; &nbsp; -（字符串）<font style="background-color:white">frame</font>：此进度使用的边框，一共有三种。可选，默认为普通进度边框。（就是那个黄色格子）<br>
+&nbsp; &nbsp; -（字符串）<font style="background-color:white">background</font>：此进度所在选项卡的背景图片，值为图片地址（仅适用于根进度）。必选。<br>
+&nbsp; &nbsp; -（字符串或复合标签）<font style="background-color:white">description</font>：对此进度的描述，可为JSON文本。可选，默认为没有描述。<br>
+&nbsp; &nbsp; -（布尔型）<font style="background-color:white">show_toast</font>：完成此进度后是否显示右上角的提示信息。可选，默认为是。<br>
+&nbsp; &nbsp; -（布尔型）<font style="background-color:white">announce_to_chat</font>：完成此进度后是否显示聊天窗口的提示信息。（告诉所有人！）可选，默认为是。<br>
+&nbsp; &nbsp; -（布尔型）<font style="background-color:white">hidden</font>：是否在进度屏幕隐藏此进度，直到此进度或此进度的一个下游进度被完成（对根进度无效）。可选，默认为否。<br>
+</td></tr></tbody></table>注：1、三种进度边框分别为普通进度（task）、目标进度（goal）和挑战进度（challenge）。<br>
+<img id="aimg_Qxovs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/ZtLKbl.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt=""><br>
+2、一个进度的上游进度：该进度的父进度、该进度的父进度的父进度、该进度的父进度的父进度的父进度……直到根进度的统称。根进度无上游进度。<br>
+3、一个进度的下游进度：该进度的子进度、该进度的子进度的子进度、该进度的子进度的子进度的子进度……直到没有子进度的进度的统称。<br>
+<br>
+<strong>例子：</strong><br>
+<table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_z0i"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"display": {<br>
+</li><li>&nbsp; &nbsp; "icon": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"item": "minecraft:apple",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"nbt":"{happy:1b}"<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "title": "一个苹果",<br>
+</li><li>&nbsp; &nbsp; "frame": "task",<br>
+</li><li>&nbsp; &nbsp; "background": "minecraft:textures/block/cobblestone.png",<br>
+</li><li>&nbsp; &nbsp; "description": "这是一个新鲜的苹果",<br>
+</li><li>&nbsp; &nbsp; "show_toast": true,<br>
+</li><li>&nbsp; &nbsp; "announce_to_chat": true,<br>
+</li><li>&nbsp; &nbsp; "hidden": false<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_z0i&#39;));">复制代码</em></div><br>
+</td><td width="284"><div class="blockcode"><div id="code_b32"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"显示": {<br>
+</li><li>&nbsp; &nbsp; "图标": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"物品": "苹果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"Nbt标签":"{happy:1b}"<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "标题": "一个苹果",<br>
+</li><li>&nbsp; &nbsp; "边框": "普通进度",<br>
+</li><li>&nbsp; &nbsp; "背景": "原版圆石材质的图片地址",<br>
+</li><li>&nbsp; &nbsp; "描述": "这是一个新鲜的苹果",<br>
+</li><li>&nbsp; &nbsp; "右上角完成提示": 是,<br>
+</li><li>&nbsp; &nbsp; "聊天窗口完成提示": 是,<br>
+</li><li>&nbsp; &nbsp; "完成前隐藏": 否<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_b32&#39;));">复制代码</em></div></td></tr></tbody></table><br>
+<br>
+效果：<br>
+<img id="aimg_tqVp5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/I2NJy6.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt=""><br>
+<br>
+<strong>使用了 JSON 文本的 "title" 和 "description" 的例子：</strong><br>
+<table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_J88"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"display": {<br>
+</li><li>&nbsp; &nbsp; "title": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"text": "苹果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"color": "red",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"bold": true,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"underlined": true<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "description": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"text": "这是一个 ",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"color": "yellow"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"text": "苹果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"color": "gold"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_J88&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_Zr0"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"显示": {<br>
+</li><li>&nbsp; &nbsp; "标题": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"文本": "苹果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"颜色": "红色",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"加粗": 是,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"下划线": 是<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "描述": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"文本": "这是一个 ",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"颜色": "黄色"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"text": "苹果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"颜色": "金色"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Zr0&#39;));">复制代码</em></div></td></tr></tbody></table><br>
+<br>
+本节完。点击论坛界面右侧的粉色「书签」可以快速回到上方目录。<br>
+<br>
+<br>
+<br>
+<strong><font size="5">格式</font></strong><br>
+<br>
+<strong><font size="4">parent 父进度</font></strong><br>
+决定此进度的父进度（不适用于根进度）。<br>
+<br>
+<strong>格式：</strong><table cellspacing="0" class="t_table"><tbody><tr><td width="568">（复合标签）<font style="background-color:white">根标签</font><br>
+-（字符串）<font style="background-color:white">parent</font>：此进度的父进度（不适用于根进度），值为父进度的地址。必选。</td></tr></tbody></table><br>
+<strong>例子：</strong><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_bIF"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"parent":"apple:root"<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_bIF&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_YcF"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"父进度":"苹果:根进度"<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_YcF&#39;));">复制代码</em></div></td></tr></tbody></table><br>
+注意：这里的地址的实际位置是 <font style="background-color:White">data\apple\advancements\root.json</font> 。<br>
+<br>
+本节完。点击论坛界面右侧的粉色「书签」可以快速回到上方目录。<br>
+<br>
+<br>
+<br>
+<strong><font size="5">格式</font></strong><br>
+<br>
+<strong><font size="4">criteria 和 requirements 条件</font></strong><br>
+criteria：决定完成此进度涉及的条件。<br>
+requirements：决定各个条件间的关系（与、或）。<br>
+<br>
+<strong>格式：</strong><table cellspacing="0" class="t_table"><tbody><tr><td width="568">（复合标签）<font style="background-color:white">根标签</font><br>
+-（复合标签）<font style="background-color:white">criteria</font>：完成此进度涉及的条件。必选。<br>
+-（复合标签）<font style="background-color:white">条件名称</font>：此条件的名称（可以为任何字符串，必须唯一）。必选。<br>
+-（字符串）<font style="background-color:white">trigger</font>：此条件的触发器。必选。<br>
+-（复合标签）<font style="background-color:white">conditions</font>：当触发器激活时所有需要达成的条件。必选。<br>
+-（列表）<font style="background-color:white">requirements</font>：各个条件间的关系。可选，默认为完成此进度涉及的条件均要完成。</td></tr></tbody></table><br>
+criteria 决定完成此进度涉及的条件。<br>
+<br>
+<strong>例子：</strong><br>
+条件1：繁殖奶牛<br>
+条件2：从酿造台里拿出速度药水<br>
+条件3：获得至少3颗钻石<br>
+条件4：获得钻石<br>
+（条件1-4分别命名为 thing1-thing4）<br>
+<br>
+<table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_g3S"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "thing1": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:bred_animals",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"child": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "minecraft:cow"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "thing2": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:brewed_potion",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"potion": "minecraft:swiftness"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "thing3": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:inventory_changed",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"items": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"item": "minecraft:diamond",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"count": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"min": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "thing4": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:player_killed_entity",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "minecraft:creeper"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_g3S&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_MXk"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "条件1": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "繁殖动物",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"后代": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "奶牛"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "条件2": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "拿出药水",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"药水": "迅捷药水"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "条件3": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "获得物品",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"物品": "钻石",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"数量": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最小": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "条件4": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "玩家杀死实体",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"实体": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "爬行者"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_MXk&#39;));">复制代码</em></div></td></tr></tbody></table><br>
+requirements 决定各个条件间的关系。<br>
+<br>
+<strong>例子：</strong><br>
+让玩家必须在条件1和条件2中，条件3和条件4中各挑一个完成，才能达成进度，<br>
+也就是：达成进度=（条件1 或 条件2）与（条件3 或 条件4）<br>
+（条件1-4分别命名为 thing1-thing4）<br>
+<br>
+<table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_QzN"><ol><li>{<br>
+</li><li>&nbsp; &nbsp; "requirements": [<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing1",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing2"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing3",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing4"<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>&nbsp;&nbsp;]<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_QzN&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_KxZ"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"条件间关系": [<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件1",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件2"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件3",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件4"<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>&nbsp;&nbsp;]<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_KxZ&#39;));">复制代码</em></div></td></tr></tbody></table><br>
+更多关于触发器的内容，我们会在以后讲到。<br>
+<br>
+<br>
+<br>
+<strong><font size="5">格式</font></strong><br>
+<br>
+<strong><font size="4">rewards 奖励</font></strong><br>
+决定当此进度达成时获得的所有奖励。<br>
+<br>
+<strong>格式：</strong><table cellspacing="0" class="t_table"><tbody><tr><td width="568">（复合标签）<font style="background-color:white">根进度</font><br>
+-（复合标签）<font style="background-color:white">rewards</font>：当进度达成时获得的所有奖励。可选，默认为没有奖励。<br>
+&nbsp; &nbsp; -（列表）<font style="background-color:white">recipes</font>：解锁的配方，值为配方列表。可选，默认为没有配方被解锁。<br>
+&nbsp; &nbsp; -（列表）<font style="background-color:white">loot</font>：获得的战利品，值为战利品表列表。可选，默认为没有战利品。<br>
+&nbsp; &nbsp; -（整型）<font style="background-color:white">experience</font>：获得的经验值。可选，默认为没有经验。<br>
+&nbsp; &nbsp; -（字符串）<font style="background-color:white">function</font>：以进度获得者为执行者，在其所在的位置执行的函数，值为函数地址。可选，默认为没有函数。</td></tr></tbody></table><br>
+<strong>例子：</strong><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_aFi"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"rewards": {<br>
+</li><li>&nbsp; &nbsp; "recipes": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:stone_axe",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:cooked_beef_from_smoking"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "loot": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:chests/jungle_temple"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "experience": 10,<br>
+</li><li>&nbsp; &nbsp; "function": "apple:example"<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_aFi&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_HKb"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"奖励": {<br>
+</li><li>&nbsp; &nbsp; "解锁配方": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"石斧",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"用烟熏炉烧熟牛肉"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "战利品": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"丛林神庙的箱子"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "经验": 10,<br>
+</li><li>&nbsp; &nbsp; "运行函数": "苹果:例子"<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_HKb&#39;));">复制代码</em></div></td></tr></tbody></table><br>
+本节完。点击论坛界面右侧的粉色「书签」可以快速回到上方目录。<br>
+<br>
+<br>
+<br>
+<font size="5"><strong>触发器</strong></font><br>
+<br>
+由于 Minecraft Wiki 在这一部分讲解的比较详细且较为简单，可以参考：<a href="https://minecraft-zh.gamepedia.com/%E8%BF%9B%E5%BA%A6/%E8%A7%A6%E5%8F%91%E5%99%A8%E5%88%97%E8%A1%A8" target="_blank">进度/触发器列表</a><br>
+可根据 Wiki 给出的格式和例子自行学习。<br>
+如果例子看不懂，可以试着将例子中的英文单词翻译成中文。<br>
+当然，为了方便读者，我们也给出了例子的中文翻译。<br>
+<br>
+另外，根据 <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=975525" target="_blank">ruhuasiyu</a> 所说，对于触发器 minecraft:consume_item （食用或饮下物品）在物品是药水的情况下，无法识别药水的自定义 nbt，但可以识别 不存在的效果数字 id 。与记分版不同的是，CustomPotionEffects（自定义药水效果）在消耗之前可以被进度检测到，而记分板则是在之后。<br>
+<br>
+<a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4#.E6.95.B0.E6.8D.AE.E6.A0.87.E7.AD.BE" target="_blank">数据标签键值数据类型</a> 可能对你会有帮助。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><img id="aimg_HwNA8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/GyzPie.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt=""></td></tr></tbody></table></div></div><br>
+<br>
+本节完。点击论坛界面右侧的粉色「书签」可以快速回到上方目录。<br>
+<br>
+<br>
+<br>
+<strong><font size="5">例子</font></strong><br>
+<br>
+1、可通过自行解压 版本.jar 文件来获得原版的进度。<br>
+<br>
+2、可参考 Wiki 或坛内 dalao 给出的例子。<br>
+<br>
+3、不懂的可以去原版问答版提问。<br>
+<br>
+4、下面是一个较为复杂的例子。<br>
+（条件1-4分别命名为 thing1-thing4）<br>
+<br>
+<table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_wME"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"display": {<br>
+</li><li>&nbsp; &nbsp; "icon": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"item": "minecraft:apple",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"nbt":"{happy:1b}"<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "title": "一个苹果",<br>
+</li><li>&nbsp; &nbsp; "frame": "thing",<br>
+</li><li>&nbsp; &nbsp; "background": "minecraft:textures/block/cobblestone.png",<br>
+</li><li>&nbsp; &nbsp; "description": "这是一个新鲜的苹果",<br>
+</li><li>&nbsp; &nbsp; "show_toast": true,<br>
+</li><li>&nbsp; &nbsp; "announce_to_chat": true,<br>
+</li><li>&nbsp; &nbsp; "hidden": false<br>
+</li><li>&nbsp;&nbsp;},<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "thing1": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:bred_animals",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"child": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "minecraft:cow"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "thing2": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:brewed_potion",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"potion": "minecraft:swiftness"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "thing3": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:inventory_changed",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"items": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"item": "minecraft:diamond",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"count": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"min": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "thing4": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:player_killed_entity",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "minecraft:creeper"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;},<br>
+</li><li>&nbsp;&nbsp;"requirements": [<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing1",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing2"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing3",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"thing4"<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>&nbsp;&nbsp;],<br>
+</li><li>&nbsp;&nbsp;"rewards": {<br>
+</li><li>&nbsp; &nbsp; "recipes": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:stone_axe",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:cooked_beef_from_smoking"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "loot": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:chests/jungle_temple"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "experience": 10,<br>
+</li><li>&nbsp; &nbsp; "function": "apple:item"<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_wME&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_qyx"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"显示": {<br>
+</li><li>&nbsp; &nbsp; "图标": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"物品": "苹果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"Nbt标签":"{happy:1b}"<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "标题": "一个苹果",<br>
+</li><li>&nbsp; &nbsp; "边框": "普通进度",<br>
+</li><li>&nbsp; &nbsp; "背景": "原版圆石材质的图片地址",<br>
+</li><li>&nbsp; &nbsp; "描述": "这是一个新鲜的苹果",<br>
+</li><li>&nbsp; &nbsp; "右上角完成提示": 是,<br>
+</li><li>&nbsp; &nbsp; "聊天窗口完成提示": 是,<br>
+</li><li>&nbsp; &nbsp; "完成前隐藏": 否<br>
+</li><li>&nbsp;&nbsp;},<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "条件1": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "繁殖动物",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"后代": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "奶牛"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "条件2": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "拿出药水",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"药水": "迅捷药水"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "条件3": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "获得物品",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"物品": "钻石",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"数量": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最小": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "条件4": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "玩家杀死实体",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"实体": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "爬行者"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;},<br>
+</li><li>&nbsp;&nbsp;"条件间关系": [<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件1",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件2"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件3",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"条件4"<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>&nbsp;&nbsp;],<br>
+</li><li>&nbsp;&nbsp;"奖励": {<br>
+</li><li>&nbsp; &nbsp; "解锁配方": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"石斧",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"用烟熏炉烧熟牛肉"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "战利品": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"丛林神庙的箱子"<br>
+</li><li>&nbsp; &nbsp; ],<br>
+</li><li>&nbsp; &nbsp; "经验": 10,<br>
+</li><li>&nbsp; &nbsp; "运行函数": "苹果:例子"<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_qyx&#39;));">复制代码</em></div></td></tr></tbody></table><br>
+本节完。点击论坛界面右侧的粉色「书签」可以快速回到上方目录。<br>
+<br>
+<br>
+<strong><font size="5">advancement 命令</font></strong><br>
+给予或移除玩家的进度。<br>
+<br>
+<strong>语法：</strong><br>
+<table cellspacing="0" class="t_table" style="width:98%"><tbody><tr><td width="101">进度</td><td width="156">&lt;给予 | 移除&gt;</td><td width="145">&lt;玩家&gt;</td><td width="371">&lt;只有 | 直到 | 始于 | 经过 | 全部&gt;</td><td width="104">&lt;进度&gt;</td><td width="47">[条件]</td></tr><tr><td rowspan="3" width="101">advancement</td><td rowspan="3" width="156">&lt;grant | revoke&gt;</td><td rowspan="3" width="145">&lt;目标玩家&gt;</td><td width="371">&lt;only&gt;</td><td rowspan="2" width="104">&lt;进度&gt;</td><td width="47">[条件]</td></tr><tr><td width="371">&lt;until | from | through&gt;</td><td rowspan="2" width="104"> </td></tr><tr><td width="371">&lt;everything&gt;</td><td width="104"> </td></tr></tbody></table>注：带 &lt; &gt; 的是必选参数，带 [ ] 的是可选参数。<br>
+<br>
+<strong>参数：</strong><br>
+<table cellspacing="0" class="t_table"><tbody><tr><td width="568"><font style="background-color:white">&lt;grant | revoke&gt;</font> 说明是给予还是移除玩家的进度。grant 是给予，revoke 是移除。<br>
+<font style="background-color:white">&lt;目标玩家&gt;</font> 说明给予或移除哪个（些）玩家的进度，必须为玩家名或目标选择器。<br>
+<font style="background-color:white">&lt;only&gt;</font> 仅操作玩家的指定进度。<br>
+<font style="background-color:white">&lt;until&gt;</font> 操作玩家的指定进度及其全部上游进度。<br>
+<font style="background-color:white">&lt;from&gt;</font> 操作玩家的指定进度及其全部下游进度。<br>
+<font style="background-color:white">&lt;through&gt;</font> 操作玩家的指定进度及其全部的上游进度和下游进度。<br>
+<font style="background-color:white">&lt;everything&gt;</font> 操作玩家全部已载入的进度。<br>
+<font style="background-color:white">&lt;进度&gt;</font> 指定要给予或移除的进度。必须是有效的进度地址。<br>
+<font style="background-color:white">[条件]</font> 指定要操作的进度的条件。</td></tr></tbody></table><br>
+<strong>例子：</strong><br>
+<div class="blockcode"><div id="code_Ecv"><ol><li>advancement grant @s everything</li></ol></div><em onclick="copycode($(&#39;code_Ecv&#39;));">复制代码</em></div>给予命令执行者自己全部已载入的进度。<br>
+<div class="blockcode"><div id="code_i9y"><ol><li>advancement revoke @s through minecraft:story/form_obsidian</li></ol></div><em onclick="copycode($(&#39;code_i9y&#39;));">复制代码</em></div>移除命令执行者自己的 [冰桶挑战] 进度及其全部的上游进度和下游进度（共10个）。<br>
+<div class="blockcode"><div id="code_x30"><ol><li>advancement revoke @s only minecraft:adventure/kill_all_mobs minecraft:zombie</li></ol></div><em onclick="copycode($(&#39;code_x30&#39;));">复制代码</em></div>移除命令执行者自己的 [怪物狩猎完成] 进度（要求杀死每一种敌对性怪物）中的 [僵尸] 条件。<br>
+<br>
+本节完。<br>
+<br>
+教程完。<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>contionability&nbsp; &nbsp; <b>时间: </b>2019-8-3 10:57<br>
+<font style="background-color:royalblue"><font color="Black"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&amp;target=https%3A%2F%2Fafdian.net%2F%40SPGoding" target="_blank">赞助地址</a></font></font><br>
+<font style="background-color:royalblue"><font color="Black"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&amp;target=https%3A%2F%2Fafdian.net%2F%40ruhuasiyu" target="_blank">当然这个也行<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt=""></a></font></font><br>
+<font style="background-color:black"><font color="#000000">我绝对不会告诉你这两个地址都不是我的（跑<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt=""><br>
+不过你既然都点开了……<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt=""></font></font><font color="#ff0000"><font style="background-color:red">你这样真的好吗（跑<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt=""></font></font><br>
+我干嘛要复制。。。<font color="#ff0000"><font style="background-color:red"><br>
+</font></font><br>
+<font size="3"><strong><img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt="">这个真的算是一个纯正的水贴了，完全没有讲自定义进度如何操作</strong></font><img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt=""><br>
+<font color="#ff0000"><font style="background-color:red"><br>
+</font></font><br>
+<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2019-8-3 12:50<br>
+<i class="pstatus"> 本帖最后由 Teenager_Yang 于 2019-8-3 17:21 编辑 </i><br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15167561&amp;ptid=892563" target="_blank"><font color="#999999">contionability 发表于 2019-8-3 10:57</font></a></font></blockquote></div><br>
+上面有个目录，<br>
+翻页啊喂！<br>
+我写的教程竟然连怎么看都有人不知道……<div class="quote"><blockquote>这个真的算是一个纯正的水贴了，完全没有讲自定义进度如何操作</blockquote></div><br>
+<strike>还被说成是水贴……</strike><br>
+<strike>（我果然是好惨一男的）</strike><br>
+<br>
+<br>
+<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>~a4$&nbsp; &nbsp; <b>时间: </b>2019-8-3 15:44<br>
+<i class="pstatus"> 本帖最后由 897412176 于 2019-8-4 12:07 编辑 </i><br>
+<strong><font size="5">触发器 - Wiki 例子翻译</font></strong><br>
+<br>
+持续更新，已完成 31 个。<br>
+<br>
+<font size="4"><strong>minecraft:bred_animals 繁殖动物</strong></font><br>
+玩家繁殖两个动物时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_kUV"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:bred_animals",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"child": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "mule"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"parent": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "location": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"biome": "beaches"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"partner": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "effects": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:speed": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"amplifier": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "min": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_kUV&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_jRY"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "繁殖动物",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"后代": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "骡子"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"父母": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "位置": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"生物群系": "沙滩"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"配偶": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "药水效果": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"速度": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"倍率": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最小值": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_jRY&#39;));">复制代码</em></div></td></tr></tbody></table><strong>注：</strong> 倍率 = 等级 - 1</td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:brewed_potion 酿造药水</strong></font><br>
+玩家从酿造台中拿出一瓶药水时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_M4V"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:brewed_potion",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"potion": "minecraft:strong_swiftness"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_M4V&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_Srp"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "酿造药水",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"药水": "迅捷药水 II"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Srp&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:changed_dimension 改变维度</strong></font><br>
+玩家在两个维度间旅行时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_Rg9"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:changed_dimension",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"from": "the_end",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"to": "overworld"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Rg9&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_qGB"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "改变维度",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"来自": "末地",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"去到": "主世界"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_qGB&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:channeled_lightning 引雷</strong></font><br>
+玩家成功使用引雷附魔击杀实体时触发。<br>
+没有例子。<br>
+<br>
+<font size="4"><strong>minecraft:construct_beacon 修建信标</strong></font><br>
+玩家更改信标结构时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_C4A"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:construct_beacon",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"level": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "min": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_C4A&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_LS5"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "修建信标",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"信标的层数": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最小值": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_LS5&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:consume_item 损耗物品</strong></font><br>
+玩家损耗了物品时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_F97"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:consume_item",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"item": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "item": "minecraft:golden_apple",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "nbt": "{display:{Name:"\\"Example\\""}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_F97&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_Vsw"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "损耗物品",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "物品": "金苹果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "Nbt 标签": "{显示:{名字:"\\"例子\\""}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Vsw&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<strong><font size="4">minecraft:cured_zombie_villager 治愈僵尸村民</font></strong><br>
+玩家治愈了僵尸村民时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_w1l"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:cured_zombie_villager",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"villager": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "location": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"biome": "plains"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"zombie": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "distance": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"horizontal": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"max": 10<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_w1l&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_UIW"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "治愈僵尸村民",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"村民": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "位置": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"生物群系": "平原"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"僵尸": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"水平距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最大值": 10<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_UIW&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:effects_changed 改变状态效果</strong></font><br>
+玩家获得/消除状态效果时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_MCq"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:effects_changed",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"effects": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "minecraft:weakness": {},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "minecraft:slowness": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"amplifier": 2,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"duration": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"min": 100,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"max": 500<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_MCq&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_L86"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "改变状态效果",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"效果": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "虚弱": {},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "缓慢": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"倍率": 2,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"持续时间": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最小值": 100,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最大值": 500<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_L86&#39;));">复制代码</em></div></td></tr></tbody></table>注：持续时间的单位为游戏刻，1秒=20游戏刻。</td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:enchanted_item 附魔物品</strong></font><br>
+玩家通过附魔台附魔物品时触发（使用铁砧或命令时不触发）。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_K8e"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:enchanted_item",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"item": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "item": "minecraft:wooden_sword",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "enchantments": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"enchantment": "minecraft:sharpness",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"levels": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "min": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"levels": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "min": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;} <br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_K8e&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_f0h"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "附魔物品",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "物品": "木剑",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "附魔": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"附魔": "锋利",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"等级": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最小值": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"等级": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最小值": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;} <br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_f0h&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:enter_block 进入方块</strong></font><br>
+玩家进入方块时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_o22"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:enter_block",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"block": "minecraft:allium"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_o22&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_O2X"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "进入方块",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"方块": "绒球葱"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_O2X&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:entity_hurt_player 实体伤害玩家</strong></font><br>
+实体伤害玩家时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_x4e"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:entity_hurt_player",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"damage": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "source_entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"type": "skeleton"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "direct_entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"type": "arrow"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "taken": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"min": 4.0<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_x4e&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_Vrr"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "实体伤害玩家",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"伤害": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "间接来源": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"种类": "骷髅"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "直接来源": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"种类": "箭"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "造成伤害": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最小值": 4.0<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Vrr&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:entity_killed_player 实体杀死玩家</strong></font><br>
+实体杀死玩家时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_t89"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:entity_killed_player",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "skeleton"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"killing_blow": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "is_projectile": true<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_t89&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_J05"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "实体杀死玩家",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"实体": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "骷髅"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"伤害类型": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "由弹射物引起": 是<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_J05&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:filled_bucket 填充桶</strong></font><br>
+玩家填充桶时触发。<br>
+没有例子。<br>
+<br>
+<font size="4"><strong>minecraft:fishing_rod_hooked 钓鱼竿钩住</strong></font><br>
+玩家成功通过钓鱼竿取得物品或者使用钓鱼竿推实体时触发。<br>
+没有例子。<br>
+<br>
+<font size="4"><strong>minecraft:impossible 无法触发</strong></font><br>
+仅可使用命令触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_H84"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:impossible"<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_H84&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_nUR"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "无法触发"<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_nUR&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:inventory_changed 改变物品栏</strong></font><br>
+玩家物品栏变化时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_TNx"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:inventory_changed",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"items": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"item": "minecraft:stone",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"count": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"min": 5,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"max": 10<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"item": "minecraft:lime_wool"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"item": "minecraft:wooden_sword",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"durability": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"min": 50<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"nbt": "{display:{Name:"\\"Example\\""}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"slots": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "occupied": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_TNx&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_Q33"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "改变物品栏",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"物品": "石头",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"数量": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最小值": 5,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最大值": 10<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"物品": "黄绿色羊毛"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"物品": "木剑",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"耐久度": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最小值": 50<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"Nbt 标签": "{显示:{名字:"\\"例子\\""}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"槽位": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "占用": 3<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Q33&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:item_durability_changed 改变物品耐久</strong></font><br>
+物品栏中任何物品以任何形式损害时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_wWD"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:item_durability_changed",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"delta": -2,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"item": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "item": "minecraft:wooden_axe",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "durability": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"max": 1<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_wWD&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_hO6"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "改变物品耐久",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"耐久度差值": -2,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "物品": "木斧",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "耐久度": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最大值": 1<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_hO6&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:levitation 漂浮</strong></font><br>
+玩家获得漂浮状态效果时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_pV2"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:levitation",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"distance": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "horizontal": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"min": 5<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "y": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"min": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"duration": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "min": 100<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_pV2&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_qQI"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "漂浮",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "水平距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最小值": 5<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "y轴坐标": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最小值": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"持续时间": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最小值": 100<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_qQI&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:location 位置</strong></font><br>
+每个游戏刻（每秒20次）检查玩家的位置。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_fKg"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:location",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"biome": "jungle",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"feature": "Temple",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"dimension": "overworld",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"position": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "x": 0,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "y": 60,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "z": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"min": -10,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"max": 10<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_fKg&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_LZl"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "位置",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"生物群系": "丛林",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"结构": "神庙",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"维度": "主世界",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"位置": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "x轴坐标": 0,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "y轴坐标": 60,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "z轴坐标": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最小值": -10,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最大值": 10<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_LZl&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:nether_travel 下界旅行</strong></font><br>
+玩家进入下界，然后返回主世界时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_LHz"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:nether_travel",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"distance": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "horizontal": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"min": 1000<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "absolute": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"min": 1100<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_LHz&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_N6m"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "下界旅行",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "水平距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最小值": 1000<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "绝对距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最小值": 1100<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_N6m&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:placed_block 放置方块</strong></font><br>
+玩家放置方块时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_x3f"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:placed_block",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"block": "minecraft:wall_torch",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"state": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "facing": "west"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"location": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "x": 10,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "z": 14,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "biome": "plains"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"item": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "item": "minecraft:torch"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_x3f&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_wes"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "放置方块",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"方块": "墙上的火把",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"方块状态": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "朝向": "西面"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"位置": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "x轴坐标": 10,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "z轴坐标": 14,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "生物群系": "平原"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "物品": "火把"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_wes&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:player_hurt_entity 玩家伤害实体</strong></font><br>
+玩家伤害实体（包括自己）时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_Q7D"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:player_hurt_entity",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"damage": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "blocked": true,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "direct_entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"type": "arrow"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "player",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "nbt": "{Tags:["example"]}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Q7D&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_OaP"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "玩家伤害实体",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"伤害": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "被阻挡": 是,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "直接来源": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"种类": "箭"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"实体": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "玩家",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "Nbt 标签": "{标签:["例子"]}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_OaP&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:player_killed_entity 玩家杀死实体</strong></font><br>
+玩家杀死实体时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_j27"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:player_killed_entity",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "creeper",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "nbt": "{powered:1b}",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "location": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"biome": "void"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "effects": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:slowness": {},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"minecraft:weakness": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"amplifier": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "min": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"killing_blow": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "source_entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"nbt": "{SelectedItem:{id:"minecraft:wooden_sword",}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_j27&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_lpQ"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "玩家杀死实体",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"实体": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "爬行者",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "Nbt 标签": "{powered:1b}",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "位置": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"生物群系": "虚空"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "药水效果": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"缓慢": {},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"虚弱": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"倍率": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最小值": 2<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"伤害类型": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "间接来源": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"Nbt 标签": "{手持物品:{英文ID:"木剑",}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_lpQ&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:recipe_unlocked 解锁配方</strong></font><br>
+玩家解锁配方时触发（例如用知识之书）。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_SEY"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:recipe_unlocked",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"recipe": "minecraft:wooden_sword"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_SEY&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_Bcj"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "解锁配方",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"配方": "木剑"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Bcj&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:slept_in_bed 上床睡觉</strong></font><br>
+玩家上床睡觉时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_mW7"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:slept_in_bed",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"location": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "biome": "desert",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "feature": "Village",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "position": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"y": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"min": 50,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"max": 100<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;} <br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_mW7&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_tZJ"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "上床睡觉",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"位置": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "生物群系": "沙漠",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "结构": "村庄",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "位置": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"y轴坐标": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最小值": 50,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"最大值": 100<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;} <br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_tZJ&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:summoned_entity 召唤实体</strong></font><br>
+玩家召唤了实体时触发。例如通过放置方块来召唤铁傀儡、雪傀儡、末影龙和凋灵。使用发射器来放置凋灵骷髅头颅或南瓜也能激活此触发器。刷怪蛋、命令和刷怪箱不会激活此触发器。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_xvw"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:summoned_entity",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "minecraft:snowman"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_xvw&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_fAM"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "召唤实体",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"实体": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "雪人"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_fAM&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:tame_animal 驯服动物</strong></font><br>
+玩家驯服动物时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_Ixd"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:tame_animal",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"entity": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "type": "parrot",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "nbt": "{Variant:2}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_Ixd&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_rip"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "驯服动物",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"实体": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "种类": "鹦鹉",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "Nbt 标签": "{种类:2}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_rip&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:tick 每刻触发</strong></font><br>
+每个游戏刻触发（每秒20次）。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_SG5"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:tick"<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_SG5&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_T2H"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "每刻触发"<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_T2H&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:used_ender_eye 使用末影之眼</strong></font><br>
+玩家使用末影之眼（在有要塞生成的世界）时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_x3N"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:used_ender_eye",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"distance": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "min": 100,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "max": 200<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_x3N&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_uNI"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "使用末影之眼",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"距离": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最小值": 100,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "最大值": 200<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_uNI&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:used_totem 使用图腾</strong></font><br>
+玩家使用图腾时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_xIh"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:used_totem",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"item": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "item": "minecraft:totem_of_undying"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_xIh&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_RAY"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "使用图腾",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "物品": "不死图腾"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_RAY&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><br>
+<br>
+<font size="4"><strong>minecraft:villager_trade 村民交易</strong></font><br>
+玩家与村民交易时触发。<br>
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onclick="n = this.parentNode.parentNode.lastChild;if(n.style.display == &#39;none&#39;) {n.style.display = &#39;block&#39;;} else {n.style.display = &#39;none&#39;;} return false;"></div><div class="spoilerbody" style="display: none; border-style: inset; padding-right: 5px; border-color: rgb(204, 204, 204);"><table><tbody><tr><td><table cellspacing="0" class="t_table"><tbody><tr><td width="284">代码</td><td width="284">翻译</td></tr><tr><td width="284"><div class="blockcode"><div id="code_jUz"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"criteria": {<br>
+</li><li>&nbsp; &nbsp; "example": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"trigger": "minecraft:villager_trade",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"conditions": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"item": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "item": "minecraft:emerald",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "count": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"min": 1<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"villager": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "nbt": "{VillagerData:{career:"minecraft:librarian"}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_jUz&#39;));">复制代码</em></div></td><td width="284"><div class="blockcode"><div id="code_AoP"><ol><li>{<br>
+</li><li>&nbsp;&nbsp;"涉及条件": {<br>
+</li><li>&nbsp; &nbsp; "例子": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"触发器": "村民交易",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"激活条件": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"物品": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "物品": "绿宝石",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "数量": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"最小值": 1<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"村民": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "Nbt 标签": "{村民数据:{职业:"minecraft:图书管理员"}}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>&nbsp;&nbsp;}<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_AoP&#39;));">复制代码</em></div></td></tr></tbody></table></td></tr></tbody></table></div></div><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2019-8-4 13:02<br>
+在？<br>
+你不放飞自我了？<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2019-8-4 13:28<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15183400&amp;ptid=892563" target="_blank"><font color="#999999">467440721 发表于 2019-8-4 13:02</font></a></font><br>
+在？<br>
+你不放飞自我了？</blockquote></div><br>
+我还在放飞自我，<br>
+不放飞自我的是 897412176 <img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>~a4$&nbsp; &nbsp; <b>时间: </b>2019-8-4 15:10<br>
+<i class="pstatus"> 本帖最后由 897412176 于 2019-8-4 15:13 编辑 </i><br>
+<br>
+现在不是好惨一男的，而是两男的……<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt=""><br>
+到现在还没来个 dalao 说提个意见啥的……<br>
+<strike><a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=2337994" target="_blank">@Teenager_Yang</a> 我们弃坑吧</strike><br>
+<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>2816734&nbsp; &nbsp; <b>时间: </b>2019-8-6 23:14<br>
+进度系统在 Minecraft Wiki 上的内容已经很详细了，所以单独开这种教程意义不大……<br>
+<br>
+至于隔壁战利品表的教程为什么能拿到精华，因为那个帖子出来的时候 Wiki 还在摸鱼呢。而且即使到现在这个时间点，那个帖子的内容也比英文 Wiki 上相关页面要好看，因为那个帖子在编写的时候没有任何历史包袱，一切从零开始（<br>
+<br>
+而进度机制在 1.12 刚出来的时候就基本上被前辈们挖得差不多了，而且至今也没有挖出什么黑科技应用，就，很惨<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>S速风&nbsp; &nbsp; <b>时间: </b>2019-8-7 19:40<br>
+我只有一件事搞不懂，如何才能把括号不写在一行里面<br>
+（一般写指令都习惯写在一行，分多行写不会）<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2019-8-8 10:44<br>
+<i class="pstatus"> 本帖最后由 Teenager_Yang 于 2019-8-8 10:45 编辑 </i><br>
+<div class="quote"><blockquote><font color="#999999">S速风 发表于 2019-8-7 19:40</font><br>
+<font color="#999999">我只有一件事搞不懂，如何才能把括号不写在一行里面<br>
+（一般写指令都习惯写在一行，分多行写不会） ...</font></blockquote></div><br>
+
+<br>
+实在不会，写在一行里也是可以的，至少能用<img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2019-8-8 10:53<br>
+<i class="pstatus"> 本帖最后由 Teenager_Yang 于 2019-8-9 13:28 编辑 </i><br>
+<div class="quote"><blockquote><font color="#999999">梓榆 发表于 2019-8-6 23:14</font><br>
+<font color="#999999">进度系统在 Minecraft Wiki 上的内容已经很详细了，所以单独开这种教程意义不大……<br>
+<br>
+至于隔壁战利品表的教 ...</font></blockquote></div><br>
+很惨。<br>
+我一开始是觉得 CH[sub]2[/sub]=CH[sub]2[/sub] dalao 的猴子学进度 教程 版本太旧了，再加上某人的建议，才写的现在这篇教程。<br>
+看来我以后还是去写原版模组好了（跑 <img src="./【教程】[1.14] 自定义进度：从入门到弃坑 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>S速风&nbsp; &nbsp; <b>时间: </b>2019-8-8 16:48<br>
+<i class="pstatus"> 本帖最后由 S速风 于 2019-8-8 16:54 编辑 </i><br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15240109&amp;ptid=892563" target="_blank"><font color="#999999">Teenager_Yang 发表于 2019-8-8 10:44</font></a></font><br>
+实在不会，写在一行里也是可以的，至少能用</blockquote></div><br>
+好吧，希望我的眼睛不会瞎<br>
+另一个问题：有没有一键生成进度的，论坛里面只找到了1.12的，用不了<br>
+<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>1301066895l&nbsp; &nbsp; <b>时间: </b>2019-8-8 19:18<br>
+自定义进度：从入门到入坟【？<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2019-8-9 13:29<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15245411&amp;ptid=892563" target="_blank"><font color="#999999">S速风 发表于 2019-8-8 16:48</font></a></font><br>
+好吧，希望我的眼睛不会瞎<br>
+另一个问题：有没有一键生成进度的，论坛里面只找到了1.12的，用不了</blockquote></div><br>
+目前应该没有……<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>QAQexe&nbsp; &nbsp; <b>时间: </b>2019-8-15 17:23<br>
+看看，感谢分享<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>kunkun520&nbsp; &nbsp; <b>时间: </b>2020-7-29 20:38<br>
+mcbbs有你更精彩！！！
+<br><br><br><br><hr noshade="" size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tbody><tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></tbody></table>
+
+
+<div class="xl-chrome-ext-bar" id="xl_chrome_ext_{4DB361DE-01F7-4376-B494-639E489D19ED}" style="display: none;">
+      <div class="xl-chrome-ext-bar__logo"></div>
+
+      <a id="xl_chrome_ext_download" href="javascript:;" class="xl-chrome-ext-bar__option">下载视频</a>
+      <a id="xl_chrome_ext_close" href="javascript:;" class="xl-chrome-ext-bar__close"></a>
+    </div></body></html>

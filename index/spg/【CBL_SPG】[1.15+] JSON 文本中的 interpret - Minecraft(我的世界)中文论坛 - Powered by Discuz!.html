@@ -1,0 +1,124 @@
+
+<!-- saved from url=(0061)https://www.mcbbs.net/thread-921501-1-1.html?action=printable -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>【CBL|SPG】[1.15+] JSON 文本中的 interpret - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="./【CBL_SPG】[1.15+] JSON 文本中的 interpret - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/common.js.下载" type="text/javascript"></script>
+<script src="./【CBL_SPG】[1.15+] JSON 文本中的 interpret - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'cM7', charset = 'UTF-8', discuz_uid = '703042', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05MjE1MDEtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SPG】[1.15+] JSON 文本中的 interpret <b><a href="https://www.mcbbs.net/thread-921501-1-1.html?action=printable###" onclick="this.style.visibility=&#39;hidden&#39;;window.print();this.style.visibility=&#39;visible&#39;">[打印本页]</a></b><br>
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-10-21 00:36<br>
+<b>标题: </b>【CBL|SPG】[1.15+] JSON 文本中的 interpret<br><font size="6"><strong>起</strong></font><br>
+<br>
+<font size="3">JSON 文本中有一个属性叫做 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">interpret</font></font>，翻译一下可以知道它的意思是「解析」。该属性必须和 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">nbt</font></font> 同时使用，否则没有效果。</font><br>
+<br>
+<font size="3">简单来讲，当 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">interpret</font></font> 被设置为 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">true</font></font> 时，实际显示出来的文本会是原先文本被按照 JSON 文本的格式解析后的文本。</font><br>
+<br>
+<font size="3">举个例子吧。我们往 data storage 里先写这么一个标签：</font><br>
+<br>
+<div class="blockcode"><div id="code_OI6"><ol><li>/data merge storage test {spg: '["测试", "啊啊"]'}</li></ol></div><em onclick="copycode($(&#39;code_OI6&#39;));">复制代码</em></div><br>
+<font size="3">然后写这样的一个 JSON 文本：</font><br>
+<br>
+<div class="blockcode"><div id="code_VJJ"><ol><li>{"nbt": "spg", "storage": "test"}</li></ol></div><em onclick="copycode($(&#39;code_VJJ&#39;));">复制代码</em></div><br>
+<font size="3">把它放到 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">tellraw</font></font> 或者什么地方里，稍有常识的人都可以预测出它的结果：</font><br>
+<br>
+<div class="blockcode"><div id="code_QyW"><ol><li>["测试", "啊啊"]</li></ol></div><em onclick="copycode($(&#39;code_QyW&#39;));">复制代码</em></div><br>
+<font size="3">那么，如果在 JSON 文本中加上 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">interpret</font></font>：</font><br>
+<br>
+<div class="blockcode"><div id="code_Q4y"><ol><li>{"nbt": "spg", "storage": "test", "interpret": true}</li></ol></div><em onclick="copycode($(&#39;code_Q4y&#39;));">复制代码</em></div><br>
+<font size="3">结果变为了：</font><br>
+<br>
+<div class="blockcode"><div id="code_Vh0"><ol><li>测试啊啊</li></ol></div><em onclick="copycode($(&#39;code_Vh0&#39;));">复制代码</em></div><br>
+<font size="3">可以看出，原先的 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">["测试", "啊啊"]</font></font> 被按照 JSON 文本的格式解析为了 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">测试啊啊</font></font>。</font><br>
+<br>
+<font size="6"><strong>承</strong></font><br>
+<br>
+<font size="3">这个特性确实有用武之地。例如：</font><br>
+<br>
+<div class="blockcode"><div id="code_F1I"><ol><li>/execute as @a run tellraw @s {"nbt": "SelectedItem.tag.display.Name", "entity": "@s", "interpret": true}</li></ol></div><em onclick="copycode($(&#39;code_F1I&#39;));">复制代码</em></div><br>
+<font size="3">这条命令就可以在聊天栏输出玩家手中握着的武器的自定义名称了（如果有的话）</font><br>
+<br>
+<font size="6"><strong>转</strong></font><br>
+<br>
+<font size="3">没错，没什么用。</font><br>
+<br>
+<font size="6"><strong>合</strong></font><br>
+<br>
+<font size="3">然而，并不只有 NBT 字符串里能储存像 JSON 文本一样的东西。</font><br>
+<br>
+<font size="3">我们往 data storage 里再写这么一个标签：</font><br>
+<br>
+<div class="blockcode"><div id="code_IT4"><ol><li>/data merge storage test {spg: ["测试", "啊啊"]}</li></ol></div><em onclick="copycode($(&#39;code_IT4&#39;));">复制代码</em></div><br>
+<font size="3">如果你没发现的话，这条命令的 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">spg</font></font> 和刚才唯一的区别是删掉了最外层的单引号，使它从一个字符串标签变为了一个装有字符串的列表。</font><br>
+<br>
+<font size="3">然后写这样的一个 JSON 文本：</font><br>
+<br>
+<div class="blockcode"><div id="code_l3d"><ol><li>{"nbt": "spg", "storage": "test"}</li></ol></div><em onclick="copycode($(&#39;code_l3d&#39;));">复制代码</em></div><br>
+<font size="3">它的结果和刚刚一模一样：</font><br>
+<br>
+<div class="blockcode"><div id="code_MFm"><ol><li>["测试", "啊啊"]</li></ol></div><em onclick="copycode($(&#39;code_MFm&#39;));">复制代码</em></div><br>
+<font size="3">聪明的人已经能够想到，如果加上 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">interpret</font></font> 的话：</font><br>
+<br>
+<div class="blockcode"><div id="code_HZy"><ol><li>{"nbt": "spg", "storage": "test", "interpret": true}</li></ol></div><em onclick="copycode($(&#39;code_HZy&#39;));">复制代码</em></div><br>
+<font size="3">结果仍然是：</font><br>
+<br>
+<div class="blockcode"><div id="code_dDr"><ol><li>测试啊啊</li></ol></div><em onclick="copycode($(&#39;code_dDr&#39;));">复制代码</em></div><br>
+<font size="3">哇！</font><br>
+<br>
+<font size="3">这成功实现了将多个字符串拼接到一起。事实上，不止字符串能够被拼接，NBT 中的 Int 标签也能够被视作为合法的 JSON 格式。因此，我们还可以将由 Int 标签组成的列表标签拼接为一个字符串，这在原版模组<a href="https://www.mcbbs.net/thread-904284-1-1.html" target="_blank">大数运算</a>中有所体现。</font><br>
+<br>
+<font size="3">相信你已经发现了，这一技巧仍然没有什么用处。</font><br>
+<br>
+<font size="3">TAG_End</font><br>
+<br>
+[groupid=546]Command Block Logic[/groupid]<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>雪颜の顾&nbsp; &nbsp; <b>时间: </b>2019-10-21 01:43<br>
+沙发QWQ<br>
+就是说原来输出SelectedItem.tag.display.Name这个NBT，是完整的把json文本输出出来了，如果加上interpret之后，就只会输出它的名字？<br>
+没用过json文本中的nbt<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>rygtx&nbsp; &nbsp; <b>时间: </b>2019-10-21 03:49<br>
+66666666666666666666<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>不负韶华&nbsp; &nbsp; <b>时间: </b>2019-10-21 05:40<br>
+现在还没有1.15正式版，现在发是不是为时过早？<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2019-10-21 06:26<br>
+十分有用 比方说你要输出一堆动态文本时 可以不用反向空格了（<br>
+（然而如果能够读取json为list……）<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2019-10-21 08:27<br>
+讲一讲告示牌技巧<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>liach&nbsp; &nbsp; <b>时间: </b>2019-10-21 10:22<br>
+Mojang真应该在指令中添加内置nbt转json，这样如果能用data指令改text大家不还笑死<br>
+真心这就一行代码解决的事情（因为有datafixerupper）<br>
+<div class="blockcode"><div id="code_hGH"><ol><li>new Dynamic&lt;&gt;(NbtOps.INSTANCE, input).convert(JsonOps.INSTANCE).getValue()</li></ol></div><em onclick="copycode($(&#39;code_hGH&#39;));">复制代码</em></div><br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>凌空的猫&nbsp; &nbsp; <b>时间: </b>2019-10-21 20:19<br>
+应该可以组织一些简单的句子吧，比如搞出个 “狂暴的喵刀”[tr乱入]，还可以做一些简单的字符编辑<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-11-28 13:32<br>
+如果["测试", "啊啊"]里的两个字符串里有双引号的话，就不行了。。。<br>
+除非这个字符串里的第一个引号是单的。。。<br>
+<br>
+似乎是因为如果里面的第一个引号是双引号的话，这个字符串在显示的时候会用单引号包裹，which 不被json认。。。。。<br>
+
+<br><br><br><br><hr noshade="" size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tbody><tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></tbody></table>
+
+
+<div class="xl-chrome-ext-bar" id="xl_chrome_ext_{4DB361DE-01F7-4376-B494-639E489D19ED}" style="display: none;">
+      <div class="xl-chrome-ext-bar__logo"></div>
+
+      <a id="xl_chrome_ext_download" href="javascript:;" class="xl-chrome-ext-bar__option">下载视频</a>
+      <a id="xl_chrome_ext_close" href="javascript:;" class="xl-chrome-ext-bar__close"></a>
+    </div></body></html>

@@ -1,0 +1,164 @@
+
+<!-- saved from url=(0061)https://www.mcbbs.net/thread-785724-1-1.html?action=printable -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>【CBL|SPG】数据生成器（data generator）使用教程 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="./【CBL_SPG】数据生成器（data generator）使用教程 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/common.js.下载" type="text/javascript"></script>
+<script src="./【CBL_SPG】数据生成器（data generator）使用教程 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'cM7', charset = 'UTF-8', discuz_uid = '703042', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC03ODU3MjQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SPG】数据生成器（data generator）使用教程 <b><a href="https://www.mcbbs.net/thread-785724-1-1.html?action=printable###" onclick="this.style.visibility=&#39;hidden&#39;;window.print();this.style.visibility=&#39;visible&#39;">[打印本页]</a></b><br>
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-3-3 23:06<br>
+<b>标题: </b>【CBL|SPG】数据生成器（data generator）使用教程<br><i class="pstatus"> 本帖最后由 SPGoding 于 2018-9-25 14:14 编辑 </i><br>
+<br><br>
+MJSB在<a href="http://www.mcbbs.net/thread-774052-1-3.html" target="_blank">18w01a的更新内容</a>中加入了<strong>数据生成器</strong>(<strong>data generators</strong>，以下简称<strong>dg</strong>)，可以在不打开游戏的情况下获取游戏内所有命令、进度、配方、物品、方块等。<br>
+有关这个东西的教程十分稀少，甚至在en wiki上也没有提到如何使用这个东西的文章。以下教程全部是自己瞎摸索出来的…<br>
+<br>
+<font size="5">如何使用</font><br>
+dg可以在服务端和客户端上使用。(感谢@玄素 @u.s.knowledge 指出)<br>
+服务端你需要写一串批处理(bat)来使用dg。假设服务端的名称为“<strong>server.jar</strong>”，你只需要在服务端的同级目录下新建一个文件“foo.bat”，其中内容写为：<br>
+<div class="blockcode"><div id="code_cEz"><ol><li>java -classpath server.jar net.minecraft.data.Main --all<br>
+</li><li>PAUSE</li></ol></div><em onclick="copycode($(&#39;code_cEz&#39;));">复制代码</em></div><br>
+而客户端略微复杂，需要使用<br>
+<div class="blockcode"><div id="code_Fva"><ol><li>#!/bin/bash<br>
+</li><li># ${minecraft_path} 代表你的 Minecraft 安装路径，根据启动器的使用有所差异。<br>
+</li><li># 请根据需要自行更改本脚本。本脚本使用 18w06a 测试通过。<br>
+</li><li># 依赖项目的版本可能需要根据实际情况作适当调整。<br>
+</li><li>java -classpath \<br>
+</li><li>minecraft-18w06a-client.jar\<br>
+</li><li>:${minecraft_path}/libraries/net/sf/jopt-simple/jopt-simple/5.0.3/jopt-simple-5.0.3.jar\<br>
+</li><li>:${minecraft_path}/libraries/commons-io/commons-io/2.5/commons-io-2.5.jar\<br>
+</li><li>:${minecraft_path}/libraries/org/apache/logging/log4j/log4j-core/2.8.1/log4j-core-2.8.1.jar\<br>
+</li><li>:${minecraft_path}/libraries/org/apache/logging/log4j/log4j-api/2.8.1/log4j-api-2.8.1.jar\<br>
+</li><li>:${minecraft_path}/libraries/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/google/guava/guava/21.0/guava-21.0.jar\<br>
+</li><li>:${minecraft_path}/libraries/it/unimi/dsi/fastutil/7.1.0/fastutil-7.1.0.jar\<br>
+</li><li>:${minecraft_path}/libraries/io/netty/netty-all/4.1.9.Final/netty-all-4.1.9.Final.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/mojang/authlib/1.5.25/authlib-1.5.25.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/mojang/brigadier/0.1.24/brigadier-0.1.24.jar \<br>
+</li><li>net.minecraft.data.Main --all</li></ol></div><em onclick="copycode($(&#39;code_Fva&#39;));">复制代码</em></div><br>
+其中“<strong>net.minecraft.data.Main</strong>”就是dg的主类，而后面的“<strong>--all</strong>”则是dg的参数。下面是部分参数详解：<br>
+<table cellspacing="0" class="t_table" style="width:98%"><tbody><tr><td>参数</td><td>用途</td></tr><tr><td>--output &lt;String&gt;</td><td>指定输出文件夹，就是说生成的东西它会放到哪里。默认是同级目录的generated文件夹下</td></tr><tr><td>--help</td><td>显示帮助，它的帮助很简略，不如看我写的hhh</td></tr><tr><td>--dev</td><td>包括开发者工具，什么文件都不会生成，只是显示一下已有的工具，很皮</td></tr><tr><td>--reports</td><td>包括数据报告，效果是<strong>生成出reports文件夹(包含blocks, commands和items，即方块、命令和物品)</strong></td></tr><tr><td>--server</td><td>包括服务端，效果是会<strong>生成出data文件夹(包含advancements, recipes和tags，即进度、配方和标签)</strong></td></tr><tr><td>--all</td><td>包括所有，即<strong>生成出reports文件夹和data文件夹</strong></td></tr></tbody></table><br>
+在“data”文件夹中，就像数据包那样，放有“advancements”“recipes”“tags”，相信大家并不陌生，就不作过多介绍啦。<br>
+而“reports”文件夹中则有“blocks.json”“commands.json”“items.json”三个陌生的文件，接下来将一一分析它们的格式。<br>
+<br>
+<br>
+<br>
+<font size="5">blocks.json解析</font><br>
+blocks.json中存放的是所有的方块。其格式为：<br>
+<div class="blockcode"><div id="code_svC"><ol><li>{<br>
+</li><li>&nbsp; &nbsp; "&lt;命名空间&gt;:&lt;方块ID&gt;": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"properties": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"&lt;属性名&gt;": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &lt;属性值列表...&gt;<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"states": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "properties": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"&lt;属性名&gt;": "&lt;属性值&gt;"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "id": "&lt;一个数字&gt;",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "default": &lt;是否默认&gt;<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br>
+</li><li>&nbsp; &nbsp; }<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_svC&#39;));">复制代码</em></div>，例如：<br>
+<div class="blockcode"><div id="code_Uq0"><ol><li>&nbsp;&nbsp;"minecraft:grass_block": {<br>
+</li><li>&nbsp; &nbsp; "properties": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;"snowy": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"true",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"false"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;]<br>
+</li><li>&nbsp; &nbsp; },<br>
+</li><li>&nbsp; &nbsp; "states": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"properties": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "snowy": "true"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"id": 8<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"properties": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "snowy": "false"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"id": 9,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"default": true<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>&nbsp;&nbsp;},<br>
+</li><li></li></ol></div><em onclick="copycode($(&#39;code_Uq0&#39;));">复制代码</em></div>上面这一串Json，定义了“minecraft:grass_block”（草方块）有一个属性“snowy”（其实就是方块状态），它有“true”和“false”两个值。下面的“states”定义了id分别为8、9的两种状态的草方块，一种是被雪覆盖的；一种是默认的、没被雪覆盖的。<br>
+<br>
+<br>
+<br>
+<font size="5">items.json解析</font><br>
+items.json中存放的是所有的物品。其格式为：<br>
+<div class="blockcode"><div id="code_JUl"><ol><li>&nbsp;&nbsp;"&lt;命名空间&gt;:&lt;物品id&gt;": {<br>
+</li><li>&nbsp; &nbsp; "protocol_id": &lt;一个整数&gt;<br>
+</li><li>&nbsp;&nbsp;}</li></ol></div><em onclick="copycode($(&#39;code_JUl&#39;));">复制代码</em></div>我并没有偷懒，整个items.json都是这个的不断重复…<br>
+<br>
+<br>
+<br>
+<font size="5">骚<font style="font-size:0px">.</font>操作：一键获得所有data的id</font><br>
+使用dg生成出来的"data"文件夹中，是所有的进度、配方和标签，但它们都是一个个文件，如果想整理很不方便。因此我们可以使用"dir"命令把所有文件名输出：<br>
+<div class="blockcode"><div id="code_tF9"><ol><li>dir/s/b &gt;list.txt</li></ol></div><em onclick="copycode($(&#39;code_tF9&#39;));">复制代码</em></div>把该bat放在"generated/data"下，就可以得到list.txt文件，里面是全部配方、进度和标签的文件路径。删掉几个文件夹，然后用正则批量替换什么的骚操作，最后你就可以获得一系列"&lt;命名空间&gt;:&lt;文件路径&gt;"这样的骚东西了！[groupid=546]Command Block Logic[/groupid]<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>leavessoft&nbsp; &nbsp; <b>时间: </b>2018-3-3 23:12<br>
+就相当于一个参照表？<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2018-3-3 23:13<br>
+教程好评<br>
+<br>
+<font style="font-size:0px"><br>
+然后我发现我已经看过了<br>
+（有人把这个操作出来的结果分享到网上了）</font><br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>玄素&nbsp; &nbsp; <b>时间: </b>2018-3-4 01:01<br>
+客户端有这个功能，只是所使用的命令行有所不同。<br>
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=193048" target="_blank">@pca006132</a> 你来吧，我依旧记不清楚<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>3TUSK&nbsp; &nbsp; <b>时间: </b>2018-3-4 07:28<br>
+<div class="quote"><blockquote>dg必须是服务端才能够使用，客户端没有这个功能。</blockquote></div><br>
+
+<br>
+客户端当然可以用。<br>
+<div class="blockcode"><div id="code_RFi"><ol><li>#!/bin/bash<br>
+</li><li># ${minecraft_path} 代表你的 Minecraft 安装路径，根据启动器的使用有所差异。<br>
+</li><li># 请根据需要自行更改本脚本。本脚本使用 18w06a 测试通过。<br>
+</li><li># 依赖项目的版本可能需要根据实际情况作适当调整。<br>
+</li><li>java -classpath \<br>
+</li><li>minecraft-18w06a-client.jar\<br>
+</li><li>:${minecraft_path}/libraries/net/sf/jopt-simple/jopt-simple/5.0.3/jopt-simple-5.0.3.jar\<br>
+</li><li>:${minecraft_path}/libraries/commons-io/commons-io/2.5/commons-io-2.5.jar\<br>
+</li><li>:${minecraft_path}/libraries/org/apache/logging/log4j/log4j-core/2.8.1/log4j-core-2.8.1.jar\<br>
+</li><li>:${minecraft_path}/libraries/org/apache/logging/log4j/log4j-api/2.8.1/log4j-api-2.8.1.jar\<br>
+</li><li>:${minecraft_path}/libraries/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/google/guava/guava/21.0/guava-21.0.jar\<br>
+</li><li>:${minecraft_path}/libraries/it/unimi/dsi/fastutil/7.1.0/fastutil-7.1.0.jar\<br>
+</li><li>:${minecraft_path}/libraries/io/netty/netty-all/4.1.9.Final/netty-all-4.1.9.Final.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/mojang/authlib/1.5.25/authlib-1.5.25.jar\<br>
+</li><li>:${minecraft_path}/libraries/com/mojang/brigadier/0.1.24/brigadier-0.1.24.jar \<br>
+</li><li>net.minecraft.data.Main --all --client --dev --server --reports</li></ol></div><em onclick="copycode($(&#39;code_RFi&#39;));">复制代码</em></div><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>晴天雨水&nbsp; &nbsp; <b>时间: </b>2018-8-31 20:12<br>
+客户端的代码明显是Bash2333
+<br><br><br><br><hr noshade="" size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tbody><tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></tbody></table>
+
+
+<div class="xl-chrome-ext-bar" id="xl_chrome_ext_{4DB361DE-01F7-4376-B494-639E489D19ED}" style="display: none;">
+      <div class="xl-chrome-ext-bar__logo"></div>
+
+      <a id="xl_chrome_ext_download" href="javascript:;" class="xl-chrome-ext-bar__option">下载视频</a>
+      <a id="xl_chrome_ext_close" href="javascript:;" class="xl-chrome-ext-bar__close"></a>
+    </div></body></html>

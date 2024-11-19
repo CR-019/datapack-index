@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>【1.13】地图制作技巧——字体艺术 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04MzU1MzktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【1.13】地图制作技巧——字体艺术 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⊙v⊙&nbsp; &nbsp; <b>时间: </b>2018-12-27 15:42<br />
+<b>标题: </b>【1.13】地图制作技巧——字体艺术<br /><i class="pstatus"> 本帖最后由 ⊙v⊙ 于 2020-4-22 17:30 编辑 </i><br />
+<br /><br />
+<strong><font size="5">FONT ART - 游戏中的字体艺术</font></strong><br />
+<br />
+<strong><font color="Red">*补了一些之前写到的错误，这周内再把negative font补上...</font></strong><br />
+<br />
+除了命令格式的大改动，1.13还为地图制作者们带来了一项有趣的技巧。那便是允许玩家修改&amp;替换字体的能力，更确切地说是通过自定义字体在游戏的各个角落里放入图片<br />
+【这里需要插满一页的展示图...】<br /><br />
+<strong><font size="5">大概流程</font></strong><br />
+<ul><li>首先准备好一个拥有基本构架的<a href="https://minecraft-zh.gamepedia.com/index.php?title=%E6%95%99%E7%A8%8B/%E5%88%B6%E4%BD%9C%E8%B5%84%E6%BA%90%E5%8C%85&amp;variant=zh-cn" target="_blank">资源包</a>(一个包含以下三个文件的文件夹：assets文件夹，pack.mcmeta资源包信息文本，pack.png资源包图标)<li>新建一个定义贴图和文字的json格式文本于以下位置，assets\minecraft\font\default.json(内容见下)<li>对应位置放入所需贴图(default.json文本内定义的位置)<br />
+</ul><br />
+<br />
+<strong><font size="5">default.json中的内容</font></strong><br />
+<br />
+自定义字体的[ruby=type]类型[/ruby]目前支持以下三种：ttf，legacy_unicode，bitmap。<br />
+<ul><li>ttf——True Type Font，为电脑中主流的字体格式。游戏目前不使用ttf字体，但可以通过资源包启用<li>legacy_unicode——万国码，包含范围为u0000~uffff，不包含ue000~uf8ff<li>bitmap——位图（本文重点）<br />
+</ul><br />
+<hr class="l" /><strong><font size="4">ttf</font></strong><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_Xj8"><ol><li>{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;providers&quot;:[<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;type&quot;:&quot;ttf&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;file&quot;:&quot;minecraft:arial.ttf&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;shift&quot;:[0.0,0.0],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;size&quot;:11.0,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;oversample&quot;:2.0,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;skip&quot;:&quot;ouOU&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>}</ol></div><em onclick="copycode($('code_Xj8'));">复制代码</em></div><br />
+<strong>type</strong>——字体类型<br />
+<strong>file</strong>——ttf文件位置。以 assets/&lt;<i>namespace</i>&gt;/font/ 起<br />
+<strong>shift</strong>——对字体的全局调整。首个值[ruby=正值往右]调整左右[/ruby]，第二个值[ruby=正值往下]调整上下[/ruby]。默认为[0,0]<br />
+<strong>size</strong>——字体的像素大小。默认为11.0<br />
+<strong>oversample</strong>——对字体进行过采样。提升该值可使字体渲染时更准确。默认为2.0<br />
+<strong>skip</strong>——该字体文件将不应用于哪些字符<br />
+<br />
+简单概括，如果字体错位/大小不适/过于模糊，可以调整shift/size/oversample解决<img id="aimg_d0fLf" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="985" src="https://s2.ax1x.com/2019/12/27/lZmjP0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /></td></table></div></div><br />
+<hr class="l" /><strong><font size="4">legacy_unicode</font></strong><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_PCu"><ol><li>{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;providers&quot;:[<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;type&quot;:&quot;legacy_unicode&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;sizes&quot;:&quot;minecraft:font/glyph_sizes.bin&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;template&quot;:&quot;minecraft:font/unicode_page_%s.png&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>}</ol></div><em onclick="copycode($('code_PCu'));">复制代码</em></div><br />
+<strong>type</strong>——字体类型<br />
+<strong>sizes</strong>——bin文件位置。该glyph_sizes.bin文件记录着字符的调整信息。部分unicode字体生成器会顺手生成此文件。以 assets/&lt;<i>namespace</i>&gt;/ 起<br />
+<strong>template</strong>——png文件位置。%s将会自动识别为对应页码。以 assets/&lt;<i>namespace</i>&gt;/textures/ 起。例如&quot;minecraft:font/unicode_page_%s.png&quot;会读取 assets/minecraft/textures/font/ 下的 unicode_page_00,unicode_page_0a...unicode_page_ff<br />
+<br />
+建议直接修改原有的贴图，根本不需要来这里做改动，因此不过多介绍</td></table></div></div><br />
+<hr class="l" /><strong><font size="4">bitmap</font></strong><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_JrA"><ol><li>{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;providers&quot;:[<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;type&quot;:&quot;bitmap&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;file&quot;:&quot;uin:debug/page1_256x.png&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;height&quot;:256,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;ascent&quot;:256,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;chars&quot;:[&quot;\ue001&quot;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;type&quot;:&quot;bitmap&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;file&quot;:&quot;uin:debug/page2_256x118.png&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;height&quot;:118,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;ascent&quot;:59,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;chars&quot;:[<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;\ue002\u0000\ue003\ue004&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;\ue005\ue006\ue007\ue008&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>}</ol></div><em onclick="copycode($('code_JrA'));">复制代码</em></div><br />
+<strong>type</strong>——字体类型<br />
+<strong>file</strong>——png文件位置。以 assets/&lt;<i>namespace</i>&gt;/textures/ 起<br />
+<strong>height</strong>——字符在游戏中显示的像素高度<br />
+<strong>ascent</strong>——字符在游戏中往上偏移的像素点。该值不能高于height<br />
+<strong>chars</strong>——该贴图所包含的字符。\u0000则代表不读取该位<br />
+<br />
+<img id="aimg_S4fky" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="554" src="https://s2.ax1x.com/2019/12/27/lZnHSK.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /></td></table></div></div><br />
+<br />
+*<strong>关于贴图文件的分辨率和游戏内显示的大小，见下一页</strong><br />
+*使用自定义的[ruby=namespace]命名空间[/ruby]便于整理和降低包与包之间的冲突，因此bitmap例子中使用uin为命名空间<br />
+*&quot;file&quot;:&quot;uin:debug/page1_256x.png&quot;表示该png文件保存于assets\uin\textures\debug\page1_256x.png<br />
+*<a href="https://github.com/ououn/minecraft/raw/master/resourcepacks/template/font_art.zip" target="_blank">这里有一个架设好bitmap的资源包供各位自行研究</a><br />
+<hr class="l" /><strong><font size="5">收尾工作</font></strong><br />
+default.json保存，在游戏内启用该资源包<br />
+设置 &gt; 语言... &gt; 强制[ruby=Force Unicode Font: OFF]使用Unicode字体[/ruby]：关<br />
+之后，游戏内能显示自定义unicode的地方都可以显示自己放进去的图片。但某些位置若超过允许的显示像素，轻则显示小白框重则崩溃。<br />
+<br />
+<strong>命令例子</strong><div class="blockcode"><div id="code_ryZ"><ol><li>tellraw @a &quot;\ue001\ue002&quot;<br /><li><br /><li>#1.13&nbsp; &nbsp;论坛吞\...自行把/改为\<br /><li>#/summon armor_stand ~ ~ ~ {CustomName:&quot;{/&quot;text/&quot;:/&quot;ue001/&quot;}&quot;,CustomNameVisible:1b}<br /><li><br /><li>#1.14<br /><li>/summon armor_stand ~ ~ ~ {CustomName:'{&quot;text&quot;:&quot;ue001&quot;}&quot;',CustomNameVisible:1b}</ol></div><em onclick="copycode($('code_ryZ'));">复制代码</em></div><br /><br />
+<strong><font size="5">继续深入</font></strong><br />
+<img id="aimg_d3m6D" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="259" src="https://s2.ax1x.com/2020/02/16/3pxLoq.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<img id="aimg_gFkAo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="259" src="https://s2.ax1x.com/2020/02/16/3pxjYV.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<img id="aimg_JSO6O" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="285" src="https://s2.ax1x.com/2020/02/16/3pxXF0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>部分不完全的亲测总结（可能与个人电脑配置设置差异有关）</strong><br />
+*大部分地方能显示的单字符最大分辨率为256x256<br />
+*聊天设置&gt;宽度拉满后，最大的贴图宽度仍不能超过聊天栏宽度或游戏窗口分辨率宽度附近<br />
+*书本里单个字符最大的宽度为115像素，最大的高度为256像素<br />
+*如果有出入，补充或者漏掉的欢迎留言<br />
+<br />
+*give @p written_book{pages:[&quot;[\&quot;\&quot;,{\&quot;text\&quot;:\&quot;\\ue015\&quot;,\&quot;color\&quot;:\&quot;white\&quot;}]&quot;],title:Book,author:&quot;&quot;}<br />
+<br /><br />
+咕咕咕<br />
+<br />
+<br />
+临时补充一个1.16(20w17a)<br />
+<a href="https://www.mcbbs.net/thread-1026658-290323-1.html" target="_blank">https://www.mcbbs.net/thread-1026658-290323-1.html</a><br />
+<br />
+<br /><br />
+<a href="https://www.mcbbs.net/thread-913031-1-1.html" target="_blank">潜影盒内容预览 - 字体黑科技</a><br />
+【参考】<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.reddit.com%2Fr%2FMinecraft%2Fcomments%2F8yjroi%2Fhow_to_add_a_ttf_font_to_your_resource_pack%2F" target="_blank">https://www.reddit.com/r/Minecra ... your_resource_pack/</a><br />
+【neg】<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fdiscordapp.com%2Fchannels%2F154777837382008833%2F157097006500806656%2F486915350084976640" target="_blank">https://discordapp.com/channels/ ... /486915350084976640</a><br /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2018-12-27 18:08<br />
+你差点引诱我举报了这个帖子……这个标题……<br />
+<br />
+直接往 action bar 和聊天栏添加图片是什么鬼畜功能……<br />
+<br />
+照这么下去，怕不是玩服务器时一群人在那……斗图！<img src="static/image/smiley/tong/....png" smilieid="1443" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2018-12-27 19:58<br />
+现在论坛翻不了页了 <br />
+可以在网址后面加上?cp=几来跳页。<br />
+如果网址里已经包含问号了就用&amp;代替问号。<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CitrusUtopia&nbsp; &nbsp; <b>时间: </b>2018-12-28 18:22<br />
+这沃玛是什么黑科技<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2019-1-5 12:33<br />
+所以就只是改了一下材质包嘛……<br />
+还是我的理解有误差……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>monseasd&nbsp; &nbsp; <b>时间: </b>2019-1-18 10:45<br />
+感谢，收藏了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>uuu2011&nbsp; &nbsp; <b>时间: </b>2019-1-23 21:38<br />
+太强了，太强了.....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MINE123CRA&nbsp; &nbsp; <b>时间: </b>2019-9-14 07:38<br />
+提示: <em>该帖被管理员或版主屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>段位全靠肝&nbsp; &nbsp; <b>时间: </b>2020-4-29 13:17<br />
+看不懂。。。说的什么<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>135a&nbsp; &nbsp; <b>时间: </b>2020-5-6 22:41<br />
+看不太懂&nbsp;&nbsp;是个大佬就对了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>不忘吃心&nbsp; &nbsp; <b>时间: </b>2020-8-23 00:15<br />
+等会 有点绕口我有点读不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>不忘吃心&nbsp; &nbsp; <b>时间: </b>2020-8-23 00:15<br />
+等会 有点绕口我有点读不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Fucheng_XDJ&nbsp; &nbsp; <b>时间: </b>2020-8-23 01:21<br />
+我管他什么艺术我直接手撸0.0小木斧已被折断<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>badday&nbsp; &nbsp; <b>时间: </b>2020-11-13 17:03<br />
+感谢楼主分享~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1109711963yuyu&nbsp; &nbsp; <b>时间: </b>2020-11-15 16:18<br />
+太强了太强了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xin2286056&nbsp; &nbsp; <b>时间: </b>2020-11-20 21:21<br />
+太强了6666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xin2286056&nbsp; &nbsp; <b>时间: </b>2020-11-21 11:55<br />
+TQL,666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>加藤惠吖&nbsp; &nbsp; <b>时间: </b>2020-11-21 12:00<br />
+感谢 太强了叭！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天蓝色&nbsp; &nbsp; <b>时间: </b>2020-11-28 11:39<br />
+好像从1.16开始，Minecraft支持Unicode字符集中超过U+FFFF的字符（支持表情符号的码位及CJK拓展B区等），但需要相关字体才能显示
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

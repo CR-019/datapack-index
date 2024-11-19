@@ -1,0 +1,144 @@
+
+<!-- saved from url=(0061)https://www.mcbbs.net/thread-967252-1-1.html?action=printable -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>【教程】[1.15+] 数据库方法 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="./【教程】[1.15+] 数据库方法 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/common.js.下载" type="text/javascript"></script>
+<script src="./【教程】[1.15+] 数据库方法 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'QOr', charset = 'UTF-8', discuz_uid = '703042', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭[已弃用]|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05NjcyNTItMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【教程】[1.15+] 数据库方法 <b><a href="https://www.mcbbs.net/thread-967252-1-1.html?action=printable###" onclick="this.style.visibility=&#39;hidden&#39;;window.print();this.style.visibility=&#39;visible&#39;">[打印本页]</a></b><br>
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2020-2-23 20:14<br>
+<b>标题: </b>【教程】[1.15+] 数据库方法<br><i class="pstatus"> 本帖最后由 (=°ω°)丿 于 2021-8-12 18:34 编辑 </i><br>
+<br>
+<hr class="l"><br>
+<font style="font-size:32px"><strong>[1.15+] 数据库方法</strong></font><br>
+<br>
+<font style="font-size:16px"><ul><li>最后更新于 2021 年 8 月 12 日</li><li>阅读本文需要一定的命令基础<br>
+</li></ul></font><br>
+<font style="font-size:24px"><strong>感谢</strong></font><br>
+<br>
+<font style="font-size:16px"><ul><li><a href="https://www.mcbbs.net/?2444378" target="_blank">Spgoding</a> — <a href="https://www.mcbbs.net/thread-926724-1-1.html" target="_blank">Datapack Helper Plus</a></li><li><a href="https://www.mcbbs.net/?1480882" target="_blank">土球球</a> — <a href="https://www.mcbbs.net/thread-779668-1-1.html" target="_blank">MCBBS Markdown To BBCode Converter</a><br>
+</li></ul></font><br>
+<font style="font-size:24px"><strong>优点</strong></font><br>
+<br>
+<font style="font-size:16px">我们通常使用记分板来存储玩家数据，但一个玩家在一个记分板上只能存储一个数据，且受 int 数据类型的限制（只允许范围在 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">[-2 147 483 648, 2 147 483 647]</font></font> 内的整数），但数据库可以帮助我们解决这个问题。</font><br>
+<br>
+<font style="font-size:16px">理论上，每位玩家都可以在数据库中存储任意数量、任意类型的数据。</font><br>
+<br>
+<font style="font-size:24px"><strong>是什么</strong></font><br>
+<br>
+<font style="font-size:16px">我们向命令存储中添加了一个列表（数据表），其中的元素为复合标签（记录），记录着每位玩家的数据，就像这样：</font><br>
+<br>
+<div class="blockcode"><div id="code_awA"><ol><li>Player: [<br>
+</li><li>&nbsp;&nbsp;{ID: 0, Name: "Li_Hua", Money: 650},<br>
+</li><li>&nbsp;&nbsp;{ID: 1, Name: "Jack", Money: 75},<br>
+</li><li>&nbsp;&nbsp;{ID: 2, Name: "Tom", Money: 300}<br>
+</li><li>]</li></ol></div><em onclick="copycode($(&#39;code_awA&#39;));">复制代码</em></div><br>
+<font style="font-size:16px"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">Player</font></font> 数据表中有 3 条记录，分别是 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">Li_Hua</font></font>、<font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">Jack</font></font> 和 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">Tom</font></font> 的，我们使用命令来对每条记录进行操作。</font><br>
+<br>
+<hr class="l"><br>
+<font style="font-size:24px"><strong>实现</strong></font><br>
+<br>
+<font style="font-size:16px"><ul><li>摘自 <a href="https://www.mcbbs.net/thread-965094-1-1.html" target="_blank">传送</a>，并作了简化。</li><li>适用版本：1.15+<br>
+</li></ul></font><br>
+<font style="font-size:20px"><strong>函数 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">teleport:load</font></font></strong></font><br>
+<br>
+<font style="font-size:16px">初始化。</font><br>
+<br>
+<font style="font-size:16px"><ul><li>记分板 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">teleport-value</font></font> 用于存放一些参数</li><li>记分板 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">teleport-uid</font></font> 用于记录每位玩家的编号</li><li><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">#max_uid</font></font> 记录着所有玩家中最大的编号<br>
+</li></ul></font><br>
+<div class="blockcode"><div id="code_M44"><ol><li>scoreboard objectives add teleport-value dummy<br>
+</li><li>scoreboard objectives add teleport-uid dummy<br>
+</li><li>scoreboard players set #max_uid teleport-value -1</li></ol></div><em onclick="copycode($(&#39;code_M44&#39;));">复制代码</em></div><br>
+<font style="font-size:20px"><strong>函数 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">teleport:data/main</font></font></strong></font><br>
+<br>
+<font style="font-size:16px">玩家 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">@s</font></font> 使用主数据表。</font><br>
+<br>
+<div class="blockcode"><div id="code_oUY"><ol><li># 若玩家是新用户，没有编号、没有记录，则运行函数 teleport:data/new<br>
+</li><li>execute unless score @s teleport-uid matches 0.. run function teleport:data/new<br>
+</li><li><br>
+</li><li># 重置临时数据表，用于暂时存放玩家的记录<br>
+</li><li>data modify storage teleport:temp Player set value []<br>
+</li><li><br>
+</li><li># 将部分记录从主数据表移动到临时数据表，使得玩家 @s 的记录变成 Player[-1]<br>
+</li><li>scoreboard players operation #uid teleport-value = @s teleport-uid<br>
+</li><li>execute if score #uid teleport-value matches 1.. run function teleport:data/move<br>
+</li><li><br>
+</li><li># 对命令存储 teleport:data 中的 Player[-1] 进行操作即可，命令略<br>
+</li><li><br>
+</li><li># 将临时数据表中的记录移回主数据表<br>
+</li><li>data modify storage teleport:data Player append from storage teleport:temp Player[]</li></ol></div><em onclick="copycode($(&#39;code_oUY&#39;));">复制代码</em></div><br>
+<font style="font-size:20px"><strong>函数 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">teleport:data/new</font></font></strong></font><br>
+<br>
+<font style="font-size:16px">给玩家分配编号并新建记录。</font><br>
+<br>
+<div class="blockcode"><div id="code_yUl"><ol><li># 分配编号<br>
+</li><li>scoreboard players add #max_uid teleport-value 1<br>
+</li><li>scoreboard players operation @s teleport-uid = #max_uid teleport-value<br>
+</li><li># 新建记录<br>
+</li><li>data modify storage teleport:data Player prepend value {}</li></ol></div><em onclick="copycode($(&#39;code_yUl&#39;));">复制代码</em></div><br>
+<font style="font-size:20px"><strong>函数 <font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><font style="background-color:#f6f8fa">teleport:data/move</font></font></strong></font><br>
+<br>
+<font style="font-size:16px">将部分记录从主数据表移动到临时数据表。</font><br>
+<br>
+<div class="blockcode"><div id="code_CIo"><ol><li># 步数-1<br>
+</li><li>scoreboard players remove #uid teleport-value 1<br>
+</li><li># 移动记录<br>
+</li><li>data modify storage teleport:temp Player prepend from storage teleport:data Player[-1]<br>
+</li><li>data remove storage teleport:data Player[-1]<br>
+</li><li># 下一条<br>
+</li><li>execute if score #uid teleport-value matches 1.. run function teleport:data/move</li></ol></div><em onclick="copycode($(&#39;code_CIo&#39;));">复制代码</em></div><br>
+<hr class="l"><br>
+<font style="font-size:24px"><strong>总结</strong></font><br>
+<br>
+<font style="font-size:16px">此方法使玩家编号与玩家的记录在数据表中的索引值相等。</font><br>
+<br>
+<font style="font-size:16px"><ul><li>优点：寻找记录时时直接移动记录即可，无需比对玩家编号或 UUID。</li><li>缺点：不能删除玩家的记录，只能清空其中的内容。<br>
+</li></ul></font><br>
+<hr class="l"><br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Lakejason0&nbsp; &nbsp; <b>时间: </b>2020-2-23 23:42<br>
+然而对于我这种人来说纯记分板依然很香（<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>我要改名&nbsp; &nbsp; <b>时间: </b>2020-2-24 07:23<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16530242&amp;ptid=967252" target="_blank"><font color="#999999">Subliyuan 发表于 2020-2-23 23:42</font></a></font><br>
+然而对于我这种人来说纯记分板依然很香（</blockquote></div><br>
+一个记分版每个玩家只能记录一个数值，而数据表什么东西都能往里面丢 <img src="./【教程】[1.15+] 数据库方法 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Lakejason0&nbsp; &nbsp; <b>时间: </b>2020-2-24 07:49<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16531714&amp;ptid=967252" target="_blank"><font color="#999999">隐退 发表于 2020-2-24 07:23</font></a></font><br>
+一个记分版每个玩家只能记录一个数值，而数据表什么东西都能往里面丢&nbsp;&nbsp;...</blockquote></div><br>
+运算，运算.jpg<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>🥶❄️☠️&nbsp; &nbsp; <b>时间: </b>2020-2-24 09:07<br>
+<strong>因吹斯丁！！！</strong><br>
+可我还是看不懂<img src="./【教程】[1.15+] 数据库方法 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/Strong_smile.png" smilieid="1435" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>秽蛇丶&nbsp; &nbsp; <b>时间: </b>2020-2-24 12:34<br>
+萌新表示看不懂<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>xmdhs&nbsp; &nbsp; <b>时间: </b>2020-2-24 17:47<br>
+<strike>使用 uuid 做主键会有性能问题（（ <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&amp;target=https%3A%2F%2Ftomharrisonjr.com%2Fuuid-or-guid-as-primary-keys-be-careful-7b2aa3dcb439" target="_blank">https://tomharrisonjr.com/uuid-o ... areful-7b2aa3dcb439</a> </strike><br>
+<br>
+当然 mc 本身就有性能问题（（<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Xiao2&nbsp; &nbsp; <b>时间: </b>2021-8-12 13:43<br>
+可以了啊，他们回答没错吧。你现在试看看编辑
+<br><br><br><br><hr noshade="" size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tbody><tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></tbody></table>
+
+
+<div class="xl-chrome-ext-bar" id="xl_chrome_ext_{4DB361DE-01F7-4376-B494-639E489D19ED}" style="display: none;">
+      <div class="xl-chrome-ext-bar__logo"></div>
+
+      <a id="xl_chrome_ext_download" href="javascript:;" class="xl-chrome-ext-bar__option">下载视频</a>
+      <a id="xl_chrome_ext_close" href="javascript:;" class="xl-chrome-ext-bar__close"></a>
+    </div></body></html>

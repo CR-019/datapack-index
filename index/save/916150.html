@@ -1,0 +1,552 @@
+<html>
+<head>
+<title>原版着色器指导 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05MTYxNTAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>原版着色器指导 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-9-28 17:22<br />
+<b>标题: </b>原版着色器指导<br /><i class="pstatus"> 本帖最后由 SPGoding 于 2019-11-11 09:12 编辑 </i><br />
+<br />
+<font style="font-size:32px"><strong>原版着色器指导</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li>原　文: <a href="https://docs.google.com/document/d/15TOAOVLgSNEoHGzpNlkez5cryH3hFF3awXL5Py81EMk/edit#" target="_blank">Guide to vanilla shaders</a><li>原作者: SirBenet, with input from Godlander and Onnowhere<li>译　文: <a href="https://github.com/SPGoding/mcbbs-threads/blob/master/translations/guide-to-vanilla-shaders.md" target="_blank">指导到香草着色器</a><li>译　者: SPGoding<li>鸣　谢: 森林蝙蝠 - 提供了各种专业名词的专业机翻<li>截止翻译时，原文最后更新: 2019-09-22 for Minecraft 1.14.4<br />
+</ul></font><br />
+<font style="font-size:16px"><strong>已经原作者授权</strong> <img id="aimg_Lg6Q6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/pR95MBJQdq7Ooth.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:32px"><strong>前言</strong></font><br />
+<br />
+<font style="font-size:16px">原版 Minecraft 有着许多的 GLSL（OpenGL Shading Language）着色器。这些着色器以前能通过选项中的「Super Secret Settings」来启用，但现在只在以下情景有应用了：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>以特定生物的视角旁观时（苦力怕、蜘蛛、末影人）<li>屏幕中有具有发光状态效果的实体时<br />
+</ul></font><br />
+<font style="font-size:16px">着色器可以直接通过资源包更改，进而嵌在地图里，或者是在玩家进入服务器时自动启用。</font><br />
+<br />
+<font style="font-size:16px">原版的着色器系统有一些问题和限制。它们可以为原版地图带来很多新的可能性，但是并不能完全替代由模组带来的更棒的光影包。</font><br />
+<br />
+<font style="font-size:24px"><strong>能做到什么</strong></font><br />
+<br />
+<font style="font-size:16px">着色器会在游戏已经渲染好画面以后起效。它们能够接受整个屏幕的像素作为输入，然后逐像素地输出。除了一些有限的特例以外，着色器所能接受到的唯一数据就是正显示在屏幕上的内容。</font><br />
+<br />
+<font style="font-size:16px">着色器以 OpenGL Shading Language（GLSL）语言编写，这是一个类似 C 的语言，支持浮点数、向量、矩阵，以及函数、条件、循环以及其他各种你能想到的编程语言应有的特性。</font><br />
+<br />
+<font style="font-size:16px">以下是一些原版自带的着色器示例（以前的「Super Secret Settings」）</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_B8qGM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/yBqZsxOk2SAgfPd.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+&quot;Pencil&quot;</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_rTMOs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/i5Kldntc4s8y9DE.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+&quot;Bits&quot;</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_KpqFF" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/ebnrL8aI2V9sfUQ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+&quot;NTSC&quot;</font><br />
+<br />
+<font style="font-size:32px"><strong>梗概：着色器的组成部分</strong></font><br />
+<br />
+<font style="font-size:16px">[Post](#创建一个 post JSON) 文件（储存在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">assets/minecraft/shaders/post</font></font> 目录下）定义了一个由一系列「着色器程序」（program）组成的渲染管线（pipeline）。下图展示了由 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">creeper.json</font></font> 定义的管线：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_J7Eeh" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/24/Ewl8WJZUIaFPV7G.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">每个<a href="https://www.mcbbs.net/#创建一个「着色器程序」JSON" target="_blank">「着色器程序」</a>（例如 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">color_convolve</font></font>）都是定义在另一个 JSON 文件当中的（这回储存在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">shaders/program</font></font> 目录下）。该文件通常包括：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>一个要使用的「顶点着色器」（vertex shader）的路径（一个以 GLSL 语言编写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.vsh</font></font> 文件）<li>一个要使用的「片段着色器」（fragment shader）的路径（一个以 GLSL 语言编写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.fsh</font></font> 文件）<br />
+</ul></font><br />
+<font style="font-size:16px"><a href="https://www.mcbbs.net/#编写一个顶点着色器" target="_blank">「顶点着色器」</a>会对每个顶点起效，将顶点的位置作为输入，并产生一个经过变换的位置作为输出。一个扭曲屏幕的顶点着色器示例见下：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_aqmjY" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/suc3nB2gvitdZ6I.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px"><a href="https://www.mcbbs.net/#编写一个片段着色器" target="_blank">「片段着色器」</a>会对每个像素起效，并逐像素产生输出层。一个不改变任何内容的片段着色器将直接把输入的像素原样产生。一个交换红色和蓝**道的片段着色器示例见下：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_PjS1a" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/QY4Net5fjFMHExJ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:32px"><strong>开始</strong></font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li><a href="https://minecraft-zh.gamepedia.com/%E6%95%99%E7%A8%8B/%E5%88%B6%E4%BD%9C%E8%B5%84%E6%BA%90%E5%8C%85" target="_blank">建立一个资源包</a><li>在里面建好以下文件夹：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">assets/minecraft/shaders/post</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">assets/minecraft/shaders/program</font></font><br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">如果你想要参考原版的着色器，可以直接从游戏 jar 文件里面解压：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%APPDATA%/.minecraft/versions/1.14.4/1.14.4.jar/assets/minecraft/shaders/</font></font>。</font><br />
+<br />
+<font style="font-size:16px">你可能还需要给你用的编辑器装一个 GLSL 的语法高亮插件。</font><br />
+<br />
+<font style="font-size:16px">打开<strong>游戏日志</strong> —— 任何着色器的错误都会显示在这里。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_ZR3o8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/5bxNJBGdg726zvn.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_Mgk91" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/5yjrHDIwMWt1fm2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:32px"><strong>创建一个 post JSON</strong></font><br />
+<br />
+<font style="font-size:16px">Post.JSON 文件应该放置在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">assets/minecraft/shaders/post</font></font> 目录当中，并且命名为：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">creeper.json</font></font> 将在以苦力怕视角旁观时启用<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">invert.json</font></font> 将在以末影人视角旁观时启用<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">spider.json</font></font> 将在以蜘蛛视角旁观时启用<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity_outline.json</font></font> 将在屏幕中有具有发光状态效果的实体时启用<br />
+</ul></font><br />
+<font style="font-size:16px">我们只能通过替换以上四个现存的着色器来使用自定义着色器。没有应用其他着色器的办法。</font><br />
+<br />
+<font style="font-size:16px">post 文件由两个数组构成：</font><br />
+<br /><div class="blockcode"><div id="code_u13"><ol><li>{<br /><li>&nbsp; &nbsp;&quot;targets&quot;: [ … ],<br /><li>&nbsp; &nbsp;&quot;passes&quot;: [ … ]<br /><li>}</ol></div><em onclick="copycode($('code_u13'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>Targets</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;targets&quot;</font></font> 数组<strong>声明</strong>了一些<strong>帧缓冲（frame buffers）</strong> —— 把它们想象成我们可以往上面读取或写入像素的画布。该数组中的每一项都可以是以下两者之一：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>一个有着 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;name&quot;</font></font>（名称，字符串）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;width&quot;</font></font>（宽度，整型数字）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;height&quot;</font></font>（高度，整型数字）三个参数的对象。这三个参数描述了帧缓冲。<li>一个字符串名称。宽度和高度将会默认为游戏窗口的宽度和高度。<br />
+</ul></font><br />
+<font style="font-size:16px">你可以在声明帧缓冲时随意混用两种方式：</font><br />
+<br /><div class="blockcode"><div id="code_pJc"><ol><li>&quot;targets&quot;: [<br /><li>&nbsp; &nbsp;&quot;foo&quot;,<br /><li>&nbsp; &nbsp;&quot;bar&quot;,<br /><li>&nbsp; &nbsp;{&quot;name&quot;:&quot;baz&quot;, &quot;width&quot;:73, &quot;height&quot;:10},<br /><li>&nbsp; &nbsp;&quot;qux&quot;<br /><li>]</ol></div><em onclick="copycode($('code_pJc'));">复制代码</em></div><br />
+<font style="font-size:16px">除了这些手动声明的缓冲层，还有一些特殊的、预先定义好的缓冲。这些缓冲里面会自带内容，不需要声明就可以直接使用。它们是：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font style="font-size:16px">为<strong>发光着色器</strong>准备的、预先填充好的特殊缓冲区</font><br />
+<br />
+<font style="font-size:16px">&nbsp;&nbsp;<img id="aimg_XbLxz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/nsHvkReqrzWlwAK.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+&nbsp;&nbsp;<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font><br />
+&nbsp;&nbsp;没有水、方块实体和其他一些东西</font><br />
+<br />
+<font style="font-size:16px">&nbsp;&nbsp;<img id="aimg_CWM6g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/kCLdXx63pQfqn51.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+&nbsp;&nbsp;<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">final</font></font><br />
+&nbsp;&nbsp;纯色的实体。颜色是该实体所在队伍的颜色</font><li><font style="font-size:16px">为<strong>实体视角着色器</strong>准备的、预先填充好的特殊缓冲区</font><br />
+<br />
+<font style="font-size:16px">&nbsp;&nbsp;<img id="aimg_UO0HG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/23/p2fI9tuVwUGJOng.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+&nbsp;&nbsp;<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font><br />
+&nbsp;&nbsp;所有内容都已渲染完成</font><br />
+</ul></font><br />
+<font style="font-size:24px"><strong>Passes</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;passes&quot;</font></font> 数组定义了一系列的按顺序执行的步骤。每一个步骤都包含一个输入缓冲层（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;in_target&quot;</font></font>），并运行一个着色器程序（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;name&quot;</font></font>），来将数据写入到输出缓冲层（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;out_target&quot;</font></font>）当中。一个着色器程序不能把数据输出到它读取的那个缓冲层。</font><br />
+<br /><div class="blockcode"><div id="code_r40"><ol><li>&quot;passes&quot;: [<br /><li>&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;name&quot;: &quot;prog1&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;intarget&quot;: &quot;minecraft:main&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;outtarget&quot;: &quot;foo&quot;<br /><li>&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;name&quot;: &quot;prog2&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;intarget&quot;: &quot;foo&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;auxtargets&quot;: [ … ],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;outtarget&quot;: &quot;bar&quot;<br /><li>&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;name&quot;: &quot;blit&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;uniforms&quot;: { … },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;intarget&quot;: &quot;bar&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;outtarget&quot;: &quot;minecraft:main&quot;<br /><li>&nbsp; &nbsp;}<br /><li>]</ol></div><em onclick="copycode($('code_r40'));">复制代码</em></div><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;blit&quot;</font></font> 是一个不改变任何内容的着色器程序，它只是简单地把数据从一个缓冲复制到另一个缓冲当中（注意：[在不同大小的缓冲之间复制数据时会有问题](#Blit 缩放问题)）。</font><br />
+<br />
+<font style="font-size:16px">你想要显示的内容应当最终输出到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;minecraft:main&quot;</font></font> 缓冲当中（如果是发光着色器，还可以进一步修改 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">final</font></font> 缓冲，该缓冲的内容<a href="https://www.mcbbs.net/#着色器启用顺序" target="_blank">会覆盖到一切内容上面</a>）</font><br />
+<br />
+<font style="font-size:20px"><strong>Passes.Auxtargets</strong></font><br />
+<br />
+<font style="font-size:16px">可选的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;auxtargets&quot;</font></font> 数组提供了一系列补充的缓冲或图片，使得着色器程序能够<strong>读取</strong>它们。在 auxtargets 数组中的对象应当包含：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;id&quot;</font></font> - 指定一个现存缓冲的名称（即定义在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;targets&quot;</font></font> 中的名称），<strong>或者</strong>是一张位于资源包 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft/textures/effect</font></font> 目录下的图片的文件名。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;name&quot;</font></font> - 能让你给该缓冲或图片分配任意的一个名称，使得着色器程序的 GLSL 代码中能够访问它们。<li>如果指定的是一张<strong>图片</strong>，还必须指定以下参数：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;width&quot;</font></font> - 以像素为单位的图片宽度（<i>似乎没有实际效果？</i>）<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;height&quot;</font></font> - 以像素为单位的图片高度（<i>似乎没有实际效果？</i>）<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;bilinear&quot;</font></font> - 指定该图片被采样时使用的缩放算法<br />
+</ul></font></ul></font><br /><div class="quote"><blockquote><font style="font-size:16px">缩放算法：<br />
+<img id="aimg_jrWtw" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/sAapzHChyGuo5e9.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font></blockquote></div><br />
+<font style="font-size:16px">一个示例 auxtargets 数组如下，它使得着色器程序能够访问 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">qux</font></font> 缓冲，以及一张叫作 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">abc.png</font></font> 的图片：</font><br />
+<br /><div class="blockcode"><div id="code_EeM"><ol><li>&quot;auxtargets&quot;: [<br /><li>&nbsp; &nbsp;{&quot;id&quot;:&quot;qux&quot;, &quot;name&quot;:&quot;QuxSampler&quot;},<br /><li>&nbsp; &nbsp;{&quot;id&quot;:&quot;abc&quot;, &quot;name&quot;:&quot;ImageSampler&quot;, &quot;width&quot;:64, &quot;height&quot;:64, &quot;bilinear&quot;:false}<br /><li>]</ol></div><em onclick="copycode($('code_EeM'));">复制代码</em></div><br />
+<font style="font-size:20px"><strong>Passes.Uniforms</strong></font><br />
+<br />
+<font style="font-size:16px">可选的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;uniforms&quot;</font></font> 参数能够向着色器程序传递一个浮点数数组。下方的示例使用 uniforms 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">blur</font></font> 着色器程序指定了一个半径（radius）和方向（<strong>dir</strong>ection）：</font><br />
+<br /><div class="blockcode"><div id="code_dAp"><ol><li>{<br /><li>&nbsp; &nbsp;&quot;name&quot;: &quot;blur&quot;,<br /><li>&nbsp; &nbsp;&quot;intarget&quot;: &quot;swap&quot;,<br /><li>&nbsp; &nbsp;&quot;outtarget&quot;: &quot;minecraft:main&quot;,<br /><li>&nbsp; &nbsp;&quot;uniforms&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;BlurDir&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;values&quot;: [ 0.0, 1.0 ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;Radius&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;values&quot;: [ 10.0 ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;]<br /><li>},</ol></div><em onclick="copycode($('code_dAp'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>可运作的示例</strong></font><br />
+<br />
+<font style="font-size:16px">以下是一个可以正常运作的完整的 post JSON 文件。它添加了一个 &quot;notch&quot; 抖动效果，并减少了颜色饱和度。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_cYFfK" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/tV4AmDFdT7hyHcv.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px"><a href="https://drive.google.com/file/d/1lEW6WRHa0xN041qNNhr2XvpspiXK7A6g/view?usp=sharing" target="_blank">assets/minecraft/shaders/post/spider.json</a></font><br />
+<br /><div class="blockcode"><div id="code_Y6V"><ol><li>{<br /><li>&nbsp; &nbsp;&quot;targets&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;swap&quot;<br /><li>&nbsp; &nbsp;],<br /><li>&nbsp; &nbsp;&quot;passes&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;notch&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;intarget&quot;: &quot;minecraft:main&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;outtarget&quot;: &quot;swap&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;auxtargets&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;name&quot;: &quot;DitherSampler&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;id&quot;: &quot;dither&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;width&quot;: 4,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;height&quot;: 4,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;bilinear&quot;: false<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;color_convolve&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;intarget&quot;: &quot;swap&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;outtarget&quot;: &quot;minecraft:main&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;uniforms&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{ &quot;name&quot;: &quot;Saturation&quot;, &quot;values&quot;: [ 0.3 ] }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;]<br /><li>}</ol></div><em onclick="copycode($('code_Y6V'));">复制代码</em></div><br />
+<font style="font-size:32px"><strong>创建一个「着色器程序」JSON</strong></font><br />
+<br />
+<font style="font-size:16px">着色器程序 JSON 文件应该放置在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">assets/minecraft/shaders/program</font></font> 文件夹中。 </font><br />
+<br />
+<font style="font-size:16px">可以使用任何名称（只要遵守正常资源包的文件命名规则即可，例如没有大写字母什么的）。</font><br />
+<br /><div class="blockcode"><div id="code_ou1"><ol><li>{<br /><li>&nbsp; &nbsp;&quot;blend&quot;: { … },<br /><li>&nbsp; &nbsp;&quot;vertex&quot;: &quot;foo&quot;,<br /><li>&nbsp; &nbsp;&quot;fragment&quot;: &quot;foo&quot;,<br /><li>&nbsp; &nbsp;&quot;attributes&quot;: [ … ],<br /><li>&nbsp; &nbsp;&quot;samplers&quot;: [ … ],<br /><li>&nbsp; &nbsp;&quot;uniforms&quot;: [ … ]<br /><li>}</ol></div><em onclick="copycode($('code_ou1'));">复制代码</em></div><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;vertex&quot;</font></font> 指定了将要使用的<a href="https://www.mcbbs.net/#编写一个顶点着色器" target="_blank">顶点着色器</a> <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.vsh</font></font> 文件的文件名。</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;fragment&quot;</font></font> 指定了将要使用的<a href="https://www.mcbbs.net/#编写一个片段着色器" target="_blank">片段着色器</a> <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.fsh</font></font> 文件的文件名。</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;attributes&quot;</font></font> 是一个字符串数组，指定顶点的哪些属性能够被顶点着色器访问到。目前只能写 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;Position&quot;</font></font>（位置）。</font><br />
+<br /><div class="blockcode"><div id="code_KD9"><ol><li>&quot;attributes&quot;: [ &quot;Position&quot; ],</ol></div><em onclick="copycode($('code_KD9'));">复制代码</em></div><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;samplers&quot;</font></font> 定义了片段着色器想要访问缓冲需要用到的变量名（采样器）。<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;DiffuseSampler&quot;</font></font> 是被自动给予 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;intarget&quot;</font></font> 中定义的缓冲的采样器。其他的任何名字都需要与你在 <a href="https://www.mcbbs.net/#Passes.Auxtargets" target="_blank">post 文件的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;auxtargets&quot;</font></font></a> 中指定的一致。</font><br />
+<br /><div class="blockcode"><div id="code_xGH"><ol><li>&quot;samplers&quot;: [<br /><li>&nbsp; &nbsp;{ &quot;name&quot;: &quot;DiffuseSampler&quot; },<br /><li>&nbsp; &nbsp;{ &quot;name&quot;: &quot;DitherSampler&quot; }<br /><li>]</ol></div><em onclick="copycode($('code_xGH'));">复制代码</em></div><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;uniforms&quot;</font></font> 定义了各种<i>全局量</i>（又译「统一量」。对每个顶点或像素都保持不变的值）的名称、类型和默认值。</font><br />
+<br /><div class="blockcode"><div id="code_Bpd"><ol><li>&quot;uniforms&quot;: [<br /><li>&nbsp; &nbsp;{ &quot;name&quot;: &quot;ProjMat&quot;, &quot;type&quot;: &quot;matrix4x4&quot;, &quot;count&quot;: 16, &quot;values&quot;: [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },<br /><li>&nbsp; &nbsp;{ &quot;name&quot;: &quot;InSize&quot;,&nbsp;&nbsp;&quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 2,&nbsp;&nbsp;&quot;values&quot;: [ 1.0, 1.0 ] },<br /><li>&nbsp; &nbsp;{ &quot;name&quot;: &quot;OutSize&quot;, &quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 2,&nbsp;&nbsp;&quot;values&quot;: [ 1.0, 1.0 ] },<br /><li>&nbsp; &nbsp;{ &quot;name&quot;: &quot;BlurDir&quot;, &quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 2,&nbsp;&nbsp;&quot;values&quot;: [ 1.0, 1.0 ] },<br /><li>&nbsp; &nbsp;{ &quot;name&quot;: &quot;Radius&quot;,&nbsp;&nbsp;&quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 1,&nbsp;&nbsp;&quot;values&quot;: [ 5.0 ] }<br /><li>]</ol></div><em onclick="copycode($('code_Bpd'));">复制代码</em></div><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;name&quot;</font></font> 字符串定义了在 GLSL 代码中或者<a href="https://www.mcbbs.net/#Passes.Uniforms" target="_blank">在向该着色器程序的该全局量传值时</a>用的名称。游戏自动给了一些特殊的全局量：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;Time&quot;</font></font> - 0 到 1 的一个值，表示在一秒内的时间，每秒自动重置<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;InSize&quot;</font></font> - 以像素为单位的输入缓冲（input buffer）的宽度和高度<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;OutSize&quot;</font></font> - 以像素为单位的输出缓冲（output buffer）的宽度和高度<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;ProjMat&quot;</font></font> - 由顶点着色器使用的投影矩阵（projection matrix）<br />
+</ul></font><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;values&quot;</font></font> 应为一个浮点数数组，而 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;type&quot;</font></font> 则定义了这些浮点数会在 GLSL 代码中被解析为的<a href="https://www.mcbbs.net/#数据类型" target="_blank">数据类型</a>：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;float&quot;</font></font> - 一个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">vec2</font></font>/<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">vec3</font></font>/<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">vec4</font></font>，具体取决于在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;values&quot;</font></font> 中指定的数字个数<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;matrix4x4&quot;</font></font> - 一个由 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;values&quot;</font></font> 中指定的 16 个值产生的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">mat4</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;matrix3x3&quot;</font></font> - <i>可用的类型，但仍然需要输入 16 个值？</i><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;matrix2x2&quot;</font></font> - <i>可用的类型，但仍然需要输入 16 个值？</i><br />
+</ul></font><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;blend&quot;</font></font> 理论上定义了着色器程序的输出应当怎样与目标缓冲（destination buffer）上已有的内容合并，<i>但目前好像没有效果。</i></font><br />
+<br /><div class="blockcode"><div id="code_HQ1"><ol><li>&quot;blend&quot;: {<br /><li>&nbsp; &nbsp;&quot;func&quot;: &quot;add&quot;,<br /><li>&nbsp; &nbsp;&quot;srcrgb&quot;: &quot;one&quot;,<br /><li>&nbsp; &nbsp;&quot;dstrgb&quot;: &quot;zero&quot;<br /><li>}</ol></div><em onclick="copycode($('code_HQ1'));">复制代码</em></div><br />
+<font style="font-size:16px">更多关于这些模式本应怎样运作的信息可以查看：khronos.org/opengl/wiki/Blending</font><br />
+<br />
+<font style="font-size:24px"><strong>可运作的示例</strong></font><br />
+<br />
+<font style="font-size:16px">以下是一个可以正常运作的完整的着色器程序 JSON 文件。这是原版的 &quot;wobble&quot; 着色器，未经修改。</font><br />
+<br />
+<font style="font-size:16px"><a href="https://drive.google.com/file/d/1GssoJB9wQrj-POC_DZ--Rewmfvz9QvEq/view?usp=sharing" target="_blank">assets/minecraft/shaders/program/wobble.json</a></font><br />
+<br /><div class="blockcode"><div id="code_n33"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;blend&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;func&quot;: &quot;add&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;srcrgb&quot;: &quot;one&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;dstrgb&quot;: &quot;zero&quot;<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;vertex&quot;: &quot;sobel&quot;,<br /><li>&nbsp; &nbsp; &quot;fragment&quot;: &quot;wobble&quot;,<br /><li>&nbsp; &nbsp; &quot;attributes&quot;: [ &quot;Position&quot; ],<br /><li>&nbsp; &nbsp; &quot;samplers&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;DiffuseSampler&quot; }<br /><li>&nbsp; &nbsp; ],<br /><li>&nbsp; &nbsp; &quot;uniforms&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;ProjMat&quot;, &quot;type&quot;: &quot;matrix4x4&quot;, &quot;count&quot;: 16, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;values&quot;: [ 1.0, 0.0, 0.0, 0.0, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0.0, 1.0, 0.0, 0.0, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0.0, 0.0, 1.0, 0.0, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0.0, 0.0, 0.0, 1.0 ] },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;InSize&quot;, &quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 2, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;values&quot;: [ 1.0, 1.0 ] },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;OutSize&quot;, &quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 2, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;values&quot;: [ 1.0, 1.0 ] },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;Time&quot;, &quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 1, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;values&quot;: [ 0.0 ] },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;Frequency&quot;, &quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 2, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;values&quot;: [ 512.0, 288.0 ] },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;WobbleAmount&quot;, &quot;type&quot;: &quot;float&quot;, &quot;count&quot;: 2, <br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;values&quot;: [ 0.002, 0.002 ] }<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_n33'));">复制代码</em></div><br />
+<font style="font-size:32px"><strong>GLSL 基础</strong></font><br />
+<br />
+<font style="font-size:16px">该部分假设读者已经熟悉了基本的编程概念（变量、函数、循环等），并且主要讲解 GLSL 特有的特性。如果你之前从来没有接触过编程，我不建议你用 GLSL 上手。</font><br />
+<br />
+<font style="font-size:16px">有关核心语言的更多信息：khronos.org/opengl/wiki/Core_Language_(GLSL)</font><br />
+<br />
+<font style="font-size:16px">有关所有可用函数的详细文档：docs.gl/sl4/all</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px"><strong>注意</strong>： 原版 jar 文件中的着色器是用的 GLSL 版本是 110，本文为保持一致也将使用该版本。不过，由于 <a href="https://help.mojang.com/customer/en/portal/articles/325948-minecraft-java-edition-system-requirements" target="_blank">Minecraft 需要 OpenGL 4.4</a>，你可以放心地使用最高到 440 版本的 GLSL。版本需要在 GLSL 代码的开头声明（可以看示例）。</font></blockquote></div><br />
+<font style="font-size:24px"><strong>数据类型</strong></font><br />
+<br /><div class="quote"><blockquote><font style="font-size:20px"><strong>标量</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">bool</font></font>: 布尔值 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font> / <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font><br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">int</font></font> / <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unit</font></font>: 有符号 / 无符号 32 位整型数字<br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font> / <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">double</font></font>: 单精度 / 双精度浮点数</font><br />
+<br />
+<font style="font-size:20px"><strong>向量</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">bve</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">ive</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uvec</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">vec</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dvec</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong>: 分别代表由 &gt; <strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong> 个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">bool</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">int</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uint</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">double</font></font> 组成的向量</font><br />
+<br />
+<font style="font-size:16px"><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong> 必须为 2、3 或 4。</font><br />
+<br />
+<font style="font-size:20px"><strong>矩阵</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">mat</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong>: 由 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font> 组成的矩阵，大小为 <strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong> × <strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong><br />
+<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">mat</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">m</font></font></i></strong>: 由 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font> 组成的矩阵，大小为 <strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong> × <strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">m</font></font></i></strong>&nbsp;&nbsp;</font><br />
+<br />
+<font style="font-size:16px"><strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">n</font></font></i></strong> 和 <strong><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">m</font></font></i></strong> 都必须为 2、3 或 4。</font><br />
+<br />
+<font style="font-size:16px">矩阵是<strong>列优先</strong>的（3×2 = 3 列，2 行）。</font></blockquote></div><br />
+<font style="font-size:16px">在 GLSL 里最常处理的就是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font> 了。</font><br />
+<br />
+<font style="font-size:16px">想要构造向量和矩阵的话，可以任意组合其他的标量 / 向量：</font><br />
+<br /><div class="blockcode"><div id="code_DzZ"><ol><li>vec2 v2 = vec2(0.4, 0.5);<br /><li>vec3 v3 = vec3(v2, 0.6);<br /><li>mat4 m3 = mat3(0.1, 0.2, 0.3,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;v3,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;v2, 0.7);</ol></div><em onclick="copycode($('code_DzZ'));">复制代码</em></div><br />
+<font style="font-size:16px">请注意，列优先的矩阵可能有点反直觉：</font><br />
+<br /><div class="blockcode"><div id="code_DS4"><ol><li>mat2(a, b,&nbsp; &nbsp;// 第一列（不是第一行！）<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;c, d);&nbsp;&nbsp;// 第二列</ol></div><em onclick="copycode($('code_DS4'));">复制代码</em></div><br />
+<font style="font-size:16px">除了普通的[索引]以外，<strong>混合</strong> <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">xyzw</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">rgba</font></font> 是种方便的获取某个向量的 1 个或多个元素的方式：</font><br />
+<br /><div class="blockcode"><div id="code_GmP"><ol><li>vec3 v3 = vec3(0.1, 0.2, 0.3);<br /><li>v3.x;&nbsp; &nbsp;&nbsp;&nbsp;// == 0.1<br /><li>v3.yzyz;&nbsp;&nbsp;// == vec4(0.2, 0.3, 0.2, 0.3)</ol></div><em onclick="copycode($('code_GmP'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>着色器程序工作流程</strong></font><br />
+<br />
+<font style="font-size:16px">顶点着色器或片段着色器都有一个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">void main()</font></font> 函数，作为代码的起始点。该函数没有任何参数，也不返回任何东西，它只应更新一个现存的特殊变量（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gl_Position</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gl_FragColor</font></font>，将在下方解释。）</font><br />
+<br />
+<font style="font-size:16px">由于 GLSL 代码是在无法任意写入内存的硬件上执行的，因此 GLSL 不支持递归操作。不过循环是可以的：</font><br />
+<br /><div class="blockcode"><div id="code_z4k"><ol><li>for (int i = 0; i &lt; 10; i++) { ... }<br /><li>while (x &lt; 20) { ... }</ol></div><em onclick="copycode($('code_z4k'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>属性、全局量、传递变量</strong></font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px">如果你选择了更高版本的 GLSL，该部分在 GLSL 140 及以上版本有所改动。见：<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.khronos.org%2Fopengl%2Fwiki%2FType_Qualifier_%28GLSL%29%23Shader_stage_inputs_and_outputs%E3%80%82" target="_blank">https://www.khronos.org/opengl/wiki/Type_Qualifier_(GLSL)#Shader_stage_inputs_and_outputs。</a></font></blockquote></div><br />
+<font style="font-size:16px">全局变量可以被声明为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">attribute</font></font>（属性）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uniform</font></font>（全局量）或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">varying</font></font>（传递变量）。</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">attributes</font></font>（属性）只能由顶点着色器读取，它自动包含了当前顶点的一些信息。对于 Minecraft 的着色器来说，它只包含了顶点的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Position</font></font>（位置）属性。</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uniform</font></font>（全局量）可以被顶点着色器与片段着色器读取，对所有的顶点或像素都会保持恒定不变。它们的值可以通过 post JSON 文件传入，否则将会使用在着色器程序 JSON 文件中定义的默认值。</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">varying</font></font>（传递变量）由顶点着色器声明并赋值，然后可在片段着色器中被读取。这些值会在顶点间<strong>插值</strong>计算出来。举个例子：</font><br />
+<br /><div class="blockcode"><div id="code_m8O"><ol><li>varying vec2 texCoord;</ol></div><em onclick="copycode($('code_m8O'));">复制代码</em></div><br />
+<font style="font-size:16px"><img id="aimg_lo4UO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/c7WE8yQUFjdZoDO.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:32px"><strong>编写一个顶点着色器</strong></font><br />
+<br />
+<font style="font-size:16px">顶点着色器会在每个顶点上运行，以对顶点进行变换。通常来讲这指的是世界几何体的每一个顶点 —— 但是在 Minecraft 中，它指的只是缓冲四个角上的顶点。这使得目前的顶点着色器十分受限。不对顶点缓冲器做任何修改是很常见的做法（绝大多数原版的着色器程序都重复使用了 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sobel.vsh</font></font>）。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_pPb7E" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/xCswyYEjhgpQPAi.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">顶点着色器的主要工作是用一个「投影矩阵」乘坐标。一般来讲这会把一个处于<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FViewFrustum.svg" target="_blank">视锥</a>内的顶点转换到一个 2×2×2 的立方体中，这样能够更方便地拍扁到屏幕上：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_ySNl3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/p39hGSMJB2VfcnX.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">不过在 Minecraft 中，顶点着色器直接就从一个处于 3 维空间内的平面开始，并且直接变换四个角上的顶点，而不是变换任何实际上的几何体的顶点。Minecraft 使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">ProjMat</font></font> 这样一个特殊的全局量用来计算，虽然这完全可以用 4 个硬编码（hardcoded）的特例来替代（因为这些顶点总是会被计算到相同的位置上）<a href="https://www.mcbbs.net/#Blit 缩放问题" target="_blank">*</a>。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_uaUQQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/4EAisOGleYaLJHS.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">顶点的初始位置可以从 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Position</font></font> 属性获取，而计算结果应当储存到特殊的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gl_Position</font></font> 变量当中（这两者都是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">vec4</font></font>）。</font><br />
+<br />
+<font style="font-size:16px">顶点着色器还定义并赋值了一些有用的传递变量，以供片段着色器使用：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">texCoord</font></font>: 范围从 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">0,0</font></font>（左下角）到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1,1</font></font>（右上角）的坐标。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">oneTexel</font></font>: 在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">texCoord</font></font> 所表示的坐标中，一个像素所占的大小。例如：对于一个像素数为 4×2 的输入缓冲，其中每个像素的大小为 0.25×0.5（1/4 的高度，1/2 的宽度）<br />
+</ul></font><br />
+<font style="font-size:24px"><strong>可运作的示例</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sobel.vsh</font></font> 顶点着色器，它被绝大多数原版的着色器程序所调用。它并没有什么特别涉及到 sobel（索伯算子？）的东西 —— 这么命名可能只是因为它是 Mojang 第一个使用的着色器程序。</font><br />
+<br /><div class="blockcode"><div id="code_wa9"><ol><li>#version 110<br /><li><br /><li>attribute vec4 Position;<br /><li><br /><li>uniform mat4 ProjMat;<br /><li>uniform vec2 InSize;<br /><li>uniform vec2 OutSize;<br /><li><br /><li>varying vec2 texCoord;<br /><li>varying vec2 oneTexel;<br /><li><br /><li>void main(){<br /><li>&nbsp; &nbsp; vec4 outPos = ProjMat * vec4(Position.xy, 0.0, 1.0);<br /><li>&nbsp; &nbsp; gl_Position = vec4(outPos.xy, 0.2, 1.0);<br /><li><br /><li>&nbsp; &nbsp; oneTexel = 1.0 / InSize;<br /><li><br /><li>&nbsp; &nbsp; texCoord = Position.xy / OutSize;<br /><li>}</ol></div><em onclick="copycode($('code_wa9'));">复制代码</em></div><br />
+<font style="font-size:32px"><strong>编写一个片段着色器</strong></font><br />
+<br />
+<font style="font-size:16px">片段着色器会为每一个<strong>输出</strong>像素执行一次，可以读取它的输入缓冲中的任何像素。</font><br />
+<br />
+<font style="font-size:16px">每一个像素都是异步计算的，因此片段着色器不能读取输出缓冲中的其他像素，因为那些像素有可能还没有被计算 <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F16365385%2Fexplanation-of-dfdx%2F16368768%2316368768" target="_blank">*</a>。</font><br />
+<br />
+<font style="font-size:24px"><strong>Sampler</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">texture2D</font></font> 函数允许你用一个<a href="https://www.mcbbs.net/#创建一个「着色器程序」JSON" target="_blank">采样器</a>来获取一个缓冲中的像素。例如：</font><br />
+<br /><div class="blockcode"><div id="code_we2"><ol><li>vec4 centerPixel = texture2D(DiffuseSampler, vec2(0.5, 0.5));</ol></div><em onclick="copycode($('code_we2'));">复制代码</em></div><br />
+<font style="font-size:16px">在从缓冲中获取像素时，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">0.0, 0.0</font></font> 是左下角，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1.0 1.0</font></font> 是右上角。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_l250g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/pXHyUFJZ7gMx6C8.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">这和顶点着色器设置的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">texCoord</font></font> 传递变量一致，十分方便。因此对于当前正在输出的像素，你可以用以下代码来获取相应的位于输入缓冲中的像素：</font><br />
+<br /><div class="blockcode"><div id="code_qhN"><ol><li>texture2D(DiffuseSampler, texCoord)</ol></div><em onclick="copycode($('code_qhN'));">复制代码</em></div><br />
+<font style="font-size:16px">该函数返回一个包含 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">red</font></font>（红）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">green</font></font>（绿）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">blue</font></font>（蓝）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">opacity</font></font>（不透明度）的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">vec4</font></font> —— 这四者都由一个从 0 到 1 的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font> 表示。</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">oneTexel</font></font> 代表一个像素（在输入缓冲中）的大小，所以可以用它来偏移指定数量的像素。例如：获取往上数第 3 个像素的颜色：</font><br />
+<br /><div class="blockcode"><div id="code_nmq"><ol><li>texture2D(DiffuseSampler, texCoord + vec2(0.0, 3 * oneTexel.y));</ol></div><em onclick="copycode($('code_nmq'));">复制代码</em></div><br />
+<font style="font-size:16px">如果想要得到以像素为单位的坐标，而不是 0-1 的小数的话，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">OutSize</font></font> 乘即可。例如：</font><br />
+<br /><div class="blockcode"><div id="code_m28"><ol><li>OutSize; // == vec2(1920, 1080)<br /><li>texCoord; // == vec2(0.5, 0.5)<br /><li>OutSize * texCoord; // == vec2(960, 540)</ol></div><em onclick="copycode($('code_m28'));">复制代码</em></div><br />
+<font style="font-size:16px">片段着色器应当把输出像素写入到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gl_FragColor</font></font> 中 —— 另一个由 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">red</font></font>（红）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">green</font></font>（绿）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">blue</font></font>（蓝）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">opacity</font></font>（不透明度）构成的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">vec4</font></font>。</font><br />
+<br />
+<font style="font-size:24px"><strong>可运作的示例</strong></font><br />
+<br />
+<font style="font-size:16px">以下的着色器：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>当距离中心的距离在 0.38 至 0.4 之间时，把这个像素变成橙色<li>当距离中心的距离小于 0.38 时，读取放大过的（距离中心更近的）像素<li>当距离中心的距离大于 0.38 时，正常读取对应的输入像素<br />
+</ul></font><br /><div class="blockcode"><div id="code_uHn"><ol><li>#version 110<br /><li><br /><li>uniform sampler2D DiffuseSampler;<br /><li><br /><li>varying vec2 texCoord;<br /><li>varying vec2 oneTexel;<br /><li><br /><li>void main(){<br /><li>&nbsp; &nbsp; float distFromCenter = distance(texCoord, vec2(0.5, 0.5));<br /><li><br /><li>&nbsp; &nbsp; if (distFromCenter &lt; 0.38) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;// 在圆圈里面<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;vec2 zoomedCoord = ((texCoord - vec2(0.5, 0.5)) * 0.2) + vec2(0.5, 0.5);<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;gl_FragColor = texture2D(DiffuseSampler, zoomedCoord);<br /><li>&nbsp; &nbsp; } else if (distFromCenter &gt;= 0.38 &amp;&amp; distFromCenter &lt; 0.4) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;// 橙色边框<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;gl_FragColor = vec4(0.7, 0.4, 0.1, 1.0); <br /><li>&nbsp; &nbsp; } else {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;// 在圆圈外面，正常的像素<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;gl_FragColor = texture2D(DiffuseSampler, texCoord);<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_uHn'));">复制代码</em></div><br />
+<font style="font-size:16px"><img id="aimg_yyT8R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/D5I9Pwc3EWtkj6U.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:32px"><strong>技巧与难题</strong></font><br />
+<br />
+<font style="font-size:24px"><strong>发光颜色</strong></font><br />
+<br />
+<font style="font-size:16px">发光的实体是一种不易被察觉的向 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity_outline</font></font> 着色器传递数据的方式，这是因为该着色器可以读取 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">final</font></font> 缓冲，并且使其不渲染可见的发光边框效果。</font><br />
+<br />
+<font style="font-size:16px">一个具有发光状态效果的实体的轮廓颜色由它所处<strong>队伍的颜色</strong>决定。实体本身具有的透明度会保留。这使得片段着色器可以读取并使用 16 种不同的颜色以及 256 种不同的透明度值。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_eIbsY" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/GdwBOAXL8JUfpIv.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">（图中添加了棋盘背景以显示出透明度）</font><br />
+<br />
+<font style="font-size:24px"><strong>阴影</strong></font><br />
+<br />
+<font style="font-size:16px">由于片段着色器可以读取像素，因此可以通过像素的颜色信息来传递信息。不过请小心，有许多因素会使你的材质变暗：</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:20px"><strong>光照等级</strong></font><br />
+<br />
+<font style="font-size:16px">远离光源并且不在太阳照射下的方块或实体会变暗。</font><br />
+<br />
+<font style="font-size:16px">可以用夜视效果或光源避免。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_Yd2vS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/eKDOWhgQfrw3UTS.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:20px"><strong>面阴影</strong></font><br />
+<br />
+<font style="font-size:16px">顶面是最亮的，其次是北面和南面，再其次是东面和西面，最暗的是底面。方块和实体都受到这一影响。</font><br />
+<br />
+<font style="font-size:16px">若想为方块禁用该阴影效果，可以在<a href="https://minecraft-zh.gamepedia.com/模型#方块模型" target="_blank">模型</a>中将每个元素（element）设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;shade&quot;: false</font></font>。</font><br />
+<br />
+<font style="font-size:16px">不能为实体禁用！</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_C074Q" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/4PamBpFiklLwe97.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:20px"><strong>环境遮挡（「平滑光照」）</strong></font><br />
+<br />
+<font style="font-size:16px">角落会变暗。只有方块受到这一影响。</font><br />
+<br />
+<font style="font-size:16px">若想为方块禁用该阴影效果，可以在<a href="https://minecraft-zh.gamepedia.com/模型#方块模型" target="_blank">模型</a>中设置 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;ambientocclusion&quot;:false</font></font>。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_aP79P" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/EYiX1bZIRCrGA6F.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font></blockquote></div><br />
+<font style="font-size:24px"><strong>编译器优化问题</strong></font><br />
+<br />
+<font style="font-size:16px">GLSL 编译器会优化那些<strong>它认为不会对着色器的输出有影响的代码与变量</strong>（输出指的是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gl_FragColor</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gl_Position</font></font> 以及其他任何传递变量）。</font><br />
+<br />
+<font style="font-size:16px">GLSL 编译器找到一个没有被使用的采样器后会把它优化出去，但 Minecraft 仍然会传输同样的缓冲，这就导致了问题：所有的采样器都会读取前一个缓冲的内容。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_rdiOe" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/bCTycV2xi4zDwqa.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">如果想避免让编译器优化出某个变量，你可以让编译器认为该变量有可能影响着色器的输出结果。例如，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">texCoord.x</font></font> 永远不会是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">731031</font></font>，但编译器并不知道这一点：</font><br />
+<br /><div class="blockcode"><div id="code_Lca"><ol><li>if (texCoord.x == 731031) { gl_FragColor = texture2D(DiffuseSampler, texCoord); }</ol></div><em onclick="copycode($('code_Lca'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>跨帧储存信息</strong></font><br />
+<br />
+<font style="font-size:16px">缓冲并不会被自动清空，因此着色器可以在不同帧之间传递信息。</font><br />
+<br />
+<font style="font-size:16px">想要获取在上一帧存储的数据很简单：</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>在这一帧中，把数据写入到缓冲<li>在下一帧中，在<strong>新的数据被写入缓冲之前</strong>读取它<br />
+</ul></font><br />
+<font style="font-size:16px">为了让缓冲中的数据能跨刻存在，向一个缓冲写入的着色器程序必须要能让该缓冲中的数据不变。这就有些麻烦了，因为一个着色器程序<strong>必须</strong>要写入每一个像素，并且在这个过程中<strong>不能</strong>读取它正在写入的那个缓冲。</font><br />
+<br />
+<font style="font-size:16px">一个解决方案是，首先把信息复制到另一个缓冲当中。这时着色器程序就可以读取被复制出来的那个缓冲，同时把新数据写到原有的缓冲当中了，进而能够为每个像素写入它们在上一帧的值。</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_tG0zT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/4tYT5KzmVcIqvaP.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br /><div class="blockcode"><div id="code_X5z"><ol><li>&quot;passes&quot;: [<br /><li>&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;name&quot;: &quot;blit&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;intarget&quot;: &quot;foo&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;outtarget&quot;: &quot;foo_copy&quot;<br /><li>&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;name&quot;: &quot;maybe_update&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;intarget&quot;: &quot;minecraft:main&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;auxtargets&quot;: [ { &quot;name&quot;: &quot;BackupSampler&quot;, &quot;id&quot;: &quot;foo_copy&quot; } ],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; &quot;outtarget&quot;: &quot;foo&quot;<br /><li>&nbsp; &nbsp;}<br /><li>]</ol></div><em onclick="copycode($('code_X5z'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>着色器启用顺序</strong></font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>Minecraft 渲染普通方块和实体到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font><li>Minecraft 渲染纯色的发光实体到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">final</font></font><li>运行发光着色器（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity_outline.json</font></font>），其能够访问 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font> 与 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">final</font></font> 缓冲<li>Minecraft 渲染其他的东西（手、水、方块实体）到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font><li>Minecraft 把 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">final</font></font> 覆盖到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font> 上<li>运行实体视角着色器，其能够访问 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font> 缓冲<br />
+</ul></font><br />
+<font style="font-size:16px">通过发光着色器向 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font> 写入数据（第 3 步）似乎会破坏掉有关深度的信息，使得其他的东西（第 4 步）被渲染到 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font> 的所有东西之上：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_Kl2ZZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/crdONlsXaYCnASM.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:24px"><strong>Blit 缩放问题</strong></font><br />
+<br />
+<font style="font-size:16px">原版默认的 blit 着色器程序在相同大小的缓冲间复制数据时能正常运作，但是会在缓冲大小不一样时出问题。</font><br />
+<br />
+<font style="font-size:16px">这是因为顶点着色器 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">blit.vsh</font></font> 没有匹配整个输出缓冲。例如，如果输出缓冲是输入缓冲一半的大小，只有一半的输出缓冲会被写入数据：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_A9GHQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/WZ8FD1H9o53JzUj.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">下方链接是一个 “Clone” 着色器，能够正确地拉伸输入，使其完全匹配到输出缓冲当中：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_X8kK1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/mMegGWOHfnsDip2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">下载：<a href="https://drive.google.com/file/d/1LIYFv588QcbjmFHObk4sgWqCc1I5CDzq/view?usp=sharing" target="_blank">着色器程序 JSON 文件</a>，<a href="https://drive.google.com/file/d/1_pjORoiga0TT_KB5UrYwMCHIB9mvDmQd/view?usp=sharing" target="_blank">.vsh GLSL 文件</a></font><br />
+<br />
+<font style="font-size:24px"><strong>读取玩家输入</strong></font><br />
+<br />
+<font style="font-size:16px">玩家的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Motion</font></font> 不会在服务端更新，但如果玩家尝试在骑着猪或者矿车时移动的话则会更新，尽管玩家事实上并没有移动。通过让玩家骑着猪或矿车，命令能够读取玩家的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Motion</font></font>，并（结合玩家的视角方向）确定玩家当前正按下的方向键。</font><br />
+<br />
+<font style="font-size:16px"><i>TODO：示例命令</i></font><br />
+<br />
+<font style="font-size:16px">左键或右键的检测和平时一样（击打生物、右键使用胡萝卜钓竿或与村民交谈）。</font><br />
+<br />
+<font style="font-size:16px">任何由命令获取到的信息（例如玩家目前正按着的按键）可以通过<a href="https://www.mcbbs.net/#发光颜色" target="_blank">一个发光实体的队伍的颜色传递给着色器</a>。</font><br />
+<br />
+<font style="font-size:16px"><i>TODO：Rotation</i></font><br />
+<br />
+<font style="font-size:32px"><strong>工具和参考</strong></font><br />
+<br />
+<font style="font-size:24px"><strong>GLSL</strong></font><br />
+<br />
+<font style="font-size:16px">文档：<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fdocs.gl%2Fsl4%2Fall" target="_blank">http://docs.gl/sl4/all</a></font><br />
+<br />
+<font style="font-size:16px">教程：<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.shadertoy.com%2Fview%2FMd23DV" target="_blank">https://www.shadertoy.com/view/Md23DV</a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fthebookofshaders.com%2F" target="_blank">https://thebookofshaders.com/</a></font><br />
+<br />
+<font style="font-size:16px">非 Minecraft 的示例：<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.shadertoy.com%2F" target="_blank">https://www.shadertoy.com/</a></font><br />
+<br />
+<font style="font-size:24px"><strong>SpiderEye</strong></font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_CJC21" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/KVNgSjClo3XJrMI.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">使用 GLIntercept 做的小工具，能让你查看每个缓冲的数据。</font><br />
+<br />
+<font style="font-size:16px"><strong>下载</strong>：<a href="https://drive.google.com/open?id=1p_FOalR0LzKmQu9negjtaVzobO9YSeiu" target="_blank">https://drive.google.com/open?id=1p_FOalR0LzKmQu9negjtaVzobO9YSeiu</a></font><br />
+<br />
+<font style="font-size:16px">v0.1：初步发布</font><br />
+<br />
+<font style="font-size:16px">由于该软件的运作会操作游戏的 OpenGL32.dll 文件，<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.virustotal.com%2Fgui%2Ffile%2Fff4e4037cf7dabcb79cbfc4afa7a52bb05e2e11eabe249a3511614cd58b6420c%2Fdetection" target="_blank">可能会被杀软误报</a>。</font><br />
+<br />
+<font style="font-size:24px"><strong>着色器示例</strong></font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_foa0O" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/JfRG8SFdto9hVWu.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.reddit.com%2Fr%2FMinecraft%2Fcomments%2Fb15dho%2Fvanilla_portal_gun_in_latest_snapshot_with%2F" target="_blank">可以看过去的传送门</a></font><br />
+<br />
+<font style="font-size:16px">从一个角度捕获画面并显示</font><br />
+<br />
+<font style="font-size:16px"><i>完整、复杂的着色器运用</i></font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:16px"><img id="aimg_wFBra" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/uYLwyUVnJz8HGx9.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px"><a href="https://drive.google.com/open?id=1n-SjTRv6D7CnYXok7A4cB9sqnSw00wGS" target="_blank">调试文字</a></font><br />
+<br />
+<font style="font-size:16px">通过着色器向屏幕上写入文字或数字</font><br />
+<br />
+<font style="font-size:16px"><i>用来调试着色器的工具</i></font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:16px"><img id="aimg_aI8kj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/28/APdCim8rUMI1pTz.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.reddit.com%2Fr%2FMinecraft%2Fcomments%2F9hj1l3%2Fa_screen_that_displays_what_youre_seeing_in%2F" target="_blank">屏幕方块</a></font><br />
+<br />
+<font style="font-size:16px">简单的着色器，将 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:main</font></font> 缓存显示在一个方块上</font><br />
+<br />
+<font style="font-size:16px"><i>易于理解的着色器</i></font><br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wshycaa&nbsp; &nbsp; <b>时间: </b>2019-9-28 18:37<br />
+这个。。太强了，如果做好了，感觉可以模拟很多种游戏的视觉效果。<br />
+不知道目前有没有什么做好的着色器可以一试效果，记得之前不知在哪儿看过一款沙漠平滑特效的着色器<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>brooke_zb&nbsp; &nbsp; <b>时间: </b>2019-9-28 19:50<br />
+原版着色器在国内几乎没有什么应用案例，如果能推广开来的话在冒险地图等应用上会有更多花样吧2333<br />
+<br />
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=679293" target="_blank">@爱心大魔王</a> 11级以后不是能加贡献吗= = 跟你版主权限是分开的啊<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2019-9-28 20:58<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15660073&amp;ptid=916150" target="_blank"><font color="#999999">brooke_zb 发表于 2019-9-28 19:50</font></a></font><br />
+原版着色器在国内几乎没有什么应用案例，如果能推广开来的话在冒险地图等应用上会有更多花样吧2333<br />
+<br />
+@爱心 ...</blockquote></div><br />
+版主用户组不可以版外加贡献的，你12级都没用的，我怕被混乱记过<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>brooke_zb&nbsp; &nbsp; <b>时间: </b>2019-9-28 21:48<br />
+<i class="pstatus"> 本帖最后由 brooke_zb 于 2019-9-28 21:50 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15660327&amp;ptid=916150" target="_blank"><font color="#999999">爱心大魔王 发表于 2019-9-28 20:58</font></a></font><br />
+版主用户组不可以版外加贡献的，你12级都没用的，我怕被混乱记过</blockquote></div><br />
+我的意思是本来11级开始就能每天1点贡献了，你不超出每天1点的限制在板外加的话我记得是无所谓的吧，好多艺术家兼版主都有在板外加过贡献的（比如我<br />
+<br />
+实在不行备注上屠龙者贡献23333<br />
+<hr class="l" /><br />
+<strike>啊，没想到原版着色器还能有这么多应用啊（这样就不是版聊了吧2333<br />
+</strike><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mohist&nbsp; &nbsp; <b>时间: </b>2019-9-28 21:59<br />
+文章不错，还可以<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-9-29 21:50<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2019-9-29 21:52 编辑 </i><br />
+<br />
+<br />
+<p>谢谢如此详细的翻译！<br />
+<a href="//tieba.baidu.com/p/4640149692">这个</a>是我以前做的。现在有了发光，很希望能够以此想出什么新的东西！</p><br />
+<br />
+<img id="aimg_qwmH3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://www.mcbbs.net/forum.php?mod=image&amp;aid=1396597&amp;size=300x300&amp;key=f4544f71237bed23&amp;nocache=yes&amp;type=fixnone" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+觉得最有趣的一个图<br />
+<br />
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=MTM5NjU5N3wxODE3OTFmNXwxNjEzOTk3NzA4fDI0MTk0ODZ8OTE2MTUw&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid1396597" class="xw1" target="_blank">a8319c389b504fc2800bf811eddde71190ef6d69[1].jpg</a>
+<em class="xg1">(104.42 KB, 下载次数: 3)</em>
+</p>
+<div class="tip tip_4" id="aid1396597_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM5NjU5N3wxODE3OTFmNXwxNjEzOTk3NzA4fDI0MTk0ODZ8OTE2MTUw&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2019-9-29 21:51 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_1396597', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_1396597', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_1396597" aid="1396597" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201909/29/215156glw6dww611bwyud2.jpg" file="https://attachment.mcbbs.net/forum/201909/29/215156glw6dww611bwyud2.jpg.thumb.jpg" alt="a8319c389b504fc2800bf811eddde71190ef6d69[1].jpg" title="a8319c389b504fc2800bf811eddde71190ef6d69[1].jpg" w="580" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+<script type="text/javascript" reload="1">
+aimgcount[15663293] = ['1396597'];
+attachimggroup(15663293);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-9-30 13:24<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2019-9-30 13:25 编辑 </i><br />
+<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fsm.ms%2Fimage%2FyIAhqjLtnWkY6aN" target="_blank"><img id="aimg_xIkN2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/30/yIAhqjLtnWkY6aN.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<br />
+又搞了一个这样的<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Rays_Beam&nbsp; &nbsp; <b>时间: </b>2020-3-4 11:36<br />
+奇怪的知识增加了！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

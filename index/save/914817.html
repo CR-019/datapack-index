@@ -1,0 +1,634 @@
+<html>
+<head>
+<title>【CBL|SPG】[1.16] ㄆㄧㄉㄧㄎㄞㄊㄜ —— 数据包的组成文件之一 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05MTQ4MTctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SPG】[1.16] ㄆㄧㄉㄧㄎㄞㄊㄜ —— 数据包的组成文件之一 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-9-21 15:58<br />
+<b>标题: </b>【CBL|SPG】[1.16] ㄆㄧㄉㄧㄎㄞㄊㄜ —— 数据包的组成文件之一<br /><i class="pstatus"> 本帖最后由 SPGoding 于 2020-8-24 12:46 编辑 </i><br />
+<br />
+<font style="font-size:32px"><strong>何为ㄆㄧㄉㄧㄎㄞㄊㄜ</strong></font><br />
+<br />
+<font style="font-size:16px"><strong>ㄆㄧㄉㄧㄎㄞㄊㄜ（predicate）</strong>，社区常见译名「谓词」「战利品表条件」「皮迪凯特」等，在平常交流时可以任意采用合适的、不易与其他词语产生混淆的叫法。其是在 <a href="https://www.mcbbs.net/thread-914349-1-1.html" target="_blank">19w38a</a> 中加入的新内容，是数据包的组成文件之一。</font><br />
+<br />
+<font style="font-size:16px">说是新内容，其实ㄆㄧㄉㄧㄎㄞㄊㄜ<strong>就是</strong>原先<a href="https://www.mcbbs.net/thread-831542-1-1.html" target="_blank">战利品表</a>中的条件，只不过现在可以被单独抽离出来形成新的文件而已。没有接触过战利品表？没关系，本文将从零开始。</font><br />
+<br />
+<font style="font-size:16px">简单来讲，ㄆㄧㄉㄧㄎㄞㄊㄜ储存的是一系列对实体、位置、天气、环境等<strong>上下文</strong>（context）的<strong>判定条件</strong>。首先写好一个ㄆㄧㄉㄧㄎㄞㄊㄜ，再给定一个上下文，游戏就能判定该上下文是否是你想要的。好了，我说完了，大概没什么难理解的。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>文件格式</strong></font><br />
+<br />
+<font style="font-size:16px">所有ㄆㄧㄉㄧㄎㄞㄊㄜ文件<strong>均为 JSON 格式</strong>，放置在数据包的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">./data/&lt;命名空间&gt;/predicates</font></font> 文件夹下。</font><br />
+<br />
+<font style="font-size:16px">该文件内容是一个对象。其中含有 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">condition</font></font> 字段，指明所用条件的名称；同时还需含有该条件所需的各种附加参数：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">condition</font></font>：所用条件的名称。详细条件列表请见附录。<li>（任意）<i>参数名</i>：该条件所指定的附加参数。</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>应用</strong></font><br />
+<br />
+<font style="font-size:24px"><strong>命令 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute (if|unless) predicate &lt;ㄆㄧㄉㄧㄎㄞㄊㄜ的命名空间 ID&gt;</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">该命令能够检测命令的执行者和执行位置等上下文是否满足指定的ㄆㄧㄉㄧㄎㄞㄊㄜ。在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">if</font></font> 模式下，只有满足指定ㄆㄧㄉㄧㄎㄞㄊㄜ时，测试才能通过；在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless</font></font> 模式下则相反。特别地，当命令执行者并不是实体（例如命令方块、控制台等），且ㄆㄧㄉㄧㄎㄞㄊㄜ中有对实体的限定条件时，在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">unless</font></font> 模式下也能导致测试通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>实体选择器参数 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">通过指定该选择器参数，能够筛选出满足（或不满足）指定ㄆㄧㄉㄧㄎㄞㄊㄜ的实体。例如 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@a[predicate=minecraft:test]</font></font> 能够选中所有满足放置在数据包下 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">./data/minecraft/predicates/test.json</font></font> 的文件中条件的玩家，而在等号后方添加一个半角感叹号（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">!</font></font>）则将选中所有<strong>不</strong>满足该ㄆㄧㄉㄧㄎㄞㄊㄜ的玩家。</font><br />
+<br />
+<font style="font-size:16px">像 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tag</font></font> 等选择器参数一样，选择器中能够指定多个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 参数，只有满足所有参数的实体才能被选中。例如，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[predicate=do,predicate=!not,sort=nearest,limit=1]</font></font> 会选中最近的、满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">do</font></font> ㄆㄧㄉㄧㄎㄞㄊㄜ、且不满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">not</font></font> ㄆㄧㄉㄧㄎㄞㄊㄜ的 1 个实体。</font><br />
+<br />
+<font style="font-size:16px">相比于用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt</font></font> 选择器参数，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 选择器参数在大多数情况下性能都会更好。这是因为，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt</font></font> 选择器参数的检测原理是，先把实体的所有数据转换为 NBT，再将转换后的 NBT 与用户输入的 NBT 进行比较，这些操作十分耗时。而ㄆㄧㄉㄧㄎㄞㄊㄜ会在游戏加载数据包以后就初始化完毕，在选择实体时会直接调用实体的各种方法进行比较，省去了转换为 NBT 的过程。</font><br />
+<br />
+<font style="font-size:24px"><strong>战利品表</strong></font><br />
+<br />
+<font style="font-size:16px">战利品表的条件（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">conditions</font></font>）数组中的每一个对象就是ㄆㄧㄉㄧㄎㄞㄊㄜ。有关战利品表的详细内容可以参阅<a href="https://www.mcbbs.net/thread-831542-1-3.html" target="_blank">【CBL|SPG】[1.15] 战利品表 —— 数据包的组成文件之一</a>。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>附录 1：通用谓词</strong></font><br />
+<br />
+<font style="font-size:24px"><strong>说明</strong></font><br />
+<br />
+<font style="font-size:16px">在ㄆㄧㄉㄧㄎㄞㄊㄜ文件（以及进度的触发器、战利品表的条件）中有许多共通的 JSON 结构。这些结构能够对某个单一的输入（如物品、实体、位置等）根据指定条件做出判定，符合计算机界术语<strong>谓词</strong>（predicate）的定义，因此在本文中我将其称为谓词。</font><br />
+<br />
+<font style="font-size:16px">本文中这些通用结构的提炼都是以游戏源代码为基础，而非以「形似」为基础的，能够保证一定的可靠性。</font><br />
+<br />
+<font style="font-size:24px"><strong>范围谓词</strong></font><br />
+<br />
+<font style="font-size:16px">「范围谓词」能够判断一个数字是否在你所指定的范围之中。</font><br />
+<br />
+<font style="font-size:16px">其格式可以是一个数字。当一个数字与你指定的数字相等时，该范围谓词判定成功。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（数字）</ul></font><br />
+<font style="font-size:16px">其格式也可以是一个对象，表明了该数字应当位于的范围。当一个数字处于你指定的范围中时，该范围谓词判定成功。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">min</font></font>：最小值（含）。<li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">max</font></font>：最大值（含）。</ul></font></ul></font><br />
+<font style="font-size:16px">以下是几个例子。</font><br />
+<br />
+<font style="font-size:20px"><strong>用数字表示精确的「等于」</strong></font><br />
+<br /><div class="blockcode"><div id="code_l21"><ol><li>&quot;xxx&quot;: 5</ol></div><em onclick="copycode($('code_l21'));">复制代码</em></div><br />
+<font style="font-size:16px">当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">xxx</font></font> 的值确实为 5 时，该谓词测试通过。</font><br />
+<br />
+<font style="font-size:20px"><strong>用对象表示精确的「等于」</strong></font><br />
+<br /><div class="blockcode"><div id="code_sGO"><ol><li>&quot;xxx&quot;: { &quot;min&quot;: 5, &quot;max&quot;: 5 }</ol></div><em onclick="copycode($('code_sGO'));">复制代码</em></div><br />
+<font style="font-size:16px">当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">xxx</font></font> 的值确实为 5 时，该谓词测试通过。</font><br />
+<br />
+<font style="font-size:20px"><strong>用对象表示「大于等于」</strong></font><br />
+<br /><div class="blockcode"><div id="code_Cql"><ol><li>&quot;xxx&quot;: { &quot;min&quot;: 5 }</ol></div><em onclick="copycode($('code_Cql'));">复制代码</em></div><br />
+<font style="font-size:16px">当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">xxx</font></font> 的值大于等于 5 时，该谓词测试通过。</font><br />
+<br />
+<font style="font-size:20px"><strong>用对象表示「小于等于」</strong></font><br />
+<br /><div class="blockcode"><div id="code_u54"><ol><li>&quot;xxx&quot;: { &quot;max&quot;: 5 }</ol></div><em onclick="copycode($('code_u54'));">复制代码</em></div><br />
+<font style="font-size:16px">当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">xxx</font></font> 的值大于等于 5 时，该谓词测试通过。</font><br />
+<br />
+<font style="font-size:20px"><strong>用对象表示「在两数之间」</strong></font><br />
+<br /><div class="blockcode"><div id="code_Fsg"><ol><li>&quot;xxx&quot;: { &quot;min&quot;: 5, &quot;max&quot;: 10 }</ol></div><em onclick="copycode($('code_Fsg'));">复制代码</em></div><br />
+<font style="font-size:16px">当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">xxx</font></font> 的值大于等于 5 并且小于等于 10 时，该谓词测试通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>状态谓词</strong></font><br />
+<br />
+<font style="font-size:16px">判断一个方块的方块状态或流体的流体状态是否满足你所指定的各个值。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（字符串或布尔或数字）_<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">名称</font></font>_：状态「_<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">名称</font></font>_」对应的值。游戏在比较时会先将这一项的内容转换为字符串再进行比较。<li>（对象）_<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">名称</font></font>_：状态「_<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">名称</font></font>_」对应的值应处的范围。<font style="font-size:16px"><ul><li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">min</font></font>：最小值。<li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">max</font></font>：最大值。</ul></font></ul></font></ul></font><br />
+<font style="font-size:24px"><strong>方块谓词</strong></font><br />
+<br />
+<font style="font-size:16px">判断一个方块是否满足你所指定的各个条件。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">block</font></font>：一个方块 ID。方块需要为此处指定的方块，才能使该谓词测试通过。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tag</font></font>：一个方块标签 ID。方块需要位于该方块标签当中，才能使该谓词测试通过。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt</font></font>：一串 NBT。方块对应的方块实体要能与此处指定的 NBT 匹配，才能使该谓词测试通过。<li>（状态谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">state</font></font>：该方块的方块状态所需满足的条件。</ul></font></ul></font><br />
+<font style="font-size:24px"><strong>流体谓词</strong></font><br />
+<br />
+<font style="font-size:16px">判断一个流体是否满足你所指定的各个条件。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">fluid</font></font>：一个流体 ID。流体需要为此处指定的流体，才能使该谓词测试通过。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tag</font></font>：一个流体标签 ID。流体需要位于该流体标签当中，才能使该谓词测试通过。<li>（状态谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">state</font></font>：该流体的流体状态所需满足的条件。</ul></font></ul></font><br />
+<font style="font-size:24px"><strong>位置谓词</strong></font><br />
+<br />
+<font style="font-size:16px">判断当前的位置是否满足你所指定的各个条件。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">biome</font></font>：该位置所属的生态群系的 ID。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dimension</font></font>：该位置所属的维度的 ID。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">feature</font></font>：该位置所属的结构的 ID。<li>（方块谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">block</font></font>：对处于该位置的方块的判定条件。<li>（流体谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">fluid</font></font>：对处于该位置的流体的判定条件。<li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">light</font></font>：对该位置的光照的判定条件。<font style="font-size:16px"><ul><li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">light</font></font>：该位置<strong>可见光</strong>所需满足的范围。可见光计算公式为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">max{天空亮度 - 衰减, 方块亮度}</font></font>。</ul></font><li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">position</font></font>：坐标。<font style="font-size:16px"><ul><li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>：X 坐标。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y</font></font>：Y 坐标。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">z</font></font>：Z 坐标。</ul></font></ul></font></ul></font><br />
+<font style="font-size:24px"><strong>物品谓词</strong></font><br />
+<br />
+<font style="font-size:16px">判断一个物品是否满足你所指定的各个条件。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">count</font></font>：物品数量。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">durability</font></font>：物品剩余耐久度。<li>（数组）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">enchantments</font></font>：魔咒列表。如果该列表为空，则任何魔咒都能成功匹配。<font style="font-size:16px"><ul><li><i>（对象）一个魔咒。</i><font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">enchantment</font></font>：魔咒 ID。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">levels</font></font>：魔咒等级。</ul></font></ul></font><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">item</font></font>：物品 ID。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt</font></font>：物品 NBT。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">potion</font></font>：药水 ID，即物品的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Potion</font></font> 标签中指定的内容。就算该物品不是药水，只要有这个标签并且内容匹配，即可通过。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tag</font></font>：数据包物品标签 ID。</ul></font></ul></font><br />
+<font style="font-size:24px"><strong>实体谓词</strong></font><br />
+<br />
+<font style="font-size:16px">判断一个实体是否满足你所指定的各个条件。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">catType</font></font>：当前猫应当满足的种类。应为一个指向相应猫的材质的路径，例如 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:textures/entity/cat/tabby.png</font></font>。<li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font>：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity</font></font> 中指定实体所在坐标到执行位置的距离。执行位置即为命令的执行位置 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S]</font></font>；执行位置即为击杀此实体的实体所在的坐标 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font>。<font style="font-size:16px"><ul><li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">absolute</font></font>：绝对距离。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">horizontal</font></font>：水平距离。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>：在 X 轴方向上的距离。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y</font></font>：在 Y 轴方向上的距离。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">z</font></font>：在 Z 轴方向上的距离。</ul></font><li>（数组）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">effects</font></font>：检测的实体所需具有的状态效果列表。<font style="font-size:16px"><ul><li><i>（对象）一个状态效果。</i><font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">id</font></font>：状态效果名称。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">amplifier</font></font>：效果倍率。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">duration</font></font>：效果持续时间，以刻为单位。</ul></font></ul></font><li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">equipment</font></font>：检测的实体所需穿有的装备。<font style="font-size:16px"><ul><li>（物品谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">mainhand</font></font>：对实体主手物品的判定条件。<li>（物品谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offhand</font></font>：对实体副手物品的判定条件。<li>（物品谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">head</font></font>：对实体头部装备的判定条件。<li>（物品谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">chest</font></font>：对实体胸部装备的判定条件。<li>（物品谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">legs</font></font>：对实体腿部装备的判定条件。<li>（物品谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">feet</font></font>：对实体脚部装备的判定条件。</ul></font><li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">fishing_hook</font></font>：对鱼钩实体的判定条件。<font style="font-size:16px"><ul><li>（布尔） <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">in_open_wate</font></font>：该鱼钩实体是否位于开阔水域当中。</ul></font><li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">flags</font></font>：检测的实体应具备的特质。<font style="font-size:16px"><ul><li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_on_fire</font></font>：是否正在着火。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_sneaking</font></font>：是否正在潜行。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_sprinting</font></font>：是否正在疾跑。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_swimming</font></font>：是否正在游泳。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_baby</font></font>：是否是幼体。</ul></font><li>（位置谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">location</font></font>：检测的实体所在位置。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt</font></font>：检测的实体所需有的 NBT。<li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">player</font></font>：对玩家实体的各种判定条件。一旦指定了该参数，即使内容完全为空，也会要求当前实体必须为一名玩家。<font style="font-size:16px"><ul><li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">advancements</font></font>：进度。<font style="font-size:16px"><ul><li>（布尔）<i>进度 ID</i>：玩家是否完成了该进度。<li>（对象）<i>进度 ID</i>：对该进度中各判据的完成情况进行进一步判断。<font style="font-size:16px"><ul><li>（布尔）<i>进度判据名称</i>：玩家是否完成了该进度的该判据。</ul></font></ul></font><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gamemode</font></font>：游戏模式。可选值：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">adventure</font></font>（冒险模式）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">creative</font></font>（创造模式）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">spectator</font></font>（旁观者模式）、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">survival</font></font>（生存模式）。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">level</font></font>：经验等级的范围。<li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">recipes</font></font>：配方。<font style="font-size:16px"><ul><li>（布尔）<i>配方 ID</i>：玩家是否解锁了该配方。</ul></font><li>（数组）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">stats</font></font>：统计信息。<font style="font-size:16px"><ul><li><i>（对象）一个统计信息</i><font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font>：统计信息所属种类。可选值与记分板判据中的一致，但请注意分割符号为冒号（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">:</font></font>），而不是记分板判据中的点（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.</font></font>）：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:custom</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:crafted</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:used</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:broken</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:mined</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:killed</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:picked_up</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:dropped</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:killed_by</font></font>。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">stat</font></font>：统计信息的 ID。可选值与记分板判据中的一致，但请注意分割符号为冒号（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">:</font></font>），而不是记分板判据中的点（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.</font></font>）。如 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:leave_game</font></font> 等。<li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">value</font></font>：玩家在该统计信息上应满足的数值范围。该数值可以通过 ESC → 「统计信息」菜单查询。</ul></font></ul></font></ul></font><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">team</font></font>：检测的实体需所在队伍的队伍名。<li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font>：检测的实体需满足的 ID。如果以 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">#</font></font> 开头，则会检测实体是否处在相应的实体类型标签当中。</ul></font></ul></font><br />
+<font style="font-size:24px"><strong>伤害类型谓词</strong></font><br />
+<br />
+<font style="font-size:16px">判断一个伤害的类型是否满足你所指定的各个条件。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）根对象。<font style="font-size:16px"><ul><li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">bypasses_armor</font></font>：是否破甲。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">bypasses_invulnerability</font></font>：是否无视无敌状态（如虚空伤害）。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">bypasses_magic</font></font>：是否由饥饿引起。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_explosion</font></font>：是否由爆炸引起。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_fire</font></font>：是否由火焰引起。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_magic</font></font>：是否由魔法引起。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_projectile</font></font>：是否由弹射物引起。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">is_lightning</font></font>：是否由闪电引起。<li>（实体谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">direct_entity</font></font>：伤害的直接来源实体（如弹射物）。<li>（实体谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">source_entity</font></font>：伤害的根本来源实体（如射箭的骷髅）。</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>附录 2：条件列表</strong></font><br />
+<br />
+<font style="font-size:16px">该列表最终更新时间：1.15.1</font><br />
+<br />
+<font style="font-size:24px"><strong>说明</strong></font><br />
+<br />
+<font style="font-size:16px">通常，ㄆㄧㄉㄧㄎㄞㄊㄜ中的参数大多是可以省略的。一旦省略该参数，表明你对该参数的值没有任何要求：即不论实际情况中该参数为何值，甚至在该参数没有值的情况下，ㄆㄧㄉㄧㄎㄞㄊㄜ都绝不会因为这个参数的原因而不通过。但是，有些参数是不能省略的，一旦省略游戏就会报错。可以在ㄆㄧㄉㄧㄎㄞㄊㄜ没有正确读取时，打开游戏日志查看报错信息，并回帖提醒本人为该参数添加注释。</font><br />
+<br />
+<font style="font-size:24px"><strong>适用范围</strong></font><br />
+<br />
+<font style="font-size:16px">每个条件都只能在一定的范围下使用。在本文中，将使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E]</font></font> 表示能在 *xecute (if|unless) predicate 命令中正常运作，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[S]</font></font> 表示能在<strong>实</strong>体选择器（<strong>s</strong>elector）参数中正常运作，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:xxx]</font></font> 表示能在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:xxx</font></font> 以及 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:generic</font></font> 类型的战利品表（<strong>l</strong>oot table）正常运作。</font><br />
+<br />
+<font style="font-size:16px">在不适用的地方使用某个条件，会导致该条件永远不通过。如果用在不合适的战利品表中，还会引起游戏在加载该数据包时在日志中显示警告：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Found validation problem in {战利品表的命名空间 ID}.出现该错误的 JSON 路径: Parameters [&lt;parameter 出问题的参数名&gt;] are not provided in this context</font></font></font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:alternative <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:*]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">析取范式。即，若指定的条件中只要有任一个通过，则该条件通过；如果指定的所有条件都不通过，则该条件不通过。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（数组）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">terms</font></font>：条件列表。<font style="font-size:16px"><ul><li><i>（对象）一个条件。格式同条件的格式。</i></ul></font></ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_msr"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:alternative&quot;,<br /><li>&nbsp; &nbsp; &quot;terms&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:weather_check&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;raining&quot;: false<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:match_tool&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;item&quot;: &quot;minecraft:diamond_axe&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_msr'));">复制代码</em></div><br />
+<font style="font-size:16px">当玩家使用的工具为钻石斧，或当前天气为晴天时，条件通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:block_state_property <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:block]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">匹配被破坏方块。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">block</font></font>：方块 ID。<li>（方块状态谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">properties</font></font>：方块状态。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_Djp"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:block_state_property&quot;,<br /><li>&nbsp; &nbsp; &quot;block&quot;: &quot;minecraft:yellow_bed&quot;,<br /><li>&nbsp; &nbsp; &quot;properties&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;part&quot;: &quot;head&quot;<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_Djp'));">复制代码</em></div><br />
+<font style="font-size:16px">当被破坏的方块是黄色床的头的一部分时，条件通过。<strong>床在被破坏时，头和脚两部分会分别执行战利品表。为了避免掉落两个床，Minecraft 在写床的战利品表的时候加了一个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;part&quot;: &quot;head&quot;</font></font> 的限制。</strong></font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:damage_source_properties <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">匹配该实体死亡时受到的伤害。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（伤害类型谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font>：对该伤害的判定条件。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_R2D"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:damage_source_properties&quot;,<br /><li>&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;taken&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;min&quot;: 20<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_R2D'));">复制代码</em></div><br />
+<font style="font-size:16px">当实际造成伤害大于等于 20 时，条件通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:entity_properties <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:entity]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">在指定的实体满足指定条件时，该条件通过。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity</font></font>：检测的实体。使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指代命令的执行者 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E]</font></font>；使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指代被选择的实体 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[S]</font></font>；使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指代死亡的实体。使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">killer</font></font> 指代击杀此实体的实体。使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">killer_player</font></font> 指代击杀此实体的玩家 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font>。<li>（实体谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font>：对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity</font></font> 中指定的实体的判定条件。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_iVv"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;flags&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;is_on_fire&quot;: true<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;entity&quot;: &quot;this&quot;<br /><li>}</ol></div><em onclick="copycode($('code_iVv'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件会在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指定的实体着火时通过。可以在战利品表中利用它做出生物被烧死后掉落熟食的效果。</font><br />
+<br /><div class="blockcode"><div id="code_U32"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;equipment&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;mainhand&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;item&quot;: &quot;minecraft:air&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;entity&quot;: &quot;this&quot;<br /><li>}</ol></div><em onclick="copycode($('code_U32'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件会在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指定的实体主手中没有拿任何物品时通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:entity_scores <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:entity]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">在指定的实体的分数满足指定条件时，该条件通过。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity</font></font>：检测的实体。使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指代命令的执行者 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E]</font></font>；使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指代被选择的实体 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[S]</font></font>；使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">this</font></font> 指代死亡的实体。使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">killer</font></font> 指代击杀此实体的实体。使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">killer_player</font></font> 指代击杀此实体的玩家 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font>。<li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">scores</font></font>：要检测的分数。必须全部满足，条件才能通过。<font style="font-size:16px"><ul><li>（范围谓词）_分数名_：该分数的值。</ul></font></ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_rz8"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:entity_scores&quot;,<br /><li>&nbsp; &nbsp; &quot;entity&quot;: &quot;killer_player&quot;,<br /><li>&nbsp; &nbsp; &quot;scores&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;foo&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;min&quot;: 10<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;bar&quot;: 15<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_rz8'));">复制代码</em></div><br />
+<font style="font-size:16px">在击杀该实体的玩家 foo 分数大于 10，且 bar 分数等于 15 时，条件通过 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font>。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:inverted <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:*]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">取反。即，若指定的条件通过，则该条件不通过；否则，该条件通过。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（对象）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">term</font></font>：指定的条件。格式同条件的格式。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_wXk"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp; &quot;term&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:random_chance&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;chance&quot;: 0.3<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_wXk'));">复制代码</em></div><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">term</font></font> 内指定的条件有 30% 的概率通过，因此整个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">inverted</font></font> 条件有 70% 的概率通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:killed_by_player <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">当前实体被玩家击杀时，条件通过。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">inverse</font></font>：如果设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font>，则变为击杀者不是玩家时条件通过。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_G2E"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:killed_by_player&quot;<br /><li>}</ol></div><em onclick="copycode($('code_G2E'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>minecraft:location_check <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:*]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">当前位置满足指定条件时，条件通过。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offsetX</font></font>：在检测位置前，先将当前位置在 X 轴上进行的偏移数目。<li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offsetY</font></font>：在检测位置前，先将当前位置在 Y 轴上进行的偏移数目。<li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offsetZ</font></font>：在检测位置前，先将当前位置在 Z 轴上进行的偏移数目。<li>（位置谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font>：对该位置的判定条件。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_J4J"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:location_check&quot;,<br /><li>&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;biome&quot;: &quot;minecraft:jungle&quot;<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;offsetX&quot;: -10<br /><li>}</ol></div><em onclick="copycode($('code_J4J'));">复制代码</em></div><br />
+<font style="font-size:16px">将当前位置向 X 轴负方向偏移 10 米后如果处于丛林生态群系，则条件通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:match_tool <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:block,fishing]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">匹配玩家使用的工具。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（物品谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font>：对该工具的判定条件。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_y36"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:match_tool&quot;,<br /><li>&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;enchantments&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;enchantment&quot;: &quot;minecraft:silk_touch&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;levels&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_y36'));">复制代码</em></div><br />
+<font style="font-size:16px">当玩家使用的工具具有「精准采集Ⅰ」及以上的魔咒，条件通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:random_chance <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:*]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">游戏会生成一个 0.0 到 1.0 的随机数，当该数字小于等于<strong>被比数</strong>时，条件通过。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">chance</font></font>：被比数。值域 [0.0, 1.0]。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_rek"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:random_chance&quot;,<br /><li>&nbsp; &nbsp; &quot;chance&quot;: 0.3<br /><li>}</ol></div><em onclick="copycode($('code_rek'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件有 30% 的几率通过</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:random_chance_with_looting <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:entity]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">游戏会生成一个 0.0 到 1.0 的随机数，当该数字小于等于<strong>被比数</strong>时，条件通过 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:entity]</font></font>。</font><br />
+<br />
+<font style="font-size:16px">击杀者的抢夺附魔等级会影响被比数的大小 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font>。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">chance</font></font>：被比数的基础值。值域 [0.0, 1.0] <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:entity]</font></font>。<li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">looting_multiplier</font></font>：每一级抢夺附魔所增加的被比数 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font>。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_G28"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:random_chance_with_looting&quot;,<br /><li>&nbsp; &nbsp; &quot;chance&quot;: 0.3,<br /><li>&nbsp; &nbsp; &quot;looting_multiplier&quot;: 0.1<br /><li>}</ol></div><em onclick="copycode($('code_G28'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件有 30% 的几率通过 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:entity]</font></font>。每多一级抢夺魔咒，通过几率增加 10 个百分点 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:entity]</font></font>。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:reference <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:*]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">引用定义的其他ㄆㄧㄉㄧㄎㄞㄊㄜ文件。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">name</font></font>：判据的命名空间 ID。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_Zsa"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:reference&quot;,<br /><li>&nbsp; &nbsp; &quot;name&quot;: &quot;test:abc&quot;<br /><li>}</ol></div><em onclick="copycode($('code_Zsa'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件将会引用定义在数据包 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">./data/test/predicates/abc.json</font></font> 文件中的ㄆㄧㄉㄧㄎㄞㄊㄜ。当被引用的ㄆㄧㄉㄧㄎㄞㄊㄜ能够通过时，该条件通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:survives_explosion <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:block]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">如果该方块是被爆炸破坏的，该条件有 1/爆炸半径 的几率通过；如果该方块是被玩家正常挖掘的，该条件永远通过 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:block]</font></font>。</font><br />
+<br />
+<font style="font-size:16px">该条件永远通过 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S]</font></font>。</font><br />
+<br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_dk7"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:survives_explosion&quot;<br /><li>}</ol></div><em onclick="copycode($('code_dk7'));">复制代码</em></div><br />
+<font style="font-size:24px"><strong>minecraft:table_bonus <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[L:block]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">分别定义不同级别的附魔等级下条件的通过几率。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（字符串）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">enchantment</font></font>：探测的魔咒 ID。<li>（数组）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">chances</font></font>：每个魔咒等级下的通过几率。<font style="font-size:16px"><ul><li><i>（数字）无该魔咒的几率</i><li><i>（数字）该魔咒为 1 级的几率</i><li><i>（数字）该魔咒为 2 级的几率</i><li><i>...</i><li><i>（数字）该魔咒为 (n-1) 级的几率</i></ul></font></ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_BNE"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:table_bonus&quot;,<br /><li>&nbsp; &nbsp; &quot;enchantment&quot;: &quot;minecraft:fortune&quot;,<br /><li>&nbsp; &nbsp; &quot;chances&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0.05,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0.0625,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0.083333336,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0.1<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_BNE'));">复制代码</em></div><br />
+<font style="font-size:16px">当玩家没有时运附魔时，有 5% 的几率通过；当玩家有 1 级时运时，有 6.25% 的几率通过；当玩家有 2 级时运时，有 8.3333336% 的几率通过；当玩家有 3 级及以上的时运时，有 10% 的几率通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:time_check <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:*]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">检测当前游戏内的时间。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（范围谓词）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">value</font></font>：允许的值。<li>（数字）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">period</font></font>：可选。如果指定，在比较前会先将游戏的时间以该数取模。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_a4M"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:time_check&quot;,<br /><li>&nbsp; &nbsp; &quot;value&quot;: 6000<br /><li>}</ol></div><em onclick="copycode($('code_a4M'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件会在游戏内每天正午（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">6000</font></font>）的那一刻通过。</font><br />
+<br /><div class="blockcode"><div id="code_XYs"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:time_check&quot;,<br /><li>&nbsp; &nbsp; &quot;value&quot;: 6000,<br /><li>&nbsp; &nbsp; &quot;period&quot;: 12000<br /><li>}</ol></div><em onclick="copycode($('code_XYs'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件会在游戏内每天正午（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">6000</font></font>）或午夜（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">18000</font></font>）的那一刻通过。</font><br />
+<br />
+<font style="font-size:24px"><strong>minecraft:weather_check <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[E|S|L:*]</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">检测当时的天气。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">raining</font></font>：是否下雨。<li>（布尔）<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">thundering</font></font>：是否打雷。</ul></font><br />
+<font style="font-size:16px">例子：</font><br />
+<br /><div class="blockcode"><div id="code_Any"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:weather_check&quot;,<br /><li>&nbsp; &nbsp; &quot;raining&quot;: true,<br /><li>&nbsp; &nbsp; &quot;thundering&quot;: false<br /><li>}</ol></div><em onclick="copycode($('code_Any'));">复制代码</em></div><br />
+<font style="font-size:16px">该条件会在普通的雨天通过，在晴天或雷雨天均不会通过。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>附录 3：Datapack Helper Plus (JSON)</strong></font><br />
+<br />
+<font style="font-size:16px"><a href="https://www.mcbbs.net/thread-897610-1-1.html" target="_blank">Datapack Helper Plus (JSON)</a>（简称 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">DHP (JSON)</font></font>，中文名<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">大憨批杰森</font></font>）是一款优秀的 <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fcode.visualstudio.com" target="_blank">VSCode</a> 插件，提供适用于 Minecraft 1.15 数据包 JSON 文件的自动补全与格式校验。在该款插件的帮助下，编写ㄆㄧㄉㄧㄎㄞㄊㄜ以及其他各种文件（如进度、配方、战利品表、各种标签）将变得十分方便。请您坐和放宽，前往该插件的<a href="https://www.mcbbs.net/thread-897610-1-1.html" target="_blank">发布帖</a>一览究竟。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>致谢</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li>chyx - 挑错<li>ruhuasiyu - 帮忙补充了点东西<li>柘木铃 - 挑错</ul></font><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>柘木铃&nbsp; &nbsp; <b>时间: </b>2019-9-21 16:13<br />
+谢谢 spg！掉落表的笔记抄完就来学这个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2019-9-21 16:30<br />
+所以相当于把loot的判据外置之后极大丰富了内部判据<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2836126068&nbsp; &nbsp; <b>时间: </b>2019-9-21 17:28<br />
+加油............<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2836126068&nbsp; &nbsp; <b>时间: </b>2019-9-21 17:28<br />
+不知道!!!!!!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-9-21 19:07<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2019-9-21 19:09 编辑 </i><br />
+<br />
+我昨晚发现match_tool不能直接被命令用时气的要死。<br />
+<br />
+<br />
+顺便为何<div class="quote"><blockquote>minecraft:random_chance_with_looting [E|S|L:entity]<br />
+<br />
+游戏会生成一个 0.0 到 1.0 的随机数，当该数字小于等于被比数时，条件通过。<br />
+<br />
+击杀者的抢夺附魔等级会影响被比数的大小 [L:entity]。<br />
+<br />
+&nbsp; &nbsp; （数字）chance：被比数的基础值。值域 [0.0, 1.0]。<br />
+&nbsp; &nbsp; （数字）looting_multiplier：每一级抢夺附魔所增加的被比数 [L:entity]。<br />
+<br />
+<br />
+例子：<br />
+<br />
+&nbsp; &nbsp; {<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:random_chance_with_looting&quot;,<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;chance&quot;: 0.3,<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;looting_multiplier&quot;: 0.1<br />
+&nbsp; &nbsp; }<br />
+<br />
+复制代码<br />
+<br />
+该条件有 30% 的几率通过。每多一级抢夺魔咒，通过几率增加 10% [L:entity]。</blockquote></div><br />
+上面写着[E|S|L:entity]，但整个段落全是[L:entity]？<br />
+这个看的不是killer吗？但是指令里用的时候传的是this吧。。。<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-9-21 19:09<br />
+<i class="pstatus"> 本帖最后由 SPGoding 于 2019-9-21 19:12 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15636360&amp;ptid=914817" target="_blank"><font color="#999999">chyx 发表于 2019-9-21 19:07</font></a></font><br />
+我昨晚发现match_tool不能直接被命令用时气的要死。</blockquote></div><br />
+可以用万能的 entity_properties 代替吧（<br />
+不过写起来肯定不爽就是了<br />
+<br />
+<hr class="l" /><br />
+在指令里用这个的时候，效果和 random_chance 完全一样，也就是 looting_multiplier 不会对结果产生影响。所以我在这句后面加了 [L:entity]<br /><div class="quote"><blockquote>击杀者的抢夺附魔等级会影响被比数的大小 [L:entity]。</blockquote></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>RF_Tar_Railt&nbsp; &nbsp; <b>时间: </b>2019-9-21 23:05<br />
+可以认为以前exe后面跟的一大堆if可以放在单独的文件里面了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-9-21 23:14<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15637907&amp;ptid=914817" target="_blank"><font color="#999999">RF_Tar_Railt 发表于 2019-9-21 23:05</font></a></font><br />
+可以认为以前exe后面跟的一大堆if可以放在单独的文件里面了？</blockquote></div><br />
+不。是以前loottable的一些东西可以了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-9-21 23:14<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15637907&amp;ptid=914817" target="_blank"><font color="#999999">RF_Tar_Railt 发表于 2019-9-21 23:05</font></a></font><br />
+可以认为以前exe后面跟的一大堆if可以放在单独的文件里面了？</blockquote></div><br />
+不太可以（<br />
+<br />
+因为目前 predicate 没有比较方便的表示 AND 关系的方法（只能用 inverted + alternatives），想把一系列的条件移入一个文件还是有些复杂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-9-22 13:31<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15636360&amp;ptid=914817" target="_blank"><font color="#999999">chyx 发表于 2019-9-21 19:07</font></a></font><br />
+我昨晚发现match_tool不能直接被命令用时气的要死。</blockquote></div><br />
+<font style="font-size:16px">我刚刚检查了下源码，发现 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity_properties</font></font> 里面有个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">equipment</font></font> 参数，可以用和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">match_tool</font></font> 一样的格式检测玩家物品！不过可惜的是只限于六个栏位，不是背包里所有地方都能检测。</font><br />
+<br />
+<font style="font-size:16px">另外从源码实现可以确认，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 选择器参数的性能会比 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt</font></font> 参数高。因为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 的判定直接调用的是实体上的方法；而 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt</font></font> 的判定却是先把实体变成 NBT，再按 NBT 的那一套测试，会慢很多。</font><br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-9-27 00:59<br />
+<i class="pstatus"> 本帖最后由 SPGoding 于 2019-10-7 00:34 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15637963&amp;ptid=914817" target="_blank"><font color="#999999">SPGoding 发表于 2019-9-21 23:14</font></a></font><br />
+不太可以（<br />
+<br />
+因为目前 predicate 没有比较方便的表示 AND 关系的方法（只能用 inverted + alternatives） ...</blockquote></div><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fsm.ms%2Fimage%2F912hG8Jfx3czy4B" target="_blank"><img id="aimg_noVO5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/09/27/912hG8Jfx3czy4B.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+上次写了一个，能够像alternative一样使用and。<br />
+把带有and的对象丢到最下面那个函数里，它就会自动把and转成not-&gt;or-&gt;not。<br />
+这样就能被mc认了。<br />
+<br />
+抛砖引玉。希望大家指正或者改写。<br />
+<br /><div class="quote"><blockquote>众所周知，<br />
+A &amp; B<br />
+和<br />
+!(!A | !B)<br />
+是完全等价的（其中 ! 表示取反，&amp; 表示且，| 表示或）<br />
+<br />
+因此尽管断言本身不支持写多个条件，利用 inverted（取反）和 alternative（或）我们完全可以做出「且」的效果。<br />
+<br />
+chyx 所给出的这段 python 代码可以帮助使用者不必手动写 inverted 和 alternative 的嵌套，可以自动生成出相应 JSON。<br />
+<br />
+—— SPGoding 注</blockquote></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>雷小达&nbsp; &nbsp; <b>时间: </b>2019-10-4 09:57<br />
+66666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lashidedongxi&nbsp; &nbsp; <b>时间: </b>2019-10-19 08:19<br />
+这断言，你说了这么多我属实不太懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2019-10-20 20:41<br />
+那个好用的and转notornot的脚步可以在哪下载呢？（<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-10-21 18:59<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2019-10-25 03:50 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15751163&amp;ptid=914817" target="_blank"><font color="#999999">Jokey_钥匙 发表于 2019-10-20 20:41</font></a></font><br />
+那个好用的and转notornot的脚步可以在哪下载呢？（</blockquote></div><br />
+你是说我写的被置顶的那个吗？<br />
+<br />
+===================================================<br />
+<br />
+上传到github了。<br />
+<a href="https://github.com/ch-yx/not-or-not/blob/master/m.py" target="_blank">https://github.com/ch-yx/not-or-not/blob/master/m.py</a><br />
+<br />
+我已经在后面加了一个搜索同文件夹里的所有json文件并统统修改的功能了。<br />
+把这个py放在和json文件一个文件夹里，双击运行就好了。<br />
+<br />
+<br />
+（我知道数据包里的json 通常几个文件放在一个文件夹里。所以即使是装在若干层文件夹里的json也会被修改。）<br />
+<br />
+@Jokey_钥匙&nbsp; &nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-10-31 15:09<br />
+<div class="quote"><blockquote><font color="#999999">chyx 发表于 2019-9-27 00:59</font><br />
+<font color="#999999">上次写了一个，能够像alternative一样使用and。<br />
+把带有and的对象丢到最下面那个函数里，它就会自动把and ...</font></blockquote></div><br />
+关于包含于我回复中的spgoding的注<br />
+我声明我不同意其中将predicate翻译成断言的行为<br />
+<br />
+<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wkscb12&nbsp; &nbsp; <b>时间: </b>2019-11-1 15:00<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>121236738&nbsp; &nbsp; <b>时间: </b>2019-11-2 15:04<br />
+等啊等，终于等到了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>121236738&nbsp; &nbsp; <b>时间: </b>2019-11-2 15:05<br />
+1.15终于等到了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>临郢夏望&nbsp; &nbsp; <b>时间: </b>2019-11-8 12:09<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MinecraftPeace&nbsp; &nbsp; <b>时间: </b>2019-11-10 19:29<br />
+皮迪凯特可还行awa<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>陌上尘客&nbsp; &nbsp; <b>时间: </b>2019-11-17 15:48<br />
+mcbbs有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>江南一叶ye&nbsp; &nbsp; <b>时间: </b>2019-11-22 08:57<br />
+真的蒙批<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xiaoxo520&nbsp; &nbsp; <b>时间: </b>2019-11-23 13:01<br />
+没看明白，哪位大神帮忙解释一下？<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xiaoxo520&nbsp; &nbsp; <b>时间: </b>2019-11-23 13:02<br />
+有人吗????????????<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>415263456&nbsp; &nbsp; <b>时间: </b>2019-11-23 21:51<br />
+6666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>huxianrui&nbsp; &nbsp; <b>时间: </b>2019-12-4 12:15<br />
+好厉害的样子，先收藏慢慢研究????<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>妖王owo&nbsp; &nbsp; <b>时间: </b>2019-12-7 18:29<br />
+重拾指令<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>873280649&nbsp; &nbsp; <b>时间: </b>2019-12-7 18:47<br />
+指令我学会了，恩先这样，再这样，最后天上这个（想象：美好，结果：shit），嗯就这样<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>q491412&nbsp; &nbsp; <b>时间: </b>2019-12-10 16:13<br />
+其实我就是水一下,看着很厉害的样子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ohnkyta&nbsp; &nbsp; <b>时间: </b>2019-12-11 13:53<br />
+可以的，先码住，也许哪天开发能用到<img src="static/image/smiley/tong/chigua.png" smilieid="1464" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>和我挺开心&nbsp; &nbsp; <b>时间: </b>2019-12-12 18:18<br />
+大神呀！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>21100756&nbsp; &nbsp; <b>时间: </b>2019-12-13 11:12<br />
+666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ztmns123&nbsp; &nbsp; <b>时间: </b>2019-12-20 13:01<br />
+哇，大佬，看不懂看不懂，6666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>浅笑半颜&nbsp; &nbsp; <b>时间: </b>2019-12-21 14:05<br />
+顶！顶！顶！顶！顶！顶！顶！顶！顶！顶！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ZFT666&nbsp; &nbsp; <b>时间: </b>2019-12-21 16:22<br />
+666666666666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>一只皮皮猫&nbsp; &nbsp; <b>时间: </b>2019-12-26 09:37<br />
+神仙打架系列，我们喊woc吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>杯具c&nbsp; &nbsp; <b>时间: </b>2019-12-29 16:35<br />
+大佬呀!!!!!!!!!!!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kkgb23&nbsp; &nbsp; <b>时间: </b>2019-12-31 18:20<br />
+这里就是神仙的世界吗？忽然放弃命令方块的学习了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天堂蓝&nbsp; &nbsp; <b>时间: </b>2020-1-3 16:50<br />
+嗯嗯，是大佬<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>无敌Yielr&nbsp; &nbsp; <b>时间: </b>2020-1-4 21:52<br />
+66666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Loginzz&nbsp; &nbsp; <b>时间: </b>2020-1-5 10:58<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>cailiang&nbsp; &nbsp; <b>时间: </b>2020-1-5 15:41<br />
+我。。。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>YX_Tomson&nbsp; &nbsp; <b>时间: </b>2020-1-6 07:58<br />
+大佬牛皮（破音）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fukemansite&nbsp; &nbsp; <b>时间: </b>2020-1-7 15:42<br />
+真的是大佬哦。佩服佩服耶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>YIOM&nbsp; &nbsp; <b>时间: </b>2020-1-9 15:13<br />
+感谢楼主分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kevinns&nbsp; &nbsp; <b>时间: </b>2020-1-10 13:18<br />
+666，神仙啊<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MIlimi&nbsp; &nbsp; <b>时间: </b>2020-1-10 20:00<br />
+666 表示看不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>鹌鹑茸茸&nbsp; &nbsp; <b>时间: </b>2020-1-11 22:27<br />
+66666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3308972768&nbsp; &nbsp; <b>时间: </b>2020-1-12 19:42<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16066901&amp;ptid=914817" target="_blank"><font color="#999999">鹌鹑茸茸 发表于 2020-1-11 22:27</font></a></font><br />
+**** 作者被禁止或删除 内容自动屏蔽 ****</blockquote></div><br />
+。。。。。。<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3308972768&nbsp; &nbsp; <b>时间: </b>2020-1-12 19:42<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15985503&amp;ptid=914817" target="_blank"><font color="#999999">一只皮皮猫 发表于 2019-12-26 09:37</font></a></font><br />
+神仙打架系列，我们喊woc吧</blockquote></div><br />
+woc asas**fs<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3308972768&nbsp; &nbsp; <b>时间: </b>2020-1-12 19:43<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16031096&amp;ptid=914817" target="_blank"><font color="#999999">无敌Yielr 发表于 2020-1-4 21:52</font></a></font><br />
+66666666666666666666</blockquote></div><br />
+999999999999999999999999999999999<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>是子崎呀丶&nbsp; &nbsp; <b>时间: </b>2020-1-13 16:42<br />
+好好好，非常好，做得很不错，帮助很大！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>是子崎呀丶&nbsp; &nbsp; <b>时间: </b>2020-1-13 16:44<br />
+好好好，非常好，做得很不错，帮助很大！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CXiu&nbsp; &nbsp; <b>时间: </b>2020-1-14 11:43<br />
+再学前端<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋林枫叶&nbsp; &nbsp; <b>时间: </b>2020-1-15 10:08<br />
+？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>0-zero-0&nbsp; &nbsp; <b>时间: </b>2020-1-18 14:12<br />
+所以说minecraft真的是编程游戏，学完编程再来玩游戏？（其实是学完游戏不需要学编程吧）<br />
+好吧，其实对比一下还是真正的编程要简单很多，但为什么一条指令可以那么复杂，而且和简单指令除了都是英文连一点共同之处都没有<br />
+但确实介绍得很详细，大力支持这个帖子，否则又有一个好指令回淡出大家的视线<br />
+<img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><img src="static/image/smiley/machine/cb_conditional.png" smilieid="1325" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wczcz&nbsp; &nbsp; <b>时间: </b>2020-1-19 13:09<br />
+。。。。。。。。。。。。。。。。。。。。。。。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wuhuang779&nbsp; &nbsp; <b>时间: </b>2020-1-21 19:45<br />
+嗯嗯呢，真好！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>方块v少年&nbsp; &nbsp; <b>时间: </b>2020-1-22 17:22<br />
+66666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yysx929&nbsp; &nbsp; <b>时间: </b>2020-1-26 15:05<br />
+看不懂，但是感觉很厉害<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yaowei1029&nbsp; &nbsp; <b>时间: </b>2020-1-28 15:44<br />
+大佬大佬大佬大佬大佬<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>WEUHF&nbsp; &nbsp; <b>时间: </b>2020-1-29 13:09<br />
+看不懂，太厉害了<img src="static/image/smiley/mcitem/diamond.png" smilieid="1217" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Sh1zzuko&nbsp; &nbsp; <b>时间: </b>2020-1-29 20:47<br />
+神乎其技！6的飞起！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Sh1zzuko&nbsp; &nbsp; <b>时间: </b>2020-1-30 11:03<br />
+刚想研究研究，结果翻社区就看到你研究完了233333<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>INDEX！=_=&nbsp; &nbsp; <b>时间: </b>2020-1-31 14:55<br />
+啊 是大佬 我死了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>biaoxiaogan&nbsp; &nbsp; <b>时间: </b>2020-2-1 19:23<br />
+Minecraft是编程游戏石锤了 技术部都是人才绝了绝了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>郝舰丶&nbsp; &nbsp; <b>时间: </b>2020-2-2 11:47<br />
+dldl懂了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sweetxue&nbsp; &nbsp; <b>时间: </b>2020-5-4 11:14<br />
+11111111111111111111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>狰狞&nbsp; &nbsp; <b>时间: </b>2020-5-4 14:08<br />
+<br />
+啊 是大佬<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>T_irpitz&nbsp; &nbsp; <b>时间: </b>2020-5-7 13:32<br />
+不错不错mcbbs有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>趙公子&nbsp; &nbsp; <b>时间: </b>2020-5-7 14:46<br />
+神乎其技！6的飞起！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>WULIAO00&nbsp; &nbsp; <b>时间: </b>2020-5-7 16:29<br />
+。。。。。。。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>WULIAO00&nbsp; &nbsp; <b>时间: </b>2020-5-7 16:30<br />
+..........<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>24kyu&nbsp; &nbsp; <b>时间: </b>2020-5-8 01:16<br />
+666666大佬就是不一样<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Howie211&nbsp; &nbsp; <b>时间: </b>2020-5-8 10:16<br />
+大佬好强啊！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yangzifeng4852&nbsp; &nbsp; <b>时间: </b>2020-5-9 11:57<br />
+我突然发现............<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yangzifeng4852&nbsp; &nbsp; <b>时间: </b>2020-5-9 11:57<br />
+我啥也不是=-=<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3509814166&nbsp; &nbsp; <b>时间: </b>2020-5-9 22:15<br />
+6666666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>DMeteor&nbsp; &nbsp; <b>时间: </b>2020-5-10 22:24<br />
+6666666大佬tql<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>liuchilde&nbsp; &nbsp; <b>时间: </b>2020-5-12 08:16<br />
+虽然不懂这个，但是喊666准没错<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>icey啊啊啊啊啊&nbsp; &nbsp; <b>时间: </b>2020-5-12 12:42<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18173697&amp;ptid=914817" target="_blank"><font color="#999999">liuchilde 发表于 2020-5-12 08:16</font></a></font><br />
+虽然不懂这个，但是喊666准没错</blockquote></div><br />
+dsadasdasdasdasdsad<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>icey啊啊啊啊啊&nbsp; &nbsp; <b>时间: </b>2020-5-12 12:43<br />
+dasdasdasdasdadasasdas<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>v3stiny&nbsp; &nbsp; <b>时间: </b>2020-5-12 13:08<br />
+太狠了把~~~~~~~~~~~~~~~~~~~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1m2&nbsp; &nbsp; <b>时间: </b>2020-5-12 21:05<br />
+额 代码实际用起来不错 希望引用实际吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>伟儿&nbsp; &nbsp; <b>时间: </b>2020-5-13 21:47<br />
+虽然有点看不懂 但是还是辛苦楼主了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>蓝天123456&nbsp; &nbsp; <b>时间: </b>2020-5-14 11:46<br />
+滴，打卡!作者大大真棒！<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>蓝天123456&nbsp; &nbsp; <b>时间: </b>2020-5-14 14:57<br />
+滴，打卡!作者大大真棒！<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>heckel&nbsp; &nbsp; <b>时间: </b>2020-5-14 21:14<br />
+说的很详细，可是听不懂<br />
+辛苦了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dianya&nbsp; &nbsp; <b>时间: </b>2020-5-15 07:36<br />
+大佬有没有1.8的，玩不懂1.1*.0版本<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dianya&nbsp; &nbsp; <b>时间: </b>2020-5-15 07:38<br />
+66666666666666666大佬就是牛逼<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>金色_年华&nbsp; &nbsp; <b>时间: </b>2020-5-15 16:05<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18223511&amp;ptid=914817" target="_blank"><font color="#999999">dianya 发表于 2020-5-15 07:36</font></a></font><br />
+大佬有没有1.8的，玩不懂1.1*.0版本</blockquote></div><br />
+谓词1.15加的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3147741808&nbsp; &nbsp; <b>时间: </b>2020-5-16 13:29<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zzyh15&nbsp; &nbsp; <b>时间: </b>2020-5-16 18:43<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18246970&amp;ptid=914817" target="_blank"><font color="#999999">3147741808 发表于 2020-5-16 13:29</font></a></font><br />
+MCBBS有你更精彩~</blockquote></div><br />
+懂了懂了 学会了 全新操作<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天空heat&nbsp; &nbsp; <b>时间: </b>2020-5-17 06:53<br />
+咱看不懂<img src="static/image/smiley/tong/chigua.png" smilieid="1464" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Konahoo&nbsp; &nbsp; <b>时间: </b>2020-5-17 09:03<br />
+虽然看不懂 但是不影响我66666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱中国的伏拉夫&nbsp; &nbsp; <b>时间: </b>2020-5-18 22:37<br />
+辛苦了，虽然看不懂[doge]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zqyswd&nbsp; &nbsp; <b>时间: </b>2020-5-19 08:12<br />
+water<br />
+water<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zqyswd&nbsp; &nbsp; <b>时间: </b>2020-5-19 08:12<br />
+water<br />
+water
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

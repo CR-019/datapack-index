@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>哪些命令中的哪些部分可以使用标签 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05NjMxNDMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>哪些命令中的哪些部分可以使用标签 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-2-18 20:24<br />
+<b>标题: </b>哪些命令中的哪些部分可以使用标签<br /><i class="pstatus"> 本帖最后由 隐退 于 2020-2-18 20:38 编辑 </i><br />
+<br />
+版本：20w07a<br />
+哪些命令中的哪些部分可以使用标签？<br /><div class="quote"><blockquote>比如：<br />
+<ul type="1" class="litype_1"><li>execute if block/entity ...<li>选择器的 type 参数<li>fill/clone 中的替换<br />
+……<br />
+</ul></blockquote></div><br />
+但是我没有找到完整的，希望有人能够给出。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CR_019&nbsp; &nbsp; <b>时间: </b>2020-2-18 20:24<br />
+<i class="pstatus"> 本帖最后由 chaoren019 于 2020-2-18 20:59 编辑 </i><br />
+<br />
+方块标签：<br />
+/execute if/unless block <br />
+fill/clone的替换<br />
+物品标签：<br />
+clear<br />
+其他想不到了<br />
+实体标签：<br />
+execute if/unless entity <br />
+目标选择器的type参数<br />
+kill<br />
+函数标签：<br />
+function（还能有啥）<br />
+算上战利品表和断言可能还有，不过不在讨论范围之内。<br />
+<font size="4">貌似真的被你说完了。。。</font><br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⊙u⊙&nbsp; &nbsp; <b>时间: </b>2020-2-18 20:30<br />
+貌似被你说完了...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC深坑不回头&nbsp; &nbsp; <b>时间: </b>2020-2-18 23:14<br />
+使用统计、进度文件和合成配方文件等等。 wiki:<br />
+<br />
+方块标签<br />
+用在命令测试方块，以#(命名空间ID)的形式调用。<br />
+<br />
+物品标签<br />
+用命令测试物品时以#(命名空间ID)、也可以在配方或进度中用。<br />
+<br />
+实体类型标签<br />
+可以在type实体选择器参数以及战利品表条件中以#(命名空间ID)的形式使用。<br />
+<br />
+函数标签<br />
+可以在/function命令中以#(命名空间):(路径)的形式调用。所有在该标签中指定的函数都会按照它们第一次出现的顺序执行。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-2-19 08:50<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16446445&amp;ptid=963143" target="_blank"><font color="#999999">MC深坑不回头 发表于 2020-2-18 23:14</font></a></font><br />
+使用统计、进度文件和合成配方文件等等。 wiki:<br />
+<br />
+方块标签</blockquote></div><div class="quote"><blockquote>部分摘自 Wiki：<br />
+方块标签<br />
+用在 <strong><font color="Red">命令测试方块</font></strong>，以#(命名空间ID)的形式调用。<br />
+<br />
+物品标签<br />
+用 <strong><font color="Red">命令测试物品</font></strong> 时以#(命名空间ID)、也可以在配方或进度中用。</blockquote></div><br />
+对 红色部分 的疑问：有哪些 <strong><font color="Red">测试方块/物品</font></strong> 的命令，在这些命令的哪些位置调用？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ender_qwq&nbsp; &nbsp; <b>时间: </b>2020-2-19 08:56<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16448406&amp;ptid=963143" target="_blank"><font color="#999999">隐退 发表于 2020-2-19 08:50</font></a></font><br />
+对 红色部分 的疑问：有哪些 测试方块/物品 的命令，在这些命令的哪些位置调用？ ...</blockquote></div><br />
+我个人没研究过1.13x的命令，但是1.12可以用testforblock检测方块,用testfor @a {SelectedItem:{tag:{Tags:[&quot;物品标签&quot;]}}}来检测玩家手持物品<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-2-19 10:36<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16448486&amp;ptid=963143" target="_blank"><font color="#999999">Ender_qwq 发表于 2020-2-19 08:56</font></a></font><br />
+我个人没研究过1.13x的命令，但是1.12可以用testforblock检测方块,用testfor @a {SelectedItem:{tag:{Tag ...</blockquote></div><br />
+我们所说的 标签 与你所说的不同。<br />
+<a href="https://wiki.biligame.com/mc/%E6%A0%87%E7%AD%BE" target="_blank">https://wiki.biligame.com/mc/%E6%A0%87%E7%AD%BE</a><br /><div class="quote"><blockquote>数据包中的标签（Tag）允许玩家使用JSON文件将物品、方块、流体、实体类型和函数组合在一起。</blockquote></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2550526349&nbsp; &nbsp; <b>时间: </b>2020-2-19 12:13<br />
+被你说完了...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ender_qwq&nbsp; &nbsp; <b>时间: </b>2020-2-22 15:37<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16450008&amp;ptid=963143" target="_blank"><font color="#999999">隐退 发表于 2020-2-19 10:36</font></a></font><br />
+我们所说的 标签 与你所说的不同。<br />
+https://wiki.biligame.com/mc/%E6%A0%87%E7%AD%BE</blockquote></div><br />
+我也只是个新手....感谢纠正
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>原始json文本中“子对象”的使用 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMDc2OTg5LTEtMS5odG1sP2FjdGlvbj1wcmludGFibGU=', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>原始json文本中“子对象”的使用 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>末地探险者&nbsp; &nbsp; <b>时间: </b>2020-7-12 17:52<br />
+<b>标题: </b>原始json文本中“子对象”的使用<br />据了解<br /><div class="quote"><blockquote>原始JSON文本由聊天对象组成。结构本身只有一个根对象，但这个根对象可包含有子对象，而这些子对象也可以有自己的子对象，依此类推。对象可以包含格式和交互事件，这些也会应用到他们的子对象上。 </blockquote></div><br />
+<br />
+<br />
+<a href="https://wiki.biligame.com/mc/原始JSON文本格式" target="_blank">wiki</a><div class="quote"><blockquote>由于extra标签的存在，以上格式可递归地嵌套成非常复杂与多功能的字符串。然而，JSON文本不必弄得如此复杂：几乎所有的属性都可选或会被忽略。 </blockquote></div><div class="quote"><blockquote>子对象<br />
+ extra：包含在文本之后显示的附加原始JSON文本对象的列表。 <br />
+子文本对象。子对象将继承父对象的所有格式和交互事件，除非额外指定。</blockquote></div><font style="color:rgb(68, 68, 68)"><font style="background-color:rgb(255, 255, 255)"><font face="Tahoma,">1.子对象到底是什么</font></font></font><br />
+2.怎么用子对象，能给出实例和效果吗<br />
+3.子对象有什么用<br />
+4.什么是父对象，父对象与子对象的联系是什么<br />
+<br />
+<br />
+谢谢各位了<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>晴路卡&nbsp; &nbsp; <b>时间: </b>2020-7-12 17:52<br />
+<i class="pstatus"> 本帖最后由 晴路卡 于 2020-7-13 09:19 编辑 </i><br />
+<br />
+1.json文本列表<br />
+2.<br /><div class="blockcode"><div id="code_l9I"><ol><li>setblock ~ ~ ~ oak_sign{Text1:'{&quot;text&quot;:&quot;1&quot;,&quot;color&quot;:&quot;red&quot;,&quot;extra&quot;:[{&quot;text&quot;:&quot;2&quot;,&quot;color&quot;:&quot;blue&quot;,&quot;extra&quot;:[{&quot;text&quot;:&quot;3&quot;,&quot;color&quot;:&quot;green&quot;}]}]}'}</ol></div><em onclick="copycode($('code_l9I'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_1641966" aid="1641966" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202007/12/200026jjcpwywwvyws1wj1.png" file="https://attachment.mcbbs.net/forum/202007/12/200026jjcpwywwvyws1wj1.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1641966" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1641966_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-07-12_19.59.16.png</strong> <em class="xg1">(216.42 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTY0MTk2Nnw2MTg0NGYxZXwxNjE0MDQzNDAzfDI0MTk0ODZ8MTA3Njk4OQ%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-7-12 20:00 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+3.好像确实没什么用 在你输入的时候都有不用到子对象的写法<br />
+但是以列表形式写入的JSON貌似最终会被拍成带子对象的形式<br />
+比如我使用这条命令能放一个和上面一模一样的木牌<br /><div class="blockcode"><div id="code_jI9"><ol><li>setblock ~ ~ ~ oak_sign{Text1:'[{&quot;text&quot;:&quot;1&quot;,&quot;color&quot;:&quot;red&quot;},{&quot;text&quot;:&quot;2&quot;,&quot;color&quot;:&quot;blue&quot;},{&quot;text&quot;:&quot;3&quot;,&quot;color&quot;:&quot;green&quot;}]'}</ol></div><em onclick="copycode($('code_jI9'));">复制代码</em></div>最终data get这个木牌的结果：<br />
+
+<ignore_js_op>
+
+<img id="aimg_1641973" aid="1641973" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202007/12/200607xpx1v5177v0sn0dp.png" file="https://attachment.mcbbs.net/forum/202007/12/200607xpx1v5177v0sn0dp.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="649" id="aimg_1641973" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1641973_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>0YX]K){6OI{}IXP)9[A[HAT.png</strong> <em class="xg1">(8.06 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTY0MTk3M3xhZTViMmE3ZHwxNjE0MDQzNDAzfDI0MTk0ODZ8MTA3Njk4OQ%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-7-12 20:06 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+4.上面写的还不够么<br />
+<script type="text/javascript" reload="1">
+aimgcount[18907423] = ['1641966','1641973'];
+attachimggroup(18907423);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>redfish&nbsp; &nbsp; <b>时间: </b>2020-7-12 18:20<br />
+json呢，是对象（其实就是数据）的存储格式，类似的呢还有xml和yml，是现在主流的存储格式<br />
+<br />
+你说的父对象、子对象呢，其实就是一种属于关系，也就是某个数据可以归类成某个类别这样。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>WYL0zhu&nbsp; &nbsp; <b>时间: </b>2020-7-12 18:23<br />
+看看这个：<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fmc-command.oschina.io%2Fcommand-tutorial%2Foutput%2Fcommon-format%2Fjson%2Fjson.html" target="_blank">https://mc-command.oschina.io/co ... rmat/json/json.html</a>。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>末地探险者&nbsp; &nbsp; <b>时间: </b>2020-7-13 00:01<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18907423&amp;ptid=1076989" target="_blank"><font color="#999999">晴路卡 发表于 2020-7-12 20:09</font></a></font><br />
+1.json文本列表<br />
+2.</blockquote></div><br />
+。。。这么说来事实上extra应该就是让一行的json文本能够分割成相同项目不同属性值
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+/**
+ *
+ * RangeDownloader.js by Zapic @ 2021
+ * https://github.com/KawaiiZapic/RangeDownloader-js/
+ *
+ * Please DO NOT remove this copyright message, as the basic respect for original author.
+ *
+ */
+
+ var RangeDownloader=function(){var a=function(a){if(this.url=a.url||null,!this.url)throw Error("Invaild url.");this.onerror=a.onerror||null,this.onload=a.onload||null,this.onprogress=a.onprogress||null,this.chucks=[]};return a.prototype.start=function(){if(!this.loaded){var a=this;this.abortController=new AbortController,fetch(this.url,{headers:{Range:"bytes="+this.downloadedSize.toString()+"-"},signal:this.abortController.signal}).then(function(b){return a.supportPartial=206==b.status,a.totalSize=parseInt(b.headers.get("Content-Length")),a.totalSize=0/0==a.totalSize?parseInt(b.headers.get("Content-Range").split("/")[1]):a.totalSize,a.running=!0,b.body.getReader()}).then(async function(b){for(var d,c=!1;!c&&(d=await b.read(),c=d.done,"undefined"!=typeof d.value);)a.chucks.push(d.value),a.downloadedSize+=d.value.byteLength,"function"==typeof a.onprogress?a.onprogress(a):0;c&&("function"==typeof a.onload?a.onload(a):0),a.running=!1,a.loaded=!0}).catch(function(b){if(1==a.running)throw"function"==typeof a.onerror?a.onerror(a,Error(b)):0,Error(b);a.running=!1})}},a.prototype.pause=function(){this.running=!1,null!=this.abortController?this.abortController.abort():0,this.chucks=this.supportPartial?this.chucks:[],this.downloadedSize=this.supportPartial?this.downloadedSize:0},a.prototype.cancel=function(){this.running=!1,null!=this.abortController?this.abortController.abort():0,this.chucks=[],this.downloadedSize=0,this.totalSize=0,this.supportPartial=!1},a.prototype.getResultAsBlob=function(){return new Blob(this.chucks)},a.prototype.running=!1,a.prototype.url="",a.prototype.onerror=null,a.prototype.onprogress=null,a.prototype.onload=null,a.prototype.supportPartial=!1,a.prototype.chucks=null,a.prototype.totalSize=0,a.prototype.downloadedSize=0,a.prototype.abortController=null,a.prototype.loaded=!1,a}();

@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>【1.15+】极简的定时器，利用schedule实现任意时刻的定时器 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMDIyMzE3LTEtMS5odG1sP2FjdGlvbj1wcmludGFibGU=', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【1.15+】极简的定时器，利用schedule实现任意时刻的定时器 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hans0000&nbsp; &nbsp; <b>时间: </b>2020-4-18 16:09<br />
+<b>标题: </b>【1.15+】极简的定时器，利用schedule实现任意时刻的定时器<br /><i class="pstatus"> 本帖最后由 hans0000 于 2020-4-18 16:45 编辑 </i><br />
+<br />
+<font size="4"><strong>前言</strong></font><br />
+定时器应该是每门编程语音里内置的一个功能模块，作为一个CBer，这玩意儿也少不了用。过去也许会用红石的漏斗计数器之类的，后来有了积分板，现在呢，schedule的出现使得这个功能实现起来超级简单。<br />
+<br />
+<br />
+<font size="4"><strong>预备知识</strong></font><br />
+在等待指定时间后运行指定的函数或指定标签里的函数 — — wiki。<br />
+<br />
+语法：<br />
+schedule function &lt;函数名&gt; &lt;时间&gt; [replace | append]<br />
+t是刻（游戏刻，可省略），s是秒（现实时间秒），d是天（Minecraft天）<br />
+<br />
+这里利用函数调用自身的特定，结合schedule即可达到任意时刻定时器的效果<br />
+<strong><font size="4"><br />
+</font></strong><br />
+<strong><font size="4">基础版</font></strong><br />
+新建timer1s.mcfunction文件<div class="blockcode"><div id="code_K97"><ol><li>say hello<br /><li>schedule function timer1s 1s</ol></div><em onclick="copycode($('code_K97'));">复制代码</em></div><br />
+<div align="center">
+<ignore_js_op>
+
+<img id="aimg_1559240" aid="1559240" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202004/18/155814r0vud0z55ii5llt0.gif" file="https://attachment.mcbbs.net/forum/202004/18/155814r0vud0z55ii5llt0.gif" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1559240" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1559240_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Honeycam 2020-04-18 15-22-19.gif</strong> <em class="xg1">(764.92 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU1OTI0MHw4MjgyZDY0Y3wxNjE0MDI4NDY2fDI0MTk0ODZ8MTAyMjMxNw%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-4-18 15:58 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><br />
+<br />
+<br />
+<font size="4"><strong>带逻辑版本</strong></font><br />
+有时候需求可能要加一些逻辑，进而我们可以定义多个文件到底预期的<br />
+<br />
+新建interval3s-one.mcfunction<br /><div class="blockcode"><div id="code_y6d"><ol><li>execute as @p[tag=!showname] run tag @s add showname<br /><li>schedule function minecraft:interval3s-other 3s</ol></div><em onclick="copycode($('code_y6d'));">复制代码</em></div><br />
+新建interval3s-other.mcfunction<br /><div class="blockcode"><div id="code_eMY"><ol><li>execute as @p[tag=showname] run tag @s remove showname<br /><li>schedule function minecraft:interval3s-one 3s</ol></div><em onclick="copycode($('code_eMY'));">复制代码</em></div><br />
+<div align="center">
+<ignore_js_op>
+
+<img id="aimg_1559236" aid="1559236" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202004/18/155719hmudcddocicmzcfy.gif" file="https://attachment.mcbbs.net/forum/202004/18/155719hmudcddocicmzcfy.gif" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1559236" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1559236_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Honeycam 2020-04-18 15-41-21.gif</strong> <em class="xg1">(313.71 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU1OTIzNnwyYmViMWQxNHwxNjE0MDI4NDY2fDI0MTk0ODZ8MTAyMjMxNw%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-4-18 15:57 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[17674611] = ['1559236','1559240'];
+attachimggroup(17674611);
+new lazyload();
+</script>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

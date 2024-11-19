@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>M1.8：指令方块新的/title教程 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0yNzY0NTYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>M1.8：指令方块新的/title教程 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>PotatoMaster101&nbsp; &nbsp; <b>时间: </b>2014-5-16 17:35<br />
+<b>标题: </b>M1.8：指令方块新的/title教程<br /><i class="pstatus"> 本帖最后由 PotatoMaster101 于 2014-9-7 15:26 编辑 </i><br />
+<br />
+<font size="4">大家好。今天来教大家MC1.8的第23个快照 - 14w20a的/title指令。这条指令先是Searge提出的，“</font><font size="4">I made something: /title &lt;player&gt; title|subtitle &lt;raw json title&gt; OR&nbsp;&nbsp;/title &lt;player&gt; times &lt;fadeIn&gt; &lt;stay&gt; &lt;fadeOut&gt;</font> <font size="4">”。这句话就是/title第一次被Mojang制作人公布出来。</font><br />
+<br />
+<font size="4">/title是一个和/tellraw差不多的东西，唯一不同的就是，<strong>/tellraw是显示在对话框里，而/title是直接显示在屏幕正中间</strong>。这样子可以比/tellraw更加醒目。这个/title显示的文字和/tellraw一样，可以自定义颜色什么，因为/title也是用的Json形式的指令。要学/title需要对/tellraw有点了解。</font><br />
+<br />
+<font size="4"><font color="#9932cc">--------------------华丽的分割线-------------------- </font></font><font size="4"><font color="#9932cc"><br />
+</font></font><font size="4">首先是简单的，<strong>设置/title的时间</strong>。这个只是美观的作用，因为使用/title发出信息后有3个延迟：<strong>渐渐出现，出现，渐渐消失</strong>。这些都是美观用。指令格式：</font><br />
+<font size="4"><div class="blockcode"><div id="code_Yuk"><ol><li>/title @a times &lt;渐渐出现&gt; &lt;出现&gt; &lt;渐渐消失&gt;</ol></div><em onclick="copycode($('code_Yuk'));">复制代码</em></div>这就是指令的格式，所以如果大家打成<font style="background-color:rgb(255, 250, 205)">&quot;/title @a times 0 1 0&quot;</font>的话，那么title只会在屏幕中间显示一档的时间，而且并不会有任何渐渐消失或者出现的效果，因为延迟都是0。再举个例子，如果是：<font style="background-color:rgb(255, 250, 205)"> /title @a times 5 500 100</font> 的话，那么title就会在5档里面渐渐出现，然后在玩家屏幕中间持续500档，然后在100档内渐渐消失。<strong>（指令里打的是@a，也就是全部玩家都有效果。要单独针对某个玩家的话大家可以自己调节。）</strong>如果不设置这个的话，也没关系，游戏会默认的显示。</font><br />
+<br />
+<font color="#9932cc"><font size="4">--------------------华丽的分割线</font></font><font color="#9932cc"><font size="4"> </font></font><font color="#9932cc"><font size="4">--------------------</font></font><font color="#9932cc"><font size="4"> </font></font> <font size="4"><font color="#9932cc"><br />
+</font></font><font size="4">之后就是如何让/title显示出文字。这个很简单，指令格式：</font><br />
+<font size="4"><div class="blockcode"><div id="code_cAi"><ol><li>/title @a &lt;title/subtitle&gt; &lt;Json信息&gt;</ol></div><em onclick="copycode($('code_cAi'));">复制代码</em></div>这里和上面一样，@a是全部玩家，让所有玩家的屏幕上都出现同样的title。首先是title/subtitle，两者之间选一个。title就是主题的意思，也就是显示在玩家屏幕中心显示文字，最主要的。subtitle是次要的，但是<strong>如果subtitle要显示的话，必须要有一个title正在显示，然后subtitle才会显示，</strong>就像电影一样，角色不说话不会出现字幕。2个不同的是，<strong>title就是主题，subtitle就是字幕</strong>。之后这个Json信息这里不会说太多，因为/tellraw的Json信息过于复杂，单个帖讲不清。</font><br />
+<br />
+<font size="4"><font color="#ff0000">首先说的是title</font>。先来说下最简单的：</font><br />
+<font size="4"><div class="blockcode"><div id="code_CD5"><ol><li>/title @a title HAHAHA</ol></div><em onclick="copycode($('code_CD5'));">复制代码</em></div></font><font size="4">玩家打入这条指令后就会在屏幕中间显示“HAHAHA”的文字。这里还未加入任何Json信息，所以无法自定义。这条指令很简单相信大家都能看懂。之后就是包含Json信息了，好处是可以自定义文字的样子。例子:</font><br />
+<font size="4"><div class="blockcode"><div id="code_tqF"><ol><li>/title @a title <br /><li>{text:&quot;HAHAHA&quot;,color:green,underlined:true,bold:true,italic:true,strikethrough:true}</ol></div><em onclick="copycode($('code_tqF'));">复制代码</em></div>这条指令包含Json信息的所有文字处理。这条指令刷出一个HAHAHA的绿色字母，并且拥有：文字加粗，下划线，中划线和斜向。（未加入混乱（obfuscated），因为字会看不清）。这个唯一和/tellraw不同的是，<strong>这个只能用来显示，所以/tellraw的clickEvent，hoverEvent什么都无法在/title里运行</strong>。</font><br />
+<br />
+<font size="4"><font color="#ff0000">之后来说下subtitle</font>。这个就是字幕，可以帮title加入其他的多余信息什么。例子：</font><br />
+<font size="4"><div class="blockcode"><div id="code_Yz8"><ol><li>/title @a subtitle HAHAHA</ol></div><em onclick="copycode($('code_Yz8'));">复制代码</em></div>当玩家打入这条指令后什么事也不会发生。原因如上面所说，<strong>subtitle无法单独显示，只有当title显示后</strong>，subtitle才会显示。就像电影人物不说话，哪来的字幕。所以，如果大家打入这条指令后，游戏会自动检查是否有title的存在，如果没有title的存在，那么游戏就会把subtitle的信息储存起来，等下一次玩家使用了title后就会和title一起显示。subtitle也和title差不多，这里就不详细解释了。</font><br />
+<font size="4"><font color="#ff0000">注意：以上指令都是用@a选择目标，玩家可以自定义选中的目标。</font></font><br />
+<br />
+<font color="#9932cc"><font size="4">--------------------华丽的分割线</font></font><font color="#9932cc"><font size="4"> </font></font><font color="#9932cc"><font size="4">--------------------</font></font><font color="#9932cc"><font size="4"> </font></font> <br />
+<br />
+<font size="4">之后是其他一些不重要的/title指令：</font><div class="blockcode"><div id="code_eR2"><ol><li>/title @a clear</ol></div><em onclick="copycode($('code_eR2'));">复制代码</em></div><font size="4">这条指令<strong>清空所有玩家屏幕上的title和subtitle</strong>。如果玩家不小心把延迟调太大了以至于title不会退下去，那可以用这条指令。同上，@a是选中所有玩家，选中的话玩家可以自己调。</font><br />
+<font size="4"><div class="blockcode"><div id="code_epf"><ol><li>/title @a reset</ol></div><em onclick="copycode($('code_epf'));">复制代码</em></div>这条指令重置/title，有2个用处：第一就是和clear一样，<strong>清空屏幕上的所有title和subtitle，之后还会重置/title的延迟</strong>，设置成默认状态。</font><br />
+<br />
+<font size="4">效果：</font><br />
+<img id="aimg_xd15b" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://img1.tuchuang.org/uploads/2014/09/1(19).jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<font size="4">使用的指令：</font><br /><div class="blockcode"><div id="code_oB1"><ol><li>/title @a title <br /><li>{text:&quot;233&quot;,color:red,bold:true}</ol></div><em onclick="copycode($('code_oB1'));">复制代码</em></div><div class="blockcode"><div id="code_p9Q"><ol><li>/title @a subtitle <br /><li>{text:&quot;PotatoMaster101&quot;,color:aqua,obfuscated:true}</ol></div><em onclick="copycode($('code_p9Q'));">复制代码</em></div><br />
+<font size="4">==============END============</font><br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lisongnan7&nbsp; &nbsp; <b>时间: </b>2014-5-16 17:37<br />
+支持一下，没想到这么快就出了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>肥嘟嘟的大象&nbsp; &nbsp; <b>时间: </b>2014-5-16 17:37<br />
+看不懂………………<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>肥嘟嘟的大象&nbsp; &nbsp; <b>时间: </b>2014-5-16 17:37<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=5307036&amp;ptid=276456" target="_blank"><font color="#999999">肥嘟嘟的大象 发表于 2014-5-16 17:37</font></a></font><br />
+看不懂………………</blockquote></div><br />
+但还是支持一下~@！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>哭泣的格桑花&nbsp; &nbsp; <b>时间: </b>2014-5-16 17:39<br />
+同沙发看不懂= =&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>暗夜之猫&nbsp; &nbsp; <b>时间: </b>2014-5-16 18:15<br />
+看不懂，但是也要来支持下~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>审奥不解释&nbsp; &nbsp; <b>时间: </b>2014-5-16 18:33<br />
+可恶的家伙，我刚编辑好。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>云小龙&nbsp; &nbsp; <b>时间: </b>2014-11-4 06:46<br />
+支持楼主，楼主加油<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>etlaild&nbsp; &nbsp; <b>时间: </b>2014-12-9 15:01<br />
+首先把膝盖给楼主，其次想问一下能否用命令方块设置玩家进入服务器的时候有一个欢迎title。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mi_man&nbsp; &nbsp; <b>时间: </b>2015-3-14 14:23<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=7144285&amp;ptid=276456" target="_blank"><font color="#999999">etlaild 发表于 2014-12-9 15:01</font></a></font><br />
+首先把膝盖给楼主，其次想问一下能否用命令方块设置玩家进入服务器的时候有一个欢迎title。 ...</blockquote></div><br />
+同问，怎么设置啊。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhangqingqi&nbsp; &nbsp; <b>时间: </b>2015-3-14 21:07<br />
+大神，教教我用NBT吧 外置的 我以前会用 现在打不开 貌似说我少了一个什么version的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>咕噜and呼噜&nbsp; &nbsp; <b>时间: </b>2015-3-28 20:06<br />
+表示没有玩1.8<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2502294375&nbsp; &nbsp; <b>时间: </b>2015-6-27 19:10<br />
+怎么显示出红色的“WARNING”字幕<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>飞火流星&nbsp; &nbsp; <b>时间: </b>2015-7-9 13:15<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xcc&nbsp; &nbsp; <b>时间: </b>2015-7-18 16:55<br />
+一个全屏的say<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a381811169@163.&nbsp; &nbsp; <b>时间: </b>2016-10-18 21:13<br />
+<img id="aimg_fmly2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://a2.qpic.cn/psb?/V12hwZeQ2hQkbf/IiREbuYrg.5YPtuthS*.l8EOuHOl2vwAS40lNJZxAsE!/b/dAkBAAAAAAAA&amp;ek=1&amp;kp=1&amp;pt=0&amp;bo=WwElAFsBJQADCC0!&amp;sce=60-2-2&amp;rf=viewer_311" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这是？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a2473080572&nbsp; &nbsp; <b>时间: </b>2017-3-27 20:10<br />
+1.9以上会出现j无效的son.........<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>曙光2333&nbsp; &nbsp; <b>时间: </b>2017-7-14 10:39<br />
+楼主，在演示中没有加times，我想问这个加在哪里？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小宇V5&nbsp; &nbsp; <b>时间: </b>2017-8-6 18:01<br />
+为什么用了之后出现这个错误：<br />
+ 无效的json：malformed JSON at line 1 column 1<br />
+我用的是1.9.4<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mr.朱&nbsp; &nbsp; <b>时间: </b>2017-8-30 21:30<br />
+1.11.2不能用QAQ<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>indfgaw&nbsp; &nbsp; <b>时间: </b>2018-7-13 21:39<br />
+1.7.10版本能用吗？为什么我用不了?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>indfgaw&nbsp; &nbsp; <b>时间: </b>2018-7-13 22:08<br />
+1.7.10版本能不能用?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Him_Was&nbsp; &nbsp; <b>时间: </b>2019-10-2 16:17<br />
+这个用单个命令方块可以完成么？/title @a title {text:&quot;HAHAHA&quot;,color:green,underlined:true,bold:true,italic:true,strikethrough:true}
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>[20w17a]attribute指令详解 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMDI2ODQxLTEtMS5odG1sP2FjdGlvbj1wcmludGFibGU=', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[20w17a]attribute指令详解 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Y制杖杖&nbsp; &nbsp; <b>时间: </b>2020-4-23 11:59<br />
+<b>标题: </b>[20w17a]attribute指令详解<br /><i class="pstatus"> 本帖最后由 Y制杖杖 于 2020-4-24 06:31 编辑 </i><br />
+<br />
+<font color="black">在4月22日发布的全新快照20w17a中，加入了一条新的指令 /attribute<br />
+语法树：</font><br /><div class="blockcode"><div id="code_zn5"><ol><li>attribute &lt;目标&gt; &lt;属性&gt; (get|base|modifier)&nbsp; &nbsp;<br /><li>&nbsp;&nbsp;... get [&lt;scale&gt;]<br /><li>&nbsp;&nbsp;... base get [&lt;scale&gt;]<br /><li>&nbsp;&nbsp;... base set &lt;value&gt;<br /><li>&nbsp;&nbsp;... modifier (add|remove|value get) <br /><li>&nbsp; &nbsp; ... add &lt;uuid&gt; &lt;name&gt; &lt;value&gt; (add|multiply|multiply_base)<br /><li>&nbsp; &nbsp; ... remove &lt;uuid&gt;<br /><li>&nbsp; &nbsp; ... value get &lt;uuid&gt; [&lt;scale&gt;]</ol></div><em onclick="copycode($('code_zn5'));">复制代码</em></div><font color="black"><font style="background-color:rgb(247, 247, 247)">其中，目标可以是任意的实体（包括玩家 (但是玩家的移动速度属性在被更改后会恢复<br />
+属性即AttributeName，允许的值可见：<a href="https://minecraft-zh.gamepedia.com/" target="_blank">https://minecraft-zh.gamepedia.com/属性</a><br />
+<strong>. 子命令</strong><br />
+&nbsp; &nbsp; <strong>. get [&lt;比率&gt;]</strong><br />
+&nbsp; &nbsp; 获取该属性的值（并乘以比率后作为命令返回值【仅用于execute的储存子命令，在命令反馈中显示的仍然是原值】）<br />
+<br />
+&nbsp; &nbsp; 属性的值是base值经过modifier修饰后的最终值<br />
+&nbsp; &nbsp; <strong>. base get [&lt;比率&gt;]</strong><br />
+&nbsp; &nbsp; 获取该属性的基础值（并乘以比率后作为命令返回值）<br />
+&nbsp; &nbsp; 不经过modifier修饰<br />
+&nbsp; &nbsp; <strong>. base set &lt;值&gt;</strong><br />
+&nbsp; &nbsp; 设置该属性的基础值<br />
+&nbsp; &nbsp; <strong>. modifier add &lt;UUID&gt; &lt;修饰符名称&gt; &lt;值&gt; (add|multiply|multiply_base)</strong><br />
+&nbsp; &nbsp; 为该属性增加修饰符<br />
+&nbsp; &nbsp; UUID是“字符串形式”，但实际上并不需要双引号，而是类似这样的形式：0000000a-000b-000c-000d-000000000001<br />
+&nbsp; &nbsp; 由于1.16后UUID几乎都以整型数组的形式保存（包括实体NBT中AttributeModifiers中修饰符的UUID），所以我们应该了解如何将其转化为整型数组<br />
+&nbsp; &nbsp; 首先，字符串形式的UUID被四个“-”分割为了5部分，前三部分为最高位（Most），后两部分为最低位（Least），最高位和最低位可以看做两个长整数类型：<font style="color:rgb(0, 0, 0)"><font style="background-color:rgb(247, 247, 247)"><font face="Tahoma,">0000000a000b000c和000d000000000001</font></font></font><br />
+&nbsp; &nbsp; (需要注意的是这两个数字以<strong>16进制</strong>储存）<br />
+&nbsp; &nbsp; 再将这两个long类型数据（占8位），转化为两个int类型数据（占四位），就能得到四个整型数据，即我们所要的数组</font> <br />
+&nbsp; &nbsp; 以下是Java代码实现：（将<font style="background-color:rgb(247, 247, 247)"><font face="Tahoma,">0000000a-000b-000c-000d-000000000001转化为数组</font></font>）<br />
+&nbsp; &nbsp;</font><div class="blockcode"><div id="code_A3v"><ol><li>//这里采用的是先将字符串uuid转化为两个long再拆分为int。直接拆成4个int也是可行的，这样操作是为了方便对高低位UUID的转化。 public static void main(String[] args) {<br /><li>for(int x:getIntegerArray(0x0000000a000b000cL,0x000d000000000001L)) {<br /><li>&nbsp; &nbsp;System.out.print(x+&quot;,&quot;); //输出结果：10,720908,851968,1,<br /><li>&nbsp;&nbsp;}<br /><li> }<br /><li> public static int[] getIntegerArray(long most,long least) {<br /><li>&nbsp;&nbsp;byte[] b_1=getBytes(most);<br /><li>&nbsp;&nbsp;byte[] b_2=getBytes(least);<br /><li>&nbsp;&nbsp;return new int[] { //这里需要倒序输出<br /><li>&nbsp; &nbsp;toInt(b_1[4],b_1[5],b_1[6],b_1[7]),<br /><li>&nbsp; &nbsp;toInt(b_1[0],b_1[1],b_1[2],b_1[3]),<br /><li>&nbsp; &nbsp;toInt(b_2[4],b_2[5],b_2[6],b_2[7]),<br /><li>&nbsp; &nbsp;toInt(b_2[0],b_2[1],b_2[2],b_2[3]),<br /><li>&nbsp;&nbsp;};<br /><li> }<br /><li> public static byte[] getBytes(long x) {<br /><li>&nbsp;&nbsp;byte[] a=new byte[8];<br /><li>&nbsp;&nbsp;for(int i=0;i&lt;a.length;i++)a[i]=(byte)((x&gt;&gt;i*8)&amp;0xff);<br /><li>&nbsp;&nbsp;return a;<br /><li> }<br /><li> public static int toInt(byte...b){<br /><li>&nbsp;&nbsp;int result=0;<br /><li>&nbsp;&nbsp;for(int i=0;i&lt;4;i++)result+=(int)((b[i]&amp;0xff)&lt;&lt;i*8);<br /><li>&lt;div&gt;&nbsp;&nbsp;return result;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;</ol></div><em onclick="copycode($('code_A3v'));">复制代码</em></div><font color="black">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 那么UUID有什么用呢？同一个属性中的修饰符的UUID应该是唯一的，也就是说你不能添加两个UUID相同的修饰符到同一个属性</font><br />
+<font color="black">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 这点在自定义装备中可以得到运用，起到类似“唯一属性”的效果。比如一个头盔和一个胸甲，他们都能提供5点抗击退的属性修饰符，</font><br />
+<font color="black">&nbsp; &nbsp; 但UUID相同。所以当玩家同时穿上两件装备，增加的仍然只有5点抗击退。</font><br />
+<font color="black">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;修饰符名称没有实际的作用，仅用作标识<br />
+</font><br />
+<font color="black">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;add、multiply、multipy_base分别对应operation的0、1、2<br />
+&nbsp; &nbsp; 见wiki：<br />
+</font><div class="quote"><blockquote><font color="black">修改的Operation(运算模式)决定这个属性被修饰的模式，大概的说明为：直接加减Amount,乘以Amount，乘以Amount+1；Operation可选值有三个： 0、1 或者2. 这个值将会决定修饰符对属性的基础数值的计算方式. </font><br />
+<font color="black"><br />
+</font><br />
+<font color="black">若该值为0：将X的增量设为Amount的值，例如：{Amount:2,Operation:0}和{Amount:4,Operation:0}与基础值3的结果是：9 (3 + 2 + 4 = 9)。 </font><br />
+<font color="black"><br />
+</font><br />
+<font color="black">若该值为1：将Y的增量设为X×Amount的值； 例如：修饰符属性：{Amount:2,Operation:1}和{Amount:4,Operation:1}与基础值3的结果是21（3 *（1 + 2 + 4）= 21）。 </font><br />
+<font color="black"><br />
+</font><br />
+<font color="black">若该值为2：则计算Y = Y × (1 + Amount的值) (等同于将Y的增量设为 Y × Amount的值)Minecraft会先设 X = Base, 然后执行所有Operation的值为0的修饰符, 紧接着设 Y = X, 之后再执行所有Operation值为1的修饰符, 最后才执行所有Operation的值为2的修饰符。例如：{Amount:2,Operation:2}和{Amount:4,Operation:2}与3的基础值结果是45（3 *（1 + 2）*（1 + 4）= 45）。[3] <br />
+</font><font color="black">数学行为如下：Operation0：按数量增加X，操作1：增加Y×X *数量，Operation2：Y = Y *（1 +数量）（相当于增量Y减去Y *数量）。</font><br />
+<font color="black"><br />
+</font><br />
+<font color="black"> 游戏首先设置X = Base，然后执行所有Operation 0修饰符，然后设置Y = X，然后执行所有Operation 1修饰符，最后执行所有Operation 2修饰符。 </font></blockquote></div><br />
+<font color="black"><br />
+<strong>&nbsp; &nbsp;. </strong><font style="background-color:rgb(247, 247, 247)"><font face="Tahoma,">modifier</font></font><strong> <font style="background-color:rgb(248, 249, 250)"><font face="monospace,monospace"><font style="font-size:13.93px">remove &lt;uuid&gt;</font></font></font></strong><br />
+&nbsp; &nbsp;&nbsp;&nbsp;移除对应uuid的修饰符</font><br />
+<div align="left"><font style="background-color:rgb(248, 249, 250)"><font face="monospace,monospace"><font style="font-size:13.93px"><font color="black"><strong> . </strong>modifier<strong> value get &lt;uuid&gt; [&lt;比率&gt;]</strong></font></font></font></font><font color="black"><br />
+</font></div><font color="black">&nbsp; &nbsp;&nbsp;&nbsp;获取对应uuid修饰符的值</font><br />
+<br />
+<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>无禾&nbsp; &nbsp; <b>时间: </b>2020-4-23 18:46<br />
+在服务器的话用后台的配置文件可以用嘛<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我是小曾丫&nbsp; &nbsp; <b>时间: </b>2020-4-25 12:49<br />
+是20w17a中间的吗，我没找到诶（可能我有点眼瞎<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Y制杖杖&nbsp; &nbsp; <b>时间: </b>2020-4-25 12:57<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17821550&amp;ptid=1026841" target="_blank"><font color="#999999">我是小曾丫 发表于 2020-4-25 12:49</font></a></font><br />
+是20w17a中间的吗，我没找到诶（可能我有点眼瞎</blockquote></div><br />
+？什么意思<br />
+/attribute是20w17a加入Minecraft的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我是小曾丫&nbsp; &nbsp; <b>时间: </b>2020-4-25 12:58<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17821724&amp;ptid=1026841" target="_blank"><font color="#999999">Y制杖杖 发表于 2020-4-25 12:57</font></a></font><br />
+？什么意思<br />
+/attribute是20w17a加入Minecraft的</blockquote></div><br />
+我有的呀，我好像没找到<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Y制杖杖&nbsp; &nbsp; <b>时间: </b>2020-4-25 13:01<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17821751&amp;ptid=1026841" target="_blank"><font color="#999999">我是小曾丫 发表于 2020-4-25 12:58</font></a></font><br />
+我有的呀，我好像没找到</blockquote></div><br />
+在聊天栏输入&quot;/at&quot;就能看到补全了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我是小曾丫&nbsp; &nbsp; <b>时间: </b>2020-4-25 13:49<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17821813&amp;ptid=1026841" target="_blank"><font color="#999999">Y制杖杖 发表于 2020-4-25 13:01</font></a></font><br />
+在聊天栏输入&quot;/at&quot;就能看到补全了</blockquote></div><br />
+O(∩_∩)O谢谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>🥶❄️☠️&nbsp; &nbsp; <b>时间: </b>2020-5-1 14:39<br />
+诶呀，想不到现在的指令这么高级啊
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

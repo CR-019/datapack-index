@@ -1,0 +1,209 @@
+<html>
+<head>
+<title>1.12 连锁命令方块(CCB)新机制研究 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02ODc5NjMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>1.12 连锁命令方块(CCB)新机制研究 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-4-22 09:52<br />
+<b>标题: </b>1.12 连锁命令方块(CCB)新机制研究<br /><i class="pstatus"> 本帖最后由 pca006132 于 2017-4-26 22:32 编辑 </i><br />
+<br />
+个人认为2b的研究 <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fmcbbs.tvt.im%2Fthread-687926-1-1.html" target="_blank">http://mcbbs.tvt.im/thread-687926-1-1.html</a> 有些未覆盖到的位置，故此发一些我的研究及猜测了<br />
+<br />
+本研究会谈及CCB执行命令一瞬间的工作，新的gamerule maxCommandChainLength，以及一些CCB新的实用的功能<br />
+<br />
+简写:<br />
+- ICB: 脉冲命令放<br />
+- CCB: 连锁命令方块<br />
+- RCB: 循环命令方块<br />
+- CB: 命令方块<br />
+- NTE: Next Tick Entry，就是放在一个列表里等待下一个gt(游戏刻)处理的意思<br />
+- gt: 游戏刻，game tick，游戏里最小可描述、测量时间单位<br />
+- 微观延迟: 在1gt里的先后次序，虽然有时间上的分别，然而只是先后次序的概念而不是一个时间单位<br />
+<br />
+<font size="5">简介CCB新机制</font><br />
+chyx的CCB新特性简介 <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fmcbbs.tvt.im%2Fthread-687773-1-1.html" target="_blank">http://mcbbs.tvt.im/thread-687773-1-1.html</a>已经很简单的概括了CCB在1.12的更新: 不再是NTE的东西了。<br />
+这代表什么呢？<br />
+以前，CCB是先放入NTE，然后下一个gt根据放进NTE的顺序来决定执行次序的，这代表了两个问题：我们没法在1gt内加入新的ccb并且执行命令；我们无法让后面的命令取消执行。我们只能做的是替换掉里面某些ccb(NTE不会记录它们的命令)来做到瞬间替换执行的命令。<br />
+现在，CCB是即时处理的了。也就是说是到该CCB执行命令的时候才传递信号给下一个执行命令的CCB，让后面的CCB执行命令。这分别是很大的，因为这代表了我们能够在那1gt里修改ccb朝向达至激活不同的链；清除ccb避免执行后方命令；在后方加上ccb执行更多的命令；修改UpdateLastExecution为0b以在同一cb执行多次命令。<br />
+<br />
+<img id="aimg_LSLw6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line1.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<font size="5">CCB新机制研究</font><br />
+<font size="4">CCB默认1gt只能执行一次命令，除非设置了UpdateLastExecution为0b，这样就不会检查这gt有没有执行命令</font><br />
+<br />
+<font size="4">CCB受到信号时，会先决定待会让哪个方位的CCB执行命令，然后自己执行命令，然后传信号到先前决定的方向的CCB执行</font><br />
+证明1: CCB会先决定待会让哪个方位的CCB执行命令，然后自己才执行命令。<br />
+先用CB搭建一个分支结构<br />
+<img src="static/image/smiley/machine/cb_side_2.png" smilieid="1359" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><img src="static/image/smiley/machine/chain_cb_side_1.png" smilieid="1331" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+设它们的号码为:<br />
+1<br />
+2 4<br />
+3<br />
+<br />
+2的命令为把自己的朝向改为朝向4<br />
+3的命令为say 3<br />
+4的命令为say 4<br />
+然后激活ICB。<br />
+<br />
+如果CCB是先执行命令，后决定待会让哪个方位的，执行命令的应该是4，聊天栏的输出应该是4。然而实验结果是3.<br />
+因此我们可以得知，CCB是先决定待会传信息给哪个方位的ccb的。<br />
+<br />
+<br />
+证明2: CCB先执行命令，后传信号到下一个ccb。<br />
+我想到的有两种证明方法: 分别为在后方加上ccb及移除自身。为了简单，这里会讲解后者。<br />
+先用CB搭建以下结构<br />
+<img src="static/image/smiley/machine/cb_side_2.png" smilieid="1359" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<br />
+第一个CCB的命令为 setblock ~ ~ ~ air<br />
+第二个CCB的命令为 say 1<br />
+<br />
+如果CCB是先传递信号，后执行命令，那么应该会有第二个ccb的输出，也就是聊天栏会输出1。然而实验结果为无输出。<br />
+这证明了CCB是执行命令后传递信号的。<br />
+<br />
+<img id="aimg_sDZL9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line1.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<font size="5">新的gamerule maxCommandChainLength</font><br />
+这个gamerule决定了CCB的信号能经过多少个ccb。默认65536。对icb及rcb无影响。<br />
+<br />
+证明1:<br />
+先用CB搭建以下结构<br />
+<img src="static/image/smiley/machine/cb_side_2.png" smilieid="1359" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<img src="static/image/smiley/machine/chain_cb_side_2.png" smilieid="1339" border="0" alt="" /><br />
+<br />
+从上而下命令为<br />
+say 1<br />
+say 2<br />
+say 3<br />
+...<br />
+<br />
+预先设置gamerule: /gamerule maxCommandChainLength 4<br />
+然后启动icb。<br />
+输出为: 1-4。<br />
+<br />
+证明2:<br />
+把以上结构第一个ccb调为auto:0(红石激活)。<br />
+把以上结构第二个ccb的命令清除掉。<br />
+把以上结构第三个ccb调为条件制约(conditional)<br />
+然后启动icb。<br />
+输出为4。<br />
+<br />
+证明3:<br />
+你把那gamerule调成0然后开rcb及icb就行了。。。这里就不多说了。<br />
+<br />
+这说明了该gamerule只对ccb有效，而且决定了CCB的信号能经过多少个ccb，而不是执行了多少命令。并且auto，条件制约等对其并无影响。<br />
+<br />
+<img id="aimg_Qi86N" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line1.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<font size="5">CCB实践</font><br />
+相信看完上面的证明，大家也知道了起码一个实践方法: 循环。方法就是弄个ccb的环，然后把里面的ccb改为UpdateLastExecution:0b<br />
+<br />
+其次，我们也可以玩分支结构。<br />
+虽然从上面的证明中我们可以看到是没法转自己的，然而我们可以转下一个啊！<br />
+加上一些条件制约，我们就能开心的玩if之类的条件控制了，比较方便。<br />
+<br />
+然后我们也能玩动态加载。虽然上面没写，然而大家应该也从2b及chyx那帖子那里看到动态加载的用法了。<br />
+其实就是在ccb后方加上更多的ccb而已。方法有两个，各有好处:<br />
+- clone，只需要一个cb。然而你需要绝对坐标。<br />
+- 结构方块: 不需要绝对坐标。然而你需要两个cb:(坐标、结构名称可以改变，总之就是在链后方先放置structure后放置红石块)<br />
+(我这个链的朝向是+x)<br />
+/setblock ~2 ~ ~ minecraft:structure_block 1 replace {posX:0,posY:0,posZ:0,name:test,mode:LOAD}<br />
+/setblock ~2 ~ ~ redstone_block<br />
+温馨提示: 动态加载建议复制时多复制个空气方块。这样就能与后面可能未能完全覆盖的ccb分开，避免执行了一些你不想执行的东西。<br />
+<br />
+最后我们也能玩停止后面的命令执行...在原地setblock air就好<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:03<br />
+抢楼<br />
+<br />
+我只想问一句,如果把gamerule的CCB最大执行量弄得很大/无限大,能否用它带动一些我们之前提出的不可能的无延迟机械?比如无延迟读写盔甲架变量与模拟无延迟红石电路?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:07<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724587&amp;ptid=687963" target="_blank"><font color="#999999">langyo_v3 发表于 2017-4-22 10:03</font></a></font><br />
+抢楼<br />
+<br />
+我只想问一句,如果把gamerule的CCB最大执行量弄得很大/无限大,能否用它带动一些我们之前提出的不可能 ...</blockquote></div><br />
+其实基本上65536也很够了。<br />
+很大的话分别只是在于gt而已。实际需要的运算时间还是很长的。<br />
+比如改到int32的上限...我觉得你真的需要那么大的限制的话，你可能要跑几个小时才跑完1gt。<br />
+<br />
+所以那无延迟实际上会导致cpu不停运转，而且其他东西全停下来。实际上也算是延迟，只是你不能以mc内的时间测量而已。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:13<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724601&amp;ptid=687963" target="_blank"><font color="#999999">pca006132 发表于 2017-4-22 10:07</font></a></font><br />
+其实基本上65536也很够了。<br />
+很大的话分别只是在于gt而已。实际需要的运算时间还是很长的。<br />
+比如改到int32 ...</blockquote></div><br />
+你能否测试一下,当CCB进入分支结构时,分支的执行顺序是怎样的?是否有额外条件能够调整顺序?(比如在分支第一个时把第二个即将要执行的分支用clone刷新,会不会直接跳票到第三个?)<br />
+以及,分支过后,是先把这个分支的后续命令执行完,还是继续下面的分支再分别执行支路?<br />
+<br />
+期待你的研究<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:16<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724620&amp;ptid=687963" target="_blank"><font color="#999999">langyo_v3 发表于 2017-4-22 10:13</font></a></font><br />
+你能否测试一下,当CCB进入分支结构时,分支的执行顺序是怎样的?是否有额外条件能够调整顺序?(比如在分支第 ...</blockquote></div><br />
+我不是很明白你说的分支...<br />
+你是说1个信号到分岔路的时候还是啥？<br />
+信号一次只能传给一个ccb<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:22<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724633&amp;ptid=687963" target="_blank"><font color="#999999">pca006132 发表于 2017-4-22 10:16</font></a></font><br />
+我不是很明白你说的分支...<br />
+你是说1个信号到分岔路的时候还是啥？<br />
+信号一次只能传给一个ccb ...</blockquote></div><div class="quote"><blockquote>证明1: CCB会先决定待会让哪个方位的CCB执行命令，然后自己才执行命令。<br />
+先用CB搭建一个分支结构<br />
+设它们的号码为:<br />
+1<br />
+2 4<br />
+3<br />
+2的命令为把自己的朝向改为朝向4<br />
+3的命令为say 3<br />
+4的命令为say 4<br />
+然后激活ICB。<br />
+如果CCB是先执行命令，后决定待会让哪个方位的，执行命令的应该是4，聊天栏的输出应该是4。然而实验结果是3.<br />
+因此我们可以得知，CCB是先决定待会传信息给哪个方位的ccb的。</blockquote></div>难道这不是么?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:27<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724658&amp;ptid=687963" target="_blank"><font color="#999999">langyo_v3 发表于 2017-4-22 10:22</font></a></font><br />
+难道这不是么?</blockquote></div><br />
+还是只执行了一个链啊 <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:27<br />
+我有一个问题，这种处理ccb的方式相比于原来的NTE方式，是不是可以大幅度减少卡顿？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:30<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724680&amp;ptid=687963" target="_blank"><font color="#999999">chyx 发表于 2017-4-22 10:27</font></a></font><br />
+还是只执行了一个链啊</blockquote></div><br />
+那如何正确实现分支?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:33<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724684&amp;ptid=687963" target="_blank"><font color="#999999">ruhuasiyu 发表于 2017-4-22 10:27</font></a></font><br />
+我有一个问题，这种处理ccb的方式相比于原来的NTE方式，是不是可以大幅度减少卡顿？ ...</blockquote></div><br />
+其实我并不认为这和卡顿有太大关系...分别只是一个先把需要执行的放进个list里等待执行，一个是执行的时候决定下一个执行啥。这可能需要大量压测才知道<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-4-22 10:35<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11724701&amp;ptid=687963" target="_blank"><font color="#999999">pca006132 发表于 2017-4-22 10:33</font></a></font><br />
+其实我并不认为这和卡顿有太大关系...分别只是一个先把需要执行的放进个list里等待执行，一个是执行的时 ...</blockquote></div><br />
+但是NTE不是会将整个链都记录下来吗？如果ccb链很长，这个列表就会很长吧？<br />
+<br />
+不过好像每gt执行的cb数还是一样，好像是没太大差别
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

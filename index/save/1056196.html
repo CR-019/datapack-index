@@ -1,0 +1,502 @@
+<html>
+<head>
+<title>[20w22a]不会有人看的深度缓冲着色器分析&amp;用途 (6.10更新!) - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMDU2MTk2LTEtMS5odG1sP2FjdGlvbj1wcmludGFibGU=', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[20w22a]不会有人看的深度缓冲着色器分析&amp;用途 (6.10更新!) <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ChapterII&nbsp; &nbsp; <b>时间: </b>2020-6-3 11:25<br />
+<b>标题: </b>[20w22a]不会有人看的深度缓冲着色器分析&amp;用途 (6.10更新!)<br /><i class="pstatus"> 本帖最后由 ChapterII 于 2020-6-10 22:41 编辑 </i><br />
+<br />
+下文转载材质包已取得原作者授权<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>
+<ignore_js_op>
+
+<img id="aimg_1610118" aid="1610118" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/03/124937j5bqrf78kzfq5ql5.png" file="https://attachment.mcbbs.net/forum/202006/03/124937j5bqrf78kzfq5ql5.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="475" id="aimg_1610118" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1610118_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>image.png</strong> <em class="xg1">(36.19 KB, 下载次数: 4)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxMDExOHwxODQ1N2Q5M3wxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-3 12:49 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</td></table></div></div><br />
+<font color="#ff0000">2020.6.10 18:30更新：景深、实例之吸血鬼</font><br />
+<font color="#ff0000">2020.6.7 14:25更新：深度缓冲访问方法，线性深度，Distance解析.</font><br />
+<font color="#ff0000"><br />
+</font><br />
+众所周知，20w22a加入了着色器对深度缓冲的访问支持。<br />
+<font color="#00bfff">“然而，这意味着什么呢？”</font><font color="#00bfff"><br />
+</font><br /><font color="#00bfff"><br />
+</font><br />
+<font size="5"><font style="background-color:cyan">1.什么是深度缓冲</font></font><br />
+摘自<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flearnopengl-cn.github.io%2F01%2520Getting%2520started%2F08%2520Coordinate%2520Systems%2F" target="_blank">LearnOpenGL-CN</a><br />
+深度缓冲是图形编程中的一个基础概念。渲染三维图形(这里以立方体举例)时<br />
+由于三角形绘制的先后顺序(计算机会把图形分解为三角形进行渲染)<br />
+仅仅按正常的顺序渲染一个立方体，会<br />
+
+<ignore_js_op>
+
+<img id="aimg_1610043" aid="1610043" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/03/104559rd8gc8ta2caaa42d.png" file="https://attachment.mcbbs.net/forum/202006/03/104559rd8gc8ta2caaa42d.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="314" id="aimg_1610043" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1610043_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>image.png</strong> <em class="xg1">(137.41 KB, 下载次数: 11)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxMDA0M3w3Nzk5MTY1ZnwxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-3 10:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br /><div class="quote"><blockquote>这的确有点像是一个立方体，但又有种说不出的奇怪。立方体的某些本应被遮挡住的面被绘制在了这个立方体其他面之上。之所以这样是因为OpenGL是一个三角形一个三角形地来绘制你的立方体的，所以即便之前那里有东西它也会覆盖之前的像素。因为这个原因，有些三角形会被绘制在其它三角形上面，虽然它们本不应该是被覆盖的。<br />
+<br />
+幸运的是，OpenGL存储深度信息在一个叫做Z缓冲(Z-buffer)的缓冲中，它允许OpenGL决定何时覆盖一个像素而何时不覆盖。通过使用Z缓冲，我们可以配置OpenGL来进行深度测试。</blockquote></div><br />
+注：Z缓冲又称深度缓冲<br />
+当一个面的Z缓冲顺序在前，就不会渲染其后的面。<br />
+因此，引入了深度缓冲解决了物体的绘制问题。<br />
+<br />
+<font color="#00bfff">“但是，你说好的着色器呢？”</font><br />
+<br />
+<br />
+<font size="5"><font style="background-color:rgb(0, 255, 255)">2.如何访问深度缓冲?</font></font><div class="blockcode"><div id="code_N3y"><ol><li>&quot;auxtargets&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;DiffuseDepthSampler&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;id&quot;: &quot;minecraft:main:depth&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },</ol></div><em onclick="copycode($('code_N3y'));">复制代码</em></div>在post Json文件里需要访问深度缓冲的操作的auxtargets加入如上内容.<br />
+同理，在着色器的Json里<div class="blockcode"><div id="code_VF7"><ol><li>&quot;samplers&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;DiffuseSampler&quot; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{ &quot;name&quot;: &quot;DiffuseDepthSampler&quot; },</ol></div><em onclick="copycode($('code_VF7'));">复制代码</em></div>最后，在片段着色器里<br /><div class="blockcode"><div id="code_M12"><ol><li>uniform sampler2D DiffuseSampler;<br /><li>uniform sampler2D DiffuseDepthSampler;</ol></div><em onclick="copycode($('code_M12'));">复制代码</em></div>这样，就可以通过DiffuseDepthSampler访问深度缓冲了，<br /><div class="blockcode"><div id="code_G8x"><ol><li>texture2D(DiffuseDepthSampler,vec2(0.5,0.5));</ol></div><em onclick="copycode($('code_G8x'));">复制代码</em></div><br />
+<br />
+<br />
+<font size="5"><font style="background-color:rgb(0, 255, 255)">3.Onnowhere的深度缓冲着色器</font></font><br />
+<a href="https://github.com/onnowhere/depth_shaders/" target="_blank">https://github.com/onnowhere/depth_shaders/</a><br />
+Onnowhere一共发布了4个资源包<br />
+分析：<br />
+Depth Shader Test(Distance) （咕）<br />
+Depth Shader Test(Fog)（√）<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;(DoF) (注Depth of Field)（咕）<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;(Stripe)（咕）<br />
+从最简单的Fog说起<br />
+
+<ignore_js_op>
+
+<img id="aimg_1610056" aid="1610056" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/03/105459c3eu3n22q1z26bfn.png" file="https://attachment.mcbbs.net/forum/202006/03/105459c3eu3n22q1z26bfn.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1610056" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1610056_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>fog1.png</strong> <em class="xg1">(63.08 KB, 下载次数: 10)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxMDA1NnxlNTg5Zjk5NnwxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-3 10:54 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+这是在下界使用Fog资源包的截图。<br />
+片段着色器很简短:depth_test.fsh<br /><div class="blockcode"><div id="code_Vn9"><ol><li>&lt;blockquote&gt;#version 110</ol></div><em onclick="copycode($('code_Vn9'));">复制代码</em></div><br />
+<font style="color:rgb(212, 212, 212)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">DiffuseDepthSampler</font></font></font>即是深度缓冲(采样器)。<br /><div class="blockcode"><div id="code_h1X"><ol><li>texture2D(DiffuseDepthSampler, texCoord)</ol></div><em onclick="copycode($('code_h1X'));">复制代码</em></div>获取了texCoord处片段的深度。<br />
+1.0减去vec4会使每项被1.0减去，因此最终效果为对该处深度取反。<br />
+<font color="#d4d4d4"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">*</font></font></font><font style="color:rgb(181, 206, 168)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">500.0</font></font></font>是一个系数，可以根据个人需求调整。<br />
+最后再取反，达到图中的效果。<br />
+实际上，该着色器做的只是将它的颜色进行了缩放操作，<br /><div class="blockcode"><div id="code_z4H"><ol><li>gl_FragColor = texture2D(DiffuseDepthSampler, texCoord);</ol></div><em onclick="copycode($('code_z4H'));">复制代码</em></div><br />
+可以直接使深度缓冲可视化，好奇的读者可以自己尝试。<br />
+<br />
+<img id="aimg_s1zjV" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<br />
+Depth Shader Test(Distance)资源包<br />
+该资源包的效果有点过于[ruby=dizzy]目眩神迷[/ruby]，请自行尝试<br />
+会以摄像机为中心，每隔1方块距离的点进行着色，类似同心圆。<br />
+<br /><div class="blockcode"><div id="code_Vm7"><ol><li>#version 110<br /><li><br /><li>uniform sampler2D DiffuseSampler;<br /><li>uniform sampler2D DiffuseDepthSampler;<br /><li><br /><li>uniform vec2 ScreenSize;<br /><li>uniform float _FOV;<br /><li><br /><li>varying vec2 texCoord;<br /><li><br /><li>float near = 0.1; <br /><li>float far&nbsp;&nbsp;= 1000.0;<br /><li><br /><li>float LinearizeDepth(float depth) <br /><li>{<br /><li>&nbsp; &nbsp; float z = depth * 2.0 - 1.0;<br /><li>&nbsp; &nbsp; return (near * far) / (far + near - z * (far - near));&nbsp; &nbsp; <br /><li>}<br /><li><br /><li>void main() {<br /><li>&nbsp; &nbsp; float depth = LinearizeDepth(texture2D(DiffuseDepthSampler, texCoord).r);<br /><li>&nbsp; &nbsp; float distance = length(vec3(1., (2.*texCoord - 1.) * vec2(ScreenSize.x/ScreenSize.y,1.) * tan(radians(_FOV / 2.))) * depth);<br /><li>&nbsp; &nbsp; if (mod(distance, 1.0) &lt;= 0.05) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;gl_FragColor = vec4(1.0,0.0,0.0,0.1);<br /><li>&nbsp; &nbsp; } else {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;gl_FragColor = vec4(texture2D(DiffuseSampler, texCoord).rgb, 1.0);<br /><li>&nbsp; &nbsp; }<br /><li>}<br /><li></ol></div><em onclick="copycode($('code_Vm7'));">复制代码</em></div><br />
+uniform _FOV是视野(Field of View)，即角视场.<br />
+因为深度缓冲里每个像素的颜色(vec4)的r、g、b均为同一个值(深度)，<br />
+因此取<font style="color:rgb(220, 220, 170)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">texture2D</font></font></font><font color="#d4d4d4"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">(DiffuseDepthSampler, texCoord).</font></font></font><font style="color:rgb(156, 220, 254)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">r</font></font></font>就是该片段深度。<font color="#ff0000">以下内容可能难以理解，但是是看懂其它三个资源包的基础内容。</font><font color="#ff0000">如果看不懂公式没关系</font><font color="#ff0000">，只要记住<font style="background-color:cyan">蓝底字</font>内容即可。</font><br />
+Onnowhere定义了函数<font style="color:rgb(86, 156, 214)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">float</font></font></font><font color="#d4d4d4"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;"> </font></font></font><font style="color:rgb(220, 220, 170)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">LinearizeDepth</font></font></font><font color="#d4d4d4"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">(</font></font></font><font style="color:rgb(86, 156, 214)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">float</font></font></font><font color="#d4d4d4"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;"> </font></font></font><font style="color:rgb(156, 220, 254)"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">depth</font></font></font><font color="#d4d4d4"><font style="background-color:rgb(30, 30, 30)"><font face="Consolas, &amp;quot;">) </font></font></font>，Linearize意味&quot;用线表示&quot;，GLSL里一般解释为“线性深度”这里需要解释一下，<div class="quote"><blockquote>要想有正确的投影性质，需要使用一个非线性的深度方程，它是与 1/z 成正比的。<blockquote>它做的就是在z值很小的时候提供非常高的精度，而在z值很远的时候提供更少的精度。</blockquote><blockquote>花时间想想这个：我们真的需要对1000单位远的深度值和只有1单位远的充满细节的物体使用相同的精度吗？</blockquote><blockquote>线性方程并不会考虑这一点。屏幕空间中的深度值是非线性的，即它在z值很小的时候有很高的精度，而z值很大的时候有较低的精度。</blockquote>片段的深度值会随着距离迅速增加，所以几乎所有的顶点的深度值都是接近于1.0的。</blockquote></div><br />
+（引用文字节选自<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flearnopengl-cn.github.io%2F04%2520Advanced%2520OpenGL%2F01%2520Depth%2520testing%2F" target="_blank">LearnOpenGL-CN:深度测试</a>）<br />
+<font style="background-color:cyan"><font color="#ff0000">简单来说，为了效率，深度值不是线性的，即不是随距离增大而匀速增大的。</font></font><br />
+
+<ignore_js_op>
+
+<img id="aimg_1613481" aid="1613481" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/07/141309jisr2lrxj0xctp8j.png" file="https://attachment.mcbbs.net/forum/202006/07/141309jisr2lrxj0xctp8j.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="244" id="aimg_1613481" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1613481_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>image.png</strong> <em class="xg1">(4.57 KB, 下载次数: 14)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxMzQ4MXwyZGYzZDRiMnwxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-7 14:13 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+OpenGL非线性的深度方程计算如上，<br />
+为了实现距离的均匀，我们需要将非线性的化为线性深度。<br /><div class="quote"><blockquote>然而，我们也可以让片段非线性的深度值变换为线性的。要实现这个，我们需要仅仅反转深度值的投影变换。这也就意味着我们需要首先将深度值从[0, 1]范围重新变换到[-1, 1]范围的标准化设备坐标（裁剪空间）。接下来我们需要像投影矩阵那样反转这个非线性方程（方程2），并将这个反转的方程应用到最终的深度值上。最终的结果就是一个线性的深度值了。听起来是可行的，对吧？<br />
+<br />
+首先我们将深度值变换为NDC，不是非常困难：<br />
+<br />
+float z = depth * 2.0 - 1.0;<br />
+接下来使用获取到的z值，应用逆变换来获取线性的深度值：<br />
+<br />
+float linearDepth = (2.0 * near * far) / (far + near - z * (far - near));<br />
+这个方程是用投影矩阵推导得出的，它使用了方程2来非线性化深度值，返回一个near与far之间的深度值。这篇注重数学的<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fwww.songho.ca%2Fopengl%2Fgl_projectionmatrix.html" target="_blank">文章</a>为感兴趣的读者详细解释了投影矩阵，它也展示了这些方程是怎么来的。</blockquote></div><br />
+<font style="background-color:cyan"><font color="#ff0000">总而言之，要转化&quot;不均匀的&quot;深度为&quot;均匀的&quot;，好比向上大下小的杯子里匀速倒水，水面上涨的速度不与倒水速度成正比。</font></font><br />
+而实现该目的的，是LinearizeDepth函数。<br />
+
+<ignore_js_op>
+
+<img id="aimg_1610063" aid="1610063" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/03/111528s3bnet8dy8bq0ayk.png" file="https://attachment.mcbbs.net/forum/202006/03/111528s3bnet8dy8bq0ayk.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="359" id="aimg_1610063" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1610063_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>image.png</strong> <em class="xg1">(6.67 KB, 下载次数: 9)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxMDA2M3w4ZWMzNmE4NnwxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-3 11:15 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+上为LinearizeDepth函数。<br />
+该函数实现了线性深度转化为非线性的逆过程。<br />
+main()中的内容较为简单，是判断该片段与玩家的距离是否为整数(有0.05的浮动范围)，如果是则<font style="background-color:rgb(247, 247, 247)">gl_FragColor = vec4(1.0,0.0,0.0,0.1);</font><br />
+<br />
+<img id="aimg_rbv4o" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+咕<br />
+(Stripe)<br />
+和Distance基本上同理,<br />
+[ruby=疯狂暗示]看懂了线性深度这个应该很好理解吧[/ruby]<br />
+<font size="1"><font color="#c0c0c0">所以，那么是不是可以偷个懒的呀？</font></font><br />
+<font color="#00bfff">“那么，你什么时候填坑呢？”</font><br />
+<font color="#708090">（无响应）</font><br />
+<img id="aimg_CzE6S" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+咕<br />
+(DoF)DoF,Depth of Field.<br />
+DoF看着很陌生，&quot;场地深度？&quot;<br />
+实际上，它就是我们常说的<a href="https://baike.baidu.com/item/%E6%99%AF%E6%B7%B1/82317" target="_blank">景深</a>.<br />
+稍微涉及过一点相机方面知识的玩家，都知道当拍摄远处的一个独立的景物时，近处的环境会变模糊。<br />
+在拍摄截图时，景深会非常有用:<br />
+
+<ignore_js_op>
+
+<img id="aimg_1616112" aid="1616112" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/10/180511iv90iydc99dc2c2d.jpg" file="https://attachment.mcbbs.net/forum/202006/10/180511iv90iydc99dc2c2d.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1616112" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1616112_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>file_1591783508000.jpg</strong> <em class="xg1">(32.88 KB, 下载次数: 7)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxNjExMnxjYjYwYjI4N3wxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-10 18:05 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+看起来，是不是山峰被突出了？<br />
+远处的和近处的都被模糊了，达到了突出所拍摄目标的效果。<br />
+实际上，作者只是在某个范围内正常显示，在范围外模糊的简单原理。<br />
+[ruby=因为作者懒]作为思考题[/ruby]，请自己阅读片段着色器代码（逃）<br />
+<br />
+<font style="background-color:rgb(0, 255, 255)"><font size="5">4.除了这些特效，深度缓冲还可以用来做些什么？——实战</font></font><br />
+<br />
+As many as you can come up with.<br />
+比如，阴影的实现，是在光源的角度根据深度缓冲生成一张“深度纹理”，<br />
+然后转回摄像机视角，根据深度纹理绘制出阴影。<br />
+上述技术是最为常见的阴影实现方法，阴影贴图。<br />
+<br />
+至于真正有点意义的……<br />
+吸血鬼小游戏应该都听说过吧，Hypixel的VampireZ：<br />
+玩家使用了失明效果，但自定义化程度较低。<br />
+如果用深度缓冲……一定不错！<br /><div class="blockcode"><div id="code_Y2X"><ol><li>#version 110<br /><li><br /><li>uniform sampler2D DiffuseSampler;<br /><li>uniform sampler2D DiffuseDepthSampler;<br /><li><br /><li>uniform vec2 ScreenSize;<br /><li>uniform float _FOV;<br /><li><br /><li>varying vec2 texCoord;<br /><li><br /><li>float near = 0.1; <br /><li>float far&nbsp;&nbsp;= 1000.0;<br /><li>&nbsp;&nbsp;<br /><li>float LinearizeDepth(float depth) <br /><li>{<br /><li>&nbsp; &nbsp; float z = depth * 2.0 - 1.0;<br /><li>&nbsp; &nbsp; return (near * far) / (far + near - z * (far - near));&nbsp; &nbsp; <br /><li>}<br /><li><br /><li>void main() {<br /><li>&nbsp; &nbsp; float depth = LinearizeDepth(texture2D(DiffuseDepthSampler, texCoord).r);<br /><li>&nbsp; &nbsp; if(depth &lt; 10.0) gl_FragColor=texture2D(DiffuseSampler,texCoord);<br /><li>&nbsp; &nbsp; else gl_FragColor=vec4(0.0,0.0,0.0,1.0);<br /><li>}<br /><li></ol></div><em onclick="copycode($('code_Y2X'));">复制代码</em></div>代码很简单，只要看懂了线性深度即可；<br />
+
+<ignore_js_op>
+
+<img id="aimg_1616116" aid="1616116" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/10/181829e8rrthphpltlty5y.png" file="https://attachment.mcbbs.net/forum/202006/10/181829e8rrthphpltlty5y.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1616116" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1616116_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-06-10_18.18.14.png</strong> <em class="xg1">(193.43 KB, 下载次数: 10)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxNjExNnw1YTM5NDU3Y3wxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-10 18:18 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+但是，总感觉边界有点……锐利？<br /><div class="blockcode"><div id="code_lBA"><ol><li>++ else if(depth &lt; 13.0) gl_FragColor=texture2D(DiffuseSampler,texCoord) * (1.0-(depth-10.0)/3.0);</ol></div><em onclick="copycode($('code_lBA'));">复制代码</em></div><br />
+
+<ignore_js_op>
+
+<img id="aimg_1616128" aid="1616128" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/10/182954oeane8le56zyenn4.png" file="https://attachment.mcbbs.net/forum/202006/10/182954oeane8le56zyenn4.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1616128" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1616128_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-06-10_18.29.24.png</strong> <em class="xg1">(225.95 KB, 下载次数: 6)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxNjEyOHxjNTVkOTJkNHwxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-10 18:29 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+效果如何？<br />
+<font color="#ff0000">那还不加分去！</font><br />
+<br />
+<font color="#00bfff">“所以，某个蓝蓝的东西呢？”</font><br />
+下载页面位于<a href="https://github.com/onnowhere/depth_shaders/" target="_blank">https://github.com/onnowhere/depth_shaders/</a><br />
+未提供某在线云文件存储服务的转载<br />
+<br />
+<font color="#00bfff">“然后，要不要加分呢？”</font><br />
+<font color="#ff0000"><font style="background-color:white">金粒可以不给，人气还不给点吗</font></font>[ruby=不给的话人家再也不这么努力写帖子了]~[/ruby]<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[18443038] = ['1610043','1610056','1610063','1610118','1613481','1616112','1616116','1616128'];
+attachimggroup(18443038);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>丸尾青貓&nbsp; &nbsp; <b>时间: </b>2020-6-3 11:29<br />
+有趣的着色器越来越多，等我这个地图做完很想试试。国内现在有什么用了着色器的地图可以玩吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ChapterII&nbsp; &nbsp; <b>时间: </b>2020-6-3 11:31<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18443567&amp;ptid=1056196" target="_blank"><font color="#999999">[SL]John_Stapp 发表于 2020-6-3 11:29</font></a></font><br />
+有趣的着色器越来越多，等我这个地图做完很想试试。国内现在有什么用了着色器的地图可以玩吗？ ...</blockquote></div><br />
+好……像……没……有……吧（小声）<br />
+但是很多dalao在做了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>:spgbigfan:&nbsp; &nbsp; <b>时间: </b>2020-6-3 11:48<br />
+
+<ignore_js_op>
+
+<img id="aimg_1610083" aid="1610083" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/03/114819aggag0gc8x499tn8.png" file="https://attachment.mcbbs.net/forum/202006/03/114819aggag0gc8x499tn8.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1610083" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1610083_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-06-03_11.47.54.png</strong> <em class="xg1">(329.96 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxMDA4M3wzOGQzYzUwZHwxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-3 11:48 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+Distance 的效果<br />
+<br />
+确实 Dizzy<br />
+<script type="text/javascript" reload="1">
+aimgcount[18443658] = ['1610083'];
+attachimggroup(18443658);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>晴路卡&nbsp; &nbsp; <b>时间: </b>2020-6-3 13:50<br />
+只能想到用来做些奇怪的东西...<br />
+
+<ignore_js_op>
+
+<img id="aimg_1610145" aid="1610145" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202006/03/134526f6m3t18ddo41cgvd.jpg" file="https://attachment.mcbbs.net/forum/202006/03/134526f6m3t18ddo41cgvd.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1610145" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1610145_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>file_1591163126000.jpg</strong> <em class="xg1">(147.65 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTYxMDE0NXxiNDQ0YzJjZnwxNjE0MDM4MTIwfDI0MTk0ODZ8MTA1NjE5Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-6-3 13:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[18445053] = ['1610145'];
+attachimggroup(18445053);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ChapterII&nbsp; &nbsp; <b>时间: </b>2020-6-3 14:28<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18445053&amp;ptid=1056196" target="_blank"><font color="#999999">晴路卡 发表于 2020-6-3 13:50</font></a></font><br />
+只能想到用来做些奇怪的东西...</blockquote></div><br />
+希望有dalao能用深度缓冲做出原版阴影<br />
+还有就是，比如吸血鬼小游戏可以不用失明了<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>深拥v&nbsp; &nbsp; <b>时间: </b>2020-6-3 15:09<br />
+着色器目前国内做的不多吧<br />
+（至少mcbbs还没专门开个板块做这个）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ChapterII&nbsp; &nbsp; <b>时间: </b>2020-6-3 15:35<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18445614&amp;ptid=1056196" target="_blank"><font color="#999999">深拥v 发表于 2020-6-3 15:09</font></a></font><br />
+着色器目前国内做的不多吧<br />
+（至少mcbbs还没专门开个板块做这个）</blockquote></div><br />
+还好，这个应该算是资源包的一部分<br />
+地图作者和原版模组也都有用的<br />
+所以不算单独的版块，最多放在材质版？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2020-6-7 11:06<br />
+你能不能用[code]标签，黑背景怪费眼的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Оil&nbsp; &nbsp; <b>时间: </b>2020-6-14 10:56<br />
+&gt;&gt;这个公式的非官方表述让我看得血压升高……= =<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>年检费就&nbsp; &nbsp; <b>时间: </b>2020-6-14 20:21<br />
+这个真棒&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>👴是hlnb&nbsp; &nbsp; <b>时间: </b>2020-6-14 22:48<br />
+以后就有香草光影了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ChapterII&nbsp; &nbsp; <b>时间: </b>2020-6-15 08:45<br />
+<div class="quote"><blockquote><font color="#999999">👴是hlnb 发表于 2020-6-14 22:48</font><br />
+<font color="#999999">以后就有香草光影了？</font></blockquote></div><br />
+SBMJ对着色器的限制使得不能获取光源的位置，也不能获取当前的材质反射贴图之类的，所以离光影还有很远的路要走<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>炽炽灼华&nbsp; &nbsp; <b>时间: </b>2020-6-15 09:06<br />
+是在下输了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1172429976&nbsp; &nbsp; <b>时间: </b>2020-6-16 00:57<br />
+支持~~~~~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Pan$brother&nbsp; &nbsp; <b>时间: </b>2020-6-16 10:09<br />
+谢谢分享~支持<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>飘渺魔尊&nbsp; &nbsp; <b>时间: </b>2020-6-16 23:14<br />
+这就是大佬吗，除了变量定义完全看不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>糖心馅的猫&nbsp; &nbsp; <b>时间: </b>2020-6-17 21:03<br />
+很棒的帖子~感谢分享~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>风雪.&nbsp; &nbsp; <b>时间: </b>2020-6-18 16:13<br />
+虽然没看懂 好像很厉害的样子==<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Rain_DanRan&nbsp; &nbsp; <b>时间: </b>2020-6-19 12:07<br />
+这个公式是我看着都打脑阔<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Basin.&nbsp; &nbsp; <b>时间: </b>2020-6-19 20:05<br />
+挺期待的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC_Han&nbsp; &nbsp; <b>时间: </b>2020-6-20 03:24<br />
+不错！！！支持一下楼主！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zxtzjx&nbsp; &nbsp; <b>时间: </b>2020-6-20 14:07<br />
+哇，看不太懂呢，但还是很棒<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sian丶sh&nbsp; &nbsp; <b>时间: </b>2020-6-21 23:57<br />
+支持，虽然有点看不太懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sian丶sh&nbsp; &nbsp; <b>时间: </b>2020-6-21 23:58<br />
+支持，虽然不太懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>op3313873744&nbsp; &nbsp; <b>时间: </b>2020-6-22 10:09<br />
+啊 挺有用的 谢谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xpao&nbsp; &nbsp; <b>时间: </b>2020-6-22 23:44<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>深绿世界&nbsp; &nbsp; <b>时间: </b>2020-6-23 06:14<br />
+这个还算不错的......那什么时候光影渲染能由资源包来干呢<img src="static/image/smiley/tong/....png" smilieid="1443" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>you_lose&nbsp; &nbsp; <b>时间: </b>2020-6-23 15:40<br />
+emmeeeeee11111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>you_lose&nbsp; &nbsp; <b>时间: </b>2020-6-23 15:41<br />
+1111111111111111111111111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>you_lose&nbsp; &nbsp; <b>时间: </b>2020-6-23 15:41<br />
+111111111111111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>you_lose&nbsp; &nbsp; <b>时间: </b>2020-6-23 15:41<br />
+1111111111111111111111111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>you_lose&nbsp; &nbsp; <b>时间: </b>2020-6-23 15:42<br />
+111111111111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>糖饺子&nbsp; &nbsp; <b>时间: </b>2020-6-29 14:17<br />
+看到标题我进来看了，看到内容我就知道我该走了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我的丶老公&nbsp; &nbsp; <b>时间: </b>2020-7-3 02:20<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>overtime&nbsp; &nbsp; <b>时间: </b>2020-7-4 03:53<br />
+真.玄学<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>longerer&nbsp; &nbsp; <b>时间: </b>2020-7-4 11:01<br />
+谢谢大佬分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Water_Box&nbsp; &nbsp; <b>时间: </b>2020-7-4 11:03<br />
+&nbsp;&nbsp;现在没有什么着色器地图吧，想试试<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Q3224704190&nbsp; &nbsp; <b>时间: </b>2020-7-5 13:35<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>破碎の琉璃&nbsp; &nbsp; <b>时间: </b>2020-7-10 09:03<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mc_xiaoqii&nbsp; &nbsp; <b>时间: </b>2020-7-17 11:11<br />
+6666666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>还会再见面吗_&nbsp; &nbsp; <b>时间: </b>2020-7-25 17:08<br />
+哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>夕阳红熊猫&nbsp; &nbsp; <b>时间: </b>2020-10-7 10:13<br />
+抱歉。我来看了（有人看），但是我看的云里雾里的。。。。。
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

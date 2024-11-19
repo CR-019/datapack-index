@@ -1,0 +1,350 @@
+<html>
+<head>
+<title>【烯方的那一套理论】猴子都能学会的自定义advancement！ - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02ODUzMTAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【烯方的那一套理论】猴子都能学会的自定义advancement！ <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>乙烯_中国&nbsp; &nbsp; <b>时间: </b>2017-4-8 03:31<br />
+<b>标题: </b>【烯方的那一套理论】猴子都能学会的自定义advancement！<br /><i class="pstatus"> 本帖最后由 乙烯_中国 于 2017-4-11 15:40 编辑 </i><br />
+<br />
+<font face="微软雅黑"><font size="3">好的，这里是乙烯。整篇文章差不多是自己开着mc一点点就着原文件和wiki自己试出来的，如果有分歧或者谬误还请指出。由于草稿一不小心发出来了，这就没办法了，剩下的一点内容我会爆肝写完的。</font><br />
+<hr class="l" /><br />
+<font size="3">新快照出了几天了，advancement这个替换成就的新的系统大家都很感到新奇，正巧这次快照更新有添加一些相关内容，今天我乙烯就来和大家说一说这样的一个新的系统要怎样的玩耍。那么我们先来简单的介绍一下</font>吧。（其中部分资料源自Minecraft Wiki，英文的<br />
+<font size="5"><font color="#8b0000"><strong>什么是advancement？</strong></font></font><br />
+ <img id="aimg_k7nWk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="522" height="350" src="http://wx2.sinaimg.cn/mw690/005WIsbPgy1feeqc3fiz4j30ei09qq3m.jpg" border="0" alt="" /><br />
+<font size="3">这就是advancement。（迫真）</font><br />
+<br />
+<br />
+<font size="3">好了，这是一个替换了成就系统的新的成就系统，嗯，大概这么看的话好像是看不出和原来的区别有多大？好像确实不大，但是现在通过这样的整理可以很方便的使用json来自定义advancement。而且你也可以很方便的添加选项卡，是不是很厉害！然后成就还是需要你逐步解锁的，不过目前的成就还不能写注解，所以很sad。</font><br />
+<font size="3">完成advancement的时候右上角会有提示，并且支持<strong>多条提示</strong>。</font><br />
+ <img id="aimg_ZN188" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="319" height="319" src="http://wx4.sinaimg.cn/mw690/005WIsbPgy1feeqc83h1fj308v08vglh.jpg" border="0" alt="" /><br />
+<br />
+<font size="3">同样的，原来的成就指令achievement也被替换成advancement，这个的用法我们之后会说到。</font><br />
+<font size="5"><font color="#556b2f"><strong>如何自定义advancement</strong></font></font><br />
+<font size="3">整个自定义推荐直接从0自己写，如果要基于官方的修改的话，请在完全熟悉系统以及官方成就的情况下修改。</font><br />
+<font size="3">据dinnerbone在推特上说，自定义advancement是与存档绑定的，也就是说相关的自定义文件要<strong>放在存档根目录的data/advancement里</strong>。是自定义里的豪杰。我们通过解压游戏的version jar可以很容易的确定这样的一个格式</font><br /><div class="blockcode"><div id="code_NAa"><ol><li>advancement<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;adventure<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;recipes<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;story</ol></div><em onclick="copycode($('code_NAa'));">复制代码</em></div><br />
+<strong><font size="4"><font color="#483d8b"><br />
+如何创建一个选项卡</font></font></strong><br />
+<font size="3">这里就不复述中间的过程直接上结论了。这里除了recipes<strong>每一个文件夹都被视为一个单独的选项卡</strong>。如果要创建一个新的选项卡<strong><font color="#ff0000">请在advancement文件夹下新建一个新的文件夹</font></strong>，文件夹名字从简为佳，允许存在中文但是个人并不推荐。在这个选项卡的advancement如果没有解锁的话，那么这个选项卡是<strong>不会显示</strong>的。</font><br />
+<font size="3">Recipes文件夹我暂时还没有时间进行详细的实验，但是据源码观察是利用了成就的系统决定了合成表的解锁链，比如我在进入了水（船合成表的解锁条件之一）后便解锁了船的合成，在我使用合法的格式编辑了面包的json后，进入水中便解锁了面包的合成。所以工作原理是一样的。也就是说，<i>合成虽然暂时不能自定义，但是合成链的解锁已经可以自定义了</i>。</font><br />
+<font size="3">创建一个选项卡除了新建一个文件夹，还要求这个选项卡<strong><font color="#ff0000">有一个起始成就</font></strong>（下文称之为根成就），并且这个起始成就<u>不能成为任何一个成就的子成就</u>。如果这个成就是一个其他选项卡的子成就的话，显示上不仅不会显示新建选项卡，该成就以及其子成就还会显示到其他选项卡下面。这是我们不想要的。</font><br />
+ <img id="aimg_G9B87" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="654" height="431" src="http://wx3.sinaimg.cn/mw690/005WIsbPgy1feeqcdf2i1j30i60bzjsm.jpg" border="0" alt="" /><br />
+<font size="3">大概加多了会这样。</font><br />
+<font size="3">当然这时候你们大概会说了：“哎呀我们不知道怎么写成就啊”，这个你们不要急，我们马上来说。</font><br />
+<font size="4"><font color="#4b0082"><strong>如何写一个单独的advancement</strong></font></font><br />
+<font size="3">如果你已经按照上文操作，并自己写了成就的话，你的页面大概回事这个样子的。别急，这说明你的成就已经写的很接近了，让我们来看看成就应有的标准格式。</font><br />
+ <img id="aimg_cIjkO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="600" height="394" src="http://wx2.sinaimg.cn/mw690/005WIsbPgy1feeqch91h1j30go0aymxm.jpg" border="0" alt="" /><br />
+<font size="3">首先，要明确的是，大致会使用json格式是自定义成就的前提条件。所以让我们来简单介绍一下json格式。</font><br />
+<font size="3">这里我就折叠一下。</font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">Json其实并不难，但是如果使用专业的说法可能导致一些人不太容易理解。如果你不擅长或者看完也没懂的话，有两种解决办法，一个是抄，抄原版游戏文件中的json，一个是问。</font><br />
+<font size="3">{“aa”:”bb”}</font><br />
+<font size="3">这就是最简单的json格式。并不难对吧。</font><br />
+<font size="3">{“aa”:”bb”,”cc”:”dd”}</font><br />
+<font size="3">这便是两者并列的json格式。使用逗号分隔。</font><br />
+<font size="3">{“aa”:”bb”,”cc”:”dd”,”ee”:{“ff”:”gg”}}</font><br />
+<font size="3">这便是一个上下级的关系。这里使用的都是大括号或者说叫花括号。</font><br />
+<font size="3">实例的结构可以简写为</font><br />
+<font size="3">Aa</font><br />
+<font size="3">Cc</font><br />
+<font size="3">Ee</font><br />
+<font size="3">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Ff</font><br />
+<font size="3">下文的结构也是如此。</font><br />
+<font size="3">使用中括号便是代表一个列表，这个难以一言蔽之，基本上你可以看官方怎么写就好了。</font><br />
+<font size="3">字符串用”“围起来，数值则不需要。还有一种特殊的true或者false。</font><br />
+<font size="3">最后的最后，所有的括号都必须成对，并且不能有多余的逗号。</font></td></table></div></div><br />
+<br />
+<font size="3">好的，这里就让我们来讲一下成就的结构是怎样的。下文均为小写，辣鸡word自动给我大写了，还有全文的引号必须为半角的引号，我这里尽量自己修一修，但word看不太出来。</font><br /><div class="blockcode"><div id="code_EId"><ol><li>Display<br /><li>&nbsp; &nbsp; Icon<br /><li>&nbsp; &nbsp; Title<br /><li>&nbsp; &nbsp; Frame<br /><li>&nbsp; &nbsp; Background<br /><li>Parent<br /><li>Criteria<br /><li>&nbsp; &nbsp; 条件名<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Trigger<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Conditions<br /><li>Requirement<br /><li>Rewards<br /><li>&nbsp; &nbsp; Recipes<br /><li>&nbsp; &nbsp; Loot<br /><li>&nbsp; &nbsp; Experience</ol></div><em onclick="copycode($('code_EId'));">复制代码</em></div><br />
+<br />
+<br />
+<font size="3">好，接下来逐条讲解.</font></font><font face="微软雅黑"><font size="3"><strong><font color="#ff0000"><br />
+</font></strong></font></font><br />
+<font face="微软雅黑"><font size="3"><strong><font color="#ff0000">display</font></strong><br />
+</font><font size="3">Display其下所有的都用于设置这个成就是如何显示的。</font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3"><strong>Icon</strong>：这个用于设置<strong>成就显示的标识</strong>。</font><br />
+<font size="3">例子 ，这个的写法是<div class="blockcode"><div id="code_ZYr"><ol><li>&quot;icon&quot;:&quot;minecraft:map&quot;</ol></div><em onclick="copycode($('code_ZYr'));">复制代码</em></div><br />
+。<img id="aimg_iSfqZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="71" height="68" src="http://wx1.sinaimg.cn/mw690/005WIsbPgy1feeqckf59aj301z01wgld.jpg" border="0" alt="" />写进去的必须是一个<font color="#ff0000">物品名字</font>。</font><br />
+<font size="3"><strong>Title</strong>：这个用于<strong>设置成就的名字</strong>。</font><br />
+<font size="3">例子 ，写法为<div class="blockcode"><div id="code_L6o"><ol><li>&quot;title&quot;: &quot;Adventure&quot;</ol></div><em onclick="copycode($('code_L6o'));">复制代码</em></div><img id="aimg_fDssB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="147" height="64" src="http://wx3.sinaimg.cn/mw690/005WIsbPgy1feeqczs730j304301swe9.jpg" border="0" alt="" /><br />
+，同时也可以使用同时也可以使用<strong>类似tellraw指令里面的json写法</strong>，比如&quot;<div class="blockcode"><div id="code_W3k"><ol><li>title&quot;:{&quot;text&quot;:&quot;test&quot;,&quot;color&quot;:&quot;red&quot;,&quot;bold&quot;:true,&quot;italic&quot;:true}</ol></div><em onclick="copycode($('code_W3k'));">复制代码</em></div><br />
+，这样的效果为<img id="aimg_GozNL" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="140" height="59" src="http://wx4.sinaimg.cn/mw690/005WIsbPgy1feeqd61031j303w01nt8h.jpg" border="0" alt="" /> 。也可以使用多段分开的 。<img id="aimg_CKVoa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="89" height="43" src="http://wx1.sinaimg.cn/mw690/005WIsbPgy1feeqd9q8fcj302h0170kn.jpg" border="0" alt="" /></font><br />
+<font size="3">这里单独说一点，<strong>title和icon两者用于根成就时，都会被使用到这个选项卡的icon和title。</strong></font><br />
+<strong><font size="3">Frame：</font></strong><font size="3">这个成就的边框，如果不填则<strong>默认为圆角矩形</strong>（task）。</font><br />
+<font size="3">现在mc提供三种边框。<img id="aimg_iL8lS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="164" height="62" src="http://wx3.sinaimg.cn/mw690/005WIsbPgy1feeqdcznrzj304k01qdfl.jpg" border="0" alt="" /></font><br />
+<font size="3"> 从左到右为task，challenge和goal。例子，<div class="blockcode"><div id="code_z2o"><ol><li>&quot;frame&quot;: &quot;goal&quot;</ol></div><em onclick="copycode($('code_z2o'));">复制代码</em></div><br />
+，这样的效果为<img id="aimg_V559B" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="64" height="68" src="http://wx2.sinaimg.cn/mw690/005WIsbPgy1feeqdj8s8vj301s01wjr5.jpg" border="0" alt="" /> 。</font><br />
+<font size="3">同时也决定了完成advancement完成时的<strong>右上角提示</strong>，例如如果是goal完成的话右上角会提示goal完成。</font><br />
+<font size="3"><strong>Background</strong>：这个成就选项卡的背景。这一项<strong><font color="#ff0000">仅限于根成就才拥有</font></strong>。这个后面可以填一个可用的图片地址</font><br />
+<font size="3">例子<div class="blockcode"><div id="code_fEl"><ol><li>&quot;background&quot;: &quot;minecraft:textures/blocks/wool_colored_cyan.png&quot;</ol></div><em onclick="copycode($('code_fEl'));">复制代码</em></div><br />
+</font><br />
+<font size="3">这样的效果为 <img id="aimg_GFds0" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="509" height="330" src="http://wx3.sinaimg.cn/mw690/005WIsbPgy1feeqeocqtbj30e5096q39.jpg" border="0" alt="" />。</font><br />
+<font size="3">自此display系列标签全部讲解完成。</font></td></table></div></div></font><font face="微软雅黑"><font size="3"><strong><font color="#ff0000"><br />
+</font></strong></font></font><br />
+<font face="微软雅黑"><font size="3"><strong><font color="#ff0000">parent</font></strong><br />
+</font><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">Parent无其下标签，其自己是用于<strong>确定该成就的父成就</strong>，也就是在界面中左边与哪个成就相连。可以在不完成父成就的情况下获得该成就。<img id="aimg_TtoUi" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="494" height="282" src="http://wx3.sinaimg.cn/mw690/005WIsbPgy1feeqesthuwj30dq07u74t.jpg" border="0" alt="" />解锁或已被列出的成就会列出其所有的父成就以及两个子成就。<strong><font color="#ff0000">不得写在根成就中。</font></strong>写法，<div class="blockcode"><div id="code_Llb"><ol><li>&quot;parent&quot;: &quot;adventure/root&quot;</ol></div><em onclick="copycode($('code_Llb'));">复制代码</em></div><br />
+。内容必须为一个<u>已经存在的成就</u>。</font><br />
+ <br />
+<font size="3">自此parent系列标签全部讲解完成。</font></td></table></div></div></font><br />
+<font face="微软雅黑"><font size="3"><strong><font color="#ff0000">criteria</font></strong><br />
+</font><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">Criteria其下为需列出获得成就的条件名，可以自己定义，但是<strong>不能与其他条件重名</strong>。</font><br />
+<font size="3">每个条件名其下需要有相关的判据，判据会在下方列出。每个判据会有相关的条件。每个判据我都会详细的说明。后续版本更新的我也会慢慢的补齐。</font><br />
+<font size="3">一般来说都是这样的格式</font><br /><div class="blockcode"><div id="code_GtF"><ol><li>&quot;criteria&quot;: {<br /><li>&nbsp; &nbsp; &quot;这里写条件名&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:xxx&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;这里填条件<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp; }</ol></div><em onclick="copycode($('code_GtF'));">复制代码</em></div><br />
+<br />
+<font size="3">下文会慢慢举例子。这里先把目前所有的判据都举出来</font><br />
+<font size="3">该表格翻译自Minecraft 英文Wiki</font><br />
+<table cellspacing="0" class="t_table" style="width:98%" bgcolor="white"><tr><td width="17%">&nbsp;&nbsp;<div align="center"><strong>判据名</strong></div>&nbsp;&nbsp;</td><td width="62%"><div align="left"><div align="center"><strong>触发条件</strong><strong>:</strong></div></div></td><td width="20%"><div align="left"><div align="center"><strong>可用的条件</strong></div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:bred_animals</div></div></td><td width="62%"><div align="right"><div align="left">玩家喂食两只动物。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;parent&quot;,&nbsp;&nbsp;&quot;partner&quot;, &quot;child&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:brewed_potion</div></div></td><td width="62%"><div align="right"><div align="left">玩家酿出药水。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;potion&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:construct_beacon</div></div></td><td width="62%"><div align="right"><div align="left">玩家改变了信标的结构（即信标更新自己时）。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;level&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:cured_zombie_villager</div></div></td><td width="62%"><div align="right"><div align="left">玩家治愈了一只僵尸村民。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;zombie,&nbsp;&nbsp;&quot;villager&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:enchanted_item</div></div></td><td width="62%"><div align="right"><div align="left">玩家通过附魔台对物品进行附魔（而不是通过铁砧或者命令）</div></div></td><td width="20%"><div align="right"><div align="left">&quot;item&quot;,&nbsp;&nbsp;&quot;levels&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:enter_block</div></div></td><td width="62%"><div align="right"><div align="left">玩家进入一个方块，也就是能响应execute @p ~ ~ ~ detect ~ ~ ~ 方块 损害值</div></div></td><td width="20%"><div align="right"><div align="left">&quot;block&quot;,&nbsp;&nbsp;&quot;state&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:entity_killed_player</div></div></td><td width="62%"><div align="right"><div align="left">实体杀死玩家。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;entity&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:impossible</div></div></td><td width="62%"><div align="right"><div align="left">无，仅可通过指令获得。</div></div></td><td width="20%"><br />
+</td></tr><tr><td width="17%">&nbsp;&nbsp;<div align="left">minecraft:inventory_changed</div></td><td width="62%"><div align="right"><div align="left">玩家的背包发生变化。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;items&quot;,&nbsp;&nbsp;&quot;slots&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:location</div></div></td><td width="62%"><div align="right"><div align="left">每秒钟（20ticks）触发一次。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;position&quot;,&nbsp;&nbsp;&quot;biome&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:player_damaged</div></div></td><td width="62%"><div align="right"><div align="left">玩家收到伤害。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;damage&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:player_hurt_entity</div></div></td><td width="62%"><div align="right"><div align="left">玩家被一个实体伤到（包括自己）。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;damage&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:player_killed_entity</div></div></td><td width="62%"><div align="right"><div align="left">玩家杀死了一个实体。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;entity&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:recipe_unlocked</div></div></td><td width="62%"><div align="right"><div align="left">玩家解锁了一个合成表（例如使用知识之书）。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;recipe&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:slept_in_bed</div></div></td><td width="62%"><div align="right"><div align="left">玩家上床。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;location&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:summoned_entity</div></div></td><td width="62%"><div align="right"><div align="left">玩家召唤一个实体（生存可用的应该都是可用的，留待测试）。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;entity&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:used_ender_eye</div></div></td><td width="62%"><div align="right"><div align="left">玩家在生成要塞的世界里使用了末影之眼。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;distance&quot;</div></div></td></tr><tr><td width="17%"><div align="left"><div align="left">minecraft:villager_trade</div></div></td><td width="62%"><div align="right"><div align="left">玩家与村民交易。</div></div></td><td width="20%"><div align="right"><div align="left">&quot;villager&quot;,&nbsp;&nbsp;&quot;item&quot;</div></div></td></tr></table><br />
+<br />
+<br />
+<font size="3">相关的解析与例子由于排版问题我会放在二楼。</font></td></table></div></div><br />
+<font size="3"><font color="#ff0000"><strong>Requirement</strong></font></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">这里的话便是将在Criteria中写的判据进行应用。需要注意的是，如果判据<strong><font color="#ff0000">仅</font>写在</strong>Criteria中而你又写了requirement，那么这个判据是不会生效的。必须在这个条目中应用。<strong>如果不写则默认需要完成所有的criteria。</strong></font><br />
+<font size="3">如果criteria非常简单的话（只有一个）则也可以选择不写requirement，但是个人建议为了避免某些意外性质的幺蛾子，还是每个都给写上比较好。</font><br />
+<font size="3">Requirement根据不同作用有两种写法。</font><br />
+<font size="3">首先requirement的外壳是<div class="blockcode"><div id="code_vG3"><ol><li>&quot;requirements&quot;: [ ]</ol></div><em onclick="copycode($('code_vG3'));">复制代码</em></div><br />
+</font><br />
+<font size="3">注意了，这里的话是<strong>有一份中括号</strong>的。</font><br />
+<font size="3">然后如果是需要a和b两个判据<strong><font color="#ff0000">同时</font></strong>生效的话，写法为</font><br />
+<font size="3"><div class="blockcode"><div id="code_R07"><ol><li>&quot;requirements&quot;: [[&quot;a&quot;, &quot;b&quot;]]</ol></div><em onclick="copycode($('code_R07'));">复制代码</em></div><br />
+</font><br />
+<font size="3">注意这里是<strong>新用了一个中括号</strong>将a和b扩起来，有两对中括号。</font><br />
+<font size="3">如果需要完成<strong><font color="#ff0000">任一</font></strong>判据即可获得成就的话，写法为</font><br />
+<font size="3"><div class="blockcode"><div id="code_vCz"><ol><li>&quot;requirements&quot;: [[&quot;a&quot;], [&quot;b&quot;]]</ol></div><em onclick="copycode($('code_vCz'));">复制代码</em></div><br />
+</font><br />
+<font size="3">这里是用<strong>分别用一对中括号</strong>将两个判据围起来。</font><br />
+<font size="3">这两种写法是可以混用的，但是一般来说是不必要的。</font><br />
+<font size="3"><div class="blockcode"><div id="code_jLX"><ol><li>&quot;requirements&quot;: [[&quot;killed_something&quot;, &quot;has_wheat&quot;]]</ol></div><em onclick="copycode($('code_jLX'));">复制代码</em></div><br />
+这就是一份需要杀死过生物并且拥有小麦时能解锁的写法，但是前提是你必须<strong>定义过这两个判据</strong>。</font><br />
+<font size="3">自此requirement系列标签讲解完成。</font></td></table></div></div><br />
+<font size="3"><strong><font color="#ff0000">Rewards</font></strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">这个标签是用来确定获得成就以获得的奖励。多用于合成表解锁。</font><br />
+<font size="3">这个标签下面都是非常简单暴力的写法，让我来就着例子和大家说明一下。</font><br />
+<font size="3"><div class="blockcode"><div id="code_Qtt"><ol><li>&nbsp; &nbsp;&quot;rewards&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;recipes&quot;: [&quot;minecraft:crafting_table&quot;, &quot;minecraft:iron_block&quot;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;loot&quot;: [&quot;minecraft:entities/zombie&quot;, &quot;minecraft:gameplay/fishing/treasure&quot;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;experience&quot;: 7<br /><li>&nbsp; &nbsp; }</ol></div><em onclick="copycode($('code_Qtt'));">复制代码</em></div><br />
+</font><br />
+<font size="3">这里是rewards的三种子标签：<strong>recipes</strong>，内部填写<strong>物品名称</strong>，负责解锁合成表，在将来能自定义合成的时候是很方便的；<strong>loot</strong>，内部填写任一个合法的<strong>loottable名字</strong>，奖励时进行抽取随机给予，前面两种标签都可以同时在中括号里写出多种奖励；experience，奖励<strong><font color="#ff0000">固定</font>的经验数</strong>，就目前所了解到的是只能填写一个固定的数值。</font><br />
+<img id="aimg_nt4mP" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="291" height="55" src="http://wx4.sinaimg.cn/mw690/005WIsbPgy1feeqexv50sj308301jmx1.jpg" border="0" alt="" /><br />
+ <br />
+<font size="3">这是上面loot奖励获得的腐肉（僵尸掉落），马鞍（钓鱼宝藏）。</font></td></table></div></div><br />
+<font size="3">自此全标签讲解完成，留待二楼仔细说明判据，可能会在最后放出一个单独用于示例讲解的advancement。</font></font><br />
+a<br />
+<br />
+<br />
+<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>LRual&nbsp; &nbsp; <b>时间: </b>2017-4-8 04:50<br />
+额，是不是因为太高端了导致看到了都不知道该怎么回复= =<br />
+果然<br />
+从我注册到现在<br />
+如果有唯一没变的东西<br />
+那就是：当时我是小白，现在我还是小白= =<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-4-8 10:15<br />
+bred那个没记错是要生出了新的生物<br />
+brewed potion其实从那药水的格子拿东西出来也行，放进去再拿出来也行<br />
+enter block准确来说是碰撞箱碰到，execute那个是错的<br />
+player hurt entity是玩家伤害到别的实体<br />
+slept in bed是成功上床，地狱的不算，因为会爆炸<br />
+还有，杀死别的实体是不包括别的玩家的。可以参考外国那个教程，已经非常的详细了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-4-11 08:12<br />
+<div class="quote"><blockquote><font color="#999999">pca006132 发表于 2017-4-8 10:15</font><br />
+<font color="#999999">bred那个没记错是要生出了新的生物<br />
+brewed potion其实从那药水的格子拿东西出来也行，放进去再拿出来也行<br />
+e ...</font></blockquote></div><br />
+嗯<br />
+ execute那个是玩家的脚心在方块里面<br />
+<br />
+<br />
+这个是玩家的任何一个地方在里面<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>15357889879&nbsp; &nbsp; <b>时间: </b>2017-4-11 12:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11688433&amp;ptid=685310" target="_blank"><font color="#999999">1026833619 发表于 2017-4-8 04:50</font></a></font><br />
+额，是不是因为太高端了导致看到了都不知道该怎么回复= =<br />
+果然<br />
+从我注册到现在</blockquote></div><br />
+66666666同样的路过<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-4-27 23:24<br />
+二楼在哪？？？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>乙烯_中国&nbsp; &nbsp; <b>时间: </b>2017-4-27 23:45<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11739120&amp;ptid=685310" target="_blank"><font color="#999999">ruhuasiyu 发表于 2017-4-27 23:24</font></a></font><br />
+二楼在哪？？？</blockquote></div><br />
+等整体系统成型再更新<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-4-28 18:27<br />
+等正式版本出了再写编辑器,现在先蹲坑。XD<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xd_cedar&nbsp; &nbsp; <b>时间: </b>2017-6-10 02:19<br />
+正式版出来啦出来啦!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1134443057&nbsp; &nbsp; <b>时间: </b>2017-6-18 23:09<br />
+我突然发现我自己还不如一只猴子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>skeleton小白&nbsp; &nbsp; <b>时间: </b>2017-6-20 19:34<br />
+criteria貌似里少了这些判据：<br />
+<br />
+arbitrary_player_tick<br />
+changed_dimension<br />
+consume_item<br />
+entity_hurt_player<br />
+item_durability_changed<br />
+levitation<br />
+placed_block<br />
+tame_animal<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天上一片云&nbsp; &nbsp; <b>时间: </b>2017-6-20 20:41<br />
+看了以后怀疑人生啊。猴子。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱着杨海燕&nbsp; &nbsp; <b>时间: </b>2017-6-20 22:10<br />
+正如题目所说，很简单就可以学会了，赞一个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>二人世界&nbsp; &nbsp; <b>时间: </b>2017-6-22 18:17<br />
+既然可以单独编辑存档，那以后的地图更高能了l<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>枷尔&nbsp; &nbsp; <b>时间: </b>2017-7-1 13:43<br />
+spigot有个插件弄成就的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SJC20030208&nbsp; &nbsp; <b>时间: </b>2017-7-2 14:56<br />
+顶顶顶顶顶顶顶顶顶顶顶顶顶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1204942617&nbsp; &nbsp; <b>时间: </b>2018-8-8 10:35<br />
+所以我哪里错了啊，该怎么改啊<div class="blockcode"><div id="code_tvZ"><ol><li>{<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &quot;display&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;icon&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;item&quot;: &quot;command_block&quot;<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;title&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;text&quot;: &quot;Test&quot;<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;description&quot;: &quot;test&quot;<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &quot;show_toast&quot;: true,<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &quot;announce_to_chat&quot;: true,<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &quot;background&quot;: &quot;minecraft:textures/block/iron_block.png&quot;<br /><li>},<br /><li>&quot;criteria&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &quot;has_command_block&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;trigger&quot;: &quot;minecraft:inventory_changed&quot;,<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;conditions&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;items&quot;: [{<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;item&quot;: &quot;minecraft:command_block&quot;<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }]<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &quot;has_the_recipe&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;trigger&quot;: &quot;recipe_unlocked&quot;,<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;conditions&quot;: {<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;recipe&quot;: &quot;cs:1&quot;<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; }<br /><li>},<br /><li>&quot;requirements&quot;: [<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; [<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;has_command_block&quot;,<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &quot;has_the_recipe&quot;<br /><li>&nbsp; &nbsp; &nbsp; &nbsp; ]<br /><li>]<br /><li>}</ol></div><em onclick="copycode($('code_tvZ'));">复制代码</em></div>一脸蒙蔽啊.....<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=1073223" target="_blank">@乙烯_中国</a> <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>乙烯_中国&nbsp; &nbsp; <b>时间: </b>2018-8-8 18:18<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13187691&amp;ptid=685310" target="_blank"><font color="#999999">1204942617 发表于 2018-8-8 10:35</font></a></font><br />
+所以我哪里错了啊，该怎么改啊一脸蒙蔽啊.....@乙烯_中国</blockquote></div><br />
+你的括号未完全配对吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1204942617&nbsp; &nbsp; <b>时间: </b>2018-8-8 18:57<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13188914&amp;ptid=685310" target="_blank"><font color="#999999">乙烯_中国 发表于 2018-8-8 18:18</font></a></font><br />
+你的括号未完全配对吧</blockquote></div><br />
+怎么弄= =突然觉得成就比合成难好多啊...@乙烯_中国 <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>BlackCB.&nbsp; &nbsp; <b>时间: </b>2018-8-9 08:41<br />
+<strike>不能输给猴子……</strike><br />
+判据不详细讲讲吗/？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>种拔&nbsp; &nbsp; <b>时间: </b>2018-8-9 21:13<br />
+您发的东西确实是猴子都能看懂的。可我是骡子啊<img src="static/image/smiley/rabbit/52.gif" smilieid="702" border="0" alt="" /><img src="static/image/smiley/rabbit/52.gif" smilieid="702" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2018-9-5 12:48<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11739164&amp;ptid=685310" target="_blank"><font color="#999999">乙烯_中国 发表于 2017-4-27 23:45</font></a></font><br />
+等整体系统成型再更新</blockquote></div><br />
+二楼在哪？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>z1643452507&nbsp; &nbsp; <b>时间: </b>2018-9-8 12:16<br />
+支持一下~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>981867644&nbsp; &nbsp; <b>时间: </b>2018-10-17 18:21<br />
+嗯...一年过去了...二楼...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>大谷传奇&nbsp; &nbsp; <b>时间: </b>2018-10-19 19:53<br />
+猴子好像还不行啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>llinxinli123148&nbsp; &nbsp; <b>时间: </b>2018-10-21 08:29<br />
+嘻嘻嘻嘻嘻嘻嘻嘻寻寻寻寻寻寻寻寻寻寻<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sevevss&nbsp; &nbsp; <b>时间: </b>2018-10-22 21:19<br />
+<br />
+等正式版本出了再写编辑器,现在先蹲坑<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>981867644&nbsp; &nbsp; <b>时间: </b>2018-11-7 18:59<br />
+<i class="pstatus"> 本帖最后由 981867644 于 2018-11-7 19:07 编辑 </i><br />
+<br />
+不知道乙烯会不会回复...<br /><div class="blockcode"><div id="code_x57"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;__comment&quot;: &quot;Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca&quot;,<br /><li>&nbsp; &nbsp; &quot;display&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;title&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;text&quot;: &quot;Advancement&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;color&quot;: &quot;gold&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;bold&quot;: false,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;strikethrough&quot;: false<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;description&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;text&quot;: &quot;Description&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;icon&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;item&quot;: &quot;minecraft:stone&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;frame&quot;: &quot;task&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;show_toast&quot;: true,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;announce_to_chat&quot;: true,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;hidden&quot;: false,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;background&quot;: &quot;minecraft:textures/gui/advancements/backgrounds/stone.png&quot;<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;criteria&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;123&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:brewed_potion&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;potion&quot;: &quot;minecraft:long_swiftness&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;Impossible&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:brewed_potion&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;potion&quot;: &quot;minecraft:strong_swiftness&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;requirements&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;[<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;Impossible&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;[<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;123&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_x57'));">复制代码</em></div><br />
+在这段代码里我明确的用requirements区分开了“123”和“Impossible”，只需要完成其中一个要求就可以获得成就，但是在游戏里的测试却是要同时完成俩个要求才能获得成就，请问哪里出问题了<br />
+<br />
+<font color="#ff0000"><strong>五分钟后的测试：那个...大佬...您是不是教程写反了...[&quot;1&quot;,&quot;2&quot;]应该才是“任意完成一个”就行吧...反之[&quot;1&quot;],[&quot;2&quot;]是“全部完成”才对啊...</strong></font><br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>悲剧小白&nbsp; &nbsp; <b>时间: </b>2019-2-9 16:59<br />
+成就正常完成了，但是写在recipes里的物品却没有得到<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>huashiwei&nbsp; &nbsp; <b>时间: </b>2019-4-22 14:05<br />
+整合包里的任务卡住了，请问怎么重置<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SolidBlock&nbsp; &nbsp; <b>时间: </b>2019-8-31 14:04<br />
+能够修改进度组和某进度的支进度的显示顺序吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>normanxqh&nbsp; &nbsp; <b>时间: </b>2019-8-31 16:34<br />
+我是新手，我来学习一下，学习各位老大。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC深坑不回头&nbsp; &nbsp; <b>时间: </b>2019-8-31 21:36<br />
+浅显易懂! 终于能给地图加成就系统啦~想试试做分岐选项或字汇资料库!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HtYang&nbsp; &nbsp; <b>时间: </b>2019-10-7 15:59<br />
+1.14貌似不能这么写？<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>怒火终烧&nbsp; &nbsp; <b>时间: </b>2019-10-7 18:53<br />
+我忽然感觉自己不如一只猴子<img src="static/image/smiley/mc_mob_food_plants/pig.gif" smilieid="841" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CR_019&nbsp; &nbsp; <b>时间: </b>2019-11-16 13:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15705437&amp;ptid=685310" target="_blank"><font color="#999999">HtYang 发表于 2019-10-7 15:59</font></a></font><br />
+1.14貌似不能这么写？</blockquote></div><br />
+可以啊，是不是你哪里写错了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>weihaoge123&nbsp; &nbsp; <b>时间: </b>2019-11-18 01:53<br />
+可能这才是玩家吧，我只是个玩了几年的蔡姬<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CR_019&nbsp; &nbsp; <b>时间: </b>2019-11-23 22:40<br />
+requirements部分是不是写反了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>5352&nbsp; &nbsp; <b>时间: </b>2020-2-23 16:17<br />
+这也太简略了吧，还是不会写<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>5352&nbsp; &nbsp; <b>时间: </b>2020-2-27 23:06<br />
+请问bcakground到底怎么写<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>PTSD∝龌龊闵&nbsp; &nbsp; <b>时间: </b>2020-3-20 14:08<br />
+emm，可能我连猴子都不是吧<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>蔚然星空&nbsp; &nbsp; <b>时间: </b>2020-3-20 21:12<br />
+下文呢下文呢？等待进食中……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>as13755655140&nbsp; &nbsp; <b>时间: </b>2020-3-22 19:39<br />
+楼主感谢分享，给你扣波666~<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>残夕xjdsg&nbsp; &nbsp; <b>时间: </b>2020-3-23 09:24<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dirty_Rob&nbsp; &nbsp; <b>时间: </b>2020-3-29 21:20<br />
+<i class="pstatus"> 本帖最后由 dirty_Rob 于 2020-3-29 21:22 编辑 </i><br />
+<br />
+为啥我还是不会？？？我连猴子都不如吗？<img src="static/image/smiley/rabbit/52.gif" smilieid="702" border="0" alt="" />json那一段我跟不没有弄懂&nbsp;&nbsp;<br />
+补充：原来是格式错了，我觉得如果那一段json写得更清楚一点（因为我就以为是有好多个文件夹底下有一些json文件），不然别说猴子了，就是很多人都看不懂（不要说这是我给自己找的理由）&nbsp; &nbsp;看来我还是和人很像的<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>q1019035584&nbsp; &nbsp; <b>时间: </b>2020-3-31 16:20<br />
+你的教程很不错，我看过后有点思路<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>li_hao233&nbsp; &nbsp; <b>时间: </b>2020-4-10 09:47<br />
+大佬问一下如果是同一个触发器想要使用多次可以吗？<br />
+比如与村民交易万次...?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2258935867&nbsp; &nbsp; <b>时间: </b>2020-4-10 14:13<br />
+brewed potion<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>你的小菠萝&nbsp; &nbsp; <b>时间: </b>2020-4-10 17:18<br />
+谢谢分享，终于搞懂了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>黑黑大&nbsp; &nbsp; <b>时间: </b>2020-4-11 15:32<br />
+完了，猴子都能学会我不如猴子了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ghyjn&nbsp; &nbsp; <b>时间: </b>2020-4-11 17:02<br />
+虽然看不懂，但是很厉害的样子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>柘木铃&nbsp; &nbsp; <b>时间: </b>2020-5-12 11:01<br />
+感谢乙烯大大的教程?(?ω?)?<br />
+然后关于 requirements 还有一些疑问：<br />
+在吃原版进度的时候，我发现<br />
+原版的冒险根进度的 requirements 是 [&quot;杀死实体&quot;,&quot;被实体杀&quot;] 这样的，但是实际触发条件是杀死或被杀；<br />
+同时，百猫全书的 requirements 是 [[黑猫],[黄猫]......] 这样的，触发条件是全部达成。<br />
+在帖子里的描述好像反了（？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>x_xiao_x&nbsp; &nbsp; <b>时间: </b>2020-8-6 15:15<br />
+dalao讲的很好，虽然我连猴子都不如<br />
+但是依稀还是懂了一丢丢<br />
+但是为什么图片加载不出了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HuanPkl&nbsp; &nbsp; <b>时间: </b>2020-8-6 22:39<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>永爱不忘&nbsp; &nbsp; <b>时间: </b>2020-8-18 17:12<br />
+很好啊&nbsp; &nbsp; 我是猴子&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lxt123qwe&nbsp; &nbsp; <b>时间: </b>2020-8-22 14:22<br />
+<br />
+正如题目所说，很简单就可以学会了，赞一个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>273684012&nbsp; &nbsp; <b>时间: </b>2020-8-25 12:38<br />
+楼主，图都加载不出来<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>四月天44&nbsp; &nbsp; <b>时间: </b>2020-8-25 13:43<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11688433&amp;ptid=685310" target="_blank"><font color="#999999">LRual 发表于 2017-4-8 04:50</font></a></font><br />
+额，是不是因为太高端了导致看到了都不知道该怎么回复= =<br />
+果然<br />
+从我注册到现在</blockquote></div><br />
+不是吧不是吧都十了级欸<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Dcccc&nbsp; &nbsp; <b>时间: </b>2020-8-26 10:11<br />
+66666666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱吃萝卜和青菜&nbsp; &nbsp; <b>时间: </b>2020-8-26 11:51<br />
+？？？？？是不是就我一个是猴子&nbsp; &nbsp; 我看看还有多少学不会的猴子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pencil521&nbsp; &nbsp; <b>时间: </b>2020-12-5 15:23<br />
+看来我不是猴子🐒<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>夕阳红熊猫&nbsp; &nbsp; <b>时间: </b>2020-12-6 09:53<br />
+那么我要如何更改成就的图标呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MrLin965&nbsp; &nbsp; <b>时间: </b>2020-12-6 23:53<br />
+我连猴子都不是<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>知了个心&nbsp; &nbsp; <b>时间: </b>2021-1-5 03:17<br />
+<br />
+<br />
+感谢分享！！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

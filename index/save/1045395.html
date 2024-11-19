@@ -1,0 +1,194 @@
+<html>
+<head>
+<title>[20w20a]来看看最新的进度触发器 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMDQ1Mzk1LTEtMS5odG1sP2FjdGlvbj1wcmludGFibGU=', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[20w20a]来看看最新的进度触发器 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Chelover_C60&nbsp; &nbsp; <b>时间: </b>2020-5-14 14:41<br />
+<b>标题: </b>[20w20a]来看看最新的进度触发器<br /><i class="pstatus"> 本帖最后由 Chelover_C60 于 2020-5-15 12:05 编辑 </i><br />
+<br />
+20w20a新增了3个触发器，但对于这3个触发器的具体用法及效果，wiki上还没有讲，官网上讲的也比较笼统。<br />
+于是我翻出来了20w20a的原版进度，把这3个进度触发器都找出来了，并尝试研究了一下语法和具体效果<strike>，并决定来水一帖</strike>。<br />
+<br />
+<hr class="l" /><br />
+<font size="5"><strong>minecraft:thrown_item_picked_up_by_entity</strong></font><br />
+<br />
+可以根据字面意思理解，玩家扔出的物品被实体捡起<br />
+<br />
+<strong><font size="3">可用参数：</font></strong><br />
+<ul><li>player：匹配丢出物品的玩家的状态<li>item：匹配物品<li>entity：匹配拾起物品的实体的状态<br />
+</ul>其中player和entity参数可以使用战利品表条件，格式同<a href="https://wiki.biligame.com/mc/%E6%88%98%E5%88%A9%E5%93%81%E8%A1%A8#.E6.A0.87.E7.AD.BE" target="_blank">战利品表</a>的conditions参数（源自20w18a的更新），当然也可以使用<a href="https://wiki.biligame.com/mc/%E6%A8%A1%E6%9D%BF:Nbt_inherit/conditions/entity/template" target="_blank">实体共通标签</a>。item使用<a href="https://wiki.biligame.com/mc/%E6%A8%A1%E6%9D%BF:Nbt_inherit/conditions/item/template" target="_blank">物品共通标签</a>。<br />
+<br />
+<strong><font size="3">实例分析：</font></strong><br />
+以下为原版进度 <font style="background-color:White">Oh Shiny</font> 的criteria部分<br /><div class="blockcode"><div id="code_BsM"><ol><li>&quot;criteria&quot;: {<br /><li>&nbsp; &nbsp; &quot;distract_piglin&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:thrown_item_picked_up_by_entity&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;player&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;term&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;equipment&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;head&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: &quot;minecraft:golden_helmet&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;entity&quot;: &quot;this&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;term&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;equipment&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;chest&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: &quot;minecraft:golden_chestplate&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;entity&quot;: &quot;this&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;term&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;equipment&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;legs&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: &quot;minecraft:golden_leggings&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;entity&quot;: &quot;this&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;term&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;equipment&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;feet&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: &quot;minecraft:golden_boots&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;entity&quot;: &quot;this&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;minecraft:piglin_loved&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;entity&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;minecraft:piglin&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entity&quot;: &quot;this&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li>&nbsp;&nbsp;}</ol></div><em onclick="copycode($('code_BsM'));">复制代码</em></div>呜呼，好长<br />
+这个进度首先对玩家匹配了4个战利品表条件，即不穿着任意金质装备，然后对物品匹配了一个参数，即标签“minecraft:piglin_loved”下的任意物品，最后对拾起物品的实体匹配了一个战利品表条件，即实体类型为猪灵。<br />
+<br />
+<strong><font size="3">应用：</font></strong><br />
+我觉得是时候让某个古老的成就回归了<br /><div class="blockcode"><div id="code_v1k"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;display&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;title&quot;: &quot;给你钻石&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;description&quot;: &quot;&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;frame&quot;: &quot;task&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;icon&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;item&quot;: &quot;minecraft:diamond&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;criteria&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;test&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:thrown_item_picked_up_by_entity&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;item&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: &quot;minecraft:diamond&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_v1k'));">复制代码</em></div>该进度仅要求被捡起的物品是钻石，对物品的丢出玩家和拾起玩家没有做任何限制。但实际上，自己捡起自己丢出的钻石是不会触发进度的。<br />
+
+<ignore_js_op>
+
+<img id="aimg_1594683" aid="1594683" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202005/14/144027hiscidvi9egpiivp.png" file="https://attachment.mcbbs.net/forum/202005/14/144027hiscidvi9egpiivp.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1594683" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1594683_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-05-14_14.40.04.png</strong> <em class="xg1">(260.33 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU5NDY4M3xhMmQ4MGNlNXwxNjE0MDM0ODY3fDI0MTk0ODZ8MTA0NTM5NQ%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-5-14 14:40 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+尽管如此，这个进度触发器的实际用处可能不大。<br />
+<br />
+<hr class="l" /><br />
+<font size="5"><strong>minecraft:player_generates_container_loot</strong></font><br />
+<br />
+字面意思理解，当玩家激活容器的战利品表时触发。<br />
+好像不是很好理解？<br />
+emmmm<br />
+部分容器在打开之前，是没有东西的，只有一个用于生成物品的战利品表。打开这个容器后，这个容器才会根据内含的战利品表来生成物品。简单的说，有时候使用旁观者模式尝试打开箱子时，会提示战利品未生成，这个时候切换成其他模式，就能正常打开了，并可以看到里面的物品，就是这个道理。<br />
+<br />
+<strong><font size="3">可用参数：</font></strong><br />
+<ul><li>player：匹配玩家状态<li>loot_table：匹配战利品表<br />
+</ul>player参数同上，loot_table参数则需指定一个战利品表<br />
+<br />
+<strong><font size="3">实例分析：</font></strong><br />
+以下为原版进度 <font style="background-color:White">War Pigs</font> 的criteria部分<br /><div class="blockcode"><div id="code_UiF"><ol><li>&nbsp;&nbsp;&quot;criteria&quot;: {<br /><li>&nbsp; &nbsp; &quot;loot_bastion_other&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:player_generates_container_loot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;loot_table&quot;: &quot;minecraft:chests/bastion_other&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;loot_bastion_treasure&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:player_generates_container_loot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;loot_table&quot;: &quot;minecraft:chests/bastion_treasure&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;loot_bastion_hoglin_stable&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:player_generates_container_loot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;loot_table&quot;: &quot;minecraft:chests/bastion_hoglin_stable&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;loot_bastion_bridge&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:player_generates_container_loot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;loot_table&quot;: &quot;minecraft:chests/bastion_bridge&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li>&nbsp;&nbsp;}</ol></div><em onclick="copycode($('code_UiF'));">复制代码</em></div>这个进度指定了4个独立的<strong>minecraft:player_generates_container_loot</strong>触发器，分别对应了4中不同的宝箱。后续的requirements部分（未列举）则指定了这4个触发器对这个进度的逻辑为“或”，因此这4个触发器只需要触发其中一个即可获取进度。<br />
+<br />
+<strong><font size="3">应用：</font></strong><br />
+哇塞，一只野生的箱子！这绝对不是陷阱箱！快打开看看！<br />
+
+<ignore_js_op>
+
+<img id="aimg_1594699" aid="1594699" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202005/14/133754k1cz1o6vq7c6ch97.png" file="https://attachment.mcbbs.net/forum/202005/14/133754k1cz1o6vq7c6ch97.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1594699" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1594699_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-05-14_11.39.05.png</strong> <em class="xg1">(193.85 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU5NDY5OXw4ZjlhYjBiM3wxNjE0MDM0ODY3fDI0MTk0ODZ8MTA0NTM5NQ%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-5-14 13:37 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+？？？<br />
+
+<ignore_js_op>
+
+<img id="aimg_1594700" aid="1594700" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202005/15/120509lk6kakm6ekkyqd86.png" file="https://attachment.mcbbs.net/forum/202005/15/120509lk6kakm6ekkyqd86.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1594700" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1594700_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-05-15_12.04.40.png</strong> <em class="xg1">(176.28 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU5NDcwMHw4YTM0NWU5ZHwxNjE0MDM0ODY3fDI0MTk0ODZ8MTA0NTM5NQ%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-5-15 12:05 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+首先，放置一个箱子，指定其战利品表为“minecraft:empty”<br />
+<i><font style="background-color:White">/setblock ~ ~ ~ chest{LootTable:&quot;minecraft:empty&quot;}</font></i><br />
+写一个进度，检测玩家激活“minecraft:empty”战利品表，并奖励function<br /><div class="blockcode"><div id="code_r67"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;display&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;title&quot;: &quot;你中计了！&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;description&quot;: &quot;&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;frame&quot;: &quot;task&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;icon&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;item&quot;: &quot;minecraft:chest&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;criteria&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;test&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:player_generates_container_loot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;loot_table&quot;: &quot;minecraft:empty&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;rewards&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;function&quot;: &quot;test:trap&quot;<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_r67'));">复制代码</em></div>奖励的function过于简单，不再展示。<strike>实际上我感觉这个战利品表也有点过于简单了。</strike><br />
+<br />
+<hr class="l" /><br />
+<font size="5"><strong>minecraft:item_used_on_block</strong></font><br />
+<br />
+当玩家手持指定物品右键方块并与之产生有效互动时触发。<br />
+这是我经过测试后，对此给出的解释。详细点说，就是：<br />
+首先，玩家必须手持指定物品右键方块。然后，玩家与方块之间产生了有效互动。<br />
+那么，以下几种情况就可以触发：<br />
+<ul><li>玩家手持斧头给原木剥皮<li>玩家手持木棍打开箱子<li>玩家手持雪球按动按钮<li>玩家手持按钮并将其放置在石头上<br />
+</ul>而以下几种情况不能触发<ul><li>玩家手持木棍右击石头（没有产生互动）<li>玩家手持雪球并在潜行时右键按钮（没有与方块产生互动）<li>玩家手持斧头挖掘原木（不是右键互动）<li>玩家手持石头走到压力板上（不是右键互动）<br />
+</ul>需要注意的是，放置方块类互动，只要放置成功即算互动成功并触发进度，不要求手持方块必须放在指定方块上。即你可以潜行并在一个蛋糕侧面右击来将按钮放置在地上，但仍能触发对蛋糕使用按钮的进度。<br />
+不过有一种情况，即手持物品时右键红石矿石时我没有触发成功，不知为何。<br />
+<font size="3"><br />
+<strong>可用参数：</strong></font><br />
+<ul><li>player：匹配玩家状态<li>item：匹配玩家手持物品<li>location：匹配方块所在坐标的信息<br />
+</ul>player参数同上，item参数同上上，而location参数格式与进度触发器<a href="https://wiki.biligame.com/mc/%E8%BF%9B%E5%BA%A6/JSON%E6%A0%BC%E5%BC%8F#minecraft:location" target="_blank">“minecraft:location”</a>格式相同。<br />
+需要注意的是，如果这个互动修改了物品的信息，如使用玻璃瓶从蜂箱中取出蜂蜜，触发器里需要指定的物品信息为互动前的物品，如此处应使用玻璃瓶而不是蜂蜜。而如果互动修改了方块信息，如使用斧头给原木剥皮，在触发器里需要指定的方块信息需为互动后的方块信息，如此处应指定剥皮后的原木而不是未剥皮的原木。<br />
+<br />
+<strong><font size="3">实例分析：</font></strong><br />
+以下为原版进度 <font style="background-color:White">与蜂共舞</font> 的criteria部分<br /><div class="blockcode"><div id="code_Aaa"><ol><li>&nbsp;&nbsp;&quot;criteria&quot;: {<br /><li>&nbsp; &nbsp; &quot;safely_harvest_honey&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:item_used_on_block&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;location&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;smokey&quot;: true,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;block&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;block&quot;: &quot;minecraft:beehive&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;item&quot;: &quot;minecraft:glass_bottle&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li>&nbsp;&nbsp;}</ol></div><em onclick="copycode($('code_Aaa'));">复制代码</em></div>此处匹配玩家手持物品为玻璃瓶，指定方块所在坐标用有的方块为蜂箱，且下方有点燃的营火（注：smokey为20w20a新增的location参数，用于检测方块下方是否有点燃的营火）。<br />
+<br />
+<strong><font size="3">应用：</font></strong><br />
+估计这会是以后很常用的一个触发器，因为用来检测一些东西很方便。如检测玩家使用木斧给橡木剥皮<br /><div class="blockcode"><div id="code_xIy"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;display&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;title&quot;: &quot;人不要脸，树不要皮&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;description&quot;: &quot;&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;frame&quot;: &quot;task&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;icon&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;item&quot;: &quot;minecraft:stripped_oak_log&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;criteria&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;test&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:item_used_on_block&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;item&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;item&quot;: &quot;minecraft:wooden_axe&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;location&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;block&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;block&quot;: &quot;minecraft:stripped_oak_log&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_xIy'));">复制代码</em></div>由于互动改变了橡木原木的id，因此需要在location里填写改变后的方块id，即被剥皮的橡木。玩家手持物品为木斧。<br />
+当然，可以给所有剥皮原木写一个标签，然后给所有的斧头写一个标签，即可检测使用任意斧头给任意原木剥皮。<br />
+
+<ignore_js_op>
+
+<img id="aimg_1594801" aid="1594801" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202005/14/143542flll3pywe473y34w.png" file="https://attachment.mcbbs.net/forum/202005/14/143542flll3pywe473y34w.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1594801" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1594801_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-05-14_14.30.58.png</strong> <em class="xg1">(314.61 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU5NDgwMXwzYTcyMDE3YXwxNjE0MDM0ODY3fDI0MTk0ODZ8MTA0NTM5NQ%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-5-14 14:35 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<script type="text/javascript" reload="1">
+aimgcount[18213170] = ['1594683','1594699','1594700','1594801'];
+attachimggroup(18213170);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ChapterII&nbsp; &nbsp; <b>时间: </b>2020-5-15 10:52<br />
+给你钻石……老玩家了……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>御龙九秋&nbsp; &nbsp; <b>时间: </b>2020-5-15 15:40<br />
+这几个触发器对我来说是十分有用了，包括开箱子啊什么的（x）<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>majingyuan2000&nbsp; &nbsp; <b>时间: </b>2020-5-28 00:24<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>巴黎城下的少年&nbsp; &nbsp; <b>时间: </b>2020-5-31 13:16<br />
+给你钻石.....这么神奇的吗<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>
