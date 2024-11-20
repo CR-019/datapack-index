@@ -104,7 +104,11 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/CR-019/datapack-index' }
     ],
-    logo:'/dream_catcher10.png'
+    logo:'/dream_catcher10.png',
+    footer:{
+      copyright:"Copyright@ 2024 CR_019",
+      message:"Powered by Vitepress and Github Pages"
+    }
   },
   head: [
       ['link', { rel: 'icon', href: '/datapack-index/dream_catcher10.png' }]
