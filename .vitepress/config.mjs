@@ -2,24 +2,24 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "My Awesome Project",
+  title: "原版模组体系结构",
   base:"/datapack-index/",
-  description: "A VitePress Site",
+  description: "Powered by VitePress",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outlineTitle:"",
     outline:[2,6],
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '主页', link: '/' },
+      { text: '文档', link: '/index/绪论' }
     ],
-
     sidebar: [
       {
         text: '原版模组体系结构',
         collapsed: false,
         items: [
-          {text:'前言',link:'/index/前言'}
+          {text:'前言',link:'/index/前言'},
+          {text:'绪论',link:'/index/绪论'}
         ]
       },
       {
@@ -93,7 +93,7 @@ export default defineConfig({
       },
       {
         text: '附录',
-        collapsed: false,
+        collapsed: true,
         items: [
           {text:'附录1：天豹星雲教程合集',link:'/index/附录1'},
           {text:'附录2：Alumooper的着色器教程合集——MCJE着色器教程：从开发入门到游戏崩溃',link:'/index/附录2'}
@@ -102,9 +102,13 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/CR-019/datapack-index' }
     ],
+    logo:'/dream_catcher10.png'
   },
+  head: [
+      ['link', { rel: 'icon', href: '/datapack-index/dream_catcher10.png' }]
+  ],
   ignoreDeadLinks: true
 })
 
