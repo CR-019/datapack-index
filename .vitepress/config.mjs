@@ -7,7 +7,7 @@ export default defineConfig({
   description: "Powered by VitePress",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    outlineTitle:"",
+    outlineTitle:"概览",
     outline:[2,6],
     nav: [
       { text: '主页', link: '/' },
