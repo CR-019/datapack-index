@@ -13,6 +13,25 @@ export default defineConfig({
       { text: '主页', link: '/' },
       { text: '文档', link: '/index/绪论' }
     ],
+    search: {
+      provider: "local",
+      options: {
+        translations: {
+          button: {
+            buttonText: "搜索",
+            buttonAriaLabel: "搜索文档"
+          },
+          modal: {
+            noResultsText: "无法找到相关结果",
+            resetButtonTitle: "清除查询条件",
+            footer: {
+              selectText: "选择",
+              navigateText: "切换"
+            }
+          }
+        }
+      }
+    },
     sidebar: [
       {
         text: '原版模组体系结构',
@@ -97,6 +116,11 @@ export default defineConfig({
         items: [
           {text:'附录1：天豹星雲教程合集',link:'/index/附录1'},
           {text:'附录2：Alumooper的着色器教程合集——MCJE着色器教程：从开发入门到游戏崩溃',link:'/index/附录2'}
+        ]
+      },
+      {
+        items: [
+          {text:'更新日志',link:'/index/更新日志'}
         ]
       },
     ],
