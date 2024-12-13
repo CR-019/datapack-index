@@ -12,6 +12,11 @@ hero:
       text: 进入文档
       link: /index/绪论
 features:
+  - icon:
+      src: /3.png
+    title: What's New
+    details: 技术性更新日志：版本差异速查
+    link: /index/changelog_breaking
   - icon: 
       src: /sweetbarry_stew.png
     title: 工具速查
@@ -22,11 +27,7 @@ features:
     title: 系列教程
     details: 从零基础到稍微进阶的各种教程
     link: /index/参考
-  - icon:
-      src: /3.png
-    title: 实战讲解
-    details: 结合实践案例的技术教程
-    link: /index/数据包实践
+
 ---
 
 

@@ -41,6 +41,7 @@ export default defineConfig({
           {text:'绪论',link:'/index/绪论'}
         ]
       },
+      {text:'技术性更新日志（精简版）',link:'/index/changelog_breaking'},
       {
         text: '数据包体系结构',
         collapsed: false,
@@ -115,12 +116,14 @@ export default defineConfig({
         collapsed: true,
         items: [
           {text:'附录1：天豹星雲教程合集',link:'/index/附录1'},
-          {text:'附录2：Alumooper的着色器教程合集——MCJE着色器教程：从开发入门到游戏崩溃',link:'/index/附录2'}
+          {text:'附录2：Alumooper的着色器教程合集——MCJE着色器教程：从开发入门到游戏崩溃',link:'/index/附录2'},
+          {text:'附录3：地图原贴/补档地址',link:'/index/附录3'},
+          {text:'技术性更新日志',link:'/index/changelog'}
         ]
       },
       {
         items: [
-          {text:'更新日志',link:'/index/更新日志'}
+          {text:'更新日志',link:'/index/update'}
         ]
       },
     ],
