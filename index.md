@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "原版模组体系结构"
+  name: "香草图书馆"
   tagline: 原版模组开发资源索引站
   image:
     src: /bg.png
@@ -11,6 +11,9 @@ hero:
     - theme: brand
       text: 进入文档
       link: /index/绪论
+    - theme: alt
+      text: 支持一下宣传视频！
+      link: https://www.bilibili.com/video/BV1rRBqYLERX/
 features:
   - icon:
       src: /3.png
@@ -30,12 +33,12 @@ features:
 
 ---
 
-
 > —— 你为什么写数据包？是有什么受虐体质吗？
 > 
 > —— 是。
 
 ## 站点定位
+原名“原版模组体系结构”，由同名文章修改增补而来。  
 本站点是原版模组相关资源的索引站点，力求为Minecraft Java版的原版模组（即数据包+资源包）开发，提供尽量全面的资源索引。  
 本站文档*理论上*基于Java版最新版本，但鉴于近日官方的更新速度，并且出于服务使用更多版本的玩家考虑，其中不可避免出现过时内容。我们会在已在新版本移除，以及在较新版本更新的特性处做出标注，如发现漏标，请及时向我反馈。  
 **注意：站点文档本身并不包含任何实质教学内容。** 读者可根据自身喜好和需要，从文档给出的链接中选择合适的资源学习和使用。
@@ -63,6 +66,9 @@ features:
   - 萌茶的技术交流群：924039206
   - CBL交流群（公名十砍）：686180154
 - （Github讨论平台）https://github.com/CR-019/datapack-index/discussions
+- Discord频道（需要魔法上网）
+  - [Minecraft Command频道](https://discord.gg/QAFXFtZ)（命令交流）
+  - [黑洞计划](https://discord.gg/XwTrR9RFyu)（地图分享）
 
 @CR_019:
 - QQ:1703467028

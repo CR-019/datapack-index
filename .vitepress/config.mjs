@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "原版模组体系结构",
+  title: "香草图书馆",
   base:"/datapack-index/",
   description: "Powered by VitePress",
   themeConfig: {
@@ -34,7 +34,7 @@ export default defineConfig({
     },
     sidebar: [
       {
-        text: '原版模组体系结构',
+        text: '香草图书馆',
         collapsed: false,
         items: [
           {text:'前言',link:'/index/前言'},
@@ -118,6 +118,7 @@ export default defineConfig({
           {text:'附录1：天豹星雲教程合集',link:'/index/附录1'},
           {text:'附录2：Alumooper的着色器教程合集——MCJE着色器教程：从开发入门到游戏崩溃',link:'/index/附录2'},
           {text:'附录3：地图原贴/补档地址',link:'/index/附录3'},
+          {text:'附录4：杂项',link:'/index/附录4'},
           {text:'技术性更新日志',link:'/index/changelog'}
         ]
       },
@@ -129,12 +130,13 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/CR-019/datapack-index' }
+      { icon: 'github', link: 'https://github.com/CR-019/datapack-index' },
+      { icon: 'bilibili', link: 'https://space.bilibili.com/85292644' }
     ],
     logo:'/dream_catcher10.png',
     footer:{
       copyright:"Copyright@ 2024 CR_019",
-      message:"Powered by Vitepress and Github Pages"
+      message:"<a href=\"https://mcicp.com\" title=\"MCICP备2024000012号\" target=\"_blank\">MCICP备2024000012号</a> | Powered by Vitepress and Github Pages"
     }
   },
   head: [
