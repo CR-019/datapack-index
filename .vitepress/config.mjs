@@ -135,7 +135,7 @@ export default defineConfig({
     ],
     logo:'/dream_catcher10.png',
     footer:{
-      copyright:"Copyright@ 2024 CR_019",
+      copyright:"Copyright©2024 CR_019",
       message:"<a href=\"https://mcicp.com\" title=\"MCICP备2024000012号\" target=\"_blank\">MCICP备2024000012号</a> | Powered by Vitepress and Github Pages"
     }
   },
