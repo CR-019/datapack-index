@@ -43,6 +43,7 @@ export default defineConfig({
         ]
       },
       {text:'技术性更新日志（精简版）',link:'/index/changelog_breaking'},
+      {text:'最近更新',link:'/index/_new'},
       {
         text: '数据包体系结构',
         collapsed: false,
@@ -126,7 +127,7 @@ export default defineConfig({
       },
       {
         items: [
-          {text:'更新日志',link:'/index/update'}
+          {text:'更新日志',link:'/index/_update'}
         ]
       },
     ],
