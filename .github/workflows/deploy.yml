@@ -54,8 +54,8 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
           port: ${{ secrets.SFTP_PORT }}
-          source: .vitepress/dist
-          target: /www/wwwroot/vanillalibrary.mcfpp.top/datapack-index
+          source: .vitepress/dist/
+          target: /www/wwwroot/vanillalibrary.mcfpp.top/datapack-index/
           overwrite: true
       - name: Copy index
         uses: appleboy/scp-action@v0.1.0
