@@ -5,7 +5,7 @@
 - 加入版块：最近更新，包含最近添加的链接；
 - 在导航页加入了wiki跳转按钮；
 - 加入了mcicp备案企划；
-- 开设了镜像站点，现在国内节点可使用https://vanillalibrary.mcfpp.top/datapack-index/访问；
+- 开设了镜像站点，现在国内节点可使用 https://vanillalibrary.mcfpp.top 访问；
 - 修缮了一下首页，加入一些引导；
 - 将更新日志重新排序，现在时间靠前的版本会排在前面；
 - 新增了一些链接；
