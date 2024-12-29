@@ -11,7 +11,8 @@ export default defineConfig({
     outline:[2,6],
     nav: [
       { text: '主页', link: '/' },
-      { text: '文档', link: '/index/绪论' }
+      { text: '文档', link: '/index/绪论' },
+      { text: 'Wiki', link: 'https://zh.minecraft.wiki/' }
     ],
     search: {
       provider: "local",
