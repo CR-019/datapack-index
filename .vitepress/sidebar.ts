@@ -67,6 +67,7 @@ export const sidebar: DefaultTheme.Sidebar = [
       { text: "数据包实践", link: "/index/数据包实践" },
       { text: "资源包实践", link: "/index/资源包实践" },
       { text: "调试与综合实例", link: "/index/调试与综合实例" },
+      { text: "开发杂谈", link: "/index/开发杂谈" },
     ],
   },
   {
