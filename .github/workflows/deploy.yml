@@ -4,7 +4,7 @@ on:
   push:
     branches: [master]
 
-# 设置tokenn访问权限
+# 设置token访问权限
 permissions:
   contents: read
   pages: write
@@ -25,6 +25,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2 # 安装pnpm并添加到环境变量
         with:
@@ -46,6 +47,28 @@ jobs:
         uses: actions/upload-pages-artifact@v2  # 上传构建产物
         with:
           path: .vitepress/dist # 指定上传的路径，当前是根目录，如果是docs需要加docs/的前缀
+      - name: Upload mirror artifact  # 部署镜像
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }}
+          source: .vitepress/dist/
+          target: /www/wwwroot/vanillalibrary.mcfpp.top/datapack-index/
+          overwrite: true
+          strip_components: 2
+      - name: Copy index
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }}
+          source: .vitepress/dist/index.html
+          target: /www/wwwroot/vanillalibrary.mcfpp.top
+          overwrite: true
+          strip_components: 2
 
   # 部署工作
   deploy:
