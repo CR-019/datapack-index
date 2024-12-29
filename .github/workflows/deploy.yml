@@ -4,7 +4,7 @@ on:
   push:
     branches: [master]
 
-# 设置tokenn访问权限
+# 设置token访问权限
 permissions:
   contents: read
   pages: write
