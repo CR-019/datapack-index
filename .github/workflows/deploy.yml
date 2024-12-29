@@ -57,6 +57,7 @@ jobs:
           source: .vitepress/dist/
           target: /www/wwwroot/vanillalibrary.mcfpp.top/datapack-index/
           overwrite: true
+          strip_components: 2
       - name: Copy index
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -67,6 +68,7 @@ jobs:
           source: .vitepress/dist/index.html
           target: /www/wwwroot/vanillalibrary.mcfpp.top
           overwrite: true
+          strip_components: 2
 
   # 部署工作
   deploy:
