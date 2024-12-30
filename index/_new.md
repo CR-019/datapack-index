@@ -1,6 +1,7 @@
 # 最近更新
 
 ### 文章
+- [资源索引](https://docs.qq.com/doc/DT1NKSnNjT0FiT2VS)
 - [数据包新人如何突破技术瓶颈](/resources/关于新人突破技术瓶颈.md)
 - [常用右键检测](https://etis.vcsofficial.site/d/60)
 - [一种可靠的生成不重复随机数的方法](https://www.bilibili.com/read/cv16985186)
