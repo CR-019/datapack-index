@@ -13,7 +13,7 @@ hero:
       link: /index/绪论
     - theme: alt
       text: 支持一下宣传视频！
-      link: https://www.bilibili.com/video/BV1rRBqYLERX/
+      link: https://www.bilibili.com/video/BV1Aq6nY6EjN
 features:
   - icon:
       src: /3.png
