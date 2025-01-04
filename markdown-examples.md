@@ -84,4 +84,5 @@ This is a details block.
 
 Check out the documentation for the [full list of markdown extensions](https://vitepress.dev/guide/markdown).
 
-啊啊啊啊
+rgba(255, 239, 22, 0.37) 30%,
+#fc1111 70%

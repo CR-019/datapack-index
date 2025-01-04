@@ -6,7 +6,7 @@ hero:
   name: "香草图书馆"
   tagline: 原版模组开发资源索引站
   image:
-    src: /bg.png
+    src: /bg4.png
   actions:
     - theme: brand
       text: 进入文档
@@ -81,10 +81,12 @@ import RandomParagraph from './.vitepress/theme/random.vue'
 - Discord频道（需要魔法上网）
   - [Minecraft Command频道](https://discord.gg/QAFXFtZ)（命令交流）
   - [黑洞计划](https://discord.gg/XwTrR9RFyu)（地图分享）
+  - [Minecraft Config](https://discord.gg/yy25NH55vp) （讨论自定义维度和地形生成）
+  - [Shaders Lab](https://discord.gg/RpzWN9S) （着色器交流）
 
 📖图书管理员 @CR_019:
 - QQ:1703467028
-- Bilibili:https://space.bilibili.com/85292644
+- Bilibili：https://space.bilibili.com/85292644
 - Github：https://github.com/CR-019
 
 🏡房东 @Alumooper：
