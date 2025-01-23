@@ -88,6 +88,7 @@ export const sidebar: DefaultTheme.Sidebar = [
       {text:'附录2：Alumooper的着色器教程合集——MCJE着色器教程：从开发入门到游戏崩溃',link:'/index/附录2'},
       {text:'附录3：地图原贴/补档地址',link:'/index/附录3'},
       {text:'附录4：杂项',link:'/index/附录4'},
+      {text:'附录5：《拾尘》系列原版模组图文教程',link:'/index/附录5'},
       {text:'技术性更新日志',link:'/index/changelog'}
     ]
   },
