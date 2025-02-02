@@ -81,4 +81,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment  # 指定id
-        uses: actions/deploy-pages@v2 # 将之前的构建产物部署到github pages中
+        uses: actions/deploy-pages@v3 # 将之前的构建产物部署到github pages中
