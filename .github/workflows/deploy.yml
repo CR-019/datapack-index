@@ -44,7 +44,7 @@ jobs:
           pnpm run docs:build # 启动项目
           touch .nojekyll  # 通知githubpages不要使用Jekyll处理这个站点，不知道为啥不生效，就手动搞了
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4  # 上传构建产物
+        uses: actions/upload-pages-artifact@v3  # 上传构建产物
         with:
           path: .vitepress/dist # 指定上传的路径，当前是根目录，如果是docs需要加docs/的前缀
       - name: Upload mirror artifact  # 部署镜像
