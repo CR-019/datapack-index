@@ -1,0 +1,166 @@
+<html>
+<head>
+<title>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅲ技术性提示 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02MTk0NTktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅲ技术性提示 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-8-12 08:29<br />
+<b>标题: </b>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅲ技术性提示<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-8-21 18:17 编辑 </i><br />
+<br />
+<strong><font size="3">Loottable（可抢夺物品列表）是1.9+中的一个新特性，主要靠调用外置json文件实现对物品奖励获取的随机.</font></strong><br />
+<strong>第三章内将会向各位介绍Loottable中的技术性提示</strong><br />
+<br />
+<font size="3"><font color="#a0522d"><strong>Chm版本：<a href="http://pan.baidu.com/s/1c1U4804" target="_blank">http://pan.baidu.com/s/1c1U4804</a> （若.chm遇到问题下载压缩文件）</strong></font></font><br />
+<font color="#ff0000"><strong><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=619468" target="_blank"><font size="5">全部章节总索引</font></a></strong></font><br />
+<div align="right"><u><strong><font color="#8b0000"><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=619304" target="_blank">上一章 实例与详解</a></font></strong></u></div><br /><br />
+<hr class="l" /><br />
+<hr class="l" /><font face="微软雅黑"><font size="4"><strong>标准Json</strong></font></font><br />
+Loottable使用的是标准json（1.9后json都是标准json）<br />
+所谓标准json，其实就是规范使用json：<br />
+对象使用引号：例如&quot;functions&quot; &quot;type&quot; &quot;condition&quot;<br />
+整型、浮点不得混为字符串：例如1.0不能写成&quot;1.0&quot;<br />
+字符串使用引号：例如&quot;minecraft:stone&quot;<br />
+字符串中转义等.<br />
+<br />
+如果loottable不能成功调用，多半是因为没有使用标准json.<br /><hr class="l" /><font face="微软雅黑"><font size="4"><strong>UTF-8编码</strong></font></font><br />
+如果你在Loottable中使用了中文，却在游戏中调用出现了显示?????的情况，是因为minecraft使用UTF-8编码，请将中文转为unicode并替换.<br />
+（或者使用代码编辑器是保存文件时，选择UTF-8编码）<br />
+<br />
+事实上所有特殊字符特殊语言，如果没有使用UTF-8编码，也许在minecraft都会出现上述情况（例如模组汉化等）<br /><br />
+<hr class="l" /><font face="微软雅黑"><font size="4"><strong>§样式代码</strong></font></font><br />
+如果你想问能否使用样式代码，答案是当然的.<br />
+样式代码只是隐蔽了游戏内直接使用，但事实上loottable作为外部调用，和插件模组等一样是支持样式代码的.<br />
+<br />
+由于UTF-8编码，需要把样式代码转为unicode再填写.<br /><hr class="l" /><font face="微软雅黑"><font size="4"><strong>原版中的Loottable</strong></font></font><br />
+下面的Loottable你可以直接调用（命名空间为minecraft:子文件夹/文件）<br />
+<br />
+子文件夹：（转自Wiki，已全部翻译）<br /><div class="quote"><blockquote>┗chests - 资源箱子里的物品。<br />
+&nbsp;&nbsp;┗abandoned_mineshaft - 废弃矿井中找到的运输矿车。<br />
+&nbsp;&nbsp;┗desert_pyramid - 沙漠神殿的宝藏室里的箱子。<br />
+&nbsp;&nbsp;┗end_city_treasure - 末地城里的箱子。<br />
+&nbsp;&nbsp;┗igloo_chest - 雪屋地下室里的箱子。<br />
+&nbsp;&nbsp;┗jungle_temple - 丛林神庙里的箱子。<br />
+&nbsp;&nbsp;┗nether_bridge - 下界要塞里的箱子。<br />
+&nbsp;&nbsp;┗simple_dungeon - 地牢里的箱子。<br />
+&nbsp;&nbsp;┗spawn_bonus_chest - 如果打开奖励箱选项的话，新世界生成时的奖励箱。<br />
+&nbsp;&nbsp;┗stronghold_corridor - 要塞台阶祭坛里的箱子。<br />
+&nbsp;&nbsp;┗stronghold_crossing - 要塞储存室里的箱子。<br />
+&nbsp;&nbsp;┗stronghold_library - 要塞图书馆里的箱子。<br />
+&nbsp;&nbsp;┗village_blacksmith - 村庄中的铁匠铺里的箱子。<br />
+<br />
+┗entities - 实体掉落的物品。应用在箱子上会出现漏洞，可能导致部分堆叠为0。<br />
+&nbsp;&nbsp;┗sheep - 有色绵羊<br />
+&nbsp; &nbsp; ┗black - 黑色<br />
+&nbsp; &nbsp; ┗blue - 蓝色<br />
+&nbsp; &nbsp; ┗brown - 棕色<br />
+&nbsp; &nbsp; ┗cyan - 青色<br />
+&nbsp; &nbsp; ┗gray - 深灰色<br />
+&nbsp; &nbsp; ┗green - 绿色<br />
+&nbsp; &nbsp; ┗light_blue - 浅蓝色<br />
+&nbsp; &nbsp; ┗lime - 亮绿色<br />
+&nbsp; &nbsp; ┗magenta - 品红<br />
+&nbsp; &nbsp; ┗orange - 橙色<br />
+&nbsp; &nbsp; ┗pink - 粉色<br />
+&nbsp; &nbsp; ┗purple - 紫色<br />
+&nbsp; &nbsp; ┗red - 红色<br />
+&nbsp; &nbsp; ┗silver - 银色<br />
+&nbsp; &nbsp; ┗white - 白色<br />
+&nbsp; &nbsp; ┗yellow - 黄色<br />
+&nbsp;&nbsp;┗bat - 蝙蝠<br />
+&nbsp;&nbsp;┗blaze - 烈焰人<br />
+&nbsp;&nbsp;┗cave_spider - 洞穴蜘蛛<br />
+&nbsp;&nbsp;┗chicken - 鸡<br />
+&nbsp;&nbsp;┗cow - 牛<br />
+&nbsp;&nbsp;┗creeper - 苦力怕<br />
+&nbsp;&nbsp;┗elder_guardian - 远古守卫者<br />
+&nbsp;&nbsp;┗enderman - 末影人<br />
+&nbsp;&nbsp;┗endermite - 末影螨<br />
+&nbsp;&nbsp;┗ghast - 恶魂<br />
+&nbsp;&nbsp;┗giant - 巨人僵尸<br />
+&nbsp;&nbsp;┗guardian - 守卫者<br />
+&nbsp;&nbsp;┗horse - 马<br />
+&nbsp;&nbsp;┗magma_cube - 岩浆怪<br />
+&nbsp;&nbsp;┗mushroom_cow - 蘑菇牛<br />
+&nbsp;&nbsp;┗ocelot - 豹猫<br />
+&nbsp;&nbsp;┗pig - 猪<br />
+&nbsp;&nbsp;┗rabbit - 兔<br />
+&nbsp;&nbsp;┗sheep - 没毛的羊<br />
+&nbsp;&nbsp;┗shulker - 潜匿之贝<br />
+&nbsp;&nbsp;┗silverfish - 蠹虫<br />
+&nbsp;&nbsp;┗skeleton - 骷髅射手<br />
+&nbsp;&nbsp;┗skeleton_horse - 骷髅马<br />
+&nbsp;&nbsp;┗slime - 史莱姆<br />
+&nbsp;&nbsp;┗snowman - 雪傀儡<br />
+&nbsp;&nbsp;┗spider - 蜘蛛<br />
+&nbsp;&nbsp;┗squid - 墨鱼<br />
+&nbsp;&nbsp;┗wolf - 狼<br />
+&nbsp;&nbsp;┗zombie - 僵尸<br />
+&nbsp;&nbsp;┗zombie_horse - 僵尸马<br />
+&nbsp;&nbsp;┗zombie_pigman - 僵尸猪人<br />
+<br />
+┗gameplay - 游戏机制<br />
+&nbsp;&nbsp;┗fishing - 钓鱼<br />
+&nbsp; &nbsp; ┗fish.json - 鱼类<br />
+&nbsp; &nbsp; ┗junk.json - 垃圾<br />
+&nbsp; &nbsp; ┗treasure.json - 宝藏<br />
+&nbsp;&nbsp;┗fishing.json - 读取“fishing”文件夹里的一个json，通过幸运决定<br />
+<br />
+┗empty - 不包含任何物品</blockquote></div><br /><br />
+<hr class="l" /><font face="微软雅黑"><font size="4"><strong>检验与格式化</strong></font></font><br />
+当你手写一个Loottable如果不确定是否符合json格式，你可以去检验与格式化：<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fwww.bejson.com%2F" target="_blank">http://www.bejson.com/</a><br />
+格式化能让文件结构更清晰，当然需要注意此处格式化会重新把Unicode转成原字符，请特别备份.<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>游戏内指令方块的操作</strong></font></font><br />
+指令方块是支持自动化调用的，具体操作可以融入逻辑中，在这里说一下指令方块操作和loottable更新机制影响：<br />
+<ul><li>更新<br />
+</ul><br />
+如果你要使一个箱子被玩家打开出现不是特定的物品，那么你在对该容器操作前千万不要打开该容器，如果一旦loottable容器被打开，里面的loottable标签去除，转成了物品标签，此时更新也没有用.<br />
+实体中更新loottable是有效的.<br />
+<br />
+<ul><li>随机<br />
+</ul><br />
+结合一个loottable<br />
+可以检测实体掉落物，制作一个随机器.（该随机器只能通过枚举，较复杂，暂不演示）<br />
+<br />
+<ul><li>复制<br />
+</ul>clone指令可以clone一个没有打开的容器，clone后的容器依然保留loottable标签，可以放心调用.<br />
+<br />
+<ul><li>检测<br />
+</ul>如果一个已经打开的容器检测loottable标签，是不会检测成功的.<br />
+<br />
+而实体可以.[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>彪悍的新手&nbsp; &nbsp; <b>时间: </b>2016-8-12 09:30<br />
+woc2b技术贴看看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>99033543&nbsp; &nbsp; <b>时间: </b>2016-8-12 22:08<br />
+看不懂。。。前排膜拜<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋一&nbsp; &nbsp; <b>时间: </b>2016-8-13 00:34<br />
+我记得我以前测试的时候，§可以直接写，不用改成unicode的\u00a7<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-8-13 09:20<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10755834&amp;ptid=619459" target="_blank"><font color="#999999">acordome 发表于 2016-8-13 00:34</font></a></font><br />
+我记得我以前测试的时候，§可以直接写，不用改成unicode的\u00a7</blockquote></div><br />
+还是UTF-8的锅 我依旧要转成unicode<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋一&nbsp; &nbsp; <b>时间: </b>2016-8-13 11:00<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10756606&amp;ptid=619459" target="_blank"><font color="#999999">贰逼 发表于 2016-8-13 09:20</font></a></font><br />
+还是UTF-8的锅 我依旧要转成unicode</blockquote></div><br />
+这样啊，我那个编辑器直接在UTF-8环境写的所以没转也可以，其他编码那只能转了√<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jiecaossss&nbsp; &nbsp; <b>时间: </b>2018-8-8 09:50<br />
+完全糊一片.........
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

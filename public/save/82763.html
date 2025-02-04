@@ -1,0 +1,424 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 6.自定义村民交易 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04Mjc2My0xLTEuaHRtbD9hY3Rpb249cHJpbnRhYmxl', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 6.自定义村民交易 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-1-28 20:35<br />
+<b>标题: </b>【CBL|SYL】NBT教程 6.自定义村民交易<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:36 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+<font color="#ff00"><font size="5">看不到图的请移步到索引贴，那里提供了下载与在线观看地址</font></font><br />
+好吧好像坑了很久的样子……<br />
+应某位仁兄的要求，出这一篇<br />
+<hr class="l" /><br />
+<img id="aimg_Cn65E" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Zh7yOeQ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+好的一个交易界面不解释<br />
+<img id="aimg_kk9zp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/IOm6HZz.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+打开nbt界面，发现多出Offers这个compound标签，里面有一些东西<br />
+解析一下<br />
+<font color="#8b0000">Recipes list标签里面，一个compound标签代表一个交易配方<br />
+maxUsed这个int标签代表最大可用次数<br />
+接着是已用次数，大于或等于最大次数时配方会失效</font><br />
+<img id="aimg_SL833" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/fPqnCxn.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+继续展开，物品标准格式，buy代表需要输入的物品（ps 如果是2个输入的话请新建一个名为buyB的compound）<br />
+sell不用解释了吧？<br />
+<img id="aimg_R8OND" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/qiWUDJF.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+动手搞搞看……<br />
+（接着我MC崩溃了……）<br />
+为啥？放入一个不是物品的id存档当然完蛋啦……至于240是什么我也忘记了……<br />
+<img id="aimg_j7T4D" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Kw6Zn0E.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+重开……系统把那个错误的村民干掉了<br />
+<img id="aimg_J18Zd" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/eMrvKw9.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这次另外一个村民改成靠谱的<br />
+<img id="aimg_o0CeG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/28LROGo.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+就是这样了……值得一提的是这里也支援tag系列标签<br />
+<img id="aimg_Jw64a" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/A60fhiP.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<img id="aimg_mWD5J" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/pXN81zs.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+就这样<br />
+<hr class="l" />花絮<br />
+<img id="aimg_SfZqY" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/iRMas04.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+话说我一把火去烧那个村民的时候……突然冒出2团高速在地上移动的火球……吓死我了……<br />
+<img id="aimg_PkHUs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/qMF1hrY.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+最后一看是2个小村民……见鬼了？<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>53809310&nbsp; &nbsp; <b>时间: </b>2013-1-28 20:39<br />
+最后一幅图的小村民好萌啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yeyaowei&nbsp; &nbsp; <b>时间: </b>2013-1-28 20:44<br />
+我有MCE我自豪~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>路邊電燈泡&nbsp; &nbsp; <b>时间: </b>2013-1-28 20:49<br />
+支持<br />
+但是讓村民指定販賣還是用mce好多了<br />
+NBT是我用來改掉後面的um啥的...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-1-28 21:23<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">路邊電燈泡 发表于 2013-1-28 20:49</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1278218&amp;ptid=82763" target="_blank"><img id="aimg_Q32Mn" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+支持<br />
+但是讓村民指定販賣還是用mce好多了<br />
+NBT是我用來改掉後面的um啥的...</blockquote></div><br />
+嗯，大规模还是MCE比较方便<br />
+但上限什么的NBT比较灵活<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>路邊電燈泡&nbsp; &nbsp; <b>时间: </b>2013-1-28 21:50<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-1-28 21:23</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1278602&amp;ptid=82763" target="_blank"><img id="aimg_s4Pno" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+嗯，大规模还是MCE比较方便<br />
+但上限什么的NBT比较灵活</blockquote></div><br />
+是啊...mce只能用....9個?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-1-28 23:23<br />
+嗯，以前看过MCEDIT的箱子filter方法。现在可以直接修改NBT标签了。方便性和可操作性上可谓花开两朵，各表一枝。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猥琐张尼玛&nbsp; &nbsp; <b>时间: </b>2013-1-28 23:37<br />
+貌似有一些些 不明白 好吧,先顶 然后再研究!!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a8105&nbsp; &nbsp; <b>时间: </b>2013-1-29 17:12<br />
+我都等了几天了= =!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-1-29 17:46<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">810587921 发表于 2013-1-29 17:12</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1284822&amp;ptid=82763" target="_blank"><img id="aimg_Do636" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我都等了几天了= =!</blockquote></div><br />
+谢支持<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-1-31 14:38<br />
+混蛋~！~呜···<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Condor&nbsp; &nbsp; <b>时间: </b>2013-2-2 15:36<br />
+貌似真的挺坑。。。<img src="static/image/smiley/rabbit/41.gif" smilieid="691" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>LCL&nbsp; &nbsp; <b>时间: </b>2013-2-4 14:49<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小乔&nbsp; &nbsp; <b>时间: </b>2013-2-6 02:00<br />
+maxUsed這個最交易數可以設無限么=_=?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>寒影、&nbsp; &nbsp; <b>时间: </b>2013-4-13 14:03<br />
+
+<ignore_js_op>
+
+<img id="aimg_158155" aid="158155" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201304/13/140248k1l585z8zf7l5l11.jpg" file="https://attachment.mcbbs.net/forum/201304/13/140248k1l585z8zf7l5l11.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="305" id="aimg_158155" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_158155_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>编辑附魔.jpg</strong> <em class="xg1">(14.23 KB, 下载次数: 165)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU4MTU1fGMzZWE0OTgzfDE2MTM3MzExMjB8MjQxOTQ4Nnw4Mjc2Mw%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>自定义附魔</p>
+<p class="xg1 y">2013-4-13 14:02 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+
+<ignore_js_op>
+
+<img id="aimg_158154" aid="158154" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201304/13/1402476ttmg8ztmi1tztn8.jpg" file="https://attachment.mcbbs.net/forum/201304/13/1402476ttmg8ztmi1tztn8.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="218" id="aimg_158154" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_158154_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>更名.jpg</strong> <em class="xg1">(9.24 KB, 下载次数: 124)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU4MTU0fDY4ODcxOThjfDE2MTM3MzExMjB8MjQxOTQ4Nnw4Mjc2Mw%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>更名</p>
+<p class="xg1 y">2013-4-13 14:02 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+
+<ignore_js_op>
+
+<img id="aimg_158153" aid="158153" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201304/13/140246dyf0dz09mwpifhp7.jpg" file="https://attachment.mcbbs.net/forum/201304/13/140246dyf0dz09mwpifhp7.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="353" id="aimg_158153" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_158153_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>自定义村民交易.jpg</strong> <em class="xg1">(9.49 KB, 下载次数: 135)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU4MTUzfDE5N2JjMzc5fDE2MTM3MzExMjB8MjQxOTQ4Nnw4Mjc2Mw%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>自定义村民交易</p>
+<p class="xg1 y">2013-4-13 14:02 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+顶<script type="text/javascript" reload="1">
+aimgcount[1862392] = ['158153','158154','158155'];
+attachimggroup(1862392);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-13 14:09<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">小乔 发表于 2013-2-6 02:00</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1356983&amp;ptid=82763" target="_blank"><img id="aimg_OSU86" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+maxUsed這個最交易數可以設無限么=_=?</blockquote></div><br />
+不可以，但调到一个大到可怕的数字就好了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>索尼克巨星&nbsp; &nbsp; <b>时间: </b>2013-4-14 22:50<br />
+nbt界面怎么打开？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-15 17:48<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">索尼克巨星 发表于 2013-4-14 22:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1880009&amp;ptid=82763" target="_blank"><img id="aimg_viluR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+nbt界面怎么打开？</blockquote></div><br />
+为啥你就不能去看看第二章呢？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>美军统のKB&nbsp; &nbsp; <b>时间: </b>2013-4-15 20:43<br />
+可惜是英文&nbsp; &nbsp; 不过是神器呢&nbsp;&nbsp;赞一下{:10_559:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>senlisen00728&nbsp; &nbsp; <b>时间: </b>2013-4-15 20:46<br />
+顶顶顶顶顶顶顶顶顶顶顶顶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kelvinhauhk&nbsp; &nbsp; <b>时间: </b>2013-4-15 21:07<br />
+Mcbbs有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>阿星&nbsp; &nbsp; <b>时间: </b>2013-4-24 19:59<br />
+为什么我在NBT界面里没有看到Offiers这个Compound求解<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-24 20:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">阿星 发表于 2013-4-24 19:59</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1945454&amp;ptid=82763" target="_blank"><img id="aimg_jkPH9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+为什么我在NBT界面里没有看到Offiers这个Compound求解</blockquote></div><br />
+请先确保打开过村民的交易界面一次<br />
+这样才能确保系统给你生成<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>阿星&nbsp; &nbsp; <b>时间: </b>2013-4-24 20:04<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-4-24 20:00</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1945477&amp;ptid=82763" target="_blank"><img id="aimg_U60U8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+请先确保打开过村民的交易界面一次<br />
+这样才能确保系统给你生成</blockquote></div><br />
+有了谢谢了！{:10_512:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>苦力怕怕★&nbsp; &nbsp; <b>时间: </b>2013-4-27 17:46<br />
+nbt界面怎么打开？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>610108634&nbsp; &nbsp; <b>时间: </b>2013-5-29 17:19<br />
+很棒的缩<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>LIVNDS&nbsp; &nbsp; <b>时间: </b>2013-6-15 21:08<br />
+目前，图全挂了，麻烦修好···········<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>blby656&nbsp; &nbsp; <b>时间: </b>2013-6-15 21:14<br />
+村民好萌...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>错过就不遇见&nbsp; &nbsp; <b>时间: </b>2013-6-16 13:57<br />
+GOOD JOB&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>11帅帅11&nbsp; &nbsp; <b>时间: </b>2013-7-14 23:14<br />
+NBT就是你变态<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>霸道范er&nbsp; &nbsp; <b>时间: </b>2013-7-19 17:33<br />
+谢谢分享{:10_523:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>金融股&nbsp; &nbsp; <b>时间: </b>2013-8-5 17:02<br />
+软件哪里下载？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1254482024&nbsp; &nbsp; <b>时间: </b>2013-8-11 14:09<br />
+图片居然崩了...怎么回事MCBBS卡了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-8-11 15:59<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a1254482024 发表于 2013-8-11 14:09</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2868545&amp;ptid=82763" target="_blank"><img id="aimg_dXByg" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+图片居然崩了...怎么回事MCBBS卡了？</blockquote></div><br />
+你不知道伟大的GFW把imgur墙了吗？<br />
+于是我全军覆没了，要看的话去看在线word文档或者下载吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1254482024&nbsp; &nbsp; <b>时间: </b>2013-8-11 16:23<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-8-11 15:59</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2870171&amp;ptid=82763" target="_blank"><img id="aimg_v51D5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+你不知道伟大的GFW把imgur墙了吗？<br />
+于是我全军覆没了，要看的话去看在线word文档或者下载吧</blockquote></div><br />
+<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" />不用了233我用翻墙器看到了哈...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-8-11 16:27<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a1254482024 发表于 2013-8-11 16:23</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2870527&amp;ptid=82763" target="_blank"><img id="aimg_pV07R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+不用了233我用翻墙器看到了哈...</blockquote></div><br />
+thats good<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1254482024&nbsp; &nbsp; <b>时间: </b>2013-8-11 16:32<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-8-11 16:27</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2870591&amp;ptid=82763" target="_blank"><img id="aimg_A6855" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+thats good</blockquote></div><br />
+你3连了....<br />
+=A=延时问题么..<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-8-11 17:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a1254482024 发表于 2013-8-11 16:32</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2870655&amp;ptid=82763" target="_blank"><img id="aimg_h1Js2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+你3连了....<br />
+=A=延时问题么..</blockquote></div><br />
+我艹……<br />
+完全没发现<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>810109538&nbsp; &nbsp; <b>时间: </b>2013-8-20 07:25<br />
+没法用啊，我是1.6版本的，可以装MOD<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>icepenguin0603&nbsp; &nbsp; <b>时间: </b>2013-8-26 17:09<br />
+感谢LZ的教程<br />
+回去试试<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1105804954&nbsp; &nbsp; <b>时间: </b>2013-9-10 18:23<br />
+附魔物品怎么弄呢亲 tag的图挂了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xh__96125&nbsp; &nbsp; <b>时间: </b>2013-9-16 20:48<br />
+没懂什么意思<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1411465506&nbsp; &nbsp; <b>时间: </b>2013-9-25 20:50<br />
+<i class="pstatus"> 本帖最后由 1411465506 于 2013-9-25 20:51 编辑 </i><br />
+<br />
+你能发个有中文输入的整合吗？我想搞一下东西名字改中文但是没中文输入。还有，原本一个交易一个改成两个交易一个改完关开也没有，咋回事，求视频纳<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yihc&nbsp; &nbsp; <b>时间: </b>2013-10-3 13:12<br />
+QAQsy~图挂了 我伤不起QAQ<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-10-3 17:04<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">Yihc 发表于 2013-10-3 13:12</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3366286&amp;ptid=82763" target="_blank"><img id="aimg_ZKN1A" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+QAQsy~图挂了 我伤不起QAQ</blockquote></div><br />
+你存心要无视我第一行字？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yihc&nbsp; &nbsp; <b>时间: </b>2013-10-3 17:29<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-10-3 17:04</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3369243&amp;ptid=82763" target="_blank"><img id="aimg_g99Ci" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+你存心要无视我第一行字？</blockquote></div><br />
+<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" />被你发现了<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>156664752&nbsp; &nbsp; <b>时间: </b>2013-10-5 17:09<br />
+SYL大大，怎么把已经用nbt修改过的东西弄进村民交易里面？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-10-5 23:04<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">156664752 发表于 2013-10-5 17:09</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3395036&amp;ptid=82763" target="_blank"><img id="aimg_z77r2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+SYL大大，怎么把已经用nbt修改过的东西弄进村民交易里面？</blockquote></div><br />
+物品的标签复制进去就好了<br />
+就是把tag之类的照样放好<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-10-5 23:04<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">156664752 发表于 2013-10-5 17:09</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3395036&amp;ptid=82763" target="_blank"><img id="aimg_uffIr" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+SYL大大，怎么把已经用nbt修改过的东西弄进村民交易里面？</blockquote></div><br />
+物品的标签复制进去就好了<br />
+就是把tag之类的照样放好<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>156664752&nbsp; &nbsp; <b>时间: </b>2013-10-6 13:26<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-10-5 23:04</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3400293&amp;ptid=82763" target="_blank"><img id="aimg_II82i" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+物品的标签复制进去就好了<br />
+就是把tag之类的照样放好</blockquote></div><br />
+谢谢！nbt能不能把一种方块变成电源呢？比如说：木板变成红石火把，却还是木板的样子？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>番茄茄&nbsp; &nbsp; <b>时间: </b>2013-10-6 16:28<br />
+后面图全挂了~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2531380181&nbsp; &nbsp; <b>时间: </b>2013-10-7 15:09<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">寒影、 发表于 2013-4-13 14:03</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1862392&amp;ptid=82763" target="_blank"><img id="aimg_jrRX9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+顶</blockquote></div><br />
+怎么搞的求教<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wwff&nbsp; &nbsp; <b>时间: </b>2013-10-26 18:38<br />
+我为什么输不了5:1<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天火飞狐&nbsp; &nbsp; <b>时间: </b>2013-10-26 19:55<br />
+-------------------------------------------------------------------<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1142584466&nbsp; &nbsp; <b>时间: </b>2013-11-3 20:56<br />
+LZ怎么弄出多个交易？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-11-3 21:35<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">1142584466 发表于 2013-11-3 20:56</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3641123&amp;ptid=82763" target="_blank"><img id="aimg_QXy1e" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+LZ怎么弄出多个交易？</blockquote></div><br />
+多弄几个tag<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1142584466&nbsp; &nbsp; <b>时间: </b>2013-11-4 17:10<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-11-3 21:35</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3641596&amp;ptid=82763" target="_blank"><img id="aimg_rlWX2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+多弄几个tag</blockquote></div><br />
+怎么弄？复制么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1277445319&nbsp; &nbsp; <b>时间: </b>2013-11-16 16:14<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">寒影、 发表于 2013-4-13 14:03</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1862392&amp;ptid=82763" target="_blank"><img id="aimg_aZ99Z" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+顶</blockquote></div><br />
+怎么打开NBT界面我都不知到<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>971042889&nbsp; &nbsp; <b>时间: </b>2013-11-16 18:03<br />
+nbt好强啊啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sanjis2008&nbsp; &nbsp; <b>时间: </b>2013-11-20 16:56<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">路邊電燈泡 发表于 2013-1-28 20:49</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1278218&amp;ptid=82763" target="_blank"><img id="aimg_Ocz8l" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+支持<br />
+但是讓村民指定販賣還是用mce好多了<br />
+NBT是我用來改掉後面的um啥的...</blockquote></div><br />
+MCE肿么定义=。=？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ssaa455&nbsp; &nbsp; <b>时间: </b>2013-12-4 13:21<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-4-13 14:09</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1862455&amp;ptid=82763" target="_blank"><img id="aimg_trwaU" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+不可以，但调到一个大到可怕的数字就好了</blockquote></div><br />
+我想问一下怎么样让村民交易一本写过的书，像RPG地图中那样，用一些道具交换，交换来的书上有别人写的剧情之类的，求教QAQ<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-4 17:18<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">ssaa455 发表于 2013-12-4 13:21</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3848891&amp;ptid=82763" target="_blank"><img id="aimg_wgN81" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我想问一下怎么样让村民交易一本写过的书，像RPG地图中那样，用一些道具交换，交换来的书上有别人写的剧情 ...</blockquote></div><br />
+请查看成书篇<br />
+然后把书的格式也放进去就可以了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ssaa455&nbsp; &nbsp; <b>时间: </b>2013-12-9 20:30<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-12-4 17:18</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3849570&amp;ptid=82763" target="_blank"><img id="aimg_nuOxi" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+请查看成书篇<br />
+然后把书的格式也放进去就可以了</blockquote></div><br />
+谢谢，帮大忙了，希望有红石大触帮忙做RPG地图，谢谢！QWQ<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>时空游荡者&nbsp; &nbsp; <b>时间: </b>2013-12-19 12:59<br />
+怎么把村民交易的东西附魔啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sjx&nbsp; &nbsp; <b>时间: </b>2014-1-20 16:10<br />
+你的电脑内存多少？我怀疑没内存。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>金融股&nbsp; &nbsp; <b>时间: </b>2014-1-22 18:32<br />
+下载地址哪儿有?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>金融股&nbsp; &nbsp; <b>时间: </b>2014-1-22 18:33<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">金融股 发表于 2014-1-22 18:32</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4306659&amp;ptid=82763" target="_blank"><img id="aimg_ge667" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+下载地址哪儿有?</blockquote></div><br />
+知道了知道了，翻了一下帖子，感谢楼主<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CYFGG&nbsp; &nbsp; <b>时间: </b>2014-1-23 09:54<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>936728431&nbsp; &nbsp; <b>时间: </b>2014-1-23 10:04<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4312673&amp;ptid=82763" target="_blank"><font color="#999999">CYFGG 发表于 2014-1-23 09:54</font></a></font><br />
+看完之后仍然不懂..<br />
+第二张图片那个界面怎么打开的- -</blockquote></div><br />
+这是nbtedit mod<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>古力怕来了&nbsp; &nbsp; <b>时间: </b>2014-1-29 14:42<br />
+5555555555555555555，怎么打开nbt的页面？？？求大神教教<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Asuna丶&nbsp; &nbsp; <b>时间: </b>2014-1-30 11:56<br />
+- -看看哦<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>13553763919&nbsp; &nbsp; <b>时间: </b>2014-2-8 11:17<br />
+怎么让村民卖自己修改过的东西。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>名人才华&nbsp; &nbsp; <b>时间: </b>2014-2-11 17:39<br />
+LZ，我有问题，写过的书本，自定义的装备怎么交易？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>瓜子GZ&nbsp; &nbsp; <b>时间: </b>2014-2-14 21:24<br />
+怎么让村民交易附魔的东西？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1251541293&nbsp; &nbsp; <b>时间: </b>2014-4-27 10:34<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1862392&amp;ptid=82763" target="_blank"><font color="#999999">寒影、 发表于 2013-4-13 14:03</font></a></font><br />
+顶</blockquote></div><br />
++1111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1251541293&nbsp; &nbsp; <b>时间: </b>2014-4-27 10:35<br />
+11111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>55135&nbsp; &nbsp; <b>时间: </b>2014-4-27 19:20<br />
+嗯，以前看过MCEDIT的箱子filter方法。现在可以直接修改NBT标签了。方便性和可操作性上可谓花开两朵，各表一枝<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>失落の灵谛&nbsp; &nbsp; <b>时间: </b>2014-4-27 19:21<br />
+很感谢楼主的帮助&nbsp; &nbsp;我的RPG地图发展了很多&nbsp; &nbsp; 但是，我想知道怎么把箱子转换成自己想要的村民？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>划水党&nbsp; &nbsp; <b>时间: </b>2014-5-2 09:37<br />
+{:10_503:}作者可以教我怎么让村民的交易物品带上属性吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>仇恨de佐助&nbsp; &nbsp; <b>时间: </b>2014-5-14 20:53<br />
+我想问一下，怎么在ID那里的物品id加上实体附加值<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>op_gaoyu&nbsp; &nbsp; <b>时间: </b>2014-5-17 16:22<br />
+快捷键是什么？<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我在蹲坑&nbsp; &nbsp; <b>时间: </b>2014-6-14 21:14<br />
+好~！~~~~~~~~~~~~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1834926750&nbsp; &nbsp; <b>时间: </b>2014-6-28 04:55<br />
+学习了。。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xiaohewangzi&nbsp; &nbsp; <b>时间: </b>2014-6-30 19:21<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1278115&amp;ptid=82763" target="_blank"><font color="#999999">53809310 发表于 2013-1-28 20:39</font></a></font><br />
+最后一幅图的小村民好萌啊</blockquote></div><br />
+南宁的？<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>53809310&nbsp; &nbsp; <b>时间: </b>2014-7-5 15:35<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=5581073&amp;ptid=82763" target="_blank"><font color="#999999">xiaohewangzi 发表于 2014-6-30 19:21</font></a></font><br />
+南宁的？</blockquote></div><br />
+额，不！话说2013年1月的帖子- -<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>裂阳e2333333&nbsp; &nbsp; <b>时间: </b>2014-7-28 18:27<br />
+问下怎么交易带有属性的物品或者自定义附注的物品啊！！！！！！！！{:10_524:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2002512&nbsp; &nbsp; <b>时间: </b>2014-7-29 09:16<br />
+问一下作者，一个村民怎么多个交易啊，还有就是怎么换附魔的东西啊？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2573786055&nbsp; &nbsp; <b>时间: </b>2014-7-29 09:17<br />
+找不到NBT MOD啊555<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>TVXQQQQQ&nbsp; &nbsp; <b>时间: </b>2014-7-29 09:18<br />
+教程好啊！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2002512&nbsp; &nbsp; <b>时间: </b>2014-7-29 09:18<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3405783&amp;ptid=82763" target="_blank"><font color="#999999">156664752 发表于 2013-10-6 13:26</font></a></font><br />
+谢谢！nbt能不能把一种方块变成电源呢？比如说：木板变成红石火把，却还是木板的样子？ ...</blockquote></div><br />
+你可以用材质包= =<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>问烨&nbsp; &nbsp; <b>时间: </b>2014-8-2 15:12<br />
+有没有办法让交易的物品是自定义的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>卡尔灭心&nbsp; &nbsp; <b>时间: </b>2014-8-4 22:32<br />
+有木有172的NBT啊，我用楼主提供的外置NBT连offers属性都没有<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>尖嘴鸟&nbsp; &nbsp; <b>时间: </b>2014-8-8 13:53<br />
+nbt 界面怎么打开？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>499628539&nbsp; &nbsp; <b>时间: </b>2014-10-1 14:11<br />
+怎么自定义附魔武器 做地图找了半天了（真的是半天）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>贱的要死&nbsp; &nbsp; <b>时间: </b>2014-10-12 20:19<br />
+楼主我真是真是没有什么真是..，谢谢楼主的教程<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1349828376&nbsp; &nbsp; <b>时间: </b>2015-2-7 12:52<br />
+附加值怎么办= =<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fefa8848&nbsp; &nbsp; <b>时间: </b>2015-2-10 20:27<br />
+看求不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>haney&nbsp; &nbsp; <b>时间: </b>2015-2-11 15:12<br />
+<i class="pstatus"> 本帖最后由 haney 于 2015-2-11 15:14 编辑 </i><br />
+<br />
+E:\1.6.2\.minecraft\screenshots\2015-02-11_15.08.08.png<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fanxingli&nbsp; &nbsp; <b>时间: </b>2015-5-16 19:52<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3698924&nbsp; &nbsp; <b>时间: </b>2015-5-16 20:38<br />
+好——好屌！！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

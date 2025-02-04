@@ -1,0 +1,236 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : !非的表达 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NjU3OTUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : !非的表达 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-9 13:37<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : !非的表达<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-23 16:04 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>条件语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 !非的概念</font></font></div><div align="left"><div align="left">条件语句是模块中的一个重要指令</div><div align="left">它用于<strong>判断事件是否成立</strong>，</div><div align="left">若成立则输出；</div><div align="left">若不成立则跳过。</div><br />
+<br />
+<div align="left">条件语句将会涉及到</div><div align="left"><strong>execute</strong></div><ul><li><div align="left">条件与变量</div><li><div align="left">相对性</div><br />
+</ul><div align="left"><strong>testfor</strong></div><br />
+<div align="left"><strong>关于枚举多个条件输出</strong></div><br />
+<div align="left"><strong>或|| 与 且&amp;&amp;</strong></div><ul><li><div align="left">或||</div><li><div align="left">且&amp;&amp;</div><li><div align="left">或且结合</div><br />
+</ul><div align="left"><strong>!非的表达</strong></div><ul><li><div align="left">!非 单个变量</div><li><div align="left">!非 多个执行体</div><br />
+</ul><div align="left"><strong>条件嵌套</strong></div><ul><li><div align="left">条件嵌套相对性</div><li><div align="left">条件嵌套与变量</div><li><div align="left">子条件detect</div><br />
+</ul></div><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-465196-1-1.html" target="_blank">上一篇</a>（或|| 与 且&amp;&amp;）--<a href="http://www.mcbbs.net/thread-466816-1-1.html" target="_blank">下一篇</a>（条件嵌套）</font></div><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§3.5 !非</font></font></strong><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">?3.5.1 基本概念</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 !非单个变量</font></font><br />
+在枚举条件的过程中，除了使用或与且来表达外，<br />
+还有一个<strong>重要的表达方式：！</strong><br />
+<br />
+!表示非，<strong>即逻辑关系中的否定含义</strong>。<br />
+<br />
+那么<strong>!=就代表≠</strong><br />
+<br />
+所以在条件判断中，除了能判断符合<br />
+还能<strong>判断所有不符合</strong>。<br />
+<br />
+<font size="2"><font color="#800000">条件1 → 输出1</font></font><br />
+<font size="2"><font color="#800000">!条件1 → 输出2</font></font><br />
+<font size="2"><font color="#800000"><strong>（由于在所有条件就是 符合条件1的 和 不符合条件1的，所以没有其他的选项了）</strong></font></font><br />
+<font size="2"><font color="#800000"><strong><br />
+</strong></font></font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">?3.5.2 单个变量</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 !非多个执行体</font></font><br />
+对于单个变量指的是<strong>针对于单个变量的值</strong>。<br />
+<br />
+<strong>例如x=1</strong><br />
+<strong>那么x!=1代表x的值不为1。</strong><br />
+<br />
+<ul><li><strong>!单个范围（选择器自带min/max）</strong><br />
+</ul>要做到这点，可以灵活运用选择器自带的min/max：<br />
+假设说f的a变量值&gt;=1；<br />
+那么f的a变量值<strong>!&gt;=1就是&lt;1</strong>；<br />
+又因为目前变量储存的数都是整值，<br />
+所以也就是<strong>&lt;=0</strong>。<br />
+<br />
+<img id="aimg_YtlJ6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/114692d87f5a4aa8.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<img id="aimg_jX5DO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/2c70537bef67ce05.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<img id="aimg_PvuDK" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c3db8d59358aba0c.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<img id="aimg_sfK55" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/37f836b6bc5f0088.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<img id="aimg_JzFGQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c7702e8aabdd78ff.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<img id="aimg_J7pzH" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/b972bfafa36def3e.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+!指令的输出与不输出↑<br />
+<br />
+所以指令：<br /><div class="blockcode"><div id="code_l1U"><ol><li>execute @e[name=f,score_a_min=1]</ol></div><em onclick="copycode($('code_l1U'));">复制代码</em></div><br />
+变成：<br /><div class="blockcode"><div id="code_cN6"><ol><li>execute @e[name=f,score_a=0]</ol></div><em onclick="copycode($('code_cN6'));">复制代码</em></div><br />
+便完成了一个简单的!。<br />
+<br />
+<ul><li><strong>!多个范围（或的枚举）</strong><br />
+</ul>然而对于!多个范围，<br />
+比如准确值10：<br /><div class="blockcode"><div id="code_g3b"><ol><li>execute @e[name=f,score_a_min=10,score_a=10]</ol></div><em onclick="copycode($('code_g3b'));">复制代码</em></div><br />
+<strong>（a&lt;=10&amp;&amp;a&gt;=10）</strong><br />
+<font color="#800000"><i>不能使用：</i></font><br />
+<font color="#800000"><i>execute @e[name=f,score_a=9,score_a_min=11]</i></font><br />
+<font color="#800000"><i>（a&gt;=11&amp;&amp;a&lt;=9）</i></font><br />
+<font color="#800000"><i>这是一条错误指令，他表示且的关系，而a不可能同时&lt;=11，&lt;=9。</i></font><br />
+<br />
+进一步分析两个范围，可以看到是一个或的关系：<br />
+<strong>a!=10可以表达成：</strong><br />
+<strong>a&gt;=11或a&lt;=9；</strong><br />
+<br />
+所以得到以下指令：<br />
+<br />
+<img id="aimg_NIua6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/a3b2c28eef71a166.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>在所有指令之前模拟fill执行：</strong><br /><div class="blockcode"><div id="code_XiC"><ol><li>/fill ~1 ~ ~ ~4 ~ ~ redstone_block</ol></div><em onclick="copycode($('code_XiC'));">复制代码</em></div><br />
+<strong>接着按照顺序执行以下指令；</strong><br /><div class="blockcode"><div id="code_B76"><ol><li>/execute @e[name=f,score_a_min=11] ~ ~ ~ scoreboard players set @e[name=f] b 1 <br /><li>/execute @e[name=f,score_a=9] ~ ~ ~ scoreboard players set @e[name=f] b 1<br /><li>/execute @e[name=f,score_b_min=1] ~ ~ ~ say 1<br /><li>/scoreboard players reset @e[name=f] b</ol></div><em onclick="copycode($('code_B76'));">复制代码</em></div><br />
+<strong><font size="4">效果：</font></strong><br />
+<strong><font size="4"><img id="aimg_JQ4wq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/1f0771131b266f56.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_JH5AQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/eb6640041adaaa95.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_TfFu3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c118fdb519e9d36b.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+1和15都不是10，有输出；<br />
+10是10，无输出<br />
+<br />
+<strong><font size="4">分析指令：</font></strong><br />
+<i>已经在</i><i><a href="http://www.mcbbs.net/thread-465196-1-1.html" target="_blank">或</a></i><i>中讲解过了；</i><br />
+<i>也就是<strong>枚举</strong></i><br />
+<i><strong>a&gt;=11或a&lt;=9</strong>。</i><br />
+<br />
+<strong><font size="4"><font color="#ff0000">标准格式：</font></font></strong><br />
+<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font color="#008000">*转存范围</font><br />
+/execute &lt;非范围1&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1 /execute &lt;非范围2&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+┊<br />
+/execute &lt;非范围n&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+<font color="#008000">*输出</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出1<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出2<br />
+┊<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出n<br />
+<font color="#008000">*清空转存</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; /scoreboard players reset &lt;转存实体选择器&gt; &lt;转存计分板&gt;<br />
+<br />
+</td></table></div></div><br />
+<br />
+<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">?3.5.3 多个执行体</font></font></strong><br />
+多个执行体指的是<strong>针对与多个实体</strong><br />
+<br />
+比如我需要!所有<strong>NBT中指定标签</strong>的<br />
+那么就需要寻找<strong>拥有指定标签</strong>的。<br />
+<br />
+<ul><li><strong>非实体选择器（一般）</strong><br />
+</ul>做到这点十分简单：<br />
+（abcd代表实体，其中a符合条件；x为变量）<br />
+<font size="2"><font color="#800000">a/b/c/d x=1</font></font><br />
+<font size="2"><font color="#800000">a reset x</font></font><br />
+<font size="2"><font color="#800000">(bcd x=1)</font></font><br />
+<font size="2"><font color="#800000">x=1 → 输出</font></font><br />
+<strong>也就是给!的对象去掉标签</strong>。<br />
+<br />
+例如：<br />
+我需要在所有ArmorStand中<br />
+说出名字<strong>!=f的ArmorStand</strong>的名字。<br />
+<br />
+<img id="aimg_pOZfy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/5871bd9a91c2120d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+使用以下指令：<br />
+<img id="aimg_FtnsX" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/b038d1325bca783e.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>在所有指令之前模拟fill执行：</strong><br /><div class="blockcode"><div id="code_r14"><ol><li>/fill ~1 ~ ~ ~4 ~ ~ redstone_block </ol></div><em onclick="copycode($('code_r14'));">复制代码</em></div><br />
+<strong>接着按照顺序执行以下指令；</strong><br /><div class="blockcode"><div id="code_r7P"><ol><li>/scoreboard players set @e[type=ArmorStand] a 1<br /><li>/scoreboard players reset @e[type=ArmorStand,name=f] a<br /><li>/execute @e[type=ArmorStand,score_a_min=1] ~ ~ ~ say @e[r=0]<br /><li>/scoreboard players reset @e[type=ArmorStand] a</ol></div><em onclick="copycode($('code_r7P'));">复制代码</em></div><br />
+<br />
+<strong><font size="4">效果：</font></strong><br />
+<br />
+<strong><font size="4"><img id="aimg_RtacO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/db18d7bdb6fc6c3d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_pIQJx" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/5441d846d10ebf52.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_SevJh" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/bde6363ad68715b9.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_GF2S9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c18483e87aad87f7.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+通过修改指令中的特殊判断依据，可以达到!此依据的效果<br />
+<br />
+<strong><font size="4">分析指令：</font></strong><br />
+首先给所有对象添加计分板Flag；<br />
+然后去掉特殊对象的Flag；<br />
+剩下的则都不符合特殊对象；<br />
+所以达到!的效果<br />
+<br />
+<strong><font size="4"><font color="#ff0000">标准格式：</font></font></strong><br />
+<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font color="#008000">*符合范围添加标签</font><br />
+/execute &lt;范围1&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1 /execute &lt;范围2&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+┊<br />
+/execute &lt;范围n&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+<font color="#008000">*移除!的对象</font><br />
+/scoreboard players reset &lt;!对象实体选择器&gt; &lt;转存计分板&gt;<br />
+/scoreboard players reset &lt;!对象实体选择器&gt; &lt;转存计分板&gt;<br />
+┊<br />
+/scoreboard players reset &lt;!对象实体选择器&gt; &lt;转存计分板&gt;<br />
+<font color="#008000">*输出</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出1<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出2<br />
+┊<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出n<br />
+<font color="#008000">*清空转存</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; /scoreboard players reset &lt;转存实体选择器&gt; &lt;转存计分板&gt;<br />
+<br />
+</td></table></div></div><br />
+<br />
+<br />
+<br />
+<br />
+<ul><li><strong>实体选择器（只有某些分项有这个效果）</strong><br />
+</ul><strong><img id="aimg_jQN1Q" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/2437b36f460b4e76.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+其实<strong>name=!f</strong>有这个效果。<br />
+<br />
+type也是如此：<br />
+<strong>type=!Player</strong><br />
+就是除了玩家外所有实体。<br />
+<br />
+<br />
+</div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 11:35<br />
+<i class="pstatus"> 本帖最后由 langyo 于 2015-8-8 11:38 编辑 </i><br />
+<br />
+既然没人回复我就要个沙发吧= =<br />
+<br />
+一个讲的if...!=...<br />
+另一个又讲switch<br />
+<br />
+好吧……<br />
+好歹已经可完成简单的小程序了……<br />
+<br />
+<br />
+<strike>觉得你的头像怪怪的……对谁傻笑？……</strike><br />
+<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

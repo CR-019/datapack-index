@@ -42,14 +42,14 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/CR-019/datapack-index' },
       { icon: 'bilibili', link: 'https://space.bilibili.com/85292644' }
     ],
-    logo:'/bg3.png',
+    logo:'/14.png',
     footer:{
-      copyright:"Copyright©2024 CR_019",
+      copyright:"Copyright©2025 CR_019",
       message:"<a href=\"https://mcicp.com\" title=\"MCICP备2024000012号\" target=\"_blank\">MCICP备2024000012号</a> | Powered by Vitepress and Github Pages"
     }
   },
   head: [
-      ['link', { rel: 'icon', href: '/datapack-index/bg3.png' }]
+      ['link', { rel: 'icon', href: '/datapack-index/14.png' }]
   ],
   ignoreDeadLinks: true,
 

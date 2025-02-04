@@ -1,0 +1,229 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 5.自定义药水效果 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC03OTIzNC0xLTEuaHRtbD9hY3Rpb249cHJpbnRhYmxl', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 5.自定义药水效果 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-1-19 12:10<br />
+<b>标题: </b>【CBL|SYL】NBT教程 5.自定义药水效果<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:34 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+<font color="#ff00"><font size="5">看不到图的请移步到索引贴，那里提供了下载与在线观看地址</font></font><br />
+<img id="aimg_HkG7k" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/8EwGf3K.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+废话不多说，抄出一瓶药水研究<br />
+<hr class="l" /><img id="aimg_g1F1w" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Njkx6XP.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+可见display里面没啥特别的，都是之前说过的dispaly格式<br />
+但多出了一个CustomPotionEffects<br />
+<img id="aimg_j6iiI" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Mwz2zOV.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+里面有3个compound标签，这里介绍一下，每一个效果就开一个标签<br />
+里面有3个byte标签和一个int标签<br />
+逐一介绍<br />
+Ambient：代表该效果是否由信标产生，对药水来说没用，不要动（这个应用于玩家身上的状态标签里面，以后说）<br />
+Amplifier：药水等级，0开始起跳<br />
+Id：药水效果id，参考<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fzh.minecraftwiki.net%2Fwiki%2F%25E8%258D%25AF%25E6%25B0%25B4%25E6%2595%2588%25E6%259E%259C" target="_blank">这里</a>（ps 中文wiki漏掉了最新的凋零效果……那个id是20）<br />
+Duration：持续时间，讲解一下，游戏里面的计时单位是tick，中文为刻。刻有2种，红石刻和游戏刻，红石刻用于红石系统里面，1个红石刻是1/10秒，就是0.1秒。游戏刻有点不同，是1/20秒，0.05秒。所以你自定义时间的时候，把需要的秒数x20就可以了<br />
+<hr class="l" />好的这章完结<br />
+物品方面的东西讲解得差不多了（应该没啥了吧？对了成书会下一章带过）<br />
+之后开始讲解实体和生物的标签<br />
+<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>262949130000&nbsp; &nbsp; <b>时间: </b>2013-1-19 12:11<br />
+<i class="pstatus"> 本帖最后由 262949130000 于 2013-1-19 12:11 编辑 </i><br />
+<br />
+顶起猪教主撒~但是不太喜欢用NBT撒~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>gm的灵魂~&nbsp; &nbsp; <b>时间: </b>2013-1-19 12:14<br />
+NBT是什么~<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" />不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dseqe&nbsp; &nbsp; <b>时间: </b>2013-1-19 12:19<br />
+不太喜欢NBT 只喜欢TMI= =<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhangzhen38195&nbsp; &nbsp; <b>时间: </b>2013-1-19 12:26<br />
+顶！呀！头顶破了....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-1-20 23:57<br />
+说好的大力春哥汤呢？<img src="static/image/smiley/rabbit/41.gif" smilieid="691" border="0" alt="" /><br />
+你每次发图都是各种卡……发图片可以先把PNG转成GIF，压缩比设高一些（一般论坛发回复贴图帖25%足够，投入点的主题帖用75%），能大大缩短载入时间。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wkyyzhb&nbsp; &nbsp; <b>时间: </b>2013-5-12 10:14<br />
+看到TMI，估计就不用这个了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>冰封雪域-ian&nbsp; &nbsp; <b>时间: </b>2013-6-27 06:14<br />
+好强的<img src="static/image/smiley/rabbit/40.gif" smilieid="690" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1123fff&nbsp; &nbsp; <b>时间: </b>2013-7-12 11:43<br />
+有没有方法可以延迟药水效果的发挥？<br />
+比如弄一瓶药水，效果设置为增加移动速度<br />
+但是要在使用了（喝下去）这瓶药水之后十秒钟才会生效<br />
+并且增加移动速度的状态维持33秒钟之后消失<br />
+<br />
+<br />
+我在做一些比较合理的药水<br />
+比如配合丧尸潮的逃亡药水<br />
+这个药水的效果是。<br />
+喝下去加快饥饿，但是拥有较快的移动速度。较高的跳跃高度<br />
+<br />
+我觉得应该加一个效果-----减少移动速度<br />
+<br />
+在短时间内就算是以消耗饥饿来获取超出正常状态下的移动速度和跳跃高度<br />
+难道药效退去之后就不会有副作用么？比如双腿麻木走不快，<br />
+或者。之前跑得太快，药效过去后短时间内根本无法行走（减少移动速度等级7只能通过跳跃来前进）<br />
+<br />
+我之前是按照下面的设定来配制药水的<br />
+增加饥饿消耗速度等级5&nbsp; &nbsp;&nbsp; &nbsp;持续时间&nbsp; &nbsp;&nbsp; &nbsp;20秒<br />
+增加移动速度&nbsp; &nbsp;&nbsp; &nbsp;等级5&nbsp; &nbsp;&nbsp; &nbsp;持续时间&nbsp; &nbsp;&nbsp; &nbsp;20秒<br />
+增加跳跃高度&nbsp; &nbsp;&nbsp; &nbsp;等级5&nbsp; &nbsp;&nbsp; &nbsp;持续时间&nbsp; &nbsp;&nbsp; &nbsp;20秒<br />
+减少移动速度&nbsp; &nbsp;&nbsp; &nbsp;等级5&nbsp; &nbsp;&nbsp; &nbsp;持续时间&nbsp; &nbsp;&nbsp; &nbsp;30秒<br />
+<br />
+上面设置，按照我的想法，在药水喝下去前面二十秒钟内<br />
+加速和减速相互抵消掉之后应该还会剩下（0.2-0.15）*5=0.25倍的加速效果<br />
+然后在二十秒钟加速状态消失后<br />
+应该只剩下减速状态了。<br />
+这时候只有纯粹的减速 所以这个时候的速度为正常状态下的1-0.15*5=0.35倍<br />
+<br />
+也就是喝了这个药水30秒内，前面二十秒增加0.25速度，和三四格子的跳跃高度<br />
+后面十秒钟为0.35倍的减速效果<br />
+<br />
+但是不知因为什么缘故<br />
+我在本地的实验结果是<br />
+移动加速等级不会提升，依然只比正常情况快一些<br />
+反而减速效果会提升。<br />
+<br />
+<br />
+所以。。药效可以延迟生效么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-12 13:09<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">1123fff 发表于 2013-7-12 11:43</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2535818&amp;ptid=79234" target="_blank"><img id="aimg_Bzp6j" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+有没有方法可以延迟药水效果的发挥？<br />
+比如弄一瓶药水，效果设置为增加移动速度<br />
+但是要在使用了（喝下去） ...</blockquote></div><br />
+尝试调高一点加速效果？<br />
+至于延迟发生这机制MC没有……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>su3155323&nbsp; &nbsp; <b>时间: </b>2013-7-12 13:28<br />
+用TMI不行么0A0<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1123fff&nbsp; &nbsp; <b>时间: </b>2013-7-12 15:07<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-12 13:09</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2536760&amp;ptid=79234" target="_blank"><img id="aimg_w2F33" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+尝试调高一点加速效果？<br />
+至于延迟发生这机制MC没有……</blockquote></div><br />
+我用的是包含 生存要素的整合包<br />
+不知道生存要素修改了里面的什么<br />
+我发现低等级的药效无法被高等级的药效覆盖<br />
+<br />
+我做了甲乙丙丁卯5种<br />
+甲级设定跑得最慢（其实还是跑得比正常快，慢只是相对后面等级药效来说的）<br />
+乙较快<br />
+丙更快<br />
+丁极快<br />
+卯极限快<br />
+（从甲到卯，药效无论负面正面都是从低等级到高等级）<br />
+当我用下甲之后<br />
+在用乙，减速效果会变成乙，但是加速效果依然是甲<br />
+用了丙，丁也是，减速效果会增加，但是加速效果不会<br />
+不知，是什么原因<br />
+换了好几个存档，也确定等级没有调错<br />
+但是显示就是加速效果没增强·<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-12 22:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">1123fff 发表于 2013-7-12 15:07</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2538124&amp;ptid=79234" target="_blank"><img id="aimg_xcefE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我用的是包含 生存要素的整合包<br />
+不知道生存要素修改了里面的什么<br />
+我发现低等级的药效无法被高等级的药效 ...</blockquote></div><br />
+只能说是MC的机制怪怪的<br />
+目前新版显示了喝加速药水加速20个百分比<br />
+减速是15（都是1级）<br />
+理论上来说1级加速都能盖过一级减速<br />
+但事实上又不是<br />
+你让我研究一下<br />
+我怀疑是百分比生效的次序<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-12 22:14<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">1123fff 发表于 2013-7-12 15:07</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2538124&amp;ptid=79234" target="_blank"><img id="aimg_MnGnU" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我用的是包含 生存要素的整合包<br />
+不知道生存要素修改了里面的什么<br />
+我发现低等级的药效无法被高等级的药效 ...</blockquote></div><br />
+我只能说<br />
+这TMD是不是bug……<br />
+等我明天详细点尝试<br />
+今天没时间<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>11帅帅11&nbsp; &nbsp; <b>时间: </b>2013-7-14 23:11<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">gm的灵魂~ 发表于 2013-1-19 12:14</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1204427&amp;ptid=79234" target="_blank"><img id="aimg_bD820" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+NBT是什么~不懂</blockquote></div><br />
+NBT就是你变态<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1919yzyz&nbsp; &nbsp; <b>时间: </b>2014-4-7 20:35<br />
+自制成品：（请无视皮肤）
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=NTE0MTcxfGNlZTExMzY1fDE2MTM3Mjk5NzJ8MjQxOTQ4Nnw3OTIzNA%3D%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid514171" class="xw1" target="_blank">2014-04-07_20.32.35.png</a>
+<em class="xg1">(226.41 KB, 下载次数: 6)</em>
+</p>
+<div class="tip tip_4" id="aid514171_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=NTE0MTcxfGNlZTExMzY1fDE2MTM3Mjk5NzJ8MjQxOTQ4Nnw3OTIzNA%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2014-4-7 20:35 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_514171', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_514171', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_514171" aid="514171" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201404/07/203526h8njk88cqc98kgnq.png" file="https://attachment.mcbbs.net/forum/201404/07/203526h8njk88cqc98kgnq.png.thumb.jpg" alt="2014-04-07_20.32.35.png" title="2014-04-07_20.32.35.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+<script type="text/javascript" reload="1">
+aimgcount[5046539] = ['514171'];
+attachimggroup(5046539);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>51001121&nbsp; &nbsp; <b>时间: </b>2014-4-22 17:41<br />
+为什么改完后打开箱子会闪退，打掉箱子也会闪退，之后这个存档就不能用了，附魔超过10级也是这样，怎么破<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>/xls/###&nbsp; &nbsp; <b>时间: </b>2014-7-11 16:11<br />
+请问如何弄出无限效果的药水？？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hgj56&nbsp; &nbsp; <b>时间: </b>2014-7-29 17:01<br />
+有没有人知道能不能把食物附加上药水的效果啊？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fgfgfdg8&nbsp; &nbsp; <b>时间: </b>2014-8-31 10:05<br />
+好贴好贴！已收藏<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>擎兽&nbsp; &nbsp; <b>时间: </b>2017-3-18 08:00<br />
+咦？药水的颜色呢？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>liuzengrui233&nbsp; &nbsp; <b>时间: </b>2017-3-18 09:54<br />
+对我来说还是比较有用的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Lackey&nbsp; &nbsp; <b>时间: </b>2018-1-12 21:26<br />
+dalao,如果用nbt让武器右键获得药水效果怎么弄？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3481904419&nbsp; &nbsp; <b>时间: </b>2018-2-13 13:07<br />
+否~~~~~~~~~~~~~~~~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>雨肖云&nbsp; &nbsp; <b>时间: </b>2018-8-16 22:00<br />
+不懂emmm，感觉nei也还行
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

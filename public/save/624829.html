@@ -1,0 +1,1917 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 1.10补丁|数组 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02MjQ4MjktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 1.10补丁|数组 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-8-21 18:50<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 1.10补丁|数组<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-8-21 18:55 编辑 </i><br />
+<br />
+<font size="5"><font face="微软雅黑"><strong>§1.10补丁-数组</strong><br />
+</font></font>对1.9模块的引申补充<br />
+<br />
+<font size="4"><strong><a href="http://pan.baidu.com/s/1eSJmbQU" target="_blank">Chm文档下载</a></strong></font><br />
+<strong>§9 </strong><font face="黑体"><font size="4"><strong>数组（索引在上方，点击文字即可跳转）</strong></font></font><br />
+<strong>我们1.11再会.</strong><br />
+<br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></strong></font><br />
+<strong><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=520145" target="_blank">1.9补丁链接</a></strong><i><font size="1">下面的小图是因为编辑器问题，见谅...</font></i><br /><br />
+<hr class="l" /><br />
+<hr class="l" /><div align="center"><font face="微软雅黑"><font size="6"><strong>数组</strong></font></font></div><div align="left">数据寄存在一个实体中显然是不够的，为了实现对数据批量的操作，引入了数组的概念:p</div><br />
+<div align="left">数组就是一组有序排列的数据，但综合mc还原的情况，在这里数组事实上就是一组有序排列的实体组合</div><div align="left">一般来说这里的实体组合都是坐标上有序的方向（例如x+ z+）</div><br />
+<div align="left">对数组的操作本质上就是对一组数据的集合的操作，</div><div align="left">其中这一组数据全部就是数组，一个数据是元素，数据的位置id是索引</div><br />
+<div align="left">本章将初步还原各种对数组操作的方法，包括：</div><div align="left">创建、索引、元素的操作和遍历的操作.</div><br />
+<div align="left">概念：</div>
+<ignore_js_op>
+
+<img id="aimg_980311" aid="980311" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184458rhfk1l3qh3fococo.png" file="https://attachment.mcbbs.net/forum/201608/21/184458rhfk1l3qh3fococo.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980311" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980311_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_14.41.31.png</strong> <em class="xg1">(45.24 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzExfDM3NTNkMjRifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:44 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<div align="left">在此处模块中，数组就是一组排列的实体，每个实体都拥有变量 也就是p</div><br />
+<div align="left"><div align="left">元素，就是其中的一个实体； 也就是p</div><div align="left">索引，就是一个实体从某个起始实体开始坐标的顺序.（为了结合选择器进行操作，一般实体坐标间隔为1） 也就是i</div><br />
+<div align="left"><strong>图示：</strong></div><div align="left">
+<ignore_js_op>
+
+<img id="aimg_980312" aid="980312" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185306k294x9gkbkml606g.png" file="https://attachment.mcbbs.net/forum/201608/21/185306k294x9gkbkml606g.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980312" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980312_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_14.41.32.png</strong> <em class="xg1">(8.77 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzEyfDlkN2VlYTA5fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</div><div align="left"><div align="left">前提：</div><div align="left">数组其实是模块的一种引申，需要运用之前各种概念，在阅读本章之前需要学习前面几章.</div><div align="left"><br />
+<hr class="l" /><strong><font face="碳化硅大黑体"><font size="5">§9.1 指针、移位、相对操作</font></font></strong><br />
+<ul><li>指针<br />
+</ul>前面介绍了数组就是这样排列的一组实体，被赋上了计分板的分数<br />
+那么如果需要操作一个元素，给每一个元素一个单独的标签再来调用显然是不行的<br />
+为了使操作一个元素更加简便，我们需要<strong>创建一个指针，通过移位指针，相对指针操作元素</strong>.<br /><div class="blockcode"><div id="code_w7L"><ol><li>/summon ArmorStand ~ ~ ~ {Tags:[p]}</ol></div><em onclick="copycode($('code_w7L'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980313" aid="980313" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184459yk4siiihs4ardd4t.png" file="https://attachment.mcbbs.net/forum/201608/21/184459yk4siiihs4ardd4t.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980313" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980313_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_14.48.34.png</strong> <em class="xg1">(28.12 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzEzfGE5ODE4OTkzfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:44 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+其实在这里，指针就相当于一个实体的中介，对于数组中的元素操作，我们可以通过它来间接操作.<br />
+具体来说<strong>指针就是一个和数组代表元素的实体重合的一个自由活动的实体，对于数组中单个元素操作我们需要通过这个指针来间接操作</strong><br />
+之所以称为指针，原因是这个中介实体指向了我们需要操作的元素<br />
+所以<strong>指针就是我们指向元素的一个实体</strong><br />
+<br />
+<ul><li>移位<br />
+</ul>如果要操作指定索引的元素，我们需要让索引加或减，但是显然没有指令能直接选取实体，这个时候就需要<strong>移动指针，使它到达索引目的点</strong>：<br /><div class="blockcode"><div id="code_Ae9"><ol><li>/tp @e[tag=p] ~1 ~ ~</ol></div><em onclick="copycode($('code_Ae9'));">复制代码</em></div>代表相对指针，将它x轴位移移位<br />
+因为这里指针只有一个，等价于<br /><div class="blockcode"><div id="code_LiU"><ol><li>/execute @e[tag=p] ~ ~ ~ /tp @e[tag=p] ~1 ~ ~</ol></div><em onclick="copycode($('code_LiU'));">复制代码</em></div><br />
+<br />
+<ul><li>相对操作<br />
+</ul>要对元素操作，我们将<strong>指针移到对应位置后，就要使用相对操作</strong>了.<br />
+/execute @e[tag=p] ~ ~ ~ 操作<br />
+还记得execute的相对性把，操作中要选取元素，可以使用以下关于坐标的子选择器：<br />
+r、rm、dx、dy、dz、c<br />
+举个例子，<br />
+@e[rm=0,c=1]就是非本坐标最近的实体<br />
+@e[rm=0,c=1,dx=1]就是非本坐标x轴正方向最近的实体<br />
+@e[r=0,c=-1]就是本坐标最远实体（如果有非本体的实体，将选择非本体） <br />
+<br />
+<strong>图示：</strong><br />
+
+<ignore_js_op>
+
+<img id="aimg_980315" aid="980315" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185308z8e90lw2lm8wg0ft.png" file="https://attachment.mcbbs.net/forum/201608/21/185308z8e90lw2lm8wg0ft.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="624" id="aimg_980315" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980315_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.03.29.png</strong> <em class="xg1">(3.89 KB, 下载次数: 2)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzE1fDM5NWUxZmRlfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+图中指针从红移位到蓝，移位了4格.<br />
+<br />
+如果要相对指针操作指向的元素，可以用选择器@e[r=0,tag=!p]<br /><hr class="l" /><strong><font face="碳化硅大黑体"><font size="5">§9.2 创建数组</font></font></strong><br />
+前面可能还听的云里雾里，现在用前面的概念来举个例子：<br />
+<font size="4"><strong>思路：</strong></font><br />
+<strong>要创建一个n个元素的数组，需要移位，再相对指针生成一个元素，循环n次.</strong><br /><div class="blockcode"><div id="code_a1s"><ol><li>/scoreboard objectives add l dummy</ol></div><em onclick="copycode($('code_a1s'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980314" aid="980314" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185308jvy96145u6jf69kc.png" file="https://attachment.mcbbs.net/forum/201608/21/185308jvy96145u6jf69kc.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980314" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980314_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.03.28.png</strong> <em class="xg1">(46.14 KB, 下载次数: 2)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzE0fGVjYWRmNGQ2fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+创建一个l计分板，代表数组长度<br />
+<br />
+比如数组长度为10，先将l设为10：<br /><div class="blockcode"><div id="code_A7t"><ol><li>/scoreboard players set @p l 10</ol></div><em onclick="copycode($('code_A7t'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980316" aid="980316" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184502vzu0r810d3drraka.png" file="https://attachment.mcbbs.net/forum/201608/21/184502vzu0r810d3drraka.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980316" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980316_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.18.44.png</strong> <em class="xg1">(33.41 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzE2fGMzNjg1MWQxfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+然后是下面模块：<br /><div class="blockcode"><div id="code_Ksj"><ol><li>/execute @p[score_l_min=1] ~ ~ ~ tp @e[tag=p] ~1 ~ ~<br /><li>cond:/execute @e[tag=p] ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:[x]}<br /><li>cond:/scoreboard players remove @p l 1</ol></div><em onclick="copycode($('code_Ksj'));">复制代码</em></div><font color="#008000">*这是一个for语句，执行l的变量次</font><br />
+每执行一次，将指针向右位移一格，再相对指针位置生成一个tag为x的实体（数组的元素）<br />
+
+<ignore_js_op>
+
+<img id="aimg_980317" aid="980317" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184504toozeueqn1nuxuxt.png" file="https://attachment.mcbbs.net/forum/201608/21/184504toozeueqn1nuxuxt.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980317" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980317_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.22.29.png</strong> <em class="xg1">(78.21 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzE3fDRlNGQ2Zjc1fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="left">
+<ignore_js_op>
+
+<img id="aimg_980318" aid="980318" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185314vuyam1oxmll18hmm.png" file="https://attachment.mcbbs.net/forum/201608/21/185314vuyam1oxmll18hmm.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980318" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980318_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.22.42.png</strong> <em class="xg1">(70.01 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzE4fDFmZmJkNTQ3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+接着我们就创建了一个拥有十个元素的数组。<br />
+<br />
+当然，创建数组不止这一种方法，具体还要活用.<br />
+<strong>总体来说创建一个自定的数组，需要循环语句的支撑和相对指针来创建元素.</strong><br /><br />
+<hr class="l" /><strong><font face="碳化硅大黑体"><font size="5">§9.3 获取数组位置</font></font></strong><br />
+也许你还不懂指针作用，接下来我们可以用for来获取数组索引位置，为指针操作做准备.<br />
+<font size="4"><strong>思路：</strong></font><br />
+<strong>比如找到p[n]位置，我们先将指针移到数组最开头位置p[0]，然后循环移位n次即可.</strong><br />
+
+<ignore_js_op>
+
+<img id="aimg_980319" aid="980319" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185314c5cv7cr9g9kmcpg7.png" file="https://attachment.mcbbs.net/forum/201608/21/185314c5cv7cr9g9kmcpg7.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980319" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980319_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.31.01.png</strong> <em class="xg1">(36.77 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzE5fDIzODA5NWI2fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+重新创建一个指针<br /><div class="blockcode"><div id="code_yNH"><ol><li>/tp @e[tag=p] ~1 ~ ~</ol></div><em onclick="copycode($('code_yNH'));">复制代码</em></div>将指针移到p[0]（此处你也可以直接相对p[0]生成指针）</div><div align="left"><div class="blockcode"><div id="code_BcS"><ol><li>/scoreboard players set @p l 3</ol></div><em onclick="copycode($('code_BcS'));">复制代码</em></div>此处用计分板l代表需要获取的数组索引位置，所以我现在要获取p[3]的位置<br />
+
+<ignore_js_op>
+
+<img id="aimg_980320" aid="980320" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184509hm10e6jb05gk8o16.png" file="https://attachment.mcbbs.net/forum/201608/21/184509hm10e6jb05gk8o16.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980320" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980320_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.34.46.png</strong> <em class="xg1">(85.81 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzIwfDIzNzEzNDdmfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><div class="blockcode"><div id="code_v9c"><ol><li>/execute @p[score_l_min=1] ~ ~ ~ tp @e[tag=p] ~1 ~ ~<br /><li>/scoreboard players remove @p l 1</ol></div><em onclick="copycode($('code_v9c'));">复制代码</em></div><font color="#008000">*循环位移n次</font><br />
+
+<ignore_js_op>
+
+<img id="aimg_980321" aid="980321" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184510sjxp5p545xcpj74r.png" file="https://attachment.mcbbs.net/forum/201608/21/184510sjxp5p545xcpj74r.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980321" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980321_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.51.png</strong> <em class="xg1">(71.56 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzIxfGVjZmYwMjk5fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+此时指针就指向了现在十字准星指向的这个元素：p[3]<br />
+（其实就是指针的坐标和代表p[3]这个元素的实体坐标重合了，方便我们选择器来找到）<br /><br />
+<hr class="l" /><strong><font face="碳化硅大黑体"><font size="5">§9.4 指针和移位的精确操作</font></font></strong><br />
+在这一小节将会展示更多利用指针这种方法操作元素的例子<br />
+<br />
+如果你还不清楚指针、移位、相对概念，可以看下下面这个图示：<br />
+指针移位创建数组：<br />
+
+<ignore_js_op>
+
+<img id="aimg_980322" aid="980322" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185318cff2zaq852syrfrq.png" file="https://attachment.mcbbs.net/forum/201608/21/185318cff2zaq852syrfrq.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="267" id="aimg_980322" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980322_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.52.png</strong> <em class="xg1">(5.92 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzIyfDkwZGYyMTExfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+指向数组位置：<br />
+
+<ignore_js_op>
+
+<img id="aimg_980323" aid="980323" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185319hbc0lew0ub3ohje4.png" file="https://attachment.mcbbs.net/forum/201608/21/185319hbc0lew0ub3ohje4.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980323" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980323_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.53.png</strong> <em class="xg1">(9.95 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzIzfDZjYmY2ZTYwfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+接下来几个例子，将系统的展示相对指针的操作<br /><br />
+<hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">9.4.1 对单个元素的操作</font></font></strong><br />
+<font size="4"><strong>思路：先指向数组位置，再相对指针进行操作</strong></font><br />
+<br />
+（指向数组位置就不多说了）<br />
+<ul><li>检测值<br />
+</ul><div class="blockcode"><div id="code_AT3"><ol><li>/execute @e[tag=p] ~ ~ ~ testfor @e[tag=x,score_x_min=1,r=0,c=1]</ol></div><em onclick="copycode($('code_AT3'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980324" aid="980324" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185320unfnbcrcannwaw1q.png" file="https://attachment.mcbbs.net/forum/201608/21/185320unfnbcrcannwaw1q.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980324" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980324_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.55.png</strong> <em class="xg1">(5.97 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzI0fDkxMzhkMTE4fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<ul><li>修改值<br />
+</ul><div class="blockcode"><div id="code_HB4"><ol><li>/execute @e[tag=p] ~ ~ ~ /scoreboard players set @e[tag=x,r=0,c=1] x 3</ol></div><em onclick="copycode($('code_HB4'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980325" aid="980325" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184513k5gccg75ebdee43w.png" file="https://attachment.mcbbs.net/forum/201608/21/184513k5gccg75ebdee43w.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="651" id="aimg_980325" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980325_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.56.png</strong> <em class="xg1">(3.85 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzI1fDE5MmZjNTNlfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<ul><li>与条件结合<br />
+</ul><div class="blockcode"><div id="code_iN1"><ol><li>/execute @e[tag=p] ~ ~ ~ /execute @e[tag=p,rm=0,dx=1,c=1,score_x_min=1] ~ ~ <br /><li>~ /scoreboard players set @e[tag=x,r=0,c=1] x 3</ol></div><em onclick="copycode($('code_iN1'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980326" aid="980326" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184513kro8yph64b6p6que.png" file="https://attachment.mcbbs.net/forum/201608/21/184513kro8yph64b6p6que.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="558" id="aimg_980326" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980326_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.57.png</strong> <em class="xg1">(3.83 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzI2fGMzZDI1ODVkfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">9.4.2 对多个元素的操作</font></font></strong><br />
+<font size="4"><strong>思路：两个指针先分别指向数组位置，再相对指针进行操作</strong></font><br />
+<br />
+（指向数组位置就不多说了）<br />
+<ul><li>检测（且）<br />
+</ul><div class="blockcode"><div id="code_P2X"><ol><li>/execute @e[tag=p0] ~ ~ ~ execute @e[tag=x,score_x_min=1,r=0,c=1] ~ ~ ~ /scoreboard players add @p b 1/execute @e[tag=p1] ~ ~ ~ execute @e[tag=x,score_x_min=1,r=0,c=1] ~ ~ ~ /scoreboard players add @p b 1<br /><li>/execute @p[score_b_min=2] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_P2X'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980327" aid="980327" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184514k2eot2r8kkv86khg.png" file="https://attachment.mcbbs.net/forum/201608/21/184514k2eot2r8kkv86khg.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980327" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980327_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.58.png</strong> <em class="xg1">(6.23 KB, 下载次数: 2)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzI3fGIxMWM3MGUzfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<ul><li>运算（相加为例）<br />
+</ul><div class="blockcode"><div id="code_Q7w"><ol><li>/execute @e[tag=p0] ~ ~ ~ /scoreboard players tag @e[tag=x,score_x_min=1,r=0,c=1] add num0<br /><li>/execute @e[tag=p1] ~ ~ ~ /scoreboard players tag @e[tag=x,score_x_min=1,r=0,c=1] add num1<br /><li>/scoreboard players operation @e[tag=num0] x += @e[tag=num1] x</ol></div><em onclick="copycode($('code_Q7w'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980328" aid="980328" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185322xtatvtt4tlk4lq3t.png" file="https://attachment.mcbbs.net/forum/201608/21/185322xtatvtt4tlk4lq3t.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980328" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980328_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.59.png</strong> <em class="xg1">(6.05 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzI4fGQyNDllMjhhfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<ul><li>比较和互换（互换为例）<br />
+</ul><div class="blockcode"><div id="code_hmc"><ol><li>/execute @e[tag=p0] ~ ~ ~ /scoreboard players tag @e[tag=x,score_x_min=1,r=0,c=1] add num0<br /><li>/execute @e[tag=p1] ~ ~ ~ /scoreboard players tag @e[tag=x,score_x_min=1,r=0,c=1] add num1<br /><li>/scoreboard players operation @e[tag=num0] x &gt;&lt; @e[tag=num1] x</ol></div><em onclick="copycode($('code_hmc'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980329" aid="980329" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184515sq6hxqdb1xdeyb9b.png" file="https://attachment.mcbbs.net/forum/201608/21/184515sq6hxqdb1xdeyb9b.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980329" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980329_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.60.png</strong> <em class="xg1">(6.06 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzI5fGExZjRlNTUxfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><br />
+<hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">9.4.2 遍历操作</font></font></strong><br />
+<strong>遍历每一个数组中的元素，并进行操作</strong><br />
+以颠倒数组为例：（就是加入有四个元素的数组：1234，转化成4321）<br />
+<font size="4"><strong>思路：</strong></font><br />
+<font size="4"><strong>指针1从头向尾移位，指针2从尾向头位移，互换两指针指向的值，直到两指针交汇.</strong></font><br /><div class="blockcode"><div id="code_pAq"><ol><li>激活模块：/scoreboard players tag @p add start<br /><li><br /><li>/execute @p[tag=start] ~ ~ ~ /execute @e[tag=p0] ~ ~ ~ /scoreboard players tag @e[tag=x,score_x_min=1,r=0,c=1] add num0<br /><li>/execute @p[tag=start] ~ ~ ~ /execute @e[tag=p1] ~ ~ ~ /scoreboard players tag @e[tag=x,score_x_min=1,r=0,c=1] add num1<br /><li>/execute @p[tag=start] ~ ~ ~ /scoreboard players operation @e[tag=num0] x &gt;&lt; @e[tag=num1] x<br /><li>*互换值<br /><li><br /><li>/execute @p[tag=start] ~ ~ ~ /scoreboard players tag @e[tag=num0] remove num0<br /><li>/execute @p[tag=start] ~ ~ ~ /scoreboard players tag @e[tag=num1] remove num1<br /><li>*重置互换<br /><li><br /><li>/execute @e[tag=p0] ~ ~ ~ /execute @e[tag=p1,dx=-1] ~ ~ ~ /scoreboard players tag @p remove start<br /><li>*检测交汇，结束模块<br /><li><br /><li>/execute @p[tag=start] ~ ~ ~ /execute @e[tag=p0] ~ ~ ~ /tp @e[tag=p0] ~1 ~ ~<br /><li>/execute @p[tag=start] ~ ~ ~ /execute @e[tag=p1] ~ ~ ~ /tp @e[tag=p1] ~-1 ~ ~<br /><li>*移位指针</ol></div><em onclick="copycode($('code_pAq'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980330" aid="980330" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184516s6nk8pqrk0a8akmm.png" file="https://attachment.mcbbs.net/forum/201608/21/184516s6nk8pqrk0a8akmm.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980330" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980330_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.61.png</strong> <em class="xg1">(18.64 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzMwfGRlNzUxYzY2fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><br />
+<hr class="l" /><strong><font face="碳化硅大黑体"><font size="5">§9.5 宏操作</font></font></strong><br />
+<ul><li>原理<br />
+</ul><font color="#008000">1.选择器工作，会选择所有符合条件的实体</font><br />
+<font color="#008000">2.execute运作，会相对所有符合条件的实体运作</font><br />
+<strong>因此选中一组实体，事实上指令会在执行时执行多次。</strong><br />
+<ul><li>概念<br />
+</ul>数组中，运用选择器，可以直接遍历全部数组中的元素<br />
+例如<br /><div class="blockcode"><div id="code_jpP"><ol><li>/scoreboard players set @e[tag=x] x 1</ol></div><em onclick="copycode($('code_jpP'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980331" aid="980331" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185324vgzvt94h4h9sfz1z.png" file="https://attachment.mcbbs.net/forum/201608/21/185324vgzvt94h4h9sfz1z.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980331" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980331_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.62.png</strong> <em class="xg1">(2.9 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzMxfDBhOGE3NzdjfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+不需要指针的挨个处理，<strong>宏操作能直接实现对整个数组的操作</strong><br />
+<ul><li>事项<br />
+</ul>在使用execute时，execute尽管能控制相对执行对象执行多次，但主要执行的指令只是一条。<br />
+所以<strong>一条指令只能遍历执行一条指令，不能交错执行多条指令</strong>。<br />
+<br />
+再就是如果数组中元素过多，也许反而会对执行造成卡顿。<br />
+<br />
+至于<strong>是否使用指针操作还是宏操作，需要视情况自己斟酌</strong><br /><hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">9.5.1 获取数组元素总数</font></font></strong><br />
+<font size="4"><strong>思路：相对数组全部元素给一个变量值加1</strong></font><br /><div class="blockcode"><div id="code_FRw"><ol><li>/execute @e[tag=x] ~ ~ ~ scoreboard players add sum x 1</ol></div><em onclick="copycode($('code_FRw'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980332" aid="980332" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184517h4qq7z4f65zo6sso.png" file="https://attachment.mcbbs.net/forum/201608/21/184517h4qq7z4f65zo6sso.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980332" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980332_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.63.png</strong> <em class="xg1">(2.96 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzMyfDM1ODY5YWEwfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+最后假名中sum的变量x的值为1.<br />
+<br />
+<strong>同时这种方法也是不需要Stats快速获得执行成功总量的一个方法</strong>（但是比起更新实体来说，这种方法消耗更大）<br /><hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">9.5.2 最值和滚动数组</font></font></strong><br />
+<ul><li>最值（数组元素中最小值和最大值）<br />
+</ul><font size="4"><strong>思路：（擂台算法）</strong></font><br />
+<font size="4"><strong>min=+∞，数组中全部值都和min来比较谁小；</strong></font><br />
+<font size="4"><strong>max=-∞，数组中全部值都和max来比较谁大.</strong></font><br /><div class="blockcode"><div id="code_DCO"><ol><li>execute @e[tag=x] ~ ~ ~ scoreboard players operation min x &lt; @e[tag=x,c=1] x<br /><li>execute @e[tag=x] ~ ~ ~ scoreboard players operation max x &lt; @e[tag=x,c=1] x<br /><li>（@e[tag=x,c=1]，表示就是目前相对执行该条指令的元素本体）</ol></div><em onclick="copycode($('code_DCO'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980333" aid="980333" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185325pnmttadptp1pmdwt.png" file="https://attachment.mcbbs.net/forum/201608/21/185325pnmttadptp1pmdwt.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980333" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980333_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.64.png</strong> <em class="xg1">(4.98 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzMzfDZhNzZhOWI2fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="left">
+<ignore_js_op>
+
+<img id="aimg_980334" aid="980334" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185325my5rxrcxxmzrrxrf.png" file="https://attachment.mcbbs.net/forum/201608/21/185325my5rxrcxxmzrrxrf.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980334" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980334_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.65.png</strong> <em class="xg1">(5.28 KB, 下载次数: 2)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzM0fDBkOGNiODQzfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+至于一开始min,max取值，只需要取mc中计分板的最大值和最小值（计分板有十位数限制）<br />
+<br />
+<ul><li>滚动数组（全部元素左移右移，末位数组归初位）<br />
+</ul>思路：<br />
+左移，每个元素都和右边相邻元素交换值<br />
+右移，每个元素都和左边相邻元素交换值<br /><div class="blockcode"><div id="code_kSv"><ol><li>execute @e[tag=x] ~ ~ ~ scoreboard players operation @e[tag=x,c=1] x &gt;&lt; @e[tag=x,rm=0,dx=1] x<br /><li>execute @e[tag=x] ~ ~ ~ scoreboard players operation @e[tag=x,c=1] x &gt;&lt; @e[tag=x,rm=0,dx=-1] x<br /><li>（规定右移是x轴正方向，@e[tag=x,rm=0,dx=1]表示右边相邻元素）</ol></div><em onclick="copycode($('code_kSv'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980335" aid="980335" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184518i4r046fz001d01gq.png" file="https://attachment.mcbbs.net/forum/201608/21/184518i4r046fz001d01gq.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980335" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980335_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.66.png</strong> <em class="xg1">(4.24 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzM1fGVjNGMwMTBkfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="left">
+<ignore_js_op>
+
+<img id="aimg_980336" aid="980336" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184519mfwzk0k9vktt606c.png" file="https://attachment.mcbbs.net/forum/201608/21/184519mfwzk0k9vktt606c.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980336" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980336_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.67.png</strong> <em class="xg1">(4.45 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzM2fDIyYjJjYmFjfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">9.5.3 分配id</font></font></strong><br />
+给数组按照索引的顺序，将它的某一个变量的值设为其索引id<br />
+<font size="4"><strong>思路：</strong></font><br />
+<font size="4"><strong>/stats该命令方块执行成功次数映射到一个计分板，直接通过execute设置分数.</strong></font><br /><div class="blockcode"><div id="code_tJe"><ol><li>/stats 该命令方块执行成功次数 到 temp的x<br /><li>/execute @e[tag=x] ~ ~ ~ scoreboard players operation @e[tag=x,c=1] x = temp x</ol></div><em onclick="copycode($('code_tJe'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980337" aid="980337" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185327ooka5obqep9qabeb.png" file="https://attachment.mcbbs.net/forum/201608/21/185327ooka5obqep9qabeb.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980337" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980337_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.68.png</strong> <em class="xg1">(5.41 KB, 下载次数: 5)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzM3fGY4ZTc4NDQ0fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">9.5.4 多数组移位和相对操作</font></font></strong><br />
+例子：交错相加<br />
+<font size="4"><strong>思路：整个数组移位，数组1相对数组2操作</strong></font><br /><div class="blockcode"><div id="code_knG"><ol><li>/tp @e[tag=x2] ~1 ~ ~<br /><li>/execute @e[tag=x1] ~ ~ ~ /scoreboard players operation @e[tag=x1,c=1] x += @e[tag=x2,r=0,c=1] x</ol></div><em onclick="copycode($('code_knG'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_980338" aid="980338" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184520v3xuuqq6c1zpq0z3.png" file="https://attachment.mcbbs.net/forum/201608/21/184520v3xuuqq6c1zpq0z3.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980338" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980338_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_15.36.69.png</strong> <em class="xg1">(7.31 KB, 下载次数: 2)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzM4fDczOWRjZWZifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><hr class="l" /><font face="碳化硅大黑体"><font size="5"><strong>§9.6 多维数组</strong></font></font><br />
+数组可以不仅限于一维，随着数据储存范围越来越广也有多维数组.<br />
+多维数组可以套用一位数组的概念和操作方法，所以不多说了.<br />
+主要来看一看多维数组分配坐标的方法，迎合前面所研究的内容，是其支持指针、宏操作.<br />
+<br />
+<ul><li>空间维度分配方法<br />
+</ul>
+<ignore_js_op>
+
+<img id="aimg_980339" aid="980339" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184522csawnwuwfxu3szut.png" file="https://attachment.mcbbs.net/forum/201608/21/184522csawnwuwfxu3szut.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980339" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980339_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-21_13.37.18.png</strong> <em class="xg1">(85.53 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzM5fGY4M2NjODM2fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+直接通过坐标来分配多维索引，<br />
+但是最多只能3维.<br />
+<strong>适合于维度不高，操作比较复杂的数组.</strong></div><div align="left"><ul><li>嵌套分配方法<br />
+</ul>
+<ignore_js_op>
+
+<img id="aimg_980340" aid="980340" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184524lhs9is4ecccb4vhb.png" file="https://attachment.mcbbs.net/forum/201608/21/184524lhs9is4ecccb4vhb.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980340" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980340_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-21_13.44.38.png</strong> <em class="xg1">(83.11 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzQwfDZlNWU1NGY3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+通过嵌套数组中各个索引和访问来分配维度<br />
+<i>（图中方形代表二维数组p[j]中的i，直线是i的[j]）<br />
+<strong>适用于高于三维，但操作复杂，难以整体宏操作，所以推荐是简单的高维数组.</strong><br /><br />
+<strong><font size="5">§9.7 结合结构方块</font></strong><br />
+结构方块可以复制实体，因此我们可以使用结构方块快速复制、翻转数组<br />
+
+<ignore_js_op>
+
+<img id="aimg_980341" aid="980341" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184526s6pn7jgqzqkq8m2k.png" file="https://attachment.mcbbs.net/forum/201608/21/184526s6pn7jgqzqkq8m2k.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980341" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980341_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-21_16.25.57.png</strong> <em class="xg1">(67.04 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzQxfGE0NzBjNDE1fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+保存数组到一个结构<br />
+
+<ignore_js_op>
+
+<img id="aimg_980342" aid="980342" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/185335x60zbbtglqbn7vq6.png" file="https://attachment.mcbbs.net/forum/201608/21/185335x60zbbtglqbn7vq6.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980342" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980342_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-21_16.26.24.png</strong> <em class="xg1">(88.51 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzQyfDNlMWEyY2U3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:53 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+复制粘贴这个数组<br />
+
+<ignore_js_op>
+
+<img id="aimg_980343" aid="980343" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/21/184529sn3rfm35rz33r04n.png" file="https://attachment.mcbbs.net/forum/201608/21/184529sn3rfm35rz33r04n.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_980343" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_980343_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-21_16.27.52.png</strong> <em class="xg1">(54.42 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzQzfDkxODJhN2UyfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-21 18:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+翻转数组.<br />
+<br />
+因此我们不需要相对操作来继承数组，也可以直接进行复制和翻转操作<br /><br />
+<strong><font size="5">§9.8 总结和前瞻</font></strong><br />
+<ul><li>总结<br />
+</ul>数组就是这样的数据储存方式，我们从概念谈到了操作，也引申到了一些新的想法，下面总结一下：<br />
+<strong>概念：</strong><br />
+一维数组-线性数组<br />
+二维数组-平面数组<br />
+多维数组-多轴关系数组<br />
+<br />
+<strong>操作：</strong><br />
+指针操作-对于一个元素精确的操作，结合循环语句移位指针和相对指针对元素操作；<br />
+宏操作-对一个数组全部元素遍历操作，使用execute和选择器的操作.<br />
+当然具体操作不仅限前面所举的例子，具体要看情况来自己考虑方法，找到最简的最优的途径.<br />
+<br />
+<ul><li>前瞻<br />
+</ul>利用数组来实现的事情太多了，数组本身是一个储存数据的格式，但结合多种多样丰富的操作，扩大了单个变量的范围，实现了多个变量集体的操作方式。<br />
+<strong>在模块，此处数组也只是粗陋地利用之前的概念还原的一种思想，不过可想的事还有许多，期待各位利用数组来实现更多命令方块的方法.</strong><br />
+<br />
+我们1.11再会.<br />
+</i></div></div></div><br />
+<br />
+[groupid=546]Command Block Logic[/groupid]
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc2fDMxNzU1MTdifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980276" class="xw1" target="_blank">2016-08-20_15.34.46.png</a>
+<em class="xg1">(85.81 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980276_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc2fDMxNzU1MTdifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980276', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980276', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980276" aid="980276" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181525sdwwevbhcmwzvecw.png" file="https://attachment.mcbbs.net/forum/201608/21/181525sdwwevbhcmwzvecw.png.thumb.jpg" alt="2016-08-20_15.34.46.png" title="2016-08-20_15.34.46.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc3fDVhOGE3MTQxfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980277" class="xw1" target="_blank">2016-08-20_15.36.51.png</a>
+<em class="xg1">(71.56 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980277_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc3fDVhOGE3MTQxfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980277', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980277', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980277" aid="980277" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182334gy8iojdnnxpcj3jt.png" file="https://attachment.mcbbs.net/forum/201608/21/182334gy8iojdnnxpcj3jt.png.thumb.jpg" alt="2016-08-20_15.36.51.png" title="2016-08-20_15.36.51.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc4fDM0MTBhMGVhfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980278" class="xw1" target="_blank">2016-08-20_15.36.52.png</a>
+<em class="xg1">(5.92 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980278_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc4fDM0MTBhMGVhfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980278', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980278', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980278" aid="980278" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182335fs3gmmz2u3lw31iy.png" file="https://attachment.mcbbs.net/forum/201608/21/182335fs3gmmz2u3lw31iy.png.thumb.jpg" alt="2016-08-20_15.36.52.png" title="2016-08-20_15.36.52.png" w="267" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc5fGI4MzA2NGNkfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980279" class="xw1" target="_blank">2016-08-20_15.36.53.png</a>
+<em class="xg1">(9.95 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980279_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjc5fGI4MzA2NGNkfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980279', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980279', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980279" aid="980279" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182335zafm7l1f4wmwalge.png" file="https://attachment.mcbbs.net/forum/201608/21/182335zafm7l1f4wmwalge.png.thumb.jpg" alt="2016-08-20_15.36.53.png" title="2016-08-20_15.36.53.png" w="712" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjgwfGM0MTNmOGVifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980280" class="xw1" target="_blank">2016-08-20_15.36.55.png</a>
+<em class="xg1">(5.97 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980280_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjgwfGM0MTNmOGVifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980280', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980280', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980280" aid="980280" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181529h6g4xpqq30ghx534.png" file="https://attachment.mcbbs.net/forum/201608/21/181529h6g4xpqq30ghx534.png.thumb.jpg" alt="2016-08-20_15.36.55.png" title="2016-08-20_15.36.55.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjgxfGY4NzAwODQyfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980281" class="xw1" target="_blank">2016-08-20_15.36.56.png</a>
+<em class="xg1">(3.85 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980281_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjgxfGY4NzAwODQyfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980281', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980281', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980281" aid="980281" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182336g49n9bgvk9bkuonn.png" file="https://attachment.mcbbs.net/forum/201608/21/182336g49n9bgvk9bkuonn.png.thumb.jpg" alt="2016-08-20_15.36.56.png" title="2016-08-20_15.36.56.png" w="651" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjgzfGFmZWUxMmMwfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980283" class="xw1" target="_blank">2016-08-20_15.36.58.png</a>
+<em class="xg1">(6.23 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980283_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjgzfGFmZWUxMmMwfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980283', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980283', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980283" aid="980283" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181530qrvorvo49s5jdrpm.png" file="https://attachment.mcbbs.net/forum/201608/21/181530qrvorvo49s5jdrpm.png.thumb.jpg" alt="2016-08-20_15.36.58.png" title="2016-08-20_15.36.58.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg0fGFmM2RhNzZhfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980284" class="xw1" target="_blank">2016-08-20_15.36.59.png</a>
+<em class="xg1">(6.05 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980284_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg0fGFmM2RhNzZhfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980284', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980284', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980284" aid="980284" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181531xqaee8ekqr0u963j.png" file="https://attachment.mcbbs.net/forum/201608/21/181531xqaee8ekqr0u963j.png.thumb.jpg" alt="2016-08-20_15.36.59.png" title="2016-08-20_15.36.59.png" w="712" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg1fDYxZjdmNzRjfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980285" class="xw1" target="_blank">2016-08-20_15.36.60.png</a>
+<em class="xg1">(6.06 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980285_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg1fDYxZjdmNzRjfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980285', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980285', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980285" aid="980285" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181532evu88gssi25nipau.png" file="https://attachment.mcbbs.net/forum/201608/21/181532evu88gssi25nipau.png.thumb.jpg" alt="2016-08-20_15.36.60.png" title="2016-08-20_15.36.60.png" w="712" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg2fDMyZDZkY2ExfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980286" class="xw1" target="_blank">2016-08-20_15.36.61.png</a>
+<em class="xg1">(18.64 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980286_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg2fDMyZDZkY2ExfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980286', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980286', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980286" aid="980286" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181535byn1rzjjarpajpii.png" file="https://attachment.mcbbs.net/forum/201608/21/181535byn1rzjjarpajpii.png.thumb.jpg" alt="2016-08-20_15.36.61.png" title="2016-08-20_15.36.61.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg3fDUxN2Q1ZDBkfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980287" class="xw1" target="_blank">2016-08-20_15.36.62.png</a>
+<em class="xg1">(2.9 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980287_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg3fDUxN2Q1ZDBkfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980287', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980287', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980287" aid="980287" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182344xmm59mhjmlmmj9jm.png" file="https://attachment.mcbbs.net/forum/201608/21/182344xmm59mhjmlmmj9jm.png.thumb.jpg" alt="2016-08-20_15.36.62.png" title="2016-08-20_15.36.62.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg4fDc4NmIyMzhmfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980288" class="xw1" target="_blank">2016-08-20_15.36.63.png</a>
+<em class="xg1">(2.96 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980288_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg4fDc4NmIyMzhmfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980288', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980288', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980288" aid="980288" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181539q5n7l3dggg5dl0nz.png" file="https://attachment.mcbbs.net/forum/201608/21/181539q5n7l3dggg5dl0nz.png.thumb.jpg" alt="2016-08-20_15.36.63.png" title="2016-08-20_15.36.63.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg5fDNiMWNjM2FifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980289" class="xw1" target="_blank">2016-08-20_15.36.64.png</a>
+<em class="xg1">(4.98 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980289_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjg5fDNiMWNjM2FifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980289', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980289', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980289" aid="980289" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182348irjpvdpu8l4irlj2.png" file="https://attachment.mcbbs.net/forum/201608/21/182348irjpvdpu8l4irlj2.png.thumb.jpg" alt="2016-08-20_15.36.64.png" title="2016-08-20_15.36.64.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkwfGU5MTQ0NGE1fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980290" class="xw1" target="_blank">2016-08-20_15.36.65.png</a>
+<em class="xg1">(5.28 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980290_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkwfGU5MTQ0NGE1fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980290', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980290', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980290" aid="980290" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182350t5rhaac6elaazra6.png" file="https://attachment.mcbbs.net/forum/201608/21/182350t5rhaac6elaazra6.png.thumb.jpg" alt="2016-08-20_15.36.65.png" title="2016-08-20_15.36.65.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkxfGZkOTBiMzg2fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980291" class="xw1" target="_blank">2016-08-20_15.36.66.png</a>
+<em class="xg1">(4.24 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980291_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkxfGZkOTBiMzg2fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980291', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980291', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980291" aid="980291" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182352mhzepa8zdh11hrzt.png" file="https://attachment.mcbbs.net/forum/201608/21/182352mhzepa8zdh11hrzt.png.thumb.jpg" alt="2016-08-20_15.36.66.png" title="2016-08-20_15.36.66.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkyfDY1Y2Y3MTBlfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980292" class="xw1" target="_blank">2016-08-20_15.36.67.png</a>
+<em class="xg1">(4.45 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980292_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkyfDY1Y2Y3MTBlfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980292', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980292', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980292" aid="980292" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182354ms9fmtfa37ybmq7s.png" file="https://attachment.mcbbs.net/forum/201608/21/182354ms9fmtfa37ybmq7s.png.thumb.jpg" alt="2016-08-20_15.36.67.png" title="2016-08-20_15.36.67.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkzfDk4M2U0ZDQ3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980293" class="xw1" target="_blank">2016-08-20_15.36.68.png</a>
+<em class="xg1">(5.41 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980293_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjkzfDk4M2U0ZDQ3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980293', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980293', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980293" aid="980293" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181548b1zz5f0w5zwi0iyx.png" file="https://attachment.mcbbs.net/forum/201608/21/181548b1zz5f0w5zwi0iyx.png.thumb.jpg" alt="2016-08-20_15.36.68.png" title="2016-08-20_15.36.68.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk0fDFiYjNiZTg3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980294" class="xw1" target="_blank">2016-08-20_15.36.69.png</a>
+<em class="xg1">(7.31 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980294_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk0fDFiYjNiZTg3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:15 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980294', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980294', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980294" aid="980294" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/181548w7cneqqhzzom4mcx.png" file="https://attachment.mcbbs.net/forum/201608/21/181548w7cneqqhzzom4mcx.png.thumb.jpg" alt="2016-08-20_15.36.69.png" title="2016-08-20_15.36.69.png" w="713" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk1fDI2ZjYxMmNifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980295" class="xw1" target="_blank">2016-08-21_13.37.18.png</a>
+<em class="xg1">(85.53 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980295_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk1fDI2ZjYxMmNifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:23 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980295', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980295', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980295" aid="980295" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182358ri7vuaula66qdmxd.png" file="https://attachment.mcbbs.net/forum/201608/21/182358ri7vuaula66qdmxd.png.thumb.jpg" alt="2016-08-21_13.37.18.png" title="2016-08-21_13.37.18.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk2fDJhNTJjNGU3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980296" class="xw1" target="_blank">2016-08-21_13.44.38.png</a>
+<em class="xg1">(83.11 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980296_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk2fDJhNTJjNGU3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:24 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980296', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980296', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980296" aid="980296" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182401xsg9pcmxhhcl9fmp.png" file="https://attachment.mcbbs.net/forum/201608/21/182401xsg9pcmxhhcl9fmp.png.thumb.jpg" alt="2016-08-21_13.44.38.png" title="2016-08-21_13.44.38.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk3fDE2ZjVlMTBmfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980297" class="xw1" target="_blank">2016-08-21_16.25.57.png</a>
+<em class="xg1">(67.04 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980297_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk3fDE2ZjVlMTBmfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:24 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980297', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980297', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980297" aid="980297" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182402ca3c1ccn11111krp.png" file="https://attachment.mcbbs.net/forum/201608/21/182402ca3c1ccn11111krp.png.thumb.jpg" alt="2016-08-21_16.25.57.png" title="2016-08-21_16.25.57.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk4fDhkMjAwNzA3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980298" class="xw1" target="_blank">2016-08-21_16.26.24.png</a>
+<em class="xg1">(88.51 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980298_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMjk4fDhkMjAwNzA3fDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:24 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980298', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980298', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980298" aid="980298" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182404t8b5nb55vp57mg95.png" file="https://attachment.mcbbs.net/forum/201608/21/182404t8b5nb55vp57mg95.png.thumb.jpg" alt="2016-08-21_16.26.24.png" title="2016-08-21_16.26.24.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzAwfGM1ODY1ZTBlfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980300" class="xw1" target="_blank">2016-08-21_16.27.52.png</a>
+<em class="xg1">(54.42 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980300_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzAwfGM1ODY1ZTBlfDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:24 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980300', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980300', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980300" aid="980300" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/182405kx5n89o58xvvnz1v.png" file="https://attachment.mcbbs.net/forum/201608/21/182405kx5n89o58xvvnz1v.png.thumb.jpg" alt="2016-08-21_16.27.52.png" title="2016-08-21_16.27.52.png" w="854" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+
+
+<ignore_js_op>
+
+<dl class="tattl attm">
+<dt></dt>
+<dd>
+
+<p class="mbn">
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzA0fDZhMjEwYjJifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid980304" class="xw1" target="_blank">2016-08-20_15.36.57.png</a>
+<em class="xg1">(3.83 KB, 下载次数: )</em>
+</p>
+<div class="tip tip_4" id="aid980304_menu" style="display: none" disautofocus="true">
+<div>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTgwMzA0fDZhMjEwYjJifDE2MTM3MjI0NzV8MjQxOTQ4Nnw2MjQ4Mjk%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>
+<span class="y">2016-8-21 18:33 上传</span>
+<a href="javascript:;" onclick="imageRotate('aimg_980304', 1)"><img src="static/image/common/rleft.gif" class="vm" /></a>
+<a href="javascript:;" onclick="imageRotate('aimg_980304', 2)"><img src="static/image/common/rright.gif" class="vm" /></a>
+</p>
+</div>
+<div class="tip_horn"></div>
+</div>
+<p class="mbn">
+
+</p>
+
+
+
+<div class="mbn savephotop">
+
+<a href="javascript:;"><img id="aimg_980304" aid="980304" src="static/image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '0')" zoomfile="https://attachment.mcbbs.net/forum/201608/21/183328teitp6ieheeujh65.png" file="https://attachment.mcbbs.net/forum/201608/21/183328teitp6ieheeujh65.png.thumb.jpg" alt="2016-08-20_15.36.57.png" title="2016-08-20_15.36.57.png" w="558" /></a>
+
+</div>
+
+</dd>
+</dl>
+
+</ignore_js_op>
+
+<script type="text/javascript" reload="1">
+aimgcount[10828908] = ['980276','980277','980278','980279','980280','980281','980283','980284','980285','980286','980287','980288','980289','980290','980291','980292','980293','980294','980295','980296','980297','980298','980300','980304','980311','980312','980313','980314','980315','980316','980317','980318','980319','980320','980321','980322','980323','980324','980325','980326','980327','980328','980329','980330','980331','980332','980333','980334','980335','980336','980337','980338','980339','980340','980341','980342','980343'];
+attachimggroup(10828908);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Zevn&nbsp; &nbsp; <b>时间: </b>2016-8-21 20:57<br />
+确实这样做有多个变量时更有条理，不容易眼花<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2016-9-16 23:57<br />
+这更多图片是如何做到的○|￣|_<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-9-17 09:05<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10962545&amp;ptid=624829" target="_blank"><font color="#999999">langyo 发表于 2016-9-16 23:57</font></a></font><br />
+这更多图片是如何做到的○|￣|_</blockquote></div><br />
+论坛编辑器卡了
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

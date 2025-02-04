@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §1 : NBT（作用和基础和格式） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODU1NzItMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : NBT（作用和基础和格式） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-12 15:38<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : NBT（作用和基础和格式）<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-26 08:55 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><div align="left"><div align="center"><font face="微软雅黑"><font size="6"><strong>模块基础</strong></font></font></div><div align="center"><font size="2"><strong>第二页为 NBT基础概念</strong></font></div>本大章节将会涉及到学习模块前的基础。<br />
+所以在曾经没有机会使用指令方块的玩家仍然可以在本大章学习一些基础。<br />
+这些基础不会引申，仅仅是必要掌握内容。<br />
+<br />
+模块基础将会涉及到<br />
+<strong>指令</strong><br />
+<ul><li>预置指令<li>常用指令<br />
+</ul><strong>坐标</strong><br />
+<ul><li>基础<li>相对坐标<br />
+</ul><br />
+<strong>NBT标签</strong><br />
+<br />
+<ul><li>作用与内容<li>标准格式<br />
+</ul><br />
+<strong>实体选择器</strong><br />
+<br />
+<ul><li>主类<li>分项<br />
+</ul><br />
+<strong>计分板</strong><br />
+<br />
+<ul><li>变量概念<li>创建变量<li>设置初始值<li>变量与选择器<br />
+</ul><br />
+<strong>模块概论</strong></div></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-480969-1-1.html" target="_blank">上一篇</a>（</font><font size="5">坐标</font><font size="5">）- <a href="http://www.mcbbs.net/thread-486958-1-1.html" target="_blank">下一篇</a>（实体选择器</font><font size="5">）</font></div><div align="right"><div align="left"><br />
+<div align="center"><font face="碳化硅大黑体"><font size="5"><strong>§1.3 NBT标签</strong></font></font></div><div align="center"><strong><font size="1">第二页为 NBT内容作用</font></strong></div><div align="left"><div align="left">几乎所有物体，所有游戏内容，包括所有实体/方块及玩家本身都<strong>储存着NBT标签</strong>。</div><br />
+<div align="left">NBT标签代表着物体的特性。而方块/实体的特性，和玩家/物品，能够<strong>被命令方块访问（修改/读取）</strong>。</div><br />
+<div align="left"><strong>其中实体/方块的NBT储存在区块中，需要加载区块才能被指令访问，</strong></div><div align="left"><strong>玩家/物品NBT储存在player.dat中。</strong></div><div align="left">其余的NBT虽然不能被指令访问，但是<strong>依旧存在其他的dat</strong>文件中（<strong>压缩格式为NBT</strong>），也可通过外置NBT进行访问。</div></div><br />
+<ul><li><div align="left"><strong>修改NBT的工具</strong></div><br />
+</ul><div align="left">&nbsp;&nbsp;1. <font size="4"><strong>CommandNBT</strong></font></div><br />
+<div align="left">能够直接在游戏内通过<strong>原版指令修改NBT</strong>，</div><div align="left"><strong>包括在线修改指令：entitydata/blockdata（修改实体/方块NBT）</strong></div><div align="left"><strong>以及定义NBT指令：summon/setblock（生成自定义NBT实体/方块）</strong></div><br />
+<div align="left"><strong>还有间接更改玩家NBT的：give/replaceitem（物品操作）</strong></div><div align="left"><strong>也有比较NBT的：testfor/testforblock（方块比较）</strong></div><br />
+<div align="left">但是CommandNBT局限于<strong>区块和player.dat</strong>（目前官方的两种允许修改的）</div><br />
+<div align="left"><strong>全部CommandNBT：</strong></div><div align="left"><a href="http://minecraft.gamepedia.com/Alpha_Level_Format/Chunk_File_Format" target="_blank"><strong>http://minecraft.gamepedia.com/Alpha_Level_Format/Chunk_File_Format</strong></a><strong>（区块格式）</strong></div><div align="left"><a href="http://minecraft.gamepedia.com/Player.dat_format" target="_blank"><strong>http://minecraft.gamepedia.com/Player.dat_format</strong></a><strong>（player.dat格式）</strong></div><br />
+<div align="left">&nbsp;&nbsp;2.<font size="4"><strong> InGameNBT</strong></font></div><br />
+<div align="left">能够<strong>通过mod来修改NBT，内容比CommandNBT多</strong>。</div><div align="left">常用于1.6及以下版本（还不允许CommandNBT）</div><br />
+<div align="left">由于无法自动化，所以逐渐淘汰。</div><br />
+<br />
+<div align="left">&nbsp;&nbsp;3. <font size="4"><strong>NBT Explorer</strong></font></div><br />
+<div align="left"><strong>支持外部修改所有NBT</strong></div><div align="left">功能强大。</div><div align="left"><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.3.1 作用与内容</font></font></strong><br />
+<strong><font size="1">第二页为 NBT格式</font></strong><br />
+<ul><li><strong>作用</strong><br />
+</ul>NBT支持<strong>被修改</strong>。<br />
+<br />
+<ul><li><strong>内容</strong><br />
+</ul>NBT为物体的<strong>特性</strong><br />
+<br />
+<br />
+<br />
+所以修改NBT就是<strong>修改物体的特性</strong>。<br />
+<br />
+比如NBT：Fuse是苦力怕的爆炸时间（单位Tick）：<br />
+那么修改Fuse为0就能做到瞬间爆炸的效果：<br />
+<img id="aimg_UZTzT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/fb269a5e45ca5d91.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<br />
+<img id="aimg_C77js" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/92be3eb44bdd161d.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<img id="aimg_HlDR1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/990432df9488dce0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<img id="aimg_fGBZC" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/4b6696be94a5c255.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_yyu"><ol><li>/summon Creeper ~ ~ ~ {Fuse:0}</ol></div><em onclick="copycode($('code_yyu'));">复制代码</em></div><br />
+<font color="#008000">*定义生成的苦力怕瞬间爆炸</font><br />
+<br /><div class="blockcode"><div id="code_Mz7"><ol><li>/entitydata @e[type=Creeper] {Fuse:0}</ol></div><em onclick="copycode($('code_Mz7'));">复制代码</em></div><br />
+<font color="#008000">*修改已有的苦力怕瞬间爆炸</font><br />
+<br />
+这就是NBT被修改的意义，能够<strong>更改特征</strong>。<br />
+<i>（也涉及了指令生成NBT和修改NBT的区别）</i><br />
+当然NBT也能<strong>被获取</strong>，以后将会讲到<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp; <strong><font face="微软雅黑"><font size="4">1.3.2 标准格式</font></font></strong><br />
+大家可能注意到了，NBT除了有<strong>项目</strong>，也有<strong>框架</strong><br />
+<br />
+其实NBT就是一个物体所有特征的<strong>大框架</strong>，<br />
+<br />
+<strong>一个项目表现为：</strong><br />
+&quot;标签&quot;:&quot;值&quot;<br />
+<br />
+<strong>一个列表表现为：</strong><br />
+&quot;标签&quot;:[&quot;子标签&quot;:&quot;值&quot;,……]<br />
+<br />
+<strong>一个框架表现为：</strong><br />
+&quot;标签&quot;:{&quot;子标签&quot;:&quot;值&quot;,……}<br />
+<font color="#008000">*与标签</font><br />
+&quot;标签&quot;:{&quot;子标签&quot;:[&quot;孙标签&quot;:&quot;值&quot;,……]……}<br />
+<font color="#008000">*与列表</font><br />
+<br />
+<br />
+<strong>总之：</strong><br />
+<font color="#800000">一个项目为基本单位，包含标签和值；</font><br />
+<font color="#800000">一个列表为项目集合；</font><br />
+<font color="#800000">一个框架为列表和项目的集合。</font><br />
+<br />
+（Wiki有详解）<br />
+其中<strong>可以省略引号</strong>。<br />
+虽然NBT本身就是json，但是与游戏中json不同的是<strong>NBT提供修改功能</strong>。<br />
+<br />
+<br />
+<i><strong>那么NBT修改的只是找到的标签，所以NBT也支持自定义NBT，具体作用就是储存一个存在的自定义tag。</strong></i><br />
+<br />
+</div></div></div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1052259852&nbsp; &nbsp; <b>时间: </b>2015-8-12 15:49<br />
+这是高能 不是指令方块高手真的不动- -
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

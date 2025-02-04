@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 私有模块与普通多模块区别 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01NDQ4MDgtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 私有模块与普通多模块区别 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-23 17:39<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 私有模块与普通多模块区别<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-1-23 17:42 编辑 </i><br />
+<br />
+<font size="5"><font size="3">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font><font face="微软雅黑"><font size="5"><strong>8.2+</strong><strong>私有模块与普通多模块区别</strong></font></font></font><br />
+在1.9中，普通的多模块（公共模块）的执行和私有模块就出现<strong>较大差异</strong>了<br />
+<br />
+<ul><li><strong>普通多模块</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F4B2C_56A345390" target="_blank"><img id="aimg_H61l1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/4B2C_56A345390.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+就主模块来看，也许你认为在模块中调用了公共模块，就能做到1→2→3<br />
+但是因为并联，<strong>遵循标准执行顺序</strong>，所以只能做到1→3→2<br />
+对于顺序要求非常高的时钟等特殊模块语句，这里就难免失去严谨<br />
+<br />
+<ul><li><strong>私有模块</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F283B_56A3453A0" target="_blank"><img id="aimg_sJX5R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/283B_56A3453A0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+私有模块就能成功实现顺序，但是缺点是<strong>“私有”是只能被单链调用</strong>。<br />
+<br />
+<br />
+通过差异，得出两种方式性质：<br />
+<strong><font size="4">公共模块 - 公共调用，但是无时序</font></strong><br />
+<strong><font size="4">私有模块 - 私有调用，但是有时序</font></strong><br />
+<br />
+<font size="2">回到1.8时代，无论私有还是公共因为都遵循了<strong>标准执行顺序</strong>，所以较1.9多模块概念来说稍微简单了一些。</font><br />
+<br />
+<br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2016-1-23 17:59<br />
+诶，已经讲到private和public了么<br />
+我要重新看看
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

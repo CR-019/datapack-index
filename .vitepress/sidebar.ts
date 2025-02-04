@@ -5,11 +5,10 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       {text:'前言',link:'/index/前言'},
-      {text:'绪论',link:'/index/绪论'}
+      {text:'绪论',link:'/index/绪论'},
+      {text:'最近更新',link:'/index/_new'}
     ]
   },
-  {text:'技术性更新日志（精简版）',link:'/index/changelog_breaking'},
-  {text:'最近更新',link:'/index/_new'},
   {
     text: '数据包体系结构',
     collapsed: false,
@@ -61,6 +60,7 @@ export const sidebar: DefaultTheme.Sidebar = [
       {text:'着色器',link:'/index/资源包体系结构/#着色器'}
     ]
   },
+  {text:'技术性更新日志（精简版）',link:'/index/changelog_breaking'},
   {
     text: '原版模组实践',
     collapsed: false,
@@ -89,12 +89,16 @@ export const sidebar: DefaultTheme.Sidebar = [
       {text:'附录3：地图原贴/补档地址',link:'/index/附录3'},
       {text:'附录4：杂项',link:'/index/附录4'},
       {text:'附录5：《拾尘》系列原版模组图文教程',link:'/index/附录5'},
+      {text:'附录6：失效索引链接整理',link:'/index/附录6'},
       {text:'技术性更新日志',link:'/index/changelog'}
     ]
   },
   {
-    items: [
+    text:'服务台',
+    collapsed: false,
+    items:[
+      {text:'失物招领',link:'/index/失物招领'},
       {text:'更新日志',link:'/index/_update'}
     ]
-  },
+  }
 ];

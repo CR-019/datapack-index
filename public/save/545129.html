@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §З : 优化模块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01NDUxMjktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §З : 优化模块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-24 08:09<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §З : 优化模块<br /><div align="center"><font face="微软雅黑"><font size="6"><strong>（附）优化模块</strong></font></font></div><div align="left"><strong>这里将解答所有指令玩家最头疼的问题：</strong></div><div align="left"><strong>模块优化</strong></div><br />
+<div align="left">不少客观因素让我们认为模块无法胜任它的实用性——因为卡顿，</div><div align="left">因此不少玩家决定敬而远之改用逻辑组尽量节省指令方块</div><br />
+<div align="left"><strong>其实这都是客观因素，真正让模块卡顿原因有三种：</strong></div><ul><li><div align="left"><strong>过量资源加载</strong></div><li><div align="left"><strong>过高刷新频率</strong></div><li><div align="left"><strong>繁琐</strong></div><br />
+</ul><br />
+<div align="left">假如我千辛万苦完成了一个模块，却发现它体型庞大，自己单人掉帧，多人更是上千延迟</div><div align="left"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FE605_56A415630" target="_blank"><img id="aimg_NCoJB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/E605_56A415630.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></div><div align="left"><div align="left">那么其实有方法让其变得如同普通游戏一样流畅</div><br />
+<ul><li><div align="left"><font size="4"><strong>优化卡顿</strong></font></div><br />
+</ul><div align="left">首先需要了解游戏的<strong>区块资源分配原理</strong>：</div><div align="left"><font color="#008080">最小资源：BlockUpdatePack - 单方块更新</font></div><div align="left"><font color="#000080">普通资源：BlocksUpdatePack - 多方块（＜64）更新</font></div><div align="left"><font color="#800080">超大资源：ChunkUpdatePack - 区块（≥64）更新</font></div><br />
+<div align="left">这个原理用于单人；服务器都使用。</div><div align="left">单人不明显，但是试想一下多人中，如果一个区块被更新，那么要同时发送给n个玩家</div><div align="left">此时不仅是上传延迟，也包括对主机CPU多重压力，这是卡顿的主要原因。</div><br />
+<div align="left">要避免资源卡顿，需要<strong>优化一个区块的指令方块更新少于64</strong>，如下</div><div align="left"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F5330_56A415640" target="_blank"><img id="aimg_u7W0k" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/5330_56A415640.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></div><div align="left"><div align="left">只要数量达到63，必须重新更换一个区块。</div><br />
+<div align="left">除了图中摆法外，更实用的是<strong>线型，有效的向邻区块延伸</strong>。</div><br />
+<ul><li><div align="left"><font size="4"><strong>优化多人加载</strong></font></div><br />
+</ul><div align="left">多人加载中除了资源的共享，也需要加载使用指令的区块</div><div align="left">而服务器区块负荷量近似为：</div><div align="left"><strong>=区块资源*区块刷新率*人数</strong></div><br />
+<div align="left"><strong>资源我们知道如何减少，人数是个不可控的量，刷新率也有方法降低：（针对被加载的区块）</strong></div><div align="left"><font color="#008080">高频率：出生点区块 - 玩家出生点 16*16 Chunk</font></div><div align="left"><font color="#000080">中频率：出生点预加载区块 - 出生点 64*64 Chunk</font></div><div align="left"><font color="#800080">低频率：出生点忽略加载区块 - 玩家出生点 64*64 Chunk外</font></div><br />
+<div align="left">为了降低刷新率，节省资源，至少要把模块放在玩家出生点区块（最好也是玩家活动范围）的1024格外</div><div align="left">但是需要注意使用区块加载器让模块一直更新</div><div align="left"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F0452_56A415640" target="_blank"><img id="aimg_hSlOL" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/0452_56A415640.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></div><div align="left"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F2684_56A415640" target="_blank"><img id="aimg_CqMbh" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/2684_56A415640.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></div><div align="left"><ul><li><div align="left"><font size="4"><strong>优化逻辑</strong></font></div><br />
+</ul><font size="4"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FE621_56A415640" target="_blank"><img id="aimg_rN1Fv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/E621_56A415640.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+<div align="left">在所有客观因素外的一个主观因素就是逻辑冗繁，</div><div align="left">例如一个并联枚举其实可以<strong>构建一个如图的空通道来共用输出</strong></div><br />
+<div align="left">还有很多逻辑优化方式，需要<strong>自己留心并践行</strong></div><br />
+<br />
+<br />
+<div align="left">讲了这么多，总结就<strong>三点</strong>：</div><ul><li><div align="left"><font size="4"><strong>将一个区块的指令方块控制在64个以下</strong></font></div><li><div align="left"><font size="4"><strong>将模块移到出生点区块1024格外</strong></font></div><li><div align="left"><font size="4"><strong>尽可能简化指令</strong></font></div><br />
+</ul><div align="left"><i>这样基本的服务器都能带动4096（不含区块加载资源）</i></div><div align="left"><i>单人能带动几w甚至10w+指令方块</i></div><br />
+<br />
+<div align="left"><div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div></div></div></div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>250=mo&nbsp; &nbsp; <b>时间: </b>2016-1-24 09:01<br />
+感觉打开了新世纪的大门（滚到最下点开索引）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>toolate&nbsp; &nbsp; <b>时间: </b>2016-1-24 09:05<br />
+6666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>若颜mm&nbsp; &nbsp; <b>时间: </b>2016-1-24 09:31<br />
+666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>格林&nbsp; &nbsp; <b>时间: </b>2016-1-24 09:55<br />
+那么就是指令方块优化MC了？<br />
+但是用在服务器上还是感觉插件好，这个适合单人。<br />
+<img src="static/image/smiley/rabbit/41.gif" smilieid="691" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>840196733mw&nbsp; &nbsp; <b>时间: </b>2016-3-25 18:44<br />
+啪<br />
+<br />
+跪下了，这就是我做的东西卡到死，不敢发出来的原因吗 一个区块堆了一大堆东西(为了方便设置出生区块来加载)<br />
+<br />
+求区块加载器<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2016-10-24 10:17<br />
+如果把rcb换成ccb能否减少卡顿？就是说本来有很多想图二那样的结构，现在用ccb连成一个长链会不会减少卡顿？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-10-24 21:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11091939&amp;ptid=545129" target="_blank"><font color="#999999">ruhuasiyu 发表于 2016-10-24 10:17</font></a></font><br />
+如果把rcb换成ccb能否减少卡顿？就是说本来有很多想图二那样的结构，现在用ccb连成一个长链会不会减少卡顿 ...</blockquote></div><br />
+实际上ccb也是伴随着方块的更新，将Rcb换成ccb成效不大<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>brooke_zb&nbsp; &nbsp; <b>时间: </b>2016-12-30 12:21<br />
+可是如果把模块都集中在一个区块里，就只有一个超大资源的区块在加载，而其他都是最小资源加载（这里指的都是CB吧），要是按你的方法的话，就有许多普通资源的加载，到底是哪个好呢？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-12-30 18:19<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11271645&amp;ptid=545129" target="_blank"><font color="#999999">brooke1999 发表于 2016-12-30 12:21</font></a></font><br />
+可是如果把模块都集中在一个区块里，就只有一个超大资源的区块在加载，而其他都是最小资源加载（这里指的都 ...</blockquote></div><br />
+一个很简单的例子，你养了一只猫并且假设它不会主动进食，你是一次喂完让它撑死还是有饮食规律地去喂养？<br />
+类似的，我们说的刷新其实是代码反复调用，这个调用周期在标准情况下为0.05s。瞬间调用大量资源会减少该周期，因此你出现了掉帧，在服务器中则是明显的卡顿。你可以自己衡量到底是哪种方式更优。<br />
+我们已经用帖子中的方法制作了许多含有大量模块的地图，通过实测确定结果后我们才发布出来，这并不只是理论而是经验之谈。
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

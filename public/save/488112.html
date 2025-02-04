@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用游戏资源 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODgxMTItMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用游戏资源 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-16 19:28<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用游戏资源<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-16 20:45 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><font face="微软雅黑"><font size="6"><strong>多模块关联</strong></font></font></div></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 调用游戏资源</font></font></div><div align="left"><div align="left">在模块中，为了达成<strong>一个目的</strong>，可以使用多个语句的<strong>单模块来完成</strong>。</div><div align="left">但是如果模块的输入有<strong>一系列输出</strong>，那么需要<strong>创建多个模块完成</strong>。</div><br />
+<div align="left">因此在单模块中输入输出关系：</div><div align="left"><font size="2"><font color="#800000">输入→输出</font></font></div><br />
+<div align="left"><strong>多模块相当于多个单模块</strong>，所以输出输入关系：</div><div align="left"><font size="2"><font color="#800000">输入&nbsp; &nbsp; →输出</font></font></div><div align="left"><font size="2"><font color="#800000">(输入)&nbsp;&nbsp;→输出</font></font></div><div align="left"><font size="2"><font color="#800000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;→输出</font></font></div><br />
+<div align="left">可以看到多模块更加灵活<strong>不必局限于一个模块的体系</strong>。本章就要学习包括<strong>创建调用</strong>多模块，和<strong>控制多模块的操作类型</strong>。</div><br />
+<br />
+<div align="left">多模块关联包括</div><br />
+<div align="left"><strong>建立模块</strong></div><br />
+<div align="left"><strong>调用模块</strong></div><br />
+<div align="left"><strong>初始执行模块</strong></div><br />
+<div align="left"><strong>单次执行模块</strong></div><ul><li><div align="left">setblock法</div><li><div align="left">时钟法</div><li><div align="left">调用效果指令</div><br />
+</ul><div align="left"><strong>调用游戏资源</strong></div><ul><li><div align="left">坐标操作</div><li><div align="left">自动寻路</div><br />
+</ul><div align="left"><strong>远程法调用逻辑组</strong></div><br />
+<div align="left"><strong>关闭模块</strong></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-478660-1-1.html" target="_blank">上一篇</a>（单次执行模块）--<a href="http://www.mcbbs.net/thread-479310-1-1.html" target="_blank">下一篇</a>（调用逻辑组）</font></div><div align="right"><div align="left"></div><div align="left"><strong><font face="碳化硅大黑体"><font size="5">§8.5 调用游戏资源</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 坐标操作</font></font><br />
+在模块执行的过程中，一定会遇到<strong>指令无法简单操作达到效果的方法</strong>。<br />
+但是游戏内置的资源可以被指令调用，<strong>做到指令无法简便做到的事情</strong>。<br />
+<br />
+指令调用的通常是<strong>生物的ai或者是游戏的特性</strong>，<br />
+通过模块加以操作达到目的。<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">8.5.1 坐标操作</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 tp与实体介入</font></font><br />
+坐标操作指对输出的<strong>坐标操作</strong>。<br />
+<br />
+对坐标操作的指令包含了：<br />
+<strong>tp - 传送实体到指定点</strong><br />
+<strong>spreaplayer - 传送实体到一个范围</strong><br />
+<br />
+也有几个NBT：<br />
+<strong>Motion - 抛物线运动向量</strong><br />
+<strong>Rotation - 方向轴值</strong><br />
+<strong>direction - 直线运动向量</strong><br />
+<br />
+<strong><br />
+</strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>8<font face="黑体">.5.1.1 tp与实体介入</font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 spreadplayers</font></font><br />
+<ul><li>tp<br />
+</ul>tp指将指定实体<strong>传送至指定点</strong>。<br />
+<br />
+格式：<br /><div class="blockcode"><div id="code_bLH"><ol><li>/tp 实体选择器 坐标</ol></div><em onclick="copycode($('code_bLH'));">复制代码</em></div><br />
+<font color="#008000">*将实体传送到坐标</font><br /><div class="blockcode"><div id="code_HBF"><ol><li>/tp 实体选择器1 实体选择器2</ol></div><em onclick="copycode($('code_HBF'));">复制代码</em></div><br />
+<font color="#008000">*将实体1传送到实体2</font><br />
+<br />
+<ul><li>实体介入<br />
+</ul>因为有相对性的存在，同时可以<strong>利用tp的坐标赋值</strong><br />
+所以可以使用<strong>实体介入来进行含坐标相对的操作</strong>。<br />
+<br />
+具体参见：<br />
+for嵌套中的这个指令：<br /><div class="blockcode"><div id="code_Ymb"><ol><li>/execute 实体1 ~ ~ ~ /tp 实体2 ~ ~1 ~</ol></div><em onclick="copycode($('code_Ymb'));">复制代码</em></div><br />
+就是实体介入，<strong>可以理解为记录点，</strong>通过execute进行坐标赋值。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>8<font face="黑体">.5.1.2 spreadplayers</font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 区块加载器</font></font><br />
+格式：<br /><div class="blockcode"><div id="code_TZH"><ol><li>/spreadplayers 目的地xz坐标 最小距离 最大距离 是否开启队伍 实体选择器</ol></div><em onclick="copycode($('code_TZH'));">复制代码</em></div><br />
+<br />
+<br />
+比如<br /><div class="blockcode"><div id="code_VET"><ol><li>/spreadplayers ~ ~ 10 11 false @p</ol></div><em onclick="copycode($('code_VET'));">复制代码</em></div><br />
+<font color="#008000">将玩家传送至最小10，最大11的范围内，不考虑队伍。</font><br />
+<br />
+注意：这个<strong>区域是个方形</strong>。<br />
+<br />
+<font size="4"><strong>联动贴：</strong></font><br />
+<a href="http://www.mcbbs.net/thread-336851-1-1.html" target="_blank">http://www.mcbbs.net/thread-336851-1-1.html</a><br />
+<br /><br />
+<ul><li>区块加载器<br />
+</ul><font face="微软雅黑"><font size="1">下一页为 motion rotation direction</font></font><br />
+spreadplayers和tp同为传送，<br />
+但是spreadplayers传送后依旧会加载实体，这一因为<strong>其区块加载的特性</strong>。<br />
+<br />
+可以利用spreadplayers，<strong>在需要加载的区块</strong>：<br /><div class="blockcode"><div id="code_cLJ"><ol><li>/spreadplayers ~ ~ 2 3 中介加载的实体</ol></div><em onclick="copycode($('code_cLJ'));">复制代码</em></div><br />
+<br />
+<br />
+如果需要一直加载一个非玩家实体，可以<strong>利用相对性</strong>：<br /><div class="blockcode"><div id="code_MCq"><ol><li>/execute 目标实体 ~ ~ ~ /spreadplayers ~ ~ 2 3 中介加载的实体</ol></div><em onclick="copycode($('code_MCq'));">复制代码</em></div><br />
+<br />
+<strong><font color="#008000">需要注意前提有“中介加载的实体”</font></strong><br />
+<br />
+<strong><font color="#008000"><br />
+</font></strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>?8<font face="黑体">.5.1.2 Motion Rotation Direction</font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 自动寻路</font></font><br />
+<ul><li>Motion<br />
+</ul>一个列表；<br /><div class="blockcode"><div id="code_ULd"><ol><li>Motion:[向x速度,向y速度,向z速度]</ol></div><em onclick="copycode($('code_ULd'));">复制代码</em></div><br />
+<br />
+<strong>其中三个项目都是double类型，</strong><br />
+<br />
+所以表达可以为：<br /><div class="blockcode"><div id="code_SJC"><ol><li>Motion:[1d,1d,1d]</ol></div><em onclick="copycode($('code_SJC'));">复制代码</em></div>表示向xyz都是每刻1格速度，受重力阻力影响。（<strong>应用所有实体）</strong><br />
+<br />
+<ul><li>Rotation<br />
+</ul>一个列表：<br /><div class="blockcode"><div id="code_XeL"><ol><li>Rotation:[偏x轴角,偏y轴角]</ol></div><em onclick="copycode($('code_XeL'));">复制代码</em></div><strong>其中两个项目都是float类型，</strong><br />
+<br />
+所以可以表达为：<br /><div class="blockcode"><div id="code_UBX"><ol><li>Rotation:[90f,90f]</ol></div><em onclick="copycode($('code_UBX'));">复制代码</em></div>表示向x轴旋转90°，y轴旋转90°。（<strong>y的偏轴角只应用矿车，x偏轴角应用所有实体）</strong><br />
+<br />
+<ul><li>Direciton<br />
+</ul>一个列表：<br /><div class="blockcode"><div id="code_I3x"><ol><li>direciton:[x向量,y向量,z向量]</ol></div><em onclick="copycode($('code_I3x'));">复制代码</em></div><strong>三个项目都是double类型，</strong><br />
+<br />
+表达为：<br /><div class="blockcode"><div id="code_iTe"><ol><li>&lt;span style=&quot;line-height: 1.5;&quot;&gt;direciton:&lt;/span&gt;[1d,1d,1d]</ol></div><em onclick="copycode($('code_iTe'));">复制代码</em></div>表示向xyz向量1的直线运动，不受重力阻力影响。（<strong>应用部分抛射实体，例如恶魂的火球）</strong><br />
+<br />
+<br />
+<br />
+三个究竟有什么用？主要可以让运动<strong>更加平滑</strong><br />
+<br />
+<font size="4"><strong>联动贴：</strong></font><br />
+<a href="http://www.mcbbs.net/thread-478493-1-1.html" target="_blank"><font size="4">Motion抛物线计算器</font></a><font size="4">（包含算法）</font><br />
+<br />
+<br />
+<font size="4"><br />
+</font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">8.5.2 自动寻路</font></font></strong><br />
+利用原版的<strong>生物ai实现自动寻路</strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>8<font face="黑体">.5.2.1 僵尸寻路</font></strong><br />
+僵尸是一个寻路AI的体现，实现方法很简单：<br />
+<br />
+<strong>坐标中介 - 僵尸</strong><br />
+<strong>目标&nbsp; &nbsp;&nbsp;&nbsp;- 村民</strong><br />
+<br />
+需要注意两者<strong>需要隐身且僵尸尾随距离必须足够大</strong>。<br />
+<br />
+最后只需要将寻路的<strong>实体不断tp到僵尸即可</strong>。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>?8<font face="黑体">.5.2.2 生物仇恨</font></strong><br />
+僵尸不会飞，也没有其他生物特性。<br />
+不过可以利用<strong>生物仇恨</strong>：<br />
+<a href="http://www.mcbbs.net/thread-427720-1-1.html" target="_blank">http://www.mcbbs.net/thread-427720-1-1.html</a>（药水仇恨）<br />
+<a href="http://www.mcbbs.net/thread-475275-1-1.html" target="_blank">http://www.mcbbs.net/thread-475275-1-1.html</a>（雪球仇恨）<br />
+<br />
+那么：<br />
+<strong>寻路中介 - 仇恨生物</strong><br />
+<strong>目标&nbsp; &nbsp;&nbsp;&nbsp;- 被仇恨生物</strong><br />
+<br />
+也是需要注意<strong>两者需要隐身且僵尸尾随距离必须足够大。 </strong><br />
+<strong>最后只需要将寻路的实体不断tp到僵尸即可</strong>。<br />
+<br />
+<br />
+</div></div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>名人才华&nbsp; &nbsp; <b>时间: </b>2015-8-16 19:29<br />
+好专业的说~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Thesmile丶&nbsp; &nbsp; <b>时间: </b>2015-8-16 20:08<br />
+命令方块特别diao，会用的都是大神啊
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

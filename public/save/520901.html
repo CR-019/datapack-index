@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §2 : #1.9 标签 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01MjA5MDEtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §2 : #1.9 标签 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-9 21:47<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §2 : #1.9 标签<br /><font size="5">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">#1.9</font></font></strong><font size="5"><strong> 标签</strong></font><br />
+<strong>在1.9的players下新增了tag操作</strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F45E5_5640A3270" target="_blank"><img id="aimg_FImBH" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/45E5_5640A3270.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong>详细用法：</strong><br />
+/scoreboard players tag 实体选择器 add 标签 NBT<br />
+<font color="#008000">*给指定NBT的制定实体添加标签</font><br />
+/scoreboard players tag 实体选择器 remove 标签 NBT<br />
+<font color="#008000">*给指定NBT的制定实体移除标签</font><br />
+/scoreboard players tag 实体选择器 list NBT<br />
+<font color="#008000">*列出指定NBT的制定实体标签列表</font><br />
+<br />
+<ul><li><strong>添加标签</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F0396_5640A3270" target="_blank"><img id="aimg_M40nV" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/0396_5640A3270.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F2B45_5640A3270" target="_blank"><img id="aimg_tXvyE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/2B45_5640A3270.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+基本的添加标签<br /><div class="blockcode"><div id="code_J00"><ol><li>/scoreboard players tag @p add Is19</ol></div><em onclick="copycode($('code_J00'));">复制代码</em></div><br />
+<font color="#008000">*给最近玩家添加'Is19'标签</font><br />
+ <br />
+<ul><li><strong>实体选择器</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F6A8D_5640A3270" target="_blank"><img id="aimg_eUEH3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/6A8D_5640A3270.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<br /><div class="blockcode"><div id="code_DT8"><ol><li>/testfor @a[tag=Is19]</ol></div><em onclick="copycode($('code_DT8'));">复制代码</em></div><br />
+<font color="#008000">*检测所有玩家中有'Is19'标签的玩家</font><br />
+<br />
+能够检测到说明选择器中拥有tag子选择器<br />
+<br />
+<strong>tag子选择器：选择拥有特定名称标签的实体</strong><br />
+<br />
+<ul><li><strong>NBT</strong><br />
+</ul><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FCFA8_5640A3270" target="_blank"><img id="aimg_jFeXs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/CFA8_5640A3270.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FF2D7_5640A3280" target="_blank"><img id="aimg_bNSar" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/F2D7_5640A3280.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FB360_5640A3280" target="_blank"><img id="aimg_uQITh" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/B360_5640A3280.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F3CB2_5640A3280" target="_blank"><img id="aimg_RsT3t" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/3CB2_5640A3280.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+可以对拥有<strong>指定NBT</strong>的实体（比如无视重力的盔甲架）进行tag操作；<br />
+<strong>包括添加/移除/列表（只会在后台显示）</strong><br />
+<br />
+<br />
+<br />
+总述tag为<strong>标记一个实体提供了简单方式</strong>，<br />
+其中tag的名称不像scoreboard需要手动创建，也可以直接通过选择器检测<br />
+<br />
+tag在1.9模块中发挥着一部分作用，不仅在标记实体，在<strong>将来教程中会有更对多于数据逻辑操作的用处</strong>。<br />
+在这篇教程只需要掌握基本用途即可。<br />
+<br />
+<br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-11-9 22:58<br />
+lz发过了……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>simon3000&nbsp; &nbsp; <b>时间: </b>2015-11-10 05:43<br />
+TAG<br />
+机制的我给别人都加上个'笨蛋'<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>石中&nbsp; &nbsp; <b>时间: </b>2015-11-10 10:18<br />
+后排支持贰逼大大~
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

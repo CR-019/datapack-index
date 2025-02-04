@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §1 : 实体选择器（主类和分项） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODY5NTgtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : 实体选择器（主类和分项） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-14 18:53<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : 实体选择器（主类和分项）<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-17 11:50 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><div align="left"><div align="center"><font face="微软雅黑"><font size="6"><strong>模块基础</strong></font></font></div><div align="center"><font size="2"><strong>第二页为 选择器基础概念</strong></font></div>本大章节将会涉及到学习模块前的基础。<br />
+所以在曾经没有机会使用指令方块的玩家仍然可以在本大章学习一些基础。<br />
+这些基础不会引申，仅仅是必要掌握内容。<br />
+<br />
+模块基础将会涉及到<br />
+<strong>指令</strong><br />
+<ul><li>预置指令<li>常用指令<br />
+</ul><strong>坐标</strong><br />
+<ul><li>基础<li>相对坐标<br />
+</ul><br />
+<strong>NBT标签</strong><br />
+<br />
+<ul><li>作用与内容<li>标准格式<br />
+</ul><br />
+<strong>实体选择器</strong><br />
+<br />
+<ul><li>主类<li>分项<br />
+</ul><br />
+<strong>计分板</strong><br />
+<br />
+<ul><li>变量概念<li>创建变量<li>设置初始值<li>变量与选择器<br />
+</ul><br />
+<strong>模块概论</strong></div></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-485572-1-1.html" target="_blank">上一篇</a>（NBT</font><font size="5">）- <a href="http://www.mcbbs.net/thread-486959-1-1.html" target="_blank">下一篇</a>（计分板</font><font size="5">）</font></div><div align="right"><div align="left"></div><div align="left"><div align="center"><font face="碳化硅大黑体"><font size="5"><strong>§1.4 实体选择器</strong></font></font></div><div align="center"><strong>第三页为 主类</strong></div><div align="left">实体选择器是指令中<strong>选取实体的方式</strong>。</div><div align="left">和坐标是相对的，坐标是方块单位。</div><br />
+<div align="left">实体选择器表示选择符合的实体，</div><div align="left">它包含了两个项目：</div><div align="left"><strong>主类 - 大的选择范围</strong></div><div align="left"><strong>分项 - 关键的细节</strong></div><div align="left"><strong><br />
+</strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.4.1 主类</font></font></strong><br />
+<strong>第三页为 分项</strong><br />
+主类表示选择器<strong>大的范围</strong>，包含以下几个：<br />
+<br />
+@p - 最近的玩家<br />
+@a - 全部玩家<br />
+@r - 随机实体（默认为玩家）<br />
+@e - 所有实体（包括玩家）<br />
+<br />
+他们都是代表<strong>一个大的范围</strong>。<br />
+<br />
+<strong>主类可以单独使用，如果包含分项，使用列表</strong>：<br />
+@x[]<br />
+@x<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.4.2 分项</font></font></strong><br />
+分项为细节，在主类的列表内：<br />
+<br />
+<br />
+<font size="4"><strong>来源：</strong></font><a href="http://www.mcbbs.net/thread-79052-1-1.html" target="_blank"><font size="4"><strong>http://www.mcbbs.net/thread-79052-1-1.html</strong></font></a><br />
+x&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;搜索中心的X坐标。<br />
+y&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;搜索中心的Y坐标。<br />
+z&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;搜索中心的Z坐标。<br />
+r&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;最大搜索半径<br />
+rm&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;最小搜索半径<br />
+m&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 玩家的游戏模式。0=生存，1=创造，2=冒险<br />
+c&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;玩家数量。如果数值为负，将优先选定列表的末尾。<br />
+l&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 目标玩家可拥有的最大等级<br />
+lm&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 目标玩家可拥有的最小等级<br />
+score_name&nbsp; &nbsp;&nbsp;&nbsp;在记分板目标&quot;name&quot;中，玩家可拥有的最大分数<br />
+score_name_min 在记分板目标&quot;name&quot;中，玩家可拥有的最小分数<br />
+team&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;测试此玩家是否存在于所指定的队伍内，在队伍名前添加&quot;!&quot;将只测试不在此队里的玩家。提供空的队伍名将测试所有没有队伍的玩家。<br />
+name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;指定只有这个名字的玩家。在name前添加&quot;!&quot;将只测试没有此名字的玩家。<br />
+dx&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 搜索范围的x平移量。<br />
+dy&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 搜索范围的y平移量。<br />
+dz&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 搜索范围的z平移量。<br />
+rx&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 最大x轴搜索半径<br />
+rxm&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;最小x轴搜索半径<br />
+ry&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 最大y轴搜索半径<br />
+rym&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;最小x轴搜索半径<br />
+type&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;搜索此类型的实体<br />
+id&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 搜索拥有此UUID的实体（NBT相关）<br />
+<br />
+在分项内可以使用','隔开分享，得到<strong>完整选择器</strong>：<br />
+@e[type=EnderDragon,name=TrembleStarMan,score_a_min=1]<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.4.3 选择器顺序</font></font></strong><br />
+选择器存在顺序，和<strong>方块更新顺序相同</strong>，属于区块顺序。<br />
+详见：<a href="http://www.mcbbs.net/thread-460038-1-1.html" target="_blank">高频顺序</a><br />
+<br />
+</div></div></div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>JIE__&nbsp; &nbsp; <b>时间: </b>2015-8-14 18:55<br />
+感觉指令方块是小型的电脑。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-8-14 19:14<br />
+说真的，这些东西别人早就发过的吧<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>麻烦l&nbsp; &nbsp; <b>时间: </b>2015-8-14 19:44<br />
+到处都是大神啊&nbsp;&nbsp;膜拜楼主中~&nbsp;&nbsp;请收下我的膝盖
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

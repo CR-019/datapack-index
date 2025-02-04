@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用模块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzY5MTMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用模块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-28 15:40<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用模块<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-1-10 16:24 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><font face="微软雅黑"><font size="6"><strong>多模块关联</strong></font></font></div></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 调用模块</font></font></div><div align="left"><div align="left">在模块中，为了达成<strong>一个目的</strong>，可以使用多个语句的<strong>单模块来完成</strong>。</div><div align="left">但是如果模块的输入有<strong>一系列输出</strong>，那么需要<strong>创建多个模块完成</strong>。</div><br />
+<div align="left">因此在单模块中输入输出关系：</div><div align="left"><font size="2"><font color="#800000">输入→输出</font></font></div><br />
+<div align="left"><strong>多模块相当于多个单模块</strong>，所以输出输入关系：</div><div align="left"><font size="2"><font color="#800000">输入&nbsp; &nbsp; →输出</font></font></div><div align="left"><font size="2"><font color="#800000">(输入)&nbsp;&nbsp;→输出</font></font></div><div align="left"><font size="2"><font color="#800000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;→输出</font></font></div><br />
+<div align="left">可以看到多模块更加灵活<strong>不必局限于一个模块的体系</strong>。本章就要学习包括<strong>创建调用</strong>多模块，和<strong>控制多模块的操作类型</strong>。</div><br />
+<font size="4"><strong>多模块最本质的区别：可被调用</strong></font><br />
+<div align="left">多模块关联包括</div><br />
+<div align="left"><strong>建立模块</strong></div><br />
+<div align="left"><strong>调用模块</strong></div><br />
+<div align="left"><strong>初始执行模块</strong></div><br />
+<div align="left"><strong>单次执行模块</strong></div><ul><li><div align="left">setblock法</div><li><div align="left">时钟法</div><li><div align="left">调用效果指令</div><br />
+</ul><div align="left"><strong>调用游戏资源</strong></div><ul><li><div align="left">坐标操作</div><li><div align="left">自动寻路</div><br />
+</ul><div align="left"><strong>远程法调用逻辑组</strong></div><br />
+<div align="left"><strong>关闭模块</strong></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-476739-1-1.html" target="_blank">上一篇</a>（建立模块）--<a href="http://www.mcbbs.net/thread-477002-1-1.html" target="_blank">下一篇</a>（初始值模块）</font></div><div align="right"><div align="left"><br />
+</div></div><div align="right"><div align="left"><strong><font face="碳化硅大黑体"><font size="5">§8.2 调用模块</font></font></strong><br />
+我们已经知道了模块分主次，且<strong>主模块需要调用次模块</strong>，那么究竟是如何调用的。<br />
+<br />
+在这里，可能会想到fill开启高频。<br />
+<i>但是fill高频后关闭十分麻烦，且对于模块的高频也不能完全用相对坐标来衡量</i>。<br />
+而<strong>计分板是个全局储存的很好方式</strong>。<br />
+<br />
+结合计分板，可以利用<strong>条件语句调用模块</strong>。<br />
+<br />
+<br />
+用一个简单的例子来展示调用模块：<br />
+<font color="#800000">丢出数量为1的物品输出say 1；丢出附加值为2的物品输出say 2；</font><br />
+<font color="#800000"><img id="aimg_LxQIA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/ab513c023e4a594d.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font><br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_hRe"><ol><li>/scoreboard players set @e[type=Item] a 1 {Item:{Count:1b}}<br /><li>/scoreboard players set @e[type=Item] a 2 {Item:{Damage:1s}}</ol></div><em onclick="copycode($('code_hRe'));">复制代码</em></div><br />
+<font color="#008000">*模块1（主模块）</font><br /><div class="blockcode"><div id="code_vIs"><ol><li>/execute @e[type=Item,score_a_min=1,score_a=1] ~ ~ ~ /say 1</ol></div><em onclick="copycode($('code_vIs'));">复制代码</em></div><br />
+<font color="#008000">*模块2（次模块）</font><br /><div class="blockcode"><div id="code_Roo"><ol><li>/execute @e[type=Item,score_a_min=2,score_a=2] ~ ~ ~ /say 2</ol></div><em onclick="copycode($('code_Roo'));">复制代码</em></div><br />
+<font color="#008000">*模块3（次模块）</font><br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_e1eSz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/5656b4b8a6ba8d91.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+丢出数量为1的海晶灯，输出say 1；<br />
+<img id="aimg_k4djR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/352048ecd10e6ea0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+丢出附加值为1，数量为1的橙色羊毛，输出say 2。<br />
+<br />
+<font size="4"><strong>分析：</strong></font><br />
+可以看到模块1通过scoreboard给符合NBT的物品计分板上分，分别为1、2；<br />
+而且模块1中的<strong>输出调用是一个或的关系</strong>。<br />
+模块2和3<strong>通过条件语句，被模块1计分板中的分数调用，从而产生分别输出</strong>。<br />
+<br />
+其中 附加值为1，数量为1 不输出say 1是因为调用模块3在模块2后面，因此一旦都符合条件，<strong>模块3高级，构成一个时钟</strong>。<br />
+<br />
+<br />
+总结来说，模块可<strong>以通过主模块添加计分板分数</strong>，<strong>次模块条件语句检测计分板分数实现主模块调用次模块</strong>。<br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">主模块1检测玩家手中有没有持剑，若有则调用内容为不断tellraw持剑玩家任意内容的次模块。</div><br />
+</ul></div><br />
+<br />
+</div></div></div><br />
+[groupid=546]Command Block Logic[/groupid]
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

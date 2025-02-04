@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §д : 物品操作 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODI5MjQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 物品操作 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 10:44<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 物品操作<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-8 20:05 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（附）效果指令</strong></font></font></div><div align="center"><font size="1"><strong>第二页为 物品操作种类</strong></font></div><div align="left">效果指令作为语句的一个输出，通常为<strong>对游戏本体产生影响效果操作的指令</strong>。</div><br />
+<div align="left">效果指令包含以下内容</div><br />
+<div align="left"><strong>实意指令与效果指令区别</strong></div><br />
+<div align="left"><strong>文字</strong></div><ul><li><div align="left">json</div><li><div align="left">其他</div><br />
+</ul><div align="left"><strong>物品操作</strong></div><ul><li><div align="left">give</div><li><div align="left">replaceitem</div><br />
+</ul><div align="left"><strong>实体操作</strong></div><ul><li><div align="left">summon</div><li><div align="left">kill</div><br />
+</ul><div align="left"><strong>方块操作</strong></div><ul><li><div align="left">setblock</div><li><div align="left">clone</div><li><div align="left">fill</div><br />
+</ul><div align="left"><strong>音效</strong></div><ul><li><div align="left">playsound大全</div><br />
+</ul><div align="left"><strong>粒子效果</strong></div><ul><li><div align="left">粒子大全</div><br />
+</ul><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-481569-1-1.html" target="_blank">上一篇</a>（文字）--<a href="http://www.mcbbs.net/thread-483286-1-1.html" target="_blank">下一篇</a>（实体操作）</font></div><div align="right"><div align="left"><br />
+<font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>д</strong></font></font><strong>.3 物品操作</strong><br />
+<strong>第三页为 give</strong><br />
+在输出的过程中，难免会遇到<strong>给予玩家物品</strong>的情况。<br />
+<br />
+<strong>通常给予玩家物品，有两种模式</strong>：<br />
+<strong>give</strong> 和 <strong>replaceitem</strong>。<br />
+<br />
+他们的特点各有千秋，也有优点，也有不足。<br />
+<br />
+但是无论如何，两种方式都会给予玩家<strong>能够自定义NBT标签的物品</strong>。<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>д</strong></font></font><strong>.3.1 give</strong><br />
+<strong>第四页为 replaceitem和clear</strong><br />
+give是一个<strong>最基础的给予方式</strong>。<br />
+<br />
+它的<i>基本格式</i>是：<br /><div class="blockcode"><div id="code_nf9"><ol><li>/give &lt;玩家&gt; &lt;物品id&gt; &lt;数量&gt; &lt;附加值&gt; &lt;NBT&gt;</ol></div><em onclick="copycode($('code_nf9'));">复制代码</em></div><br />
+<br />
+被给予给指定玩家的物品便<strong>是 &lt;数量&gt;个拥有&lt;指定NBT&gt;的&lt;附加值&gt;&lt;物品id&gt;</strong><br />
+<br />
+其中<strong>&lt;玩家&gt;/&lt;物品id&gt;为必填内容，&lt;数量&gt;默认1，&lt;附加值&gt;默认0，&lt;NBT&gt;默认为普通NBT</strong>。<br />
+<br />
+<br />
+被给予的物品有以下特点：<br /><div class="blockcode"><div id="code_mI0"><ol><li>/give @p minecraft:wool 1 15</ol></div><em onclick="copycode($('code_mI0'));">复制代码</em></div><br />
+给予<strong>最近玩家一个没有特殊NBT的黑色羊毛</strong><br />
+<br />
+<ul><li><strong>与已经有的物品叠加</strong><br />
+</ul><strong><img id="aimg_eX812" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/aaf3abd42dafd85b.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<br />
+如果已经有了NBT和附加值一模一样的物品，那么物品会叠加。<br />
+<br />
+<ul><li><strong>无指定物品栏</strong><br />
+</ul><strong><img id="aimg_nov6v" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/237bfcea97fe95b0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<br />
+如果物品栏有空隙，自动选择最小的。<br />
+<br />
+<ul><li><strong>若热门物品栏已满或全无叠加，会放进背包</strong><br />
+</ul><strong><img id="aimg_mtB3J" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/0f628a3f215a34b7.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<br />
+如题<br />
+<br />
+<ul><li><strong>背包全满或全无叠加，不生成物品</strong><br />
+</ul><strong><img id="aimg_Mk8W8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/f1aab288d925383a.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<br />
+如题<br />
+<br />
+<br />
+综合<strong>give算是十分人性化的，不会替换物品强制清除，但是前提背包不满，否则无法给予物品</strong>。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>д</strong></font></font><strong>.3.1 replaceitem</strong><br />
+<strong>replaceitem与give截然不同，他除了能给玩家物品，还能给实体或者方块物品</strong>。<br />
+它的基本原理基于<strong>blockdata和entitydata</strong><br />
+<br />
+对于实体：<br /><div class="blockcode"><div id="code_ka9"><ol><li>/replaceitem entity &lt;目标选择器&gt; &lt;物品栏&gt; &lt;物品id&gt; &lt;数量&gt; <br /><li>&lt;附加值&gt; &lt;NBT&gt;</ol></div><em onclick="copycode($('code_ka9'));">复制代码</em></div><br />
+其中<strong>&lt;物品id&gt;&lt;数量&gt;&lt;附加值&gt;&lt;NBT&gt;和give一样</strong><br />
+<br />
+然而replaceitem<strong>没有继承give特点</strong>：<br />
+<ul><li><strong>强制修改物品栏物品</strong><br />
+</ul><strong><img id="aimg_vekt7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/239561e59e71fce3.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<br /><div class="blockcode"><div id="code_wse"><ol><li>/replaceitem entity @p slot.hotbar.8 minecraft:wool 1 1</ol></div><em onclick="copycode($('code_wse'));">复制代码</em></div><br />
+强制<strong>将热门物品栏八号位替换为一个橙色羊毛</strong>。<br />
+<br />
+<br />
+<img id="aimg_Cj6A9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/5c643a60d1ddfebc.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+原来八号位有一个附魔书<br />
+<br />
+使用指令后：<br />
+<br />
+<img id="aimg_tu11u" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/a4da975b6647ceeb.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+物品将会被<strong>强制替换</strong>。<br />
+<br />
+那么如果<strong>强制玩家使用定量物品</strong>，那么可以使用replaceitem。<br />
+当然，replaceitem<strong>最主要能够给方块的物品栏放置物品</strong>。<br />
+<br />
+<br />
+<br />
+<font size="4"><strong>当然还有clear，前面已经讲过：</strong></font><br />
+<font size="4"><strong><a href="http://www.mcbbs.net/thread-475891-1-1.html" target="_blank">stats与时钟</a></strong></font><br />
+<br />
+</div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ufof&nbsp; &nbsp; <b>时间: </b>2015-8-8 10:50<br />
+没回复不科学<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>创世神123&nbsp; &nbsp; <b>时间: </b>2016-7-1 17:38<br />
+我只想要nbt标签大全<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mo_yiljx&nbsp; &nbsp; <b>时间: </b>2016-7-2 06:43<br />
+这个帖子非常实用!!收藏!!![diamond_gem][diamond_gem][diamond_gem]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>蓝·漠&nbsp; &nbsp; <b>时间: </b>2016-7-2 08:19<br />
+加油！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天驱骑士&nbsp; &nbsp; <b>时间: </b>2016-7-3 18:31<br />
+看起来特别实用的样子！收藏啦~~~~~作者加油！MCBBS有你更精彩
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

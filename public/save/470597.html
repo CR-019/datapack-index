@@ -1,0 +1,159 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §5 : 时钟 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzA1OTctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 时钟 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-17 22:03<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 时钟<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-24 22:30 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>循环语句与条件语句结合</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 时钟概念</font></font></div><div align="left">本章将前两章内容进行结合，</div><div align="left">便是循环体中使用条件语句；</div><div align="left">和条件语句中使用循环。</div><br />
+循环语句结合条件语句将会涉及到<div align="left"><strong>循环中条件语句</strong></div><br />
+<div align="left"><strong>时钟</strong></div><ul><li><div align="left">建立时钟</div><li><div align="left">时钟中条件语句</div><br />
+</ul><div align="left"><strong>结束循环</strong></div><br />
+<div align="left"><strong>跳过循环</strong></div><br />
+<div align="left"><strong>循环嵌套</strong></div><ul><li><div align="left">判断条件</div><li><div align="left">终止循环</div><br />
+</ul><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-469983-1-1.html" target="_blank">上一篇</a>（循环语句与条件语句结合）--<a href="http://www.mcbbs.net/thread-471803-1-1.html" target="_blank">下一篇</a>（结束循环）</font></div><font size="2"></font><br />
+<strong><font face="碳化硅大黑体"><font size="5">§5.2 时钟</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 建立时钟</font></font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.2.0 概念</font></font></strong><br />
+<div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>5<font face="黑体">.2.0.1 基本概念</font></strong></div><br />
+在上一篇中涉及到了时钟。<br />
+<br />
+时钟究竟是什么，<br />
+其实是循环的一类，<br />
+它可以<strong>当作一个时钟</strong>：<br />
+<br />
+<img id="aimg_hafmg" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/965dee37d1db653c.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+时钟指：<strong><font color="#ff0000">在循环体中含有时序输出的关联指令的循环</font></strong>。<br />
+时序就是循环体中指令（时钟称节点）<strong>必须拥有明确的先后关系</strong>。<br />
+<br />
+<font size="2"><font color="#0000ff"><strong>指针：循环顺序，指向的指令得到信号；</strong></font></font><br />
+<font size="2"><font color="#0000ff"><strong>次数：指针旋转次数；</strong></font></font><br />
+<font size="2"><font color="#0000ff"><strong>节点：关联的指令；</strong></font></font><br />
+<font size="2"><font color="#0000ff"><strong>循环：驱动时钟循环的核心。</strong></font></font><br />
+<br />
+在之前的例子里，出现了时钟，影响着输出与判断。<br />
+（再次可以<strong>粗略的理解时钟为顺序</strong>）<br />
+<br />
+<div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>5<font face="黑体">.2.0.2 意义</font></strong></div><div align="left">做到时钟前提是有<strong>循环体中关联</strong>，</div><br />
+<div align="left">其二是<strong>时序</strong>。</div><div align="left">由于循环就像指针划过的弧，只能朝着一个顺序，又像时间经过了一去不复返，</div><div align="left">所以循环中无法做到节点间的跳转，让时钟在一次循环内跳跃，</div><div align="left">所以这规定了<strong>循环的不可逆性</strong>，对于某些相互关联影响条件和输出的指令，只能采用时序。</div><br />
+<br />
+<div align="left"><strong>时钟的影响：</strong></div><div align="left">之前的例子里提到了：</div><div align="left">先有b=1才有输出，若将其放到后面，</div><div align="left">时钟先指向了输出的节点，没有指向b=1，因此没有输出。</div><br />
+<div align="left"><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.2.1 建立</font></font></strong></div><div align="left"><font face="微软雅黑"><font size="1">下一页为 始终和条件语句</font></font><ul><li><strong>普通时钟</strong><br />
+</ul>构建时钟首先要<strong>关联</strong>，接着是<strong>顺序</strong>。<br />
+<br />
+以下面几条指令：<br /><div class="blockcode"><div id="code_iL7"><ol><li>/scoreboard players add @p[score_a=5] a 1</ol></div><em onclick="copycode($('code_iL7'));">复制代码</em></div><br />
+<font color="#008000">*建立五次循环，使用/scoreboard players set @p a 0开启</font><br /><div class="blockcode"><div id="code_IYQ"><ol><li>/scoreboard players set @p b 1 </ol></div><em onclick="copycode($('code_IYQ'));">复制代码</em></div><br />
+<font color="#008000">*时钟节点1</font><br /><div class="blockcode"><div id="code_Qv3"><ol><li>/scoreboard players set @p b 0</ol></div><em onclick="copycode($('code_Qv3'));">复制代码</em></div><br />
+<font color="#008000">*时钟节点2</font><br /><div class="blockcode"><div id="code_R41"><ol><li>/say @e[score_a=5,score_b_min=1] </ol></div><em onclick="copycode($('code_R41'));">复制代码</em></div><br />
+<font color="#008000">*时钟输出</font><br />
+<br />
+（1、2有关联）<br />
+若时钟节点2在1前面执行：<br />
+<img id="aimg_fx4Hx" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/d9c09943d69a04d0.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+那么会有输出，因为时钟先得到b=0，最终为b=1，所以有。<br />
+<br />
+若时钟节点1在2前面执行：<br />
+<br />
+<img id="aimg_xpQnc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/382651fcbeb158d1.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+那么没有输出，因为时钟先得到b=1，最终为b=0。<br />
+<br />
+<ul><li><strong>默认值时钟</strong><br />
+</ul>可以将<strong>时钟规定默认值</strong>。<br />
+同样是上面的时钟，将时钟节点1设为默认值。<br />
+<br />
+只需要在节点2前面加上特殊条件条件：<br /><div class="blockcode"><div id="code_X9V"><ol><li>/execute @p[score_c_min=1] ~ ~ ~ scoreboard players set @p b 0</ol></div><em onclick="copycode($('code_X9V'));">复制代码</em></div><br />
+（c&gt;=1）<br />
+<br />
+注意：默认值时钟<strong>必须先指向默认值的节点，再指向特殊值</strong>。<br />
+<br />
+<font size="4"><strong>输出：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_K799P" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/039b135be31b8d02.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+全部还原默认，输出默认。<br />
+<img id="aimg_f8oAa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/23ce5d2b89d143f3.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+符合特殊，则输出特殊。<br />
+<br />
+ <br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">建立简易时钟，控制时钟输出/gamerule doDaylightCycle false；</div><li><div align="left">建立默认时钟，默认输出为/weather clear；特殊输出为/weather thunder。</div><br />
+</ul><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.2.1 时钟中的条件语句</font></font></strong><br />
+为上一篇的引申，讲解如何具体利用时钟<br />
+<ul><li><strong>判断事件成立</strong><br />
+</ul>使用以下指令：（无特殊规定此处是无限循环）<br />
+<img id="aimg_pXwKZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/3efa14b9194fda73.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_GMf"><ol><li>/execute @e[name=f] ~ ~ ~ /execute @p[r=2] ~ ~ ~ scoreboard players set @p a 2 </ol></div><em onclick="copycode($('code_GMf'));">复制代码</em></div><br />
+<font color="#2e8b57">*若玩家在f周围2格，设a为2。</font><br /><div class="blockcode"><div id="code_I4T"><ol><li>/execute @p[score_a_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_I4T'));">复制代码</em></div><br />
+<font color="#2e8b57">*a&gt;=1输出</font><br /><div class="blockcode"><div id="code_zlC"><ol><li>/scoreboard players remove @p[score_a_min=1] a 1 </ol></div><em onclick="copycode($('code_zlC'));">复制代码</em></div><br />
+*a--<br />
+<br />
+这里构成了时钟，前后关联，<strong>保证a根据事件判定有无值</strong>。<br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_kaLT5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/df8895dc30160575.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+站在两格以外无输出。<br />
+<img id="aimg_trRTA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/3482aaaa83b4e829.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+两格以内有输出（对比计分板，可以看到时钟对值的改变情况）<br />
+<br />
+<ul><li><strong>时钟判定轻重关系</strong><br />
+</ul>依次执行以下指令：<br />
+a:<br /><div class="blockcode"><div id="code_Y98"><ol><li>/execute @e[score_a_min=-1] ~ ~ ~ scoreboard players set @p b 1</ol></div><em onclick="copycode($('code_Y98'));">复制代码</em></div><br />
+b:<br /><div class="blockcode"><div id="code_o7j"><ol><li>/execute @e[score_a_min=1] ~ ~ ~ scoreboard players set @p b 2</ol></div><em onclick="copycode($('code_o7j'));">复制代码</em></div><br />
+c:<br /><div class="blockcode"><div id="code_SqM"><ol><li>/execute @e[score_a_min=10] ~ ~ ~ scoreboard players set @p b 3</ol></div><em onclick="copycode($('code_SqM'));">复制代码</em></div><br />
+<br />
+那么关系是a&lt;b&lt;c，<br />
+也就是说若条件都符合，<strong>优先选择c，其次b，最后a</strong><br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><img id="aimg_K35yp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/639efa38a202e15c.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font><br />
+<font size="4"><img id="aimg_soFqD" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/368cb40160e0732d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font><br />
+<font size="4"><img id="aimg_OLqIi" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/fd2e53a0c827cbf7.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font><br />
+利用时钟时序达到多条件同输出的<strong>不同等级关系</strong>。<br />
+<br />
+<br />
+ <br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">判断玩家是否坐在矿车上，若非，输出say 1；</div><li><div align="left">实现对于检测实体名为a,b,c的等级轻重关系，其中a&gt;b&gt;c。</div><br />
+</ul></div></div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>额无语&nbsp; &nbsp; <b>时间: </b>2015-7-17 22:52<br />
+学习了~~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2015-7-24 22:24<br />
+/execute @e[score_a,score_a_min=10] ~ ~ ~ scoreboard players set @p b 3<br />
+选择器参数score_a后面为什么没有分数
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

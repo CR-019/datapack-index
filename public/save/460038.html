@@ -1,0 +1,395 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §α : （序）高频与超频执行顺序 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NjAwMzgtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §α : （序）高频与超频执行顺序 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-6-26 22:24<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §α : （序）高频与超频执行顺序<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-11-11 19:20 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（序）高频与超频</strong></font></font></div><br />
+<div align="center"><strong><font size="1">下一页为 创建方式</font></strong></div><br />
+正式学习模块前，先了解<strong>指令方块驱动核心——高频（与超频）</strong>的顺序。*<font color="#ff0000"><strong>（1.9版本请使用repeat自更新命令方块或者链接chain链式命令方块作为核心，不需要fill clock。如果使用自更新方块，只需要注意依次放置；如果使用链式方块，只需要注意链接的先后。）</strong></font><br />
+<br />
+模块基础将会涉及到<br />
+<br />
+<strong>红石高频</strong><br />
+<br />
+<strong>指令方块超频</strong><br />
+<br />
+<strong><font face="碳化硅大黑体"><font size="5">§α.0 作用</font></font></strong><br />
+<br />
+<div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">α.0.1 为什么要使用高频</font></font></strong></div><div align="left">大家都知道<strong>指令方块被激活才能完成事件</strong>↓</div><br />
+<div align="left"><img id="aimg_vWxoO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/8807e9ac5ebc532a.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</div><div align="left"><div align="left">只有受到了红石信号后指令方块才有输出，</div><br />
+<div align="left">然而为了<strong>完成指令方块的自动化</strong>，不可能手动完成激活信号，所以必须需要高频。</div><div align="left">即使是单次完成的指令，也需要激活，所以仍旧需要判断条件，依旧需要高频。</div><div align="left">所<strong>以高频在无论是逻辑组中还是模块中占有十分重要的地位</strong>↓</div><div align="left"><img id="aimg_NY479" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/f095b6553e240862.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</div><div align="left"><br />
+<div align="left">所以高频就是每次提供一次红石信号，完成指令方块的<strong>刷新</strong>，从而得<strong>到自动化的执行</strong>。</div><br />
+<div align="left">可以这么说，没有高频不可能得到现在的指令方块。</div><br />
+<br />
+<div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">α.0.1 高频分类</font></font></strong></div><div align="left">高频在此处分为两类，一种是<strong>红石高频</strong>，一种是<strong>指令方块超频</strong>，分别是<strong>逻辑组</strong>和<strong>模块</strong>的核心。</div><br />
+<div align="left"><br />
+<div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>α<font face="黑体">.0.1.1 红石高频</font></strong></div></div><br />
+逻辑组中常见的有以下几个：<br />
+<img id="aimg_C4Rh5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/4061bd3fa91cebfd.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+红石高频显著的特点就是<strong>红石布线</strong>，从而激活方块。<br />
+<br />
+执行效率一般，但是为逻辑组提供了优点，<br />
+因为<strong>高频可控</strong>，所以能轻易的通过<strong>setblock指令控制</strong>，<br />
+也因为速度较慢，所以能<strong>驾驭一些复杂的逻辑指令组</strong>，甚至<strong>控制逻辑电路</strong>，<br />
+所以成为了<strong>逻辑组的核心</strong>。<br />
+<br />
+<i><font size="2">其他的高频可上网查找，不做较多说明。</font></i><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong><font face="黑体">0.α.1.2 红石高频</font></strong><br />
+<br />
+<img id="aimg_EFAf9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/2385b157ba2770f9.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+指令方块超频显著的特点就是<strong>块输出</strong>，从而激活方块。<br />
+<br />
+执行效率很高，所以成为了<strong>模块的核心</strong><br />
+因为其执行效率，所以能够基本<strong>即时完成输出</strong>；<br />
+但是弊端在于不能驾驭复杂逻辑指令，所以才有后来的一系列近乎模拟编程的教程。<br />
+<br />
+尽管有利有弊，但仍然成为了国外主流。<br />
+<br />
+<br />
+<i><font size="2">其他高频可上网查找，不做较多说明。</font></i><br />
+<br />
+<br />
+<i><font size="2"><br />
+</font></i><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-487595-1-1.html" target="_blank">上一篇</a>（计分板操作）--<a href="http://www.mcbbs.net/thread-460259-1-1.html" target="_blank">下一篇</a>（</font><font size="5">（序） 模块概念）</font></div><i><font size="2"></font></i><br />
+</div><div align="left"><strong><font face="碳化硅大黑体"><font size="5">§α.1 创建</font></font></strong><br />
+<div align="center"><font size="1"><strong>下一页为 执行顺序</strong></font></div><br />
+&nbsp; &nbsp;&nbsp; &nbsp;<strong><font face="微软雅黑"><font size="4">α.1.1 红石高频</font></font></strong><br />
+<br />
+这是红石玩家的数值内容，不做详细解释.<br />
+可自行查找，本帖只会介绍<strong>中继器类</strong>和<strong>布线类</strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;<strong><font face="微软雅黑"><font size="4">α</font></font></strong><strong><font face="微软雅黑"><font size="4">.1.2 指令方块高频</font></font></strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>α<font face="黑体">.1.2.1 FallingSand法</font></strong><br />
+<strong>此方法具体教程：</strong><br />
+<strong><a href="http://www.mcbbs.net/thread-209421-1-1.html" target="_blank">http://www.mcbbs.net/thread-209421-1-1.html</a></strong><br />
+<br />
+<img id="aimg_ZfAIN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i4.tietuku.com/5beb4ade75783fbd.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+/summon FallingSand ~ ~1 ~ {Tile:152}<br />
+通过激活上述指令，在得到的红石块附近的红石都会得到红石脉冲。<br />
+<br />
+<strong>这是因为summon后的红石块会再次激活指令，所以达到超频的效果。</strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>α<font face="黑体">.1.2.2 Setblock法</font></strong><br />
+<br />
+<strong><font face="黑体"><img id="aimg_qFKk1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i4.tietuku.com/6ca59a44a419ba88.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></strong><br />
+<strong>上方指令方块：</strong><br />
+/setblock ~ ~-1 ~ redstone_block <br />
+<strong>下方指令方块：</strong><br />
+/setblock ~ ~1 ~ air<br />
+在两个指令方块中间放置红石块，同时激活。<br />
+<br />
+<strong>由于执行顺序，所以会先执行下面的，而指令判定放置的时间比执行上面的慢，</strong><br />
+<strong>所以在放置空气时又在判定放置红石块，于是形成了超频。</strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>α<font face="黑体">.1.2.3 fill法</font></strong><br />
+<strong><font face="黑体">fill法输出全是红石块，所以都为信号源</font></strong><br />
+<br />
+<strong><font face="黑体"><img id="aimg_o8ekG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i4.tietuku.com/9d65bff51d1fb616.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></strong><br />
+<strong>上：</strong><br />
+/fill ~（最后坐标与现坐标的差） ~-1 ~（最后坐标与现坐标的差）~ ~-1 ~ redstone_block<br />
+<strong>下：</strong><br />
+/fill ~（最后坐标与现坐标的差） ~1 ~（最后坐标与现坐标的差）air<br />
+<br />
+<strong>最后坐标与现坐标的差</strong>：<br />
+<strong><u>用 <font color="#ff0000">fill区域相对的角落的坐标</font> 减去 <font color="#ff0000">这两个指令方块中间的坐标</font> 得到的x轴和z轴的差。（y轴为固定）</u></strong><br />
+<strong><u>差为0是直线，为其他数值则是一个区域。</u></strong><br />
+<br />
+<i>例如 </i><br />
+<i><strong>这两个指令方块中间的坐标</strong> 为：0 1 0</i><br />
+<i><strong>fill区域相对的角落的坐标</strong> 为：-2 1 10</i><br />
+<i>则x轴差为-2，z轴差为10</i><br />
+<i>指令就是：</i><br />
+<i>/fill ~-1 ~-1 ~10~ ~-1 ~ redstone_block</i><br />
+<i>/fill ~-1 ~1 ~10~ ~1 ~ air</i><br />
+<br />
+因为fill是一个区域性的操作，而上面只是水平区域，但也可垂直，这里不做解释。<br />
+<br />
+与setblock相同原理，只不过将红石改成了红石块，而且输出顺序更有条理。<br />
+<br />
+<strong>缺点：fill法的区域块会被动执行，无法破坏，被强制固定了。</strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>α<font face="黑体">.1.2.4 fill/replace法</font></strong><br />
+<strong><font face="黑体">为fill演深版，继承了fill法优点</font></strong><br />
+<br />
+<strong><font face="黑体"><img id="aimg_Dom4C" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i4.tietuku.com/660e0ad4c4a74569.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong>上：</strong><br />
+/fill ~（最后坐标与现坐标的差） ~-1 ~（最后坐标与现坐标的差）~ ~-1 ~ redstone_block 0 replace 方块名 （附加值，默认0）<br />
+<strong>下：</strong><br />
+/fill ~（最后坐标与现坐标的差） ~1 ~（最后坐标与现坐标的差）方块名 （附加值，默认0） replace redstone_block 0<br />
+<br />
+<strong>最后坐标与现坐标的差</strong>：<br />
+<strong><u>用 <font color="#ff0000">fill区域相对的角落的坐标</font> 减去 <font color="#ff0000">这两个指令方块中间的坐标</font> 得到的x轴和z轴的差。（y轴为固定）</u></strong><br />
+<strong><u>差为0是直线，为其他数值则是一个区域。</u></strong><br />
+<strong><u>方块名可以为任何不是红石块的方块名，附加值随意，前提有这个方块</u></strong><br />
+<br />
+<i>例如 </i><br />
+<i><strong>这两个指令方块中间的坐标</strong> 为：0 1 0</i><br />
+<i><strong>fill区域相对的角落的坐标</strong> 为：-2 1 10</i><br />
+<i><strong>方块名</strong> 为：wool</i><br />
+<i><strong>附加值</strong> 为：8</i><br />
+<i>则x轴差为-2，z轴差为10，</i><br />
+<i>指令就是：</i><br />
+<br />
+<i>/fill ~-1 ~-1 ~10~ ~-1 ~ redstone_block 0 replace wool 8</i><br />
+<i>/fill ~-1 ~1 ~10~ ~1 ~ wool 8 replace redstone_block 0</i> <br />
+<br />
+优点：与fill一样，但是由于replace所以降低了效率，但可以直接<strong>手动添加/减少红石块超频（不会锁住）</strong><br />
+这里要说明，此处不同fill的范围是一个块全部被动执行，这里是一个范围，（这个范围可以非常大）<br />
+只要在这个范围内的红石块<strong>自动成为超频核心</strong>。<br />
+<br />
+<br />
+<br />
+<strong><font face="微软雅黑"><font size="4">综合推荐fill法（最普遍的方式）；</font></font></strong><br />
+<strong><font face="微软雅黑"><font size="4">若需要可控制的，则推荐fill/replace法.</font></font></strong><br />
+<br />
+<strong><font face="微软雅黑"><font size="4"><br />
+</font></font></strong><br />
+<div align="left"><font face="碳化硅大黑体"><font size="4">附加部分</font></font></div><div align="left"><font face="微软雅黑">练习：</font></div><ul><li><div align="left">学习创建红石高频；</div><li><div align="left">学习创建指令方块超频。</div><br />
+</ul><br /><br />
+<strong><font face="碳化硅大黑体"><font size="5">§α.2 执行顺序</font></font></strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;<strong><font face="微软雅黑"><font size="4">α.2.1 执行顺序概念</font></font></strong><br />
+<br />
+对于任何红石机械来说都有着<strong>先后顺序</strong>，<strong>不可能同时执行</strong><br />
+<strong><img id="aimg_cIgTO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/d4175d02e190cd56.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</strong><br />
+说明了机械始终存在顺序↑<br />
+<br />
+本章将探究<strong>顺序先后的条件与关系</strong>。<br />
+<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;<strong><font face="微软雅黑"><font size="4">α.2.1 执行顺序作用</font></font></strong><br />
+执行顺序作用在于<strong>执行一个事件的前后</strong>。<br />
+<br />
+举一个简单的例子，<br />
+倘若 <br />
+事件1：b=a；<br />
+事件2：在文本框中输出b的值。<br />
+<br />
+<strong>若先执行 事件1，再 事件2，</strong><br />
+因为输出b的值，而在此之前b=a，所以<strong>输出了a的值</strong>。<br />
+<br />
+<strong>若先执行 事件2，再 事件1，</strong><br />
+因为先输出b的值，而b=a在此之后，所以<strong>输出的只是b的值</strong>。<br />
+<br />
+所以执行顺序无论在逻辑组和模块中都有<strong>重要作用</strong>。<br />
+<br />
+<hr class="l" /><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;<strong><font face="微软雅黑"><font size="4">α.2.2 红石高频中的执行顺序</font></font></strong><br />
+<font face="微软雅黑"><font size="4"><font size="3">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;我不想说了，大家心里明白</font></font></font></div><div align="left"><font face="微软雅黑">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; </font><strong><font face="微软雅黑"><font size="3">α</font></font><font face="黑体"><font size="3">.2.2.1 延迟顺序</font></font></strong><br />
+<br />
+<strong><font face="黑体"><font size="3"><img id="aimg_HiXVd" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/78d30da38f04fa03.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></font></strong><br />
+延迟顺序比较简单，就是按照<strong>延迟的方向</strong>执行，<br />
+<strong>最先执行</strong>脉冲刚刚开始时的<strong>前端</strong>，<strong>最后执行</strong>脉冲最后到达的<strong>末端</strong>。<br />
+<br />
+<i>比如脉冲在1 2 3 4处以下列顺序顺序产生信号：</i><br />
+<i>1→2→3→4</i><br />
+<br />
+<i>那么高频执行的顺序就是</i><br />
+<i>1→2→3→4&nbsp;&nbsp;→1→2→3→4&nbsp;&nbsp;→1→2→3→4&nbsp;&nbsp;→1→2→3→4</i><br />
+<br />
+<i><hr class="l" /></i>&nbsp; &nbsp;&nbsp; &nbsp;<strong><font face="微软雅黑"><font size="4">α.2.3 指令方块超频中的执行顺序</font></font></strong><br />
+<font face="微软雅黑">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; </font><strong><font face="微软雅黑"><font size="3">α</font></font><font face="黑体"><font size="3">.2.3.1 布线顺序</font></font></strong><br />
+<ul><li><strong>FallingSand法</strong><br />
+</ul><strong><img id="aimg_ek283" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/4d931d00e5963027.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</strong><br />
+<br />
+<ul><li><strong>Setblock法</strong><br />
+</ul><strong><img id="aimg_UHLlk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/206953afb64eb9d1.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+两种方式均使用<a href="https://www.mcbbs.net/file:///C:/Users/Administrator/AppData/Local/Temp/CHM%20Editor/%E8%BF%9B%E9%98%B6%EF%BC%9A%E6%8C%87%E4%BB%A4%E6%96%B9%E5%9D%97%E6%A8%A1%E5%9D%97%E6%95%99%E7%A8%8B_42181.8601198958/page_139.html" target="_blank">红石高频</a>中的布线顺序<br />
+<br />
+<font face="微软雅黑">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; </font><strong><font face="微软雅黑"><font size="3">α</font></font><font face="黑体"><font size="3">.2.3.2 块顺序</font></font></strong><br />
+所谓的块顺序就是整个fill超频中区域中的执行的顺序。<br />
+<br />
+因为红石块为信号源，所以信号顺序相同，此时就需要微延迟来作为顺序了。<br />
+<br />
+<ul><li><strong>探究顺序</strong><br />
+</ul><strong><img id="aimg_a81XN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/2810c903e9556d6d.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</strong><br />
+<strong><img id="aimg_V8zJB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/6be6673ae004f5d4.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+由上面两图可以得知↑<br />
+<br />
+若信号相同<br />
+那么执行顺序则是：<br />
+x- x+ y- y+ z- z+<br />
+<br />
+<ul><li><strong>格式布局</strong><br />
+</ul>所以对于常见的线型布局：<br />
+<br />
+<img id="aimg_L7sSa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/0e9d6684611b02cf.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+可以像上图一样布局↑<br />
+<img id="aimg_QRa0K" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/5a66f355be22f2c5.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+也可以按照如此排列↑<br />
+<br />
+两种布局顺序都是一样的。<br />
+<br />
+<hr class="l" />&nbsp; &nbsp;&nbsp; &nbsp;<strong><font face="微软雅黑"><font size="4">α.2.4 标准顺序</font></font></strong><br />
+<font face="微软雅黑">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; </font><strong><font face="微软雅黑"><font size="3">α</font></font><font face="黑体"><font size="3">.2.4.1 布线</font></font></strong></div><div align="left">不做讲解<br />
+<br />
+<font face="微软雅黑">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; </font><strong><font face="微软雅黑"><font size="3">α</font></font><font face="黑体"><font size="3">.2.4.2 延迟</font></font></strong><br />
+按照脉冲<strong>前端至末端顺序依次</strong>执行。<br />
+<br />
+<font face="微软雅黑">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; </font><strong><font face="微软雅黑"><font size="3">α</font></font><font face="黑体"><font size="3">.2.4.3 同信号同延迟</font></font></strong><br />
+<strong>微延迟：</strong><br />
+按照：<br />
+<strong>x- x+ y- y+ z- z+</strong><br />
+顺序执行。<br />
+<br />
+<br />
+<br />
+<br />
+</div></div><br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-6-26 22:26<br />
+希腊字母表达意思是序章顺序。<br /><div class="quote"><blockquote>由于时间与读者需要<br />
+将会核心部分和基础部分一起更新</blockquote></div><br />
+在<a href="http://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=459387&amp;pid=8388575" target="_blank">http://www.mcbbs.net/forum.php?m ... 387&amp;pid=8388575</a>中提到。<br />
+<br />
+特别@jianghr<br />
+<a href="http://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=459387&amp;pid=8388604" target="_blank">http://www.mcbbs.net/forum.php?m ... 387&amp;pid=8388604</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2015-6-26 23:04<br />
+<i class="pstatus"> 本帖最后由 lzs1234 于 2015-6-26 23:05 编辑 </i><br />
+<br />
+顶2B，开始写造福人类的新手教程了！（准备重新学基础…）<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-26 23:25<br />
+单刻比较器减法脉冲不能离的太近啊 一会红石er看见怎么想啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-26 23:27<br />
+<div class="quote"><blockquote>单线型的红石会直接按照信号强度（由强到弱）顺序执行↑</blockquote></div><br />
+什么鬼啊 完全无规律的！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-26 23:31<br />
+（3连）<br />
+这段话想说好久了 mcbbs在这里不知为何在某些方面不好 （不是说论坛不好） 包括某些艺术家/版主表示出生点只加载出生点所在区块 红石激活顺序按强度 比较器高频太近执行不了是BUG。。。 不能仔细设计对照实验 人云亦云 希望能够加强和外界的交流 比如和贴吧 国外。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>乙烯_中国&nbsp; &nbsp; <b>时间: </b>2015-6-26 23:55<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8399004&amp;ptid=460038" target="_blank"><font color="#999999">chyx 发表于 2015-6-26 23:31</font></a></font><br />
+（3连）<br />
+这段话想说好久了 mcbbs在这里不知为何在某些方面不好 （不是说论坛不好） 包括某些艺术家/版主表 ...</blockquote></div><br />
+嘛。。。强度的确可以是一个大概的依据，不过实际上还是按照地图来随机的，不清楚2b是怎么得出这个结论的。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-27 00:18<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8399086&amp;ptid=460038" target="_blank"><font color="#999999">乙烯_中国 发表于 2015-6-26 23:55</font></a></font><br />
+嘛。。。强度的确可以是一个大概的依据，不过实际上还是按照地图来随机的，不清楚2b是怎么得出这个结论的 ...</blockquote></div><br />
+主要是不能透过现象看本质 不能多次试验 不能设计对照<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>海滩上&nbsp; &nbsp; <b>时间: </b>2015-6-27 07:44<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-27 08:41<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8399153&amp;ptid=460038" target="_blank"><font color="#999999">chyx 发表于 2015-6-27 00:18</font></a></font><br />
+主要是不能透过现象看本质 不能多次试验 不能设计对照</blockquote></div><br />
+fallingsand时钟1.8要改成0.5<br />
+得说下原理 Time：0的沙子实体会检查下他的id和他所在的方块id一不一样 一样就把所在位置设成空气 不一样就自杀 因为正常游戏中 沙子方块受更新时检查下面的方块能否承载他 否就在他自己位置“summon”一个Fallingsand 然后就不管了 把沙子方块清除是沙子实体干的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-6-27 13:15<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8399756&amp;ptid=460038" target="_blank"><font color="#999999">chyx 发表于 2015-6-27 08:41</font></a></font><br />
+fallingsand时钟1.8要改成0.5<br />
+得说下原理 Time：0的沙子实体会检查下他的id和他所在的方块id一不一样 一 ...</blockquote></div><br />
+要这样说私聊<br />
+这篇帖子就这样回复了五次<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2015-6-27 16:28<br />
+我在1.8pre时试图制作复杂运算，为削减运行时间曾试图用多指令并行运行，类似是单setblock+引线输出，也就是对应你所说的2.2.1 布线顺序 。但是指令始终是固定顺序的诡异排列，说明其充能顺序决计不是你说的信号强度那么简单，比如离源空开一格、让红石块接近命令方块、红石块悬在线上、红石线高低差都会影响实验结果。我刚在1.8.4（无forge纯端）下测试结果依旧如此，还请核对。<br />
+然后，高频只是激活模块的一种手段，好比编程时写一个函数，你可以用循环反复调用，但是不代表所有的函数都一定要挂在循环下面。就打个比方递归算法，本体函数尽管被反复执行，但可不是挂在循环下的。<br />
+你说“即使是单次完成的指令，也需要激活，所以仍旧需要判断条件，依旧需要高频”，但在我看来，“判断条件”只是制作事件响应的一部分，事件响应应该单独作为一个模块挂在高频下，这个我是不反对的。后续的指令作为其他模块根据事件响应的返回值选择运行。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2015-6-27 17:47<br />
+话说命令方块高频呢……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-6-27 18:19<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8402897&amp;ptid=460038" target="_blank"><font color="#999999">jianghr 发表于 2015-6-27 16:28</font></a></font><br />
+我在1.8pre时试图制作复杂运算，为削减运行时间曾试图用多指令并行运行，类似是单setblock+引线输出，也就 ...</blockquote></div><br />
+那一段我就删了，更多人更有经验<br />
+我并没有提到所有的所有绝对要使用高频，<br />
+但是模块主要应用在跨地图的应用上，所以不得不将所有指令整合应用在一条高频，<br />
+<br />
+如果说逻辑组是文件夹，模块就是打的一个压缩包。<br />
+<br />
+<br />
+其他的结构什么的以后都会讲，不必在如此早拿出来，<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2015-6-27 18:25<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8403592&amp;ptid=460038" target="_blank"><font color="#999999">贰逼 发表于 2015-6-27 18:19</font></a></font><br />
+那一段我就删了，更多人更有经验<br />
+我并没有提到所有的所有绝对要使用高频，<br />
+但是模块主要应用在跨地图的应 ...</blockquote></div><br />
+那我们对模块的定义是不一样的。我对模块的定义大致属于函数或过程的定义。<br />
+你的么……或许更接近于成品，类似于封装的驱动。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-6-27 18:33<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8403644&amp;ptid=460038" target="_blank"><font color="#999999">jianghr 发表于 2015-6-27 18:25</font></a></font><br />
+那我们对模块的定义是不一样的。我对模块的定义大致属于函数或过程的定义。<br />
+你的么……或许更接近于成品 ...</blockquote></div><br />
+然而模块被佬外开发出来的目的确实是类似于封装驱动<br />
+而我在其中添加了模拟程序也只是附加内容<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-27 19:33<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8402897&amp;ptid=460038" target="_blank"><font color="#999999">jianghr 发表于 2015-6-27 16:28</font></a></font><br />
+我在1.8pre时试图制作复杂运算，为削减运行时间曾试图用多指令并行运行，类似是单setblock+引线输出，也就 ...</blockquote></div><br />
+我问过卖可乐 他说红石的激活顺序是源码里的一个迭代算法 使用时可以认为是随机的 但一旦电路确定 顺序就不再变 这顺序会跟版本 位置 形状等有关系 跟时间无关<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-27 21:19<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8402897&amp;ptid=460038" target="_blank"><font color="#999999">jianghr 发表于 2015-6-27 16:28</font></a></font><br />
+我在1.8pre时试图制作复杂运算，为削减运行时间曾试图用多指令并行运行，类似是单setblock+引线输出，也就 ...</blockquote></div><br />
+你怎么看我6L说的情况？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2015-6-27 21:44<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8404844&amp;ptid=460038" target="_blank"><font color="#999999">chyx 发表于 2015-6-27 21:19</font></a></font><br />
+你怎么看我6L说的情况？</blockquote></div><br />
+关于这些话题我应该没发表过评论，但是红石执行顺序我是研究过的，最早的模型就是双活塞对撸，那时的结论就是固定的未知激活次序，猜测可能与朝向/chunk等有关，在CB序列执行过程中我又遇到了同样的问题，我测试了红石线激活顺序，但仍然未能得到统一的结论，于是没有继续研究下去。<br />
+比较器高频激活失败什么的我不是很明白说的是什么情况，但以前我研究过活塞发动机时接触过更短的闪烁，以至于能亮红石线但不能激活活塞。&nbsp; &nbsp;出生点区块加载什么的我也没专门研究过，只在压缩你的区块加载器时测试过几次，只测试了世界生成区块和setworldspwan区块不会卸载，具体范围没测量。<br />
+然后，知道论坛能编辑为什么还要3连作死？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-6-27 21:51<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8405068&amp;ptid=460038" target="_blank"><font color="#999999">jianghr 发表于 2015-6-27 21:44</font></a></font><br />
+关于这些话题我应该没发表过评论，但是红石执行顺序我是研究过的，最早的模型就是双活塞对撸，那时的结论 ...</blockquote></div><br />
+比较器那个是指只要分析高频成因就知道离比较器最近的两格红石线是强度一直不为0的 但某艺术家曾说前两格不能高频是游戏的BUG。。。而且出生点区块加载至少知道是一块不小的区域 绝不是1*1<br />
+<br />
+<br />
+<br />
+经亲自试验 出生点常载区块为16*16 中心为离出生点最近的那个<font color="DarkOliveGreen">区块的顶点</font><br />
+当有两个离出生点最近的那个<font color="DarkOliveGreen">区块的顶点</font>存在时是17*16 这时站在出生点上按F3看chunk一项是8（我知道你知道我在说哪个数）<br />
+如果是正中间时就是17*17<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2015-6-27 23:09<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8405129&amp;ptid=460038" target="_blank"><font color="#999999">chyx 发表于 2015-6-27 21:51</font></a></font><br />
+比较器那个是指只要分析高频成因就知道离比较器最近的两格红石线是强度一直不为0的 但某艺术家曾说前两格 ...</blockquote></div><br />
+我翻译的spwan条目中确实有类似17*17的说法，好像是17*17内的mob参与到人口计数，但是出生点常载区块真有真么多？16*16=256，但是大家伙都要保证人在中间待区块加载完毕才能正常运行，但是它们很少能有做到256见方的，出生点常载区块如果真有那么大那很多作品就不会受到区块加载的限制了。<br />
+比较器那个我好像从未直接用过前两格回折的，因此没研究过。不过这些已经和本主题关系不大了，可以以其他方式讨论。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>白天&nbsp; &nbsp; <b>时间: </b>2015-12-3 18:43<br />
+很有用的帖子QwQ 我也来学习学习二逼大大的研究成果(?&gt;ω&lt;*?)<br />
+貌似有个图片上面的/say 1写成了/sav 1没人看到吗233<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-12-3 19:55<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9432330&amp;ptid=460038" target="_blank"><font color="#999999">白天 发表于 2015-12-3 18:43</font></a></font><br />
+很有用的帖子QwQ 我也来学习学习二逼大大的研究成果(?&gt;ω</blockquote></div><br />
+那个是画图的错误
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,450 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : 或|| 与 且&amp;&amp; - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NjUxOTYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : 或|| 与 且&amp;&amp; <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-8 12:25<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : 或|| 与 且&amp;&amp;<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-9 13:46 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>条件语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 或 与 且 概念</font></font></div><div align="left">条件语句是模块中的一个重要指令</div><div align="left">它用于<strong>判断事件是否成立</strong>，</div><div align="left">若成立则输出；</div><div align="left">若不成立则跳过。</div><br />
+<br />
+<div align="left">条件语句将会涉及到</div><div align="left"><strong>execute</strong></div><ul><li><div align="left">条件与变量</div><li><div align="left">相对性</div><br />
+</ul><div align="left"><strong>testfor</strong></div><br />
+<div align="left"><strong>关于枚举多个条件输出</strong></div><br />
+<div align="left"><strong>或|| 与 且&amp;&amp;</strong></div><ul><li><div align="left">或||</div><li><div align="left">且&amp;&amp;</div><li><div align="left">或且结合</div><br />
+</ul><div align="left"><strong>!非的表达</strong></div><ul><li><div align="left">!非 单个变量</div><li><div align="left">!非 多个执行体</div><br />
+</ul><div align="left"><strong>条件嵌套</strong></div><ul><li><div align="left">条件嵌套相对性</div><li><div align="left">条件嵌套与变量</div><li><div align="left">子条件detect</div><br />
+</ul><font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-464285-1-1.html" target="_blank">上一篇</a>（关于枚举与多个条件输出）--<a href="http://www.mcbbs.net/thread-465795-1-1.html" target="_blank">下一篇</a>（!非的表达）</font></div><div align="left"></div><br />
+<strong><font face="碳化硅大黑体"><font size="5">§3.4 或|| 与 且&amp;&amp;</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 或 详解</font></font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.4.1 基本概念</font></font></strong><br />
+在枚举条件的过程中，除了可以使用满足单个条件的条件判断外，<br />
+也可以使用<strong>满足多个条件的条件判断</strong>：<br />
+<br />
+<font size="2"><font color="#800000">条件1 或者 条件a → 输出1</font></font><br />
+<font size="2"><font color="#800000">条件2 而且 条件b → 输出2</font></font><br />
+<font size="2"><font color="#800000">条件3 或者 （条件c 而且 条件α） →输出3</font></font><br />
+<font size="2"><font color="#800000">┊</font></font><br />
+<font size="2"><font color="#800000">条件n 或/且 条件s（条件x） → 输出n</font></font><br />
+<br />
+也就是说条件与条件之间也可以做到使用<strong>逻辑关联</strong>。<br />
+其中两个逻辑关联便是 <strong>或||</strong> 和 <strong>且&amp;&amp;。</strong><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.4.2 或|| 概念</font></font></strong><br />
+<strong>或代表两个条件不需要全部满足，</strong><br />
+<strong>满足其一便可以输出。</strong><br />
+<br />
+<br />
+例如：<br />
+<font size="2"><font color="#800000">条件1 或者 条件a → 输出</font></font><br />
+<br />
+那么我只满足了条件1会输出；<br />
+只满足条件a也会输出；<br />
+满足了全部仍然会输出。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.4.3 且&amp;&amp; 概念</font></font></strong><br />
+<strong>或代表两个条件需要同时存在全部满足，</strong><br />
+<strong>满足全部才可以输出。</strong><br />
+<br />
+<br />
+例如：<br />
+<font size="2"><font color="#800000">条件1 而且 条件a → 输出</font></font><br />
+<br />
+那么我只满足了条件1是不会输出的；<br />
+只满足条件a也是不会输出的；<br />
+只有满足了全部才会输出。<br />
+<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.4.4 或||</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 且 详解</font></font><br />
+要做到：<br />
+<strong><font size="2"><font color="#800000">或条件1 或者 或条件2 → 输出</font></font></strong><br />
+<br />
+可以转化成：<br />
+<font size="2"><font color="#800000">或条件1 → 相同输出</font></font><br />
+<font size="2"><font color="#800000">或条件2 → 相同输出</font></font><br />
+<font size="2"><font color="#800000">或条件n → 相同输出</font></font><br />
+<br />
+而且要使输出只执行一次，可以使用以下两种方式：<br />
+<ul><li>实体选择器自带（错误示范）<br />
+</ul><font size="2"><strong>&nbsp; &nbsp;1.这是一个max和min的或（相反范围）</strong></font><br />
+拿变量举例，<br />
+@e[score_x_min=10,score_x=1]<br />
+<strong>而此处表达且的关系，所以并不能</strong><br />
+<ul><li><strong>转存计分板</strong><br />
+</ul><strong>使用与条件不同的计分板进行转存变量</strong>，<br />
+<br />
+例如（按照执行顺序）：<br />
+<font size="2"><font color="#800000">或条件1 → 转存变量x</font></font><br />
+<font size="2"><font color="#800000">或条件2 → 转存变量x</font></font><br />
+<font size="2"><font color="#800000">或条件n → 转存变量x</font></font><br />
+<font size="2"><font color="#800000">条件变量x → 输出</font></font><br />
+<font size="2"><font color="#800000">清空计分板</font></font><br />
+<br />
+<br />
+比如说<br />
+<strong>或条件1是：f的a变量值&gt;=2</strong><br />
+<strong>或条件2是：f的a变量值&lt;=-2</strong><br />
+<br />
+那么可以得到以下的指令：<br />
+<br />
+<img id="aimg_MImbk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/d02a12a8d1201494.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>在所有指令之前模拟fill执行：</strong><br /><div class="blockcode"><div id="code_Eo2"><ol><li>/fill ~1 ~ ~ ~4 ~ ~ redstone_block</ol></div><em onclick="copycode($('code_Eo2'));">复制代码</em></div><strong>接着按照顺序执行以下指令；</strong><br /><div class="blockcode"><div id="code_fgG"><ol><li>/execute @e[name=f,score_a_min=2] ~ ~ ~ <br /><li>/scoreboard players set @e[name=f,r=0] b 1 <br /><li>/execute @e[name=f,score_a=-2] ~ ~ ~ /scoreboard players set @e[name=f,r=0] b 1<br /><li>/execute @e[name=f,score_b_min=1,score_b=1] ~ ~ ~ /say 1<br /><li>/execute @e[name=f,score_b_min=1,score_b=1] ~ ~ ~ /scoreboard players reset @e[name=f] b</ol></div><em onclick="copycode($('code_fgG'));">复制代码</em></div><br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_yVd8Y" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/52191375b8d9a69d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<font size="4"><strong><img id="aimg_jJdgg" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/ba18dcb115c2c26c.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<font size="4"><strong><img id="aimg_zymmm" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/1fff6b025ba8bd0d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<font size="4"><strong><img id="aimg_vHyhp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/bdcbeb0a513851fd.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><img id="aimg_znpUd" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/871be4f6102c5761.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<img id="aimg_U8yD1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/4491b81b337ea06a.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<img id="aimg_rDKW1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/9f22403a952d8370.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>可以看到：</strong><br />
+f的a为3、-3、-15、111 由于<strong>都在&gt;=2或者&lt;=-2的范围内，所以均有输出</strong>；<br />
+然而f的a为1、0、-1 则<strong>不在范围内，没有输出</strong>。<br />
+<br />
+<font size="4"><strong>分析指令：</strong></font><br />
+<i>首先如果f的a符合 或条件1，</i><br />
+<i>则将f的b设成1；</i><br />
+<i>如果f的a符合 或条件2，</i><br />
+<i>则也将f的b设成1；</i><br />
+<i>那么只要符合 或条件1 和 或条件2 其中之一的</i><br />
+<i>f的b都是1；</i><br />
+<i>只要判断f的b为1，则输出，且将b清空以便于下一次输入。</i><br />
+<br />
+<strong><font size="4"><font color="#ff0000">标准格式：</font></font></strong><br />
+<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font color="#008000">*转存或</font><br />
+/execute &lt;或条件1&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1 /execute &lt;或条件2&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+┊<br />
+/execute &lt;或条件n&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+<font color="#008000">*输出或</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出1<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出2<br />
+┊<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; 输出n<br />
+<font color="#008000">*清空转存</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=1,score_&lt;转存计分板&gt;=1)] &lt;相对坐标&gt; /scoreboard players reset &lt;转存实体选择器&gt; &lt;转存计分板&gt;<br />
+<br />
+</td></table></div></div><br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">按照上面的方法，再制作一个或的例子（熟练掌握转存）；</div><li><div align="left">教程部分使用的是条件变量，没有介绍相对性；按照上面的方法，制作一个相对性的例子（了解或与相对性的兼容性）。</div><br />
+</ul><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.4.5 且&amp;&amp;</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 或且结合</font></font><br />
+要做到：<br />
+<strong><font size="2"><font color="#800000">且条件1 而且 且条件2 → 输出</font></font></strong><br />
+<br />
+可以分为：<br />
+<font size="2"><font color="#800000">且条件1 + 且条件2 + …… + 且条件n = 输出</font></font><br />
+<br />
+做到这一点，可以有两种方式：<br />
+<ul><li><strong><font size="4">实体选择器自带</font></strong><br />
+</ul><strong><font size="2">&nbsp; &nbsp;1.这是一个min和max的且（相对范围）</font></strong><br />
+拿变量举例，<br />
+@e[score_x_min=1,score_x=10]<br />
+<strong>就是x的值&gt;=1且&lt;=10</strong><br />
+<br />
+那么<br />
+@e[score_x_min=1,score_x=1]<br />
+<strong>就代表&gt;=1且&lt;=1，也就是1</strong><br />
+<br />
+这是一个十分简单的过程，完全是实体选择器<strong>自带的分项</strong><br />
+其他的分项也有类似且关系。<br />
+<br />
+<strong><font size="2">&nbsp; &nbsp;2.并列关系，多个分项的且</font></strong><br />
+@e[score_x_min=1,score_x=10,r=1]<br />
+他同时满足三个变量，<br />
+所以三个选择器分项需要<strong>同时并列</strong>，<br />
+<strong>也就是x&gt;=1,x&lt;=10,r=1三个且条件全部满足才能判断。</strong><br />
+<br />
+<br />
+<ul><li><strong><font size="4">转存计分板</font></strong><br />
+</ul><strong>（区别于实体选择器的自带，<font color="#ff0000">不依赖于选择器</font>）</strong><br />
+<strong>使用与条件不同的计分板，和或差不多。</strong><br />
+<br />
+例如（按照执行顺序）：<br />
+<font size="2"><font color="#800000">且条件1 → 变量x++</font></font><br />
+<font size="2"><font color="#800000">且条件2 → 变量x++</font></font><br />
+<font size="2"><font color="#800000">且条件n → 变量x++</font></font><br />
+<font size="2"><font color="#800000">条件变量nx → 输出</font></font><br />
+<font size="2"><font color="#800000">清空计分板</font></font><br />
+<br />
+与或不同的是这不是一个恒等的过程，<br />
+而是一个<strong>连加的过程</strong>。<br />
+达到<strong>全部满足后才有判断输出</strong>。<br />
+<br />
+<br />
+比如说<br />
+<strong>且条件1是：玩家脚下的方块是白色羊毛</strong><br />
+<strong>且条件2是：f的a变量值&gt;=-2</strong><br />
+<br />
+那么可以得到以下的指令：<br />
+<img id="aimg_gM2zO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/bce573ed4c755f2f.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>在所有指令之前模拟fill执行：</strong><br /><div class="blockcode"><div id="code_YP2"><ol><li>/fill ~1 ~ ~ ~4 ~ ~ redstone_block</ol></div><em onclick="copycode($('code_YP2'));">复制代码</em></div><br />
+<strong>接着按照顺序执行以下指令；</strong><br />
+<br /><div class="blockcode"><div id="code_mbi"><ol><li>/execute @e[name=f,score_a_min=2] ~ ~ ~ /scoreboard players add @e[name=f,r=0] b 1 <br /><li>/execute @p ~ ~ ~ detect ~ ~-1 ~ minecraft:wool 0 /scoreboard players add @e[name=f,c=1] b 1<br /><li>/execute @e[name=f,score_b_min=2,score_b=2] ~ ~ ~ /say 1<br /><li>/scoreboard players reset @e[name=f] b</ol></div><em onclick="copycode($('code_mbi'));">复制代码</em></div><strong>（detect以后会讲到）</strong><br />
+<br />
+<strong><font size="4">效果：</font></strong><br />
+<br />
+<strong><font size="4"><img id="aimg_ME0M0" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/e32cd3bf16fce46d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_y6rvI" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/82f021e7d4dbdb5f.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_yTlTg" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/3892a241aad26242.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_m1Sp6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/b864c34b25e58ee5.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong>可以看到：</strong><br />
+只要f的a为1 由于<strong>不在&gt;=2的范围内，所以没有输出</strong>；<br />
+我在空中，<strong>由于不在羊毛上没有输出</strong>。<br />
+只有<strong>我在羊毛上，f的a&gt;=2，才有输出</strong>。<br />
+<br />
+<font size="4"><strong>分析指令：</strong></font><br />
+<i>首先如果f的a符合 且条件1，</i><br />
+<i>则将f的b自身加1；</i><br />
+<i>如果f的a符合 且条件2，</i><br />
+<i>则将f的b</i><i>自身再加</i><i>1；</i><br />
+<i>那么只有符合 且条件1 和 且条件2 全部的</i><br />
+<i>也就是说f的b是2；</i><br />
+<i>只有判断f的b为2，才输出，且将b清空以便于下一次输入。</i><br />
+<br />
+<strong><font size="4"><font color="#ff0000">标准格式：</font></font></strong><br />
+<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font color="#008000">*转存且</font><br />
+/execute &lt;且条件1&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1 <br />
+/execute &lt;且条件2&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+┊<br />
+/execute &lt;且条件n&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板&gt; 1<br />
+<font color="#008000">*输出且</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=n,score_&lt;转存计分板&gt;=n)] &lt;相对坐标&gt; 输出1<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=n,score_&lt;转存计分板&gt;=n)] &lt;相对坐标&gt; 输出2<br />
+┊<br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=n,score_&lt;转存计分板&gt;=n)] &lt;相对坐标&gt; 输出n<br />
+<font color="#008000">*清空转存</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板&gt;_min=n,score_&lt;转存计分板&gt;=n)] &lt;相对坐标&gt; /scoreboard players reset &lt;转存实体选择器&gt; &lt;转存计分板&gt;<br />
+</td></table></div></div><br />
+<br />
+<br />
+<ul><li><strong><font size="4">execute条件嵌套</font></strong><br />
+</ul>以后讲解。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.4.6 或且结合</font></font></strong> <br />
+前面我们学习了 或与且 的单个逻辑关系，<br />
+在本篇我们需要学习 或与且 的<strong>综合逻辑关系</strong>。<br />
+<br />
+或与且的综合关系比如：<br />
+<font size="2"><font color="#800000">（a 或 b） 且 c</font></font><br />
+<font size="2"><font color="#800000">（a 且 b） 或 c</font></font><br />
+<font size="2"><font color="#800000">（a 且 b） 或 （a 且 c）</font></font><br />
+<font size="2"><font color="#800000">（a 或 b） 且 （a 或 c）</font></font><br />
+<font size="2"><font color="#800000">……</font></font><br />
+都属于<strong>组合逻辑关系</strong>，<br />
+这个可以利用逻辑电路进行表达，<br />
+而今天我们要使用 <strong>或与且 的条件操作进行表达</strong>。<br />
+<br />
+<ul><li><strong><font size="4">算法标准表达</font></strong><br />
+</ul>遇到这种较复杂的逻辑组其实不用探讨别的算法，<br />
+依旧和前面讲到的算法一样：<br />
+<strong><font color="#800000">遇到或——计分板set；</font></strong><br />
+<strong><font color="#800000">遇到且——计分板add（或remove）。</font></strong><br />
+<strong><u><i>只不过综合关系中如果有n(n&gt;1)组括号就必须创建n个转存计分板；并且将括号划分级别*（最先执行的为一级）。</i></u></strong><br />
+<strong><u><i>最后再判断转存计分板的关联。</i></u></strong><br />
+<strong><u><i>（当然除了创建多计分板外，也可以使用多实体储存多变量）</i></u></strong><br />
+<br />
+<br />
+比如上面举到的例子（x,y,z表示变量，a,b,c表示条件）<br />
+（按顺序执行）<br />
+1.<br />
+<font size="2"><font color="#800000">a → x=1</font></font><br />
+<font size="2"><font color="#800000">b → x=1</font></font><br />
+<font size="2"><font color="#800000">c → x+1</font></font><br />
+<font size="2"><font color="#800000">清空x</font></font><br />
+<font size="2"><font color="#800000">最后只需要判断x是否等于2；</font></font><br />
+2.<br />
+<font size="2"><font color="#800000">a → x+1</font></font><br />
+<font size="2"><font color="#800000">b → x+1</font></font><br />
+<font size="2"><font color="#800000">c → x=2</font></font><br />
+<font size="2"><font color="#800000">清空x</font></font><br />
+<font size="2"><font color="#800000">最后只需要判断x是否等于2；</font></font><br />
+3.<br />
+<font size="2"><font color="#800000">a → x+1</font></font><br />
+<font size="2"><font color="#800000">b → x+1</font></font><br />
+<font size="2"><font color="#800000">a → y+1</font></font><br />
+<font size="2"><font color="#800000">c → y+1</font></font><br />
+<font size="2"><font color="#800000">x=2 → x=-1&nbsp; &nbsp; <font color="#008000">//判断转存计分板的或关联（由于x,y计分板值被判断的并非范围，所以可以直接改变自身的值表示true）</font></font></font><br />
+<font size="2"><font color="#800000">y=2 → x=-1</font></font><br />
+<font size="2"><font color="#800000">清空x,y</font></font><br />
+<font size="2"><font color="#800000">最后只需判断x是否等于-1；</font></font><br />
+4.<br />
+<font size="2"><font color="#800000">a → x=1</font></font><br />
+<font size="2"><font color="#800000">b → x=1</font></font><br />
+<font size="2"><font color="#800000">a → y=1</font></font><br />
+<font size="2"><font color="#800000">c → y=1</font></font><br />
+<font size="2"><font color="#800000">x=1 → x=-1&nbsp; &nbsp; <font color="#008000">//判断转存计分板的且关联（由于x,y计分板值被判断的并非范围，所以可以直接改变自身的值表示true）</font></font></font><br />
+<font size="2"><font color="#800000">y=1 → x-1&nbsp; &nbsp;&nbsp;&nbsp;<font color="#008000">//由于顺序，必然先x=-1。若无执行x=-1，x-1，x的值则会为1；若无执行x=-1，执行x-1，x的值则为0；只有都执行了才为-2</font></font></font><br />
+<font size="2"><font color="#800000">清空x,y</font></font><br />
+<font size="2"><font color="#800000">最后只需要判断x是否等于-2；</font></font><br />
+<br />
+<ul><li><strong><font size="4">指令标准格式</font></strong><br />
+</ul>和算法差不多，将4中的算法表达成指令：（<strong>此处变量x为实体f的计分板a的变量；变量y为实体f的计分板b的变量</strong>）<br />
+<font size="2"><font color="#800000">条件a就是检测Cow；</font></font><br />
+<font size="2"><font color="#800000">条件b就是检测Sheep；</font></font><br />
+<font size="2"><font color="#800000">条件c就是检测Chicken；</font></font><br />
+（<i>未用到条件变量</i>）<br />
+<br />
+那么有9个条件满足<br />
+a；<br />
+aa；ac；ab；bc；<br />
+abc；aac；aab；<br />
+abac；<br />
+<br />
+此时我们<strong>不需要枚举9个条件</strong>；<br />
+使用以下指令<br />
+<br />
+<img id="aimg_KXiMR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/d178d6aa7f806558.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>在所有指令之前模拟fill执行：</strong><br /><div class="blockcode"><div id="code_kk5"><ol><li>/fill ~1 ~ ~ ~9 ~ ~ redstone_block</ol></div><em onclick="copycode($('code_kk5'));">复制代码</em></div><br />
+<strong>接着按照顺序执行以下指令；</strong><br />
+<font color="#008000">*逻辑检测</font><br />
+<br /><div class="blockcode"><div id="code_cG2"><ol><li>/execute @e[type=Cow] ~ ~ ~ /scoreboard players set @e[name=f,c=1] a 1 <br /><li>/execute @e[type=Sheep] ~ ~ ~ /scoreboard players set @e[name=f,c=1] a 1 <br /><li>/execute @e[type=Cow] ~ ~ ~ /scoreboard players set @e[name=f,c=1] b 1</ol></div><em onclick="copycode($('code_cG2'));">复制代码</em></div><font color="#008000">*条件输出</font><br /><div class="blockcode"><div id="code_SSk"><ol><li>/execute @e[name=f,score_a=-2] ~ ~ ~ /say 1 </ol></div><em onclick="copycode($('code_SSk'));">复制代码</em></div><font color="#0800">*清空</font><br />
+<br /><div class="blockcode"><div id="code_HJ1"><ol><li>/scoreboard players reset @e[name=f] a <br /><li>/scoreboard players reset @e[name=f] b&nbsp;&nbsp;</ol></div><em onclick="copycode($('code_HJ1'));">复制代码</em></div><br />
+<strong><font size="4">效果：</font></strong><br />
+<br />
+<strong><font size="4"><img id="aimg_PqlR8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/6878600e2ac6ee5f.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_h1111" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/3bea40225b71c62f.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_x6qWR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/524fdd1d04f27825.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_Ic2qQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/846fe3ee5c42cc34.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_oeExH" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/e2c8f996d55ee195.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_v4D7S" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/fa984c548b8bada0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_td735" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/3dcb037bbf2de274.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_ZiHyi" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/9374ed93ee90fb43.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong><font size="4"><img id="aimg_o3wL4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/af447014e9f994ff.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+<strong>上面列举的九种情况都有输出；</strong><br />
+<strong><img id="aimg_r4WNL" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/5fed2720dbc0ff56.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<strong><img id="aimg_Hdj3l" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/ed717da77c5ce25a.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<strong>如果b或c单独出现没有输出。</strong><br />
+<br />
+<strong><font size="4">分析指令：</font></strong><br />
+<font size="2"><font color="#800000">a → x set 1</font></font><br />
+<font size="2"><font color="#800000">b → x set 1</font></font><br />
+<font size="2"><font color="#800000">a → y set 1</font></font><br />
+<font size="2"><font color="#800000">c → y set 1</font></font><br />
+<font size="2"><font color="#800000">x==1 → x set -1&nbsp; &nbsp; <font color="#008000">//判断转存计分板的且关联（由于x,y计分板值被判断的并非范围，所以可以直接改变自身的值表示true）</font></font></font><br />
+<font size="2"><font color="#800000">y==1 → x remove 1&nbsp; &nbsp;&nbsp;&nbsp;<font color="#008000">//由于顺序，必然先x=-1。若无执行x=-1，x-1，x的值则会为1；若无执行x=-1，执行x-1，x的值则为0；只有都执行了才为-2</font></font></font><br />
+<font size="2"><font color="#800000">清空x,y</font></font><br />
+<font size="2"><font color="#800000">（完全是按照之前的算法来的）</font></font><br />
+ <br />
+<strong><font size="4"><font color="#ff0000">标准格式：（'{}'标示层次关系，无实际意义）</font></font></strong><br />
+<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font color="#0000ff">一级：变量x（且与或条件数量分别为m,n）</font><br />
+<font color="#0000ff">{</font><br />
+<font color="#008000">*转存一级且</font><br />
+/execute &lt;一级且条件1&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板x&gt; 1 <br />
+/execute &lt;一级且条件2&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板x&gt; 1<br />
+┊<br />
+/execute &lt;一级且条件n&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板x&gt; 1<br />
+<font color="#0800"><font color="#008000">*转存一级或</font></font><br />
+<font color="#000000"><font color="#0800">/execute &lt;一级或条件1&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板x&gt; n </font></font><font color="#0800"><font color="#000000">/execute &lt;一级或条件2&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板x&gt; n</font></font><br />
+<font color="#0800"><font color="#000000">┊</font></font><br />
+<font color="#0800"><font color="#000000">/execute &lt;一级或条件m&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板x&gt; n</font></font><br />
+<font color="#696969">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 二级：变量y（且与或条件数量分别为i,j）</font><br />
+<font color="#696969">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {</font><br />
+<font color="#0800"><font color="#0000ff"><font color="#008000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>*转存</font><font color="#008000">二级且</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute &lt;二级且条件1=n&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板y&gt; 1</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute &lt;二级且条件2=n&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板y&gt; 1</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┊</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute &lt;二级且条件i=n&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板y&gt; 1</font><br />
+<font color="#008000"><font color="#008000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font color="#008000">*转存</font></font></font><font color="#008000">二级或</font><font color="#0000ff"><font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font></font></font><br />
+<font color="#008000"><font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>/execute &lt;二级或条件1=n&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板y&gt; i </font><br />
+<font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>/execute &lt;二级或条件2=n&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板y&gt; i</font><br />
+<font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>┊</font><br />
+<font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>/execute &lt;二级或条件j=n&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板y&gt; i</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;…………………………</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font color="#800080">a级：变量a（且与或条件数量分别为<font color="#800080">a级变量1,a级变量2）</font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</font><font color="#800080">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {</font><br />
+<font color="#a6caf0"><font color="#0000ff"><font color="#008000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>*转存a</font><font color="#008000">级且</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute &lt;a级且条件1=<font color="#ff8040">a-1级变量1</font>&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板a&gt; 1 </font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute &lt;a级且条件2=<font color="#ff8040">a-1级变量1</font>&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板a&gt; 1</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┊</font><br />
+<font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute &lt;a级且条件的<font color="#800080">a级变量1</font>=<font color="#ff8040">a-1级变量1</font>&gt; /scoreboard players add &lt;转存实体选择器&gt; &lt;转存计分板a&gt; 1</font><br />
+<font color="#008000"><font color="#008000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font color="#008000">*转存a</font></font></font><font color="#008000">级或</font><font color="#0000ff"><font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font></font><br />
+<font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>/execute &lt;a级或条件1=<font color="#ff8040">a-1级变量1</font>&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板a&gt; <font color="#800080">a级变量1</font> </font><br />
+<font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>/execute &lt;a级或条件2=<font color="#ff8040">a-1级变量1</font>&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板a&gt; </font><font color="#800080">a级变量1</font><br />
+<font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>┊</font><br />
+<font color="#000000"><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>/execute &lt;a级或条件m的a级变量2=<font color="#ff8040">a-1级变量1</font>&gt; /scoreboard players set &lt;转存实体选择器&gt; &lt;转存计分板a&gt; </font><font color="#800080">a级变量1</font></font></font></font></font></font></font></font></font><br />
+<font color="#0800"><font color="#a6caf0"><font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font><font color="#0000ff">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font></font><font color="#800080">}</font></font><br />
+<font color="#0000ff"><font color="#0800">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</font></font><font color="#696969">&nbsp;&nbsp;}</font><br />
+<font color="#0800"><font color="#0000ff">}</font></font><br />
+<font color="#008000"><font color="#008000">*输出</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板a&gt;_min=<font color="#800080">a级变量1</font>,score_&lt;转存计分板a&gt;=<font color="#800080">a级变量1</font>)] &lt;相对坐标&gt; 输出1<br />
+/execute [转存实体选择器(score_&lt;转存计分板a&gt;_min=<font color="#800080">a级变量1</font>,score_&lt;转存计分板a&gt;=<font color="#800080">a级变量1</font>)] &lt;相对坐标&gt; 输出2<br />
+┊<br />
+/execute [转存实体选择器(score_&lt;转存计分板a&gt;_min=<font color="#800080">a级变量1</font>,score_&lt;转存计分板a&gt;=<font color="#800080">a级变量1</font>)] &lt;相对坐标&gt; 输出n<br />
+<font color="#008000">*清空转存</font><br />
+/execute [转存实体选择器(score_&lt;转存计分板a&gt;_min=<font color="#800080">a级变量1</font>,score_&lt;转存计分板a&gt;=<font color="#800080">a级变量1</font>)] &lt;相对坐标&gt; /scoreboard players reset &lt;转存实体选择器&gt; &lt;转存<font color="#0000ff">计分板x</font>~<font color="#800080">a级变量1</font>&gt;<br />
+</td></table></div></div></font><br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">按照上面的方法，再制作一个或的例子（熟练掌握）；</div><li><div align="left">使用其他的条件制作或且结合。</div><br />
+</ul></div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mwdybls&nbsp; &nbsp; <b>时间: </b>2015-7-8 12:29<br />
+好厉害的样子！可惜看不懂..<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>BakaSullivan&nbsp; &nbsp; <b>时间: </b>2015-7-8 12:29<br />
+晕了晕了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>崔C氏&nbsp; &nbsp; <b>时间: </b>2015-7-8 12:54<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2015-7-8 13:36<br />
+<i class="pstatus"> 本帖最后由 lzs1234 于 2015-7-24 21:17 编辑 </i><br />
+<br />
+原来2B用的记分板啊…我都是用的逻辑门……<br />
+或就是只要一个条件满足就设为1，然后探测1<br />
+且就是满足一个条件就+1，直到加到某特定数值<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>丢失的钥匙&nbsp; &nbsp; <b>时间: </b>2015-8-6 11:32<br />
+MCBBS有你，世界更精彩!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 11:44<br />
+detect？<br />
+<br />
+什么鬼……<br />
+<br />
+且（&amp;&amp;）才是我最需要的判断模式你居然给了个让我们看不懂的Q.Q<br />
+<br />
+也找不到讲这货的链接233333……
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

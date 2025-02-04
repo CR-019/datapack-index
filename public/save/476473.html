@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §7 : 执行值与时钟 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzY0NzMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §7 : 执行值与时钟 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-27 19:47<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §7 : 执行值与时钟<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-28 10:54 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>单模块关联</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 执行值与时钟</font></font></div><div align="left">本章着重复习前面的内容，加深多个模块语句的概念和关联的概念。</div><br />
+<div align="left">所谓单模块是指<strong>多个模块语句组成的</strong>，</div><div align="left">和多模块不同，<strong>单模块内语句着重过程</strong>，<strong>模块本身强调对象</strong>。</div><br />
+<br />
+<div align="left">单模块关联将会涉及到</div><br />
+<div align="left"><strong>执行值与条件语句</strong></div><br />
+<div align="left"><strong>执行值与循环</strong></div><br />
+<div align="left"><strong>执行值与时钟</strong></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-476317-1-1.html" target="_blank">上一篇</a>（执行值与循环）--<a href="http://www.mcbbs.net/thread-476739-1-1.html" target="_blank">下一篇</a>（建立模块）</font></div></div><br />
+<strong><font face="碳化硅大黑体"><font size="5">§7.3 执行值与时钟</font></font></strong><br />
+由于时钟是多个语句，在此可以把<strong>时钟就当做多个和执行值关联的语句</strong>。<br />
+<br />
+<br />
+因为有时钟存在，<strong>摆脱了初始化值对输出影响</strong>，所以使执行值能够轻松关联高频：<br />
+<br />
+在此，可以以一个 获取gamerule值（可以看作自定义指令） 的模块来应证。<br />
+<font color="#800000"><font color="#000000">比如</font>如果给名叫lol的gamerule设定大于1的初始值，产生粒子效果</font>，<br />
+可以使用以下指令：<br />
+<img id="aimg_uWrEZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/0a5fa8071d48f71b.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行以下指令：</strong><br /><div class="blockcode"><div id="code_ezl"><ol><li>/scoreboard players set @e[name=f] a 0<br /><li>/stats entity @p set QueryResult @e[name=f] a <br /><li>/execute @p ~ ~ ~ gamerule lol</ol></div><em onclick="copycode($('code_ezl'));">复制代码</em></div><br />
+<font color="#008000">*获取gamerule:lol的执行值</font><br /><div class="blockcode"><div id="code_pU0"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ /particle fireworksSpark ~ ~ ~ 1 1 1 0.1 100</ol></div><em onclick="copycode($('code_pU0'));">复制代码</em></div><br />
+<font color="#008000">*输出</font><br /><div class="blockcode"><div id="code_v1J"><ol><li>/gamerule lol 0</ol></div><em onclick="copycode($('code_v1J'));">复制代码</em></div><br />
+<font color="#008000">*创建gamrule:lol</font><br />
+<br />
+<strong><font size="4">效果：</font></strong><br />
+<br />
+<strong><font size="4"><img id="aimg_f92pp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/ddb30606a63f5a80.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+使用：<br /><div class="blockcode"><div id="code_u86"><ol><li>/gamerule lol 1</ol></div><em onclick="copycode($('code_u86'));">复制代码</em></div><br />
+就有输出<br />
+<br />
+<img id="aimg_r9999" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c3e75372ad4581b0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+使用：<br /><div class="blockcode"><div id="code_qdX"><ol><li>/gamerule lol 0</ol></div><em onclick="copycode($('code_qdX'));">复制代码</em></div><br />
+就没输出<br />
+<br />
+<br />
+<font size="4"><strong>分析：</strong></font><br />
+<font color="#ff0000">最开始初始化值</font><br />
+接着<strong>关联</strong>相对@p的指令/gamerule lol获取的执行值到f的a变量上，<br />
+然后<strong>输出</strong>，这里就用到了时钟的概念，如果没有获取值而是先初始化，那么条件语句不可能输出，便是一个<strong>时钟</strong>。<br />
+最后<strong>需要重置/创建gamerule</strong>，这又是一个时钟，只是不是变量时钟，用于重置指令。<br />
+<br />
+<br />
+总之本章是让大家能够进一步学习单模块各种语句和执行值关联，以及<strong>体会语句与变量关联</strong>。<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">将<a href="https://www.mcbbs.net/file:///C:/Users/Administrator/AppData/Local/Temp/CHM%20Editor/%E8%BF%9B%E9%98%B6%EF%BC%9A%E6%8C%87%E4%BB%A4%E6%96%B9%E5%9D%97%E6%A8%A1%E5%9D%97%E6%95%99%E7%A8%8B_42212.79334/page_131.html" target="_blank">执行值与条件语句</a>中的例子任意修改，保留SuccessCount，并关联循环。</div><br />
+</ul></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>龙腾猫跃&nbsp; &nbsp; <b>时间: </b>2015-7-27 19:56<br />
+贰逼高产似母SYL
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

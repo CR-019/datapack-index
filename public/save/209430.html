@@ -1,0 +1,321 @@
+<html>
+<head>
+<title>【CBL|SYL】tellraw教程第二章：点击事件 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0yMDk0MzAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】tellraw教程第二章：点击事件 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:37<br />
+<b>标题: </b>【CBL|SYL】tellraw教程第二章：点击事件<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:40 编辑 </i><br />
+<div class="quote"><blockquote>索引贴：<a href="http://www.mcbbs.net/thread-205332-1-1.html" target="_blank">http://www.mcbbs.net/thread-205332-1-1.html</a></blockquote></div><br />
+废话不多说，说好的第二章奉上<br />
+本章将会介绍一下clickEvent——点击事件<br />
+干啥的？让你点一下文字，就能执行一个命令逆天不？开网页好玩不？<br />
+想知道如何做？敬请收看<br />
+<hr class="l" /><a href="http://v.youku.com/v_show/id_XNjUyOTMzNDA4.html" target="_blank">http://v.youku.com/v_show/id_XNjUyOTMzNDA4.html</a><br />
+<hr class="l" />本期使用命令<br />
+1 /tellraw @p {text:&quot;[按此]&quot;,clickEvent:{action:run_command,value:&quot;/say 欢迎收看tellraw教程第二篇&quot;}}<br />
+2 /tellraw @p {text:&quot;[召唤火球]&quot;,color:red,clickEvent:{action:run_command,value:&quot;/summon Fireball ~ ~ ~ {direction:&nbsp; &nbsp;&nbsp; &nbsp; [0.0,0.0,0.0]}&quot;}}<br />
+3 /tellraw @p {text:&quot;[打招呼]&quot;,clickEvent:{action:suggest_command,value:&quot;你好&quot;}}<br />
+4 /tellraw @p {text:&quot;[打招呼]&quot;,clickEvent:{action:suggest_command,value:&quot;hi&quot;}}<br />
+5 /tellraw @p {text:&quot;MCBBS&quot;,color:blue,underlined:true,clickEvent:{action:open_url,value:&quot;http://www.mcbbs.net&quot;}}<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1669153152&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:49<br />
+喜闻乐见的水回复.......{:10_555:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1056235953&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:49<br />
+猪骑士的复活?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:50<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a1056235953 发表于 2013-12-25 18:49</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4010267&amp;ptid=209430" target="_blank"><img id="aimg_Nf2Dt" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+猪骑士的复活?</blockquote></div><br />
+没办法出去旅游了怎么更新<br />
+剩蛋节我补更就是了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1056235953&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:53<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-12-25 18:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4010276&amp;ptid=209430" target="_blank"><img id="aimg_LKhnA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+没办法出去旅游了怎么更新<br />
+剩蛋节我补更就是了</blockquote></div><br />
+030 能提供一下命令么<br />
+咱要命令<br />
+三类型都要<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:56<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a1056235953 发表于 2013-12-25 18:53</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4010325&amp;ptid=209430" target="_blank"><img id="aimg_DE41l" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+030 能提供一下命令么<br />
+咱要命令<br />
+三类型都要</blockquote></div><br />
+额<br />
+其实命令组成很简单的<br />
+clickEvent:{action:[种类],value:&quot;[值]&quot;}<br />
+这个配合之前的基础教程里面的text使用就可以了<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1056235953&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:57<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-12-25 18:56</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4010354&amp;ptid=209430" target="_blank"><img id="aimg_C277y" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+额<br />
+其实命令组成很简单的<br />
+clickEvent:{action:[种类],value:&quot;[值]&quot;}</blockquote></div><br />
+030 就给来了啦<br />
+咱要视频里面的<br />
+可能有用030<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-25 18:58<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a1056235953 发表于 2013-12-25 18:57</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4010368&amp;ptid=209430" target="_blank"><img id="aimg_M34dA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+030 就给来了啦<br />
+咱要视频里面的<br />
+可能有用030</blockquote></div><br />
+我去<br />
+自己动手做去<br />
+实践才是最好的学习方法<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1056235953&nbsp; &nbsp; <b>时间: </b>2013-12-25 19:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-12-25 18:58</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4010381&amp;ptid=209430" target="_blank"><img id="aimg_IQIZq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我去<br />
+自己动手做去<br />
+实践才是最好的学习方法</blockquote></div><br />
+QAQ<br />
+我懒怎么办<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC个人&nbsp; &nbsp; <b>时间: </b>2013-12-26 13:11<br />
+终于复活了&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-12-26 17:40<br />
+不错，继续支持猪骑的原版教学系列。<br />
+说到召唤火球，其实我测试过改火球爆炸力……简直是丧心病狂。但是爆炸线也就那么几条，远了就是一条条沟渠，和工业核弹的正圆形弹坑还是有区别。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-26 19:30<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-12-26 17:40</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4015535&amp;ptid=209430" target="_blank"><img id="aimg_nA7AS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+不错，继续支持猪骑的原版教学系列。<br />
+说到召唤火球，其实我测试过改火球爆炸力……简直是丧心病狂。但是爆 ...</blockquote></div><br />
+确实丧心病狂<br />
+但我告诉你外国人更丧心病狂<br />
+顶着2小时的运算时间弄了个火球把基岩都炸掉了<br />
+（我记得好像威力要有大概10000000才可以）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>真☆熊孩子㊣&nbsp; &nbsp; <b>时间: </b>2013-12-26 19:35<br />
+终于发布地2章了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>真☆熊孩子㊣&nbsp; &nbsp; <b>时间: </b>2013-12-26 19:35<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-12-26 19:30</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4016502&amp;ptid=209430" target="_blank"><img id="aimg_J0oot" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+确实丧心病狂<br />
+但我告诉你外国人更丧心病狂<br />
+顶着2小时的运算时间弄了个火球把基岩都炸掉了</blockquote></div><br />
+求连接........<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-12-26 22:04<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-12-26 19:30</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4016502&amp;ptid=209430" target="_blank"><img id="aimg_K5sZ4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+确实丧心病狂<br />
+但我告诉你外国人更丧心病狂<br />
+顶着2小时的运算时间弄了个火球把基岩都炸掉了</blockquote></div><br />
+基岩的爆炸抗性不是-1么？无论怎么炸都不行……要么就是溢出了。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a11558383&nbsp; &nbsp; <b>时间: </b>2013-12-26 22:24<br />
+就不能用图么....还要自己打指令....最好在下面放个视频中出现的指令........<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-27 09:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-12-26 22:04</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4018226&amp;ptid=209430" target="_blank"><img id="aimg_x7GKf" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+基岩的爆炸抗性不是-1么？无论怎么炸都不行……要么就是溢出了。</blockquote></div><br />
+对<br />
+那家伙就是要玩溢出……爆炸威力导致-1溢出以后就会被破坏了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-27 09:01<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">真☆熊孩子㊣ 发表于 2013-12-26 19:35</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4016551&amp;ptid=209430" target="_blank"><img id="aimg_F2hP5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+求连接........</blockquote></div><br />
+有土鳖上的<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D0xWewzS1UXQ" target="_blank">http://www.youtube.com/watch?v=0xWewzS1UXQ</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pacerrecap&nbsp; &nbsp; <b>时间: </b>2013-12-27 10:20<br />
+真心逆天。。。我已经有某种想法了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-27 10:43<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">pacerrecap 发表于 2013-12-27 10:20</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4019434&amp;ptid=209430" target="_blank"><img id="aimg_Q65ct" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+真心逆天。。。我已经有某种想法了</blockquote></div><br />
+说，又要干虾米坏事了<br />
+（想起我的自杀按钮坑机油了）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-12-27 21:50<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-12-27 09:01</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4019284&amp;ptid=209430" target="_blank"><img id="aimg_wOZPG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+有土鳖上的<br />
+http://www.youtube.com/watch?v=0xWewzS1UXQ</blockquote></div><br />
+我……擦……类……<br />
+不过视频中也可以清晰地看出爆炸线的分布……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-12-28 18:15<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-12-27 21:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4024583&amp;ptid=209430" target="_blank"><img id="aimg_IRrNO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我……擦……类……<br />
+不过视频中也可以清晰地看出爆炸线的分布……</blockquote></div><br />
+对<br />
+这得要何等吊炸天的耐力啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Bryan33&nbsp; &nbsp; <b>时间: </b>2013-12-31 23:39<br />
+你是怎么让物品展示框里的东西有名字的？ 1.7的什么命令?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:21<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a390807154 发表于 2013-12-31 23:39</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4067004&amp;ptid=209430" target="_blank"><img id="aimg_nO6Go" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+你是怎么让物品展示框里的东西有名字的？ 1.7的什么命令?</blockquote></div><br />
+不是命令，是新特性<br />
+把改过名字的物品塞进去就可以了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Bryan33&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:22<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2014-1-1 18:21</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078091&amp;ptid=209430" target="_blank"><img id="aimg_b73g5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+不是命令，是新特性<br />
+把改过名字的物品塞进去就可以了</blockquote></div><br />
+原来如此，我还是依旧抱着NBTedit看看1.7什么时候跟新吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:24<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a390807154 发表于 2014-1-1 18:22</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078108&amp;ptid=209430" target="_blank"><img id="aimg_q0Ss8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+原来如此，我还是依旧抱着NBTedit看看1.7什么时候跟新吧</blockquote></div><br />
+偶……<br />
+不过forge连稳定版都没出<br />
+nbtedit嘛……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Bryan33&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:25<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2014-1-1 18:24</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078149&amp;ptid=209430" target="_blank"><img id="aimg_vPdjz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+偶……<br />
+不过forge连稳定版都没出<br />
+nbtedit嘛……</blockquote></div><br />
+话说NBTedit的刷怪笼部分，为何有时候save后直接崩溃游戏？害的我做地图要把那里整个WE掉<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:27<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a390807154 发表于 2014-1-1 18:25</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078176&amp;ptid=209430" target="_blank"><img id="aimg_Xy410" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+话说NBTedit的刷怪笼部分，为何有时候save后直接崩溃游戏？害的我做地图要把那里整个WE掉</blockquote></div><br />
+格式不对会崩存档，我都试过不少了<br />
+用MCE把有问题的刷怪笼删掉就能开了<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>冰块⑨号&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:28<br />
+tellraw 不能把动作穿插在句子中间吗？<br />
+<br />
+试过不行耶……<br />
+<br />
+比如 Follow me on [Mcbbs] for the next version!<br />
+<br />
+然后中间url……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Bryan33&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:29<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2014-1-1 18:27</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078206&amp;ptid=209430" target="_blank"><img id="aimg_wlHK3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+格式不对会崩存档，我都试过不少了<br />
+用MCE把有问题的刷怪笼删掉就能开了</blockquote></div><br />
+MCedit刚学会没多久，以后就用了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:30<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">Lighten_Eagle 发表于 2014-1-1 18:28</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078216&amp;ptid=209430" target="_blank"><img id="aimg_juvEE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+tellraw 不能把动作穿插在句子中间吗？<br />
+<br />
+试过不行耶……</blockquote></div><br />
+那动用一下extra就可以了<br />
+单纯text做不了<br />
+概念就是动作前面部分用text，动作用extra，最后的文字用extra补上<br />
+（老实说这教程真&amp;#8482;没动力更新……没人欣赏啊，跟NBT的下场差不多）<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:30<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a390807154 发表于 2014-1-1 18:29</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078245&amp;ptid=209430" target="_blank"><img id="aimg_VzKSr" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+MCedit刚学会没多久，以后就用了</blockquote></div><br />
+MCE摸着摸着就会用了<br />
+其实还是很简单的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>冰块⑨号&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:33<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2014-1-1 20:30</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078252&amp;ptid=209430" target="_blank"><img id="aimg_DpogD" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+那动用一下extra就可以了<br />
+单纯text做不了<br />
+概念就是动作前面部分用text，动作用extra，最后的文字用extr ...</blockquote></div><br />
+这个的话需要抱着“我更新不是为了点击”的想法去写……<br />
+<br />
+用弓箭射杀生物是怎么判定杀死归属的？<br />
+<br />
+药水是 ownerName 箭好像没有啊……<br />
+<br />
+塔防的计分板里遇到瓶颈了……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-1 18:37<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">Lighten_Eagle 发表于 2014-1-1 18:33</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4078290&amp;ptid=209430" target="_blank"><img id="aimg_yhRDH" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+这个的话需要抱着“我更新不是为了点击”的想法去写……<br />
+<br />
+用弓箭射杀生物是怎么判定杀死归属的？</blockquote></div><br />
+弓箭杀生物吗……<br />
+这个是个问题,我没看到有相关标签<br />
+估计是系统内部判断了吧，刷新出来的箭只能呵呵了<br />
+所以好像无解<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>guizhuwu2&nbsp; &nbsp; <b>时间: </b>2014-1-1 22:33<br />
+/tellraw @p {text:&quot;[按此]&quot;,clickEvent:{action:run_command,value:&quot;/say 欢迎收看tellraw教程第二篇&quot;}}<br />
+/tellraw @p {text:&quot;[召唤火球]&quot;,color:red,clickEvent:{action:run_command,value:&quot;/summon Fireball ~ ~ ~ {direction:[0.0,0.0,0.0]}&quot;}}<br />
+/tellraw @p {text:&quot;[打招呼]&quot;,clickEvent:{action:suggest_command,value:&quot;尼濠&quot;}}<br />
+/tellraw @p {text:&quot;[打招呼]&quot;,clickEvent:{action:suggest_command,value:&quot;hi&quot;}}<br />
+/tellraw @p {text:&quot;MCBBS&quot;,color:blue,underlined:true,clickEvent:{action:open_url,value:&quot;http://www.mcbbs.net&quot;}}<br />
+恩恩。版主你没占楼待编辑真是差评kek<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>liweichen6&nbsp; &nbsp; <b>时间: </b>2014-1-10 11:50<br />
+刚开始玩MC 弱弱地问句 字数限制是怎么解决的 我有几个命令还没打完就打不下了……<br />
+还有悬浮触发是只能用来显示么 命令之类不行么<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-10 12:35<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">liweichen6 发表于 2014-1-10 11:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4151850&amp;ptid=209430" target="_blank"><img id="aimg_xi1oE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+刚开始玩MC 弱弱地问句 字数限制是怎么解决的 我有几个命令还没打完就打不下了……<br />
+还有悬浮触发是只能用来 ...</blockquote></div><br />
+字数限制在聊天栏里面有<br />
+但在命令方块里面的限制高很多所以用命令方块<br />
+后面的意思不太明白<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Bryan33&nbsp; &nbsp; <b>时间: </b>2014-1-27 15:45<br />
+你是怎选中的?<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>898216724&nbsp; &nbsp; <b>时间: </b>2014-2-10 17:40<br />
+怎么在游戏里召唤出鼠标？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>qqqian5200&nbsp; &nbsp; <b>时间: </b>2014-4-25 19:02<br />
+第3段的你好后面少了个&nbsp;&nbsp;引号 “<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fgh2233&nbsp; &nbsp; <b>时间: </b>2014-6-5 11:52<br />
+楼主我看你的视频好久了！赞一个啊啊啊啊啊！{:10_512:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>在路上&nbsp; &nbsp; <b>时间: </b>2014-7-5 10:40<br />
+弱弱地问一句：怎么让clickEvent同时执行两个命令？<br />
+如：点一下之后先把模式改成创造，再给我一些东西<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-7-5 10:44<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=5620797&amp;ptid=209430" target="_blank"><font color="#999999">在路上 发表于 2014-7-5 10:40</font></a></font><br />
+弱弱地问一句：怎么让clickEvent同时执行两个命令？<br />
+如：点一下之后先把模式改成创造，再给我一些东西 ...</blockquote></div><br />
+直接的话不可以<br />
+但配合setblock和命令方块就可以了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Parva&nbsp; &nbsp; <b>时间: </b>2014-7-11 18:36<br />
+怎么在一行里又两个可以按的文字<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-7-12 09:06<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=5705002&amp;ptid=209430" target="_blank"><font color="#999999">Parva 发表于 2014-7-11 18:36</font></a></font><br />
+怎么在一行里又两个可以按的文字</blockquote></div><br />
+extra:[{},{}]<br />
+两个｛｝内放你想要的内容就可以了，可以无限扩展<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dfgesdlkgjdfly&nbsp; &nbsp; <b>时间: </b>2014-7-19 14:31<br />
+谢谢，这太好用啦<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>DELETE-USER&nbsp; &nbsp; <b>时间: </b>2014-8-22 22:23<br />
+可以执行系统命令么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Saber亚瑟王&nbsp; &nbsp; <b>时间: </b>2014-8-23 01:27<br />
+噗哈哈哈哈哈哈哈<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ujkojll&nbsp; &nbsp; <b>时间: </b>2014-9-25 19:09<br />
+视频咋没了呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>EternityTQ&nbsp; &nbsp; <b>时间: </b>2015-2-2 14:45<br />
+我想请教一下楼主：怎么使用tellraw做出不同颜色的信息，我需要2种颜色的消息，望回复QAQ<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2015-2-2 16:45<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=7513653&amp;ptid=209430" target="_blank"><font color="#999999">尼玛乄骑士 发表于 2015-2-2 14:45</font></a></font><br />
+我想请教一下楼主：怎么使用tellraw做出不同颜色的信息，我需要2种颜色的消息，望回复QAQ ...</blockquote></div><br />
+/tellraw @a {text:&quot;&quot;,extra:[{text:&quot;1&quot;,color:&quot;red&quot;},{text:&quot;2&quot;,color:yellow}]}<br />
+这是一个例子，请自行参详<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Lamost&nbsp; &nbsp; <b>时间: </b>2015-2-16 22:50<br />
+看了下楼主的一些教程，发现大多数指令都是单机时用的，@P指令在多人使用的时候很容易引起混乱，有没有什么办法可以规避呢？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>去猫&nbsp; &nbsp; <b>时间: </b>2015-7-10 23:12<br />
+1.7.2可以使用吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>whwhwhqwe&nbsp; &nbsp; <b>时间: </b>2015-8-24 21:49<br />
+受教了 学了tellraw的各种用法<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>104277777&nbsp; &nbsp; <b>时间: </b>2015-8-24 23:21<br />
+请问1.9有办法用命令方块实现 计分板显示玩家实时XYZ坐标么？{:10_522:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>陋室铭&nbsp; &nbsp; <b>时间: </b>2015-8-25 10:52<br />
+很好i，赞一个~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lukluk&nbsp; &nbsp; <b>时间: </b>2016-2-16 22:49<br />
+请问一下文字能加入两个点击事件么如何让他们同时使用。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>y1679902609&nbsp; &nbsp; <b>时间: </b>2016-10-4 21:58<br />
+太棒了 100个赞 我找了半年多了<img src="static/image/smiley/rabbit/51.gif" smilieid="701" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>@TGL&nbsp; &nbsp; <b>时间: </b>2017-6-19 14:08<br />
+粗体字该怎么打<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3509767689&nbsp; &nbsp; <b>时间: </b>2017-6-21 12:25<br />
+12138 222222233333<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>诺基亚1&nbsp; &nbsp; <b>时间: </b>2017-6-22 14:23<br />
+今年种王的群势<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>诺基亚1&nbsp; &nbsp; <b>时间: </b>2017-6-22 14:23<br />
+666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>诺基亚1&nbsp; &nbsp; <b>时间: </b>2017-6-22 14:24<br />
+666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>枷尔&nbsp; &nbsp; <b>时间: </b>2017-7-1 13:43<br />
+点击看成灵异。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SJC20030208&nbsp; &nbsp; <b>时间: </b>2017-7-2 14:56<br />
+顶顶顶顶顶顶顶顶顶顶顶顶顶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>moyu123&nbsp; &nbsp; <b>时间: </b>2018-1-29 22:56<br />
+为什么我的1.11.2显示无效的json......？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Muser泍涩&nbsp; &nbsp; <b>时间: </b>2018-7-6 19:39<br />
+想要复制<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>21655970&nbsp; &nbsp; <b>时间: </b>2018-7-6 19:49<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

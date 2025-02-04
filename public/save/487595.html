@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §2 : 计分板操作 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODc1OTUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §2 : 计分板操作 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-15 20:27<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §2 : 计分板操作<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-17 11:50 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>计分板操作</strong></font></font></div><div align="center"><font size="2"><strong>页数和目录相对</strong></font></div><div align="left">本大章将会具体讲解计分板players指令的各个作用。</div><br />
+<div align="left">本章内容将会涉及到</div><div align="left"><strong>变量赋值与加减</strong></div><br />
+<div align="left"><strong>变量运算表达式</strong></div><br />
+<div align="left"><strong>变量与实体</strong></div><br />
+<div align="left"><strong>变量与NBT</strong></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-486959-1-1.html" target="_blank">上一篇</a>（计分板基础）--<a href="http://www.mcbbs.net/thread-460038-1-1.html" target="_blank">下一篇</a>（高频与超频执行顺序）</font></div><br />
+</div><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§2.1 赋值/加减</font></font></strong><br />
+前面提到过，scoreboard players拥有<strong>以下子指令</strong>：<br />
+set&nbsp; &nbsp; - 设置一个常数量<br />
+add&nbsp; &nbsp; - 增加一个常数量<br />
+remove - 减少一个常数量<br />
+<br />
+<br />
+<ul><li>set<br />
+</ul><img id="aimg_YnfK7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/88df27440bfe19ea.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br /><div class="blockcode"><div id="code_CpP"><ol><li>/scoreboard players set @p a 10</ol></div><em onclick="copycode($('code_CpP'));">复制代码</em></div><br />
+<font color="#008000">将最近玩家的a计分板分数设为10</font><br />
+<br />
+<ul><li>add<br />
+</ul><img id="aimg_z3691" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/006d7d32011b5ca5.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br /><div class="blockcode"><div id="code_pkA"><ol><li>/scoreboard players add @p a 6</ol></div><em onclick="copycode($('code_pkA'));">复制代码</em></div><br />
+<font color="#008000">将最近玩家的a计分板分数增加6</font><br />
+<br />
+<ul><li>remove<br />
+</ul><img id="aimg_dle65" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/fa14a6f9debce85c.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br /><div class="blockcode"><div id="code_Xdo"><ol><li>/scoreboard players remove @p a 16</ol></div><em onclick="copycode($('code_Xdo'));">复制代码</em></div><br />
+<font color="#008000">将最近玩家的a计分板分数减少16</font><br />
+<br />
+<br />
+当然还有：<br />
+<ul><li>reset<br />
+</ul><br /><div class="blockcode"><div id="code_Sf6"><ol><li>/scoreboard players reset @p a</ol></div><em onclick="copycode($('code_Sf6'));">复制代码</em></div><br />
+<font color="#008000">完全清空某实体的某计分板</font><br />
+<br />
+<br />
+<font color="#0800"></font><br />
+<strong><font face="碳化硅大黑体"><font size="5">§2.2 运算表达式</font></font></strong><br />
+players下包含了<strong>operation子命令</strong><br />
+<br />
+operation提供了量的基础运算，仅限于<strong>计分版变量</strong>。<br />
+<strong>基础运算</strong>包括：<br />
++=&nbsp; &nbsp;- 将变量2的值加上变量1的值，储存在变量1中<br />
+-=&nbsp; &nbsp;- 将变量1的值减去变量2的值，储存在变量1中<br />
+*=&nbsp; &nbsp;- 将变量1的值与变量2的值相乘，储存在变量1中<br />
+/=&nbsp; &nbsp;- 将变量1的值除以变量2的值，储存在变量1中<br />
+&lt;&nbsp; &nbsp; - 比较变量1和变量2的值，取最小的储存在变量1中<br />
+&gt;&nbsp; &nbsp; - 比较变量1和变量2的值，取最大的储存在变量1中<br />
+&gt;&lt;&nbsp; &nbsp;- 交换变量1和变量2的值<br />
+=&nbsp; &nbsp; - 将变量2的值赋给变量1<br />
+<br />
+<font size="4"><strong>格式为：</strong></font><br /><div class="blockcode"><div id="code_bix"><ol><li>/scoreboard players operation 选择器/假名1 计分板1 运算符号 选择器/假名2 计分板2</ol></div><em onclick="copycode($('code_bix'));">复制代码</em></div><br />
+<br />
+<br />
+<font color="#008000"><font color="#333333">最终</font><strong>结果储存在选择器/假名1的计分板1中</strong><font color="#333333">。</font><br />
+</font><font color="#0800"></font><br />
+<strong><font face="碳化硅大黑体"><font size="5">§2.3 变量与实体</font></font></strong><br />
+变量通常通过实体选择器储存在实体内，<br />
+所以变量与实体的存在有关。<br />
+<br />
+<ul><li>共存性<br />
+</ul>如果实体在一个或多个计分板内有一个变量，<br />
+除了reset外，如果需要完全reset，<strong>可以利用共存性，将实体销毁</strong>。<br />
+<br />
+<ul><li>转移<br />
+</ul>利用<strong>相对性（后面会讲到），能够关联实体与实体间的变量</strong>。<br />
+<br />
+<ul><li>加载<br />
+</ul>因为<strong>使用实体选择器，所以如果需要使用变量，请保证目标实体得到加载</strong>。<br />
+<br /><br />
+<strong><font face="碳化硅大黑体"><font size="5">§2.4 变量与NBT</font></font></strong><br />
+计分版支持NBT，<br />
+因此可以给指定NBT的实体，也就是<strong>拥有某一特性的实体的计分版设定分数</strong>。<br />
+<br />
+那么就做到了<strong>目标实体的独立性</strong><br /><div class="blockcode"><div id="code_ipZ"><ol><li>/scoreboard players set 实体选择器控制范围 计分板 1 NBT的精确范围</ol></div><em onclick="copycode($('code_ipZ'));">复制代码</em></div><br />
+1.9也可以 <br /><div class="blockcode"><div id="code_Pku"><ol><li>/scoreboard players tag 实体选择器控制范围 add tag名 NBT的精确范围</ol></div><em onclick="copycode($('code_Pku'));">复制代码</em></div><br />
+<br />
+<strong>反探测则可：</strong><br /><div class="blockcode"><div id="code_JDa"><ol><li>@e[score_计分板_min=1]</ol></div><em onclick="copycode($('code_JDa'));">复制代码</em></div><br />
+或者<br /><div class="blockcode"><div id="code_YI5"><ol><li>@e[tag=tag名]</ol></div><em onclick="copycode($('code_YI5'));">复制代码</em></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>彼岸在望&nbsp; &nbsp; <b>时间: </b>2015-8-15 20:37<br />
+二逼出品必属精品好帖已收<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>G-r-e-e-n&nbsp; &nbsp; <b>时间: </b>2016-10-9 13:38<br />
+在多人游戏中也可以吗？<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-10-9 21:19<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11047664&amp;ptid=487595" target="_blank"><font color="#999999">G-r-e-e-n 发表于 2016-10-9 13:38</font></a></font><br />
+在多人游戏中也可以吗？</blockquote></div><br />
+多人游戏开启命令方块即可在原版服务器使用（需要OP和创造模式）
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

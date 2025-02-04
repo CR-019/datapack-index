@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>【1.9】瞬间多次调用、执行模块概念 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01NjcyNTAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【1.9】瞬间多次调用、执行模块概念 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2016-3-15 21:47<br />
+<b>标题: </b>【1.9】瞬间多次调用、执行模块概念<br /><i class="pstatus"> 本帖最后由 pca006132 于 2016-10-16 13:11 编辑 </i><br />
+<br />
+在本pca死之前就搬这东西过来给大家看看吧<br />
+说明一下，这教程我也曾经在别的地方发过，因此别百度找到别的帖子是同样内容就说我剽窃什么的<br />
+而且这只是一个概念，只是由于我懒得大幅优化和弄生成器才拿出来的，可能大家能帮忙优化一下吧<br />
+<br />
+<font color="#ff0000">注意: 现在可以使用stb去取代clone, 这样就不需要绝对坐标了<br />
+</font><br />
+在研究icb,ccb,rcb的机制时，我发现了一个挺特别的东西，现在就跟大家分享一下<br />
+就是当ccb被替换成另一个ccb，它是能够马上接受信号的，举个例子<br /><div class="blockcode"><div id="code_GYf"><ol><li>icb:<br /><li>say start<br /><li>setblock ~ ~1 ~ 1 replace {Command:&quot;say hi&quot;,auto:1b}<br /><li>say bye<br /><li>say end</ol></div><em onclick="copycode($('code_GYf'));">复制代码</em></div>假设这cb链是向上的，那么它就会把原本为say bye的ccb变为say hi，当信号到第四个cb也就是被替换了的那个，它能够执行say hi这个指令而不是等下一次有信号才会执行(输出就是start, hi, end)<br />
+因此，我们能够得到一个结论: cb的替换是即时的，也就是只替换NBT而不是整个方块替换<br />
+其实还有一个特性的，就是替换后的朝向是会被忽略的(数据值和NBT的修改不是同时的?这就不清楚了，然而我们可以肯定的就是不能如此瞬间转向)<br />
+<br />
+可能你会问，这样子有什么用？<br />
+我只能说我也不知道，然而我给了一个技术上可行然而麻烦到不得了的概念你们看看吧，就是模块的调用<br />
+<br />
+=========优雅的分隔线=========<br />
+<br />
+<img id="aimg_Q6A5p" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="317" src="http://www.pcapcb.com/data/attachment/forum/201603/01/172702n9y9y6pz3yyd90tq.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+整个概念:<br />
+把需要执行的模块clone进去主要的执行串(主模块)里，做到多次调用同样模块及1gt内执行尽量多的循环类系统<br />
+如果剩余空间不足，则会自动把剩下模块放进暂存等待下一个gt执行<br />
+<br />
+**代码块里的那些是懒癌卫士里的表达方式，不懂的话可以来这里看:<a href="http://www.mcbbs.net/thread-533943-1-1.html" target="_blank">懒癌卫士</a><br /><div class="blockcode"><div id="code_gvw"><ol><li>//调用模块{:<br /><li>&nbsp; &nbsp; //检测空间是否足够<br /><li>&nbsp; &nbsp; scoreboard players operation @e[name=start] length -= @e[name=(储存模块长度的marker)] length<br /><li>&nbsp; &nbsp; scoreboard players test @e[name=start] length 1<br /><li>&nbsp; &nbsp; //如果空间足够，则把模块clone到之后的cb里<br /><li>&nbsp; &nbsp; cond:/clone (该模块坐标) ~ ~ ~1 <br /><li>&nbsp; &nbsp; //如果空间不足，则把模块放进暂存里，并且把之后的命令删除<br /><li>&nbsp; &nbsp; execute @e[name=start,score_length=0] ~ ~ ~ clone (该模块坐标) (暂存的位置(可能为相对坐标，即暂存里start marker的相对位置)) <br /><li>&nbsp; &nbsp; cond:fill ~ ~ ~ ~ ~ ~20 stone 0 replace chain_command_block 3<br /><li>&nbsp; &nbsp; //即使cond的ccb无法被删除，也不能执行(前面的cb都被删除了，不可能成功)<br /><li>//}</ol></div><em onclick="copycode($('code_gvw'));">复制代码</em></div><br />
+<br />
+执行空间完结: 转向<br />
+原因: 避免被 &quot;fill ~ ~ ~ ~ ~ ~20 stone 0 replace chain_command_block 3&quot;错误删除<br />
+执行空间完结的指令是必须执行的，否则就有可能出现bug<br /><div class="blockcode"><div id="code_Wot"><ol><li>//完结: {<br /><li>&nbsp; &nbsp; /scoreboard players set @e[name=start] length 11<br /><li>&nbsp; &nbsp; /clone (暂存) (执行空间)<br /><li>&nbsp; &nbsp; mark:blankCount<br /><li>&nbsp; &nbsp; //先执行scb和stats block (下一个cb的位置) AffectedBlocks @e[name=blankCount,c=1] length<br /><li>&nbsp; &nbsp; //上方的只需要执行一次，得到stats的链接就可以了<br /><li>&nbsp; &nbsp; /testforblocks (暂存) (空置的比较用暂存)<br /><li>&nbsp; &nbsp; //把length = 暂存里空置的地方<br /><li>&nbsp; &nbsp; /scoreboard players operation @e[name=start] length = @e[name=blankCount] length<br /><li>&nbsp; &nbsp; //清空暂存<br /><li>&nbsp; &nbsp; fill -12 4 75 -12 4 85 minecraft:chain_command_block 3<br /><li>//}</ol></div><em onclick="copycode($('code_Wot'));">复制代码</em></div><br />
+<br />
+模块的切割<br />
+由于这个系统里，调用模块会把之后的命令覆盖掉，所以我们需要把调用模块之后的命令放进另外一个模块里<br />
+(或者在调用的模块里再写一次也可以)<br />
+例子1:<br />
+{<br />
+&nbsp; &nbsp; say hi<br />
+&nbsp; &nbsp; module 1<br />
+&nbsp; &nbsp; say bye<br />
+}<br />
+如果是这种情况，就可以把say bye放进module1，或者是把say bye放进module2，然后在module1最后的地方调用。<br />
+而主模块里则不需要写say bye(因为必定会被覆盖)<br />
+<br />
+例子2:<br />
+{<br />
+&nbsp; &nbsp; say hi<br />
+&nbsp; &nbsp; if (testfor @e[name=pca])<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;module 1<br />
+&nbsp; &nbsp; say bye<br />
+}<br />
+这种情况应该也是最常见的，就可以把say bye放进module1，并且在主模块也写一次(一共两次)。<br />
+或者是把say bye放进module2，分别在主模块和module1里调用<br />
+<br />
+=========优雅的分隔线=========<br />
+<br />
+例子里主模块的长度就十几个ccb，当然真正要做的话就不是那样子了，而是起码一百个，不然这就没什么用了<br />
+这样子我们就能尽情的压榨MC的能力，而不会压榨到崩溃<br />
+而且也能够更好的做到模块化(虽然是被阉割了的)<br />
+当然，现在看来很麻烦，然而我觉得也是那些弄成生成器就会好很多的东西了<br />
+可惜的就是这系统很多地方依赖clone，也就是说要作出大量的坐标计算(或者是直接用绝对坐标)<br />
+而且这个系统效率也不是一般的低...还需要优化(目前一大堆命令才能调用一个模块)<br />
+然而我觉得这个系统如果优化一下和弄一个生成器的话，加上本人<a href="http://www.mcbbs.net/thread-519679-1-1.html" target="_blank">无延迟逻辑</a>这个帖子，相信能够在MC里做到接近编程的效果，虽然很差就是了<br />
+而且这个概念对一些需要多次循环、大量条件操作的情况下挺适用的，因为这样子就能够减低运行所需的时间，也能够避免因为穷举运行大量命令而造成的超长游戏刻及卡顿。<br />
+嗯，最后道别一下。各位再见<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhaoxingeabc&nbsp; &nbsp; <b>时间: </b>2016-3-15 22:00<br />
+<i class="pstatus"> 本帖最后由 zhaoxingeabc 于 2016-3-15 14:11 编辑 </i><br />
+<br />
+这贴发到pcapcb容易理解些……<br />
+毕竟用pcb的人不多，直接发到mcbbs不利于理解……<br />
+<strike>其实我真的没看到签名档里有pcb下载</strike><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>回调然后他&nbsp; &nbsp; <b>时间: </b>2016-3-15 22:03<br />
+要退坑了有感言吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2016-3-15 22:11<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10002287&amp;ptid=567250" target="_blank"><font color="#999999">回调然后他 发表于 2016-3-15 22:03</font></a></font><br />
+要退坑了有感言吗</blockquote></div><br />
+肮脏的交易实在是太多了，这十分之不好，我们必须从根本根除这种腐败的交易<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>炮手里欧&nbsp; &nbsp; <b>时间: </b>2016-3-16 08:50<br />
+我擦，好屌<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>回调然后他&nbsp; &nbsp; <b>时间: </b>2016-3-17 20:59<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10002310&amp;ptid=567250" target="_blank"><font color="#999999">pca006132 发表于 2016-3-15 22:11</font></a></font><br />
+肮脏的交易实在是太多了，这十分之不好，我们必须从根本根除这种腐败的交易<br />
+ ...</blockquote></div><br />
+你玩不玩Minecraft了，你不玩我也不玩了<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>840196733mw&nbsp; &nbsp; <b>时间: </b>2016-3-18 19:48<br />
+pca退坑了？ pcb开发怎么办 pcc怎么办 还没开发的pcd怎么办 pcz怎么办（为了不涉及宣传就不给网址了，pca的论坛）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>geng5196&nbsp; &nbsp; <b>时间: </b>2016-3-31 16:21<br />
+感觉好6啊！ <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-9-9 01:01<br />
+我在想 印象里游戏是先标记哪些cb将要在下一个游戏刻执行（加入计划刻）<br />
+<br />
+然后等一个游戏刻<br />
+<br />
+然后执行<br />
+<br />
+<br />
+印象里游戏在破坏方块后计划刻不会去除<br />
+而该计划刻到时间后能不能起效主要看计划刻记载的方块ID和到时间时该位置方块的ID<br />
+有些组合会起效 有些不会<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>AD【钙奶】&nbsp; &nbsp; <b>时间: </b>2016-9-10 08:36<br />
+我还是看不懂{:10_514:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>七海八千代&nbsp; &nbsp; <b>时间: </b>2016-9-10 09:30<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10930497&amp;ptid=567250" target="_blank"><font color="#999999">AD【钙奶】 发表于 2016-9-10 08:36</font></a></font><br />
+我还是看不懂</blockquote></div><br />
+这里不是茶馆在这里水贴会被发好人卡。。。
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

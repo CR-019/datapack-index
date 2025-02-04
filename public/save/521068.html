@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §α : #1.9 创建模块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01MjEwNjgtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §α : #1.9 创建模块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-10 21:35<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §α : #1.9 创建模块<br /><font size="5">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">#1.9</font></font><font size="5"> 创建模块</font></strong><br />
+在1.9中，指令方块有了新的激活/摆放的特性，所以1.9的模块创建比起之前就略有不同了：<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F992A_5641F1960" target="_blank"><img id="aimg_FEE7v" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/992A_5641F1960.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+如图就是一个1.9的模块<br />
+<br />
+<br />
+<ul><li><font color="#ff0000"><strong>模块核心</strong></font><br />
+</ul><font color="#ff0000"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FE9C3_5641F1960" target="_blank"><img id="aimg_I2490" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/E9C3_5641F1960.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+<br />
+<font color="#ff0000"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F7A8C_5641F1960" target="_blank"><img id="aimg_VGQ40" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/7A8C_5641F1960.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+<font color="#ff0000"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F6882_5641F1970" target="_blank"><img id="aimg_W7F3R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/6882_5641F1970.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+<font color="#ff0000"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FAE60_5641F1970" target="_blank"><img id="aimg_arg1s" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/AE60_5641F1970.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+如图可以知道Repeat<strong>可以在被红石激活的情况下反复执行</strong>，<br />
+所以Repeat具备作为核心的能力<br />
+<br />
+其次就是选项中可以更改为Always Active<br />
+这样Repeat就能一直执行，构成了<strong>自动型模块</strong>。<br />
+<br />
+<ul><li><font color="#408080"><strong>模块通路</strong></font><br />
+</ul><font color="#408080"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F631A_5641F1970" target="_blank"><img id="aimg_ZrI5H" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/631A_5641F1970.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+<br />
+<font color="#408080"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FAB4D_5641F1970" target="_blank"><img id="aimg_KbPBy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/AB4D_5641F1970.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+<font color="#408080"><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F8415_5641F1970" target="_blank"><img id="aimg_LC442" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/8415_5641F1970.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong></font><br />
+（这里用单次执行的普通指令方块作为激活器）<br />
+由于Chain具有连通性，所以Chain作为模块中的通路，也就是模块中的<strong>被核心激活部分</strong><br />
+Chain只有<strong>在被红石激活，并且输出接口指向他的命令方块执行的情况下才能自身执行（所以Chain能无限向后连接）</strong><br />
+<br />
+Chain包含了Always Active选项，那么Chain就能自身激活。<br />
+<br />
+这里需要区别的是这个通路中的所有指令方块不需要前面接口指向它的指令方块执行成功，只需要执行即可。<br />
+<strong>就是如果此Chain执行了，输出接口指向的Chain就执行</strong><br />
+<br />
+<br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F7E1B_5641F1980" target="_blank"><img id="aimg_c0ZMr" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/7E1B_5641F1980.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+Chain能随意方向延伸，只要构成一个通路那么所有同路中的都可执行。<br />
+<br />
+<ul><li><strong>总结</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F8E5F_5641F1980" target="_blank"><img id="aimg_ANcOu" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/8E5F_5641F1980.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<br />
+（上者是驱动型，下者是自动型，两者本身没有太大区别。在做模块激活特性通常使用上，而逻辑模块就简便的使用下）<br />
+一个模块的<strong>大致模型</strong>就是：<br />
+<font color="#ff0000">Repeat →</font><font color="#408080"> Chain → Chain → Chain → Chain → Chain → Chain → Chain</font><br />
+ <font color="#ff0000">核心</font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<font color="#408080">通路</font><br />
+<br />
+<font size="1">可以将核心想象为红石的高频，通路就是连接的输出</font><br />
+<br />
+<font face="微软雅黑"><font size="4"><strong>1.9模块：</strong></font></font><br />
+<font color="#ff0000">核心（单个Repeat）</font>为整个模块更新（核心的输出接口只想通路的输入接口），<br />
+<font color="#408080">通路（Chain前者输出接口对接后者的一条）</font>是模块的附部分，<br />
+<strong>核心和模块都能执行命令</strong>，<br />
+通路中的指令方块（<i>没有Conditional的</i>）的执行条件都是<strong>接口前者执行</strong>。<br />
+<br />
+<br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>臻臻丶Z&nbsp; &nbsp; <b>时间: </b>2015-11-10 21:38<br />
+顶顶顶顶顶顶顶顶顶顶顶顶顶加油楼主<img src="static/image/smiley/mc_mob_food_plants/notch_square.gif" smilieid="840" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-11-10 21:53<br />
+究竟要发多少那些别人发过的东西……
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

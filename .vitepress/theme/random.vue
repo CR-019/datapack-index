@@ -23,7 +23,9 @@
     `神 金 包`,
     `这是Datapack，它散架辣！`,
     `upup，为什么我1.21的数据包不识别函数`,
-    `别想不开写生存包`
+    `别想不开写生存包`,
+    `听说了吗？MCBBS打赢复活赛了 <a href=https://forum.mczwlt.net/ target="_blank">点这里前往-></a>`,
+    `数据包笑传之Change Change 版本号`
   ];
   
   // 用于存储选中的段落

@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 初始执行模块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzcwMDItMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 初始执行模块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-28 18:41<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 初始执行模块<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-31 19:48 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><font face="微软雅黑"><font size="6"><strong>多模块关联</strong></font></font></div></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 调用模块</font></font></div><div align="left"><div align="left">在模块中，为了达成<strong>一个目的</strong>，可以使用多个语句的<strong>单模块来完成</strong>。</div><div align="left">但是如果模块的输入有<strong>一系列输出</strong>，那么需要<strong>创建多个模块完成</strong>。</div><br />
+<div align="left">因此在单模块中输入输出关系：</div><div align="left"><font size="2"><font color="#800000">输入→输出</font></font></div><br />
+<div align="left"><strong>多模块相当于多个单模块</strong>，所以输出输入关系：</div><div align="left"><font size="2"><font color="#800000">输入&nbsp; &nbsp; →输出</font></font></div><div align="left"><font size="2"><font color="#800000">(输入)&nbsp;&nbsp;→输出</font></font></div><div align="left"><font size="2"><font color="#800000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;→输出</font></font></div><br />
+<div align="left">可以看到多模块更加灵活<strong>不必局限于一个模块的体系</strong>。本章就要学习包括<strong>创建调用</strong>多模块，和<strong>控制多模块的操作类型</strong>。</div><br />
+<br />
+<div align="left">多模块关联包括</div><br />
+<div align="left"><strong>建立模块</strong></div><br />
+<div align="left"><strong>调用模块</strong></div><br />
+<div align="left"><strong>初始执行模块</strong></div><br />
+<div align="left"><strong>单次执行模块</strong></div><ul><li><div align="left">setblock法</div><li><div align="left">时钟法</div><li><div align="left">调用效果指令</div><br />
+</ul><div align="left"><strong>调用游戏资源</strong></div><ul><li><div align="left">坐标操作</div><li><div align="left">自动寻路</div><br />
+</ul><div align="left"><strong>远程法调用逻辑组</strong></div><br />
+<div align="left"><strong>关闭模块</strong></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-476913-1-1.html" target="_blank">上一篇</a>（调用模块）--<a href="http://www.mcbbs.net/thread-478660-1-1.html" target="_blank">下一篇</a>（单次执行模块）</font></div><div align="right"><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§8.3 初始执行模块</font></font></strong><br />
+前面我们知道了如何<strong>建立模块</strong>和如何<strong>调用模块</strong>，<br />
+现在开始讲解多模块中一些<strong>模块的类型</strong>。<br />
+<br />
+<br />
+像之前所出现的单模块，属于<strong>普通模块</strong>，只是<strong>为了达成目的</strong>。<br />
+现在要介绍的是<strong>初始执行模块</strong>，可以理解为模块环境的预置，它与模块本身无任何影响，但是是模块的<strong>运行的基础</strong>。<br />
+<br />
+初始执行模块<strong>包含</strong>了：<br />
+<ul><li><strong>计分板创建</strong>（所有模块所需要的计分板）<li><strong>计分板设定初始值</strong>（比如stats为防止破坏，初始值直接连接高频）<li><strong>必要的gamerule</strong>（隐藏指令返回聊天框等）<li><strong>假设模块免受干扰区域</strong>（例如创建框架）<br />
+</ul><br />
+<br />
+首先，初始执行模块可以直接<strong>手动单次执行</strong>：<br />
+<img id="aimg_z5JZy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/6662593db38365b5.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>手动单次执行核心：</strong><br />
+/fill ~ ~-1 ~ ~5 ~-1 ~ air<br />
+<font color="#008000">*上方指令</font><br />
+/fill ~ ~1 ~ ~5 ~1 ~ redstone_block<br />
+<font color="#008000">*下方指令</font><br />
+这样激活后，整个区域就<strong>只会单次执行</strong>。<br />
+<br />
+<strong>顺序执行：</strong><br /><div class="blockcode"><div id="code_fJJ"><ol><li>/scoreboard objectives add a dummy<br /><li>/scoreboard objectives add b dummy<br /><li>/scoreboard objectives add c dummy</ol></div><em onclick="copycode($('code_fJJ'));">复制代码</em></div><br />
+<font color="#008000">*添加计分板</font><br /><div class="blockcode"><div id="code_uzu"><ol><li>/gamerule commandBlockOutput false </ol></div><em onclick="copycode($('code_uzu'));">复制代码</em></div><br />
+<font color="#008000">*设定游戏规则</font><br /><div class="blockcode"><div id="code_ES6"><ol><li>/scoreboard players set @p a 0 </ol></div><em onclick="copycode($('code_ES6'));">复制代码</em></div><br />
+<font color="#008000">*设定初始值（一定要在创建后面，否则无效）</font><br />
+<br />
+<br />
+当然也可以用以上指令直接关联高频，同样的顺序：<br />
+<br />
+<img id="aimg_ImTs5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/3325dbe2e5228ca1.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>关联高频的好处是能够实时防止初始环境被破坏，干扰了模块正常运行。</strong><br />
+<br />
+</div></div></div><br />
+[groupid=546]Command Block Logic[/groupid]
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

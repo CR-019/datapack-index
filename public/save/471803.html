@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §5 : 结束循环 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzE4MDMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 结束循环 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-19 21:35<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 结束循环<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-19 21:43 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>循环语句与条件语句结合</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 结束循环</font></font></div><div align="left">本章将前两章内容进行结合，</div><div align="left">便是循环体中使用条件语句；</div><div align="left">和条件语句中使用循环。</div><br />
+循环语句结合条件语句将会涉及到<div align="left"><strong>循环中条件语句</strong></div><br />
+<div align="left"><strong>时钟</strong></div><ul><li><div align="left">建立时钟</div><li><div align="left">时钟中条件语句</div><br />
+</ul><div align="left"><strong>结束循环</strong></div><br />
+<div align="left"><strong>跳过循环</strong></div><br />
+<div align="left"><strong>循环嵌套</strong></div><ul><li><div align="left">判断条件</div><li><div align="left">终止循环</div><br />
+</ul><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-470597-1-1.html" target="_blank">上一篇</a>（时钟）--<a href="http://www.mcbbs.net/thread-471807-1-1.html" target="_blank">下一篇</a>（跳过循环）</font></div><div align="right"><div align="left"><font size="2"></font><br />
+<strong><font face="碳化硅大黑体"><font size="5">§5.3 结束循环</font></font></strong><br />
+在<strong>某些特殊的条件</strong>下，比如循环已经得到了最终值，我们<strong>必须提前结束循环</strong>。<br />
+之前我们提到过可以操作循环的次数，因此做到结束、我们只需要<strong>将循环的次数设满，加上时钟中的一些小知识</strong>就可以了。<br />
+<br />
+指令如下：<br />
+<img id="aimg_gRH0F" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/963956b2d3f4d4a9.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_y4u"><ol><li>/execute @p[score_a_min=3,score_a=3] ~ ~ ~ /scoreboard players set @p[score_a_min=3] a 6</ol></div><em onclick="copycode($('code_y4u'));">复制代码</em></div><br />
+<font color="#008000">*当符合某条件，将循环次数设满</font><br /><div class="blockcode"><div id="code_r4m"><ol><li>/scoreboard players add @p[score_a=6] a 1</ol></div><em onclick="copycode($('code_r4m'));">复制代码</em></div><br />
+<font color="#008000">*循环核心</font><br /><div class="blockcode"><div id="code_U8h"><ol><li>/execute @p[score_a=6] ~ ~ ~ /tellraw @a {text:&quot;&quot;,extra:[{score:{name:&quot;@p&quot;,objective:&quot;a&quot;}}]}</ol></div><em onclick="copycode($('code_U8h'));">复制代码</em></div><br />
+<font color="#008000">*输出</font><br />
+<br />
+其中/tellraw @a {text:&quot;&quot;,extra:[{score:{name:&quot;@p&quot;,objective:&quot;a&quot;}}]}代表输出实体的分数。<br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<img id="aimg_fY1FQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/a883afb0c10c792a.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</div></div>输出三次后自动结束循环<br />
+<br />
+原理十分简单，只需要在<strong>最前面放上结束循环语句</strong>，<br />
+这样在后面循环体中就不会输出。<br />
+<br />
+<br />
+<font size="4"><font color="#ff0000"><strong>标准格式：</strong></font></font><br />
+/execute 条件 /scoreboard players set 选择器 计分板 次数<br />
+<font color="#008000">*当符合某条件，将循环次数设满</font><br />
+/scoreboard players add 选择器 计分板 1<br />
+<font color="#008000">*循环核心</font><br />
+/execute 选择器 ~ ~ ~ 输出<br />
+<font color="#008000">*循环体</font><br />
+[groupid=546]Command Block Logic[/groupid]
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

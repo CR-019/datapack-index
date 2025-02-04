@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 关闭模块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00Nzk4NjMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 关闭模块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-2 21:40<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 关闭模块<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-1-10 16:25 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><font face="微软雅黑"><font size="6"><strong>多模块关联</strong></font></font></div></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 单次执行模块</font></font></div><div align="left"><div align="left">在模块中，为了达成<strong>一个目的</strong>，可以使用多个语句的<strong>单模块来完成</strong>。</div><div align="left">但是如果模块的输入有<strong>一系列输出</strong>，那么需要<strong>创建多个模块完成</strong>。</div><br />
+<div align="left">因此在单模块中输入输出关系：</div><div align="left"><font size="2"><font color="#800000">输入→输出</font></font></div><br />
+<div align="left"><strong>多模块相当于多个单模块</strong>，所以输出输入关系：</div><div align="left"><font size="2"><font color="#800000">输入&nbsp; &nbsp; →输出</font></font></div><div align="left"><font size="2"><font color="#800000">(输入)&nbsp;&nbsp;→输出</font></font></div><div align="left"><font size="2"><font color="#800000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;→输出</font></font></div><br />
+<div align="left">可以看到多模块更加灵活<strong>不必局限于一个模块的体系</strong>。本章就要学习包括<strong>创建调用</strong>多模块，和<strong>控制多模块的操作类型</strong>。</div><br />
+<font size="4"><strong>多模块最本质的区别：可被调用</strong></font><br />
+<div align="left">多模块关联包括</div><br />
+<div align="left"><strong>建立模块</strong></div><br />
+<div align="left"><strong>调用模块</strong></div><br />
+<div align="left"><strong>初始执行模块</strong></div><br />
+<div align="left"><strong>单次执行模块</strong></div><ul><li><div align="left">setblock法</div><li><div align="left">时钟法</div><li><div align="left">调用效果指令</div><br />
+</ul><div align="left"><strong>调用游戏资源</strong></div><ul><li><div align="left">坐标操作</div><li><div align="left">自动寻路</div><br />
+</ul><div align="left"><strong>远程法调用逻辑组</strong></div><br />
+<div align="left"><strong>关闭模块</strong></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-479310-1-1.html" target="_blank">上一篇</a>（调用逻辑组）--<a href="http://www.mcbbs.net/thread-481512-1-1.html" target="_blank">下一篇</a>（实意指令与效果指令区别）</font></div><div align="right"><div align="left"></div></div></div><br />
+<strong><font face="碳化硅大黑体"><font size="5">§8.7 关闭模块</font></font></strong><br />
+<ul><li><strong>通过setblock禁用</strong><br />
+</ul><strong>
+<ignore_js_op>
+
+<img id="aimg_791537" aid="791537" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201508/02/213752rmph9ekn94zphn8i.png" file="https://attachment.mcbbs.net/forum/201508/02/213752rmph9ekn94zphn8i.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_791537" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_791537_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2015-08-02_21.20.46.png</strong> <em class="xg1">(90.72 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=NzkxNTM3fDFmZTEyMTMwfDE2MTM4NjM3NjN8MjQxOTQ4Nnw0Nzk4NjM%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2015-8-2 21:37 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</strong><br />
+有两个模块，主模块控制次模块<font color="#800000">输出say 1</font><br />
+<font color="#800000">
+<ignore_js_op>
+
+<img id="aimg_791538" aid="791538" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201508/02/213754u9eaz19x17lpezna.png" file="https://attachment.mcbbs.net/forum/201508/02/213754u9eaz19x17lpezna.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_791538" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_791538_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2015-08-02_21.20.51.png</strong> <em class="xg1">(92.72 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=NzkxNTM4fDU0YTI3NmRmfDE2MTM4NjM3NjN8MjQxOTQ4Nnw0Nzk4NjM%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2015-8-2 21:37 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</font><br />
+主模块判断a是否&gt;=1，<font color="#800000">否则一直执行say 1</font><br />
+<font color="#800000">
+<ignore_js_op>
+
+<img id="aimg_791539" aid="791539" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201508/02/213637uym216eelw8vg8eg.png" file="https://attachment.mcbbs.net/forum/201508/02/213637uym216eelw8vg8eg.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_791539" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_791539_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2015-08-02_21.20.55.png</strong> <em class="xg1">(90.72 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=NzkxNTM5fDk3NTg4ZGFhfDE2MTM4NjM3NjN8MjQxOTQ4Nnw0Nzk4NjM%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2015-8-2 21:36 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</font><br />
+<font color="#800000"><br />
+</font><br />
+做到这，只需要使用setblock：<br />
+
+<ignore_js_op>
+
+<img id="aimg_791540" aid="791540" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201508/02/213639ac2rghxco2wzrxcq.png" file="https://attachment.mcbbs.net/forum/201508/02/213639ac2rghxco2wzrxcq.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_791540" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_791540_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2015-08-02_21.21.37.png</strong> <em class="xg1">(111.68 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=NzkxNTQwfGJkMzAzZDE1fDE2MTM4NjM3NjN8MjQxOTQ4Nnw0Nzk4NjM%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2015-8-2 21:36 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_JJU"><ol><li>/execute @p[score_a_min=1] ~ ~ ~ setblock 坐标 redstone_block</ol></div><em onclick="copycode($('code_JJU'));">复制代码</em></div><br />
+<font color="#008000">*条件1，关闭高频</font><br /><div class="blockcode"><div id="code_TsM"><ol><li>/execute @p[score_a=0] ~ ~ ~ setblock 坐标 air<br /><li>/execute @p[score_a=0] ~ ~ ~ setblock 开启高频坐标 redstone_block</ol></div><em onclick="copycode($('code_TsM'));">复制代码</em></div><br />
+<font color="#008000">*条件2，开启高频。</font><br />
+<br />
+<strong>注意这个坐标</strong>：<br />
+是次模块的/<strong>fill redstone_block指令旁的坐标</strong>，否则不能开启高频；<br />
+<strong>开启高频坐标就是：</strong><br />
+<strong>fill redstone_block和fill air中间的坐标</strong>。<br />
+<br />
+<br />
+<i>如果坐标是/fill air指令旁的坐标</i><br />
+<br />
+<i>
+<ignore_js_op>
+
+<img id="aimg_791541" aid="791541" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201508/02/213642yfbtdv74a3ofw3wj.png" file="https://attachment.mcbbs.net/forum/201508/02/213642yfbtdv74a3ofw3wj.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_791541" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_791541_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2015-08-02_21.27.24.png</strong> <em class="xg1">(100.78 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=NzkxNTQxfGJlN2M0MGEwfDE2MTM4NjM3NjN8MjQxOTQ4Nnw0Nzk4NjM%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2015-8-2 21:36 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</i><br />
+<i>尽管能够关闭，但是无法开启。</i><br />
+<br />
+<br />
+<ul><li><strong>条件语句前置（调用的模块）</strong><br />
+</ul>与调用模块相反，如果使用了<strong><a href="http://www.mcbbs.net/thread-476913-1-1.html" target="_blank">调用模块</a>，那么关闭模块十分简单</strong>：<br />
+只需要<br /><div class="blockcode"><div id="code_NSV"><ol><li>/execute 调用模块条件 ~ ~ ~ /scoreboard players reset 条件的实体选择器 条件计分版</ol></div><em onclick="copycode($('code_NSV'));">复制代码</em></div><br />
+<br />
+与<strong>调用模块相同，不局限坐标</strong>。[groupid=546]Command Block Logic[/groupid]<script type="text/javascript" reload="1">
+aimgcount[8710261] = ['791537','791538','791539','791540','791541'];
+attachimggroup(8710261);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ksjsk&nbsp; &nbsp; <b>时间: </b>2015-8-2 21:49<br />
+好高大上啊有木有，我看不懂（这个可以有）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>丢失的钥匙&nbsp; &nbsp; <b>时间: </b>2015-8-6 02:35<br />
+MCBBS有你，世界更精彩！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>马王55&nbsp; &nbsp; <b>时间: </b>2015-8-6 03:31<br />
+没用得的
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

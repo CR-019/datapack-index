@@ -6,7 +6,7 @@ hero:
   name: "香草图书馆"
   tagline: 原版模组开发资源索引站
   image:
-    src: /bg3.png
+    src: /1402.png
   actions:
     - theme: brand
       text: 进入文档
@@ -56,6 +56,8 @@ import RandomParagraph from './.vitepress/theme/random.vue'
 由于MCBBS关站，许多其中的资源丢失了。  
 我们找到了其中一部分资源，现在点击他们会跳转到存档页面以浏览内容。  
 然而，还有相当比例的MCBBS帖子我们尚未找到。我们在这些帖子链接处加了删除线标识。如果你是帖子的原作者，或者知道这些帖子的存档位置，欢迎与我们联系。
+
+> 虽然bbs打赢复活赛了，但是数据仍然丢失，亟待补充。
 
 ### 扩充资源
 站点资源持续补充中。由于MCBBS的关站以及最近数个版本mojang对java版技术侧的改动，导致新版本相关特性的教程与介绍较为缺乏。  

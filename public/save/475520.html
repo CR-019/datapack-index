@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §6 : stats与条件语句 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzU1MjAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : stats与条件语句 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-26 10:13<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : stats与条件语句<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-26 20:20 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>获取执行值</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 stats与条件语句</font></font></div><div align="left">本章将引进新的概念：执行值。</div><br />
+<div align="left">执行值便是一个指令除了输出外执行的结果，通常返回<strong>执行的次数</strong>，<strong>输出值</strong>或者<strong>条件真假</strong>。</div><div align="left">获取执行值就能够随机应变，根据判断来<strong>调整下一步输出</strong>；执行值也可以<strong>用作debug</strong>；执行值也可以<strong>变相获取游戏参数</strong>。</div><br />
+<div align="left">在指令中，<strong>返回值的指令是stats</strong>。使用这条指令可以<strong>对指令影响的实体、方块、物品进行值的返回</strong>，</div><div align="left">结合条件语句<strong>进行下一步输出</strong>；或者<strong>产生对应参数</strong>。</div><br />
+<br />
+获取执行值将会涉及到<br />
+<br />
+<strong>stats用法</strong><br />
+<ul><li>所有执行类型<li>相对执行概念<li>计分板调用<li>实体储存<br />
+</ul><strong>stats与条件语句</strong><br />
+<ul><li>一般执行<li>!非<li>且&amp;&amp;<li>或||<li>结合表达式<br />
+</ul><strong>stats与时钟</strong><br />
+<br />
+<font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-474684-1-1.html" target="_blank">上一篇</a>（stats用法）--<a href="http://www.mcbbs.net/thread-475891-1-1.html" target="_blank">下一篇</a>（stats与时钟）</font></div><div align="right"><div align="left"><font size="2"></font><br />
+<strong><font face="碳化硅大黑体"><font size="5">§6.2 stats与条件语句</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 结合表达式</font></font><br />
+既然stats是与计分板关联的，那么stats的执行值同样<strong>可以适用于所有条件语句中的结论</strong>，<br />
+比如或且非等等逻辑语句。<br />
+<br />
+<br />
+stats关联条件语句便是<strong>对事件执行值进行判断输出，使事件输出更加灵活</strong>。<br />
+<br />
+<br />
+可以将stats与条件语句看作两个模块，一个<strong>负责获取</strong>，一个<strong>负责处理条件</strong>，便达成了一个完整的输出。<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">6.1.1 结合表达式</font></font></strong><br />
+由于条件语句都有固定的格式，这边只进一步阐述将本章内容分为两个模块的概念<br />
+<br />
+<br />
+例如：<br />
+<font color="#800000">检测所有实体的数量，如果数量&gt;=3或者&lt;=1就输出。</font><br />
+<br />
+我们则可以将<strong>检测数量当作一个模块</strong>，<strong>条件输出再当作一个模块</strong>，那么指令如下：<br />
+<br />
+<img id="aimg_yTW8O" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/fa4e0838b62d43ea.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_Y6Q"><ol><li>/scoreboard players set @e[name=f] a 0<br /><li>/stats entity @e[name=f] set AffectedEntities @e[name=f] a<br /><li>/execute @e[name=f] ~ ~ ~ testfor @e</ol></div><em onclick="copycode($('code_Y6Q'));">复制代码</em></div><br />
+<font color="#008000">*获取执行值模块</font><br /><div class="blockcode"><div id="code_Ks5"><ol><li>/execute @e[name=f,score_a=1] ~ ~ ~ /scoreboard players set @e[name=f] b 1<br /><li>/execute @e[name=f,score_a_min=3] ~ ~ ~ /scoreboard players set @e[name=f] b 1 <br /><li>/execute @e[name=f,score_b_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_Ks5'));">复制代码</em></div><br />
+<font color="#008000">*条件检测模块</font><br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_ccZ0f" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/292f76cbf22995cc.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<font size="4"><strong><img id="aimg_VY9vT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/33f432fa90d95d89.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<font size="4"><strong><img id="aimg_d93X6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c63104e91e677ee9.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+由于&gt;=3或&lt;=1输出，所以当检测到两个实体无输出。<br />
+<br />
+<strong><font size="4">分析：</font></strong><br />
+<font color="#008000">*执行获取</font><br />
+仍旧需要<font color="#ff0000">先设定初始值</font>，<br />
+然后stats执行值关联计分板，<br />
+最后影响实体的方法有很多，这边考虑的获取数量不影响任何实体，所以testfor是一个很好的选择。<br />
+<br />
+<font color="#008000">*条件检测</font><br />
+用到的就是条件语句<a href="http://www.mcbbs.net/thread-465196-1-1.html" target="_blank">且</a>中的标准格式，<br />
+这个模块<strong>一定是在执行获取后面</strong>，因为先有值才有检测。<br />
+当然这个模块中条件语句<font color="#008000"><strong>所有逻辑关系标准格式通用</strong></font>。<br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">使用本文中的例子，将条件检测变更为实体数量!=2；</div><li><div align="left">制作一个使用SuccessCount执行类型并关联条件检测的模块。</div><br />
+</ul></div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>王盛文2号&nbsp; &nbsp; <b>时间: </b>2015-7-26 10:23<br />
+看不懂....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>bdlxy&nbsp; &nbsp; <b>时间: </b>2015-7-26 10:24<br />
+看不懂。。。帮顶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2015-7-28 09:41<br />
+<i class="pstatus"> 本帖最后由 lzs1234 于 2015-7-28 09:43 编辑 </i><br />
+<br />
+<strike>然而当实体个数为0的时候没有输出，是因为没有实体testfor @e 会失效吗？</strike>哦，盔甲架也是实体<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

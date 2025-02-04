@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §1 : 计分板（变量与创建与初始值） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODY5NTktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : 计分板（变量与创建与初始值） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-14 18:58<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : 计分板（变量与创建与初始值）<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-17 11:51 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><div align="left"><div align="center"><font face="微软雅黑"><font size="6"><strong>模块基础</strong></font></font></div><div align="center"><font size="2"><strong>第二页为 计分版概念</strong></font></div>本大章节将会涉及到学习模块前的基础。<br />
+所以在曾经没有机会使用指令方块的玩家仍然可以在本大章学习一些基础。<br />
+这些基础不会引申，仅仅是必要掌握内容。<br />
+<br />
+模块基础将会涉及到<br />
+<strong>指令</strong><br />
+<ul><li>预置指令<li>常用指令<br />
+</ul><strong>坐标</strong><br />
+<ul><li>基础<li>相对坐标<br />
+</ul><br />
+<strong>NBT标签</strong><br />
+<br />
+<ul><li>作用与内容<li>标准格式<br />
+</ul><br />
+<strong>实体选择器</strong><br />
+<br />
+<ul><li>主类<li>分项<br />
+</ul><br />
+<strong>计分板</strong><br />
+<br />
+<ul><li>变量概念<li>创建变量<li>设置初始值<li>变量与选择器<br />
+</ul><br />
+<strong>模块概论</strong></div></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-486958-1-1.html" target="_blank">上一篇</a>（实体选择器</font><font size="5">）- <a href="http://www.mcbbs.net/thread-487595-1-1.html" target="_blank">下一篇</a>（计分板操作</font><font size="5">）</font></div><div align="right"><div align="left"></div><div align="left"><div align="center"><font face="碳化硅大黑体"><font size="5"><strong>§1.5 计分板</strong></font></font></div><div align="center"><strong>第三页为 变量概念</strong></div><div align="left">计分板是一种<strong>储存变量的方式</strong>。</div><div align="left">计分板包括了对：<strong>计分板的管理/变量的管理/队伍的管理</strong>。</div><br />
+<div align="left">总之计分板就是官方提供的操作数据的方式，<strong>对于数据能够实现基本的四则运算/求余比较等，是模块编写的基础</strong>。</div><div align="left"><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.5.1 变量概念</font></font></strong><br />
+<strong>第四页为 创建变量</strong><br />
+变量即<strong>不定量</strong>，<br />
+<br />
+在<strong>计分板中的变量就是计分版的分数</strong>，<br />
+因为分数能被改变和操作，所以就称为变量。<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.5.2 创建变量</font></font></strong><br />
+<strong>第五页为 计分版与选择器</strong><br />
+创建变量就是创建计分板，<br />
+这是因为计分板本身包含许多项目，如果不需要对这些项目进行赋值，那么<strong>只需要创建计分板就能承接这些变量</strong>。<br />
+<br />
+创建属于管理，<strong>利用scoreboard objectives指令</strong><br />
+创建：<br />
+/scoreboard objectives add 变量名 判据 显示名<br />
+<br />
+<strong>显示名忽略则默认为变量名。</strong><br />
+<strong>判据详见：</strong><br />
+<a href="http://minecraft-zh.gamepedia.com/%E8%AE%A1%E5%88%86%E6%9D%BF" target="_blank">http://minecraft-zh.gamepedia.com/%E8%AE%A1%E5%88%86%E6%9D%BF</a><br />
+<br />
+<br />
+<strong><font size="4">同时几个常用的：</font></strong><br />
+/scoreboard objectives remove 变量名<br />
+<font color="#008000">删除变量</font><br />
+/scoreboard objectives list<br />
+<font color="#008000">列出所有变量</font><br />
+<br />
+<font color="#008000"><br />
+</font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.5.3 变量与选择器</font></font></strong><br />
+<strong>第六页为 设定初始值</strong><br />
+变量的值附在计分版的项目上，具体包括两种：假名和实体<br />
+<br />
+<strong>实体 - 世界中存在的，可通过实体选择器访问；</strong><br />
+<strong>假名 - 世界中不存在的，无法通过实体选择器访问。</strong><br />
+<br />
+<br />
+一般，实体项目比较灵活，所以一般都用实体作为变量的接口。<br />
+使用到选择器的一般是变量管理scoreboard players指令：<br />
+<br />
+<font size="4"><strong>比较常用的：</strong></font><br />
+/scoreboard players add 实体选择器 计分板 值<br />
+<font color="#008000">增加某实体的计分板的值（常量）</font><br />
+/scoreboard players remove 实体选择器 计分板 值<br />
+<font color="#008000">减少某实体的计分板的值（常量）</font><br />
+/scoreboard players remove 实体选择器 计分板 值<br />
+<font color="#008000">设置某实体的计分板的值（常量）</font><br />
+<br />
+/scoreboard players reset 实体选择器/假名 计分板<br />
+<font color="#008000">重置某实体/假名的计分板</font><br />
+<br />
+<br />
+<strong>若计分板被忽略，默认全部计分版；</strong><br />
+<strong>若实体选择器/假名填写'*'，则是全部存在项目。</strong><br />
+<br />
+<br />
+<br />
+<br />
+<strong><br />
+</strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.5.4 设定初始值</font></font></strong><br />
+利用上面讲的：<br />
+<font size="4"><strong>创建计分版后立刻执行：</strong></font><br />
+/scoreboard players remove 实体选择器 计分板 值<br />
+<font color="#008000">设置某实体的计分板的值（常量）</font><br />
+<br />
+</div></div><br />
+</div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-8-14 19:12<br />
+<i class="pstatus"> 本帖最后由 林扬骐 于 2015-8-14 19:13 编辑 </i><br />
+<br />
+挺不错的，尽管没听懂，毕竟我也刚接触计分板<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>麻烦l&nbsp; &nbsp; <b>时间: </b>2015-8-14 19:45<br />
+到处都是大神啊&nbsp;&nbsp;膜拜楼主中~&nbsp;&nbsp;请收下我的膝盖
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

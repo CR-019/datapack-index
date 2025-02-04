@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §1 : 坐标（基础和相对坐标） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODA5NjktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : 坐标（基础和相对坐标） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-4 21:00<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §1 : 坐标（基础和相对坐标）<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-12 15:40 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><div align="center"><div align="center"><div align="left"><div align="center"><font face="微软雅黑"><font size="6"><strong>模块基础</strong></font></font></div><div align="center"><font size="2"><strong>第二页为 坐标</strong></font></div>本大章节将会涉及到学习模块前的基础。<br />
+所以在曾经没有机会使用指令方块的玩家仍然可以在本大章学习一些基础。<br />
+这些基础不会引申，仅仅是必要掌握内容。<br />
+<br />
+模块基础将会涉及到<br />
+<strong>指令</strong><br />
+<ul><li>预置指令<li>常用指令<br />
+</ul><strong>坐标</strong><br />
+<ul><li>基础<li>相对坐标<br />
+</ul><br />
+<strong>NBT标签</strong><br />
+<br />
+<ul><li>作用与内容<li>标准格式<br />
+</ul><br />
+<strong>实体选择器</strong><br />
+<br />
+<ul><li>主类<li>分项<br />
+</ul><br />
+<strong>计分板</strong><br />
+<br />
+<ul><li>变量概念<li>创建变量<li>设置初始值<li>变量与选择器<br />
+</ul><br />
+<strong>模块概论</strong></div></div></div></div><div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-459387-1-1.html" target="_blank">上一篇</a>（指令）- <a href="http://www.mcbbs.net/thread-485572-1-1.html" target="_blank">下一篇</a>（</font><font size="5">NBT标签）</font></div></div><font face="碳化硅大黑体"><font size="5"><strong><br />
+</strong></font></font></div><div align="center"><font face="碳化硅大黑体"><font size="5"><strong>§1.2 坐标</strong></font></font></div><div align="left">坐标是指一个实体或者一个方块在游戏中<strong>三维坐标x y z位置</strong>。</div><div align="left">具体值可以<strong>按下F3进行查看</strong>。</div><br />
+<div align="left">具体顺序为：</div><div align="left"><strong>x y z</strong></div><br />
+<div align="left">坐标在指令中十分重要，许多指令需要<strong>运用坐标来判断执行位置</strong>。</div><div align="left"><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.2.1 基础</font></font></strong></div><div align="left"><strong><font size="1">第三页为 相对坐标</font></strong></div><div align="left"><img id="aimg_kArS9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/9c5e9e1636add15f.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</div><div align="left">如图指令<br /><div class="blockcode"><div id="code_mX1"><ol><li>/summon Cow -7 17 -23</ol></div><em onclick="copycode($('code_mX1'));">复制代码</em></div><br />
+<br />
+含义便是<font color="#800000">在坐标-7 17 -23处生成牛</font>。<br />
+<br />
+这边<strong>-7代表是x轴，</strong><br />
+<strong>17代表y轴，</strong><br />
+<strong>-23代表z轴。</strong><br />
+<br />
+整个连起来就是x轴-7，y轴17，z轴-23。<br />
+这个值可以<strong>直接F3查看</strong>。<br />
+<br />
+<br />
+需要注意如果是<strong>方块，由于建筑高度最大255（有特殊方法能更高），最小0，所以y有限制</strong>。<br />
+对于实体，<strong>y如果大于256不显示信息；对于例子，y大于信标光束高度后无法显示；两者y可以小于-64，然而实体y小于-64会掉血后消失</strong>。<br />
+<br />
+实体和方块<strong>需注意区块加载</strong>，如果没有区块加载实体可能会despawn，方块的交互动作可能会消失。<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">1.2.2 相对坐标</font></font></strong><br />
+<img id="aimg_a2ojT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/d71e5b6cfd7c8744.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+如图中指令：<br /><div class="blockcode"><div id="code_cLn"><ol><li>/summon Cow ~1 ~ ~</ol></div><em onclick="copycode($('code_cLn'));">复制代码</em></div><br />
+仍然在原来地方生成牛。<br />
+<br />
+这次含义不同，而<font color="#800000">是在相对执行体（目前是指令方块）x坐标+1，yz坐标相同处生成</font>。<br />
+<br />
+<br />
+<strong>~ 代表一个相对坐标的符号，将会把执行体的坐标赋给他。</strong><br />
+<br />
+<strong>~0 就是引用这个执行体坐标，也可以省略0：~</strong><br />
+<br />
+<strong>~+n 代表坐标加n，也可以省略加号：~n</strong><br />
+<br />
+<strong>~-n 代表坐标减n。</strong><br />
+<br />
+<br />
+那么相对坐标提高效率，相对加载的执行体忽视了区块加载等问题。<br />
+计算相对坐标，只需要<strong>F3查看中点和起点坐标</strong>，<br />
+接着<strong>终点坐标-起点坐标=相对坐标值</strong><br />
+无需考虑象限问题。<br />
+<br />
+<br />
+</div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>凋零蛋&nbsp; &nbsp; <b>时间: </b>2015-8-4 21:11<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

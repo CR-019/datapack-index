@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 18. 1.7快照之命令方块的NBT附加命令 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xNzI1OTYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 18. 1.7快照之命令方块的NBT附加命令 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:18<br />
+<b>标题: </b>【CBL|SYL】NBT教程 18. 1.7快照之命令方块的NBT附加命令<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:39 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+（ps 跪求高亮和贡献）<br />
+相关新闻：<a href="http://www.mcbbs.net/thread-170938-1-1.html" target="_blank">http://www.mcbbs.net/thread-170938-1-1.html</a><br />
+好吧新版本快照出来了<br />
+其中一个激动人心的新功能，就是可以通过命令定义物品啊生物的NBT标签了！<br />
+<font size="7">THIS IS XXXXING AWESOME！！</font><br />
+那么我刚刚研究了一下，顺手赶工赶出了这篇 基本上来说是一个革命性的功能了<br />
+能把命令方块当成高度红石可控的刷怪笼用了（PS2 这次好像还有不少梗点？）<br />
+<br />
+百度网盘下载地址：<a href="http://pan.baidu.com/share/link?shareid=434037060&amp;uk=3760538464" target="_blank">http://pan.baidu.com/share/link?shareid=434037060&amp;uk=3760538464</a><br />
+在线阅读地址：（MB，又被审核挡住了，我再试试）<br />
+<br />
+<br />
+<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>minehenry&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:19<br />
+快照很不稳定的啊. 没准又要改动<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:20<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">minehenry 发表于 2013-9-8 21:19</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197167&amp;ptid=172596" target="_blank"><img id="aimg_Jk7tT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+快照很不稳定的啊. 没准又要改动</blockquote></div><br />
+你认为一个基于NBT系统的功能能有多大改动<br />
+除非MC的NBT系统重做<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1004944271&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:20<br />
+支持SYL=-= 就是看你的教程会的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:21<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">a1004944271 发表于 2013-9-8 21:20</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197180&amp;ptid=172596" target="_blank"><img id="aimg_m0ZfM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+支持SYL=-= 就是看你的教程会的</blockquote></div><br />
+哈……<br />
+论坛NBT教程第一人（呵呵）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>寂寞过了就好&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:23<br />
+好吧 顶NBT神人{:10_523:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1004944271&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:24<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-9-8 21:21</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197199&amp;ptid=172596" target="_blank"><img id="aimg_PI5rr" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哈……<br />
+论坛NBT教程第一人（呵呵）</blockquote></div><br />
+-0-果断认同<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>minehenry&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:26<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-9-8 21:20</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197179&amp;ptid=172596" target="_blank"><img id="aimg_tS3Fo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+你认为一个基于NBT系统的功能能有多大改动<br />
+除非MC的NBT系统重做</blockquote></div><br />
+并且现在命令方块看样子要取代nbt了. <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:27<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">minehenry 发表于 2013-9-8 21:26</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197239&amp;ptid=172596" target="_blank"><img id="aimg_H30PV" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+并且现在命令方块看样子要取代nbt了.</blockquote></div><br />
+等等<br />
+搞清楚概念<br />
+这个是NBT的扩展功能<br />
+也就是说不存在取代的可能<br />
+虽然说有取代刷怪笼的可能<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>minehenry&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:29<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-9-8 21:27</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197250&amp;ptid=172596" target="_blank"><img id="aimg_MAY4e" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+等等<br />
+搞清楚概念<br />
+这个是NBT的扩展功能</blockquote></div><br />
+对啊 拓展 我的意思是以后命令方块可能不需要用In the game nbt来实现nbt编辑功能<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1847291366&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:36<br />
+我要重修了···看来我还要学很多···<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>geludan&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:48<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-9-8 14:21</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197199&amp;ptid=172596" target="_blank"><img id="aimg_HLZL6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哈……<br />
+论坛NBT教程第一人（呵呵）</blockquote></div><br />
+女捕头第一人<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Aikawastep&nbsp; &nbsp; <b>时间: </b>2013-9-8 21:53<br />
+久违的又看见你~现在叫你猪骑士还是马其实呢~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Worf丶Horo&nbsp; &nbsp; <b>时间: </b>2013-9-8 22:00<br />
+0.0此贴波塞冬，割卤蛋，版主，TNT君等人都出现了，目测必火！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1653293479&nbsp; &nbsp; <b>时间: </b>2013-9-8 22:11<br />
+{:10_518:}同上楼，此贴必火<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-9-9 14:54<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">minehenry 发表于 2013-9-8 21:29</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3197263&amp;ptid=172596" target="_blank"><img id="aimg_tv7Ep" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+对啊 拓展 我的意思是以后命令方块可能不需要用In the game nbt来实现nbt编辑功能</blockquote></div><br />
+现在都不用了好吧<br />
+不过硬伤还是在无界面上，对新手来说其实很不友好<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天险&nbsp; &nbsp; <b>时间: </b>2013-9-22 22:15<br />
+太难了啊 呜呜呜呜呜<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>6659899&nbsp; &nbsp; <b>时间: </b>2013-11-3 22:02<br />
+请问怎么编辑刷怪蛋？？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-11-3 22:06<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">6659899 发表于 2013-11-3 22:02</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=3641789&amp;ptid=172596" target="_blank"><img id="aimg_SZD05" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+请问怎么编辑刷怪蛋？？</blockquote></div><br />
+遗憾的告诉你<br />
+不能<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>番茄茄&nbsp; &nbsp; <b>时间: </b>2014-1-11 12:05<br />
+SYL，问一下，假如要给名字或者标签加颜色或字体，那要怎么改？<br />
+应该加在哪里？<br />
+比如这个：<br />
+<br />
+/give @p 261 1 0 {display:{Name:&quot;番茄制造&quot;，Lore：[&quot;呵呵呵&quot;]},ench:[0:{id:49,lvl:9},1:{id:50,lvl:3}]}<br />
+<br />
+我想给名字加上6号颜色,给标签加上8号颜色和中横线，怎么改？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-11 13:03<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">西红柿片 发表于 2014-1-11 12:05</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4164568&amp;ptid=172596" target="_blank"><img id="aimg_x2zA2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+SYL，问一下，假如要给名字或者标签加颜色或字体，那要怎么改？<br />
+应该加在哪里？<br />
+比如这个：</blockquote></div><br />
+用样式代码<br />
+复制黏贴就可以了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>番茄茄&nbsp; &nbsp; <b>时间: </b>2014-1-11 13:27<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2014-1-11 13:03</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4165526&amp;ptid=172596" target="_blank"><img id="aimg_gE3FT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+用样式代码<br />
+复制黏贴就可以了</blockquote></div><br />
+什么意思？<br />
+什么是样式代码？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-11 13:42<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">西红柿片 发表于 2014-1-11 13:27</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4165931&amp;ptid=172596" target="_blank"><img id="aimg_tBdbb" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+什么意思？<br />
+什么是样式代码？</blockquote></div><br />
+<a href="http://minecraft-zh.gamepedia.com/index.php?title=%E6%A0%B7%E5%BC%8F%E4%BB%A3%E7%A0%81&amp;variant=zh-cn" target="_blank">http://minecraft-zh.gamepedia.co ... 1&amp;variant=zh-cn</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>微环境&nbsp; &nbsp; <b>时间: </b>2014-2-22 18:37<br />
+有没有视频教程啊？最好是中文的{:10_505:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jhaiyan01&nbsp; &nbsp; <b>时间: </b>2014-7-30 08:47<br />
+那么如何做多个ench呢？两个[o:{id:xxx,lvl:xxx}]吗？
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

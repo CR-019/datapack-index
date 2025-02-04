@@ -1,0 +1,234 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §5 : 循环嵌套（含创建平面和体） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzQwMTQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 循环嵌套（含创建平面和体） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-23 16:01<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 循环嵌套（含创建平面和体）<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-24 17:55 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>循环语句与条件语句结合</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 循环嵌套概念作用</font></font></div><div align="left">本章将前两章内容进行结合，</div><div align="left">便是循环体中使用条件语句；</div><div align="left">和条件语句中使用循环。</div><br />
+循环语句结合条件语句将会涉及到<div align="left"><strong>循环中条件语句</strong></div><br />
+<div align="left"><strong>时钟</strong></div><ul><li><div align="left">建立时钟</div><li><div align="left">时钟中条件语句</div><br />
+</ul><div align="left"><strong>结束循环</strong></div><br />
+<div align="left"><strong>跳过循环</strong></div><br />
+<div align="left"><strong>循环嵌套</strong></div><ul><li><div align="left">判断条件</div><li><div align="left">终止循环</div><br />
+</ul><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-471807-1-1.html" target="_blank">上一篇</a>（跳过循环）--<a href="http://www.mcbbs.net/thread-474684-1-1.html" target="_blank">下一篇</a>（stats用法）</font></div><div align="right"><br />
+<div align="left"><font size="2"></font><br />
+<strong><font face="碳化硅大黑体"><font size="5">§5.4 循环嵌套</font></font></strong><br />
+下一页为 双重for循环<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.4.0 概念</font></font></strong><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>5<font face="黑体">.4.0.1 基本概念</font></strong><br />
+在某些特殊的情况下，<strong>单单一个循环无法构成完全的体系</strong>，因此需要将<strong>两个循环互相关联</strong>起来。<br />
+这个关系不是普通的或且非关系，而是<strong>层层嵌套</strong>的关系。<br />
+<br />
+在循环体中除了能使用普通输出（效果指令）、条件语句外，<br />
+还能使用另一个循环语句，在<strong>循环体中继续创建循环体</strong>。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>5<font face="黑体">.4.0.2 例子</font></strong><br />
+比如要第n个算出三角数，<br />
+显然是从1一直连加到n。<br />
+<br />
+我们进一步将每一个数分解：<br />
+<img id="aimg_onq1A" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/86030e9b76b667ca.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+所以我们需要两个循环，<br />
+循环1循环体为 a=a+1，次数为1<br />
+另一个循环2循环体为 x=x+a，次数为n<br />
+<br />
+这两个循环不可以是两个独立的循环，否则完成了值后无法关联，所以得不出最终值，<br />
+相反，两个循环是相互依存的关系，而且是需要执行n次 x=x+a，每个n次中又要执行a=a+1，<br />
+因此<strong>循环1被套在循环2</strong>内部：<br />
+<br />
+<img id="aimg_Me3sE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/eea407fe7c8a0458.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong>5<font face="黑体">.4.0.3 多维（层）</font></strong><br />
+上面的例子便是循环嵌套，如果说<strong>一层嵌套是一维</strong>，看作是一条水平直线不断增加，次数为其<strong>长度</strong>；<br />
+那么<strong>二层嵌套循环则是二维</strong>，是两条互相垂直的直线，而次数分别是<strong>两条边的长度</strong>；<br />
+以此类推，除二维<strong>更有多维</strong>。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>5<font face="黑体">.4.0.4 作用</font></strong><br />
+<strong>循环嵌套的作用就是在循环中需要另使用高层循环得到最终值，帮助底层循环得到最终值。</strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>5<font face="黑体">.4.0.5 执行</font></strong><br />
+循环嵌套的次数就像是<strong>规定一个坐标</strong>，坐标的值分别是每层嵌套的目前的次数，<br />
+因此循环嵌套将会执行这个直线/平面/空间中所有点的坐标（结束或者跳过除外），<br />
+所以在循环嵌套中<strong>每层每个循环次数都有执行的对应值</strong>。<br />
+<br /><br />
+下一页为 多重for循环<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.2.1 二层嵌套</font></font></strong> 对于二层嵌套最好的例子便是<strong>构建矩形</strong>。<br />
+<br />
+for是次数循环，<br />
+<br />
+<img id="aimg_RWzve" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/b8b076d48db61cb9.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+如果一个循环x次的for循环中不断使某个实体向水平正方向延伸，那么得到的是一条<strong>水平直线，长度便是x</strong>；<br />
+<img id="aimg_s9EeA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/620c771c04e05866.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+在另一个循环z次的for循环中中，这个循环使另一个实体项竖直正方向延伸，那么得到的是<strong>一条竖直直线，长度则是z</strong>；<br />
+<br />
+那么如果其中一个循环嵌套在另一个循环中，例如x套在z中<br />
+并且在<strong>第二层循环结束后x实体坐标=z坐标</strong>，<br />
+<br />
+<img id="aimg_Oyg7R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/2556fbb3c860d2b5.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+那么在x++在y的竖直坐标得到水平直线后，<strong>y竖直坐标+1</strong>；<br />
+<strong>x的坐标接着又=y的坐标，所以x++就在现在y的竖直坐标上得到水平直线</strong>；<br />
+如此循环，便得到了长宽分别为x,y的矩形。<br />
+<br />
+<br />
+将上述复原指令：<br />
+<br />
+<img id="aimg_uuAA4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/c537e850b5ab7e40.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_c8E"><ol><li>/scoreboard players add @e[type=ArmorStand,score_b=6] b 1<br /><li>/execute @e[type=Cow,score_a_min=1,score_a=4] ~ ~ ~ /execute @e[type=ArmorStand,score_b_min=1,score_b=6] ~ ~ ~ setblock ~ ~ ~ wool 15</ol></div><em onclick="copycode($('code_c8E'));">复制代码</em></div><br />
+<font color="#008000">*二层b循环</font><br /><div class="blockcode"><div id="code_SKM"><ol><li>/execute @e[type=ArmorStand,score_b_min=6] ~ ~ ~ scoreboard players add @e[type=Cow,score_a=4] a 1<br /><li>/execute @e[type=ArmorStand,score_b_min=6] ~ ~ ~ /tp @e[type=Cow,score_a=4] ~ ~ ~1<br /><li>/execute @e[type=ArmorStand,score_b_min=6] ~ ~ ~ /tp @e[type=ArmorStand,score_b_min=6] @e[type=Cow,score_a_min=1]</ol></div><em onclick="copycode($('code_SKM'));">复制代码</em></div><br />
+<font color="#008000">*一层a循环</font><br /><div class="blockcode"><div id="code_qbW"><ol><li>/execute @e[type=Cow,score_a=4] ~ ~ ~ /tp @e[type=ArmorStand,score_b=6] ~1 ~ ~<br /><li>/execute @e[type=Cow,score_a=4] ~ ~ ~ /scoreboard players set @e[type=ArmorStand,score_b_min=6] b 0 </ol></div><em onclick="copycode($('code_qbW'));">复制代码</em></div><br />
+<font color="#008000">*二层b循环体</font><br />
+<br />
+先来看<strong>效果</strong>：<br />
+<br />
+<img id="aimg_xni63" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/e6470afc386d0a87.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+首先需要一头牛，一个装备架；<br />
+<img id="aimg_Pdm94" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/ade0e37ca8e6155b.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+先将牛初始值a设为0<br />
+<img id="aimg_D18Oo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/b7f17f26ac7a2c00.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+再将盔甲架初始值b设为0后，生成一个4*6矩形。<br />
+<br />
+<font size="4"><strong>分析：</strong></font><br />
+首先执行高层循环，是因为时钟的关系，<br />
+因为在时钟中，<strong>高层循环更高级</strong>，需要在<strong>低层之前执行</strong>，所以将<strong>最高层循环放在最先执行</strong>。<br />
+其中输出<strong>需要让条件在所有for循环不管高层低层的次数范围</strong>内，否则越界的结果是十分可怕的。<br />
+<br />
+在低层循环中需要判断<strong>是否执行完高层循环</strong>，所以需要条件语句作为<strong>低层循环向导</strong>。<br />
+此处/execute @e[type=ArmorStand,score_b_min=6]是判断高层循环执行完，<br />
+也可以使用/execute @e[type=ArmorStand,score_b=0]判断高层循环没开始，在高层循环之前执行，不过要<strong>按照时钟</strong>来。<br />
+那么<strong>低层循环体和循环判断都需要这个向导</strong>。<br />
+<br />
+最后执行二层循环b的循环体是因为时钟的原因，这一段指令必须在a执行完后执行，而<strong>循环体也是可以分开</strong>的。<br />
+<br />
+总之，<strong>高层在低层前执行</strong>。<br />
+<br />
+<br />
+<font size="4"><font color="#ff0000">标准格式：</font></font><br />
+/scoreboard players add @e[实体选择器,score_<font color="#800000">二层循环计分板</font>=<font color="#800000">二层次数</font>] <font color="#800000">二</font><font color="#800000">层循环计分板</font> 1<br />
+/execute @e[实体选择器,score_<font color="#000080">一层循环计分板</font>_min=1,score_<font color="#000080">一层循环计分板</font>=<font color="#000080">一层次数</font>] ~ ~ ~ /execute @e[实体选择器,score_<font color="#800000">二层循环计分板</font><font color="#000000">_min</font>=1,score_<font color="#800000">二层循环计分板</font>=<font color="#800000">二层次数</font>] ~ ~ ~ 输出<br />
+<font color="#008000">*高层循环</font><br />
+/execute @e[实体选择器,score_<font color="#800000">二层循环计分板</font>=<font color="#800000">二层次数</font>] ~ ~ ~ scoreboard players add @e[实体选择器,score_<font color="#000080">一层循环计分板</font>_min=1,score_<font color="#000080">一</font><font color="#000080">层循环计分板</font>=<font color="#000080">低层次数</font>] <font color="#000080">一层循环计分板</font> 1<br />
+/execute @e[实体选择器,score_<font color="#800000">二层循环计分板</font>=<font color="#800000">二层次数</font>] ~ ~ ~ 输出<br />
+<font color="#008000">*低层循环</font><br />
+(/execute @e[实体选择器,score_<font color="#000080">一层循环计分板</font>_min=1,score_<font color="#000080">一层循环计分板</font>=<font color="#000080">一层次数</font>] ~ ~ ~ 输出)<br />
+<font color="#008000">*高层循环体（可分裂）</font><br />
+/execute @e[实体选择器,score_<font color="#000080">一层循环计分板</font>_min=1,score_<font color="#000080">一层循环计分板</font>=<font color="#000080">一层次数</font>] ~ ~ ~ scoreboard players set @e[实体选择器,score_<font color="#800000">二</font><font color="#800000">层循环计分板</font>=<font color="#800000">高层次数</font>] <font color="#800000">二层循环计分板 </font><font color="#000000">0</font><br />
+<font color="#008000">*重置高层循环</font><br />
+<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.2.1 多层嵌套</font></font></strong><br />
+（这是二层嵌套延伸）<br />
+前面使用双重嵌套构建平面，这里我们就借此拓展，使用<strong>三层嵌套构建体</strong>。<br />
+<br />
+<br />
+<img id="aimg_Yh0VE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/f33847a5e12257f8.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+与之前想法不同，除了xz互相延伸，还需要<strong>增加一个ｙ</strong>。<br />
+<br />
+也就是在空间中让<strong>代表y的直线已知向上延伸y次</strong>。<br />
+<br />
+因此指令如下：<br />
+<br />
+<img id="aimg_XIbSZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/0c7e22999203584f.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+将原本7条指令增加到了11条：<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_DQi"><ol><li>/scoreboard players add @e[type=Pig,score_c=8] c 1<br /><li>execute @e[type=Cow,score_a_min=1,score_a=4] ~ ~ ~ /execute @e[type=ArmorStand,score_b_min=1,score_b=6] ~ ~ ~ /execute @e[type=Pig,score_c_min=1,score_c=8] ~ ~ ~ setblock ~ ~ ~ wool 15</ol></div><em onclick="copycode($('code_DQi'));">复制代码</em></div><br />
+<font color="#008000">*三层c循环</font><br /><div class="blockcode"><div id="code_Tp4"><ol><li>/execute @e[type=Pig,score_c_min=8] ~ ~ ~ scoreboard players add @e[type=ArmorStand,score_b=6] b 1</ol></div><em onclick="copycode($('code_Tp4'));">复制代码</em></div><br />
+<font color="#008000">*二层b核心</font><br /><div class="blockcode"><div id="code_pVd"><ol><li>/execute @e[type=ArmorStand,score_b_min=6] ~ ~ ~ scoreboard players add @e[type=Cow,score_a=4] a 1<br /><li>/execute @e[type=ArmorStand,score_b_min=6] ~ ~ ~ /tp @e[type=Cow,score_a=4] ~ ~ ~1<br /><li>/execute @e[type=ArmorStand,score_b_min=6] ~ ~ ~ /tp @e[type=ArmorStand,score_b_min=6] @e[type=Cow,score_a_min=1]</ol></div><em onclick="copycode($('code_pVd'));">复制代码</em></div><br />
+<font color="#008000">*一层a循环</font><br /><div class="blockcode"><div id="code_hZ1"><ol><li>/execute @e[type=Cow,score_a=4] ~ ~ ~ execute @e[type=Pig,score_c_min=8] ~ ~ ~ /tp @e[type=ArmorStand,score_b=6] ~1 ~ ~<br /><li>/execute @e[type=Cow,score_a=4] ~ ~ ~ /scoreboard players set @e[type=ArmorStand,score_b_min=6] b 0</ol></div><em onclick="copycode($('code_hZ1'));">复制代码</em></div><br />
+<font color="#008000">*二层b循环体</font><br /><div class="blockcode"><div id="code_yx9"><ol><li>/execute @e[type=Pig,score_c_min=8] ~ ~ ~ /tp @e[type=Pig,score_c_min=8] @e[type=ArmorStand,score_b_min=1]<br /><li>/execute @e[type=ArmorStand,score_b=6] ~ ~ ~ /tp @e[type=Pig,score_c=8] ~ ~1 ~<br /><li>/execute @e[type=ArmorStand,score_b=6] ~ ~ ~ /scoreboard players set @e[type=Pig,score_c_min=8] c 0</ol></div><em onclick="copycode($('code_yx9'));">复制代码</em></div><br />
+<font color="#008000">*三层c循环体</font><br />
+<br />
+<font color="#008000"><br />
+</font><br />
+还是先来看<strong>效果</strong>：<br />
+（为了图方便使用单次执行模块的一种开启）<br />
+如果研究上面指令就知道除了<strong>AS代表x，Cow代表z，</strong><br />
+<strong>还有Pig代表y</strong>。<br />
+因此<strong>单次执行顺序</strong>如下：<br />
+/summon ArmorStand ~3 ~ ~<br />
+/summon Cow ~3 ~-2 ~ {NoAI:1}<br />
+/summon Pig ~2 ~ ~ {NoAI:1}<br />
+<font color="#008000">*同一坐标生成三个中介实体</font><br />
+/scoreboard players set @e[type=Cow] a 0<br />
+/scoreboard players set @e[type=ArmorStand] b 0<br />
+/scoreboard players set @e[type=Pig] c 0<br />
+<font color="#008000">*分别设定基础分数</font><br />
+<br />
+<font color="#008000"><img id="aimg_bXHDv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/58019a6676b15023.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font><br />
+正在生成<br />
+<img id="aimg_n20uE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/7c5148efc2b3f75a.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+生成4*8*6立方体完成。<br />
+<br />
+<strong><font size="4">分析：</font></strong><br />
+与前面<strong>双重差不多</strong>，大家可以对比。<br />
+<br />
+得出的客观规律依旧是：<strong>高层放在低层前执行；因为时钟，所以某些循环体必须分开</strong>。<br />
+<br />
+<br />
+<font size="4"><font color="#ff0000">标准格式：</font></font><br />
+/scoreboard players add @e[实体选择器,score_<font color="#800080">更高层循环计分板</font>=<font color="#800080">更高层次数</font>] <font color="#800080">更高层循环计分板</font> 1<br />
+/execute @e[实体选择器,score_<font color="#000080">低层循环计分板</font>_min=1,score_<font color="#000080">低层循环计分板</font>=<font color="#000080">低层次数</font>] ~ ~ ~ /execute @e[实体选择器,score_<font color="#800000">高层循环计分板</font><font color="#000000">_min</font>=1,score_<font color="#800000">高层循环计分板</font>=<font color="#800000">高层次数</font>] ~ ~ ~ ………… /execute @e[实体选择器,score_<font color="#800080">更高层循环计分板</font><font color="#000000">_min</font>=1,score_<font color="#800080">更高层循环计分板</font>=<font color="#800080">更高层次数</font>] ~ ~ ~ 输出<br />
+<font color="#008000">*更高层循环</font><br />
+/execute @e[实体选择器,score_<font color="#800080">更高层循环计分板</font>=<font color="#800080">更高层次数</font>] ~ ~ ~scoreboard players add @e[实体选择器,score_<font color="#800000">高层循环计分板</font>=<font color="#800000">高层次数</font>] <font color="#800000">高</font><font color="#800000">层循环计分板</font> 1<br />
+<font color="#008000">*高层循环核心</font><br />
+/execute @e[实体选择器,score_<font color="#800000">高层循环计分板</font>=<font color="#800000">高层次数</font>] ~ ~ ~ scoreboard players add @e[实体选择器,score_<font color="#000080">低层循环计分板</font>_min=1,score_<font color="#000080">低</font><font color="#000080">层循环计分板</font>=<font color="#000080">低层次数</font>] <font color="#000080">低层循环计分板</font> 1<br />
+/execute @e[实体选择器,score_<font color="#800000">高层循环计分板</font>=<font color="#800000">高层次数</font>] ~ ~ ~ 输出<br />
+<font color="#008000">*低层循环</font><br />
+(/execute @e[实体选择器,score_<font color="#000080">低层循环计分板</font>_min=1,score_<font color="#000080">低层循环计分板</font>=<font color="#000080">低层次数</font>] ~ ~ ~ 输出)<br />
+<font color="#008000">*高层循环体（可分裂）</font><br />
+/execute @e[实体选择器,score_<font color="#000080">低层循环计分板</font>_min=1,score_<font color="#000080">低层循环计分板</font>=<font color="#000080">低层次数</font>] ~ ~ ~ scoreboard players set @e[实体选择器,score_<font color="#800000">高</font><font color="#800000">层循环计分板</font>=<font color="#800000">高层次数</font>] <font color="#800000">高层循环计分板 </font><font color="#000000">0</font><br />
+<font color="#008000">*重置高层循环</font><br />
+(/execute @e[实体选择器,score_<font color="#000080"><font color="#800000">高</font><font color="#800000">层循环计分板</font></font>_min=1,score_<font color="#000080"><font color="#800000">高</font><font color="#800000">层循环计分板</font></font>=<font color="#800000">高层次数</font>] ~ ~ ~ 输出)<br />
+<font color="#008000">*更高层循环体（可分裂）</font><br />
+/execute @e[实体选择器,score_<font color="#000080"><font color="#800000">高</font><font color="#800000">层循环计分板</font></font>_min=1,score_<font color="#000080"><font color="#800000">高</font><font color="#800000">层循环计分板</font></font>=<font color="#800000">高层次数</font>] ~ ~ ~ scoreboard players set @e[实体选择器,score_<font color="#800080">更高层循环计分板</font>=<font color="#800080">更高层次数</font>] <font color="#800000"><font color="#800080">更高层循环计分板</font> </font><font color="#000000">0</font><br />
+<font color="#008000">*重置更高层循环</font><br />
+<br />
+<br />
+<br />
+<font color="#008000"><br />
+</font><br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">还原概念中的 三角数 for嵌套模块；</div><li><div align="left">实现阶乘，使a最终值为a!。</div><br />
+</ul><br />
+<strong>某个不可缺失的内容：</strong><br />
+<img id="aimg_T7tPN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/282c5ad3d4de0e01.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+藏了一个指令：<br /><div class="blockcode"><div id="code_Scz"><ol><li>/entitydata @e[type=ArmorStand] {NoGravity:1b}</ol></div><em onclick="copycode($('code_Scz'));">复制代码</em></div><br />
+将所有AS消除重力（能够悬空）</div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ggmmapple&nbsp; &nbsp; <b>时间: </b>2015-7-24 12:55<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>
