@@ -27,7 +27,8 @@ export const sidebar: DefaultTheme.Sidebar = [
       },
       {
         text:'数据结构：数据包组分',
-        collapsed: false,
+        link:'/index/数据结构',
+        collapsed: true,
         items:[
           {text:'战利品表',link:'/index/数据结构/#战利品表'},
           {text:'谓词',link:'/index/数据结构/#谓词'},
@@ -40,7 +41,8 @@ export const sidebar: DefaultTheme.Sidebar = [
       },
       {
         text:'世界生成',
-        collapsed: false,
+        link:'/index/世界生成',
+        collapsed: true,
         items:[
           {text:'结构',link:'/index/世界生成/#结构'},
           {text:'维度和维度类型',link:'/index/世界生成/#维度和维度类型'},
@@ -51,7 +53,8 @@ export const sidebar: DefaultTheme.Sidebar = [
   },
   {
     text: '资源包体系结构',
-    collapsed: false,
+    collapsed: true,
+    link:'/index/资源包体系结构',
     items: [
       {text:'模型',link:'/index/资源包体系结构/#模型'},
       {text:'纹理',link:'/index/资源包体系结构/#纹理'},
