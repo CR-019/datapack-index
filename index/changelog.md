@@ -18,6 +18,61 @@
 
 ## 改动日志
 
+### **1.21.5**
+#### 数据包：
+- 命令：
+    - **`/setblock`和`/fill`影响方块实体时，若没有在命令中指明NBT则原有得NBT将会保留。**
+      - **想要清空NBT，必须在命令中指明`{}`；**
+      - 只要方块，方块状态或方块实体NBT中的任一发生改变，命令就视为执行成功。
+    - `/fill`，`/clone`，`/setblock`，和`/place template`命令现在接受新选项`strict`。启用时放置的方块不会触发方块更新。
+    - `/fill`命令`replace`模式给予的匹配特定方块的功能现在可以与其他模式配合使用。
+- NBT
+    - **实体的`ArmorDropChances`，`HandDropChances`，和`body_armor_drop_chance`均被整合至新的`drop_chances`中**：
+      - 其中有`head`，`chest`，`legs`，`feet`，`mainhand`，`offhand`，和`body`。默认值均为`0.085f`。默认值不会存储。
+    - 区域效果云现在有新的NBT`potion_duration_scale`，表示其中药水效果持续时间的缩放系数。滞留药水生成的区域效果云的缩放系数为0.25。
+    - 可驯服生物的`Owner`不再局限于玩家。
+- 物品组件
+    - 添加了新组件`potion_duration_scale`。会比例缩放该物品`potion_contents`或`custom_effects`组件中的状态效果时长（若存在）。
+    - 添加了新组件`weapon`：
+      - 物品使用次数的统计信息会在此物品攻击时增加。
+      - 包含`damage_per_attack`，规定每次攻击损耗的耐久；以及`can_disable_blocking`，改物品是否可以无效化盾牌。
+    - `tool`组件新增了可选字段`can_destroy_blocks_in_creative`，表示创造模式的玩家能否用此物品破坏方块。默认为true。
+- 文本组件
+    - **文本组件现在使用SNBT而非JSON格式。NBT中不再以字符串的形式存储。**
+      - 比如，`custom_name='{"text":"物品名"}'` -> `custom_name={text:"物品名"}`
+    - **`hoverEvent`重命名至`hover_event`**。
+      - **不再接受`value`。**
+      - **使用`show_text`时，`contents`被重命名为`text`；**
+      - **使用`show_item`时，`contents`已被移除，其中的内容均被拆分内联；**
+      - **使用`show_entity`时，`contents`已被移除，其中的内容均被拆分内联；原`id`重命名为`uuid`，`type`重命名为`id`。**
+    - **`clickEvent`重命名至`click_event`**。
+      - **使用`open_url`时，`value`被重命名为`url`；**
+      - **使用`run_command`或`suggest_command`时，`value`被重命名为`command`；**
+      - **使用`show_text`时，`value`被重命名为`text`；**
+      - 如果命令中包含被禁止的字符，点击事件将不再解析而非失效。
+- 数据包组成部分
+    - 添加了猪变种以及新的数据包组成部分`pig_variant`。
+    - 新增了下列方块标签：
+      - `#replaceable_by_mushrooms`：蘑菇被放置或生长时可替换的方块；
+      - `#sword_instantly_mines`：能被剑瞬间破坏的方块。
+    - 新增了下列物品标签：
+      - `#book_cloning_target`：可与成书合成来复制的物品；
+    - 新增了下列生物群系标签：
+      - `#spawns_cold_variant_farm_animals`：可生成寒带变种的被动生物的生物群系；
+      - `#spawns_warm_variant_farm_animals`：可生成热带变种的被动生物的生物群系。
+    - 谓词
+      - 新增了新的实体判断条件`pig`以匹配猪变种。
+    - 配方`crafting_transmute`类型中的输出现在支持指定数量，以及修订物品组件。
+      - 新的`result`中包含`id`，`count`与`components`。
+      - 原有的格式仍被支持。
+- 其他
+    - `load`模式下的结构方块现在具有新选项`Strict Placement`。为`true`时，被放置的结构中的方块将不会触发方块更新、方块实体副效果或形状更新。
+
+#### 资源包：
+
+- 纹理
+    - **更改了`pig`纹理的大小。**
+
 ### **1.21.4**
 #### 数据包：
 - 命令：
@@ -68,7 +123,7 @@
   - 加入属性`tempt_range`;
 - nbt：
   - 新增物品组件：`death_protection`，`item_model`，`equippable`，`glider`，`tooltip_style`，`consumable`，`use_remainder`，`use_cooldown`，`enchantable`，`repairable`
-  - 修改物品组件`food`;移除部分字段并交由`consumable`控制；\
+  - 修改物品组件`food`;移除部分字段并交由`consumable`控制；
   - `instrument` 组件加入字段 `description`；
   - **重命名`fire_resistant`物品组件为`damage_resistant`，并加入`types`字段；**
   - `potion_contents`物品组件加入`custom_name`字段；

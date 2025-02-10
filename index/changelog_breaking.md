@@ -13,6 +13,28 @@
 
 ## 正文
 
+### **1.21.5**
+#### 数据包：
+- 命令：
+    - **`/setblock`和`/fill`影响方块实体时，若没有在命令中指明NBT则原有得NBT将会保留。**
+      - **想要清空NBT，必须在命令中指明`{}`；**
+      - 只要方块，方块状态或方块实体NBT中的任一发生改变，命令就视为执行成功。
+- NBT
+    - **实体的`ArmorDropChances`，`HandDropChances`，和`body_armor_drop_chance`均被整合至新的`drop_chances`中**：
+      - 其中有`head`，`chest`，`legs`，`feet`，`mainhand`，`offhand`，和`body`。默认值均为`0.085f`。默认值不会存储。
+- 文本组件
+    - **文本组件现在使用SNBT而非JSON格式。NBT中不再以字符串的形式存储。**
+      - 比如，`custom_name='{"text":"物品名"}'` -> `custom_name={text:"物品名"}`
+    - **`hoverEvent`重命名至`hover_event`**。
+      - **不再接受`value`。**
+      - **使用`show_text`时，`contents`被重命名为`text`；**
+      - **使用`show_item`时，`contents`已被移除，其中的内容均被拆分内联；**
+      - **使用`show_entity`时，`contents`已被移除，其中的内容均被拆分内联；原`id`重命名为`uuid`，`type`重命名为`id`。**
+    - **`clickEvent`重命名至`click_event`**。
+      - **使用`open_url`时，`value`被重命名为`url`；**
+      - **使用`run_command`或`suggest_command`时，`value`被重命名为`command`；**
+      - **使用`show_text`时，`value`被重命名为`text`；**
+
 ### **1.21.4**
 #### 数据包：
 - 命令：
