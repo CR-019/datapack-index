@@ -1,6 +1,6 @@
 # 技术性更新日志(精简版)
 
-> !翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
+> ⚠️本文正文部分翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
 > 
 > 本文为精简版，仅列出对旧版本有破坏性的改动（即breaking）[参阅完整文档](/index/changelog.md)
 
@@ -10,6 +10,9 @@
 读者可借此参阅教程在你的目标版本的可用性。
 
 改动日志以正式版本为分类条目，降序排列。
+
+## 迁移指南
+[我的世界 JE1.21 数据包文件夹名称改变](https://www.bilibili.com/opus/942372286438047753)
 
 ## 正文
 

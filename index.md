@@ -6,7 +6,7 @@ hero:
   name: "香草图书馆"
   tagline: 原版模组开发资源索引站
   image:
-    src: /1402.png
+    src: /bg5.png
   actions:
     - theme: brand
       text: 进入文档
@@ -14,9 +14,6 @@ hero:
     - theme: alt
       text: 支持一下宣传视频！
       link: https://www.bilibili.com/video/BV1Aq6nY6EjN
-    - theme: alt
-      text: 新年快乐！
-      link: https://www.bilibili.com/video/BV1zZ4y1d7jH
 features:
   - icon:
       src: /3.png
