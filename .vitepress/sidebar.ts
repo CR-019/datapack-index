@@ -23,33 +23,33 @@ export const sidebar: DefaultTheme.Sidebar = [
           {text:'方块/物品操作',link:'/index/命令4-方块和物品操作'},
           {text:'实体操作',link:'/index/命令5-实体操作'},
           {text:'世界/服务器指令',link:'/index/命令6-世界指令'},
-          {text:'数据包常用技术性实体',link:'/index/命令7-技术性实体'}
         ]
       },
       {
         text:'数据结构：数据包组分',
-        link:'/index/数据结构',
+        link:'/index/数据包2-数据结构',
         collapsed: true,
         items:[
-          {text:'战利品表',link:'/index/数据结构/#战利品表'},
-          {text:'谓词',link:'/index/数据结构/#谓词'},
+          {text:'战利品表',link:'/index/数据包2-数据结构/#战利品表'},
+          {text:'谓词',link:'/index/数据包2-数据结构/#谓词'},
           {text:'物品修饰器',link:'/index/数据结构/#物品修饰器'},
-          {text:'进度',link:'/index/数据结构/#进度'},
-          {text:'附魔',link:'/index/数据结构/#附魔'},
-          {text:'标签',link:'/index/数据结构/#标签'},
-          {text:'配方',link:'/index/数据结构/#配方'}
+          {text:'进度',link:'/index/数据包2-数据结构/#进度'},
+          {text:'附魔',link:'/index/数据包2-数据结构/#附魔'},
+          {text:'标签',link:'/index/数据包2-数据结构/#标签'},
+          {text:'配方',link:'/index/数据包2-数据结构/#配方'}
         ]
       },
       {
         text:'世界生成',
-        link:'/index/世界生成',
+        link:'/index/数据包3-世界生成',
         collapsed: true,
         items:[
-          {text:'结构',link:'/index/世界生成/#结构'},
-          {text:'维度和维度类型',link:'/index/世界生成/#维度和维度类型'},
-          {text:'自定义世界生成',link:'/index/世界生成/#自定义世界生成'}
+          {text:'结构',link:'/index/数据包3-世界生成/#结构'},
+          {text:'维度和维度类型',link:'/index/数据包3-世界生成/#维度和维度类型'},
+          {text:'自定义世界生成',link:'/index/数据包3-世界生成/#自定义世界生成'}
         ]
-      }
+      },
+      {text:'数据包常用技术性实体',link:'/index/数据包4-技术性实体'}
     ]
   },
   {
