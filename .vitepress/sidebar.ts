@@ -22,7 +22,8 @@ export const sidebar: DefaultTheme.Sidebar = [
           {text:'文本组件',link:'/index/命令3-文本组件'},
           {text:'方块/物品操作',link:'/index/命令4-方块和物品操作'},
           {text:'实体操作',link:'/index/命令5-实体操作'},
-          {text:'世界/服务器指令',link:'/index/命令6-世界指令'}
+          {text:'世界/服务器指令',link:'/index/命令6-世界指令'},
+          {text:'数据包常用技术性实体',link:'/index/命令7-技术性实体'}
         ]
       },
       {
