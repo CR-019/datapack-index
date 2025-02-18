@@ -14,3 +14,6 @@
 
 ### 工具
 - [轻松制作官方风格 中文 3D 文本！——「Cube 3D Text」开源项目](https://www.bilibili.com/opus/1015240830406885392) [直接访问网站](https://3dtext.easecation.net/)
+- [beet - python和mcfunction混写语言](https://github.com/mcbeet)
+  - [视频教程](https://youtu.be/IOS-OnqE4GY?feature=shared)
+- [控制单一矿车隐形，不影响其他矿车数据包](https://github.com/ElGeroIngles/invisible-minecarts-mc)
