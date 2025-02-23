@@ -1,6 +1,7 @@
 # 最近更新
 
 ### 文章
+- [【minecraft材质包】新版材质包如何实现cit？加强的材质包讲解](https://www.bilibili.com/video/BV1GoFQedE7z/)
 - [教程:Java版自定义物品 - Minecraft Wiki](https://zh.minecraft.wiki/w/Tutorial:Java%E7%89%88%E8%87%AA%E5%AE%9A%E4%B9%89%E7%89%A9%E5%93%81)
 - [基于原版冷却组件实现动态冷却](/resources/dust/6/动态冷却.md)
 - [如何制作一只阿乔（钩锁篇）](/resources/dust/5/如何制作一只阿乔（钩锁篇）.md)
