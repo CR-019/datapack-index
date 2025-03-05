@@ -2,6 +2,7 @@
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
+import Giscus from '@giscus/vue'
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -12,6 +13,7 @@ export default {
     })
   },
   enhanceApp({ app, router, siteData }) {
-    // ...
+    // 注册全局组件
+    app.component('GiscusComment', Giscus)
   }
 }
