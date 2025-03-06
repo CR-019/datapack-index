@@ -94,3 +94,37 @@ import RandomParagraph from './.vitepress/theme/random.vue'
 🏡房东 @Alumooper：
 - Bilibili：https://space.bilibili.com/280394409
 - Github：https://github.com/Alumopper
+
+
+<script setup>
+import { useData } from 'vitepress'
+
+const { isDark } = useData()
+</script>
+
+<ClientOnly>
+  <GiscusComment
+    repo="CR-019/datapack-index"
+    repoId="R_kgDONRhuqw"
+    category="闲聊 Chats"
+    categoryId="DIC_kwDONRhuq84CkchW"
+    mapping="pathname"
+    :strict="false"
+    :reactionsEnabled="true"
+    emitMetadata="0"
+    inputPosition="top"
+    :theme="isDark ? 'dark' : 'light'"
+    lang="zh-CN"
+    loading="lazy"
+    class="giscus-wrapper"
+  />
+</ClientOnly>
+
+<style>
+.giscus-wrapper {
+  margin: 3rem auto;
+  max-width: 800px;
+  padding-top: 2rem;
+  border-top: 1px solid var(--vp-c-divider);
+}
+</style>
