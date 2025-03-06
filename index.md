@@ -31,11 +31,14 @@ features:
     details: 从零基础到稍微进阶的各种教程
     linkText: 零基础新手戳这里
     link: /index/参考
-
 ---
 <script setup>
 import RandomParagraph from './.vitepress/theme/random.vue'
+import { useData } from 'vitepress'
+const { isDark } = useData()
+const { frontmatter } = useData()
 </script>
+
 
 > <RandomParagraph />
 
@@ -96,35 +99,14 @@ import RandomParagraph from './.vitepress/theme/random.vue'
 - Github：https://github.com/Alumopper
 
 
-<script setup>
-import { useData } from 'vitepress'
+## 水吧
+<p class="float-right-image">
+  <img src="/103.png" alt="描述图片的文字">
+</p>
 
-const { isDark } = useData()
-</script>
 
-<ClientOnly>
-  <GiscusComment
-    repo="CR-019/datapack-index"
-    repoId="R_kgDONRhuqw"
-    category="闲聊 Chats"
-    categoryId="DIC_kwDONRhuq84CkchW"
-    mapping="pathname"
-    :strict="false"
-    :reactionsEnabled="true"
-    emitMetadata="0"
-    inputPosition="top"
-    :theme="isDark ? 'dark' : 'light'"
-    lang="zh-CN"
-    loading="lazy"
-    class="giscus-wrapper"
-  />
-</ClientOnly>
-
-<style>
-.giscus-wrapper {
-  margin: 3rem auto;
-  max-width: 800px;
-  padding-top: 2rem;
-  border-top: 1px solid var(--vp-c-divider);
-}
-</style>
+香草图书馆的水吧开业啦！  
+由[Giscus](https://giscus.app/zh-CN)驱动，现在本站正式支持评论功能。  
+逛累了，不妨去水吧转转吧。   
+请问您要来点Java吗？  
+[前往水吧->](/index/水吧.md)

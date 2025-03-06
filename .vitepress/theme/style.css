@@ -141,3 +141,9 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/* 使图片浮动到右侧 */
+.float-right-image img {
+  float: right;
+  margin-left: 15px; /* 在图片和环绕文本之间留出一些空间 */
+  max-width: 15%; /* 根据需要调整图片大小 */
+}

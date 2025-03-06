@@ -40,7 +40,8 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/CR-019/datapack-index' },
-      { icon: 'bilibili', link: 'https://space.bilibili.com/85292644' }
+      { icon: 'bilibili', link: 'https://space.bilibili.com/85292644' },
+      { icon:'afdian' ,link:'https://afdian.com/a/CR_019'}
     ],
     logo:'/dream_catcher11.png',
     footer:{

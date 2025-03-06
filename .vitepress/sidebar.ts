@@ -101,6 +101,7 @@ export const sidebar: DefaultTheme.Sidebar = [
     text:'服务台',
     collapsed: false,
     items:[
+      {text:'水吧🍵',link:'/index/水吧'},
       {text:'失物招领',link:'/index/失物招领'},
       {text:'更新日志',link:'/index/_update'}
     ]
