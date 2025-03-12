@@ -1,0 +1,459 @@
+<html>
+<head>
+<title>[1.14-1.16]JText Studio——萌新和地图制作者的福利 ，聊天成书所见即所得|全新交互 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05ODY2NjMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[1.14-1.16]JText Studio——萌新和地图制作者的福利 ，聊天成书所见即所得|全新交互 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hans0000&nbsp; &nbsp; <b>时间: </b>2020-3-15 14:03<br />
+<b>标题: </b>[1.14-1.16]JText Studio——萌新和地图制作者的福利 ，聊天成书所见即所得|全新交互<br /><i class="pstatus"> 本帖最后由 hans0000 于 2020-11-15 18:14 编辑 </i><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#b6f2f2"><td><div align="center"><br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#ffffff"><td><div align="center"><font size="6"><font color="#000000"><strong>前言</strong></font></font></div></td></tr><tr style="background-color:#ffffff"><td><br />
+<div align="left"><font size="4"><font color="#333333">其实现有的tellraw生成器有很多了，那为什么还要&quot;造轮子&quot;呢？原因多方面的，但总归是现有的不那么好用，不论界面设计的好与坏，但本质交互设计上就不友好。</font></font></div><div align="left"><font size="4"><font color="#333333"><br />
+</font></font></div><div align="left"><font size="4"><font color="#333333">个人认为理想的tellraw生成器应该像使用word编辑文稿一样，不过由于技术难题和一些别的原因放弃那种设计了。即便如此，本人也是尽量的做到便捷、实用，快捷键等功能一个也不少。</font></font><font size="4"><font color="#333333"><br />
+<br />
+Json Text在mc中虽然不是那么复杂的系统，但是对萌新们还是有难度的，而且在地图制作中会大量用到，不论是聊天窗口、大标题还是木牌、成书。即便就单单是码字也殊为不易，就更不用说嵌套指令上去做更为复杂的效果了</font></font></div><div align="left"><font size="4"><font color="#333333"><br />
+</font></font></div></td></tr></table><br />
+</div></td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#b6f2f2"><td><div align="center"><br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#ffffff"><td><div align="center"><font size="6"><font color="#000000"><strong>设计思想</strong></font></font></div></td></tr><tr style="background-color:#ffffff"><td><div align="left"><div align="left"><font style="color:rgb(64, 72, 91)"><font style="font-size:16px"><br />
+</font></font></div><div align="left"><font style="color:rgb(64, 72, 91)"><font size="4">好的回归正题，你需要掌握以下信息<br />
+</font></font></div><div align="left"><img id="aimg_FPesp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://gitee.com/hans000/JText-Studio/raw/master/assets/1596681258025.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><font style="color:rgb(64, 72, 91)"><font size="4"><br />
+</font></font></div><br />
+<div align="left"><font style="color:rgb(64, 72, 91)"><font face="Tahoma"><font size="4">tile ——设计思想是这样的，每点击「新增」就是一个tile，可以对tile添加样式和功能，比如下图中我的世界 minecraft 各是一个tile，它们分别有各自的样式。当然也可以图添加点击事件或鼠标选停效果（详细请翻看对应章节）。也就是你预期有多少中样式就要添加多少个tile即可。</font></font></font></div><div align="center"><font style="color:rgb(64, 72, 91)"><font face="Tahoma"><font size="4"><img id="aimg_I3bT2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://gitee.com/hans000/JText-Studio/raw/master/assets/1596458960905.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font></font></font></div><div align="center"><font style="color:rgb(64, 72, 91)"><font face="Tahoma"><font size="4"><br />
+</font></font></font></div><div align="left"><font style="color:rgb(64, 72, 91)"><font face="Tahoma"><font size="4">tile group——页面上看到的「预览」就是一个tile group 也就是由多个tile组成的，它扮演的角色很重要，决定了你想要的结果，因此要格外注意它。</font></font></font></div><div align="left"><font style="color:rgb(64, 72, 91)"><font face="Tahoma"><font size="4"><br />
+</font></font></font></div><div align="left"><font style="color:rgb(64, 72, 91)"><font face="Tahoma"><font size="4">其实聪明的你已经发现了，不论是游戏中的tellraw，title还是book，sign，不论它多么复杂，都是由一个个tile组成的，因此掌握如何设计tile group就掌握了minecraft中的tellraw，也就掌握了JText Studio的使用，nice！。</font></font></font></div><br />
+</div><br />
+</td></tr></table><br />
+</div></td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#b6f2f2"><td><div align="center"><br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#ffffff"><td><div align="center"><font size="6"><font color="#000000"><strong>更新演示</strong></font></font></div></td></tr><tr style="background-color:#ffffff"><td><div align="left"><font size="4"><font color="#333333"><div align="center">
+<ignore_js_op>
+
+<img id="aimg_1726548" aid="1726548" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202011/15/181409mogeg6e2ee4o46z5.gif" file="https://attachment.mcbbs.net/forum/202011/15/181409mogeg6e2ee4o46z5.gif" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1726548" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1726548_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>jtext-studio--share.gif</strong> <em class="xg1">(807.85 KB, 下载次数: 19)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTcyNjU0OHw3ZjEwMDgyNXwxNjE0MDE4NjAyfDI0MTk0ODZ8OTg2NjYz&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>share</p>
+<p class="xg1 y">2020-11-15 18:14 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="center"><strong>
+<ignore_js_op>
+
+<img id="aimg_1557353" aid="1557353" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202004/17/123029brh8lkrpsnlpl0dv.png" file="https://attachment.mcbbs.net/forum/202004/17/123029brh8lkrpsnlpl0dv.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1557353" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1557353_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2020-04-17_12-28-15.png</strong> <em class="xg1">(159.58 KB, 下载次数: 8)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTU1NzM1M3wwZDBhZmQ2NHwxNjE0MDE4NjAyfDI0MTk0ODZ8OTg2NjYz&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-4-17 12:30 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</strong></div><strong><br />
+<div align="center">
+<ignore_js_op>
+
+<img id="aimg_1536604" aid="1536604" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202004/05/112528uc9rkikhx3ar99no.gif" file="https://attachment.mcbbs.net/forum/202004/05/112528uc9rkikhx3ar99no.gif" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1536604" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1536604_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>v0.4.0.gif</strong> <em class="xg1">(346.71 KB, 下载次数: 11)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTUzNjYwNHxhNjU4OTlmM3wxNjE0MDE4NjAyfDI0MTk0ODZ8OTg2NjYz&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>0.4.0</p>
+<p class="xg1 y">2020-4-5 11:25 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div></strong></font></font></div></td></tr></table><br />
+</div></td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#b6f2f2"><td><div align="center"><br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#ffffff"><td><div align="center"><font size="6"><font color="#000000"><strong>演示动图 &amp; 视频</strong></font></font></div></td></tr><tr style="background-color:#ffffff"><td><div align="left"><font size="4"><font color="#333333"><br />
+<div align="center">
+<ignore_js_op>
+
+<img id="aimg_1521081" aid="1521081" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202003/26/155619ohqfcix1xz8fcm1j.png" file="https://attachment.mcbbs.net/forum/202003/26/155619ohqfcix1xz8fcm1j.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1521081" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1521081_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>image.png</strong> <em class="xg1">(257.41 KB, 下载次数: 9)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTUyMTA4MXxiZGE4ZGZhNXwxNjE0MDE4NjAyfDI0MTk0ODZ8OTg2NjYz&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-3-26 15:56 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><br />
+<div align="center">
+<ignore_js_op>
+
+<img id="aimg_1513935" aid="1513935" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202003/22/180201oh94g2c5cl2eceez.gif" file="https://attachment.mcbbs.net/forum/202003/22/180201oh94g2c5cl2eceez.gif" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1513935" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1513935_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Honeycam 2020-03-22 18-01-03.gif</strong> <em class="xg1">(864.49 KB, 下载次数: 9)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTUxMzkzNXxiMDkwODczZXwxNjE0MDE4NjAyfDI0MTk0ODZ8OTg2NjYz&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-3-22 18:02 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><br />
+<div align="center">
+<ignore_js_op>
+
+<img id="aimg_1502789" aid="1502789" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202003/15/135844e6jj2jj9596959j6.gif" file="https://attachment.mcbbs.net/forum/202003/15/135844e6jj2jj9596959j6.gif" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1502789" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1502789_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Honeycam 2020-03-05 22-02-32.gif</strong> <em class="xg1">(50.46 KB, 下载次数: 17)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTUwMjc4OXw4Y2Y4MGE3ZnwxNjE0MDE4NjAyfDI0MTk0ODZ8OTg2NjYz&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+<p>颜色选择</p>
+<p class="xg1 y">2020-3-15 13:58 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><br />
+<br />
+<div align="left">其实软件使用一目了然，不过还是有些技巧 在里面，推荐看一下</div><br />
+</font></font><div align="center"><font size="4"><font color="#333333"><a href="https://www.bilibili.com/video/av93847931" target="_blank">https://www.bilibili.com/video/av93847931</a><br />
+</font></font></div></div></td></tr></table><br />
+</div></td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#b6f2f2"><td><div align="center"><br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#ffffff"><td><div align="center"><font size="6"><font color="#000000"><strong>详细说明</strong></font></font></div></td></tr><tr style="background-color:#ffffff"><td><div align="left"><font color="#333333"><strong><font size="5"><div align="center"><div align="left">以下内容摘自 <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fgitee.com%2Fhans000%2FJText-Studio%2Fblob%2Fmaster%2Fdocs.md" target="_blank">链接</a></div><div align="left"><strong><font size="5"><br />
+</font></strong></div><div align="left"><strong><font size="5">功能特色</font></strong></div></div></font></strong><font size="4"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></font><ul><li>所见即所得<li>模板化、模块化<li>丰富的快捷操键<li>强大的编辑功能<li>实时保存<br />
+</ul><blockquote><div align="left">适用版本: v1.14+</div></blockquote><font size="4"></td></table></div></div></font><br />
+<strong><span style="float:left;margin-right:5px"><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></span><font size="5"><div align="center"><div align="left"><strong><font size="5">术语说明</font></strong></div></div></font></strong><font size="4"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></font><ul><li><div align="left">JText、Json text：<font style="color:rgb(65, 131, 196)"><a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4#JSON.E6.96.87.E6.9C.AC" target="_blank">JSON文本</a></font>是mc中聊天组件的最小组成</div><li><div align="left">tile：可操作的最小单元，对应mc中的一个JText </div><li><div align="left">tile group：tile的集合，对应mc中的一个Tellraw、book中一页等</div><li><div align="left">raw json text：JText的集合</div><li><div align="left">export json：生成器导出的工程数据</div><br />
+</ul><br />
+<blockquote><div align="left">P.S. 只是为方便说明，仅为个人定义</div></blockquote><font size="4"></td></table></div></div></font><br />
+<strong><span style="float:left;margin-right:5px"><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></span><font size="5"><div align="center"><div align="left"><strong><font size="5">交互说明</font></strong></div></div></font></strong><font size="4"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></font><br />
+<strong>1. 预览</strong><div align="left"><font size="4"><font style="color:rgb(36, 41, 46)"><font face="-apple-system, BlinkMacSystemFont, &amp;quot;"><font style="font-size:16px">预览可以把用户当前操作呈现出来，实时预览</font></font></font></font></div><ul><li>点选操作: 鼠标点击tile即可，点击后会有高亮显示<li>更换背景色: 右下角有个拾色器，可以点击更换颜色<br />
+</ul><strong><br />
+<span style="float:left;margin-right:5px"><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></span>2. 操作栏</strong><ul><li><div align="left">添加: 当你完成一个tile后想要继续添加一个样式不一样的tile时可以点击此按钮</div><li><div align="left">拆分：强大的功能，替代了「插入」「克隆」功能，按回车符将其拆分为多个tile</div><li><div align="left">删除: 当你不想要某个tile时，选中一个tile可以将其移除，不可恢复</div><li><div align="left">清空: 当你不想要当前这个工程时，可以点击此按钮，所有的tile都会被删除，不可恢复</div><li><div align="left">取消: 可以取消tile的高亮</div><li><div align="left">生成: 生成一段可用的JText</div><li><div align="left">暂存: 将当前工程保存，可以在仓库查看</div><li><div align="left">导入: 可以把合法的json文本解析</div><li><div align="left">导出: 可以把当前的内容保存为json文本，作为模板</div><li><div align="left">仓库: 打开仓库管理</div><br />
+</ul><span style="float:left;margin-right:5px"><font size="4"><strong><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></strong></font></span><strong>3. 样式</strong><br />
+<div align="left"><font size="4"><font style="color:rgb(36, 41, 46)"><font face="-apple-system, BlinkMacSystemFont, &amp;quot;"><font style="font-size:16px">样式共6项，对应JText中的6个字体样式nbt标签</font></font></font></font></div><strong><br />
+<span style="float:left;margin-right:5px"><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></span>4. 事件</strong><br />
+<div align="left"><font size="4"><div align="left"><font style="color:rgb(51, 51, 51)"><font face="sans-serif, &amp;quot;"><font style="font-size:16px">点击事件：分5种，open_url | run_command | change_page | suggest_command | copy_to_clipboard</font></font></font></div><div align="left"><font style="color:rgb(51, 51, 51)"><font face="sans-serif, &amp;quot;"><font style="font-size:16px">悬浮事件：分3种 text | block | entity。注意: 当类型选择text时，会有两种模式，默认常规模式是以普通文本显示，如果是要以JText格式显示，请选择高级模式</font></font></font></div></font></div><strong><br />
+<span style="float:left;margin-right:5px"><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></span>5. 可选类型</strong><div align="left"><font size="4"><div align="left"><font style="color:rgb(36, 41, 46)">在一个tile中仅能选择一个可选类型，即text | nbt | selector | score，对应JText中的相应nbt标签</font></div><div align="left"><ul><li><div align="left">text，默认使用当前项，普通的文本模式，使用最普遍</div><li><div align="left">nbt，新增解析功能，使用游戏中使用F3 + i复制nbt数据粘贴进行解析，辅助用户填写nbt路径</div><blockquote><div align="left">妈妈再也不用担心我不会nbt路径了~</div></blockquote><li><div align="left">selector</div><li><div align="left">score</div><br />
+</ul>关于显示：选择text显示对应的文本，其他由于无法确定内容，所以对应显示[@ + 类型]<br />
+</div><br />
+</font></div><strong><span style="float:left;margin-right:5px"><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></span>6. 备注</strong><br />
+<div align="left"><font size="4"><font style="color:rgb(36, 41, 46)"><font face="-apple-system, BlinkMacSystemFont, &amp;quot;"><font style="font-size:16px">作为当前工程的说明，类似文件名、注释，同时也作为输出面板表格中的一列，用于区分</font></font></font></font></div><strong><br />
+<span style="float:left;margin-right:5px"><font style="color:rgb(3, 102, 214)"><font style="background-color:initial"></font></font></span></strong><strong><font face="&amp;quot;">7. 仓库</font></strong><div align="left"><font size="4"><div align="left"><font style="color:rgb(51, 51, 51)">用于管理暂存的项目，既可以格式化命令（内预制了4种常用的指令），也可以对项目增删改查等</font></div><ul><li><div align="left">预置命令的使用</div><div align="left">「tellraw」、「sign」、「book」、「title」，勾选列表中的tile然后点击对应的按钮即可获得相应的指令</div><li><div align="left">操作按钮</div><li><div align="left">「移动」「整理」对表格中的数据进行调整</div><li><div align="left">「编辑」对当前行二次编辑</div><li><div align="left">「删除」删除当前行，如果工程使用当前行，工程也会清楚</div><li><div align="left">「生成」生成简单的json text字符串</div><li><div align="left">「hover」用于hover的高级模式，即以json解析字符串</div><br />
+</ul></td></table></div></div></font></div><br />
+<div align="left"><font size="4"><strong><font size="5">快捷键</font></strong></font></div><div align="left"><font size="4"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></font></div><br />
+<ul><li>shift + enter 添加一个tile，相当于点击按钮[新增]<li>enter 换行<li>escape 取消选中状态的tile，相当于点击按钮[取消]<li>ctrl + delete 删除选中状态的tile，相当于点击按钮[删除]<li>ctrl + B 加粗，相当于点击按钮[粗体]<li>ctrl + I 斜体，相当于点击按钮[斜体]<li>ctrl + U 下划线，相当于点击按钮[下划线]<li>ctrl + S 删除线，相当于点击按钮[删除线]<li>ctrl + O 模糊，这里暂时用上划线替代，相当于点击按钮[模糊]<li>ctrl + G 生成代码，相当于点击按钮[生成]<li>ctrl + P 打开输出面板，相当于点击按钮[输出]<li>alt + ArrowUp 上一个颜色<li>alt + ArrowDown 下一个颜色<li>alt + ArrowLeft 选中前一个tile<li>alt + ArrowLeft 选中后一个tile<li>ctrl + K 拆分，相当于点击按钮[拆分]<li>ctrl + shift + s 暂存功能，相当与点击按钮「暂存」<br />
+</ul><div align="left"><font size="4"></td></table></div></div></font></div><br />
+<div align="center"><div align="left"><strong><font size="5">更新日志</font></strong></div></div></font><font color="#333333"><font size="4"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></font></font><font size="4"><font color="#333333"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fgitee.com%2Fhans000%2FJText-Studio%2Fblob%2Fmaster%2Flog.md" target="_blank">点击查看</a></font></font><font color="#333333"><font size="4"></td></table></div></div></font></font><font size="4"><font color="#333333"><br />
+<br />
+<strong><font size="5"><div align="center"><div align="left"><strong><font size="5">开发工具与技术</font></strong></div></div></font></strong><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>技术栈：react + typescript，使用antd UI框架IDE：VS Code<br />
+</td></table></div></div><br />
+</font></font></div></td></tr></table><br />
+</div></td></tr></table><br />
+<br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#b6f2f2"><td><div align="center"><br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#ffffff"><td><div align="center"><font size="6"><font color="#000000"><strong>软件链接</strong></font></font></div></td></tr><tr style="background-color:#ffffff"><td><div align="left"><font size="4"><font color="#333333"><div align="left"></div></font></font></div></td></tr></table><br />
+</div></td></tr></table><br />
+<br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#b6f2f2"><td><div align="center"><br />
+<table cellspacing="0" class="t_table" style="width:98%"><tr style="background-color:#ffffff"><td><div align="center"><font size="6"><font color="#000000"><strong>最后</strong></font></font></div></td></tr><tr style="background-color:#ffffff"><td><div align="left"><font size="4"><font color="#333333"><br />
+做此软件的初衷是希望帮助热爱mc的玩家，尤其是制作地图和萌新们，现在我的世界在国内的形式感觉又慢慢好转起来，但好的地图并没有随之增多，究其原因还是mc在变的好玩的同时也越来越复杂，制作地图的大大们真的是要身兼多项技能，更不要说萌新们了。如果缓解呢？个人在文本编辑方便尽一点力，希望能在这方面缓解大家的压力，更多精力放到功能逻辑上</font></font></div><div align="left"><font size="4"><font color="#333333"><br />
+</font></font></div><div align="left"><font size="4"><font color="#333333">我的其他作品：</font></font></div><div align="left"><a href="https://www.mcbbs.net/thread-1029716-1-1.html" target="_blank">[1.9-1.16]OOOC——新时代下无用的OOC生成器，兼容mcfunction文件</a></div><div align="left"><a href="https://www.mcbbs.net/thread-1046682-1-1.html" target="_blank">mc-viewer——json配方实时预览，导入导出，全合成匹配</a></div><div align="left"><a href="https://www.mcbbs.net/thread-1038849-1-1.html" target="_blank">MTJ——VSCode材质包插件，提供json文件提示、校验</a><br />
+<br />
+<font size="4"><font color="#333333">用的好不要忘记支持一下，软件周更，建议收藏此帖，会第一时间通知</font></font><br />
+</div></td></tr></table><br />
+</div></td></tr></table><br />
+<script type="text/javascript" reload="1">
+aimgcount[16942189] = ['1502789','1513935','1521081','1536604','1557353','1726548'];
+attachimggroup(16942189);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>末地探险者&nbsp; &nbsp; <b>时间: </b>2020-3-15 14:26<br />
+这是继MCH之后最好用的编辑器了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天空的大楼&nbsp; &nbsp; <b>时间: </b>2020-3-15 15:17<br />
+楼主，你的帖子标题格式好像有点毛病，第一个标点的中括号好像错了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hans0000&nbsp; &nbsp; <b>时间: </b>2020-3-15 16:46<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16943576&amp;ptid=986663" target="_blank"><font color="#999999">淡蓝色家园 发表于 2020-3-15 15:17</font></a></font><br />
+楼主，你的帖子标题格式好像有点毛病，第一个标点的中括号好像错了</blockquote></div><br />
+你的眼是租来的吗？<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hans0000&nbsp; &nbsp; <b>时间: </b>2020-3-15 16:48<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16942642&amp;ptid=986663" target="_blank"><font color="#999999">末地探险者 发表于 2020-3-15 14:26</font></a></font><br />
+这是继MCH之后最好用的编辑器了</blockquote></div><br />
+thx，希望可以在github提提意见，star最后了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>LinLei_Baruch&nbsp; &nbsp; <b>时间: </b>2020-3-15 18:02<br />
+惊了，正好需要！支持原创！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>郑炜孙&nbsp; &nbsp; <b>时间: </b>2020-3-18 21:58<br />
+比用在线网站好多了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ares沐沐&nbsp; &nbsp; <b>时间: </b>2020-3-18 22:32<br />
+MCBBS有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Handsomezhu&nbsp; &nbsp; <b>时间: </b>2020-3-22 21:20<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2781212775&nbsp; &nbsp; <b>时间: </b>2020-3-22 21:24<br />
+现在很少用编辑器了，看了下视频，发现效果很棒啊，果断支持下。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>古镇天Gu_ZT&nbsp; &nbsp; <b>时间: </b>2020-3-22 22:17<br />
+看上去挺不错的啊，最近刚好做个RPG，用用看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>月丶流霞&nbsp; &nbsp; <b>时间: </b>2020-3-23 09:10<br />
+哇！好棒的生成器<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jijing.in&nbsp; &nbsp; <b>时间: </b>2020-3-24 09:02<br />
+支持，好用<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>qilx&nbsp; &nbsp; <b>时间: </b>2020-3-26 11:46<br />
+好用！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ms_wer&nbsp; &nbsp; <b>时间: </b>2020-3-28 20:38<br />
+aaa，太谢谢了www！！！谢谢，需要做标题的大字<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>陌裂大大&nbsp; &nbsp; <b>时间: </b>2020-3-29 16:30<br />
+太谢谢了 不知道怎么样呢 先回复一下再试试 我会再次评论的awa 感谢！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hgfdddd&nbsp; &nbsp; <b>时间: </b>2020-3-29 16:45<br />
+太棒了这个越来越好<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hans0000&nbsp; &nbsp; <b>时间: </b>2020-3-29 19:52<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17237239&amp;ptid=986663" target="_blank"><font color="#999999">hgfdddd 发表于 2020-3-29 16:45</font></a></font><br />
+太棒了这个越来越好</blockquote></div><br />
+<img src="static/image/smiley/rabbit/47.GIF" smilieid="697" border="0" alt="" />，不许走，点赞定贴啥的就不说了，好歹给点建议啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>残月2333&nbsp; &nbsp; <b>时间: </b>2020-4-2 12:58<br />
+N I C E---<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Alvas&nbsp; &nbsp; <b>时间: </b>2020-4-2 14:06<br />
+此甚妙哉<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hans0000&nbsp; &nbsp; <b>时间: </b>2020-4-2 19:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17327380&amp;ptid=986663" target="_blank"><font color="#999999">残月2333 发表于 2020-4-2 12:58</font></a></font><br />
+N I C E---</blockquote></div><br />
+用的好记得回来顶一下<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hans0000&nbsp; &nbsp; <b>时间: </b>2020-4-2 19:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17328854&amp;ptid=986663" target="_blank"><font color="#999999">Alvas 发表于 2020-4-2 14:06</font></a></font><br />
+此甚妙哉</blockquote></div><br />
+每周末更新，记得收藏哦<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>l1173640068&nbsp; &nbsp; <b>时间: </b>2020-4-2 20:41<br />
+很厉害，佩服佩服，简直流批<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>vjhg&nbsp; &nbsp; <b>时间: </b>2020-4-3 09:43<br />
+感谢楼主分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>633092650&nbsp; &nbsp; <b>时间: </b>2020-4-3 13:31<br />
+太棒了11111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>这是漂白呀&nbsp; &nbsp; <b>时间: </b>2020-4-3 18:19<br />
+太好了，感谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a109495574&nbsp; &nbsp; <b>时间: </b>2020-4-27 11:07<br />
+<font color="SandyBrown">下载链接在楼主签名处</font><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>GF009&nbsp; &nbsp; <b>时间: </b>2020-4-27 15:52<br />
+好东西，加油<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>逍遥神候&nbsp; &nbsp; <b>时间: </b>2020-5-2 11:28<br />
+大佬们总是能研究出些新花样www<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>6332156&nbsp; &nbsp; <b>时间: </b>2020-5-4 11:49<br />
+很方便啊！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>童话113&nbsp; &nbsp; <b>时间: </b>2020-5-4 12:34<br />
+牛皮了 哈哈 拿去做地图<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>6512345&nbsp; &nbsp; <b>时间: </b>2020-5-6 13:28<br />
+十分好用，顶！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lh6666&nbsp; &nbsp; <b>时间: </b>2020-5-7 12:17<br />
+妙哉妙哉！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wanheng123&nbsp; &nbsp; <b>时间: </b>2020-5-7 16:42<br />
+66666666666顶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>幻之凌空&nbsp; &nbsp; <b>时间: </b>2020-5-16 21:04<br />
+很好用,不错 。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>110278995&nbsp; &nbsp; <b>时间: </b>2020-5-16 21:59<br />
+很方便啊！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>剑酒熟无味&nbsp; &nbsp; <b>时间: </b>2020-5-17 11:17<br />
+顶<img src="static/image/smiley/rabbit/51.gif" smilieid="701" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>永恒~轮回&nbsp; &nbsp; <b>时间: </b>2020-5-17 11:25<br />
+感谢分享~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yuan_su_&nbsp; &nbsp; <b>时间: </b>2020-5-19 08:34<br />
+十分好用，顶！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>基努&nbsp; &nbsp; <b>时间: </b>2020-5-20 20:19<br />
+wow，感谢楼主<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Daleynf&nbsp; &nbsp; <b>时间: </b>2020-5-20 23:48<br />
+很好用哦，感谢楼主分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Roach_123&nbsp; &nbsp; <b>时间: </b>2020-5-21 04:21<br />
+好人一生平安<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>月下♂三兄贵&nbsp; &nbsp; <b>时间: </b>2020-5-22 21:20<br />
+希望好用<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2366036052&nbsp; &nbsp; <b>时间: </b>2020-5-28 18:46<br />
+发给我<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>maply&nbsp; &nbsp; <b>时间: </b>2020-5-30 09:57<br />
+感谢大佬，正好需要！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>暗血冥主&nbsp; &nbsp; <b>时间: </b>2020-5-31 22:53<br />
+很想拥有此类软件了，厉害<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Rukio&nbsp; &nbsp; <b>时间: </b>2020-6-1 01:29<br />
+谢谢大佬<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wangjj123&nbsp; &nbsp; <b>时间: </b>2020-6-1 07:15<br />
+赞~继续加油！！！MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天马-狂风&nbsp; &nbsp; <b>时间: </b>2020-6-3 11:17<br />
+卤煮辛苦了，谢谢卤煮的制作与分享<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>麦块小爱玩&nbsp; &nbsp; <b>时间: </b>2020-6-28 10:16<br />
+好哉！好哉！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>麦白&nbsp; &nbsp; <b>时间: </b>2020-6-30 15:17<br />
+这个真的太方便了 太谢谢了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>红耳&nbsp; &nbsp; <b>时间: </b>2020-7-27 12:30<br />
+谢谢大佬www<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>WenRou21&nbsp; &nbsp; <b>时间: </b>2020-7-27 12:59<br />
+爱了爱了 非常感谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>z3129119&nbsp; &nbsp; <b>时间: </b>2020-7-28 01:29<br />
+期待效果<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2684612465&nbsp; &nbsp; <b>时间: </b>2020-7-29 12:21<br />
+<img src="static/image/smiley/rabbit/52.gif" smilieid="702" border="0" alt="" /><img src="static/image/smiley/rabbit/52.gif" smilieid="702" border="0" alt="" /><img src="static/image/smiley/rabbit/52.gif" smilieid="702" border="0" alt="" />恢复不了啊<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>siis1234&nbsp; &nbsp; <b>时间: </b>2020-8-1 16:36<br />
+感谢分享！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mbbc&nbsp; &nbsp; <b>时间: </b>2020-8-1 17:55<br />
+66666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>7614248&nbsp; &nbsp; <b>时间: </b>2020-8-2 12:31<br />
+好人一生 平安<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>帅锅做的鱼&nbsp; &nbsp; <b>时间: </b>2020-8-2 13:02<br />
+666。看上去很好用<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xiaokai231&nbsp; &nbsp; <b>时间: </b>2020-8-7 15:55<br />
+我的地图有用吗？？？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天之落叶&nbsp; &nbsp; <b>时间: </b>2020-8-7 22:14<br />
+6666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>white1497&nbsp; &nbsp; <b>时间: </b>2020-8-12 17:37<br />
+很好！这个工具很适合我<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xgzdgs&nbsp; &nbsp; <b>时间: </b>2020-8-13 13:42<br />
+希望大家都能学会<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>呵呵啊哈额&nbsp; &nbsp; <b>时间: </b>2020-8-13 14:49<br />
+用起来真不错，值得推荐哈哈<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>irocksir&nbsp; &nbsp; <b>时间: </b>2020-8-18 10:52<br />
+感谢楼主分享qwq<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2020-8-23 20:17<br />
+回复可见能不能关掉(<br />
+弄得回复像灌水一样(<br />
+所见即所得对于书本的确挺好用的<br />
+而且Minecraftjson连不上时作为替代品(<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1376868542&nbsp; &nbsp; <b>时间: </b>2020-8-25 14:21<br />
+不知道回复啥只能灌水的我好屑(<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>bbill1&nbsp; &nbsp; <b>时间: </b>2020-8-25 14:51<br />
+感谢大佬分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>15673601058&nbsp; &nbsp; <b>时间: </b>2020-9-5 16:03<br />
+66666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1551515515&nbsp; &nbsp; <b>时间: </b>2020-9-9 08:14<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>皮的不行&nbsp; &nbsp; <b>时间: </b>2020-9-9 21:14<br />
+大佬nb，看不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>22856139&nbsp; &nbsp; <b>时间: </b>2020-9-20 06:54<br />
+看看怎么样<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>双标青年&nbsp; &nbsp; <b>时间: </b>2020-9-23 12:00<br />
+感谢制作<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>看幸运方块&nbsp; &nbsp; <b>时间: </b>2020-9-24 19:42<br />
+ 感谢楼主分享awa<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1297815487&nbsp; &nbsp; <b>时间: </b>2020-10-1 19:44<br />
+看过国外的一个差不多的生成器，这个更方便些<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>40SiShi&nbsp; &nbsp; <b>时间: </b>2020-10-1 20:27<br />
+感谢作者大大<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小汐娅&nbsp; &nbsp; <b>时间: </b>2020-10-5 09:34<br />
+支持 支持&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我是北野a&nbsp; &nbsp; <b>时间: </b>2020-10-5 14:12<br />
+66666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3346673454&nbsp; &nbsp; <b>时间: </b>2020-10-5 15:11<br />
+界面挺好的<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>youCanMe&nbsp; &nbsp; <b>时间: </b>2020-10-5 21:31<br />
+256r4w6g5t4w65hear<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Clever_Chen233&nbsp; &nbsp; <b>时间: </b>2020-10-5 22:12<br />
+支持一下，超棒的生成器owo<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2012663941&nbsp; &nbsp; <b>时间: </b>2020-10-8 23:17<br />
+界面好看<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>AOOAcat&nbsp; &nbsp; <b>时间: </b>2020-10-9 12:44<br />
+最近在学做数据包，正好用得到<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>q105524689&nbsp; &nbsp; <b>时间: </b>2020-11-3 14:33<br />
+2333333333 6666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ww1f&nbsp; &nbsp; <b>时间: </b>2020-11-3 18:27<br />
+66666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>男枪泽墨&nbsp; &nbsp; <b>时间: </b>2020-11-7 19:07<br />
+1111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>柒珏⁷くん&nbsp; &nbsp; <b>时间: </b>2020-11-11 21:47<br />
+带走了！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xuan_lv_s&nbsp; &nbsp; <b>时间: </b>2020-11-15 13:17<br />
+感谢作者，留言了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小冰最帅&nbsp; &nbsp; <b>时间: </b>2020-11-15 15:44<br />
+很棒，赞，好用<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>qq877540356&nbsp; &nbsp; <b>时间: </b>2020-11-23 07:13<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1404704518&nbsp; &nbsp; <b>时间: </b>2020-11-24 16:04<br />
+<br />
+感谢楼主大大分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Time34&nbsp; &nbsp; <b>时间: </b>2020-12-30 22:11<br />
+感谢分享!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mc2000mc&nbsp; &nbsp; <b>时间: </b>2021-1-3 12:59<br />
+mcbbs有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>△＠←&nbsp; &nbsp; <b>时间: </b>2021-1-4 20:44<br />
+看起来好棒的样子!<br />
+正好感觉写这个挺麻烦的样子()<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>znmw&nbsp; &nbsp; <b>时间: </b>2021-1-6 14:48<br />
+谢谢楼主<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2814434181&nbsp; &nbsp; <b>时间: </b>2021-1-6 15:54<br />
+功能强大 爱了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>糊糊666&nbsp; &nbsp; <b>时间: </b>2021-1-9 13:55<br />
+支持一下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天辉胡萝卜&nbsp; &nbsp; <b>时间: </b>2021-1-15 15:34<br />
+正需要，感谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小猪HHP&nbsp; &nbsp; <b>时间: </b>2021-1-15 15:56<br />
+hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>俗人问雅&nbsp; &nbsp; <b>时间: </b>2021-1-15 22:23<br />
+感谢楼主分享=-=
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

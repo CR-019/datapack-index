@@ -1,0 +1,133 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : testfor - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NjI0NDktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : testfor <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-2 19:55<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : testfor<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-9 13:51 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>条件语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 testfor详解</font></font></div><div align="left"><div align="left">条件语句是模块中的一个重要指令</div><div align="left">它用于判断事件是否成立，</div><div align="left">若成立则输出；</div><div align="left">若不成立则跳过。</div><br />
+<br />
+<div align="left">条件语句将会涉及到</div><div align="left">execute</div><ul><li><div align="left">条件与变量</div><li><div align="left">相对性</div><br />
+</ul><div align="left">testfor</div><br />
+<div align="left">关于枚举多个条件输出</div><br />
+<div align="left">或|| 与 且&amp;&amp;</div><ul><li><div align="left">或||</div><li><div align="left">且&amp;&amp;</div><li><div align="left">或且结合</div><br />
+</ul><div align="left">!非的表达</div><ul><li><div align="left">!非 单个变量</div><li><div align="left">!非 多个执行体</div><br />
+</ul><div align="left">条件嵌套</div><ul><li><div align="left">条件嵌套相对性</div><li><div align="left">条件嵌套与变量</div><li><div align="left">子条件detect</div><br />
+</ul></div><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-462026-1-1.html" target="_blank">上一篇</a>（execute）--<a href="http://www.mcbbs.net/thread-464285-1-1.html" target="_blank">下一篇</a>（关于枚举与多个条件输出</font><font size="5">）</font></div><br />
+<strong><font face="碳化硅大黑体"><font size="5">§3.2 testfor</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 execute与testfor区别</font></font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.2.1 指令格式</font></font></strong> <br />
+<strong><font face="微软雅黑"><font size="4"><img id="aimg_EVcaa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/7bb1a0b9761d4b30.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></font></strong><br />
+<strong>/testfor &lt;player&gt; [datdaTag]</strong><br />
+就是<br />
+<strong>/testfor 实体选择器 NBT数据</strong><br />
+<br />
+使用后的返回值<strong>不是执行指令</strong>，而是<strong>输出信号</strong><br />
+<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.2.2 条件与变量</font></font></strong><br />
+在本小章讲解之前，仍需要预置一个实体进行<strong>条件储存</strong>：<br />
+<br />
+<img id="aimg_fP9pS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/e18b39c9034556b9.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>/summon ArmorStand ~ ~ ~ {CustomName:&quot;f&quot;,CustomNameVisible:1}</strong><br />
+<br />
+和之前的<a href="http://www.mcbbs.net/thread-462026-1-1.html" target="_blank">execute</a>相同<br />
+依旧是原来的效果：<br />
+使用<br />
+<u>/scoreboard players set @e[name=f] a 1</u><br />
+<br />
+<u><img id="aimg_iHgze" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/47c73a4393afabd3.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</u><br />
+如果使用：<br />
+<u>/testfor @e[name=f,score_a_min=1]</u> <br />
+<strong>输出信号</strong><br />
+<br />
+反之，<br />
+<br />
+<img id="aimg_Ag18g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/f7db933783c3854c.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+如果使用<br />
+<u>/testfor @e[name=f,score_a=0]</u><br />
+则<strong>不会输出</strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.2.3 条件与NBT</font></font></strong><br />
+上方的指令<br />
+<u>/testfor @e[name=f]</u><br />
+等价于<br />
+<u>/testfor @e[] {CustomName:&quot;f&quot;}</u><br />
+<br />
+<u><img id="aimg_sQgkS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/3d92d38ad193828e.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</u><br />
+仍旧会有输出，因为<strong>NBT符合实体条件</strong>。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.2.4 execute与testfor区别</font></font></strong><br />
+这两条指令皆为探测指令，那么区别究竟是什么<br />
+<br />
+<ul><li><strong>execute返回指令，testfor返回信号</strong><br />
+</ul>前面的<a href="http://www.mcbbs.net/thread-462026-1-1.html" target="_blank">execute</a>大家都知道了是<strong>返回指令</strong>，而且是相对执行<br />
+根据前面可以看出testfor返回的是<strong>红石信号</strong>，而且需要借助比较器。<br />
+<i>（当然testfor也有执行值，可以获取执行值后转存计分版）</i><br />
+<br />
+<ul><li><strong>execute倾向计分板，testfor倾向NBT</strong><br />
+</ul><a href="http://www.mcbbs.net/thread-462026-1-1.html" target="_blank">execute</a>基本都是利用<strong>计分板操作</strong>的（以及相对性），这点testfor比较灵活，<br />
+因为testfor能<strong>直接加上NBT进行判断输出</strong>。<br />
+<i>（当然execute也可以借助scoreboard赋值后缀NBT来达到探测NBT的效果，在</i><a href="https://www.mcbbs.net/file:///C:/Users/Administrator/AppData/Local/Temp/CHM%20Editor/%E8%BF%9B%E9%98%B6%EF%BC%9A%E6%8C%87%E4%BB%A4%E6%96%B9%E5%9D%97%E6%A8%A1%E5%9D%97%E6%95%99%E7%A8%8B_42187.8082315625/page_26.html" target="_blank"><i>变量与NBT有讲解</i></a><i>）</i><br />
+<br />
+<ul><li><strong>execute无输出器，testfor有输出器</strong><br />
+</ul>execute可以直接对接高频输出，而testfor对接后还需要输出器完成输出，<br />
+因此上面如果要达成<br />
+<u>execute @e[name=f] ~ ~ ~ say 1</u><br />
+的效果<br />
+<br />
+需要如下：<br />
+<br />
+<img id="aimg_VKduq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/5b61877acd857844.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+利用testfor探测：<br />
+<u>/testfor @e[name=f]</u><br />
+比较器输出：<br />
+<u>/say 1</u><br />
+<br />
+值得注意的是，<strong>execute连接高频后会跟着高频输出</strong>，<br />
+而testfor输出后由于<strong>比较器没有更新（Bud）</strong>所以仅仅<strong>输出一次</strong>。<br />
+<i>（后续有方法创建单次执行模块）</i><br />
+<br />
+<strong>在模块中着重使用execute</strong><br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Aikawastep&nbsp; &nbsp; <b>时间: </b>2015-7-2 20:05<br />
+新版本娇喘好评<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>i_misty_rain&nbsp; &nbsp; <b>时间: </b>2015-7-2 20:10<br />
+挺好的教程，支持<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天渊·启&nbsp; &nbsp; <b>时间: </b>2015-7-2 20:51<br />
+我怎么看到了高中必修三的内容 = =<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>海牛的麻烦&nbsp; &nbsp; <b>时间: </b>2015-7-2 21:13<br />
+高大上，大部分还是很容易看懂的，不过这个分页很不舒服..<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2015-7-3 09:28<br />
+总觉得那个f很像facebook的图标23333<br />
+依然没什么难度，新手向？
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,752 @@
+<html>
+<head>
+<title>[1.14+] 组合结构的随机生成及修饰 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04OTk2MzgtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[1.14+] 组合结构的随机生成及修饰 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ordis&nbsp; &nbsp; <b>时间: </b>2019-8-9 20:05<br />
+<b>标题: </b>[1.14+] 组合结构的随机生成及修饰<br /><i class="pstatus"> 本帖最后由 Ordis 于 2019-8-17 20:32 编辑 </i><br />
+<br /><br />
+<br />
+<font size="5">效果:</font><br />
+<br />
+<font size="4">使用命令方块，随机生成三次</font><br />
+<font size="4"><br />
+</font>
+<ignore_js_op>
+
+<img id="aimg_1371202" aid="1371202" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/09/144921gmevve2xr3dex833.gif" file="https://attachment.mcbbs.net/forum/201908/09/144921gmevve2xr3dex833.gif" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="256" id="aimg_1371202" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1371202_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>4.gif</strong> <em class="xg1">(310.67 KB, 下载次数: 5)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3MTIwMnw3MTBhY2ViYXwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-9 14:49 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<font size="4">使用数据包，随机生成三次</font><br />
+<img id="aimg_mcI6g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2019/08/17/LWJh1gnDw3d6bOU.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><font size="4"><br />
+</font><font size="3">_____________________________________________________________</font><font size="3"><br />
+</font><font size="5">基本思路</font><br />
+<font size="3">&nbsp;&nbsp;将一个完整的建筑切割成不同结构，之后将结构随机拼装</font><br />
+<font size="3"><br />
+</font><br />
+<font size="3">&nbsp;&nbsp;整个过程中，盔甲架作为生成器，通过生成并激活结构方块调出结构</font><br />
+<font size="3">&nbsp;&nbsp;生成器自身也应被存入结构。结构被调出时，新的生成器将重复以上步骤。</font><br />
+<font size="3">&nbsp;&nbsp;若不加限制，建筑可以无限延伸</font><br />
+<br />
+<u>**本文中数据包无需依赖提供的存档，但使用前需要提供结构</u><br />
+<u>**数据包为更新内容，部分介绍省略，建议与&quot;命令方块&quot;页结合理解</u><br />
+<u>**&quot;命令方块&quot;部分不再更新，且只具有随机生成结构的功能<br />
+</u><font size="3">_____________________________________________________________</font><br />
+<br /><br />
+<font size="5"><font color="#708090">使用function实现:</font></font><font color="#708090"><font size="2"><br />
+</font></font><br />
+<font color="#708090"><font size="2">(19.08.17 20:15更新)</font></font><br />
+<font color="#708090"><font size="2"><u>**为防止代码被删除，此处提供具有注释的数据包供解读(仅供解读，请勿使用)</u></font></font><u><font color="#708090">**此数据包注释对应<i><strong>更新5</strong></i>数据包</font></u><br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1377803" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3NzgwM3xkYzA4ZTNiMXwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">dynamicgeneration5注释.rar</a>
+
+<em class="xg1">(6.98 KB, 下载次数: 2)</em>
+</span>
+<div class="tip tip_4" id="attach_1377803_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-17 20:16 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<strong><i>更新4 </i></strong>的数据包结构：<br />
+
+<ignore_js_op>
+
+<img id="aimg_1377156" aid="1377156" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/16/232720x27r9221cuzz3392.png" file="https://attachment.mcbbs.net/forum/201908/16/232720x27r9221cuzz3392.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1377156" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1377156_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>image.png</strong> <em class="xg1">(43.43 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3NzE1NnxlNGYwM2MyZnwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-16 23:27 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<strong><font size="4">大体思路：</font></strong><br />
+<ul type="1" class="litype_1"><li><font size="3">生成初始结构</font><li><font size="3">随机生成分结构</font><li><font size="3">生成终点结构</font><li><font size="3">用盔甲架简单处理结构重叠，即打通死路</font><li><font size="3">将组合结构视为矩形，用盔甲架从一边开始向对边推进，期间分析并处理组合结构</font><br />
+</ul><br />
+<br />
+<font size="2"><font color="#ff0000"><br />
+</font></font><font size="5">附件:</font><br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1372979" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3Mjk3OXw1MGYxNWNhN3wxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">dynamicgeneration.rar</a>
+
+<em class="xg1">(4.27 KB, 下载次数: 2)</em>
+</span>
+<div class="tip tip_4" id="attach_1372979_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-11 17:28 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+此文件为本文使用的数据包<br />
+使用方式:解压至存档中datapacks文件夹&nbsp; &nbsp;<a href="https://minecraft-zh.gamepedia.com/%E6%95%99%E7%A8%8B/%E5%AE%89%E8%A3%85%E6%95%B0%E6%8D%AE%E5%8C%85" target="_blank">wiki</a><br />
+游戏内在命令方块内输入<div class="blockcode"><div id="code_RVt"><ol><li>function 1:start</ol></div><em onclick="copycode($('code_RVt'));">复制代码</em></div>并在海晶灯上放置盔甲架。激活命令方块，建筑将从此处开始生成<br />
+生成完毕后，初始命令方块会被复原<br />
+<br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1372980" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3Mjk4MHwzMWMzNzFkM3wxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">generated.rar</a>
+
+<em class="xg1">(26.18 KB, 下载次数: 2)</em>
+</span>
+<div class="tip tip_4" id="attach_1372980_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-11 17:29 上传</div>
+点击文件名下载附件
+<br />录制使用的结构<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+此文件保存了文中使用的结构<br />
+使用方式:解压至存档下<font size="3"><br />
+</font><br />
+<strong><font size="4">更新:</font></strong><br />
+<font size="3">--------------------------------------------------------------------------------------------<br />
+<strong>19.08.12&nbsp;&nbsp;00:14 <i>更新1</i></strong></font><br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1373295" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3MzI5NXw1MzY4YTA0NnwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">dynamicgeneration1.rar</a>
+
+<em class="xg1">(4.38 KB, 下载次数: 0)</em>
+</span>
+<div class="tip tip_4" id="attach_1373295_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-12 00:15 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+数据包更新:调整数据包结构，不改变使用效果<br />
+启动方式同上文，但需要修改启动指令<br /><div class="blockcode"><div id="code_k7K"><ol><li>function dynagnr:1/start</ol></div><em onclick="copycode($('code_k7K'));">复制代码</em></div><font size="3">--------------------------------------------------------------------------------------------</font><br />
+<font size="3"><strong>19.08.16 17:10 <i>更新2</i></strong></font><br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1376867" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3Njg2N3xlYzZhYjUxY3wxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">dynamicgeneration2.rar</a>
+
+<em class="xg1">(4.81 KB, 下载次数: 0)</em>
+</span>
+<div class="tip tip_4" id="attach_1376867_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-16 17:06 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+数据包更新:合并运行时生成的命令方块，压缩运行所需空间至1*1*1<br />
+启动方式同<i>更新1</i><font size="3"><br />
+</font><br />
+<br />
+<font size="3">--------------------------------------------------------------------------------------------</font><br />
+<font size="3"><strong>19.08.16 17:40 <i>更新3</i></strong></font><br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1376920" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3NjkyMHw0YTY3MGQxY3wxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">dynamicgeneration3.rar</a>
+
+<em class="xg1">(4.91 KB, 下载次数: 0)</em>
+</span>
+<div class="tip tip_4" id="attach_1376920_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-16 17:39 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+数据包更新:可以彻底脱离命令方块运行<br />
+<br />
+<br />
+<br />
+<font size="3">--------------------------------------------------------------------------------------------</font><font size="3"><br />
+</font><strong><font size="3">19.08.16 21:05 </font><i><font size="3">更新4</font></i></strong><br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1377036" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3NzAzNnw1YzY0MThjZHwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">dynamicgeneration4.rar</a>
+
+<em class="xg1">(5.03 KB, 下载次数: 0)</em>
+</span>
+<div class="tip tip_4" id="attach_1377036_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-16 21:08 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+数据包更新:在结构末端生成终点结构<br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1377037" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3NzAzN3xjNzIxNWUxMnwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">generated4.rar</a>
+
+<em class="xg1">(26.9 KB, 下载次数: 3)</em>
+</span>
+<div class="tip tip_4" id="attach_1377037_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-16 21:08 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+存储了上述数据包使用的结构文件，添加了简单的终点结构<br />
+<br />
+<font size="3">--------------------------------------------------------------------------------------------</font><br />
+<font size="3"><strong>19.08.17 19:00 <i>更新5</i></strong></font><br />
+
+<ignore_js_op>
+
+<img src="static/image/filetype/rar.gif" border="0" class="vm" alt="" />
+<span style="white-space: nowrap" id="attach_1377758" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
+
+<a href="forum.php?mod=attachment&amp;aid=MTM3Nzc1OHxmNzk3NmQyZHwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4" target="_blank">dynamicgeneration5.rar</a>
+
+<em class="xg1">(6.33 KB, 下载次数: 3)</em>
+</span>
+<div class="tip tip_4" id="attach_1377758_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="tip_c xs0">
+<div class="y">2019-8-17 19:08 上传</div>
+点击文件名下载附件
+<br />阅读权限: 10
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+数据包更新:自动修饰(此数据包中表现为随机放置箱子)生成完毕的地图<br />
+<br />
+<font size="3"><br />
+</font><font size="3">_____________________________________________________________</font><br />
+<font size="5">附注:</font><br />
+<font size="5">&nbsp; &nbsp; </font><font size="3">数据包中没有提供南向结构生成，建筑不会向南生成</font><br />
+<font size="5">&nbsp; &nbsp; </font><font size="3">本文中结构的相对生成位置只适用于体积为15*15*15的结构。调整此参数需要修改相关的函数文件(2/n中第三条指令等)。</font><br />
+<font size="3">&nbsp; &nbsp;&nbsp; &nbsp;数据包与下文命令方块使用的指令略有差异。</font><br /><br />
+<font size="5"><font color="#708090">使用命令方块实现:</font></font><br />
+<font color="#708090">(初代系统，有少量bug，实际应用推荐使用数据包)</font><br />
+<font color="#ff0000"><br />
+</font><br />
+<font color="#ff0000">(本页不再更新)</font><br />
+<font size="5"><strong>一</strong></font><br />
+<img id="aimg_A7RKA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://b2.bmp.ovh/imgs/2019/08/82ac80bded3fbcb2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<font size="3">&nbsp;&nbsp;本存档中，海晶灯上的盔甲架会作为初始结构生成器</font><br />
+<font size="3">1.生成起始结构</font><br />
+
+<ignore_js_op>
+
+<img id="aimg_1371371" aid="1371371" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/09/172012jbp111ht3vvntpnb.png" file="https://attachment.mcbbs.net/forum/201908/09/172012jbp111ht3vvntpnb.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="62" id="aimg_1371371" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1371371_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-09_14.52.30.png</strong> <em class="xg1">(7.76 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3MTM3MXw3NzY3ZjFiNnwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-9 17:20 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+标记“初始生成器”<br /><div class="blockcode"><div id="code_U83"><ol><li>execute as @e[type=minecraft:armor_stand,tag=!start] at @s if block ~ ~-1 ~ minecraft:sea_lantern run tag @s add start</ol></div><em onclick="copycode($('code_U83'));">复制代码</em></div><br />
+生成并激活结构方块<br /><div class="blockcode"><div id="code_Zvg"><ol><li>execute as @e[tag=start] at @s run setblock ~ ~ ~ minecraft:structure_block{mode:&quot;LOAD&quot;,posX:-7,posY:-2,posZ:-15,name:gnr_start1}</ol></div><em onclick="copycode($('code_Zvg'));">复制代码</em></div>清除结构方块<br /><div class="blockcode"><div id="code_WrB"><ol><li>execute as @e[tag=start] at @s run fill ~ ~ ~ ~ ~1 ~ air</ol></div><em onclick="copycode($('code_WrB'));">复制代码</em></div><font size="4">2.计分板的创建与初始化（准备第二部分）</font><br />
+<font size="4">
+<ignore_js_op>
+
+<img id="aimg_1371373" aid="1371373" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/09/172106vm1fg22dlfs5fyjs.png" file="https://attachment.mcbbs.net/forum/201908/09/172106vm1fg22dlfs5fyjs.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="465" id="aimg_1371373" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1371373_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-09_14.52.30.png</strong> <em class="xg1">(18.84 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3MTM3M3wwNGIwMGY3MnwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-9 17:21 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</font><br />
+<strong>创建(准则均为dummy):</strong><br />
+tick--------------计时<br />
+tickCPR.1-------作为tick上限<br />
+gnr_nMAX------向北结构 生成尝试次数上线<br />
+gnr_wMAX------向西结构 略<br />
+gnr_eMAX------略<br />
+<i>gnr_sMAX-------</i>略 (存档中未使用)<br />
+gnr_n------------向北结构的生成次数<br />
+gnr_w-----------略<br />
+gnr_e------------略<br />
+<i>gnr_s------------</i>略(存档中未使用)<br />
+<br />
+<strong>初始化(将值设置为0):</strong><br />
+gnr_n<br />
+gnr_e<br />
+gnr_w<br />
+<i>gnr_s</i><br />
+<br />
+<strong>初始化(任意值):</strong><br />
+gnr_eMAX<br />
+gnr_nMAX<br />
+gnr_wMAX<br />
+<i>gnr_sMAX</i><br />
+<br />
+<strong><font size="5">二</font></strong><br />
+<img id="aimg_YccJC" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="567" src="https://b2.bmp.ovh/imgs/2019/08/f47dc28e5ca7516b.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<font size="4">1.(假装是)随机模块</font><br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_1371376" aid="1371376" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/09/172228e7urf5lux63agurw.png" file="https://attachment.mcbbs.net/forum/201908/09/172228e7urf5lux63agurw.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="256" id="aimg_1371376" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1371376_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-09_14.52.30.png</strong> <em class="xg1">(30.88 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3MTM3Nnw4YjAzYjUxOXwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-9 17:22 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<font size="2">本存档中通过获取并存储(到计分板UIDM)实体的UUID(假装)得到随机数</font><br />
+<font size="2">此过程中需要不断生成并清除实体，导致实体的分数删除。因此另外创建一个计分板Random，将每次得到的值赋给此计分板中玩家的分数</font><br />
+<font size="2"><br />
+</font><br />
+<font size="2"><strong>创建以下计分板(dummy):</strong></font><br />
+UIDM------存储实体UUIDMost<br />
+Random---玩家的Random分数 = 某一实体的UIDM分数<br />
+<br />
+<strong>获取随机值部分:</strong><br />
+生成实体<br /><div class="blockcode"><div id="code_XIv"><ol><li>summon minecraft:armor_stand 2 56 30 {Tags:[&quot;getUID&quot;]}</ol></div><em onclick="copycode($('code_XIv'));">复制代码</em></div>存储并简单处理UUIDMost(此过程中自动忽略字母)<br /><div class="blockcode"><div id="code_eo5"><ol><li>execute as @e[type=minecraft:armor_stand,tag=getUID] store result score @s UIDM run data get entity @s UUIDMost 0.0000000000000000005</ol></div><em onclick="copycode($('code_eo5'));">复制代码</em></div>实体的UIDM赋值给玩家的Random<br /><div class="blockcode"><div id="code_WGH"><ol><li>execute as @e[tag=getUID] run scoreboard players operation @a Random = @s UIDM</ol></div><em onclick="copycode($('code_WGH'));">复制代码</em></div>清除此实体<br /><div class="blockcode"><div id="code_Nau"><ol><li>kill @e[tag=getUID]</ol></div><em onclick="copycode($('code_Nau'));">复制代码</em></div>返回“生成实体”步骤（“返回”即重新执行，与“循环高频执行”有差异）<br />
+<br />
+<font size="4">2.生成随机结构</font><br />
+<font size="3">本存档中，在黄、红、绿色混凝土上的盔甲架分别作为北向、东向、西向结构生成器</font><br />
+
+<ignore_js_op>
+
+<img id="aimg_1371377" aid="1371377" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/09/172432zi0lkq0q00k0a7n3.png" file="https://attachment.mcbbs.net/forum/201908/09/172432zi0lkq0q00k0a7n3.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="440" id="aimg_1371377" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1371377_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-09_14.52.30.png</strong> <em class="xg1">(91.35 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3MTM3N3wyZGExZjUxOXwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-9 17:24 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<strong>计时器：</strong><br />
+循环指令方块，在第一部分结束后启动。<br /><div class="blockcode"><div id="code_bD0"><ol><li>scoreboard players add @a tick 1</ol></div><em onclick="copycode($('code_bD0'));">复制代码</em></div><br />
+<font size="4"><br />
+</font><br />
+<font size="2"><strong>北向结构生成:</strong></font><br />
+<font size="2"><font color="#0000ff">生成次数未达到上限时，所有黄色混凝土上的盔甲架标记为“北向结构预备生成器”</font></font><br /><div class="blockcode"><div id="code_c13"><ol><li>execute as @e[type=minecraft:armor_stand,tag=!regnr_n] at @s if block ~ ~-1 ~ minecraft:yellow_concrete if score @r gnr_n &lt;= @r gnr_nMAX run tag @s add regnr_n</ol></div><em onclick="copycode($('code_c13'));">复制代码</em></div>随机选择一个预备生成器作为正式生成器<br /><div class="blockcode"><div id="code_mfw"><ol><li>execute as @e[tag=!gnr_n,tag=regnr_n,limit=1,sort=random,tag=!gnr_Used] if score @r gnr_n &lt;= @r gnr_nMAX run tag @s add gnr_n</ol></div><em onclick="copycode($('code_mfw'));">复制代码</em></div>若未使用的正式生成器周围1-5米无使用过的生成器，则生成结构方块&nbsp;&nbsp;<u>**此命令方块的内容由其他命令方块随机更改</u>[sup](1)[/sup]<br /><div class="blockcode"><div id="code_nL0"><ol><li>execute as @e[tag=gnr_n,tag=!gnr_Used] at @s unless entity @e[distance=1..5,type=minecraft:armor_stand,tag=!start,tag=gnr_Used] run setblock ~ ~ ~ minecraft:structure_block{mode:&quot;LOAD&quot;,posX:-7,posY:-2,posZ:-15,name:&quot;gnr_n3&quot;}</ol></div><em onclick="copycode($('code_nL0'));">复制代码</em></div>激活结构方块，之后清除此方块<br /><div class="blockcode"><div id="code_Bmz"><ol><li>execute as @e[tag=gnr_n,tag=!gnr_Used] at @s run setblock ~ ~1 ~ minecraft:redstone_block</ol></div><em onclick="copycode($('code_Bmz'));">复制代码</em></div><br />
+北向结构生成尝试次数+1&nbsp;&nbsp;<u>**此连锁命令方块限制条件为“不受制约”，即使生成未成功也会激活</u><br /><div class="blockcode"><div id="code_Wfx"><ol><li>scoreboard players add @a gnr_n 1</ol></div><em onclick="copycode($('code_Wfx'));">复制代码</em></div>重置计时器，准备下一次生成<br /><div class="blockcode"><div id="code_SvK"><ol><li>scoreboard players set @a tick 0</ol></div><em onclick="copycode($('code_SvK'));">复制代码</em></div>将此盔甲架标记为“已使用”（基本禁用）<br /><div class="blockcode"><div id="code_TyV"><ol><li>execute as @e[tag=gnr_n,tag=!gnr_Used] at @s run tag @s add gnr_Used</ol></div><em onclick="copycode($('code_TyV'));">复制代码</em></div>返回<font color="#0000ff">第一步</font><br />
+<br />
+<strong><font size="2">其他方向的结构生成略</font></strong><br />
+<br />
+<font color="#ff0000">此部分存在bug:</font><br />
+<font color="#ff0000">部分预备生成器不会升级为正式生成器，原因未知</font><br />
+<font color="#ff0000">删除以上代码中 选择器(@e)的 limit=1与 sort=random 参数可以解决</font><br />
+<font color="#ff0000">但此时所有同一方向的生成器只会生成相同的结构</font><br />
+<font color="#ff0000"><br />
+</font><br />
+[sup](1) [/sup]<font color="#000000"><strong>此命令方块的控制器</strong></font><br />
+
+<ignore_js_op>
+
+<img id="aimg_1371382" aid="1371382" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/09/172543e3uu4u555oi4e4ub.png" file="https://attachment.mcbbs.net/forum/201908/09/172543e3uu4u555oi4e4ub.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="184" id="aimg_1371382" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1371382_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-09_14.52.30.png</strong> <em class="xg1">(16.87 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3MTM4MnxjYTlhYmI5ZnwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-9 17:25 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<font color="#000000">循环命令方块，第二部分中激活。当玩家的Random分数在[-6,3]中，</font>[sup](1)[/sup]<font color="#000000">处命令方块将生成结构gnr_n1</font><br /><div class="blockcode"><div id="code_eVr"><ol><li>/execute as @a at @s if score @s Random matches -6..-3 run data merge block 10 56 26 {Command:'execute as @e[tag=gnr_n,tag=!gnr_Used] at @s unless entity @e[distance=1..5,type=minecraft:armor_stand,tag=!start,tag=gnr_Used] run setblock ~ ~ ~ minecraft:structure_block{mode:&quot;LOAD&quot;,posX:-7,posY:-2,posZ:-15,name:&quot;gnr_n1&quot;}'}</ol></div><em onclick="copycode($('code_eVr'));">复制代码</em></div>下同<br /><div class="blockcode"><div id="code_w5X"><ol><li>/execute as @a at @s if score @s Random matches -2..0 run data merge block 10 56 26 {Command:'execute as @e[tag=gnr_n,tag=!gnr_Used] at @s unless entity @e[distance=1..5,type=minecraft:armor_stand,tag=!start,tag=gnr_Used] run setblock ~ ~ ~ minecraft:structure_block{mode:&quot;LOAD&quot;,posX:-7,posY:-2,posZ:-15,name:&quot;gnr_n2&quot;}'}</ol></div><em onclick="copycode($('code_w5X'));">复制代码</em></div>其他方向略，见存档<br />
+<br />
+<font size="4">3.第二部分后续+第三部分预备</font><br />
+
+<ignore_js_op>
+
+<img id="aimg_1371396" aid="1371396" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201908/09/174425i5ermom1oc5dzvq5.png" file="https://attachment.mcbbs.net/forum/201908/09/174425i5ermom1oc5dzvq5.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="130" id="aimg_1371396" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1371396_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2019-08-09_14.52.30.png</strong> <em class="xg1">(8.91 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM3MTM5NnwwZWQ3NDUxNHwxNjEzOTkyODk2fDI0MTk0ODZ8ODk5NjM4&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-8-9 17:44 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+循环命令方块，在第二部分开始时启动。tick≥tickCPR.1(即计时器不再被重置)时,判定生成结束，同时作为下个连锁命令方块的条件<br /><div class="blockcode"><div id="code_OG2"><ol><li>execute as @a if score @r tick &gt;= @r tickCPR.1 run title @a actionbar &quot;generationCompleted&quot;</ol></div><em onclick="copycode($('code_OG2'));">复制代码</em></div><br />
+<br />
+<strong>添加并初始化计分板:</strong><br />
+tick1------第三部分计时器<br />
+<br />
+<strong>清除正式生成器 </strong><u>**此时没有参加生成的生成器会被保留，作为路线清扫的起始点</u><br /><div class="blockcode"><div id="code_ng8"><ol><li>execute as @a if score @r tick &gt;= @r tickCPR.1 run kill @e[tag=gnr_w]</ol></div><em onclick="copycode($('code_ng8'));">复制代码</em></div><font size="1">▲就是不带南方玩</font><br />
+<font size="5"><strong>三</strong></font><br />
+<img id="aimg_J3Elv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://b2.bmp.ovh/imgs/2019/08/ade696152d9a56bd.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<font size="4">1.消除所有盔甲架重力</font><br />
+<font size="2"><strong>循环命令方块，始终开启</strong></font><br /><div class="blockcode"><div id="code_cOj"><ol><li>execute as @a run execute as @e[type=minecraft:armor_stand] at @s run data merge entity @s {NoGravity:1}</ol></div><em onclick="copycode($('code_cOj'));">复制代码</em></div><font size="4">2.清扫受阻路径</font><br />
+<font size="2">若发生结构重叠情况，路径可能受阻。这是防止路线受阻的最后办法</font><br />
+<u>**实现此部分需要手动在结构中设置路径，即用特定方块（存档中为平滑石英）在同一平面完全连接结构的所有接口。</u><u>存档中，路径隐藏在地面下<br />
+</u><br />
+<font color="#0000ff">将所有<strong>全场</strong>盔甲架(即未被清除的预备生成器)标记为清扫器</font><br /><div class="blockcode"><div id="code_Of7"><ol><li>execute as @e[tag=!sweep,type=minecraft:armor_stand] at @s run tag @s add sweep</ol></div><em onclick="copycode($('code_Of7'));">复制代码</em></div>使未使用的清扫器在路径上生成新的盔甲架<br /><div class="blockcode"><div id="code_l9M"><ol><li>execute as @e[tag=sweep,tag=!used] at @s if block ~-1 ~-2 ~ minecraft:smooth_quartz run summon minecraft:armor_stand ~-1 ~ ~<br /><li>execute as @e[tag=sweep,tag=!used] at @s if block ~1 ~-2 ~ minecraft:smooth_quartz run summon minecraft:armor_stand ~1 ~ ~<br /><li>execute as @e[tag=sweep,tag=!used] at @s if block ~ ~-2 ~-1 minecraft:smooth_quartz run summon minecraft:armor_stand ~ ~ ~-1<br /><li>execute as @e[tag=sweep,tag=!used] at @s if block ~ ~-2 ~1 minecraft:smooth_quartz run summon minecraft:armor_stand ~ ~ ~1</ol></div><em onclick="copycode($('code_l9M'));">复制代码</em></div>将参与本次行为的清扫器标记为“已使用”<br /><div class="blockcode"><div id="code_M9Y"><ol><li>execute as @e[tag=sweep,tag=!used] at @s run tag @s add used</ol></div><em onclick="copycode($('code_M9Y'));">复制代码</em></div>使已使用的清扫器清除路径方块和路径上方的障碍（清扫范围可以修改）<br /><div class="blockcode"><div id="code_z8z"><ol><li>execute as @e[type=minecraft:armor_stand,tag=used] at @s run setblock ~ ~-2 ~ air</ol></div><em onclick="copycode($('code_z8z'));">复制代码</em></div>返回<font color="#0000ff">第一步</font><br />
+<br />
+<br />
+<br />
+<font color="#0000ff">第一步</font>开始同时，执行<br /><div class="blockcode"><div id="code_Gjz"><ol><li>scoreboard players add @a tick1 1</ol></div><em onclick="copycode($('code_Gjz'));">复制代码</em></div>tick1计时器的玩家分数在≥200时，停止清扫<br /><div class="blockcode"><div id="code_xT1"><ol><li>execute as @a if score @r tick1 matches 200.. run setblock 24 56 13 minecraft:bedrock</ol></div><em onclick="copycode($('code_xT1'));">复制代码</em></div>删除<strong>全场</strong>盔甲架<br /><div class="blockcode"><div id="code_R2t"><ol><li>kill @e[type=minecraft:armor_stand]</ol></div><em onclick="copycode($('code_R2t'));">复制代码</em></div>生成结束<br />
+<br />
+<font size="3">_____________________________________________________________</font><br />
+<font size="5">关于“结构方块”：</font><br />
+<ul><li><font size="4">结构方块的相对位置需要手动调整</font><li><font size="4">保存结构前应用&quot;结构空位&quot;(structure_void)替换结构中的空气，否则生成时空气会覆盖原本方块 </font><a href="https://minecraft-zh.gamepedia.com/%E7%BB%93%E6%9E%84%E6%96%B9%E5%9D%97#.E7.BB.93.E6.9E.84.E7.A9.BA.E4.BD.8D" target="_blank">(见wiki)</a><li><font size="4">保存时需开启“保存实体”</font><li><font size="4">存档中每个朝向各有四个可选结构，可以手动添加，但也需要相应修改相关的命令方块<br />
+</font><br />
+</ul><br />
+<font size="5">存档(已知1.14.3与1.14.4可用):</font><br />
+<a href="https://pan.baidu.com/s/1NTUtZMyJ3tzkEIpMpINT4A" target="_blank">dynaGeneration</a> 提取码:wdxt<br />
+存档仅供参考<br />
+<br />
+<font size="3">_____________________________________________________________</font><br />
+<br /><br />
+<font size="5">2019/08/09 23:25</font><br />
+<font size="5"><br />
+</font><font size="4"><strong>关于随机模块:</strong></font><br />
+<font size="2">炒了原本的随机模块</font><br />
+<font size="2">现在可以脱离实体运行。</font><br />
+<font size="2">(计分板比我想象中的强大..)</font><br />
+<font size="1">@...算了</font><br />
+<font size="1"><br />
+</font><br />
+<strong>创建计分板（dummy）:</strong><br />
+x-----先作种子，后存储(a[sub]0[/sub]x-1+b[sub]0[/sub])mod(m)值，赋值给@a的Random分数<br />
+a-----先作乘数a[sub]0[/sub]，后存储a[sub]0[/sub]x值<br />
+-1----b+(-1)作增量，之后-1存储a[sub]0[/sub]x-1值<br />
+b-----b+(-1)作增量，之后b存储a[sub]0[/sub]x-1+b[sub]0[/sub]值<br />
+m----作模量<br />
+<br />
+<strong><font color="#0000ff">初始化（任意值）</font></strong><br /><div class="blockcode"><div id="code_Sa8"><ol><li>scoreboard players set z -1 -1</ol></div><em onclick="copycode($('code_Sa8'));">复制代码</em></div><blockquote><div class="blockcode"><div id="code_KVy"><ol><li>scoreboard players set z a 5</ol></div><em onclick="copycode($('code_KVy'));">复制代码</em></div></blockquote><div class="blockcode"><div id="code_aJ5"><ol><li>scoreboard players set z b 3</ol></div><em onclick="copycode($('code_aJ5'));">复制代码</em></div><div class="blockcode"><div id="code_n3c"><ol><li>scoreboard players set z m 17</ol></div><em onclick="copycode($('code_n3c'));">复制代码</em></div><br />
+<br />
+<strong>计算:</strong><br />
+<font color="#000000">a存储a[sub]0[/sub]x值</font><br /><div class="blockcode"><div id="code_jkX"><ol><li>scoreboard players operation z a *= z x</ol></div><em onclick="copycode($('code_jkX'));">复制代码</em></div><br />
+同上<br /><div class="blockcode"><div id="code_LCE"><ol><li>scoreboard players operation z -1 += z a</ol></div><em onclick="copycode($('code_LCE'));">复制代码</em></div><div class="blockcode"><div id="code_tpb"><ol><li>scoreboard players operation z b += z -1</ol></div><em onclick="copycode($('code_tpb'));">复制代码</em></div><div class="blockcode"><div id="code_I6H"><ol><li>scoreboard players operation z b %= z m</ol></div><em onclick="copycode($('code_I6H'));">复制代码</em></div><div class="blockcode"><div id="code_I81"><ol><li>scoreboard players operation z x = z b</ol></div><em onclick="copycode($('code_I81'));">复制代码</em></div><br />
+<br />
+返回<font color="#0000ff"><strong>初始化</strong></font><br />
+<font color="#0000ff"><br />
+</font><br />
+<font color="#000000">x赋值给玩家的Random(循环命令方块，始终开启)</font><br /><div class="blockcode"><div id="code_iV8"><ol><li>scoreboard players operation @a Random = z x</ol></div><em onclick="copycode($('code_iV8'));">复制代码</em></div>[0,16]<br />
+<font size="1"> </font><font size="4"><u> **</u></font><font size="2"><u>上文中z不需要存在</u></font><font size="4"><br />
+</font><br />
+<font size="4"><strong>关于路线清扫：</strong><br />
+</font>其实可以调整fill参数改变清扫范围<br />
+<br />
+实际上清扫是没有办法的办法，清扫有效就意味着建筑重叠，自然会出现很喜感（暴力）的画面<br />
+最好的办法还是直接防止结构重叠，不过目前没什么头绪，只能通过探测生成器附近的生成器决定是否进一步生成<br />
+<br />
+<br />
+<font size="4"><strong>关于@r:</strong></font><br />
+<font size="2">1.14版本中@r似乎不能选择非玩家实体</font><br />
+<font size="2">可以使用@e[limit=1,sort=random]实现此功能，且更强大</font><a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4#.E7.9B.AE.E6.A0.87.E9.80.89.E6.8B.A9.E5.99.A8.E5.8F.82.E6.95.B0" target="_blank">(见wiki)</a><br />
+<br />
+_______________________________________________________________________________________<br />
+<a href="https://pan.baidu.com/s/1z-4dkkgy_Zq6QXR50wx2lQ" target="_blank"><font size="4">存档:19/08/09 23:20改</font></a><font size="4">&nbsp;&nbsp;提取码:alju</font><br />
+弃用的模块会用结构方块可视化范围标注<br />
+<br />
+写得较为仓促，希望各位都能看懂...<br />
+谢谢各位的提议啦<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[15261419] = ['1371202','1371371','1371373','1371376','1371377','1371382','1371396','1377156'];
+attachimggroup(15261419);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ItIsEnderman&nbsp; &nbsp; <b>时间: </b>2019-8-9 20:30<br />
+<i class="pstatus"> 本帖最后由 ItIsEnderman 于 2019-8-9 22:01 编辑 </i><br />
+<br />
+伪随机数还是搞个像样的吧？比方说最初等的线性同余算法，一个mcfunction就可完成。<br />
+<br />
+（细想一下，用UUID生成还真算新奇……倒不如多取几个？）<br />
+<br />
+<br />
+<br />
+↓考虑到低配难以承受住过多实体，我还是倾向于硬算<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2019-8-9 22:17<br />
+随机数可以通过战利品表或是@r药水云加分，都是成熟便捷的做法。<br />
+<br />
+然后的话，如果能用数据包实现我觉得会更好，也便于他人使用，不知道你有没有这个想法。<br />
+<br />
+这个东西还是有很多应用场景的。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2019-8-9 22:19<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15263186&amp;ptid=899638" target="_blank"><font color="#999999">ItIsEnderman 发表于 2019-8-9 20:30</font></a></font><br />
+伪随机数还是搞个像样的吧？比方说最初等的线性同余算法，一个mcfunction就可完成。<br />
+<br />
+（细想一下，用UUID生 ...</blockquote></div><br />
+首先@r药水云的做法是用完即删，不会导致卡顿的。<br />
+<br />
+另一方面，可以使用战利品表，大约只需要1个盔甲架用来装战利品表物品就行了。<br />
+<br />
+线性同余算法如果你指的是利用gametick来算的话，如果在单tick实现这个功能就会导致没随机了。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-9 22:32<br />
+不但命令写得好，还是个建筑 dalao hh<br />
+<br />
+提前在结构中用特定方块标记路径，然后在第三步中用 tag=sweep 的清扫器打通路径确实是很巧妙的做法，不过打出这种通道略为喜感（不<br />
+<img id="aimg_QZDEI" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="284" src="https://s2.ax1x.com/2019/08/09/eqyfYT.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+原版 Minecraft 在生成村庄时采用了拼图方块来连接各个结构，防止通道断裂。但事实上，Mojang 这么做以后村庄生成 bug 频出，大概还是一种比较复杂的做法。我本人除穷举以外目前也没有特别好的思路。<br />
+<br />
+帖子编写很认真，不过距离优秀还是略逊一筹，经过讨论先暂给一周高亮奖励。<br />
+<br />
+（另外，帖子里提到的「此部分存在bug」为什么我没太看懂…）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ordis&nbsp; &nbsp; <b>时间: </b>2019-8-10 00:42<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15264624&amp;ptid=899638" target="_blank"><font color="#999999">SPGoding 发表于 2019-8-9 22:32</font></a></font><br />
+不但命令写得好，还是个建筑 dalao hh<br />
+<br />
+提前在结构中用特定方块标记路径，然后在第三步中用 tag=sweep 的清 ...</blockquote></div><br />
+第二阶段生成时可能出现阶段未结束，但生成停止的情况<br />
+除去&quot;所有接口生成完毕&quot;的情况，有时还能明显看到生成器符合生成条件，但始终没有生成<br />
+用data发现上述生成器的Tags中只有regnr_，说明他是预备生成器。此时明显可以升级为正式生成器，但他没有<br />
+<br />
+我怀疑负责正式生成器选择器(@e[limit=1,sort=random,....])在搞事，但我没有证据<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>故人123&nbsp; &nbsp; <b>时间: </b>2019-8-10 15:18<br />
+&nbsp; &nbsp; &nbsp; &nbsp; 想想这个伪随机数脑洞还真是新奇.<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-10 21:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15266263&amp;ptid=899638" target="_blank"><font color="#999999">Ordis 发表于 2019-8-10 00:42</font></a></font><br />
+第二阶段生成时可能出现阶段未结束，但生成停止的情况<br />
+除去&quot;所有接口生成完毕&quot;的情况，有时还能明显看到 ...</blockquote></div><br />
+一般而言选择器并不会出错。删掉 sort=random,limit=1 后，执行该命令一次就会将所有的预备生成器升级为正式生成器，所以不会出现该问题，但后果如你帖中所述。<br />
+<br />
+出现这种状况我怀疑是这条命令在后续由于某种原因没有被执行到，不过具体为什么我也没太多时间细看了（跑<br />
+<br />
+试试改造成数据包，当命令执行顺序更加可靠以后，说不定问题就解决了呢（<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋果86&nbsp; &nbsp; <b>时间: </b>2019-8-11 09:33<br />
+<i class="pstatus"> 本帖最后由 秋果86 于 2019-8-12 13:44 编辑 </i><br />
+<br />
+原贴删除&nbsp; &nbsp;&nbsp; &nbsp;<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>guixiansheng&nbsp; &nbsp; <b>时间: </b>2019-8-11 11:54<br />
+命令方块咋子用？？？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2019-8-11 23:07<br />
+你这个命名空间和记分板取名有点飘逸啊……<br />
+<br />
+命名空间就1和2，记分板就abcxm，<img src="static/image/smiley/rabbit/41.gif" smilieid="691" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-11 23:35<br />
+<font style="font-size:16px">什么，这么快就改成函数了，先给个优秀再说</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:16px">不过仍有两个小建议</font><br />
+<br />
+<font style="font-size:16px">命名空间主要是用于避免和别的数据包冲突，你这命名空间如 ruhuasiyu 所说太飘逸了。图方便怎么行（摔</font><br />
+<br />
+<font style="font-size:16px">建议取个正常些的命名空间），把 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">2</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">3</font></font> 移进去，改用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">xxx:1/start</font></font> 之类的调用函数，大概不会显得这么见鬼了</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1:scorereload</font></font> 函数里面采用了放置循环型命令方块高频执行命令的方式，其实可以依靠给某个函数添加 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">#minecraft:tick</font></font> 函数标签来达到高频执行这个函数的目的，彻底摆脱命令方块的魔爪。<a href="https://www.mcbbs.net/thread-784662-1-1.html?cp=2" target="_blank">某个帖子的这一页靠下部分有所提及</a>。</font><br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ordis&nbsp; &nbsp; <b>时间: </b>2019-8-11 23:48<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15294160&amp;ptid=899638" target="_blank"><font color="#999999">SPGoding 发表于 2019-8-11 23:35</font></a></font><br />
+什么，这么快就改成函数了，先给个优秀再说<br />
+<br />
+<hr class="l" /></blockquote></div><br />
+阿...我把命名空间理解错了，现在争取改一下吧<br />
+至于何时完全脱离命令方块，要看我对数据包的理解程度了...现在我只会函数的一小部分，minecraft:tick什么的还是抄来的，完全是一知半解。平时时间不多，这部分可能要等周末实现了<br />
+另外，谢谢评价啦..挺激动的..<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2360329435&nbsp; &nbsp; <b>时间: </b>2019-8-12 01:49<br />
+学到了学到了学到了学到了
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

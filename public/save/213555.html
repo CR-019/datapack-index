@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>【CBL|SYL】tellraw教程第三章：悬浮事件 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0yMTM1NTUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】tellraw教程第三章：悬浮事件 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-4 12:00<br />
+<b>标题: </b>【CBL|SYL】tellraw教程第三章：悬浮事件<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:40 编辑 </i><br />
+<div class="quote"><blockquote>索引贴：<a href="http://www.mcbbs.net/thread-205332-1-1.html" target="_blank">http://www.mcbbs.net/thread-205332-1-1.html</a></blockquote></div><br />
+好的这次带来hoverEvent-悬浮事件的教程<br />
+什么是悬浮事件？看就知道了啊！<br />
+<hr class="l" /><br />
+<a href="http://v.youku.com/v_show/id_XNjU3MTkwODA4.html" target="_blank">http://v.youku.com/v_show/id_XNjU3MTkwODA4.html</a><br />
+<hr class="l" /><br />
+本期使用命令：1 /tellraw @a {text:&quot;鼠标放这里&quot;,hoverEvent:{action:show_text,value:&quot;欢迎收看SYL的tellraw教程&quot;}}<br />
+2 /tellraw @a {text:&quot;SYL&quot;,hoverEvent:{action:show_text,value:&quot;此教程作者&quot;}}<br />
+3 /tellraw @a {text:&quot;HOVER&quot;,hoverEvent:{action:show_item,value:&quot;{id:77}&quot;}}<br />
+4 /tellraw @a {text:&quot;HOVER&quot;,hoverEvent:{action:show_item,value:&quot;{id:77,tag:{display:{Lore:[\&quot;石头做的按钮\&quot;]}}}&quot;}}<br />
+5 /tellraw @a {text:&quot;[成就]&quot;,hoverEvent:{action:show_achievement,value:&quot;achievement.theEnd2&quot;}}<br />
+6 /tellraw @a {text:&quot;[成就]&quot;,hoverEvent:{action:show_achievement,value:&quot;stat.useItem.289&quot;}}<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>你们可以叫我神&nbsp; &nbsp; <b>时间: </b>2014-1-4 12:01<br />
+抢个沙发！！！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wyrwyr11&nbsp; &nbsp; <b>时间: </b>2014-1-4 12:01<br />
+前排~~~顶LZ！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yihc&nbsp; &nbsp; <b>时间: </b>2014-1-4 12:08<br />
+不明觉厉<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pacerrecap&nbsp; &nbsp; <b>时间: </b>2014-1-4 14:29<br />
+呃。。。为何你的1.7里在指向物品的时候有显示它的ID，是装了什么mod？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>PotatoMaster101&nbsp; &nbsp; <b>时间: </b>2014-1-4 16:42<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">pacerrecap 发表于 2014-1-4 16:29</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4100787&amp;ptid=213555" target="_blank"><img id="aimg_u94kU" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+呃。。。为何你的1.7里在指向物品的时候有显示它的ID，是装了什么mod？</blockquote></div><br />
+按F3+h就可以了，我用的也是这样的版本。1.6以前就可以了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1056235953&nbsp; &nbsp; <b>时间: </b>2014-1-4 18:01<br />
+学习了030&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-1-5 15:28<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">pacerrecap 发表于 2014-1-4 14:29</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4100787&amp;ptid=213555" target="_blank"><img id="aimg_gE8eL" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+呃。。。为何你的1.7里在指向物品的时候有显示它的ID，是装了什么mod？</blockquote></div><br />
+其实我一开始也不知道这功能<br />
+直至我在youtube上学到……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>z3798127&nbsp; &nbsp; <b>时间: </b>2014-5-11 13:36<br />
+打扫打扫打扫<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mr.ender&nbsp; &nbsp; <b>时间: </b>2014-6-27 16:24<br />
+大神，火药英文应该是gunpowder吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-6-27 18:25<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=5544396&amp;ptid=213555" target="_blank"><font color="#999999">mr.ender 发表于 2014-6-27 16:24</font></a></font><br />
+大神，火药英文应该是gunpowder吧</blockquote></div><br />
+我去<br />
+一手滑powder打成power了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>NpcianT77&nbsp; &nbsp; <b>时间: </b>2014-7-7 23:49<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4100787&amp;ptid=213555" target="_blank"><font color="#999999">pacerrecap 发表于 2014-1-4 14:29</font></a></font><br />
+呃。。。为何你的1.7里在指向物品的时候有显示它的ID，是装了什么mod？</blockquote></div><br />
+实体是可以设名字的,刚好物品展示框就是一个实体，所以只要给物品展示框加上名字即可<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jhaiyan01&nbsp; &nbsp; <b>时间: </b>2014-7-26 09:01<br />
+为什么你在教NBT的时候不这样呢？
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

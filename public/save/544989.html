@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 模块的关联与返回值 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01NDQ5ODktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 模块的关联与返回值 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-23 21:39<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 模块的关联与返回值<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="5">?8.5+ 模块的关联与返回值</font></font></strong><br />
+在此主要对比<strong>1.8和1.9模块的关联</strong>、以及<strong>研究模块返回值</strong><br />
+<br />
+<ul><li><strong>关联</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FB381_56A3824D0" target="_blank"><img id="aimg_cBBH9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/B381_56A3824D0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F6A18_56A3824D0" target="_blank"><img id="aimg_tyHEJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/6A18_56A3824D0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<font color="#800000">1.8 - 通过变量关联，遵循通用执行顺序。不需要太多时序逻辑，都属于公共模块</font><br />
+<font color="#800080">1.9 - 通过bool或者变量或者直接关联，遵循串联顺序（并联遵循通用执行顺序）。时序分私有模块和公共模块</font><br />
+<br />
+<strong>模块构建：</strong><br />
+<font color="#800000">1.8 ：调用器<font color="#000080">+</font><font color="#000080">主语句</font><font color="#000080">+</font>（返回值）</font><br />
+<font color="#800080">1.9 ：</font><font color="#008000">串联*</font> <font color="#800080">调用器</font><font color="#000080">+主语句</font><font color="#008080">+重置器+</font><font color="#808000">（返回值）</font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;<font color="#008000">并联*</font> <font color="#800080">调用器</font><font color="#000080">+主语句+</font><font color="#808000">（返回值）</font><br />
+<br />
+<ul><li><strong>返回值</strong><br />
+</ul>返回值就是<strong>一个下级模块被一个上级模块执行后返回给上级的结果</strong><br />
+但是可以在此忽略这个概念。<br />
+<br />
+在这里返回值储存在计分板和实体中，而实体和计分板共享<br />
+所以只要模块执行完，<strong>返回值能被所有模块公用</strong>。<br />
+<br />
+因此在此无法真正意义上模拟出'私有变量'<br />
+而<strong>一个模块的返回值能被所有模块共享</strong>.<br />
+<br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div><br />
+[groupid=546]Command Block Logic[/groupid]
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

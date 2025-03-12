@@ -1,0 +1,131 @@
+
+<!-- saved from url=(0061)https://www.mcbbs.net/thread-833455-1-1.html?action=printable -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>【CBL】检测玩家是否为正版 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="./【CBL】检测玩家是否为正版 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/common.js.下载" type="text/javascript"></script>
+<script src="./【CBL】检测玩家是否为正版 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'cM7', charset = 'UTF-8', discuz_uid = '703042', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04MzM0NTUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL】检测玩家是否为正版 <b><a href="https://www.mcbbs.net/thread-833455-1-1.html?action=printable###" onclick="this.style.visibility=&#39;hidden&#39;;window.print();this.style.visibility=&#39;visible&#39;">[打印本页]</a></b><br>
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-12-8 23:49<br>
+<b>标题: </b>【CBL】检测玩家是否为正版<br><i class="pstatus"> 本帖最后由 SPGoding 于 2018-12-9 10:45 编辑 </i><br>
+<br>
+群里讨论的时候乙烯 dalao 出了个有趣的小问题，即用命令检测玩家是否为正版。经过一阵测试发现利用 1.14 战利品表的 minecraft:fill_player_head 函数，可以检测玩家是否为正版（正版玩家获取到的头颅拥有 SkullOwner.Properties 复合标签）。有关新版战利品表的内容可以参考此教程：<a href="http://www.mcbbs.net/thread-831542-1-2.html" target="_blank">http://www.mcbbs.net/thread-831542-1-2.html</a><br>
+<br>
+由于该函数只能在 minecraft:entity 类型的战利品表中使用，为了能在不依赖其他实体的情况下执行此战利品表，我们直接修改玩家的战利品表（即 minecraft:player）。为了避免玩家正常死亡执行此战利品表，我们可以加一个 minecraft:entity_properties 的条件验证，限制只有在玩家有某个 tag 的时候才给予头颅 。<br>
+<br>
+于是，minecraft:player 战利品表被写成了这样：<div class="blockcode"><div id="code_ewL"><ol><li>{<br>
+</li><li>&nbsp; &nbsp; "type": "minecraft:entity",<br>
+</li><li>&nbsp; &nbsp; "pools": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"rolls": 1,<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;"entries": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"type": "minecraft:item",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"name": "minecraft:player_head",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"functions": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "function": "minecraft:fill_player_head",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "entity": "this"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "function": "minecraft:set_nbt",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "tag": "{isTester:1b}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"conditions": [<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "condition": "minecraft:entity_properties",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "entity": "this",<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; "predicate": {<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;"nbt": "{Tags:["fill_player_head"]}"<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br>
+</li><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br>
+</li><li>&nbsp; &nbsp; ]<br>
+</li><li>}</li></ol></div><em onclick="copycode($(&#39;code_ewL&#39;));">复制代码</em></div><br>
+
+<br>
+然后，编写一个命令函数，使玩家调用这个战利品表。之所以使用 loot spawn 是因为 loot give 和 loot replace 在玩家背包已满的时候都不能正常工作（感谢@ruhuasiyu <a href="http://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=833455&amp;pid=13599566" target="_blank">提醒</a>）。调用以后检测获取到的头颅是否有 SkullOwner.Properties 复合标签。<br>
+<div class="blockcode"><div id="code_Tna"><ol><li># spgoding:foo<br>
+</li><li><br>
+</li><li>tag @s add fill_player_head<br>
+</li><li>loot spawn ~ ~ ~ kill @s<br>
+</li><li>execute if entity @e[distance=..1,nbt={Item:{tag:{isTester:1b,SkullOwner:{Properties:{}}}}}] run me 是正版玩家<br>
+</li><li>execute unless entity @e[distance=..1,nbt={Item:{tag:{isTester:1b,SkullOwner:{Properties:{}}}}}] run me 是盗版玩家<br>
+</li><li>kill @e[distance=..1,type=minecraft:item,nbt={Item:{tag:{isTester:1b}}}]<br>
+</li><li>tag @s remove fill_player_head</li></ol></div><em onclick="copycode($(&#39;code_Tna&#39;));">复制代码</em></div><br>
+
+<br>
+接下来，只要 execute as @a at @s run /function spgoding:foo，玩家便会说出自己是正版还是盗版【<br>
+（图里因为命令方块的位置肯定是被加载的，就没加 at @s）<br>
+<br>
+原理：玩家头颅的 SkullOwner.Properties 属性用于存储玩家皮肤的 URL 和一些其他信息（详见 <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&amp;target=https%3A%2F%2Fwiki.vg%2FMojang_API" target="_blank">https://wiki.vg/Mojang_API</a>）。获取玩家头颅时，Minecraft 会根据玩家的 UUID 向服务器请求这些数据。正版玩家的 UUID 是真实存在的，能够成功获取数据，因此得到的头颅会拥有 SkullOwner.Properties。而盗版玩家的 UUID 通常是启动器随机生成的，通常不存在，所以没有 SkullOwner.Properties。之所以说通常，是因为这个事情不可控，全看启动器作者的心情以及看脸，假设被分配了一个真实存在的 UUID，那么本帖讲述的方法就不靠谱了。<br>
+<br>
+<br>
+<br>
+[groupid=546]Command Block Logic[/groupid]<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>火星浮云&nbsp; &nbsp; <b>时间: </b>2018-12-8 23:56<br>
+<i class="pstatus"> 本帖最后由 火星浮云 于 2018-12-9 00:00 编辑 </i><br>
+<br>
+<strike>North是盗版玩家哈哈哈哈</strike><br>
+<strike>还被禁言了更骚了233333</strike><br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>粘兽&nbsp; &nbsp; <b>时间: </b>2018-12-9 00:54<br>
+不是正版 地图自动爆炸 <img src="./【CBL】检测玩家是否为正版 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/aaaaaa.png" smilieid="1460" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SorrowRain&nbsp; &nbsp; <b>时间: </b>2018-12-9 07:22<br>
+<img src="./【CBL】检测玩家是否为正版 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt="">前排围观<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2018-12-9 08:08<br>
+玩家表示，我背包满了<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Abraham511&nbsp; &nbsp; <b>时间: </b>2018-12-9 09:08<br>
+那...玩家离线游戏的时候...无法联网获取皮肤/头颅数据....会受到影响嘛~~<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>frea&nbsp; &nbsp; <b>时间: </b>2018-12-9 10:32<br>
+答案很出乎意料。vanilla越来越强大了。<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>吾王HIM0418&nbsp; &nbsp; <b>时间: </b>2018-12-9 11:30<br>
+多谢！楼主！感谢分享！<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Cheng_N&nbsp; &nbsp; <b>时间: </b>2018-12-10 22:04<br>
+！！！看来是时候买个正版了<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>uuu2011&nbsp; &nbsp; <b>时间: </b>2019-1-25 14:51<br>
+whitelist 可以吗<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-1-25 16:11<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13756935&amp;ptid=833455" target="_blank"><font color="#999999">uuu2011 发表于 2019-1-25 14:51</font></a></font><br>
+whitelist 可以吗</blockquote></div><br>
+没太明白【<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>uuu2011&nbsp; &nbsp; <b>时间: </b>2019-1-25 19:09<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13757401&amp;ptid=833455" target="_blank"><font color="#999999">SPGoding 发表于 2019-1-25 16:11</font></a></font><br>
+没太明白【</blockquote></div><br>
+whitelist add 一个非正版玩家的ID会提示这个ID不存在<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-1-25 19:21<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13758487&amp;ptid=833455" target="_blank"><font color="#999999">uuu2011 发表于 2019-1-25 19:09</font></a></font><br>
+whitelist add 一个非正版玩家的ID会提示这个ID不存在</blockquote></div><br>
+function 没有权限使用 whitelist<br>
+另外如果存在这个 ID 的正版玩家是可以的吧【<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>浮尔魔司Ya&nbsp; &nbsp; <b>时间: </b>2019-1-30 10:37<br>
+hh正版有福利吗
+<br><br><br><br><hr noshade="" size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tbody><tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></tbody></table>
+
+
+<div class="xl-chrome-ext-bar" id="xl_chrome_ext_{4DB361DE-01F7-4376-B494-639E489D19ED}" style="display: none;">
+      <div class="xl-chrome-ext-bar__logo"></div>
+
+      <a id="xl_chrome_ext_download" href="javascript:;" class="xl-chrome-ext-bar__option">下载视频</a>
+      <a id="xl_chrome_ext_close" href="javascript:;" class="xl-chrome-ext-bar__close"></a>
+    </div></body></html>

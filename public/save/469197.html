@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §4 : for循环模拟机械赋值 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NjkxOTctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §4 : for循环模拟机械赋值 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-15 14:29<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §4 : for循环模拟机械赋值<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-16 20:20 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>循环语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 </font></font><font face="微软雅黑"><font size="1">for循环模拟机械赋值</font></font></div><div align="left">循环语句也是模块中的一个重要指令</div><div align="left">它用于<strong>不断执行某些指令</strong>，</div><div align="left">从而让指令不断输出。</div><br />
+<br />
+<div align="left">循环语句将会涉及到</div><div align="left"><strong>基础</strong></div><ul><li><div align="left">与计分板关联</div><br />
+</ul><div align="left"><strong>无限循环与while循环</strong></div><ul><li><div align="left">判断条件</div><li><div align="left">终止循环</div><br />
+</ul><div align="left"><strong>for循环</strong></div><ul><li><div align="left">判断次数</div><li><div align="left">终止循环</div><br />
+</ul><div align="left"><strong>for循环模拟机械赋值</strong></div><div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-468491-1-1.html" target="_blank">上一篇</a>（for循环 ）--<a href="http://www.mcbbs.net/thread-469983-1-1.html" target="_blank">下一篇</a>（循环中条件语句）</font></div><div align="right"><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§4.2 for循环模拟机械赋值</font></font></strong><br />
+大家都应该是知道Minecraft中某些参数<strong>不能使用计分板进行赋值</strong>。<br />
+但是由于for将计分板值转化成了执行次数，所以对于某些执行参数可以<strong>使用for进行机械赋值</strong>（一般用实体中介给坐标赋值）。<br />
+<br />
+例如给f的a设置计分板变量，<br />
+而f的坐标处相对向上放置a个红色羊毛。<br />
+<br />
+你也许可以想到：<br />
+/execute @e[name=f] ~ ~ ~ fill ~ ~ ~ ~ ~a ~ wool 14<br />
+然而MC不能进行坐标的赋值。<br />
+<br />
+因此可以转化为for：<br />
+<font size="2"><font color="#800000">a&gt;=1 → </font></font><br />
+<font size="2"><font color="#800000">/tp @e[name=f] ~ ~1 ~</font></font><br />
+<font size="2"><font color="#800000">/execute @e[name=f] ~ ~ ~ setblock ~ ~ ~&nbsp;&nbsp;wool 14</font></font><br />
+<font size="2"><font color="#800000">a--</font></font><br />
+<font size="2"><font color="#800000">↗</font></font><br />
+<br />
+指令如下：<br />
+<img id="aimg_AqmLz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/a19dc4ba0a857dff.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_ykb"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ setblock ~ ~ ~ wool 14<br /><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ tp @e[name=f] ~ ~1 ~<br /><li>/scoreboard players remove @e[name=f,score_a_min=1] a 1 </ol></div><em onclick="copycode($('code_ykb'));">复制代码</em></div><br />
+<font size="4"><strong>效果：</strong></font><br />
+<img id="aimg_V4lH4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/2ec65462012216a1.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</div></div></div><img id="aimg_tHEmL" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/0179cf500fd5bf71.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>分析：</strong><br />
+执行次数就是a的分数，<br />
+让a的分数通过递减来转换成循环的次数，<br />
+同时执行指令操作，<br />
+完成机械赋值。<br />
+<br />
+<br />
+<font size="4"><font color="#ff0000"><strong>标准赋值格式：</strong></font></font><br />
+/execute &lt;=1 赋值输出1<br />
+/execute &lt;=1 赋值输出2<br />
+┊<br />
+/execute &lt;=1 赋值输出n<br />
+<font color="#008000">*赋值输出</font><br />
+赋值关键指令（例如tp）<br />
+<font color="#008000">*增加分数/停止循环</font><br />
+/scoreboard players add @e[实体选择,score_计分板=指定分数] 计分板 1<br />
+↗<br />
+<font size="4"><font color="#008000">*循环次数是 分数 次</font></font><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ufof&nbsp; &nbsp; <b>时间: </b>2015-7-15 14:38<br />
+前排支持老大<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>JIE__&nbsp; &nbsp; <b>时间: </b>2015-7-15 14:39<br />
+好神奇的样子<img src="static/image/smiley/mc_mob_food_plants/pig.gif" smilieid="841" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mr.Right.&nbsp; &nbsp; <b>时间: </b>2015-7-15 14:42<br />
+记得我学pascal也有while循环……
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

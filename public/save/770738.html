@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>玩转1.13的新/execute - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC03NzA3MzgtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>玩转1.13的新/execute <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>PotatoMaster101&nbsp; &nbsp; <b>时间: </b>2017-12-2 20:02<br />
+<b>标题: </b>玩转1.13的新/execute<br /><i class="pstatus"> 本帖最后由 PotatoMaster101 于 2017-12-3 16:05 编辑 </i><br />
+<br />
+1.13大指令改革把PM蹦出来了！<br />
+<br />
+<br />
+<br />
+今天来带大家玩弄玩弄1.13版的/execute指令。<br />
+<br />
+刚开始玩当然是玩弄最基础的两个模式：as和at：<br /><div class="blockcode"><div id="code_o1J"><ol><li>/execute as @e[type=pig] run say I'm a pig!</ol></div><em onclick="copycode($('code_o1J'));">复制代码</em></div>让满地图的猪都叫“I'm a pig!”。当然如果猪太多的话会起到刷屏效果，用这条指令来改善：<br /><div class="blockcode"><div id="code_x0F"><ol><li>/execute as @e[type=pig,limit=1,sort=nearest] run say I'm a pig!</ol></div><em onclick="copycode($('code_x0F'));">复制代码</em></div>这样子地图里最近的猪会大叫“I'm a pig!”。以上都用这个<i>as</i>来实现，意思是直接以猪的名义来运行指令。后面这个<i>run</i>的意思就是“执行”。<br />
+<br />
+当然把<i>as</i>换成<i>at</i>也会有几乎相同的效果，只不过是一个坐标的问题而已。使用以下指令：<br /><div class="blockcode"><div id="code_zJo"><ol><li>/execute at @e[type=pig,limit=1,sort=nearest] run say I'm a pig!</ol></div><em onclick="copycode($('code_zJo'));">复制代码</em></div>这样子就不是猪大叫“I'm a pig!”，而是执行指令的东西大叫“I'm a pig!”，可以是CB或者玩家。<i>at</i>就不像<i>as</i>那样子返回一个实体，at是返回一个坐标。<br />
+<br />
+有时候我们要返回一个和实体为中心但有偏差的坐标，这样子可以使用<i>offset</i>来实现：<br /><div class="blockcode"><div id="code_uX8"><ol><li>/execute at @e[type=pig,limit=1,sort=nearest] offset ~ ~30 ~ run summon tnt</ol></div><em onclick="copycode($('code_uX8'));">复制代码</em></div>让猪上方30格地方刷出一个TNT，首先会执行<i>at</i>返回猪的坐标，然后会执行offset将坐标的y加30。十分的简单。<br />
+<br />
+这些东西<strong>叠加</strong>也没什么关系：<br /><div class="blockcode"><div id="code_w71"><ol><li>/execute at @e[type=pig,limit=1,sort=nearest] offset ~ ~10 ~ offset ~ ~10 ~ offset ~ ~10 ~ run summon tnt</ol></div><em onclick="copycode($('code_w71'));">复制代码</em></div>意思同上，让猪上方30格地方刷出一个TNT。用了3个<i>offset</i> y+10后就相当于y+30。十分的简单。<br />
+<br />
+还有一个好玩的东西叫<i>align</i>，这个也是和坐标有关系的东西。意思是让返回的坐标变成一个整数：<br /><div class="blockcode"><div id="code_u1F"><ol><li>/execute at @e[type=pig] align xyz run summon minecraft:armor_stand ~ ~ ~</ol></div><em onclick="copycode($('code_u1F'));">复制代码</em></div>这个让地图内所有的猪的地方刷一个armor stand，但是：这个armor stand必定会在方块的中间。如果猪在&lt;1.3, 2.5, 3.8&gt;，那么armor stand就会在&lt;1, 2, 3&gt;。好比编程时候把一个float/double转换成一个int。后面的xyz可以是任何组合，去掉一个也没关系，比如 xy，yzx，xz等等，去掉一个的话就代表那个axis不会被换整数。<br />
+<br />
+更好玩的东西来自于<i>if</i>和<i>unless</i>，玩过编程的童鞋都知道什么意思：<br /><div class="blockcode"><div id="code_l5Y"><ol><li>/execute if entity @e[type=pig] run say hello</ol></div><em onclick="copycode($('code_l5Y'));">复制代码</em></div>如果地图内有猪，那么执行指令的东西就会说“hello”。当然要让什么实体运行say的话可以加一个<i>as</i>进去，这个就不用举例了。<br />
+<i>unless</i>直接反转<i>if</i>：<br /><div class="blockcode"><div id="code_EK9"><ol><li>/execute unless entity @e[type=pig] run say hello</ol></div><em onclick="copycode($('code_EK9'));">复制代码</em></div>地图上没有猪的话，执行指令的东西才会说“hello”。当然if不一定要是探测实体，还可以探测方块或者一个区域的方块，或者探测两个积分。比如：<br /><div class="blockcode"><div id="code_uy2"><ol><li>/execute if score a funnnn &gt; b funnnn run say pass</ol></div><em onclick="copycode($('code_uy2'));">复制代码</em></div>在funnnn变量内，测试分数a是否大于分数b，是的话就说“pass”。可以用的一些比较符是&lt;, &lt;=, &gt;, &gt;=, = 。<br />
+<br />
+最好玩的东西来自于<i>store</i>，好比当年最好玩的/stats指令。<i>store</i>内有两个选项：<i>result</i>和<i>success</i>。当年一起玩弄CB的童鞋们一定知道/stats有<i>AffectedBlocks</i>，<i>SuccessCount</i>，<i>AffectedEntities</i>等等。<i>store</i>内的<i>success</i>就是<i>SuccessCount</i>，<i>result</i>就是四个其他的变量。一起玩CB的童鞋们还知道用/stats的话最好使用记分板假名来保存积分，然而这个<i>store</i>极为NB，可以直接将输出写入到某个实体/方块的NBT内（除了玩家）。举个例子：<br /><div class="blockcode"><div id="code_mrg"><ol><li>/execute as @e[type=zombie] store success entity @s IsBaby byte 1 if entity @e[name=FasterZombie]</ol></div><em onclick="copycode($('code_mrg'));">复制代码</em></div>选择地图内每一个僵尸，运行<font style="background-color:rgb(247, 247, 247)">if entity @e[name=FasterZombie]</font>来探测地图里有没有叫“FasterZombie”的这个实体。有的话就把那个僵尸的IsBaby这个NBT调成1，效果就是僵尸瞬间变成了小僵尸。由于使用@e的话会导致/execute给每一个僵尸都执行一遍指令，所以使用@s来让目前的僵尸变NBT。 再来一些好玩的：<div class="blockcode"><div id="code_Z5P"><ol><li>/execute as @e[type=!player] store result entity @s Motion[1] double 1 run data get entity @s OnGround 5</ol></div><em onclick="copycode($('code_Z5P'));">复制代码</em></div><div class="blockcode"><div id="code_vBZ"><ol><li>/execute as @e[type=creeper] store result entity @s ignited byte 1 run data get entity @s OnGround</ol></div><em onclick="copycode($('code_vBZ'));">复制代码</em></div><div class="blockcode"><div id="code_WU8"><ol><li>/execute as @e[type=item] store result entity @s Item.Count byte 64 run data get entity @s OnGround</ol></div><em onclick="copycode($('code_WU8'));">复制代码</em></div><div class="blockcode"><div id="code_fPk"><ol><li>/execute as @e[type=slime] store result entity @s Size int 1 run effect give @e minecraft:blindness 1 1 true</ol></div><em onclick="copycode($('code_fPk'));">复制代码</em></div>以上这些什么意思就不多说了，自己理解。233<br />
+<br />
+======End======<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mkjkbn&nbsp; &nbsp; <b>时间: </b>2017-12-2 20:15<br />
+PM还活着哎<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pineapple_&nbsp; &nbsp; <b>时间: </b>2017-12-2 23:18<br />
+pm复活，<strike>是人性的扭曲还是道德的沦丧</strike><br />
+<br />
+本来看1.13的更新日志的xecute看的一头雾水<br />
+<br />
+这么一看，还挺简单的，，<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zjxx&nbsp; &nbsp; <b>时间: </b>2017-12-3 07:17<br />
+我看到了谁！！<br />
+史前大佬诶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-12-3 12:52<br />
+突然诈尸……<br />
+<br />
+只是现在快照命令感觉还有挺多问题的，像success和result的行为就有点奇怪<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>BlackCB.&nbsp; &nbsp; <b>时间: </b>2017-12-3 14:01<br />
+我想问能不能execute和tp配合?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sjx&nbsp; &nbsp; <b>时间: </b>2017-12-3 19:46<br />
+function+execute使用更佳<br />
+gameLoopFunction:<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_I53"><ol><li>execute as @e at @s run function test:wrapped</ol></div><em onclick="copycode($('code_I53'));">复制代码</em></div></td></table></div></div><br />
+wrapped.mcfunction:<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_De1"><ol><li>execute if block ~ ~-1 ~ minecraft:magenta_glazed_terracotta[facing=south] run tp @s ~ ~ ~-0.05<br /><li>execute if block ~ ~-1 ~ minecraft:magenta_glazed_terracotta[facing=west] run tp @s ~0.05 ~ ~<br /><li>execute if block ~ ~-1 ~ minecraft:magenta_glazed_terracotta[facing=north] run tp @s ~ ~ ~0.05<br /><li>execute if block ~ ~-1 ~ minecraft:magenta_glazed_terracotta[facing=east] run tp @s ~-0.05 ~ ~</ol></div><em onclick="copycode($('code_De1'));">复制代码</em></div></td></table></div></div><br />
+<strike>bugjang连续n个快照不修复macos崩溃问题</strike><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pineapple_&nbsp; &nbsp; <b>时间: </b>2017-12-3 21:02<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=12553371&amp;ptid=770738" target="_blank"><font color="#999999">sjx 发表于 2017-12-3 19:46</font></a></font><br />
+function+execute使用更佳<br />
+gameLoopFunction:</blockquote></div><br />
+然后不明真像的玩家在那瞎转鼠标<br />
+&quot;啊啊啊啊怎么回事，别让我走，啊我怎么钻墙里了……&quot;<br />
+&quot;萌新 窒息身亡&quot;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2105372313&nbsp; &nbsp; <b>时间: </b>2017-12-14 20:56<br />
+坐等大佬发下一个1.13命令教程帖<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>joxs&nbsp; &nbsp; <b>时间: </b>2018-4-29 16:32<br />
+那怎么检测半径内的实体，testfor @e[r=]都没了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2018-4-29 17:29<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=12552238&amp;ptid=770738" target="_blank"><font color="#999999">ruhuasiyu 发表于 2017-12-3 12:52</font></a></font><br />
+突然诈尸……<br />
+<br />
+只是现在快照命令感觉还有挺多问题的，像success和result的行为就有点奇怪 ...</blockquote></div><br />
+我已经提交到jira了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2018-4-29 17:36<br />
+WOW滋磁PM<br />
+表示1.10以后就不知道MC更新了啥了=.=<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>@凋影尘封&nbsp; &nbsp; <b>时间: </b>2018-5-16 21:57<br />
+乍一看貌似execute只能让生物说话?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>aa839829176&nbsp; &nbsp; <b>时间: </b>2018-5-17 00:29<br />
+玩转1.13这么厉害版本了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>iverson119&nbsp; &nbsp; <b>时间: </b>2018-5-22 18:01<br />
+命令方块的玩法靠你了！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>m050131&nbsp; &nbsp; <b>时间: </b>2018-6-11 20:41<br />
+天大佬发1.13的贴了我靠我觉得……简直666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>命令方块mmp&nbsp; &nbsp; <b>时间: </b>2018-11-26 21:46<br />
+66666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>happy0o0&nbsp; &nbsp; <b>时间: </b>2018-12-3 20:11<br />
+有用有用，感谢楼主<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2781212775&nbsp; &nbsp; <b>时间: </b>2019-8-14 14:06<br />
+大佬，继续出教程吗！！！就感觉你的好明白一点！ 这个是真的不错 不过 1.14 除了 run align if 什么的还有很多，期待下一篇。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>超级大三彩&nbsp; &nbsp; <b>时间: </b>2019-8-14 20:24<br />
+没错是的可以这样的，而且确实可行<img src="static/image/smiley/rabbit/37.gif" smilieid="687" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2781212775&nbsp; &nbsp; <b>时间: </b>2020-2-13 20:42<br />
+我不信这里能被抓到水回复
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

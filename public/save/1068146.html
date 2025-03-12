@@ -1,0 +1,334 @@
+<html>
+<head>
+<title>[1.13+]状态效果——effect命令详细介绍 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMDY4MTQ2LTEtMS5odG1sP2FjdGlvbj1wcmludGFibGU=', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[1.13+]状态效果——effect命令详细介绍 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天佑酱&nbsp; &nbsp; <b>时间: </b>2020-7-12 10:53<br />
+<b>标题: </b>[1.13+]状态效果——effect命令详细介绍<br /><i class="pstatus"> 本帖最后由 天佑酱 于 2021-2-6 13:37 编辑 </i><br />
+<div align="center"><font size="6"><font color="#000000"><strong>卓有成</strong></font></font><font size="6"><font color="#000000"><strong>「效」</strong></font></font><strong><font size="6"><font color="#000000">——effect的状态效果</font></font></strong></div><br />
+<div align="left"><font size="5"><font color="#000000"><strong>- 前言</strong></font></font></div><font size="3"><strong>说到一些家喻户晓的命令，effect命令绝对名列前茅。想当年在小本本记下的“给自己无敌”——/effect @p 11 99999 5，“回满血”——/effect @p 10 2 255。可effect命令对你来说是不是就仅止步于此了呢？我们今天这个帖子就来能多详细就多详细得介绍</strong></font><strong>一<font size="3">下effect命令。（Java Edition 1.13+版本）</font></strong><div align="center"><hr class="l" /></div><br />
+<strong><font size="5"><font color="#000000">- 观前提醒</font></font></strong><br />
+<font size="3"><strong>&nbsp;&nbsp;1).文中所有可执行的命令均用下划线标出;</strong></font><br />
+<font size="3"><strong>&nbsp;&nbsp;2).文中的命令均没有“/”，因为我主要面向的是function内和命令方块内命令而非聊天栏，如想在聊天栏执行记得添加“/”</strong></font><div align="center"><hr class="l" /></div><br />
+<strong><font size="5"><font color="#000000">- 基本语法</font></font></strong><br /><div class="quote"><blockquote>Java版<br />
+effect clear &lt;玩家&gt; [&lt;效果&gt;]（移除一个或所有效果）<br />
+effect give &lt;玩家&gt; &lt;效果&gt; [&lt;秒数&gt;] [&lt;强度&gt;] (true|false)（给予一种效果） </blockquote></div><br />
+<div align="right">——转自Minecraft wiki</div><div align="left"><div align="center"><hr class="l" /></div></div><br />
+<div align="left"><strong><font size="5"><font color="#000000">- 详解1——clear/give参数</font></font></strong></div><font size="3"><strong>这里很好理解：</strong></font><br />
+<font size="3"><strong>clear即是“移除；清除”的意思，effect clear ....就是清除某个/些实体的某个或所有效果。</strong></font><br />
+<font size="3"><strong>give则是“给予；获得”的意思，effect give ..... 就是给某个/些实体的某个效果。</strong></font><br />
+<div align="center"><hr class="l" /></div><br />
+<strong><font size="5"><font color="#000000">- 详解2——玩家/实体参数</font></font></strong><br />
+<font size="3"><strong>这里对应基本语法的&lt;玩家&gt;，其实这里应该是实体，但是某些效果作用在某些实体上不起效果，或者无明显变化。</strong></font><br />
+<font size="3"><strong>那么这里怎么填呢？</strong></font><br />
+<font size="3"><strong>&nbsp;&nbsp;1).填玩家ID，这也是最基本的方法。比如，你想移除ID为“SMFX”的效果，那么就输入<u>effect clear SMFX</u>。 </strong></font><br />
+<font size="3"><strong>&nbsp;&nbsp;2).填选择器，可以配合选择器玩出非常多花样。</strong></font><br />
+<font size="3"><strong>选择器部分涉及内容过多，这里指路了几个很好的关于选择器的介绍帖：</strong></font><br />
+<div align="center"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></div><div align="left"><a href="https://wiki.biligame.com/mc/%E5%91%BD%E4%BB%A4#%E7%9B%AE%E6%A0%87%E9%80%89%E6%8B%A9%E5%99%A8" target="_blank"><strong><font size="3">Minecraft Wiki - 目标选择器章节</font></strong></a><br />
+</div><div align="left"><font size="3"><strong><a href="https://www.mcbbs.net/thread-891687-1-1.html" target="_blank">[1.14.4]追根溯「源」——实体选择器</a>&nbsp; &nbsp;&nbsp;&nbsp;感谢</strong></font>@榆 </div><div align="center"></td></table></div></div></div><br />
+<div align="center"><hr class="l" /></div><br />
+<div align="center"><div align="left"><strong><font size="5"><font color="#000000">- 详解3——效果</font></font></strong><br />
+</div><div align="left"><font size="3"><strong>这里填你想要的效果的<font color="#000000">命名空间ID</font>。</strong></font></div><div align="left"><font size="3"><strong>终于还是来了...这部分是本帖子的重点，我们将从头到尾详细介绍目前MC的所有状态，这里面含有非常非常多冷知识，我觉得在座的各位只有不足1%全知道这些，废话不多说，开始。</strong></font></div><div align="left"><font size="3"><strong>首先来个总列表：</strong></font></div><div align="left"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></div><div align="left"><font size="3"><strong>参见：<a href="https://wiki.biligame.com/mc/Java%E7%89%88%E6%95%B0%E6%8D%AE%E5%80%BC#.E7.8A.B6.E6.80.81.E6.95.88.E6.9E.9C" target="_blank">Minecraft Wiki - Java版数据值#效果状态</a></strong></font></div><div align="left"><table cellspacing="0" class="t_table" style="width:50%"><tr><td> 效果&nbsp; &nbsp;&nbsp; &nbsp; </td><td> 命名空间ID</td><td><font size="1"> 数字ID</font></td></tr></table></div><div align="left"><table cellspacing="0" class="t_table" style="width:50%"><tr><td> 速度</td><td> speed</td><td> 1</td></tr><tr><td> 缓慢</td><td> slowness</td><td> 2</td></tr><tr><td> 急迫</td><td> haste</td><td> 3</td></tr><tr><td> 挖掘疲劳</td><td> mining_fatigue</td><td> 4</td></tr><tr><td> 力量</td><td> strength</td><td> 5</td></tr><tr><td> 瞬间治疗</td><td> instant_health</td><td> 6</td></tr><tr><td> 瞬间伤害</td><td> instant_damage</td><td> 7</td></tr><tr><td> 跳跃提升</td><td> jump_boost</td><td> 8</td></tr><tr><td> 反胃</td><td> nausea</td><td> 9</td></tr><tr><td> 再生</td><td> regeneration</td><td> 10</td></tr></table><table cellspacing="0" class="t_table" style="width:50%"><tr><td> 抗性提升</td><td> resistance</td><td> 11</td></tr><tr><td> 抗火</td><td> fire_resistance</td><td> 12</td></tr><tr><td> 水下呼吸</td><td> water_breathing</td><td> 13</td></tr><tr><td> 隐形</td><td> invisibility</td><td> 14</td></tr><tr><td> 失明</td><td> blindness</td><td> 15</td></tr><tr><td> 夜视</td><td> night_vision</td><td> 16</td></tr><tr><td> 饥饿</td><td> hunger</td><td> 17</td></tr><tr><td>&nbsp;&nbsp;虚弱</td><td> weakness</td><td> 18</td></tr><tr><td> 中毒</td><td> poison</td><td> 19</td></tr><tr><td> 凋零</td><td> wither</td><td> 20</td></tr></table><table cellspacing="0" class="t_table" style="width:50%"><tr><td> 生命提升</td><td> health_boost&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; </td><td> 21 </td></tr><tr><td> 伤害吸收</td><td> absorption</td><td> 22</td></tr><tr><td> 饱和</td><td> saturation</td><td> 23</td></tr><tr><td> 发光</td><td> glowing</td><td> 24</td></tr><tr><td> 漂浮</td><td> levitation</td><td> 25</td></tr><tr><td> 幸运</td><td> luck</td><td> 26</td></tr><tr><td> 霉运</td><td> unluck</td><td> 27</td></tr><tr><td> 缓降</td><td> slow_falling</td><td> 28</td></tr><tr><td> 潮涌能量</td><td> conduit_power</td><td> 29</td></tr><tr><td> 海豚的恩惠</td><td> dolphins_grace</td><td> 30</td></tr></table><table cellspacing="0" class="t_table" style="width:50%"><tr><td> 不祥之兆</td><td> bad_omen&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</td><td> 31</td></tr></table></td></table></div></div><br />
+</div><div align="left"><strong><font size="4"><font color="#000000">1).速度（Speed）</font></font></strong></div><div align="left"><font size="3"><strong>速度是一种提升生物行走速度 20%×等级 的效果。此效果会扩大视场（FOV）。负等级会降低速度。</strong><br />
+</font></div><div align="left"><font size="3">●Boss生物对速度效果免疫。飞行生物及潜影贝不免疫速度效果，但不受它影响。<br />
+</font></div><div align="left"><font size="3">●当玩家有高等级速度效果行走时，速度快到甚至能超过区块加载速度。</font></div><div align="left"><font size="3"><br />
+</font></div><div align="left"><font size="4"><font color="#000000"><strong>2).缓慢（Slowness）</strong></font></font></div><div align="left"><font size="3"><strong>缓慢是一种降低生物行走速度 15%x等级 的效果。此效果会缩小视场（FOV）。冲刺跳只会受到很小的影响。负等级会增加走路的速度。</strong></font></div><div align="left"><font size="3">●</font><font size="3">Boss生物对缓慢效果免疫。飞行生物及潜影贝不免疫缓慢效果，但不受它影响。</font><font size="3"><font color="#000000"><br />
+</font></font></div><div align="left"><font size="3">●</font><font size="3">7-127级的缓慢会使玩家不能移动，除非玩家一边跳一边移动或扔末影珍珠。</font><br />
+</div><div align="left"><font size="3"><br />
+</font></div><div align="left"><strong><font size="4"><font color="#000000">3).急迫（Haste）</font></font></strong></div><div align="left"><font size="3"><strong>急迫是一种提升挖掘和攻击速度 10%x等级 的状态效果。负等级会降低挖掘和攻击速度，相当于挖掘疲劳。</strong><br />
+</font></div><div align="left"><font size="3">●实际上该命令对绝大部分生物无效，因为大多数生物不会挖掘方块。</font><font size="3"><br />
+</font></div><div align="left"><font size="3">●</font><font size="3">当效果等级大于或等于3时，玩家的手臂在挖掘时不会移动。</font><font size="3"><br />
+</font></div><div align="left"><font size="3">●</font><font size="3">此效果也会减少攻击冷却时间。<br />
+</font></div></div><br />
+<font size="4"><font color="#000000"><strong>4).挖掘疲劳（Mining Fatigue）</strong></font></font><br />
+<font size="3"><strong>挖掘疲劳是一个降低挖掘和攻击速度的状态效果。玩家的挖掘和攻击速度会减少10%×等级，破坏方块的时间变为正常的3×等级倍。负等级提升攻击速度，但对于挖掘是类似于等级4的效果。</strong></font><br />
+<font size="3">●此效果不会改变创造模式玩家的挖掘速度，因为方块是瞬间破坏的。</font><br />
+<br />
+<font size="4"><font color="#000000"><strong>5).力量（Strength）</strong></font></font><br />
+<font size="3"><strong>力量是一个能提升玩家攻击力的状态效果。每级提升3点近战攻击伤害。负等级将降低近战伤害，若伤害降低后为0或更低，则攻击无效。</strong></font><br />
+<font size="3">●</font><font size="3">Boss生物免疫力量。不会近战攻击的生物不受到影响。‌</font><br />
+<font size="3">●该效果并不会使生物的非近战伤害提高，所以说力量效果并不会提高你的弓箭伤害。</font><font size="3"><br />
+</font><br />
+<strong><font size="4"><font color="#000000">6).瞬间治疗（Instant Health）</font></font></strong><br />
+<font size="3"><strong>瞬间治疗是一种可以瞬间回复非亡灵生物血量的效果，若其作用在亡灵生物上，则会像瞬间伤害一样瞬间伤害亡灵生物。对于非亡灵生物，一次可回复 2x2^等级 的血量。</strong></font><br />
+<font size="3">●effect瞬间治疗后面的&lt;秒数&gt;其实应该是&lt;Tick数&gt;，即如果给玩家20“秒数”的瞬间治疗1，那么实际的效果是在1s内回复生命20次，每次回复4点血量。</font><br />
+<font size="3">●</font><font size="3">因为计算原因，等级30-32的瞬间治疗效果不会恢复生命值。在0-31（对应等级1-32）范围以外的强度会使用</font><a href="https://baike.baidu.com/item/%E6%A8%A1%E9%99%A4/4626022?fr=aladdin" target="_blank"><font size="3"><strong>模除</strong></font></a><font size="3">32后的值。</font><br />
+<font size="3">●综上所述，MC原版最快的回复生命是<u>effect give @p </u></font><font size="3"><u>instant_health 2147483647 29</u>，被这条命令作用的玩家每秒能回复21,474,836,480血量，总计能回复2,305,843,008,139,952,128点血量。</font><br />
+<font size="3">●末影龙完全免疫该效果。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>7).瞬间伤害（Instant Damage）</strong></font></font><br />
+<font size="3"><strong>瞬间治疗是一种可以瞬间对非亡灵生物造成伤害的效果，若其作用在亡灵生物上，则会像瞬间治疗一样瞬间回复其血量。对于非亡灵生物，一次可造成 3x2^等级 的伤害。</strong></font><br />
+<font size="3">●</font><font size="3">effect瞬间伤害后面的&lt;秒数&gt;其实应该是&lt;Tick数&gt;，即如果给玩家20“秒数”的瞬间伤害1，那么<strong><font color="#000000">理论</font></strong>的效果是在1s内造成20次伤害，每次造成6点血量，<strong><font color="#000000">但是</font></strong>，因为MC有受伤频率限制，所以实际上只会每秒受到2次数值为6的伤害。其余的伤害并不是没有执行，而是直接被生物忽略，或者说无效化。</font><br />
+<font size="3">●</font><font size="3">因为计算原因，等级30-32的瞬间伤害效果不会有伤害效果。在0-31（对应等级1-32）范围以外的强度会使用</font><a href="https://baike.baidu.com/item/%E6%A8%A1%E9%99%A4/4626022?fr=aladdin" target="_blank"><font size="3"><strong>模除</strong></font></a><font size="3">32后的值。</font><br />
+<font size="3">●与瞬间治疗不同，原版中造成伤害最快的<strong><font color="#000000">不是</font></strong></font><font size="3"><u>effect give @p </u></font><font size="3"><u>instant_damage 2147483647 29</u>，而是循环执行<u>kill </u><u>@p</u>，该命令每次能够对生物造成3.4x10^38点的虚空伤害(无视盔甲、抗性提升、保护)。</font><br />
+<font size="3">●末影龙完全免疫该效果，女巫能抵消85%的瞬间伤害效果，因此，6级的瞬间伤害效果才能秒杀女巫。</font><font size="3">●瞬间伤害属于魔法伤害，所以瞬间伤害效果完全免疫盔甲和保护效果。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>8).跳跃提升（Jump Boost）</strong></font></font><br />
+<font size="3"><strong>跳跃提升是一个提升跳跃高度并减少坠落伤害的状态效果。该效果允许玩家跳得比正常跳跃高度要高1 1/4(一又四分之一)个方块高度。同时减少跌落伤害，每等级降低1点坠落伤害。负等级会降低跳跃高度并提升跳跃伤害；很小的负等级会阻止任何跳跃，并造成即使是从台阶上走下也受到伤害。</strong></font><br />
+<font size="3">●</font><font size="3">Boss生物免疫跳跃提升。潜影贝、史莱姆和岩浆怪可以拥有跳跃提升，但不会具体表现出其效果。</font><br />
+<font size="3">●</font><font size="3">在最大等级时，跳跃能力不会有任何提升，但玩家不再会受到坠落伤害。</font><br />
+<font size="3">●</font><font size="3">在16级时，增加的高度超过了减少的伤害，着陆时会受伤。</font><br />
+<font size="3">●</font><font size="3">在34级时，玩家从原地跳起并落地时会被摔死，并伴随死亡信息，“[玩家]从高处摔了下来‌‌”。</font><br />
+<font size="3">●</font><font size="3">在200~？级，玩家不能再跳跃。</font><br />
+<br />
+<font size="4"><font color="#000000"><strong>9).反胃（Nausea）</strong></font></font><br />
+<font size="3"><strong>反胃是一个导致视野晃动扭曲的状态效果，近似于进入下界传送门的效果。 视野的影响在最初的两秒中逐渐提升，在最后两秒钟逐渐消失。</strong></font><br />
+<font size="3">●BOSS生物完全免疫该效果。</font><br />
+<font size="3">●实际上其他生物若持有该效果，并不会对其产生任何实际的效果。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>10).生命恢复（Regeneration）</strong></font></font><br />
+<font size="3"><strong>生命恢复是一个使大部分生物的生命值在一段时间内不断增加的状态效果。在玩家获得该效果时，生命条会慢慢抖动。</strong></font><br />
+<font size="3">回复情况见下表：</font><br />
+<table cellspacing="0" class="t_table" style="width:50%"><tr><td>等级</td><td> 回复1点生命所需Tick</td><td> 每秒能回复的生命</td></tr><tr><td> 1</td><td> 50</td><td> 0.4</td></tr><tr><td> 2</td><td> 25</td><td> 0.8</td></tr><tr><td> 3</td><td> 12</td><td> 1.6</td></tr><tr><td> 4</td><td> 6</td><td> 3.33</td></tr><tr><td> 5</td><td> 3</td><td> 6.67</td></tr><tr><td> 6+</td><td> 1</td><td> 20</td></tr></table><font size="3">●</font><font size="3">Boss生物和亡灵生物不会被此效果影响。</font><br />
+<font size="3">●6级以上的生命恢复效果均一致。</font><br />
+<font size="3">●这里要注意，MC的生命回复是根据时间来增加生命值的，也就是说，如果你高频给予玩家生命恢复效果，玩家<strong><font color="#000000">不会</font></strong>回复生命值。所以如果你想在地图里一直给玩家生命恢复效果，循环执行effect是不可行的。最好通过schedule或计分板来做到延迟来给予效果。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>11).抗性提升（Resistance）</strong></font></font><br />
+<font size="3"><strong>抗性提升是一个能减少大部分伤害的状态效果。此效果不会减少饥饿伤害与虚空伤害。每级减少 等级x20% 伤害。负等级会提高受到的伤害。</strong></font><br />
+<font size="3">●当拥有5级及以上的等级时，除了跌入虚空、被/kill作用或饿死，玩家将无法损失血量。</font><br />
+<font size="3">●当拥有4级及以上的等级时，玩家将无视中毒伤害，但是生命条仍然会变为绿色。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>12).防火（Fire Resistance）</strong></font></font><br />
+<font size="3"><strong>防火是一个会使火种类伤害无效化的状态效果，包括岩浆伤害、火焰伤害、岩浆块伤害、火焰弹伤害、烈焰人近战伤害、火矢的点燃伤害、火焰附加的点燃伤害、出于燃烧状态的伤害。<i>此效果还能提高玩家在熔岩里的能见度（1.16新增）。</i></strong></font><br />
+<font size="3">●Boss生物免疫该效果。</font><br />
+<font size="3">●大部分地狱生物（猪灵、疣猪兽、末影人和骷髅除外）即使没有抗火效果，也会免疫火种类的伤害。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>13).水下呼吸（Water Breathing）</strong></font></font><br />
+<font size="3"><strong>水下呼吸是一个会防止或推迟实体溺水的状态效果。</strong></font><br />
+<font size="3">●Boss生物免疫该效果。</font><br />
+<font size="3">●</font><font size="3">水下呼吸不能延长海豚在水下和在岸上的呼吸时间。</font><br />
+<br />
+<font size="4"><font color="#000000"><strong>14).隐身（Invisibility）</strong></font></font><br />
+<font size="3"><strong>隐身是一个可以使实体隐形的状态效果。生物在更近的距离才会感受到玩家。没有盔甲的玩家在原距离的7%范围内会被探测到。有任一盔甲的则提升到原距离的17.5%，每再增加一件盔甲就额外再提升17.5%的原距离。检测到玩家后，生物会忽视隐形状态继续感知玩家。</strong></font><br />
+<font size="3">●实体的</font><font size="3">盔甲、手持物、附着的箭或发出的颗粒、末影人、蜘蛛和幻翼的眼睛、羊驼装饰着的地毯、潜影贝的黄色头、猪或炽足兽披着的鞍、闪电苦力怕的蓝色电弧不会隐形。</font><br />
+<font size="3">●Boss生物免疫该效果。</font><br />
+<font size="3">●潜行效果的削弱生物探测距离与隐身效果可以叠加。</font><br />
+<font size="3">●旁观者玩家看隐身实体时会显示为半透明。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>15).失明（Blindness）</strong></font></font><br />
+<font size="3"><strong>失明是一种削弱玩家视野的状态效果。该效果模拟有一层烟雾笼罩着玩家来削弱玩家的视野。液体不会在雾后恰当地变暗。</strong></font><br />
+<font size="3">●当持有该效果时，玩家将无法疾跑和暴击。</font><br />
+<font size="3">●</font><font size="3">太阳、月亮和信标的光柱不会受到影响。</font><br />
+<font size="3">●</font><font size="3">若与夜视一同施加，屏幕中除了天空（包括太阳、月亮和星空）及手臂（手臂能正确显示光照）以外的元素会完全变黑。</font><br />
+<br />
+<font size="4"><font color="#000000"><strong>16).夜视（Night Vision）</strong></font></font><br />
+<font size="3"><strong>允许玩家拥有像亮度为15级一样的视野。</strong></font><br />
+<font size="3">●Boss生物免疫该效果。</font><br />
+<font size="3">●</font><font size="3">屏幕会在此效果即将消失前10秒钟闪烁。<br />
+</font><font size="3">●</font><font size="3">如果在末地中拥有该效果，一切事物看起来都带粉色，远方的景象尤其如此</font><font size="3">。</font><br />
+<font size="3">●</font><font size="3">如果玩家沉在熔岩中，屏幕会变橙色。</font><br />
+<font size="3">●</font><font size="3">如果在沼泽生物群系的水中，视野会显得模糊，可见度降低。<br />
+</font><br />
+<font size="4"><font color="#000000"><strong>17).饥饿（Hunger）</strong></font></font><br />
+<strong><font size="3">饥饿是一种会加快饥饿值条的降低速度并清空饥饿值条的状态效果。每刻增加</font><a href="https://wiki.biligame.com/mc/%E9%A5%A5%E9%A5%BF#.E6.9C.BA.E5.88.B6" target="_blank"><font size="3">饥饿等级</font></a><font size="3"> 0.005 × 等级（若对象没有饱和的状态效果，则每 80/等级 秒减少1点饥饿值。负等级会减少饥饿等级但是这不会导致饱和度或饥饿栏的增加。</font></strong><br />
+<font size="3">●</font><font size="3">在和平模式中，此状态效果不会降低饥饿值，然而饥饿栏仍变为黄绿色。</font><br />
+<font size="3">●</font><font size="3">末影龙免疫饥饿效果。虽然只有玩家有饥饿值这一概念。</font><br />
+<br />
+<font size="4"><font color="#000000"><strong>18).虚弱（Weakness）</strong></font></font><br />
+<font size="3"><strong>虚弱是一个减小攻击力的状态效果。每级降低 4x等级 近战伤害。负等级会提高近战伤害。</strong></font><br />
+<font size="3">●Boss生物完全免疫该效果。</font><br />
+<font size="3">●该效果并不会给不会近战攻击的生物造成任何效果。</font><br />
+<font size="3">●事实上治愈僵尸村民不一定需要喷溅虚弱药水，只要僵尸村民有虚弱状态效果，并拿金苹果右键它即可治愈。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>19).中毒（Poison）</strong></font></font><br />
+<font size="3"><strong>中毒是一个会在一段时间内把玩家的生命值降至Half Heart.png，然而不会杀死玩家的状态效果。</strong></font><br />
+<font size="3">伤害效果见下表：</font><br />
+<table cellspacing="0" class="t_table" style="width:50%"><tr><td> 等级</td><td> 伤害1血量所需Tick</td><td> 每秒能造成的伤害</td></tr><tr><td> 1</td><td> 25</td><td> 0.8</td></tr><tr><td> 2</td><td> 12</td><td> 1.6</td></tr><tr><td> 3</td><td> 理论：6 实际：10</td><td> 理论：3.33 实际：2</td></tr><tr><td> 4</td><td> 理论：3 实际：10</td><td> 理论：6.67&nbsp;&nbsp;实际：2</td></tr><tr><td> 5+</td><td> 理论：1 实际：10</td><td> 理论：20&nbsp;&nbsp;实际：2</td></tr></table><font size="3">●</font><font size="3">亡灵生物、蜘蛛和洞穴蜘蛛不会被中毒效果所影响。</font><br />
+<font size="3">●</font><font size="3">女巫可以降低85%的中毒伤害。</font><br />
+<font size="3">●若持续给予玩家该效果，中毒效果将不会损失玩家的生命。</font><br />
+<font size="3">●中毒属于魔法伤害，所以中毒效果完全免疫盔甲和保护效果。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>20).凋零（Wither）</strong></font></font><br />
+<font size="3"><strong>凋零是一个在一段时间内不断伤害的状态效果。与中毒不同，它能够影响亡灵生物且能致命。</strong></font><br />
+<font size="3">伤害效果见下图：</font><br />
+<table cellspacing="0" class="t_table" style="width:50%"><tr><td> 等级</td><td> 伤害1血量所需Tick</td><td> 每秒能造成的伤害</td></tr><tr><td> 1</td><td> 40</td><td> 0.5</td></tr><tr><td> 2</td><td> 20</td><td> 1</td></tr><tr><td> 3</td><td> 10</td><td> 2</td></tr><tr><td> 4</td><td> 理论：5 实际：10</td><td> 理论：4 实际：2</td></tr><tr><td> 5</td><td> 理论：2 实际：10</td><td> 理论：8 实际：2<br />
+</td></tr><tr><td> 6+</td><td> 理论：1 实际：10</td><td> 理论：20 实际：2<br />
+</td></tr></table><font size="3">●</font><font size="3">凋零骷髅、末影龙、凋灵完全免疫该效果。</font><br />
+<font size="3">●</font><font size="3">如果强度使用了0-31（对应等级1-32）以外的值，则使用强度模除32后的值。</font><br />
+<font size="3">●若持续给予玩家该效果，凋零效果将不会损失玩家的生命。</font><br />
+<font size="3">●凋零效果属于魔法伤害，所以凋零效果完全免疫盔甲和保护效果。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>21).生命提升（Health Boost）</strong></font></font><br />
+<font size="3"><strong>生命提升能提升玩家或生物的生命上限。每级生命提升提升 4*级数+2*2 点生命值。</strong></font><br />
+<font size="3">●Boss免疫该效果。</font><br />
+<font size="3">●若持续给予玩家该效果，那么玩家的额外生命值将不会回复。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>22).伤害吸收（Absorption）</strong></font></font><br />
+<font size="3"><strong>伤害吸收是一个能让生命值条增加多几颗“伤害吸收生命值”的状态效果，能够吸收伤害。能够添加 4x等级 点黄色血量。</strong></font><br />
+<font size="3">●</font><font size="3">负等级的效果刚施加时没有效果，但效果结束后给予 4x|−等级| 的值，且不会消失。</font><br />
+<font size="3">●黄色血量不能通过生命恢复效果回复。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>23).饱和（Saturation）</strong></font></font><br />
+<font size="3"><strong>饱和是一个使玩家减少食用需求的状态效果。立即回复 1x等级 饥饿值和 2x等级 饱和度。如果效果持续多于1刻，则每刻会增加饥饿值和饱和度。负数等级会减少饥饿值和饱和度。</strong></font><br />
+<font size="3">●貌似没有的样子=)</font><br />
+<br />
+<font size="4"><font color="#000000"><strong>24).发光（Glowing）</strong></font></font><br />
+<font size="3"><strong>发光是一个会让实体发光，且光可以透过任何方块的状态效果，但不会产生亮度。</strong></font><br />
+<font size="3">●Boss免疫该效果。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>25).飘浮（Levitation）</strong></font></font><br />
+<font size="3"><strong>飘浮是一个导致实体不断飞向高空的状态效果。使被作用的实体以每秒 0.9×等级 的速度向上飘浮。负等级引起实体向下飘浮，覆盖原本受重力影响的掉落。掉落伤害不受影响。</strong></font><br />
+<font size="3">●</font><font size="3">潜影贝、幻翼、恶魂、凋灵以及末影龙不会受到漂浮的实际影响。</font><br />
+<font size="3">●</font><font size="3">游泳与飞行不受影响。</font><br />
+<font size="3">●</font><font size="3">等级0（强度255）会导致实体不能掉落、跳和上下楼梯。掉落伤害不受影响。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>26).幸运（Luck）</strong></font></font><br />
+<font size="3"><strong>幸运是一种提升运气的状态效果。将generic.luck属性增加 1x等级，使战利品表中quality值高的结果更可能出现，而quality值为负的结果更不可能出现。也提高bonus_rolls出现几率。目前仅有钓鱼涉及到quality值。每次结果的新权重为floor(base_weight+quality*generic.luck)。负等级削弱运气。</strong></font><br />
+<font size="3">●貌似没有的样子=)</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>27).霉运（Bad Luck）</strong></font></font><br />
+<font size="3"><strong>霉运是一种能减小获得高质量战利品几率的状态效果。将generic.luck属性减去 1x等级，使战利品表中quality值高的结果的出现减少，而quality值为负的结果的出现提升。目前仅有钓鱼涉及到quality值，每次结果的新权重为floor(base_weight+quality*generic.luck)。负等级提升运气。</strong></font><br />
+<font size="3">●貌似没有的样子=)</font><br />
+<br />
+<font size="4"><font color="#000000"><strong>28).缓降（Slow Falling）</strong></font></font><br />
+<font size="3"><strong>缓降是会导致生物坠落速度减小，并且消除所有跌落伤害（不包括末影珍珠传送伤害）的状态效果.</strong></font><br />
+<font size="3">●带有此效果的实体在耕地上跳跃时，不会把它们变成泥土。<br />
+●带有缓降效果的玩家在疾跑时跳跃，可以一次跳过约6个方块之远；而正常情况下玩家在疾跑时跳跃只能一次跳过4个方块。<br />
+●在效果期间，玩家无法造成暴击。<br />
+●若带有缓降效果的玩家使用鞘翅飞行，未进行烟花火箭推进时，飞行距离会是正常情况下的2倍，但飞行速度只有原来的1⁄4。烟花火箭推进会以正常速度给予加成，但加速效果的持续时间会变短一些。<br />
+●Boss生物免疫缓降效果。其效果对诸如潜影贝一样的不会跌落的生物没有实际影响。‌<br />
+</font><br />
+<font size="4"><font color="#000000"><strong>29).潮涌能量（Conduit Power）</strong></font></font><br />
+<font size="3"><strong>潮涌能量是由潮涌核心提供的水下呼吸、夜视和急迫三者合一的、范围性的状态效果，只能在水中发挥作用。拥有潮涌能量的玩家会同时受到水下呼吸、夜视和急迫效果，这意味着他们的氧气槽不会降低，在水下清晰地看到物体，且其挖掘速度会在效果持续时段内增加。</strong></font><br />
+<font size="3">●</font><font size="3">尽管潮涌能量可以用于防止溺水，但并不能与水下呼吸叠加，意味着玩家如果拥有水下呼吸和潮涌能量效果，水下呼吸仍然会有倒计时。</font><font size="3"><br />
+</font><br />
+<strong><font size="4"><font color="#000000">30).海豚的恩惠（Dolphin's Grace）</font></font></strong><br />
+<font size="3"><strong>海豚的恩惠是一种提升玩家游泳速度的状态效果。</strong></font><br />
+<font size="3">●似乎没有呢=) <font color="#c0c0c0">但是你知道吗？海豚的速度为1.2，也就是说海豚在1s内可以游动51.8格</font></font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>31)不祥之兆（Bad Omen）</strong></font></font><br />
+<font size="3"><strong>不祥之兆是一种会触发袭击的状态效果。当玩家具有此效果时进入村庄范围即会触发袭击。</strong></font><br />
+<font size="3">●不祥之兆的等级决定了袭击中生成的波数，玩家进入村庄后效果会消失，并且触发袭击。如果玩家在袭击中获胜，那么将获得与不祥之兆等级相同的村庄英雄状态效果（等级上限为VI级）。</font><br />
+<font size="3">●不祥之兆效果可以以常规方法清除，例如饮用牛奶。</font><br />
+<font size="3">●Boss生物免疫该效果，其他非玩家生物拥有该效果进入村庄不会触发袭击。</font><font size="3"><br />
+</font><br />
+<font size="4"><font color="#000000"><strong>32).村庄英雄（Hero of the Village）</strong></font></font><br />
+<font size="3"><strong>村庄英雄是在击败一次袭击后获得的状态效果。带有此效果的玩家会获得村民赠送的礼物‌‌，并且在与村民交易时获得折扣。</strong></font><br />
+<font size="3">●</font><font size="3">等级为I的村庄英雄效果会把第一等级的交易价格降低30%；每一级可在此之上降低1/16；当村庄英雄等级为V时，交易价格会减少55%。不管折扣有多大，最终交易物品数量总是至少为1；换句话说，物品不会是免费的。在其他情况下，减量是折扣率乘以原始计数向下取整，或者如果减量小于1则向上取整。</font><br />
+<font size="3">●</font><font size="3">村庄英雄可以通过任何通常能移除状态效果的方法移除，包括饮用牛奶</font><br />
+<font size="3">●</font><font size="3">在Java版中，当玩家战胜袭击后村民会根据自己的职业赠送玩家随机物品‌，详情参见</font><a href="https://wiki.biligame.com/mc/%E6%9D%91%E5%BA%84%E8%8B%B1%E9%9B%84#.E7.BB.99.E4.BA.88.E7.89.A9.E5.93.81" target="_blank"><font size="3"><strong>Minecraft wiki - 村庄英雄#给予物品</strong></font></a><font size="3"><br />
+</font><br />
+<hr class="l" /><br />
+<strong><font size="5"><font color="#000000">- 详解4——秒数参数</font></font></strong><br />
+<font size="3"><strong>这里很简单，通俗来讲就是你想给予某实体多少秒的该效果，或者说效果的持续时间。此选项可以不填，若不填，则默认给予30s效果。</strong><strong>这里只能填一个整数数值，并且范围是1-2147483647。若填写的时间超过1638s，则会显示“**.**”，但这并不意味着持续秒数是无限，效果的持续秒数仍然会照常计算，只是不显示具体数值。特别的，一些瞬间作用的效果（如瞬间伤害、瞬间治疗、饱和）的“秒数”更准确的说法是“Tick”数，也就是说如果给玩家20“s”的瞬间治疗效果，那么实际只会在玩家身上作用1s，作用20次。例如：给玩家10s的抗性提升5效果：</strong><u>effect give @p resistance </u><u>10 5</u><strong>，给玩家5s的饱和1效果：</strong><u>effect give @p saturation 100</u><u> 1</u>。</font><br />
+<font size="3"><hr class="l" /></font><br />
+<strong><font size="5"><font color="#000000">- 详解5——强度参数</font></font></strong><br />
+<font size="3"><strong>这里为效果的额外等级。必须填写0-255内的整数数值。大部分情况下，0-127为正等级，128-255为负等级，对应着-1~-128级。此选项可不填，若不填则默认为0。请注意，实际上0-255是额外等级，也就是说实际等级是所填写的数值+1，比如被</strong></font><font size="3"><u>effect give @p resistance </u></font><font size="3"><u>10 2</u><strong>作用的玩家会显示“抗性提升III”。部分效果并没有等级之分，比如防火和夜视。该选项的计算公式在上文已逐个说明，不做赘述。</strong></font><br />
+<font size="3"><strong><hr class="l" /></strong></font><br />
+<font size="5"><font color="#000000"><strong>- 详解6——[true|false]参数</strong></font></font><br />
+<font size="3"><strong>终于是最后一个参数了呢，这里非常简单，就是是否显示玩家拥有该效果时的粒子效果及游戏界面右上角的显示图标，填true则为隐藏，填false则为显示。此参数不会隐藏玩家在物品栏左侧的显示的状态效果。如果不填则默认为false。如果填了true，那么在原版，其他玩家将看不出你拥有什么效果。</strong></font><br />
+<font size="3"><strong><hr class="l" /></strong></font><br />
+<strong><font size="5"><font color="#000000">- 常用效果</font></font></strong><br />
+<font size="3"><strong>有一些状态效果非常实用，这里列举一些命令：</strong></font><br />
+<strong><font size="3">&nbsp;&nbsp;清除自己身上的所有效果（等同于喝牛奶）：</font></strong><font size="3"><u>effect clear @s</u></font><br />
+<font size="3"><strong>&nbsp;&nbsp;给自己100s超高伤害（力量127）：</strong></font><font size="3"><u>effect give @p s</u></font><font size="3"><u>trength 100 127 true</u></font><br />
+<font size="3"><strong>&nbsp;&nbsp;使自己10分钟基本无敌（抗性提升5）：</strong></font><font size="3"><u>effect give @p </u></font><font size="3"><u>resistance 600 5 true</u></font><br />
+<font size="3"><strong>&nbsp;&nbsp;瞬间回复满生命值（瞬间治疗29）：</strong></font><font size="3"><u>effect give @p </u></font><font size="3"><u>instant_health 1 29 true</u></font><br />
+<font size="3"><strong>&nbsp;&nbsp;给自己120s不断高速回血（再生，每秒回复20血量）：</strong></font><font size="3"><u>effect give @p </u></font><font size="3"><u>regeneration 120 10 true</u></font><br />
+<font size="3"><strong>&nbsp;&nbsp;给自己120s不断超高速回血（瞬间治疗，每秒回复80血量）：</strong></font><font size="3"><u>effect give @p </u></font><font size="3"><u>instant_health 2400 0 true</u></font><br />
+<font size="3"><strong>&nbsp;&nbsp;给自己32分钟夜视效果：</strong></font><font size="3"><u>effect give @p </u></font><font size="3"><u>night_vision 1920 0 true</u></font><br />
+<font size="3"><strong>&nbsp;&nbsp;瞬间回复满饥饿值（饱和100）：</strong></font><font size="3"><u>effect give @p </u></font><font size="3"><u>saturation 1 100 true</u></font><br />
+<font size="3"><u><hr class="l" /></u></font><br />
+<strong><font size="5"><font color="#000000">- 后记</font></font></strong><br />
+无<br />
+<br />
+<div align="center"><strong><font size="6"><font color="#000000">完</font></font></strong></div><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+[groupid=1530]UEL Creators[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>黑茶RGO&nbsp; &nbsp; <b>时间: </b>2020-7-12 11:44<br />
+那么问题来了，怎么整负等级<img src="static/image/smiley/tong/doge.png" smilieid="1448" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>丸尾青貓&nbsp; &nbsp; <b>时间: </b>2020-7-12 11:45<br />
+<i class="pstatus"> 本帖最后由 [SL]John_Stapp 于 2020-7-12 11:59 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18899194&amp;ptid=1068146" target="_blank"><font color="#999999">黑茶RGO 发表于 2020-7-12 11:44</font></a></font><br />
+那么问题来了，怎么整负等级</blockquote></div><br />
+<strike>用effect写负数!</strike><strike>扔药水瓶!</strike><strike>用药水云给!</strike><strike>用药效箭射♂它!</strike>
+<ignore_js_op>
+
+<img id="aimg_1641564" aid="1641564" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202007/12/115238zu3d5qu59uq32951.png" file="https://attachment.mcbbs.net/forum/202007/12/115238zu3d5qu59uq32951.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1641564" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1641564_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>QQ截图20200712115202.png</strong> <em class="xg1">(48.49 KB, 下载次数: 6)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTY0MTU2NHxlNDdlYThhZXwxNjE0MDQxMjM3fDI0MTk0ODZ8MTA2ODE0Ng%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-7-12 11:52 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[18899236] = ['1641564'];
+attachimggroup(18899236);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2020-7-12 11:54<br />
+问答版链接+1<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>16_39&nbsp; &nbsp; <b>时间: </b>2020-7-12 12:52<br />
+很棒的教学帖，楼主辛苦了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mithey&nbsp; &nbsp; <b>时间: </b>2020-7-12 15:08<br />
+<i class="pstatus"> 本帖最后由 Mithey 于 2020-7-12 15:10 编辑 </i><br />
+<br />
+最家喻户晓的难道不是<br />
+{ench:[{id:16,lvl:25565}]} <br />
+么2333<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋集&nbsp; &nbsp; <b>时间: </b>2020-7-12 17:07<br />
+感谢艾特，金粒+2<br />
+很棒的命令，（讠）射（讠）射兄弟<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2574234281&nbsp; &nbsp; <b>时间: </b>2020-7-13 12:15<br />
+大佬大佬，没见过这么多效果<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Hs123y&nbsp; &nbsp; <b>时间: </b>2020-7-20 21:06<br />
+爱了爱了，兄嘚<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>苗人凤之鬼&nbsp; &nbsp; <b>时间: </b>2020-7-22 10:44<br />
+嗯，记不住就收藏了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>many先生&nbsp; &nbsp; <b>时间: </b>2020-8-4 17:00<br />
+大神楼主，爱了爱了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hxj4465&nbsp; &nbsp; <b>时间: </b>2020-8-14 13:17<br />
+好像搬运的啊，如果是自己写的话真的太6了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天佑酱&nbsp; &nbsp; <b>时间: </b>2020-8-14 14:14<br />
+<div class="quote"><blockquote><font color="#999999">hxj4465 发表于 2020-8-14 13:17</font><br />
+<font color="#999999">好像搬运的啊，如果是自己写的话真的太6了</font></blockquote></div><br />
+如果这个帖子是搬运的，你还能看到？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>斑驳树&nbsp; &nbsp; <b>时间: </b>2020-8-14 15:54<br />
+收藏收藏<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hxj4465&nbsp; &nbsp; <b>时间: </b>2020-9-20 09:57<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=19479356&amp;ptid=1068146" target="_blank"><font color="#999999">天佑酱 发表于 2020-8-14 14:14</font></a></font><br />
+如果这个帖子是搬运的，你还能看到？</blockquote></div><br />
+行吧，腐竹666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>王潇1999&nbsp; &nbsp; <b>时间: </b>2020-12-29 02:28<br />
+6666666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>苏子佩&nbsp; &nbsp; <b>时间: </b>2020-12-29 19:38<br />
+学习了 以前一直不清楚
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

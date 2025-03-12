@@ -1,0 +1,957 @@
+<html>
+<head>
+<title>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅱ实例与详解 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02MTkzMDQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅱ实例与详解 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-8-11 19:34<br />
+<b>标题: </b>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅱ实例与详解<br /><i class="pstatus"> 本帖最后由 贰逼 于 2018-8-29 22:26 编辑 </i><br />
+<br />
+<strong><font size="3">Loottable（可抢夺物品列表）是1.9+中的一个新特性，主要靠调用外置json文件实现对物品奖励获取的随机.</font></strong><br />
+<strong>第二章内将会向各位介绍Loottable中的实例与详解</strong><br />
+<br />
+<font size="3"><font color="#a0522d"><strong>Chm版本：<a href="http://pan.baidu.com/s/1c1U4804" target="_blank">http://pan.baidu.com/s/1c1U4804</a> （若.chm遇到问题下载压缩文件）</strong></font></font><br />
+<font color="#ff0000"><strong><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=619468" target="_blank"><font size="5">全部章节总索引</font></a></strong></font><br />
+<div align="right"><font color="#8b0000"><strong><u><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=618969" target="_blank">上一章 结构与标签</a></u></strong></font></div><div align="right"><u><strong><font color="#8b0000"><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=619459" target="_blank">下一章 技术性提示</a></font></strong></u></div><br /><hr class="l" /><br />
+<hr class="l" /><strong><font face="微软雅黑"><font size="4">人生第一个Loottable</font></font></strong><br />
+看了之前结构与标签的基本介绍，我们现在就可以<strong>写一个简单的Loottable</strong>了：<br /><div class="blockcode"><div id="code_EpC"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_EpC'));">复制代码</em></div>没错，这就是最简单的一个Loottable，下面我们来逐步分析一下这个Loottable讲了什么.<br />
+<br />
+首先随机池列表中只有一个随机池，这个随机池里的项目列表中只有一个项目——石头.<br />
+唯一的随机池只从它的项目列表中选取一次物品，并且项目列表中唯一的项目石头的权重为1.<br />
+所以<strong>实际效果就是该Loottable的结果必然是一个石头</strong>.<br /><br />
+<hr class="l" /><strong><font face="微软雅黑"><font size="4">建立Loottable文件夹</font></font></strong><br />
+如果我们要在游戏中调用Loottable，我们先必须学会如何建立一个Loottable文件夹，以便调用Loottable<br />
+首先我们需要找到存档的文件夹<br />
+
+<ignore_js_op>
+
+<img id="aimg_972909" aid="972909" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191358nsqmpmpgwmwdo8sn.png" file="https://attachment.mcbbs.net/forum/201608/11/191358nsqmpmpgwmwdo8sn.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="486" id="aimg_972909" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972909_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>1.png</strong> <em class="xg1">(14.06 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTA5fDNjYjdlMGMxfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:13 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+进入存档文件中的data文件夹<br />
+
+<ignore_js_op>
+
+<img id="aimg_972910" aid="972910" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191359svsdfaxszs2h04h2.png" file="https://attachment.mcbbs.net/forum/201608/11/191359svsdfaxszs2h04h2.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="467" id="aimg_972910" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972910_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2.png</strong> <em class="xg1">(8.91 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTEwfDhlMjRmZTJifDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:13 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+新建一个<strong>名为“loot_tables”的文件夹</strong><br />
+
+<ignore_js_op>
+
+<img id="aimg_972911" aid="972911" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191359zdxa1yw33vcvvv85.png" file="https://attachment.mcbbs.net/forum/201608/11/191359zdxa1yw33vcvvv85.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="481" id="aimg_972911" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972911_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>3.png</strong> <em class="xg1">(1.52 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTExfGJlNzQ4YzRjfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:13 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+在其中创建一个<strong>子文件夹</strong>，在loot_tables文件夹里一个子文件夹就<strong>代表一个命名空间</strong>（此时命名空间为“test”）<br />
+
+<ignore_js_op>
+
+<img id="aimg_972912" aid="972912" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/190615y0b61iivu0dwdd53.png" file="https://attachment.mcbbs.net/forum/201608/11/190615y0b61iivu0dwdd53.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="471" id="aimg_972912" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972912_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>4.png</strong> <em class="xg1">(2.47 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTEyfDVjZDZhMTBifDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:06 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+在命名空间内<strong>新建一个json文件</strong>，并粘贴之前的Loottable作为内容.<strong>该json文件名是Loottable的名字</strong>（此时名字为“a”）<br />
+当然也可以在这个<strong>命名空间再建子文件夹，子文件夹中建立Loottable，也是允许的</strong>.<br />
+<br />
+新建json文件可以靠代码编写软件，也可以直接新建一个文本文档并将.txt改成.json.<br />
+<br />
+json可以直接靠打开方式选择记事本打开.<br /><hr class="l" /><br />
+<strong><font face="微软雅黑"><font size="4">调用Loottable</font></font></strong><br />
+进入该存档，接下来介绍如何调用Loottable<br />
+<br />
+首先我们要知道<strong>Loottable路径表达式</strong>怎么写.<br />
+<strong>标准写法：</strong><br /><div class="quote"><blockquote>[命名空间]:[Loottable名] 或者 [命名空间]:[子文件夹名]/[Loottable名]</blockquote></div><br />
+例如刚才的示例：<br /><div class="quote"><blockquote>test:a</blockquote></div><br />
+就是路径表达式.（当然这是第一种写法）<br />
+值得一提的是如果没有命名空间，默认命名空间就是minecraft.例如entities/creeper，代表默认的爬行者掉落物.<br />
+<br />
+接下来我们可以靠NBT调用Loottable了.<br />
+有两个NBT：<strong>LootTable(string)和DeathLootTable(string)</strong><br />
+第一个<strong>LootTable标签用于大部分容器</strong>，而第二个<strong>DeathLootTable标签用于实体</strong>.<br />
+后面的<strong>string处需要填写的就是Loottable路径表达式</strong>.<br /><div class="blockcode"><div id="code_P7K"><ol><li>/setblock ~ ~ ~ minecraft:chest 附加值 模式 {LootTable:&quot;test:a&quot;}</ol></div><em onclick="copycode($('code_P7K'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_972913" aid="972913" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/190920rs8itcvsv8uili39.png" file="https://attachment.mcbbs.net/forum/201608/11/190920rs8itcvsv8uili39.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="559" id="aimg_972913" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972913_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>21.png</strong> <em class="xg1">(49.13 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTEzfGM0NTQxYmRkfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:09 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><div class="blockcode"><div id="code_hhz"><ol><li>/summon Zombie ~ ~ ~ {DeathLootTable:&quot;test:a&quot;}</ol></div><em onclick="copycode($('code_hhz'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_972914" aid="972914" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191708g4mk43imznm4m53w.png" file="https://attachment.mcbbs.net/forum/201608/11/191708g4mk43imznm4m53w.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972914" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972914_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>22.png</strong> <em class="xg1">(118.94 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTE0fDk5NTk0MzVmfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:17 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><hr class="l" /><font face="微软雅黑"><font size="4"><strong>Function 1 随机附魔/随机</strong><strong>等级</strong><strong>附魔/烤熟的物品</strong></font></font><br />
+<ul><li><strong><font face="黑体">enchant_randomly随机附魔</font></strong><br />
+</ul><blockquote><blockquote><font size="2">&nbsp; &nbsp; ┕ enchantments（列表）：能够附上的魔 （默认为能与对应物品匹配的附魔）</font></blockquote></blockquote><div align="left"><div class="blockcode"><div id="code_pvk"><ol><li>&lt;blockquote&gt;{</ol></div><em onclick="copycode($('code_pvk'));">复制代码</em></div>
+<ignore_js_op>
+
+<img id="aimg_972915" aid="972915" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191928t0qtcnvctcrvrnrv.png" file="https://attachment.mcbbs.net/forum/201608/11/191928t0qtcnvctcrvrnrv.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972915" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972915_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>31.png</strong> <em class="xg1">(53.65 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTE1fDZlYmIyY2M2fDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:19 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</div><div align="left">随机结果预览</div><div align="left">这个标签不会规定附魔的等级，随机的等级范围也只是该附魔的最大等级（在非NBT修改的情况下）</div><br />
+<ul><li><strong><font face="黑体">enchant_with_levels随机附魔的等级</font></strong><br />
+</ul><blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ treasure（布尔）：是否能随机到宝藏附魔（例如冰霜行者和修理）</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ levels（整型）：随机附魔的等级</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ levels（列表）：随机附魔的等级范围</font></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ <i>min（整型）：随机附魔的最小级</i></font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ <i>max（整型）：随机附魔的最大等级</i></font></div><br /><div class="blockcode"><div id="code_r1m"><ol><li>&lt;blockquote&gt;{</ol></div><em onclick="copycode($('code_r1m'));">复制代码</em></div></blockquote></blockquote></blockquote><div align="left">
+<ignore_js_op>
+
+<img id="aimg_972916" aid="972916" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191145epxw8wd9dgvumfu8.png" file="https://attachment.mcbbs.net/forum/201608/11/191145epxw8wd9dgvumfu8.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972916" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972916_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-30_15.07.28.png</strong> <em class="xg1">(50.49 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTE2fDY1YzI0NzkwfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:11 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</div><div align="left">结果预览</div><div align="left">这个等级不是附魔等级，而是能够附魔所需要的经验等级.所以你只能随机到普通附魔.</div><div align="left">如果开启treasures，那么宝藏附魔也能够被随机到.</div><br />
+<ul><li><strong><font face="黑体">furnace_smelt</font></strong><br />
+</ul><blockquote><blockquote><div align="left">无子项目，内容：将被烤熟的物品</div></blockquote></blockquote><br />
+<div align="left"><div class="blockcode"><div id="code_pCC"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:fish&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:furnace_smelt&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_pCC'));">复制代码</em></div><br />
+
+<ignore_js_op>
+
+<img id="aimg_972918" aid="972918" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191931y73757z39rtrx7gq.png" file="https://attachment.mcbbs.net/forum/201608/11/191931y73757z39rtrx7gq.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972918" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972918_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-30_15.14.29.png</strong> <em class="xg1">(45.09 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTE4fDAzOGY4NGFjfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:19 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="left">所有能被冶炼/烤熟的物品都能被这个功能涉及.（例如土豆或者原木或者钻石原矿）</div><div align="left"><hr class="l" /></div><font face="微软雅黑"><font size="4"><strong>Function 2 抢夺附魔数量影响/物品属性</strong></font></font><br />
+<ul><li><strong><font face="黑体">looting_enchant数量影响（适用于实体）</font></strong><br />
+</ul><blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ limit（整型）：抢夺附魔后额外最大掉落的数量</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ count（整型）：抢夺附魔后额外掉落的数量</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ count（列表）：抢夺附魔后额外掉落的数量范围</font></div><blockquote><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ min（整型）：抢夺附魔后掉落最小的数量</i></font></div><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ max（整型）：抢夺附魔后掉落最大的数量</i></font></div></blockquote></blockquote></blockquote><br /><div class="blockcode"><div id="code_sJv"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:wool&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:looting_enchant&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;count&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;limit&quot;: 3<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_sJv'));">复制代码</em></div><br />
+掉落羊毛，初始1个，抢夺后额外1个，最大3个.<br /><div class="blockcode"><div id="code_SbQ"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:wool&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:looting_enchant&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;count&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 3,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_SbQ'));">复制代码</em></div><br />
+掉落羊毛，初始1个，抢夺后额外3~5个，没有限制.<br />
+<br />
+<ul><li><strong><font face="黑体">set_attributes物品属性修改器</font></strong><br />
+</ul><div class="blockcode"><div id="code_UmD"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:diamond_sword&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_attributes&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;modifiers&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;attribute&quot;: &quot;generic.attackDamage&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;name&quot;: &quot;Damage&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;amount&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;min&quot;: 1.0,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;max&quot;: 1.5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;operation&quot;: &quot;addition&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;slot&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;mainhand&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;offhand&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]&quot;id&quot;: &quot;00000000-0000-0001-0000-000000000001&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_UmD'));">复制代码</em></div><br />
+NBT和具体效果就不讲解了，和原来的属性NBT相同，除了amount增加了最小和最大的选项.（详情站内本版内搜索物品属性）<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Function 3 数量/工具损害值/物品附加值</strong></font></font><br />
+<ul><li><strong><font face="黑体">set_count数量</font></strong><br />
+</ul><blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ count（整型）：物品的具体数量</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ count（列表）：物品的随机数量范围</font></div><blockquote><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ min（整型）：物品最小的数量</i></font></div><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ max（整型）：物品最大的数量</i></font></div></blockquote></blockquote></blockquote><br />
+<div align="left"><br /><div class="blockcode"><div id="code_KGi"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_count&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;count&quot;: 10<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_KGi'));">复制代码</em></div><br />
+
+<ignore_js_op>
+
+<img id="aimg_972919" aid="972919" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/192315i0jg74mu6huj0bum.png" file="https://attachment.mcbbs.net/forum/201608/11/192315i0jg74mu6huj0bum.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972919" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972919_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-31_09.26.31.png</strong> <em class="xg1">(32.79 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTE5fDQwNjdjMjJhfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:23 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</div><div align="left">也就是一定产出十个石头（排列不一定整齐）</div><br />
+<div align="left"><div class="blockcode"><div id="code_RFt"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_count&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;count&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 10,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 20<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_RFt'));">复制代码</em></div><br />
+
+<ignore_js_op>
+
+<img id="aimg_972920" aid="972920" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/192317zbv9bvvh4biebu0h.png" file="https://attachment.mcbbs.net/forum/201608/11/192317zbv9bvvh4biebu0h.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972920" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972920_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-31_09.29.30.png</strong> <em class="xg1">(52.31 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTIwfDk4NzA5ODNmfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:23 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="left">也就是一定产出10~20个石头（排列不一定整齐）图中一共14个</div><br />
+<ul><li><strong><font face="黑体">set_damage损害</font></strong><br />
+</ul><blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ damage（浮点）：物品（工具）的剩余耐久的比率.也就是剩余的耐久/最大耐久.（1.0就是是没有损害，0.0就是没耐久了）</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ damage（列表）：剩余耐久的比率的范围</font></div><blockquote><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ min（浮点）：</i>剩余耐久比率<i>最小值</i></font></div><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ max（浮点）：</i>剩余耐久比率<i>最大值</i></font></div></blockquote></blockquote></blockquote><br />
+<div align="left"><br /><div class="blockcode"><div id="code_aVv"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:iron_sword&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_damage&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;damage&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 0.5,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_aVv'));">复制代码</em></div><br />
+
+<ignore_js_op>
+
+<img id="aimg_972921" aid="972921" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191534ej0y050j41hy3gjj.png" file="https://attachment.mcbbs.net/forum/201608/11/191534ej0y050j41hy3gjj.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972921" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972921_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-31_09.37.36.png</strong> <em class="xg1">(40.97 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTIxfDMwNmJlZTQ4fDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:15 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="left">一定有一把铁剑，但它耐久值是从125~250之间随机的.</div><br />
+<ul><li><strong><font face="黑体">set_data物品附加值</font></strong><br />
+</ul><blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ data（整型）：物品（非工具）的附加值</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ data（列表）：附加值的范围</font></div><blockquote><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ min（整型）：附加值的最小值</i></font></div><div align="left"><font size="2"><i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;└ max（整型）：附加值的最大值</i></font></div></blockquote></blockquote></blockquote><br />
+<div align="left"><br /><div class="blockcode"><div id="code_fe1"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:wool&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_data&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;data&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 0,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 15<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_fe1'));">复制代码</em></div><br />
+
+<ignore_js_op>
+
+<img id="aimg_972922" aid="972922" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/192320zodvvmyjvbj7q9mz.png" file="https://attachment.mcbbs.net/forum/201608/11/192320zodvvmyjvbj7q9mz.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972922" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972922_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-31_09.42.58.png</strong> <em class="xg1">(25.31 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTIyfDU4ZGY5OTlhfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:23 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</div><div align="left">这个就是随机一个颜色的羊毛（附加值0~15）</div><br />
+<div align="left">值得一提的是这里的附加值并不能作为工具的附加值（也就是damage），所以如果要给工具设置damage，必须靠set_damage.</div><div align="left"><hr class="l" /></div><font face="微软雅黑"><font size="4"><strong>Function 4 NBT和自定义NBT</strong></font></font><br />
+<ul><li><strong><font face="黑体">set_nbt数据标签</font></strong><br />
+</ul><blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ tag（字符串）：物品的tag标签后的内容</font></div></blockquote></blockquote><font size="2"><br /><div class="blockcode"><div id="code_f84"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{display:{Name:&quot;a&quot;,Lore:[&quot;b&quot;]}}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_f84'));">复制代码</em></div><div class="blockcode"><div id="code_sBh"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{display:{Name:a,Lore:[b]}}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_sBh'));">复制代码</em></div><br />
+<div align="left">两个是一样的，都是名为a，信息为b的石头.只是如果你在其中使用了需要转义的字符必须使用转义符.</div><br />
+<div align="left">这里的tag其实也支持自定义NBT</div><div align="left">比如我加了一个对原版无任何影响的NBT：a</div><div align="left"><font size="2"><br /><div class="blockcode"><div id="code_le7"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{display:{Name:a,Lore:[b]},a:1}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_le7'));">复制代码</em></div><br />
+</font></div><div align="left">刷出来的结果：</div><div align="left">
+<ignore_js_op>
+
+<img id="aimg_972924" aid="972924" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/191858oiccpm59i65m5j6b.png" file="https://attachment.mcbbs.net/forum/201608/11/191858oiccpm59i65m5j6b.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972924" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972924_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-31_10.16.41.png</strong> <em class="xg1">(47.01 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTI0fGQ0MDkxMDEyfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:18 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+</div><div align="left">如果使用</div><br />
+<div align="left"><br /><div class="blockcode"><div id="code_Rf5"><ol><li>/testfor @e[type=Item,c=1] {Item:{tag:{a:1}}}</ol></div><em onclick="copycode($('code_Rf5'));">复制代码</em></div><br />
+
+<ignore_js_op>
+
+<img id="aimg_972925" aid="972925" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/192648fumlzikrmadl8ndd.png" file="https://attachment.mcbbs.net/forum/201608/11/192648fumlzikrmadl8ndd.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_972925" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972925_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-07-31_10.17.30.png</strong> <em class="xg1">(206.44 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTI1fDRhZWY2MDczfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:26 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+</div><div align="left">该自定义NBT的物品可以被检测.</div><div align="left"><br /><hr class="l" /></div><font face="微软雅黑"><font size="4"><strong>Condition 1 实体死亡/实体分数</strong></font></font><br />
+在了解Condition之前需要知道下面三个选择器：<br />
+this、killer和killer_player<br />
+<br /><div class="quote"><blockquote>this代表附上Loottable的实体，也就是死亡的实体；<br />
+killer就是杀死该实体的实体，不只是玩家；<br />
+killer_player必须是玩家.</blockquote></div><br />
+（在Condition中不提供图片演示） （主要是条件不好模拟出来← ←）<br />
+<br />
+<ul><li><strong><font face="黑体">entity_properties死亡条件</font></strong><br />
+</ul><br />
+<blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ entity（字符串）：选择器，选择实体</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ properties（复合）：满足条件</font></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ on_fire（布尔）：选择的实体是否着火</font></div></blockquote></blockquote></blockquote><div align="left">下面通过这个Condition来演示Condition三种情况</div><div align="left"><br /><div class="blockcode"><div id="code_uLZ"><ol><li><br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{display:{Name:a,Lore:[b]}}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;entity&quot;: &quot;this&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;properties&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;minecraft:on_fire&quot;: true<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_uLZ'));">复制代码</em></div>这个conditions条件列表在A Pool下，控制该随机池的调用</div><div align="left"><br /><div class="blockcode"><div id="code_TsL"><ol><li><br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{display:{Name:a,Lore:[b]}}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;entity&quot;: &quot;killer&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;properties&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;minecraft:on_fire&quot;: true<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_TsL'));">复制代码</em></div></div><div align="left">这个conditions条件列表在A Entry下，控制该项目的调用</div><div align="left"><br /><div class="blockcode"><div id="code_llM"><ol><li><br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{display:{Name:a,Lore:[b]}}&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entity&quot;: &quot;killer_player&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;properties&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;minecraft:on_fire&quot;: true<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}<br /><li></ol></div><em onclick="copycode($('code_llM'));">复制代码</em></div><br />
+</div><div align="left">这个conditions条件列表在A Function下，控制该功能的使用</div><div align="left">回到这个Condition的写法上，on_fire填true或false就是判定是不是着火</div><div align="left">entity后面只能填之前说的三个选择器.如果on_fire填true，那么分别判定该实体、击杀该实体的实体和击杀该实体的玩家是不是着火的，如果着火就调用条件列表的父级.</div><br />
+<ul><li><div align="left"><strong><font face="黑体">entity_scores实体分数</font></strong></div><br />
+</ul><blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ entity（字符串）：选择器，选择实体</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ scores（复合）：满足分数</font></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ A score（整型）：一个具体分数，把'A score'改成计分板名.</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ A score（复合）：一个范围分数，把'A score'改成计分板名.</font></div><blockquote><font size="2"><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ min（整型）：值域中最小值</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ min（整型）：值域中最大值</font></div></font></blockquote></blockquote></blockquote></blockquote><br /><div class="blockcode"><div id="code_l09"><ol><li><br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:cobblestone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:entity_scores&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;entity&quot;: &quot;killer_player&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;scores&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;b&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;a&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;min&quot;: 5,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;max&quot;: 10<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}<br /><li></ol></div><em onclick="copycode($('code_l09'));">复制代码</em></div><br />
+<div align="left">满足的条件就是b计分板分数=1，a计分板分数在5和10之间（包括5和10）</div><div align="left"><hr class="l" /></div><font face="微软雅黑"><font size="4"><strong>Condition 2 被玩家杀死</strong></font></font><br />
+<ul><li><strong><font face="黑体">killed_by_player被玩家杀死</font></strong><br />
+</ul><br />
+<blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ inverse（布尔）：是否反向选择，判断不是被玩家杀死的</font></div></blockquote></blockquote><br /><div class="blockcode"><div id="code_syz"><ol><li><br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:cobblestone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:furnace_smelt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:killed_by_player&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;inverse&quot;: false<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}<br /><li></ol></div><em onclick="copycode($('code_syz'));">复制代码</em></div><br />
+判断是被玩家杀死的.<br /><div class="blockcode"><div id="code_LBn"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:cobblestone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:furnace_smelt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:killed_by_player&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;inverse&quot;: true<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_LBn'));">复制代码</em></div><br />
+判断不是被玩家杀死得，包括被其他实体杀死和自然死亡（摔死淹死等）<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Condition 3 二次随机点数</strong></font></font><br />
+<ul><li><strong><font face="黑体">random_chance随机几率</font></strong><br />
+</ul><br />
+<blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ chance（浮点）：此处填写一个0.0~1.0的数值（叫做点数）.系统会生成一个0.0~1.0的随机数，与这里填写的数值比较.若小于该数值则成功.</font></div></blockquote></blockquote><div align="left">比如填写1.0，那么必然成功.如果填写0.8，只有80%的概率.</div><div align="left"><div class="blockcode"><div id="code_cZI"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;quality&quot;: 3,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:random_chance&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;chance&quot;: 0.5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:diamond&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_cZI'));">复制代码</em></div><br />
+</div><div align="left">尽管随机的权重为1，但只有50%几率得到石头</div><div align="left"><br /><div class="blockcode"><div id="code_I6q"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:furnace_smelt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:random_chance&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;chance&quot;: 0.5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_I6q'));">复制代码</em></div><br />
+在这个实例里，首先有一个石头，虽然权重为1，但只有50%几率获得.</div><div align="left">另外一个石头权重也是1.</div><div align="left">因此我们可以算算获得石头的概率：</div><div align="left">没有石头-首先抽中了第一个石头，也就是50%概率.接着点数大于0.5，又是50%概率，所以几率为25%.</div><div align="left">1个-第一种情况是抽中第一个石头，点数没有大于0.5，25%几率；第二种情况是抽中了第二个石头，因为是必得，所以总的来说50%几率；加起来75%几率.</div><br />
+<div align="left">之所以叫该条件为稳定二次随机，是因为在一个项目下该条件<strong>点数可以结合权重</strong>实现更精确的概率微调；</div><br />
+<div align="left">如果该条件和一个随机池结合，那么随机池也是<strong>靠点数来调用</strong>；同理一个功能也是如此.</div><div align="left"><hr class="l" /></div><font face="微软雅黑"><font size="4"><strong>Condition 3 二次随机（抢夺）</strong></font></font><br />
+<ul><li><strong><font face="黑体">random_chance_with_looting抢夺影响判定</font></strong><br />
+</ul><br />
+<blockquote><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ chance（浮点）：此处填写一个0.0~1.0的数值（叫做基础点数）.</font></div><div align="left"><font size="2">&nbsp; &nbsp; ┕ looting_multiplier:（浮点）：抢夺等级的乘数</font></div></blockquote></blockquote><div align="left"><font size="2">系统会生成一个0.0~1.0的随机数，与下面公式算出来的值比较.若小于则成功.</font></div><font size="2"><div class="quote"><blockquote>chance + looting_level * looting_multiplier</blockquote></div><br />
+</font><br />
+<font size="2">也就是：基础点数+抢夺附魔等级*等级乘数</font><br />
+<br /><div class="blockcode"><div id="code_OEq"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:furnace_smelt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;: &quot;minecraft:random_chance_with_looting&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;chance&quot;: 0.2,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;looting_multiplier&quot;: 0.1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_OEq'));">复制代码</em></div><br />
+此处使用抢夺3附魔，掉落石头的概率就是：0.2+3*0.1=0.5<br />
+<br />
+该condition也是稳定二次随机，相比之下引入了抢夺.<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Entry 1 物品</strong></font></font><br />
+作为随机项目，主要是针对物品。<br />
+事实上在前面我们已经举了很多例子，现在我们需要用上所有Entry中使用的结构来完整的呈现一个物品列表：<br /><div class="blockcode"><div id="code_fzH"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;quality&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft: set_count&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;count&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 0,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft: killed_by_player&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft: diamond&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;quality&quot;: 3,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_count&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;count&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 0,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:killed_by_player&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_fzH'));">复制代码</em></div><br />
+下面来分析这个Loottable<br />
+首先只有一个随机池，随机池只会选择一次物品；<br />
+物品列表两个物品，一个是石头，一个是钻石；<br />
+石头的权重为1，权重增值为1；钻石权重为1，权重增值为3（也就是当你幸运2时，石头真实权重为3，钻石却变成了7）<br />
+两者获得条件都是被玩家击杀，而且两者都有50%数量为0（也就是无）.<br /><br />
+<hr class="l" /><font face="微软雅黑"><font size="4"><strong>Entry 2 空</strong></font></font><br />
+将项目设为空，可以帮助我们初步的稳定概率，所以可以说属于是稳定一次随机.<br /><div class="blockcode"><div id="code_s9H"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;empty&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_s9H'));">复制代码</em></div><br />
+这个实例里，我们抽中石头的几率只是50%，另外50%为空.<br />
+<br />
+空，是Entry中一个补位，用于控制随机，可以结合后面的内容稳定概率.<br />
+比如实体如果要让物品随机掉落，请注意控制Entry适当为空的几率，否则将必然掉落物品；<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Entry 3 随机概率计算</strong></font></font><br />
+为了平衡物品，难免必须用到概率计算，在学习计算之前，再来总结总结一次随机和二次随机.<br />
+也许你还对之前提到的一次随机，二次随机不了解，下面就来总结总结：<br />
+<ul><li>一次随机<br />
+</ul>是对项目列表中项目的第一次随机，也就是靠真实权重来判定的随机：<br />
+真实权重=（权重+权重增值*幸运值）<br />
+<br />
+<ul><li>二次随机<br />
+</ul>是进一步对该项目的取舍随机，例如Function中set_count，和Condition中的random_chance/random_chance.<br />
+<br />
+<strong>下面进入正式计算阶段，来看两个例子：</strong><br />
+<ul><li>抽中一个项目的概率<br />
+</ul><div class="blockcode"><div id="code_DVM"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:stone&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;quality&quot;: 3,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:random_chance&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;chance&quot;: 0.5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:diamond&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_DVM'));">复制代码</em></div>这个就是之前Condition3中的例子，引入了权重增值.<br />
+<br />
+如果你要计算抽中一个项目的概率，你可以使用下面的方法：<br />
+先来看一次随机，石头权重就是=（1+3*幸运值），而钻石始终为1，<br />
+那么一次随机中石头概率为(1+3*幸运值)/(2+3*幸运值)<br />
+接着来看二次随机，此处二次随机是随机点数，所以石头只有50%概率不为空.<br />
+那么总共石头的概率就是(1+3*幸运值)/(4+6*幸运值).<br />
+<br />
+<strong><font face="黑体"><font size="4">公式：</font></font></strong><br /><div class="quote"><blockquote><font color="#000000">&nbsp; &nbsp;&nbsp; &nbsp;一个项目的真实权重=（该项目权重+该权重增值*幸运值）</font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;random_chance = <font color="#800080">随机点数【随机点数】</font>或者<font color="#008080">（基础点数+抢夺附魔等级*等级乘数）【抢夺判定】</font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;<font color="#ff0000">一个项目的概率=（一个项目真实权重/项目列表真实权重总和）* random_chance * (1-set_count中选中0的概率)</font><br />
+<font color="#008000">*注解：set_count选中0的概率靠这样计算：例如min:0,max:10，那么一共可能有11种数量结果，那么选中0的概率就是1/11.</font></blockquote></div><br />
+当然，这种方法也可以用于三次随机（function中的condition），也就是继续在后面乘上随机点数：<br /><div class="quote"><blockquote>&nbsp; &nbsp;&nbsp; &nbsp;<font color="#ff0000">带功能的一个项目的概率=（一个项目真实权重/项目列表真实权重总和）*</font> <font color="#800000">random_chance【对于Entry】</font> <font color="#ff0000">* (1-set_count中选中0的概率) *</font> <font color="#000080">random_chance【对于Function】</font></blockquote></div><br />
+<ul><li>抽一个项目后某一个数量的概率<br />
+</ul>公式套用前面的，只是略微改动：（设这个数量为n）<br />
+<br /><div class="quote"><blockquote>&nbsp; &nbsp;&nbsp; &nbsp;<font color="#ff0000">一个项目的概率=（一个项目真实权重/项目列表真实权重总和）* random_chance * (中选中n的概率)</font><br />
+<br />
+<font color="#ff0000">&nbsp; &nbsp;&nbsp; &nbsp;带功能的一个项目的概率=（一个项目真实权重/项目列表真实权重总和）*<font color="#000000"> </font><font color="#800000">random_chance【对于Entry】</font><font color="#000000"> </font><font color="#ff0000">* (set_count中选中n的概率) *</font><font color="#000000"> </font><font color="#000080">random_chance【对于Function】</font></font></blockquote></div><br /><br />
+<hr class="l" /><font face="微软雅黑"><font size="4"><strong>Pool 随机抽取原理</strong></font></font><br />
+在一个随机池中，只能有一个项目列表，每次从项目列表中抽取一个项目.<br />
+roll的次数就是抽取次数.<br />
+而项目列表中项目的weight和quality决定了该项目抽到的几率.<br />
+<br />
+结合function和condition，也许抽取的项目为空，或者貌似多个项目；或者下面讲到调用loottable，事实上都是一个项目.<br />
+<br />
+一个项目≠一个物品，一个项目只是抽取的结果.<br />
+
+<ignore_js_op>
+
+<img id="aimg_972934" aid="972934" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/192651csgso4rto6a5xmyt.png" file="https://attachment.mcbbs.net/forum/201608/11/192651csgso4rto6a5xmyt.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="490" id="aimg_972934" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972934_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>30.png</strong> <em class="xg1">(1.39 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTM0fDA1NmQ0NzRhfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:26 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+（每次抽取的项目也许包含n个子项目，也可能继续随机抽取）<br />
+<br />
+所以打破该误区之后，将会在下面loottable一节中运用这种概念来完成更复杂的随机列表.<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Pool 随机列表滚动值</strong></font></font><br />
+你可以理解为一个骰子，每滚动一次最后随机抽取一个点数.<br />
+当然滚动值不是这个滚动所得点数，也不是权重，更不能理解成为项目中物品数量翻多少倍<br />
+滚动值就是投掷骰子的次数，近似的理解为抽取多少项目（可重复），<br />
+准确来说是抽取项目列表中一个项目的次数.<br />
+<br />
+rolls:1<br />
+就是抽取一次（滚动值默认为0）<br />
+rolls:10<br />
+就是抽取十次<br />
+<br />
+bonus_rolls就是幸运值对滚动值的影响<br />
+最终真实滚动值实际上是向下取整（rolls+bonus_rolls*幸运值）<br />
+rolls:3 本来抽取3次<br />
+bonus_rolls:1.5之后<br />
+如果幸运值=1，就是抽取4次。如果幸运值=2，就是抽取6次。<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Loottable嵌套</strong></font></font><br />
+<ul><li>一个标准嵌套实例<br />
+</ul><div class="blockcode"><div id="code_K2G"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:b/a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_K2G'));">复制代码</em></div><br />
+嵌套中调用的loottable分别是命名空间test中文件夹b的a和a<br />
+两者随机到的权重相同<br />
+<br />
+<ul><li>意义<br />
+</ul>从逻辑上使结构更清晰<br />
+从技术上避免了冗杂的填写物品，可以将多物品进行打包（建立一个loottable）操作<br />
+<br />
+<ul><li>嵌套解析<br />
+</ul>比如loottable1嵌套了一个loottable2<br />
+我们知道了loottable选取一个项目的步骤是：<br />
+Lootable→所有Pools→选取Entry<br />
+<br />
+那么嵌套一个loottable，事实上就是将这个过程*2<br />
+<br />
+Lootable1→所有loottable1的Pools→选取loottable2→所有loottable2的Pools→选取Entry<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Loottable循环嵌套</strong></font></font><br />
+既然Loottable支持嵌套，那么如果Loottable1套着Loottable2，而Loottable2又有Loottable1会怎么样呢：<br />
+以上所述的Loottable2都是：<br /><div class="blockcode"><div id="code_T7D"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:loottable1&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_T7D'));">复制代码</em></div><br />
+<br />
+有三种情况<br />
+<ul><li>项目无限循环<br />
+</ul>如果Loottable2作为项目，物品在另一个池中<br />
+Loottable1:<br /><div class="blockcode"><div id="code_nFf"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:loottable2&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:wool&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_nFf'));">复制代码</em></div><br />
+那么Loottable1无限调用，直到溢出：（实体掉落未尝试，也许会崩，也许什么事也没发生）<br />
+
+<ignore_js_op>
+
+<img id="aimg_972936" aid="972936" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/193815u3wewac99d9v9zd0.png" file="https://attachment.mcbbs.net/forum/201608/11/193815u3wewac99d9v9zd0.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="528" id="aimg_972936" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972936_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>QQ图片20160810112901.png</strong> <em class="xg1">(9.62 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTM2fGI3ZTNkMjRkfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:38 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<ul><li>普通调用<br />
+</ul>如果项目和调用Loottable在同一个池中<br />
+Loottable1:<br /><div class="blockcode"><div id="code_s1o"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:loottable2&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:wool&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_s1o'));">复制代码</em></div><br />
+那么在嵌套调用过程中，如果抽中了物品将会停止无限循环<br />
+也就是最后只有一个物品<br />
+
+<ignore_js_op>
+
+<img id="aimg_972937" aid="972937" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/193816o73o7ud77re7nojj.png" file="https://attachment.mcbbs.net/forum/201608/11/193816o73o7ud77re7nojj.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="340" id="aimg_972937" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972937_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>QQ图片20160810113723.png</strong> <em class="xg1">(4.34 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTM3fDNkYmY5ZDdjfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:38 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<ul><li>容器<br />
+</ul>Loottable1:<br /><div class="blockcode"><div id="code_JRv"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:chest&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{LootTable:test:loottable2}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_JRv'));">复制代码</em></div><br />
+那么容器会不断调用Loottable1,也就是无限箱子<br />
+
+<ignore_js_op>
+
+<img id="aimg_972938" aid="972938" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/193816wwwaahg01yqslw8i.png" file="https://attachment.mcbbs.net/forum/201608/11/193816wwwaahg01yqslw8i.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="505" id="aimg_972938" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972938_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>QQ图片20160810113819.png</strong> <em class="xg1">(4.96 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTM4fGVlOTFkNDE0fDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:38 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_972939" aid="972939" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/193817p2vy1zo8rybc3o6z.png" file="https://attachment.mcbbs.net/forum/201608/11/193817p2vy1zo8rybc3o6z.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="338" id="aimg_972939" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972939_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>QQ图片20160810113821.png</strong> <em class="xg1">(2.99 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTM5fDFkOTFjODk2fDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:38 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Loottable与多个池与溢出</strong></font></font><br />
+<ul><li>多个池<br />
+</ul>
+<ignore_js_op>
+
+<img id="aimg_972935" aid="972935" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/193735hhkgxo6oe9ib9f70.png" file="https://attachment.mcbbs.net/forum/201608/11/193735hhkgxo6oe9ib9f70.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="528" id="aimg_972935" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972935_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>34.png</strong> <em class="xg1">(3.99 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTM1fDdlNTYzNTgwfDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:37 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+Pool在LootTable中是并列的，每个Pool必然会选中（若无条件）<br />
+Entry在Pool中是独立的，只能选中一个<br />
+多个池支持让Loottable更丰富<br />
+<br />
+<ul><li>Loottable嵌套与多个池<br />
+</ul>嵌套进入多个池，能使一个Loottable调用多个Loottable<br /><div class="blockcode"><div id="code_yhx"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:b/a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:loottable3&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:loottable3&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_yhx'));">复制代码</em></div><br />
+这样该loottable就调用了loottable2和3.<br />
+<br />
+而如果Loottable1中有n个随机池，每个随机池中都有必然选中的Entry，且该项目是Loottable2，Loottable2中，那么就有了一个溢出的问题。<br />
+<br />
+<ul><li>溢出（实体掉落无此问题）<br />
+</ul>在前面的问题中，loottable1中n个随机池都调用loottable，如果lootable2中项目是m个，<br />
+那么总物品数量≥mn个，如果总物品超过容器容量上限，那么保留的物品有什么原则？<br />
+溢出后的物品只取Lootable中从上至下的顺序所选取的项目的物品.<br />
+<br />
+因为每次选择项目时给其中每个物品都分配一个随机的slot，<br />
+从上至下顺序是读取json的顺序，那么每次读取一个项目，都有一个上面的分配过程，直到分配物品超过随机slot.<br />
+<br />
+在写loottable中一定要留意父子级的调用造成的溢出给随机物品带来的影响，尤其是在一个loottable中出现总物品较多的情况下.<br /></font><font size="2"><hr class="l" /></font><font face="微软雅黑"><font size="4"><strong>Loottable防溢出和分配物品</strong></font></font><br />
+因为有溢出物品规则的存在，如果随机的物品总数大于了容器单元总数，所的物品仍旧不是随机的.<br />
+<br />
+为了防止溢出，我们可以对Pools中随机池的总数，以及Pool中的Rolls进行控制，<br />
+首先我们需要检测是否存在溢出的可能：<br />
+Rolls总数=该Loottable或所有调用的底Loottable（最低级）的Rolls（Rolls_max）总数<br />
+如果一个Loottable的Rolls总数＞容器单元总数，那么总有溢出的可能.<br />
+<br />
+对于溢出，有两种方法分配物品：<br />
+1.将多个并列Pool中的Entry合并<br />
+2.减少Rolls次数<br />
+<br /><br />
+<hr class="l" /><br />
+<font size="2"><font face="微软雅黑"><font size="4"><strong>Loottable作为项目中物品的概率</strong></font></font><br />
+计算概率是平衡物品一个十分重要的过程，再看本片之前首先要看前面的Entry3<br />
+<br />
+事实上作为嵌套，随机概率的算法也是嵌套的.<br />
+<font size="4"><strong>公式：对于n个嵌套loottable</strong></font><br />
+<br /><div class="quote"><blockquote><strong><font size="5">&nbsp; &nbsp; </font></strong><font color="#000000">一个项目的真实权重[n]=（该项目权重+该权重增值*幸运值）</font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;random_chance[n] = <font color="#800080">随机点数【随机点数】</font>或者<font color="#008080">（基础点数+抢夺附魔等级*等级乘数）【抢夺判定】</font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;<font color="#ff0000">一个loottable的概率=（一个项目真实权重[n]/项目列表真实权重总和[n]）* random_chance[n] * (1-set_count中选中0的概率[n])</font><br />
+<font color="#008000">*注解：set_count选中0的概率靠这样计算：例如min:0,max:10，那么一共可能有11种数量结果，那么选中0的概率就是1/11.</font></blockquote></div><br />
+总的来说，概率的算法就是（loottable1中抽到loottable2的概率）*（loottable2中抽到loottable3的概率）*……*（loottablen-1中抽到loottablen的概率）<br /><hr class="l" /></font><font face="微软雅黑"><font size="4"><strong>Loottable概率调整及平衡物品</strong></font></font><br />
+如果一个物品破坏了地图的平衡性，我们可以通过调整概率来平衡物品.<br />
+比如以下三个Loottable嵌套关系：<br /><div class="blockcode"><div id="code_MrL"><ol><li>Loottable0<br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:loottable1&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;empty&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}<br /><li>Loottable1<br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;test:loottable2&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;empty&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}<br /><li>Loottable2<br /><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:diamond&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;empty&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_MrL'));">复制代码</em></div><br />
+这里随机到钻石的概率是0.125，如果我想时概率降低到0.1，先要计算出所有非底级Loottable中随机到该Loottable的概率：<br />
+0.25<br />
+接着通过理想概率/这个值的到该物品理想权重比例：<br />
+0.1/0.25=0.4<br />
+接着计算出项目列表中其他项目权重总和：<br />
+empty总和为1<br />
+接着用其他项目权重总和/(1-理想权重比例)*理想权重比例得出最后权重：<br />
+1/(1-0.4)*0.4≈0.67<br /><hr class="l" /><br />
+<font size="2"><font face="微软雅黑"><font size="4"><strong>Loottable文件夹管理</strong></font></font><br />
+当你建立一个复杂的loottable体系时，嵌套是不可或缺的.<br />
+<br />
+而Loottable文件夹的管理，关系到了往复调用中是否能够逻辑清晰：<br />
+
+<ignore_js_op>
+
+<img id="aimg_972940" aid="972940" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/11/194001bc22vv1k23k2q2kg.png" file="https://attachment.mcbbs.net/forum/201608/11/194001bc22vv1k23k2q2kg.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="431" id="aimg_972940" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_972940_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>35.png</strong> <em class="xg1">(47.11 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTcyOTQwfDRjZmQ3NWNifDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-11 19:40 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+地心之路中使用的物品loottable，由于loottable只能支持二级文件，路径不能无限子文件夹，因此你可以把文件夹分细一点.（地心之路loottable嵌套级别为3）<font color="Red">（目前支持无限子文件夹了）</font><br />
+例如在此处我将每一种类物品都归纳进入一个命名空间，这样再调用的时候结构分明.<br />
+（每一个子loottable的内容都只有一个权重为1的对应物品）<br />
+<br />
+做完了这个步骤，再可以写更高一级的loottable<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>Loottable父子调用与完整Loottable包的制作</strong></font></font><br />
+拿地心之路作为例子；<br />
+<strong>子：</strong><br />
+一把剑<br /><div class="blockcode"><div id="code_I4W"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;min&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:iron_sword&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;set_damage&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;damage&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 0.02,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 0.02<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{Unbreakable:1,AttributeModifiers:[{Operation:0,UUIDLeast:1,UUIDMost:1,Amount:5.5,AttributeName:generic.attackDamage,Name:Attack},{Operation:0,UUIDLeast:1,UUIDMost:1,Amount:0,AttributeName:generic.attackSpeed,Name:Speed}],ench:[{id:16,lvl:1}],HideFlags:63,display:{Name:\u00a77\u00a7l\u94c1\u5251,Lore:[\u00a77\u00a7n\u524d\u4eba\u7684\u9057\u7269]}}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;set_count&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;count&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;min&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_I4W'));">复制代码</em></div><br />
+必得物品.<br />
+<br />
+<strong>父：</strong><br /><div class="blockcode"><div id="code_KrE"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;min&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;supply_food:1&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;min&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;weapon_dagger:a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 6<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;weapon_sword:a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 3<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;weapon_gun:1&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;min&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;supply_medicine:1&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_KrE'));">复制代码</em></div><br />
+随机中随机到的（weapon_sword:a）几率只有3/10<br />
+<br />
+顶级：<br /><div class="blockcode"><div id="code_dTL"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;min&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;max&quot;: 1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;supply:a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;weapon:a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 4<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;loot_table&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;ragbag:a&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 2<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_dTL'));">复制代码</em></div><br />
+概率（weapon:a）是4/11<br />
+<br />
+那么随机到该剑的概率只有：3/10*4/11=6/55<br />
+<br />
+<ul><li>完整包的制作<br />
+</ul>结合前面文件夹管理，嵌套n级（顶级）→嵌套n-1级→……→嵌套子级（底级）<br />
+<br />
+如果需要平衡物品，结合前面的概率计算出所有物品的实际概率，接着改变顶级中的概率（如果改变底级的概率将会造成对于其他调用中波动很大）<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>关于Seed</strong></font></font><br />
+如果你不想每一次更新Loottable都是随机的物品，那么你可以用一个Seed来规定调用loottable时的随机种子，让Loottable按相同种子随机.<br />
+也就是说每次随机的物品都是确定且相同的.<br />
+<br />
+例如：<br /><div class="blockcode"><div id="code_Am2"><ol><li>setblock ~ ~1 ~ minecraft:chest 0 0 {LootTable:&quot;minecraft:chests/jungle_temple&quot;,LootTableSeed:100L}</ol></div><em onclick="copycode($('code_Am2'));">复制代码</em></div><br />
+那么每次从jungle_temple中抽取物品不是随机的，而是依靠随机种子100L的物品.<br />
+<br />
+下面分析以下两个标签：<br /><div class="quote"><blockquote>LootTableSeed：长整型，是对于容器来说Loottable的随机种子.<br />
+DeathLootTableSeed：长整型，是对于实体来说Loottable的随机种子.</blockquote></div><br />
+如果后面填0L，那么相当于没有种子，依旧是完全随机.<br />
+<br />
+Seed的用途就是让随机产生的物品成为一个种子产生的特定物品，而不是每次更新了容器、实体都完全随机.<br /><br />
+<hr class="l" /><font face="微软雅黑"><font size="4"><strong>关于幸运值</strong></font></font><br />
+幸运值由下面几个项目来呈现：<br /><div class="quote"><blockquote>luck药水效果、unluck药水效果、物品属性generic.luck、海之眷属附魔.</blockquote></div><br />
+最终幸运值公式：<br />
+Operation:2（属性的效果为提升百分比）：(luck药水效果-unluck药水效果)*generic.luck+海之眷属附魔；<br />
+Operation:0（属性的效果为提升值）：luck药水效果-unluck药水效果+generic.luck+海之眷属附魔；<br />
+<br />
+<font color="#2e8b57">*注：海之眷属附魔只适用于钓鱼机制.</font></font><br /><br />
+<hr class="l" /><font face="微软雅黑"><font size="4"><strong>结合指令1 实体抽奖机</strong></font></font><br />
+顾名思义，通过Loottable的实体随机掉落来制作抽奖机.<br />
+尽管要调用外置资源，但是待抽取的物品十分丰富，只需要拟写一份Loottable即可.<br />
+<br />
+Roll:<br /><div class="blockcode"><div id="code_vp3"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;diamond&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;gold_ingot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 10<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;iron_ingot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 25<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;coal&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 60<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_vp3'));">复制代码</em></div><br />
+接着<br /><div class="blockcode"><div id="code_N0x"><ol><li>/summon Zombie ~ ~ ~ {DeathLootTable:&quot;Roll:Roll&quot;,CustomName:&quot;Roll&quot;,Silent:1b}</ol></div><em onclick="copycode($('code_N0x'));">复制代码</em></div><br />
+按下一次按钮就<br /><div class="blockcode"><div id="code_OTL"><ol><li>/kill @e[type=Zombie,name=Roll]</ol></div><em onclick="copycode($('code_OTL'));">复制代码</em></div><br />
+即可<br />
+
+<ignore_js_op>
+
+<img id="aimg_979088" aid="979088" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/20/094313nvmbg9zkzfdnjiuz.png" file="https://attachment.mcbbs.net/forum/201608/20/094313nvmbg9zkzfdnjiuz.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_979088" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_979088_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_10.14.06.png</strong> <em class="xg1">(271.42 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTc5MDg4fDhiZWRlZjBifDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-20 09:43 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_979085" aid="979085" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/20/094545n5e82m52m423z9w3.png" file="https://attachment.mcbbs.net/forum/201608/20/094545n5e82m52m423z9w3.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_979085" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_979085_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_10.14.53.png</strong> <em class="xg1">(283.74 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTc5MDg1fGYwNDVjMDM1fDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-20 09:45 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+注意不要关闭实体掉落<br /><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>结合指令2 随机器</strong></font></font><br />
+刷怪笼拟写很麻烦，@r随机器需要进行实体列阵穷举，由于Loottable也是随机性，可以结合指令制作一个随机器<br />
+Roll:<br /><div class="blockcode"><div id="code_EL4"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;diamond&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 5<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;gold_ingot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 10<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;iron_ingot&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 25<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;coal&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 60<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_EL4'));">复制代码</em></div><br />
+这个随机器就有四个穷举对象，物品：钻石，金锭，铁锭，煤.<br />
+概率分别是5% 10% 25% 60%<br />
+<br />
+利用实体抽奖机的方法，<br /><div class="blockcode"><div id="code_rvX"><ol><li>/summon Zombie ~ ~ ~ {DeathLootTable:&quot;Roll:Roll&quot;,CustomName:&quot;Roll&quot;,Silent:1b}</ol></div><em onclick="copycode($('code_rvX'));">复制代码</em></div><br />
+随机一次就<br /><div class="blockcode"><div id="code_oIP"><ol><li>/kill @e[type=Zombie,name=Roll]</ol></div><em onclick="copycode($('code_oIP'));">复制代码</em></div><br />
+接着检测掉落物<br />
+<br />
+然后产生输出<br />
+
+<ignore_js_op>
+
+<img id="aimg_979086" aid="979086" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201608/20/094643qa05r5c0aulxfxhh.png" file="https://attachment.mcbbs.net/forum/201608/20/094643qa05r5c0aulxfxhh.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_979086" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_979086_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>2016-08-20_10.19.40.png</strong> <em class="xg1">(243.23 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTc5MDg2fDZlZWI2MjI2fDE2MTM3MjA4OTd8MjQxOTQ4Nnw2MTkzMDQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-8-20 09:46 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br /><div class="blockcode"><div id="code_GOT"><ol><li>/testfor @e[type=Item] {Item:{id:&quot;minecraft:coal&quot;}}</ol></div><em onclick="copycode($('code_GOT'));">复制代码</em></div><div class="blockcode"><div id="code_hlc"><ol><li>cond:/execute @p say 1</ol></div><em onclick="copycode($('code_hlc'));">复制代码</em></div><hr class="l" /><br />
+<font face="微软雅黑"><font size="4"><strong>结合指令3 判定条件死亡</strong></font></font><br />
+因为有DeathLootTable，在实体死亡后可以调用Loottable产生掉落物，结合Conditions我们可以进行复杂的死亡条件检测.<br /><div class="blockcode"><div id="code_Obc"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;pools&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;rolls&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;entries&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;type&quot;: &quot;item&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;name&quot;: &quot;minecraft:potato&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;weight&quot;: 1,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;functions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:set_nbt&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;tag&quot;: &quot;{display:{Name:a,Lore:[b]}}&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;function&quot;: &quot;minecraft:furnace_smelt&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;],<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:killed_by_player&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;inverse&quot;: false<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:entity_properties&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;entity&quot;: &quot;this&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;properties&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;minecraft:on_fire&quot;: true<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; ]<br /><li>}</ol></div><em onclick="copycode($('code_Obc'));">复制代码</em></div><br />
+这样，只需要检测一个名为a，附注为b的烤土豆就能知道这个实体在着火的情况下被玩家杀死：<br /><div class="blockcode"><div id="code_h8e"><ol><li>/scoreboard players tag @e[type=Item] add tag {Item:{id:&quot;baked_potato&quot;,tag:{display:{Name:a,Lore:[b]}}}}<br /><li>cond:操作<br /><li>/kill @e[tag=tag]</ol></div><em onclick="copycode($('code_h8e'));">复制代码</em></div><br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<script type="text/javascript" reload="1">
+aimgcount[10746775] = ['972909','972910','972911','972912','972913','972914','972915','972916','972918','972919','972920','972921','972922','972924','972925','972934','972935','972936','972937','972938','972939','972940','979085','979086','979088'];
+attachimggroup(10746775);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Olurbo&nbsp; &nbsp; <b>时间: </b>2016-8-11 19:44<br />
+看脸？毕竟我脸好<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>leavessoft&nbsp; &nbsp; <b>时间: </b>2016-8-11 20:19<br />
+没看懂，被1.9新特性吓退了已经<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>NeverC&nbsp; &nbsp; <b>时间: </b>2016-8-11 20:21<br />
+这....我什么都看不懂，这个是CB的么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>无奈丶屮艸&nbsp; &nbsp; <b>时间: </b>2016-8-11 22:33<br />
+只玩1.8以下的表示一脸懵逼<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>彪悍的新手&nbsp; &nbsp; <b>时间: </b>2016-8-13 08:13<br />
+看起来不错<br />
+学习一下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-8-16 22:35<br />
+目录有一行错位了 请修理<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-8-16 22:47<br />
+<br />
+<br />
+Loottable循环嵌套这一节我没有重复出无限调用 可能是因为我在1.10 moj不让循环引用了<br />
+<br />
+<br />
+普通调用也是有的时候没有物品 而不是总有物品<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-8-16 22:52<br />
+而且 我有一个疑问<br />
+set_attributes在1.9快照时期被加入了<br />
+但您举得<br />
+<br />
+<br />
+“Loottable父子调用与完整Loottable包的制作” 中的地心之路的例子却在nbt里指定了属性 这是否说明nbt优先于这个function？还是并列的？附魔属性和setnbt又有什么关系？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2016-9-26 19:57<br />
+function1 的第一段代码挂了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fengjingMC&nbsp; &nbsp; <b>时间: </b>2016-10-2 21:51<br />
+现在1.10.2里可以很多层嵌套了，反正我试了一下八层没问题……希望lz改一下<br /><div class="blockcode"><div id="code_I37"><ol><li>{LootTable:start:one/two/three/four/five/six/seven/eight/end}</ol></div><em onclick="copycode($('code_I37'));">复制代码</em></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jimmy1234&nbsp; &nbsp; <b>时间: </b>2016-10-4 18:31<br />
+我竟然看懂了！<br />
+太不可思议了！<br />
+好像总索引的名字和这个不一样<br />
+看脸讲玄 or 看脸看玄？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>_Rainbow_&nbsp; &nbsp; <b>时间: </b>2017-7-31 18:29<br />
+原来是自己创么。。一脸黑线<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ShiGuangChong&nbsp; &nbsp; <b>时间: </b>2017-8-11 21:00<br />
+(⊙v⊙)嗯......很简单的表示<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>BlackCB.&nbsp; &nbsp; <b>时间: </b>2017-8-17 11:27<br />
+制造看脸看玄的世界？？（一脸懵逼）<br />
+<br />
+然而连计分板都不太懂的我表示看不懂。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC北辰&nbsp; &nbsp; <b>时间: </b>2017-12-7 14:05<br />
+感谢，MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Hytrophoton&nbsp; &nbsp; <b>时间: </b>2018-2-8 13:25<br />
+箱子无限嵌套是不是少了一个BlockEntityTag<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>5352&nbsp; &nbsp; <b>时间: </b>2020-2-16 23:04<br />
+你这是写的1.12的吗？1.13的呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>5352&nbsp; &nbsp; <b>时间: </b>2020-2-23 11:45<br />
+怎么加多个函数？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Skyngard&nbsp; &nbsp; <b>时间: </b>2020-2-23 14:49<br />
+脸黑啊，awa qwq<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wangduo110&nbsp; &nbsp; <b>时间: </b>2020-2-23 17:41<br />
+一脸懵逼的进来 一脸懵逼的出去
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

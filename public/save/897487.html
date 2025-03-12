@@ -1,0 +1,263 @@
+<html>
+<head>
+<title>[1.15-1.17] Generators for Minecraft —— 数据包 JSON 文件生成器！ - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04OTc0ODctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[1.15-1.17] Generators for Minecraft —— 数据包 JSON 文件生成器！ <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-5 21:19<br />
+<b>标题: </b>[1.15-1.17] Generators for Minecraft —— 数据包 JSON 文件生成器！<br /><i class="pstatus"> 本帖最后由 SPGoding 于 2021-1-25 09:08 编辑 </i><br />
+<br />
+<font style="font-size:32px"><strong>Minecraft 生成器</strong></font><br />
+<br />
+<font style="font-size:16px">1.12，进度系统取缔了原先的成就系统。</font><br />
+<br />
+<font style="font-size:16px">1.14，战利品表进行了惊天地泣鬼神的改动。你可以查看论坛内教程帖 <a href="https://www.mcbbs.net/thread-831542-1-1.html" target="_blank">【CBL|SPG】[1.15] 战利品表 —— 数据包的组成文件之一</a> 来了解有关内容。</font><br />
+<br />
+<font style="font-size:16px">1.15，断言这一概念诞生。你可以查看论坛内教程帖 <a href="https://www.mcbbs.net/thread-914817-1-1.html" target="_blank">【CBL|SPG】[1.15] 断言 —— 数据包的组成文件之一</a> 来了解有关内容。</font><br />
+<br />
+<font style="font-size:16px">1.16，自定义维度进入了人们的视野。</font><br />
+<br />
+<font style="font-size:16px">1.17，物品修饰器诞生。</font><br />
+<br />
+<font style="font-size:16px">JSON 编写起来并不是十分舒适，如果有图形化的生成界面那就好了……没错！图形化的生成界面出来了！感谢国外 dalao <a href="https://github.com/Misode" target="_blank">Misode</a> 制作的Minecraft 生成器！</font><br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_1758838" aid="1758838" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202101/25/090743mba31atj3zjry3wt.png" file="https://attachment.mcbbs.net/forum/202101/25/090743mba31atj3zjry3wt.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1758838" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1758838_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Screenshot 2021-01-24 190633.png</strong> <em class="xg1">(127.81 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTc1ODgzOHw4ZmE2OWQ0NnwxNjEzOTkyMjE4fDI0MTk0ODZ8ODk3NDg3&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2021-1-25 09:07 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+生成战利品表的界面<br />
+<br />
+<font style="font-size:32px"><strong>特性</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li>简单好用！功能强大！<li>支持数十种数据包 JSON 文件格式！<li>支持<strong>所有</strong>参数！（如果有遗漏，可以到作者的 <a href="https://github.com/misode/misode.github.io/issues" target="_blank">仓库</a> 反馈，也可以直接回复在本帖下面）<li>可以把写好的 JSON 文件通过链接分享给他人！（对中国大陆用户可能不太友好）<li>可以设置输出 JSON 的缩进样式（2 空格、4 空格、Tab 等）！<li>可以直接修改右边的 JSON，改动会反应到左侧图形化界面中！<li>网站页面支持亮色主题与暗色主题！<li>国际化！<li>&nbsp;&nbsp;- 支持简体中文！<li>&nbsp;&nbsp;- 支持繁体中文！<li>&nbsp;&nbsp;- 支持德语！<li>&nbsp;&nbsp;- 支持英语！<li>&nbsp;&nbsp;- 支持法语！<li>&nbsp;&nbsp;- 支持意大利语！<li>&nbsp;&nbsp;- 支持日语！<li>&nbsp;&nbsp;- 支持波兰语！<li>&nbsp;&nbsp;- 支持葡萄牙语！<li>&nbsp;&nbsp;- 支持俄语！<br />
+</ul></font><br />
+<font style="font-size:32px"><strong>授权</strong></font><br />
+<br />
+<font style="font-size:16px">作者 <a href="https://github.com/Misode" target="_blank">Misode</a> 采用 <a href="https://github.com/misode/misode.github.io/blob/master/LICENSE" target="_blank">MIT License</a> 授权整个 <a href="https://github.com/misode/misode.github.io" target="_blank">仓库</a>。</font><br />
+<br />
+<font style="font-size:32px"><strong>地址</strong></font><br />
+<br />
+<font style="font-size:16px">该编辑器为在线编辑器：<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fmisode.github.io%2F" target="_blank">https://misode.github.io/</a></font><br />
+<br />
+<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[15205018] = ['1758838'];
+attachimggroup(15205018);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kmkmkm123&nbsp; &nbsp; <b>时间: </b>2019-8-5 21:44<br />
+感谢楼主分享&nbsp; &nbsp;回头我试试<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1746583314@qq.c&nbsp; &nbsp; <b>时间: </b>2019-8-11 16:05<br />
+感谢分享！&nbsp; &nbsp; 回头自己一个人玩玩awa<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Tony_Hegan&nbsp; &nbsp; <b>时间: </b>2019-8-13 12:49<br />
+丰富生存，感觉懒人必备<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>底层咸鱼&nbsp; &nbsp; <b>时间: </b>2019-8-13 22:30<br />
+所以你只是做了汉化？<img src="static/image/smiley/tong/doge.png" smilieid="1448" border="0" alt="" />（跑<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-13 22:33<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15322447&amp;ptid=897487" target="_blank"><font color="#999999">897412176 发表于 2019-8-13 22:30</font></a></font><br />
+所以你只是做了汉化？（跑</blockquote></div><br />
+<img id="aimg_UA5HM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="381" src="https://s2.ax1x.com/2019/08/13/mP3fzD.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+这都是我倒的垃圾，帖子分类我也选的是转载，有什么问题喵？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QAQexe&nbsp; &nbsp; <b>时间: </b>2019-8-15 15:41<br />
+顶一下，支持<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zdwxxzdwxx&nbsp; &nbsp; <b>时间: </b>2019-8-17 14:20<br />
+<br />
+顶一下，支持<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小庄c&nbsp; &nbsp; <b>时间: </b>2019-9-13 07:16<br />
+所以说是俄国玩家做的咯，这个对于地图rpg开发有用<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>金色的柠檬&nbsp; &nbsp; <b>时间: </b>2020-1-13 20:30<br />
+<i class="pstatus"> 本帖最后由 金色的柠檬 于 2020-1-13 20:31 编辑 </i><br />
+<br />
+断言是什么<br />
+完全没看懂<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>鬼少大大_&nbsp; &nbsp; <b>时间: </b>2020-2-9 16:04<br />
+所以说这个没有软件对吧？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CollapsedNote&nbsp; &nbsp; <b>时间: </b>2020-2-9 20:14<br />
+tql,wsl!!!!!!!!!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>112988212&nbsp; &nbsp; <b>时间: </b>2020-2-20 15:18<br />
+好厉害的样子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>理智反迷你&nbsp; &nbsp; <b>时间: </b>2020-3-4 17:17<br />
+现在怎么访问github<br />
+DNS被污染了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>gamom&nbsp; &nbsp; <b>时间: </b>2020-4-2 09:48<br />
+emm...还不如用mcreator...既能做插件又能做数据包而且还是懒人的...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>YangYuS8&nbsp; &nbsp; <b>时间: </b>2020-4-2 10:06<br />
+膜拜大佬，正需要这个，感谢大佬分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>尐孑孓&nbsp; &nbsp; <b>时间: </b>2020-4-5 12:35<br />
+顶一下，支持<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>abu88&nbsp; &nbsp; <b>时间: </b>2020-4-5 13:29<br />
+不错不错感谢楼主<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>abu88&nbsp; &nbsp; <b>时间: </b>2020-4-5 13:30<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16471284&amp;ptid=897487" target="_blank"><font color="#999999">112988212 发表于 2020-2-20 15:18</font></a></font><br />
+好厉害的样子</blockquote></div><br />
+我也觉得很厉害的样子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>abu88&nbsp; &nbsp; <b>时间: </b>2020-4-5 13:50<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17374565&amp;ptid=897487" target="_blank"><font color="#999999">abu88 发表于 2020-4-5 13:29</font></a></font><br />
+不错不错感谢楼主</blockquote></div><br />
+我也觉得不错 感觉很厉害的样子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>gamom&nbsp; &nbsp; <b>时间: </b>2020-4-22 14:17<br />
+1.12.2去哪了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>自来客lucky&nbsp; &nbsp; <b>时间: </b>2020-5-12 22:55<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HEFobrin&nbsp; &nbsp; <b>时间: </b>2020-5-31 19:48<br />
+这个有怎么用啊？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HEFobrin&nbsp; &nbsp; <b>时间: </b>2020-5-31 19:48<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17322395&amp;ptid=897487" target="_blank"><font color="#999999">gamom 发表于 2020-4-2 09:48</font></a></font><br />
+emm...还不如用mcreator...既能做插件又能做数据包而且还是懒人的...</blockquote></div><br />
+是啊，诶！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HEFobrin&nbsp; &nbsp; <b>时间: </b>2020-5-31 19:49<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16471284&amp;ptid=897487" target="_blank"><font color="#999999">112988212 发表于 2020-2-20 15:18</font></a></font><br />
+好厉害的样子</blockquote></div><br />
+是很厉害，但是我不知道怎么用啊！呜呜呜呜呜。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HEFobrin&nbsp; &nbsp; <b>时间: </b>2020-5-31 19:50<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15205434&amp;ptid=897487" target="_blank"><font color="#999999">kmkmkm123 发表于 2019-8-5 21:44</font></a></font><br />
+感谢楼主分享&nbsp; &nbsp;回头我试试</blockquote></div><br />
+我也要感谢分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HEFobrin&nbsp; &nbsp; <b>时间: </b>2020-5-31 19:51<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15371795&amp;ptid=897487" target="_blank"><font color="#999999">zdwxxzdwxx 发表于 2019-8-17 14:20</font></a></font><br />
+顶一下，支持</blockquote></div><br />
+支持！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>None404&nbsp; &nbsp; <b>时间: </b>2020-6-6 17:55<br />
+请问如果我要做一个类似于连锁挖矿的数据包 该怎么办？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>liangcha2009&nbsp; &nbsp; <b>时间: </b>2020-6-14 09:39<br />
+感觉不如MCreator<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>liangcha2009&nbsp; &nbsp; <b>时间: </b>2020-6-29 14:08<br />
+好高级的鸭子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>翼天_筱羽の賬號&nbsp; &nbsp; <b>时间: </b>2020-7-15 19:27<br />
+超级好用！谢谢大大<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>tonylo&nbsp; &nbsp; <b>时间: </b>2020-7-24 15:46<br />
+下拉单无法显示......
+<ignore_js_op>
+
+<img id="aimg_1654142" aid="1654142" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/202007/24/154401i8iskucksb6b3uuu.jpg" file="https://attachment.mcbbs.net/forum/202007/24/154401i8iskucksb6b3uuu.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="700" id="aimg_1654142" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1654142_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>file_1595576640000.jpg</strong> <em class="xg1">(92.95 KB, 下载次数: 3)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTY1NDE0MnxhODYyYmVjZnwxNjEzOTkyMjE4fDI0MTk0ODZ8ODk3NDg3&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2020-7-24 15:44 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[19106256] = ['1654142'];
+attachimggroup(19106256);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>高健鑫&nbsp; &nbsp; <b>时间: </b>2020-7-27 19:54<br />
+1.15的进度能在1.14上用吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>阡喏&nbsp; &nbsp; <b>时间: </b>2020-7-28 22:29<br />
+新版的那个好...<br />
+原版那个用不了了，我吐了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mc七别&nbsp; &nbsp; <b>时间: </b>2020-8-5 10:07<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>慢慢从零开始&nbsp; &nbsp; <b>时间: </b>2020-8-17 08:59<br />
+感谢楼主分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1347473112&nbsp; &nbsp; <b>时间: </b>2020-8-24 15:16<br />
+感谢楼主分享，非常优秀的作品<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>可怜的孤魂野鬼&nbsp; &nbsp; <b>时间: </b>2020-8-31 20:36<br />
+网页进不去怎么回事啊<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>桃子酱ME&nbsp; &nbsp; <b>时间: </b>2020-9-1 00:03<br />
+感谢楼主，我需要这个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>AOOAcat&nbsp; &nbsp; <b>时间: </b>2020-10-9 15:17<br />
+感觉拿这个格式也可以用来写指令，以后会不会出函数编辑<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>AOOAcat&nbsp; &nbsp; <b>时间: </b>2020-10-10 21:28<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=19768534&amp;ptid=897487" target="_blank"><font color="#999999">可怜的孤魂野鬼 发表于 2020-8-31 20:36</font></a></font><br />
+网页进不去怎么回事啊</blockquote></div><br />
+手机好像可以进<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>WS_XY&nbsp; &nbsp; <b>时间: </b>2020-11-10 20:24<br />
+C:\Users\HHDN\Desktop\233.png<br />
+访问不了白屏啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>haierfhj&nbsp; &nbsp; <b>时间: </b>2020-11-11 20:10<br />
+多谢大佬分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QHZ&nbsp; &nbsp; <b>时间: </b>2020-11-23 18:38<br />
+大5可垃圾啊考虑时间空间<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1404704518&nbsp; &nbsp; <b>时间: </b>2020-11-25 09:30<br />
+感谢楼主大大的分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lDeLLLLLl&nbsp; &nbsp; <b>时间: </b>2020-11-25 10:13<br />
+大佬牛逼！感谢分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>123645525&nbsp; &nbsp; <b>时间: </b>2020-12-27 01:48<br />
+<i class="pstatus"> 本帖最后由 123645525 于 2020-12-27 01:51 编辑 </i><br />
+<br />
+感谢分享！配置数据包更方便了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>海绵c2&nbsp; &nbsp; <b>时间: </b>2020-12-27 23:07<br />
+谢谢楼主分享，给我们这些懒人地图制作者有很大帮助<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Amandaii&nbsp; &nbsp; <b>时间: </b>2020-12-28 02:01<br />
+ 丰富生存，感觉懒人必备<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小燕子解说&nbsp; &nbsp; <b>时间: </b>2020-12-28 09:11<br />
+要是我早知道有这个为玩意就不自己敲代码了<br />
+我花了一个暑假的时间才搞出一个可玩性较高的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wzw226&nbsp; &nbsp; <b>时间: </b>2021-1-23 17:42<br />
+顶一下，支持<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hjw123321&nbsp; &nbsp; <b>时间: </b>2021-1-23 19:10<br />
+膜拜大佬，正需要这个，感谢大佬分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jackdwh&nbsp; &nbsp; <b>时间: </b>2021-2-4 16:44<br />
+然而有些功能我还是不会<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>你的然然&nbsp; &nbsp; <b>时间: </b>2021-2-7 13:39<br />
+我进去点任何东西都没用呀<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>liyuntianshuai&nbsp; &nbsp; <b>时间: </b>2021-2-9 15:20<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>欧尼酱小站&nbsp; &nbsp; <b>时间: </b>2021-2-9 17:03<br />
+<img src="static/image/smiley/mc_mob_food_plants/notch_square.gif" smilieid="840" border="0" alt="" />谢谢楼主分享，拿走了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>999ggg&nbsp; &nbsp; <b>时间: </b><span title="2021-2-17 12:27">5&nbsp;天前</span><br />
+多谢大佬<br />
+<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

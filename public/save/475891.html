@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §6 : stats与时钟 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzU4OTEtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : stats与时钟 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-26 20:20<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : stats与时钟<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-27 10:12 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>获取执行值</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 stats与条件语句</font></font></div><div align="left">本章将引进新的概念：执行值。</div><br />
+<div align="left">执行值便是一个指令除了输出外执行的结果，通常返回<strong>执行的次数</strong>，<strong>输出值</strong>或者<strong>条件真假</strong>。</div><div align="left">获取执行值就能够随机应变，根据判断来<strong>调整下一步输出</strong>；执行值也可以<strong>用作debug</strong>；执行值也可以<strong>变相获取游戏参数</strong>。</div><br />
+<div align="left">在指令中，<strong>返回值的指令是stats</strong>。使用这条指令可以<strong>对指令影响的实体、方块、物品进行值的返回</strong>，</div><div align="left">结合条件语句<strong>进行下一步输出</strong>；或者<strong>产生对应参数</strong>。</div><br />
+<br />
+获取执行值将会涉及到<br />
+<br />
+<strong>stats用法</strong><br />
+<ul><li>所有执行类型<li>相对执行概念<li>计分板调用<li>实体储存<br />
+</ul><strong>stats与条件语句</strong><br />
+<ul><li>一般执行<li>!非<li>且&amp;&amp;<li>或||<li>结合表达式<br />
+</ul><strong>stats与时钟</strong><br />
+<br />
+<font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-475520-1-1.html" target="_blank">上一篇</a>（stats与条件语句）--<a href="http://www.mcbbs.net/thread-476106-1-1.html" target="_blank">下一篇</a>（执行值与条件语句）</font></div><div align="right"><div align="left"><font size="2"></font></div><div align="left"><strong><font face="碳化硅大黑体"><font size="5">§6.2 stats与时钟</font></font></strong><br />
+stats关联高频，也应当<strong>注意时钟</strong>。<br />
+<br />
+<br />
+stats+条件语句关联高频<strong>本身就是时钟</strong>：<br />
+<font color="#800000">比如当玩家背包拥有石头后，输出1。</font><br />
+<br />
+此时需要关联高频，使用以下指令：<br />
+<img id="aimg_za8Cj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/ad9d2cb98d2857cd.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_u45"><ol><li>/scoreboard players set @e[name=f] a 0<br /><li>/stats entity @e[name=f] set AffectedItems @e[name=f] a <br /><li>/execute @e[name=f] ~ ~ ~ clear @p minecraft:stone</ol></div><em onclick="copycode($('code_u45'));">复制代码</em></div><br />
+<font color="#008000">*获取执行值</font><br /><div class="blockcode"><div id="code_v30"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_v30'));">复制代码</em></div><br />
+<font color="#008000">*条件输出</font><br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_X11ec" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c0b60015bcaf7094.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<font size="4"><strong><img id="aimg_mip2I" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/7f70243d2c17c84f.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+一旦玩家拥有石头，立刻清除，输出1。<br />
+<br />
+<strong>分析：</strong><br />
+构成时钟的主要原因是每次都需要<strong>设定初始值</strong>，而后面又使用条件语句，所以相互冲突关联影响结果，所以<strong>构成时钟</strong>。<br />
+此处AffectedItems表示影响物品栏物品，这是一个很好的验证。<br />
+<br />
+除了stats本身构成时钟，还可<strong>继续增加时钟</strong>，构成<strong>双时钟</strong>。<br />
+使用以下指令，让时钟具有!非效果：<br />
+<br />
+<img id="aimg_D644U" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/f251344aca2d1668.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+在最后去掉/execute @e[name=f,score_a_min=1] ~ ~ ~ say 1，<br />
+<strong>依次增加三条指令：</strong><br /><div class="blockcode"><div id="code_Fzg"><ol><li>/scoreboard players set @e[name=f,score_a_min=1] a -1</ol></div><em onclick="copycode($('code_Fzg'));">复制代码</em></div><br />
+<font color="#008000">*时钟重新设定值产生!非</font><br /><div class="blockcode"><div id="code_ENi"><ol><li>/execute @e[name=f,score_a_min=0] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_ENi'));">复制代码</em></div><br />
+<font color="#008000">*默认值输出</font><br /><div class="blockcode"><div id="code_rKD"><ol><li>/execute @e[name=f,score_a=-1] ~ ~ ~ say 2</ol></div><em onclick="copycode($('code_rKD'));">复制代码</em></div><br />
+<font color="#008000">*重新产生的值输出</font><br />
+<br />
+<font size="3"><strong>效果：</strong></font><br />
+<font size="3"><strong><img id="aimg_g7rY3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/1c79a751aa688ee5.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+默认输出<br />
+<img id="aimg_Q4uOj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/f251344aca2d1668.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+检测到石头后<br />
+<br />
+利用了时钟中默认值的方式实现!非，证明了<strong>存在双时钟</strong>。<br />
+<br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">将任意一个stats模块关联高频；</div><li><div align="left">使用SuccessCount制作一个关联时钟的例子。</div><br />
+</ul></div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dhji&nbsp; &nbsp; <b>时间: </b>2015-7-26 20:21<br />
+教程更新了<br />
+好棒<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Sad_elevenKH&nbsp; &nbsp; <b>时间: </b>2015-7-26 20:21<br />
+终于更新了，沙发是我的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>红云redcloudy&nbsp; &nbsp; <b>时间: </b>2015-7-26 20:43<br />
+贰逼大大加油！<img src="static/image/smiley/mc_mob_food_plants/golden_apple.gif" smilieid="836" border="0" alt="" /><img src="static/image/smiley/mc_mob_food_plants/golden_apple.gif" smilieid="836" border="0" alt="" /><img src="static/image/smiley/mc_mob_food_plants/cake.gif" smilieid="825" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>深蓝の回忆&nbsp; &nbsp; <b>时间: </b>2015-7-26 20:47<br />
+顶起，加油加油<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mr.Right.&nbsp; &nbsp; <b>时间: </b>2015-7-26 20:51<br />
+大大好，平时只知道普通的指令不过我比较喜欢红石……<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>丢失的钥匙&nbsp; &nbsp; <b>时间: </b>2015-8-6 11:02<br />
+MCBBS有你，世界更精彩!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 11:08<br />
+顶下<br />
+<br />
+能不能在下次更新时加上前置的安装指令（/scoreboard objective add），或说明有哪些变量将要使用……<br />
+只是个建议……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>alfa5148&nbsp; &nbsp; <b>时间: </b>2016-8-18 19:15<br />
+厉害，mc没有不可能，今天又学到了。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>man871955&nbsp; &nbsp; <b>时间: </b>2016-8-19 08:18<br />
+感觉好高深{:10_522:}
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

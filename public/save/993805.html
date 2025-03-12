@@ -1,0 +1,542 @@
+<html>
+<head>
+<title>【教程】[1.15] 常见的数据操作方法：入门教程 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05OTM4MDUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【教程】[1.15] 常见的数据操作方法：入门教程 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-3-22 20:04<br />
+<b>标题: </b>【教程】[1.15] 常见的数据操作方法：入门教程<br /><i class="pstatus"> 本帖最后由 (=°ω°)丿 于 2020-8-9 15:41 编辑 </i><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:32px"><strong>[1.15] 常见的数据操作方法：入门教程</strong></font><br />
+<br />
+<font style="font-size:24px"><strong>前言</strong></font><br />
+<br />
+<font style="font-size:16px">本文基于 Minecraft Java 1.15.2 版本，将主要讲述常见的数据操作方法。</font><br />
+<br />
+<font style="font-size:16px">本文的部分内容引用自 Minecraft Wiki，感谢 chyx、Spgoding 两位大佬以及 Spgoding 的 Datapack Helper Plus 和 土球球 的 MCBBS Markdown To BBCode Converter 在本文撰写的过程中提供的帮助。</font><br />
+<br />
+<font style="font-size:16px">阅读本文需要一定的命令基础，如无特殊说明，命令皆在玩家的聊天栏内执行，如在阅读过程中发现本文存在错误，请指出。</font><br />
+<br />
+<font style="font-size:16px">本文最后一次较大的更新在 2020 年 8 月 9 日。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>第一节：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">键值对</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">键名</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">键值</font></font></strong></font><br />
+<br />
+<font style="font-size:16px">data 命令允许执行者获取、合并、修改或移除方块、实体或 storage 的 NBT 数据，在学习 data 命令之前我们要先了解一些与 NBT 数据有关的知识。</font><br />
+<br />
+<font style="font-size:16px">例如我们要召唤一只血量为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">15.0f</font></font>、自定义名称为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">'&quot;233&quot;'</font></font>、朝向为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[45.0f,90.0f]</font></font> 的僵尸。</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">summon zombie ~ ~ ~ {Health:15.0f,CustomName:'&quot;233&quot;',Rotation:[45.0f,90.0f]}</font></font><br />
+</ul></font><br />
+<font style="font-size:16px">在命令中我们可以看到，僵尸的所有数据都被一对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 包裹了起来，我们将僵尸的所有数据包括最外面的那一层 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 叫做 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">数据标签</font></font>。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>在这对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 中放了 3 个 元素（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 里的每个元素都是一个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">键值对</font></font>）：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Health:15.0f</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">CustomName:'&quot;233&quot;'</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation:[45.0f,90.0f]</font></font>。<li>这 3 个键值对之间被我们用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">,</font></font> 隔了开来。<li>一个键值对又被 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">:</font></font> 分成了两个部分，左边的部分叫 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">键名</font></font>，右边的部分叫 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">键值</font></font>，例如：<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>键值对</strong></td><td><strong>键名</strong></td><td><strong>键值</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Health:15.0f</font></font></td><td>Health</td><td>15.0f</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">CustomName:'&quot;233&quot;'</font></font></td><td>CustomName</td><td>&quot;233&quot;</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation:[45.0f,90.0f]</font></font></td><td>Rotation</td><td>[45.0f,90.0f]</td></tr></table></div><br />
+</ul></font><br />
+<font style="font-size:16px">而键值又被分为了很多类型，例如：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Health:15.0f</font></font> 中的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">15.0f</font></font> 是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font>（单精度浮点型）。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">CustomName:'&quot;233&quot;'</font></font> 中的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">'&quot;233&quot;'</font></font> 是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">string</font></font>（字符串）。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation:[45.0f,90.0f]</font></font> 中的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[45.0f,90.0f]</font></font> 是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">list</font></font>（列表）。<font style="font-size:16px"><br />
+<ul><li>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[45.0f,90.0f]</font></font> 中的 2 个元素（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[]</font></font> 中的每个元素又是一个新的键值）：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">45.0f</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">90.0f</font></font> 是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">float</font></font>（单精度浮点型）。<br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">具体见下表：</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>键值的数据类型</strong></td><td><strong>说明</strong></td><td><strong>键值对举例</strong></td></tr><tr><td>字节（byte）</td><td>范围在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[-128, 127]</font></font> 内的整数。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Count:12b</font></font></td></tr><tr><td>短整型（short）</td><td>范围在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[-3 2768, 3 2767]</font></font> 内的整数。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">lvl:3s</font></font></td></tr><tr><td>整型（int）</td><td>范围在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[-21 4748 3648, 21 4748 3647]</font></font> 内的整数。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">HideFlags:63</font></font></td></tr><tr><td>长整型（long）</td><td>范围在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[-2^63, 2^63-1]</font></font> 内的整数。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">UUIDLeast:233l</font></font></td></tr><tr><td>单精度浮点型（float）</td><td>范围在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[-3.4×10^38, 3.4×10^38]</font></font> 内的有理数。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Health:15.0f</font></font></td></tr><tr><td>双精度浮点型（double）</td><td>范围在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[-1.7×10^308, 1.7×10^308]</font></font> 内的有理数。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Pos:[1.2d,3.4d,5.6d]</font></font> 中的元素</td></tr><tr><td>字符串（string）</td><td>一串字符，如果内容包含不在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">a-z</font></font> <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">A-Z</font></font> <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">0-9</font></font> <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">_</font></font> <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.</font></font> 内的字符则必须要在整个字符串前后加上一对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;&quot;</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">''</font></font>。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">id:&quot;minecraft:stone&quot;</font></font></td></tr><tr><td>列表（list）</td><td>值的序列，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">,</font></font> 分隔并用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[]</font></font> 包含。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation:[45.0f,90.0f]</font></font></td></tr><tr><td>复合标签（compound）</td><td>键值对的序列，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">,</font></font> 分隔并用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 包含。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">display:{Name:'&quot;foo&quot;',Color:233}</font></font></td></tr><tr><td>字节数组（byte-array）</td><td>字节的序列，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">,</font></font> 分隔并用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[]</font></font> 包含，首个元素前方需要加入 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">B;</font></font>。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">ByteArray:[B;1B,2B,3B]</font></font></td></tr><tr><td>整型数组（int-array）</td><td>整型的序列，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">,</font></font> 分隔内容并用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[]</font></font> 包含，首个元素前方需要加入 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">I;</font></font>。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">UUID:[I;12,34,56,78]</font></font></td></tr><tr><td>长整型数组（long-array）</td><td>整型的序列，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">,</font></font> 分隔内容并用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[]</font></font> 包含，首个元素前方需要加入 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">L;</font></font>。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">LongArray:[L;123L,456L,789L]</font></font></td></tr><tr><td>布尔型（boolean）</td><td>只有 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font> 两种取值。在 NBT 中，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font> 用字节的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1b</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">0b</font></font> 代替。</td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Glowing:1b</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&quot;Bold&quot;:true</font></font></td></tr></table></div><br />
+<font style="font-size:16px"><ul><li>数据标签可以看做是一个类型为复合标签的键值。<li>我们可以将每个键值对类比为一个文件，将键值的数据类型为复合标签的键值对类比为一个文件夹，里面可以放其他文件。<li>键名是文件的名称，键值是文件里的内容。<li>和其他数据类型不同的是，列表和数组的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[]</font></font> 里可以放多个键值。<li>列表和数组里的元素的数据类型必须相同，在列表中，所有元素的数据类型由第一个元素决定，例如：<font style="font-size:16px"><br />
+<ul><li>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[123,&quot;stone&quot;,{}]</font></font> 是不存在的。<br />
+</ul></font><li>复合标签和列表可以套娃，例如：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">SelectedItem:{tag:{display:{Name:'&quot;foo&quot;'}}}</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List:[[1,2,3],[4,5,6],[7,8,9]]</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">ArmorItems:[{},{},{},{id:&quot;stone&quot;,Count:1b}]</font></font><br />
+</ul></font><li>了解键值的数据类型可以让我们在只有语法的情况下自己写出例子，更好地帮助我们阅读 Wiki 和其他教程。<br />
+</ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>第二节：数据的获取</strong></font><br />
+<br />
+<font style="font-size:16px">还是以第一节中的僵尸为例：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">summon zombie ~ ~ ~ {Health:15.0f,CustomName:'&quot;233&quot;',Rotation:[45.0f,90.0f]}</font></font><br />
+</ul></font><br />
+<font style="font-size:16px">我们假设 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[type=zombie,limit=1,sort=nearest]</font></font> 可以选中该僵尸。</font><br />
+<br />
+<font style="font-size:16px">我们使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get</font></font> 命令来获取指定键名的键值对的键值。</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest]</font></font><font style="font-size:16px"><br />
+<ul><li>获取该僵尸的数据标签。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Health</font></font><font style="font-size:16px"><br />
+<ul><li>获取该僵尸的血量，返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">15.0f</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Health 2</font></font><font style="font-size:16px"><br />
+<ul><li>获取该僵尸的血量并将结果乘以 2，返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">30</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] CustomName</font></font><font style="font-size:16px"><br />
+<ul><li>获取该僵尸的自定义名称，返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">'&quot;233&quot;'</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Rotation</font></font><font style="font-size:16px"><br />
+<ul><li>获取该僵尸的朝向，返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[45.0f,90.0f]</font></font>。<br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">实际上，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity</font></font> 命令的语法是这样的：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity &lt;实体&gt; [&lt;NBT路径&gt;] [&lt;倍率&gt;]</font></font><br />
+</ul></font><br />
+<font style="font-size:16px">除实体外，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get</font></font> 命令也可以用于获取方块或 storage 的 NBT 数据。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get block &lt;方块坐标&gt; [&lt;NBT路径&gt;] [&lt;倍率&gt;]</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage &lt;storage&gt; [&lt;NBT路径&gt;] [&lt;倍率&gt;]</font></font><br />
+</ul></font><li>例子：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get block ~ ~ ~</font></font><font style="font-size:16px"><br />
+<ul><li>获取当前所在位置的方块实体的数据标签。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get block ~ ~ ~ CustomName</font></font><font style="font-size:16px"><br />
+<ul><li>获取当前所在位置的方块实体的自定义名称。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get block ~ ~ ~ Items[{Slot:0b}].Count 2</font></font><font style="font-size:16px"><br />
+<ul><li>获取当前所在位置的箱子（或木桶/潜影盒等）里第 1 个槽位的物品的数量并乘以 2。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example</font></font><font style="font-size:16px"><br />
+<ul><li>获取 id 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">foo:example</font></font> 的 storage 的数据标签。<br />
+</ul></font></ul></font></ul></font><br />
+<font style="font-size:16px">同时有 4 点需要注意：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data</font></font> 命令只允许单个实体、方块或 storage，例如，想要获取多个实体的数据，请配合使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as</font></font>：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[type=zombie] run data get entity @s Health</font></font><font style="font-size:16px"><br />
+<ul><li>获取所有僵尸的血量。<br />
+</ul></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get</font></font> 只接受单个 NBT 值，例如你可以使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get</font></font> 获取 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation</font></font>，但是：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Rotation[]</font></font><font style="font-size:16px"><br />
+<ul><li>直接获取 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation</font></font> 中的所有元素，不行。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Rotation[0]</font></font><font style="font-size:16px"><br />
+<ul><li>获取 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation</font></font> 中的第 1 个元素，可以。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,limit=1,sort=nearest] Rotation[1]</font></font><font style="font-size:16px"><br />
+<ul><li>获取 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Rotation</font></font> 中的第 2 个元素，可以。<br />
+</ul></font></ul></font><li>倍率只适用于数字标签，例如：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get block ~ ~ ~ CustomName 2</font></font><font style="font-size:16px"><br />
+<ul><li>获取当前所在位置的方块实体的自定义名称并乘以 2，不行。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @s Health 2</font></font><font style="font-size:16px"><br />
+<ul><li>获取命令执行者的血量并乘以 2，可以。<br />
+</ul></font></ul></font><li>使用倍率参数获得的键值的数据类型是整型，例如命令执行者的血量是 15.7f：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @s Health</font></font><font style="font-size:16px"><br />
+<ul><li>返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">15.7f</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @s Health 1</font></font><font style="font-size:16px"><br />
+<ul><li>返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">15</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @s Health 2</font></font><font style="font-size:16px"><br />
+<ul><li>返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">31</font></font>。<br />
+</ul></font></ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>第三节：数据的移除</strong></font><br />
+<br />
+<font style="font-size:16px">我们使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove</font></font> 命令来移除指定键名的键值对。</font><br />
+<br />
+<font style="font-size:16px">同样，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove</font></font> 的目标也可以是方块、实体或 storage。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove block &lt;方块坐标&gt; &lt;路径&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove entity &lt;实体&gt; &lt;路径&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage &lt;storage&gt; &lt;路径&gt;</font></font><br />
+</ul></font><li>例子：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove block ~ ~ ~ CustomName</font></font><font style="font-size:16px"><br />
+<ul><li>移除当前所在位置的方块实体的自定义名称。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove block ~ ~ ~ Items[{Slot:0b}]</font></font><font style="font-size:16px"><br />
+<ul><li>移除当前所在位置的箱子（或木桶/潜影盒等）里第 1 个槽位的物品。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove entity @e[type=zombie,limit=1] HandItems[]</font></font><font style="font-size:16px"><br />
+<ul><li>移除一只僵尸两只手上所持的所有物品。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Stone</font></font><font style="font-size:16px"><br />
+<ul><li>移除 id 为 foo:example 的 storage 中路径为 Stone 的 NBT 数据。<br />
+</ul></font></ul></font><li>注意：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get</font></font> 只接受单个 NBT 值，但是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove</font></font> 支持多个。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove</font></font> 中的路径是必填的，例如：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove block ~ ~ ~</font></font> 是未知的命令。<li>有些键值对是移除不了的，例如实体的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Health</font></font>。<br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>第四节：NBT 路径</strong></font><br />
+<br />
+<font style="font-size:16px">怎么写 NBT 路径才能得到想要的键值对的键值是 data 命令中一个常见的问题。</font><br />
+<br />
+<font style="font-size:16px">为了方便演示，我们使用 storage 来存储数据。</font><br />
+<br />
+<font style="font-size:16px">可以参考：<br />
+【CBL|SPG】[1.14] NBT 路径：从入门到胡了<br />
+<a href="https://github.com/SPGoding/mcbbs-threads/blob/master/tutorials/nbt-path/markdown.md" target="_blank">https://github.com/SPGoding/mcbbs-threads/blob/master/tutorials/nbt-path/markdown.md</a></font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>例 1：一个简单的例子</strong></font><br />
+<br />
+<font style="font-size:16px">请看以下过程：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example</font></font><font style="font-size:16px"><br />
+<ul><li>获取 id 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">foo:example</font></font> 的 storage 的值。<li>每个 storage 一开始都是一个空的复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Dirt:1b}</font></font><font style="font-size:16px"><br />
+<ul><li>将复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Dirt:1b}</font></font> 合并到 storage，类似于文件夹的合并，相同文件名的文件（相同键名的键值对）会被覆盖。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example</font></font><font style="font-size:16px"><br />
+<ul><li>再次获取 storage 的值。<li>返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Dirt:1b}</font></font><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Dirt</font></font><font style="font-size:16px"><br />
+<ul><li>获取键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Dirt</font></font> 的键值。<li>返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1b</font></font><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Dirt</font></font><font style="font-size:16px"><br />
+<ul><li>移除键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Dirt</font></font>，以确保下一个例子中 storage 是空的。<br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:16px">为了方便阅读，我们在接下来以一个执行命令的过程为例时，使用以下格式：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">执行的命令</font></font><font style="font-size:16px"><br />
+<ul><li><i>注释</i><li>命令返回的结果/命令执行后的结果<br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>例 2：套娃</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Stone:{Dirt:{Grass:1b}}}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Stone:{Dirt:{Grass:1b}}}</font></font> 合并到 storage。</i><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example</font></font><font style="font-size:16px"><br />
+<ul><li>{Stone:{Dirt:{Grass:1b}}}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone</font></font><font style="font-size:16px"><br />
+<ul><li>{Dirt:{Grass:1b}}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone.Dirt</font></font><font style="font-size:16px"><br />
+<ul><li>{Grass:1b}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone.Dirt.Grass</font></font><font style="font-size:16px"><br />
+<ul><li>1b<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Stone</font></font><font style="font-size:16px"><br />
+<ul><li><i>移除键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone</font></font>。</i><br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:16px">我们可以将每个复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 类比为一个文件夹，则我们这次：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>向 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">storage</font></font> 文件夹里放了一个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone</font></font> 文件夹。<li>向 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone</font></font> 文件夹里放了一个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Dirt</font></font> 文件夹。<li>向 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Dirt</font></font> 文件夹里放了一个文件名为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Grass</font></font>、内容为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1b</font></font> 的文件。<br />
+</ul></font><br />
+<font style="font-size:16px">在 Windows 中，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Grass</font></font> 的路径应该这么写：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone\Dirt\Grass</font></font>，就像 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.minecraft\saves\&lt;地图名称&gt;\datapacks</font></font>，但在 NBT 中，要把 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">\</font></font> 改成 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">.</font></font>，把 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone\Dirt\Grass</font></font> 改成 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone.Dirt.Grass</font></font>。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>例 3：一个较为复杂的例子</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Stone:{Dirt:{Grass:1b,Tree:4b},Farmland:{Flower:3b},Ore:5b},Planks:2b}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将 NBT 数据存储到 storage 里。</i><br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">你能找出有几个键值对并且判断它们之间的位置关系吗？</font><br />
+<br />
+<font style="font-size:16px">为了看起来方便，我们可以像下面一样分多行写。</font><br />
+<br /><div class="blockcode"><div id="code_XXX"><ol><li>{<br /><li>&nbsp; &nbsp; Stone:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Dirt:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;Grass:1b,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;Tree:4b<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Farmland:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;Flower:3b<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Ore:5b<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; Planks:2b<br /><li>}</ol></div><em onclick="copycode($('code_XXX'));">复制代码</em></div><br />
+<font style="font-size:16px">列表如下：</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td></td><td></td><td></td></tr><tr><td>Stone</td><td>Dirt</td><td>Grass:1b</td></tr><tr><td>Stone</td><td>Dirt</td><td>Tree:4b</td></tr><tr><td>Stone</td><td>Farmland</td><td>Flower:3b</td></tr><tr><td>Stone</td><td>Ore:5b</td><td></td></tr><tr><td>Planks:2b</td><td></td><td></td></tr></table></div><br />
+<font style="font-size:16px">共 8 个键值对，其中有 3 个键值对的键值是复合标签。</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Stone</font></font><font style="font-size:16px"><br />
+<ul><li><i>移除键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone</font></font>。</i><br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>例 4：复合标签内元素的筛选</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Stone:{Dirt:1b}}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Stone:{Dirt:1b}}</font></font> 合并到 storage。</i><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone</font></font><font style="font-size:16px"><br />
+<ul><li>{Dirt:1b}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone{Dirt:1b}</font></font><font style="font-size:16px"><br />
+<ul><li><i>通过添加条件 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Dirt:1b}</font></font> 对复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Stone</font></font> 中的元素进行筛选。</i><li>{Dirt:1b}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone{Dirt:2b}</font></font><font style="font-size:16px"><br />
+<ul><li>没有相匹配的元素。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone{}</font></font><font style="font-size:16px"><br />
+<ul><li><i><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 表示不设置筛选条件。</i><li>{Dirt:1b}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone.Dirt</font></font><font style="font-size:16px"><br />
+<ul><li>1b<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Stone{Dirt:1b}.Dirt</font></font><font style="font-size:16px"><br />
+<ul><li>1b<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example Stone</font></font><font style="font-size:16px"><br />
+<ul><li><i>移除键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">stone</font></font>。</i><br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:16px">使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Compound{条件}</font></font> 可以对复合标签中的元素进行筛选，条件为空时表示不设置筛选条件。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>例 5：列表</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Numbers:[1,2,3,4,5]}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Numbers:[1,2,3,4,5]}</font></font> 合并到 storage。</i><br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">使用不同的路径会得到不同的结果，例如：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get storage foo:example Numbers[0]</font></font><font style="font-size:16px"><br />
+<ul><li>返回：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1</font></font><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Numbers[]</font></font><font style="font-size:16px"><br />
+<ul><li>移除列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font> 里的所有元素。<li>得到：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Numbers:[]}</font></font><br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">具体见下表：</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">路径</font></font></strong></td><td><strong>结果</strong></td><td><strong>筛选出</strong></td></tr><tr><td>不填</td><td>{Numbers:[1,2,3,4,5]}</td><td></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font></td><td>[1,2,3,4,5]</td><td>键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font> 的键值</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[]</font></font></td><td>1,2,3,4,5</td><td>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font> 里所有的元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[0]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-5]</font></font></td><td>1</td><td>第 1 个 或 倒数第 5 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[1]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-4]</font></font></td><td>2</td><td>第 2 个 或 倒数第 4 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[2]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-3]</font></font></td><td>3</td><td>第 3 个 或 倒数第 3 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[3]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-2]</font></font></td><td>4</td><td>第 4 个 或 倒数第 2 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[4]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-1]</font></font></td><td>5</td><td>第 5 个 或 倒数第 1 个元素</td></tr></table></div><br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Numbers</font></font><font style="font-size:16px"><br />
+<ul><li><i>移除键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font>。</i><br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List[]</font></font> 指列表 List 里所有的元素，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List[n]</font></font> 指列表 Numbers 里第 (n+1) 个元素，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List[-n]</font></font> 指列表 List 里倒数第 n 个元素。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>例 6：列表内元素的筛选</strong></font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Items:[{id:&quot;stone&quot;,Count:1b},{id:&quot;dirt&quot;,Count:2b},{id:&quot;grass&quot;,Count:2b}]}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将 NBT 数据存储 storage 里。</i><br />
+</ul></font></ul></font><br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">路径</font></font></strong></td><td><strong>结果</strong></td><td><strong>筛选出</strong></td></tr><tr><td>不填</td><td>{Items:[{id:&quot;stone&quot;,Count:1b},{id:&quot;dirt&quot;,Count:2b},{id:&quot;grass&quot;,Count:2b}]}</td><td></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[]</font></font></td><td>{id:&quot;stone&quot;,Count:1b},{id:&quot;dirt&quot;,Count:2b},{id:&quot;grass&quot;,Count:2b}</td><td>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items</font></font> 里所有的元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[1]</font></font></td><td>{id:&quot;dirt&quot;,Count:2b}</td><td>第 2 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[{}]</font></font></td><td>{id:&quot;stone&quot;,Count:1b},{id:&quot;dirt&quot;,Count:2b},{id:&quot;grass&quot;,Count:2b}</td><td>所有数据类型为复合标签的元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[{id:&quot;grass&quot;}]</font></font></td><td>{id:&quot;grass&quot;,Count:2b}</td><td>所有满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{id:&quot;grass&quot;}</font></font> 的元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[{Count:2b}]</font></font></td><td>{id:&quot;dirt&quot;,Count:2b},{id:&quot;grass&quot;,Count:2b}</td><td>所有满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Count:2b}</font></font> 的元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[{id:&quot;grass&quot;,Count:2b}]</font></font></td><td>{id:&quot;grass&quot;,Count:2b}</td><td>设置了 2 个筛选条件</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[{id:&quot;grass&quot;}].Count</font></font></td><td>2b</td><td></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items[{Count:2b}].id</font></font></td><td>&quot;dirt&quot;,&quot;grass&quot;</td><td></td></tr></table></div><br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Items</font></font><font style="font-size:16px"><br />
+<ul><li><i>移除键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Items</font></font>。</i><br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:16px">使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List[{条件}]</font></font> 对列表中的元素进行筛选，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List[{}]</font></font> 只能选中数据类型为复合标签的元素。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:20px"><strong>例 7：数组</strong></font><br />
+<br />
+<font style="font-size:16px">数组和列表类似，下面以整型数组为例。</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Numbers:[I;1,2,3]}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Numbers:[I;1,2,3]}</font></font> 合并到 storage。</i><br />
+</ul></font></ul></font><br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">路径</font></font></strong></td><td><strong>结果</strong></td><td><strong>筛选出</strong></td></tr><tr><td>不填</td><td>{Numbers:[I;1,2,3]}</td><td></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font></td><td>[I;1,2,3]</td><td>键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font> 的键值</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[]</font></font></td><td>1,2,3</td><td>数组 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font> 里所有的元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[0]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-3]</font></font></td><td>1</td><td>第 1 个 或 倒数第 3 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[1]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-2]</font></font></td><td>2</td><td>第 2 个 或 倒数第 2 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[2]</font></font> 或 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers[-1]</font></font></td><td>3</td><td>第 3 个 或 倒数第 1 个元素</td></tr></table></div><br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove storage foo:example Numbers</font></font><font style="font-size:16px"><br />
+<ul><li><i>移除键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Numbers</font></font>。</i><br />
+</ul></font></ul></font><br />
+<font style="font-size:20px"><strong>例 8：几个例子</strong></font><br />
+<br />
+<font style="font-size:16px">请看以下过程：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">summon zombie ~ ~ ~ {Attributes:[{Name:&quot;generic.maxHealth&quot;,Base:25.0d}],Health:15.0f,Rotation:[45.0f,90.0f],HandItems:[{id:&quot;stone&quot;,Count:1b},{}],Tags:[&quot;foo&quot;]}</font></font><font style="font-size:16px"><br />
+<ul><li><i>召唤一只僵尸。</i><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,tag=foo,limit=1] Health</font></font><font style="font-size:16px"><br />
+<ul><li><i>获取该僵尸的血量。</i><li>15.0f<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,tag=foo,limit=1] Rotation[1]</font></font><font style="font-size:16px"><br />
+<ul><li><i>获取该僵尸的朝向列表中的第 2 个元素。</i><li>90.0f<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,tag=foo,limit=1] HandItems[0].id</font></font><font style="font-size:16px"><br />
+<ul><li><i>获取该僵尸主手所持物品的 id。</i><li>&quot;stone&quot;<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @e[type=zombie,tag=foo,limit=1] Attributes[{Name:&quot;generic.maxHealth&quot;}].Base</font></font><font style="font-size:16px"><br />
+<ul><li><i>获取该僵尸的血量上限。</i><li>25.0d<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">kill @e[type=zombie,tag=foo]</font></font><font style="font-size:16px"><br />
+<ul><li><i>移除该僵尸。</i><br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">单句命令：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get entity @s SelectedItem.tag.display.Name</font></font><font style="font-size:16px"><br />
+<ul><li>获取命令执行者手持物品的自定义名称。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove block ~ ~ ~ Items[{Count:3b}]</font></font><font style="font-size:16px"><br />
+<ul><li>移除当前所在位置处的箱子（或木桶/潜影盒等）里所有物品数量为 3 的槽位。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove block ~ ~ ~ Items[{id:&quot;minecraft:iron_sword&quot;}].tag.Enchantments[{id:&quot;minecraft:sharpness&quot;}]</font></font><font style="font-size:16px"><br />
+<ul><li>移除当前所在位置处的箱子（或木桶/潜影盒等）里所有铁剑的锋利附魔。<br />
+</ul></font></ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>第五节：数据的合并</strong></font><br />
+<br />
+<font style="font-size:16px">我们使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge</font></font> 命令将指定的复合标签合并至方块、实体或 storage 的数据标签，类似于文件夹的合并，相同文件名的文件（相同键名的键值对）会被覆盖。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge block &lt;方块坐标&gt; &lt;nbt&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge entity &lt;实体&gt; &lt;nbt&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage &lt;storage&gt; &lt;nbt&gt;</font></font><br />
+</ul></font><li>例子：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge block ~ ~ ~ {CustomName:'&quot;233&quot;'}</font></font><font style="font-size:16px"><br />
+<ul><li>将当前所在位置处的方块实体的自定义名称设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">'&quot;233&quot;'</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge entity @e[type=zombie,limit=1] {Rotation:[45.0f,90.0f]}</font></font><font style="font-size:16px"><br />
+<ul><li>将一只僵尸的朝向设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">[45.0f,90.0f]</font></font>。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge entity @e[type=zombie,limit=1] {Health:20.0f,HandItems:[{id:&quot;stone&quot;,Count:1b},{}]}</font></font><font style="font-size:16px"><br />
+<ul><li>将一只僵尸的血量设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">20f</font></font>，主手所持物品设置为一块石头，副手所持物品设置为空。<br />
+</ul></font></ul></font></ul></font><br />
+<font style="font-size:16px">请看以下过程：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Stone:1b,Dirt:{Grass:3b,Planks:4b}}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Stone:1b,Dirt:{Grass:3b,Planks:4b}}</font></font> 合并到空的 storage。</i><li>{Stone:1b,Dirt:{Grass:3b,Planks:4b}}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Stone:5b,Flower:6b,Dirt:{Farmland:7b}}</font></font><font style="font-size:16px"><br />
+<ul><li><i>将 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Stone:5b,Flower:6b,Dirt:{Farmland:7b}}</font></font> 合并到 storage。</i><li>{Stone:5b,Flower:6b,Dirt:{Grass:3b,Planks:4b,Farmland:7b}}<br />
+</ul></font><li><i>移除所有键值对，命令略。</i><br />
+</ul></font><br />
+<font style="font-size:24px"><strong>第六节：数据的修改</strong></font><br />
+<br />
+<font style="font-size:16px">我们使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify</font></font> 命令来修改指定键名的键值对的键值。</font><br />
+<br />
+<font style="font-size:16px"><ul><li>语法：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify</font></font> 命令可以分成三部分：<font style="font-size:16px"><br />
+<ul type="1" class="litype_1"><li>要修改哪里的键值。<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify block &lt;方块坐标&gt; &lt;路径&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify entity &lt;实体&gt; &lt;路径&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage &lt;storage&gt; &lt;路径&gt;</font></font><br />
+</ul></font><li>要将键值怎么样。<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">(append|insert &lt;索引&gt;|merge|prepend|set)</font></font><font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">prepend</font></font>：将键值插入到列表或数组的最前面。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">append</font></font>：将键值插入到列表或数组的末尾。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">insert &lt;索引&gt;</font></font>：将键值插入到列表或数组的第 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&lt;索引&gt;</font></font> 个元素后。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">merge</font></font>：将复合标签和复合标签合并。<li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">set</font></font>：将键值替换，对复合标签无效。<br />
+</ul></font></ul></font><li>修改成什么，既可以设置成指定的值，也可以从其他地方复制。<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">value &lt;nbt&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">from block &lt;方块坐标&gt; &lt;路径&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">from entity &lt;实体&gt; &lt;路径&gt;</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">from storage &lt;storage&gt; &lt;路径&gt;</font></font><br />
+</ul></font></ul></font></ul></font><li>例子：<font style="font-size:16px"><br />
+<ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify block ~ ~ ~ CustomName set value '&quot;233&quot;'</font></font><font style="font-size:16px"><br />
+<ul><li>将当前所在位置处的方块实体的自定义名称设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">'&quot;233&quot;'</font></font>。<li>效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge block ~ ~ ~ {CustomName:'&quot;233&quot;'}</font></font><font style="font-size:16px"><br />
+<ul><li>将 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{CustomName:'&quot;233&quot;'}</font></font> 合并到当前所在位置处的方块实体。<li>也可以写成 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify block ~ ~ ~ {} merge value {CustomName:'&quot;233&quot;'}</font></font><font style="font-size:16px"><br />
+<ul><li>可以用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font> 表示根路径。<br />
+</ul></font></ul></font></ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify block ~ ~ ~ Items[{id:&quot;minecraft:firework_rocket&quot;}].tag.Fireworks{Flight:1b}.Flight set value 3b</font></font><font style="font-size:16px"><br />
+<ul><li>将当前所在位置处的箱子（或木桶/潜影盒等）里所有飞行高度为 1b 的烟花火箭的飞行高度设置为 3b。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify block ~ ~ ~ CustomName set from entity @e[type=zombie,limit=1] CustomName</font></font><font style="font-size:16px"><br />
+<ul><li>将一只僵尸的自定义名称名称复制到当前所在位置处的方块实体的自定义名称。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify block ~ ~ ~ {} merge from block ~ ~1 ~</font></font><font style="font-size:16px"><br />
+<ul><li>将当前所在位置 ~ ~1 ~ 处的方块实体的数据标签合并到当前所在位置处的方块实体。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify entity @e[type=zombie,limit=1] HandItems[0].id set value &quot;stone&quot;</font></font><font style="font-size:16px"><br />
+<ul><li>将一只僵尸主手所持物品的 id 设置为石头。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify entity @e[type=zombie,limit=1] HandItems[0] set from entity @s SelectedItem</font></font><font style="font-size:16px"><br />
+<ul><li>将命令执行者的手持物品复制到一只僵尸主手所持物品。<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify entity @e[type=item,limit=1] Item.tag.display.Name set from entity @s SelectedItem.tag.pages[0]</font></font><font style="font-size:16px"><br />
+<ul><li>将命令执行者主手所持成书的第一页所写的内容复制到一个掉落物的自定义名称。<br />
+</ul></font></ul></font></ul></font><br />
+<font style="font-size:16px">过程 1：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {List:[1,2,3],Array:[B;1B,2B,3B]}</font></font><font style="font-size:16px"><br />
+<ul><li>{List:[1,2,3],Array:[B;1B,2B,3B]}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example List append value 4</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example Array append value 5B</font></font><font style="font-size:16px"><br />
+<ul><li>{List:[1,2,3,4],Array:[B;1B,2B,3B,5B]}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example List prepend value 6</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example Array prepend value 7</font></font><font style="font-size:16px"><br />
+<ul><li>{List:[6,1,2,3,4],Array:[B;7B,1B,2B,3B,5B]}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example List insert 2 value 8</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example Array insert -2 value 9B</font></font><font style="font-size:16px"><br />
+<ul><li>{List:[6,1,8,2,3,4],Array:[B;7B,1B,2B,3B,9B,5B]}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example List insert 0 value 10</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example Array insert -4 value 0</font></font><font style="font-size:16px"><br />
+<ul><li>{List:[10,6,1,8,2,3,4],Array:[B;7B,1B,2B,0B,3B,9B,5B]}<br />
+</ul></font><li><i>移除所有键值对，命令略。</i><br />
+</ul></font><br />
+<font style="font-size:16px">过程 2：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Stone:{Dirt:1b,Grass:2b},Planks:{Dirt:3b,Flower:4b}}</font></font><font style="font-size:16px"><br />
+<ul><li>{Stone:{Dirt:1b,Grass:2b},Planks:{Dirt:3b,Flower:4b}}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example Stone merge value {Farmland:5b}</font></font><font style="font-size:16px"><br />
+<ul><li>{Stone:{Dirt:1b,Grass:2b,Farmland:5b},Planks:{Dirt:3b,Flower:4b}}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example Stone merge from storage foo:example Planks</font></font><font style="font-size:16px"><br />
+<ul><li>{Stone:{Dirt:3b,Grass:2b,Farmland:5b,Flower:4b},Planks:{Dirt:3b,Flower:4b}}<br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example {} merge value {Ore:6b}</font></font><font style="font-size:16px"><br />
+<ul><li><i>效果等价于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {Ore:6b}</font></font></i><li>{Stone:{Dirt:3b,Grass:2b,Farmland:5b,Flower:4b},Planks:{Dirt:3b,Flower:4b},Ore:6b}<br />
+</ul></font><li><i>移除所有键值对，命令略。</i><br />
+</ul></font><br />
+<font style="font-size:16px">注意：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>不同数据类型的键值会复制失败，可以选择使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store</font></font> 命令转换数据类型，例如：<font style="font-size:16px"><br />
+<ul><li>将命令执行者手持物品的数量存为一只僵尸的血量（血量是 float，物品数量是 byte）。<font style="font-size:16px"><br />
+<ul><li>错误示范：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify entity @e[type=zombie,limit=1] Health set from entity @s SelectedItem.Count</font></font><li>正确示范：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result entity @e[type=zombie,limit=1] Health float 1 run data get entity @s SelectedItem.Count</font></font><br />
+</ul></font><li>同样，你也不能将一个 byte 插入到全是 float 的列表中。<br />
+</ul></font><li>但是，数组可以自动转换数据类型，例如你可以将一个 byte 插入到全是 int 的数组中，数组会自动将 byte 的数据类型转换成 int。<br />
+</ul></font><br />
+<font style="font-size:24px"><strong>第七节：数据的检测及统计</strong></font><br />
+<br />
+<font style="font-size:16px">我们使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute if data</font></font> 命令来检测和统计数据。</font><br />
+<br />
+<font style="font-size:16px">可以参考：<br />
+【教程】[1.15] execute 命令入门教程<br />
+<a href="https://www.mcbbs.net/thread-989501-1-1.html" target="_blank">https://www.mcbbs.net/thread-989501-1-1.html</a></font><br />
+<br />
+<font style="font-size:16px">请看以下过程：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data merge storage foo:example {String:&quot;foo&quot;,List:[1,2,2,3],Array:[B;1B,2B,3B],Compound:{Stone:1b,Dirt:2b,Grass:3b}}</font></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">scoreboard objectives add foo dummy</font></font><font style="font-size:16px"><br />
+<ul><li><i>初始化。</i><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute if data storage foo:example &lt;NBT&gt;</font></font><br />
+</ul></font><br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&lt;NBT&gt;</font></font></strong></td><td><strong>返回值</strong></td><td><strong>含义（是否存在）</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Compound</font></font></td><td>1</td><td>键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Compound</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Compound{}</font></font></td><td>1</td><td>复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Compound</font></font> 满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{}</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Compound:{}}</font></font></td><td>1</td><td>数据标签满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Compound:{}}</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Compound{Stone:1b}</font></font></td><td>1</td><td>复合标签 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Compound</font></font> 满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Stone:1b}</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Compound:{Stone:1b}}</font></font></td><td>1</td><td>数据标签满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Compound:{Stone:1b}}</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List</font></font></td><td>1</td><td>键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List[1]</font></font></td><td>1</td><td>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List</font></font> 中的第 2 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[1]}</font></font></td><td>1</td><td>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List</font></font> 中值为 1 的元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[]}</font></font></td><td>0</td><td>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List</font></font> 中没有元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array</font></font></td><td>1</td><td>键值对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array[1]</font></font></td><td>1</td><td>数组 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array</font></font> 中的第 2 个元素</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Array:[1B]}</font></font></td><td>0</td><td>数组 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array</font></font> 有且只有一个元素 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1B</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{Array:[]}</font></font></td><td>0</td><td>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array</font></font> 中没有元素</td></tr></table></div><br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&lt;NBT&gt;</font></font></strong></td><td><strong>返回值</strong></td><td><strong>含义（统计）</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List[]</font></font></td><td>4</td><td>列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List</font></font> 中元素的个数</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array[]</font></font></td><td>3</td><td>数组 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Array</font></font> 中元素的个数</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">String</font></font></td><td>&quot;foo&quot;</td><td>字符串 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">String</font></font> 的长度</td></tr></table></div><br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result score #temp foo if data storage foo:example String</font></font><font style="font-size:16px"><br />
+<ul><li>#temp 的记分板分数变为 3。<br />
+</ul></font></ul></font><br />
+<font style="font-size:16px">可以参考：<br />
+【CBL|SPG】[1.14.4] 命令返回值列表<br />
+<a href="https://www.mcbbs.net/thread-808124-1-1.html" target="_blank">https://www.mcbbs.net/thread-808124-1-1.html</a></font><br />
+<br />
+<font style="font-size:16px">注意，在 1.15，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result run data get</font></font> 中的部分功能被 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store result if data</font></font> 取代。</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute if data storage foo:example &lt;NBT&gt;</font></font><br />
+</ul></font><br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&lt;NBT&gt;</font></font> 为以下值时条件均可通过，且计数均为 1：</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[1]}</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[2]}</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[1,2]}</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[2,1]}</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[1,1,2]}</font></font></font><br />
+<br />
+<font style="font-size:16px">列表在检测时是无序的，可以将其看作一个集合，只考虑元素的数据类型和种类，不考虑数量以及位置，只要 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">&lt;NBT&gt;</font></font> 是其子集即可，除了空集 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">{List:[]}</font></font> 必须在列表 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">List</font></font> 内没有元素时才能通过。</font><br />
+<br />
+<font style="font-size:16px">数组在检测时需要完全一致才能通过，包括元素的数据类型、种类、数量和位置。</font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store success</font></font> 可以存储命令执行成功的次数，可以通过尝试存储数据 A 到数据 B 来判断 A、B 是否完全相同，例如：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify storage foo:example UUIDLeast set from entity @r UUIDLeast</font></font><font style="font-size:16px"><br />
+<ul><li><i>将随机一名玩家的 UUIDLeast 存储到 storage</i><br />
+</ul></font><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store success storage foo:example Different byte 1 run data modify storage foo:example UUIDLeast set from entity @s UUIDLeast</font></font><font style="font-size:16px"><br />
+<ul><li><i>尝试用命令执行者的 UUIDLeast 覆盖原来的 UUIDLeast，如果覆盖成功，则说明 UUIDLeast 不同，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Different</font></font> 的值变为 1b，否则变为 0b。</i><br />
+</ul></font><li><i>移除所有键值对，命令略。</i><br />
+</ul></font><br />
+<hr class="l" /><br />
+<font style="font-size:24px"><strong>结语</strong></font><br />
+<br />
+<font style="font-size:16px">对，我写完了。</font><br />
+<br />
+<font style="font-size:16px">估计没什么人会把这个帖子看完的.jpg</font><br />
+<br />
+<hr class="l" />
+<ignore_js_op>
+<dl class="tattl">
+<dt>
+<img src="static/image/filetype/zip.gif" border="0" class="vm" alt="" />
+</dt>
+<dd>
+<p class="attnm">
+
+<a href="forum.php?mod=misc&amp;action=attachpay&amp;aid=1553310&amp;tid=993805" onclick="showWindow('attachpay', this.href)">data.zip</a>
+
+<div class="tip tip_4" id="aid1553310_menu" style="display: none" disautofocus="true">
+<div class="tip_c">
+<p class="y">2020-8-9 15:41 上传</p>
+<p>点击文件名下载附件</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+</p>
+<p>7.59 KB, 下载次数: 8</p>
+<p>
+
+售价: <strong>1 粒金粒</strong> &nbsp;[<a href="forum.php?mod=misc&amp;action=viewattachpayments&amp;aid=1553310" onclick="showWindow('attachpay', this.href)" target="_blank">记录</a>]
+
+&nbsp;[<a href="forum.php?mod=misc&amp;action=attachpay&amp;aid=1553310&amp;tid=993805" onclick="showWindow('attachpay', this.href)">购买</a>]
+
+</p>
+
+
+</dd>
+</dl>
+</ignore_js_op>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Xiao2&nbsp; &nbsp; <b>时间: </b>2020-3-24 21:07<br />
+我是不是运气太好了<br />
+刚想恶补这部分的内容<br />
+execute被我遇到了<br />
+今天data又被我遇到了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>灬忘却灬&nbsp; &nbsp; <b>时间: </b>2020-4-3 15:21<br />
+Ssssssssssssssssssssss<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kayn-&nbsp; &nbsp; <b>时间: </b>2020-8-16 00:17<br />
+好详细，爱了，感谢大佬分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jason_sun&nbsp; &nbsp; <b>时间: </b>2020-8-18 17:46<br />
+之前在百度一直找，都是些很零星的，今天刚来就找到这么详细的，厉害了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lxt123qwe&nbsp; &nbsp; <b>时间: </b>2020-8-22 14:24<br />
+<br />
+好详细，爱了，感谢大佬分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-9-5 21:44<br />
+<i class="pstatus"> 本帖最后由 (=°ω°)丿 于 2021-2-10 13:22 编辑 </i><br />
+<br />
+<font style="font-size:16px">防止卡审核，就在这里说了。</font><br />
+<br />
+<font style="font-size:20px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data remove</font></font> 无法移除的键值对</strong></font><br />
+<br />
+<font style="font-size:16px">1. 无法直接移除根路径，例如：</font><br />
+<br /><div class="blockcode"><div id="code_C9A"><ol><li>data remove block ~ ~ ~ {}<br /><li>data remove entity @s {}<br /><li>data remove storage foo:example {}</ol></div><em onclick="copycode($('code_C9A'));">复制代码</em></div><br />
+<font style="font-size:16px">2. 无法移除方块和实体的根路径下的第 1 层键值对，例如：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>你不能：<div class="blockcode"><div id="code_k35"><ol><li>data remove block ~ ~ ~ CustomName<br /><li>data remove entity @s Health<br /><li>data remove entity @s HandItems</ol></div><em onclick="copycode($('code_k35'));">复制代码</em></div><br />
+<li>你可以：<div class="blockcode"><div id="code_Fh2"><ol><li>data remove block ~ ~ ~ Items[{id:&quot;minecraft:stone&quot;}]<br /><li>data remove entity @s HandItems[0]<br /><li>data remove entity @s ArmorItems[{Count:1b}].tag<br /><li>data remove storage foo:example Stone</ol></div><em onclick="copycode($('code_Fh2'));">复制代码</em></div><br />
+</ul></font><br />
+<font style="font-size:16px">3. 其他键值对，例如：</font><br />
+<br /><div class="blockcode"><div id="code_ck1"><ol><li>data remove entity @s Pos[0]<br /><li>data remove entity @s Motion[]</ol></div><em onclick="copycode($('code_ck1'));">复制代码</em></div><br />
+<br />
+<font style="font-size:16px">另外，不是所有的键值对修改都有用，例如你在主世界运行：</font><br />
+<br />
+<font style="font-size:16px"><ul><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data modify entity @e[type=armor_stand,limit=1] Dimension set value 1</font></font><br />
+</ul></font><br />
+<font style="font-size:16px">你会发现盔甲架的维度已经变成 1（使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data get</font></font> 得到）但它还是呆在主世界原地不动。</font><br />
+<br />
+<font style="font-size:16px">值得一提的是，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">data</font></font> 命令可以创建新的键值对，但是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute store</font></font> 不行。</font><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a9a9&nbsp; &nbsp; <b>时间: </b>2020-9-20 11:09<br />
+啊...感觉错过了一个亿;w; 之前刚刚学data指令的时候查wiki查的想吐血 到后面还是不懂 现在终于发现一个详细的教程了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a9a9&nbsp; &nbsp; <b>时间: </b>2020-9-20 11:12<br />
+之前一直被不同数据类型之间的转换和储存困扰,原来只要一个execute store就可以简单的解决问题 还有我看完了.jpg(虽然不一定懂得就是了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>夕阳红熊猫&nbsp; &nbsp; <b>时间: </b>2020-12-20 10:45<br />
+<br />
+不愧是你，秀啊
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

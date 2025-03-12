@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : #1.9 &quot;条件嵌套&quot;与!非 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01MjY3NDctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : #1.9 &quot;条件嵌套&quot;与!非 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-29 13:24<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : #1.9 &quot;条件嵌套&quot;与!非<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-12-7 21:28 编辑 </i><br />
+<br />
+<font size="5">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font><strong><font size="5">#1.9</font><font size="5"> </font></strong><font size="5"><strong>&quot;条件嵌套&quot;与!非</strong></font><br />
+利用条件嵌套也能表达出!非的效果：<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F2E7C_565A8B660" target="_blank"><img id="aimg_Vc777" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/2E7C_565A8B660.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+当不符合条件时输出（条件为&quot;检测到牛&quot;）<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FF59A_565A8B660" target="_blank"><img id="aimg_iDJTc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/F59A_565A8B660.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+符合条件后<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F45DB_565A8B660" target="_blank"><img id="aimg_m9W9r" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/45DB_565A8B660.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+一旦不符合条件就会输出。<br />
+<br />
+<ul><li><strong>原理</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F1A42_565A8B670" target="_blank"><img id="aimg_SQ7r4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/1A42_565A8B670.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br /><div class="blockcode"><div id="code_L73"><ol><li>/testfor @e[type=Cow]</ol></div><em onclick="copycode($('code_L73'));">复制代码</em></div><br />
+<font color="#ff0000">*检测条件</font><br /><div class="blockcode"><div id="code_Dwz"><ol><li>/blockdata ~-1 ~ ~ {auto:0b}</ol></div><em onclick="copycode($('code_Dwz'));">复制代码</em></div><br />
+<font color="#408080">*condition.如果条件符合就关闭后面的指令</font><br /><div class="blockcode"><div id="code_S11"><ol><li>/say 1</ol></div><em onclick="copycode($('code_S11'));">复制代码</em></div><br />
+<font color="#008000">*一直随核心执行的输出</font><br /><div class="blockcode"><div id="code_lhx"><ol><li>/blockdata ~1 ~ ~ {auto:1b}</ol></div><em onclick="copycode($('code_lhx'));">复制代码</em></div><br />
+<font color="#008000">*重置</font><br />
+<br />
+<strong>通过一个重置阻断，符合条件阻断输出，达到输出!非的效果。（一个时钟）</strong><br />
+<br />
+ <br />
+<font size="4"><strong>一般表达：</strong></font><br /><div class="quote"><blockquote><font color="#ff0000">条件（核心）</font> <font color="#408080">≯ 阻断输出</font><font color="#008080"> → 输出 → 重置阻断</font></blockquote></div><br />
+<i>除了这种1.9特征的!非外，使用数据表达的依旧和1.8相同，当然也可以使用tag作为布尔变量。</i><br />
+<br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>幻境雲達達&nbsp; &nbsp; <b>时间: </b>2015-11-29 13:27<br />
+果然<br />
+<br />
+是在下输了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-11-29 13:44<br />
+<i class="pstatus"> 本帖最后由 林扬骐 于 2015-11-29 13:57 编辑 </i><br />
+<br />
+额，探测命令方块成功输出为否，然后再套一个，也是可以的啊<br />
+哦对，你这个方法就可以做到“且”了<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-29 13:51<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9419655&amp;ptid=526747" target="_blank"><font color="#999999">林扬骐 发表于 2015-11-29 13:44</font></a></font><br />
+额，探测命令方块成功输出为否，然后再套一个，也是可以的啊</blockquote></div><br />
+这个装置差不多就是检测输出为否
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

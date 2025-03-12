@@ -1,0 +1,335 @@
+<html>
+<head>
+<title>原版资源包着色器与动画研究心得(5/26更新) - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04NjM3MzAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>原版资源包着色器与动画研究心得(5/26更新) <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-7 16:12<br />
+<b>标题: </b>原版资源包着色器与动画研究心得(5/26更新)<br /><i class="pstatus"> 本帖最后由 貓狗喵 于 2019-5-26 21:41 编辑 </i><br />
+<div class="quote"><blockquote><font color="#696969"><font face="微软雅黑"><font size="3">这篇文章中的内容只是我个人的理解，如果有误欢迎在下方提出，也欢迎进行补充</font></font></font><blockquote><font color="#696969"><font size="3"><font face="微软雅黑"><br />
+</font></font></font></blockquote><font color="#696969"><font size="3"><font face="微软雅黑">(本篇内容由巴哈姆特文章翻译过来，以下称</font><font face="微软雅黑">着色器</font><font face="微软雅黑">为 shader</font><font face="微软雅黑">)</font></font></font></blockquote></div><br />
+<font color="#333333"><font style="font-size:15px"><font size="5"><strong><font face="微软雅黑"><font color="#000000">前言：</font></font></strong></font></font></font><br />
+<br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">Minecraft 中关于原版 shader 的讨论非常的少 (不过 optifine 的 shader 资源包倒有不少)</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">最早的 shader 历史可以追溯到 1.7.2 版本，该版本中推出 super secret setting 的功能 (但在 1.9 版本移除)，并且在资源包中放入 shader 相关的档案</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">而在 1.8 版本更新后又新增如生物发光、观察者模式附身在蜘蛛、苦力怕等生物时的 shader</font></font></font><br />
+<br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">早在 1.7 版本推出不久就有人写了一篇</font></font></font><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.minecraftforum.net%2Fforums%2Fmapping-and-modding-java-edition%2Fmapping-and-modding-tutorials%2F1571583-custom-shaders-no-client-mod-needed" target="_blank"><font face="微软雅黑"><font size="3">文章</font></font></a><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">介绍透过资源包套用自定义 shader 的方式</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">不过当时还需要自己手动切换 super secret setting 才能看到效果</font></font></font><br />
+<br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">有趣的是，直到近期才又有人开始讨论原版 shader 的内容</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">最近我在 discord 群里看到这张 GIF (</font></font></font><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Ftwitter.com%2FOnnowhere_%2Fstatus%2F1105031900362469376" target="_blank"><font face="微软雅黑"><font size="3">原文连结</font></font></a><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">)</font></font></font><br />
+<font color="#333333"><font style="font-size:15px"><font face="微软雅黑"><font color="#000000"><font color="#089ac"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fthumbs.gfycat.com%2FAlarmedLateDorado-size_restricted.gif" target="_blank"><img id="aimg_xtzyc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://thumbs.gfycat.com/AlarmedLateDorado-size_restricted.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font></font></font></font></font><br />
+<font style="font-size:15px"><font face="微软雅黑"><font color="#000000">根据巴哈板友的补充，这个应该是利用 volume rendering 的技术做的</font></font><br />
+<font face="微软雅黑"><font color="#000000">大致上的概念应该是将正方体切成非常多的小正方体，用类似微分的方式还原出 3D 的效果</font></font><br />
+</font><br />
+<font style="font-size:15px"><font face="微软雅黑"><font color="#000000">我看到这张图后去找了关于原版 shader 的资料</font></font><br />
+<font face="微软雅黑"><font color="#000000">最后找到的是这篇</font></font><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fpastebin.com%2FZ2Q47AfT" target="_blank"><font face="微软雅黑">文章</font></a><font face="微软雅黑"><font color="#000000">，研究如何自动切换玩家的 shader 滤镜。下面是他实作的效果</font></font></font><br />
+<font color="#333333"><font style="font-size:15px"><font face="微软雅黑"><font color="#000000"><font color="#089ac"><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fi.imgur.com%2FjYUGG9g.gif" target="_blank"><img id="aimg_fBc0Z" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.imgur.com/jYUGG9g.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font></font></font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">关于他如何切换滤镜的方式我会在下面简单说明</font></font></font><br />
+<br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">之后我就一边拆解他的档案一边上网查 shader 的写法</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">写着写着中二病就犯了，固定一种滤镜做解谜应该很有趣，但总觉得少了点什么</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">既然可以做后制特效，没有一点动画特效怎么说得过去？</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">然而如何控制当前的动画画格是一个很大的问题，困难点在哪我会在下面提到</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">而最后总算让我想到一个解决方法</font></font></font><br />
+<br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">关于 shader 动画的成果可以去看看我另外一篇原版模组的</font></font></font><a href="http://www.mcbbs.net/thread-861017-1-1.html" target="_blank"><font face="微软雅黑"><font size="3">文章</font></font></a><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">，其中时间停止的特效就是透过 shader 动画达成</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px"><br />
+</font></font></font><br />
+<hr class="l" /><br />
+<font color="#333333"><font face="微软雅黑"><font color="#000000"><strong><font face="微软雅黑"><font size="5"><font color="#000000">基本概念介紹：</font></font></font></strong><br />
+<font style="font-size:15px"><br />
+</font></font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">如果有写过游戏或需要GUI介面程式的人可能多多少少有听过 shader 这个东西</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">关于 shader 的定义这边就交给 </font></font></font><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fzh.wikipedia.org%2Fwiki%2F%E7%9D%80%E8%89%B2%E5%99%A8" target="_blank"><font face="微软雅黑"><font size="3">WIKI</font></font></a><font face="微软雅黑"><font color="#000000"><font style="font-size:15px"> 来解释，毕竟我也没有非常了解</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">在这篇文章中我使用的只有 fragment shader 的部分，也就是最单纯的对画面上每一格 pixel 的颜色进行修改，达到滤镜效果的 shader 程式</font></font></font><br />
+<br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">Minecraft 的 shader 是使用 GLSL 这个 openGL 开发的程式语言编写的，语法跟 C 非常的像</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">如果在这边讲 shader code 怎么写的话内容会太杂乱，再加上我也不是非常熟悉，所以有兴趣研究的可以拆解这篇文章中的各个范例或是上网查shader 的教学(个人推荐这个</font></font></font><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fthebookofshaders.com" target="_blank"><font face="微软雅黑"><font size="3">网站</font></font></a><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">)，这边就不多做说明了</font></font></font><br />
+<font color="#000"><font face="微软雅黑"><font style="font-size:15px">另外 chyx 大佬也有一篇相关的介绍 (</font></font></font><font face="微软雅黑"><font style="font-size:15px"><a href="http://www.mcbbs.net/thread-579538-1-1.html" target="_blank">文章连结</a></font></font><font color="#000"><font face="微软雅黑"><font style="font-size:15px">)</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px"><br />
+</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">Minecraft 的 shader 是使用 GLSL 这个 openGL 开发的程式语言编写的，语法跟 C 非常的像</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">如果在这边教 shader code 怎么写的话内容会太杂乱，再加上我也不是非常熟悉，所以有兴趣研究的可以拆解这篇文章中的各个范例以及上网查 shader 的教学(个人推荐这个网站)，这边就不多做说明了</font></font></font><br />
+<font color="#000000"><font face="微软雅黑"><font size="3"><br />
+</font></font><font face="微软雅黑"><font size="3">而关于 shader 架构的部分我也不是很清楚，许多东西也是拆其他内建 shader 的档案或上网查来的</font></font><br />
+<font face="微软雅黑"><font size="3">这边就我认知的架构来跟大家做个简介：</font></font><br />
+<font face="微软雅黑"><font size="3">首先在资源包的 shaders 资料夹中会有两个子资料夹，分别是 post 跟 program</font></font></font><font color="#000"><font face="微软雅黑"><font size="3">post 中我们会用到的是 entity_outline.json 这个档案，也就是生物发光用到的 shader</font></font></font><font face="微软雅黑"><font size="3"><font color="#000000"><br />
+</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000"><strong>注意：</strong>用了这个东西之后就没办法使用原本的发光效果了，所以请斟酌使用<br />
+(或许有办法同时套用自己的 shader 与发光的 shader 运算，但我没有成功试出来)</font></font></font><font face="微软雅黑"><font size="3"><font color="#000000">这个 json 档中的内容主要分成 target 跟 passes 两项</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000"><ul><li><font face="微软雅黑"><font size="3"><font color="#000000">target 的功用是列出图片暂存的 buffer，其中 previous 是上一个画面的内容，而 final 是画面最后会显示的内容。另外还有一个 minecraft:main 并不会列出来，这是在 particles、方块实体、半透明方块、第一人称玩家的手等等被显示出来前的画面<br />
+</font></font></font><li><font face="微软雅黑"><font size="3"><font color="#000000">passes 的功用则是依序从指定 target 输入，经过指定的 shader 运算后输出到指定 target，并且可以传入某些参数给 shader 程式。<br />
+</font></font></font><br />
+</ul>我们要做的事原则上就是把 minecraft:main 的内容输入到我们的 shader 进行运算，并输出回 minecraft:main 或输出到 final 中来做画面的显示 (似乎不能直接输出到来源 target，所以要用 swap 来作为中继 buffer，名字应该不一定要叫 swap)<br />
+<br />
+program 中我们至少需要两个档案，分别是对应前面 post 中 shader 名称的 json 档与一个 fsh 档或 vsh 档 (可能同时用到两者)，fsh 跟 vsh 分别就是 fragment shader 跟 vertex shader 的程式码档案，就如前面所说，这边只会介绍 fsh 档案<br />
+首先看到 json 档案，里面的 vertex 跟fragment 两项内容就决定了要使用哪个 vsh 跟 fsh 档案，而 uniforms 是要传给 shader 程式的参数，私心认为比较重要的是 InSize 跟 Time 两项参数，其中一个是你 Minecraft 画面的解析度，另一个是不断重复 0 -&gt; 1 的，单位为秒的数值 (似乎是从游戏着色器启动的瞬间开始循环)。可惜的是，能够传入的参数类型与名称都是 Minecraft 的程式写死的，我们没有办法修改或自定义参数。<br />
+而参数中 value 的意义我也没有弄懂，如果有人知道的话欢迎补充</font></font></font><font face="微软雅黑"><font size="3"><font color="#000000"><br />
+</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">完成基本的架构之后就是程式的功夫了，如何运算出你想要的滤镜效果端看各位的程式能力</font></font></font><br />
+<br />
+<hr class="l" /><br />
+<font size="5"><font face="微软雅黑"><font color="#000000"><strong>技术说明</strong><strong>：</strong></font></font></font><font face="微软雅黑"><font color="#333333"><font style="font-size:15px"><font color="#000000"><br />
+</font></font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px"><strong>首先介绍一下上面那个切换滤镜效果的作法的原理</strong></font><strong>：</strong></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">要达成切换的效果势必要有记录这个动作</font></font></font><br />
+<font face="微软雅黑"><font style="font-size:15px"><font color="#000000">然而 GLSL 语言不能修改外部共用的参数 (</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">read only)</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">因此他透过颜色的方式记录在画面中 (即画面右上角那块方形区域</font></font></font><font style="color:rgb(0, 0, 0)"><font face="微软雅黑"><font style="font-size:15px">)</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">详细步骤为：</font></font></font><br />
+<ul type="1" class="litype_1"><li><font face="微软雅黑"><font size="3"><font color="#000000">检查画面中特定点的颜色资料，如果符合某个我们指定的&quot;范围&quot; (浮点数要做相等判断几乎不可能) 则继续下个步骤，否则检查&quot;上一个画面&quot;中该点的颜色资料</font></font></font><li><font face="微软雅黑"><font size="3"><font color="#000000">对特定点以外的画面执行我们想做的滤镜运算</font></font></font><li><font face="微软雅黑"><font size="3"><font color="#000000">进到下一个 frame 并回到第一个步骤</font></font></font><br />
+</ul><font face="微软雅黑"><font size="3"><font color="#000000"><br />
+这么做的缺点是会牺牲画面上的某些像素点，以及可能刚好对到颜色而不小心触发特定 shader 运算<br />
+还有如何把指定颜色显示在玩家画面中的指定位置也是很大的问题，虽然关闭环境渲染的方块模型不会有阴影导致亮度减低，但即使给了夜视效果，不同亮度下的颜色还是会有些微不同 (燃烧中的模型实体只有顶部那面会是原始的颜色亮度)。这些都让这个技术的实用性大幅降低，不过我认为他的强大效果值得我们思考可能解决问题的方案</font></font></font><font face="微软雅黑"><font size="3"><font color="#000000"><br />
+</font></font></font><font face="微软雅黑"><font size="3"><font color="#000000"><br />
+</font></font></font><font face="微软雅黑"><font size="3"><font color="#000000"><strong>接着就来介绍我使用的动画滤镜的原理：</strong></font></font></font><strong><font color="#999999">(以下内容会包含我为什么这么做的思路过程，若没兴趣可以只看</font><font color="#0000ff">蓝字</font><font color="#999999">内容)</font></strong><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">首先要有动画滤镜的效果，就必须要有一个会随时间变动的 variable</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">而我在查 shader 的教学时发现多数 shader 程式都会传入一个时间的参数，后来也发现 Minecraft 中使用的就是 Time 这个参数，于是我一开始就用 Time 尝试动画滤镜的设计</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">不过 Time 有两个很大的问题，其一是他的动画时长最多只有 1 秒，其二是我们没办法在游戏中知道当前Time 的数值 (就像动画材质一样，我们没办法知道当前这个瞬间他会显示哪个画格的材质)。因此使用 Time 来做一次性的动画滤镜是不可行的，只能用于随时间具有重复性值的循环动画滤镜 (如水波)</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000"><br />
+</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">当初我卡在这边差点就放弃动画滤镜的可能性了，不过某天灵光一闪，终于想到一个解决办法</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">原理与上述切换滤镜效果的做法非常相似，差别在于储存颜色的方式</font></font></font><br />
+<font face="微软雅黑"><font color="#0000ff"><font style="font-size:15px">上述的做法在储存颜色时只有单纯的将上个画面的颜色保留下来作为纪录，而我改为将上个画面的颜色稍作修改再纪录。如此一来就能每个 frame 自动依序切换不同滤镜效果，也就是我们要的动画滤镜</font></font></font><br />
+<font face="微软雅黑"><font color="#0000ff"><font style="font-size:15px"><br />
+</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">至于要怎么修改纪录的颜色，最直觉的方式是每次增加或减少一点 RGB 中某个的数值。然而我并没有采用这种方式，主要原因是这样会占用非常多种颜色，用作纪录的颜色越多，意外触发 shader 运算的可能性就越高</font></font></font><br />
+<font color="#0000ff"><font face="微软雅黑"><font style="font-size:15px">在这边我采用的方法是使用多个像素点的颜色组合来判断，每个像素点只使用两种颜色，同时判断 10 个像素点就有 1024 种组合，将其视作二进位数字就可以简单的算出动画画格编号，</font></font><font face="微软雅黑"><font style="font-size:15px">足够制作 17 秒以上 60FPS 的动画</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">另外在选择纪录用的颜色时，我会尽量选单一颜色的值特别高 (较亮) 的颜色，因为在实际显示的画面有光线阴暗度的影响，出现较亮颜色的机率较低，也就较不易发生意外触发的状况</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px"><br />
+</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px"><br />
+</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">当然这个做法也有一些缺点</font><font color="#333333"><font style="font-size:15px">：</font></font></font></font><br />
+<font face="微软雅黑"><ul type="1" class="litype_1"><li><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">需要占用画面显示的范围 (不过其实非常小，你们可以找找我成果作品</font><font style="font-size:15px">中把红色记录在哪边)</font><br />
+</font></font><li><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">动画播放速度会受玩家 FPS 影响，FPS 越大播放速度越快</font><br />
+</font></font><li><font face="微软雅黑"><font color="#000000"><font style="font-size:15px">仍无法完全解决意外触发的可能性</font><br />
+</font></font><br />
+</ul><br />
+<font style="font-size:15px"><font color="#000000">另外在我的成果作品中，是透过判断画面正中间的点是否为我指定的颜色，来触发指定的shader 动画，搭配在玩家脚下放置关闭环境渲染的发光方块，可以较精确的让玩家成功触发shader 动画。</font></font><font color="#000000"><font style="font-size:15px">不同的状况下可能有其他更适合的触发方式，这部分还有很大的空间值得研究</font></font></font><font face="微软雅黑"><font color="#000000"><font style="font-size:15px"><br />
+</font></font></font><br />
+<font face="微软雅黑"><font color="#000000"><font style="font-size:15px">其他还有一些细节，例如怎么避免用来触发动画的颜色看起来很突兀，这些就留给各位慢慢思考了。</font><br />
+<font style="font-size:15px">这项技术目前看起来还很不成熟，很多细节需要大家多多思考研究出良好的解决方案。</font><br />
+<font style="font-size:15px">这篇文章就当个抛砖引玉吧！</font><br />
+</font><br />
+</font><br />
+<img id="aimg_d9v95" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/2.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<font face="微软雅黑"><font size="5"><font color="#8b0000"><strong>5/26更新</strong></font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">大家好，我又回来了</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">这次补充的东西是关于 FPS 影响 shader 动画速度的解决方案还有更好的 shader 触发方式。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">FPS 影响 shader 动画速度的问题在前面已经提过了，而如果有试着去应用的人应该会发现，要触发 shader 动画这件事还真不是普通的难，上面虽然提供一种用关闭阴影渲染方块的方式，但是使用起来总差强人意</font></font></font><font color="#000"><font face="微软雅黑"><font size="3">。针对这两大问题，我想了一些解决方案，这次就来分享我目前认为相对好用的解决方案吧。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000"><br />
+</font></font></font><br />
+<font face="微软雅黑"><font size="4"><font color="#000000"><strong>FPS 对动画速度的影响</strong></font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">首先要了解这个问题的发生原因：由于每个 frame 都会推进一格动画画格，所以当 FPS 越高的时候，画格推进速度就越快，也就导致动画速度越快。然而我们没有办法直接知道玩家的 FPS，所以我们要想办法得到这个数值(当然你也可以选择在游戏中每 tick 切换显示给玩家的颜色，不过这难度我认为相对高出许多，实用性大幅降低)。针对这个问题，我想到的方式是规律性的纪录一个数值，然后每个 frame 增加那个数值，最后再定时把那个数值记录下来。要做到这件事情需要一个</font><strong><font color="#0000ff">规律</font></strong><font color="#000000">的、</font><strong><font color="#0000ff">按照时间变动</font></strong><font color="#000000">的参数，刚好我之前提到的 Time 这个变数就完美符合这些条件。另外恰巧我在看 Onnowhere 的 twitter 有没有新的关于 shader 的东西时，发现他已经用了 FPS 侦测的技术来控制动画，于是就跟他讨论了一番。</font></font></font><br />
+
+<ignore_js_op>
+
+<img id="aimg_1323310" aid="1323310" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201905/26/211741hsmtmm9tkknm57s4.jpg" file="https://attachment.mcbbs.net/forum/201905/26/211741hsmtmm9tkknm57s4.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="611" id="aimg_1323310" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1323310_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>253dddc4b1983bc4045dcc06f4562d08.jpg</strong> <em class="xg1">(93.74 KB, 下载次数: 9)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTMyMzMxMHw5MzYzNTMzYXwxNjEzOTgyMjY0fDI0MTk0ODZ8ODYzNzMw&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-5-26 21:17 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<font face="微软雅黑"><font size="2"><font color="#000000">原文：</font></font></font><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Ftwitter.com%2FOnnowhere_%2Fstatus%2F1117015621063938053" target="_blank">https://twitter.com/Onnowhere_/status/1117015621063938053</a><br />
+<br />
+<font face="微软雅黑"><font color="#000000"><font size="3">Onnowhere 虽然身为原版 shader 技术的领头羊，不过多数技术细节都保持着神秘，我也不方便细问。但是从对话内容可以得知他是用动画材质来侦测 FPS 的，同样符合我上面说的</font></font><strong><font color="#0000ff">规律</font></strong><font color="#000000"><font size="3">性、</font></font><strong><font color="#0000ff">依照时间变化</font></strong><font size="3"><font color="#000">的特性，因此可以合理猜想他的做法应该跟我所想的差不多。当然如果之后他发表了他的作品，而且其中用的逻辑与我的不同那</font></font><font size="1"><font color="#c0c0c0">(如果闲着)</font></font><font size="3"><font color="#000">再来分析一番，这边就照我的想法来解说吧。</font></font></font><br />
+<br />
+<font face="微软雅黑"><font size="3"><font color="#000000">首先需要两个变数，一个是用来每个 frame 更新 FPS 数值的，以下简称为 </font><strong><font color="#ff0000">A</font></strong><font color="#000000">，另一个是用来纪录我们侦测出来的 FPS 数值，以下简称为 </font><strong><font color="#ff0000">B</font></strong><font color="#000000">。之所以要用两个变数是因为如果只有 </font></font></font><strong><font color="#ff0000">A</font></strong><font face="微软雅黑"><font size="3"><font color="#000000"> 变数的话，我们只能拿到持续更新计算中的 FPS 而不是一个稳定的数值。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">接下来我们把规律变化的时间拆分成三个段落，这边我取的是前 0.1 秒、后 0.1 秒与中间的 0.8 秒。之所以用 0.1 秒当最小区间是因为最小的 FPS 是 10，也就是每个 frame 会占用 0.1 秒，假如我们用 0.05 秒当最小区间，10 FPS 的玩家有可能这个 frame 是 0.96 秒，下个frame就跳到 0.06 秒了，也就是不会进入我们切割好的第一个段落。当然取 0.1 秒对于 FPS &lt;= 10 的玩家还是有可能遇到这样的状况，不过如果 FPS 低落成这样我想玩家应该也没有动力玩下去了。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">变数有了，时间也切割好之后就能开始设计程式了，这边设计的逻辑很简单。首先对于变数 </font></font></font><strong><font color="#ff0000">A</font></strong><font face="微软雅黑"><font size="3"><font color="#000000">，在第一个时间区间中我们写入 </font></font></font><font face="微软雅黑"><font size="3"><font color="#ff0000"><strong>0</strong></font></font></font><font face="微软雅黑"><font size="3"><font color="#000000"> 这个数字，而在第二个时间区间中我们每个 frame 把这个数字</font><strong><font color="#ff0000">加 1</font></strong><font color="#000000">，最后一个时间区间则</font><font color="#ff0000"><strong>不更动</strong></font><font color="#000000">数字。这样就能每秒分别统计其中的 0.8 秒经过了多少个 frame。而对于变数 </font></font></font><strong><font color="#ff0000">B</font></strong><font face="微软雅黑"><font size="3"><font color="#000000">，它的功能是纪录变数 </font></font></font><strong><font color="#ff0000">A</font></strong><font face="微软雅黑"><font size="3"><font color="#000000"> 统计出来的 FPS 数值，因此在前两个时间区间中他只要维持之前记录到的数值即可，而最后一个时间区间则是将变数A 最新统计出来的数值更新过来。大略的程式概念如下：</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#ff0000"><strong>变数 A</strong></font></font></font><div class="blockcode"><div id="code_Nxr"><ol><li>if (Time &lt; 0.1)<br /><li>&nbsp; &nbsp; recordColor(0, varACoord); // 将0写数A变数<br /><li>else if (Time &lt; 0.9)<br /><li>&nbsp; &nbsp; recordColor(getFrame(PrevSampler, varACoord) + 1, varACoord); // 将A变数的值+1<br /><li>else<br /><li>&nbsp; &nbsp; gl_FragColor = vec4(PrevTexel.rgb, 1.0); // 维持纪录的数值</ol></div><em onclick="copycode($('code_Nxr'));">复制代码</em></div><strong><font size="3"><font color="#ff0000">变数 B</font></font></strong><br /><div class="blockcode"><div id="code_yZb"><ol><li>if (Time &lt; 0.9)<br /><li>&nbsp; &nbsp; gl_FragColor = vec4(PrevTexel.rgb, 1.0); // 维持上个frame的数值<br /><li>else<br /><li>&nbsp; &nbsp; gl_FragColor = texture2D(PrevSampler, varACoord); // 从A变数复制数值</ol></div><em onclick="copycode($('code_yZb'));">复制代码</em></div><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">这样我们就成功拿到 FPS 的数值了，在动画设计的时候只要拿这个数去做一些运算就可以让动画维持预期中的播放速度了。要注意的是用这段程式拿到的是 0.8 秒经过的 frame 数量，在做运算的时候记得把这个数再除以 0.8。另外需要注意的是，只有当这个 shader 正在被执行才会去更新 FPS 的数值，也就是第一次成功纪录到数值以前都是拿不到 FPS 的。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">同样衍伸出的问题是，如果FPS 记录到一半shader 就被中断，下次重新执行shader 的时候会发生Time 的数值跳跃的问题，因为Time 并不是这个shader 执行时才会更新，而是随着游戏持续在更新，不过这些问题影响不大，只要曾经持续执行过1 秒以上的shader 程式就不太会有问题。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">另外还有一个要注意的问题是FPS 开太高的时候，动画总共需要的画格数量可能会太多，可能会超过用来记录画格的变数的最大数值，需要自己跟玩家提示最大的FPS不应超过多少。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000"><br />
+</font></font></font><br />
+<font face="微软雅黑"><font size="4"><font color="#000000"><strong>更好的 shader 触发方式</strong></font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">原本的范例中用的是关闭阴影渲染的发光(或给夜视)方块模型来显示颜色，因为这样是我之前所知道唯一可以显示出近乎原始颜色的方式。不过有在做地图的人应该都不喜欢在玩家周围放方块破坏地形吧？即使用 tp 的方式把玩家传送到充满该方块的房间再传回去也相当麻烦，而且一般生存地图无法使用。最理想的方式肯定是用实体来显示颜色，可是实体模型又不能关闭阴影渲染。</font></font></font><br />
+<br />
+<font face="微软雅黑"><font size="3"><font color="#000000">好巧不巧前些时间我刚好听闻到一个黑科技，那就是 </font><strong><font color="#0000ff">font</font></strong><font color="#000000"> 的 </font><strong><font color="#0000ff">json</font></strong><font color="#000000"> 档案。</font></font></font><br />
+<br />
+<font face="微软雅黑"><font size="3"><font color="#000000">这东西从 1.13 被加入游戏中，在网路上的文档也是跟 shader 一样稀有。因为我有一些 cocos2dx 的开发经验，所以大概可以理解这东西在做什么，不过这边就不做详细介绍了。简单来说它可以让你指定任意字元要显示的东西，这东西可以是你自己下载的字体，也可以是图片。</font></font></font><br />
+<font face="微软雅黑"><font size="3"><font color="#000000">这下可有趣了，有什么东西不会被其他东西挡住，会自己转向玩家，而且亮度可以轻松调到最亮？不就是实体的名条吗？这简直是??专门为了触发 shader 而存在的啊！不过用来显示名条的实体也不是可以随便选的，为了让名条保持最亮必须让实体着火，而又不能显示出火焰，本身还必须是透明的，于是 Marker 盔甲架就上榜了。其他还有一些细节需要注意，像是如果名条离玩家画面中心太远，名条在旋转面向玩家的时候，可能会转超出玩家的画面。还有名条的灰色背景会让颜色稍微变暗，所以要让那个背景避开画面中的侦测点，有兴趣的人可以去参考我的 </font></font></font><a href="http://www.mcbbs.net/thread-861017-1-1.html" target="_blank">DIO 原版模组</a><font color="#000"><font face="微软雅黑"><font size="3">的作法。</font></font></font><br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[14355418] = ['1323310'];
+attachimggroup(14355418);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>18780262934&nbsp; &nbsp; <b>时间: </b>2019-5-7 16:20<br />
+支持支持！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>brooke_zb&nbsp; &nbsp; <b>时间: </b>2019-5-7 16:41<br />
+<i class="pstatus"> 本帖最后由 brooke1999 于 2019-5-7 16:43 编辑 </i><br />
+<br />
+那天看了你回复后又心痒痒跑去巴哈看了你那篇文章，可惜我的编程基础十分薄弱，对于shader这一类更是完全没接触过，可以说是完全看不懂。<br />
+可惜了，一般玩家都玩不来shader，不然应用与地图肯定很有趣，大佬有时间也可以讲一讲一些简单的应用，比如如何通过触发某个指令使屏幕产生一些有趣的滤镜效果（恐怖地图新素材get√）<br />
+<br />
+（那个把画面变成沙漠的gif真是看得我一脸懵逼）<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⊙v⊙&nbsp; &nbsp; <b>时间: </b>2019-5-7 16:52<br />
+0基础，从哪学起，dalao点个明路！<br />
+如果是那个shaderbook的话不行...到了代码那里都不带半个字解释的<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>森林蝙蝠&nbsp; &nbsp; <b>时间: </b>2019-5-7 16:56<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14355930&amp;ptid=863730" target="_blank"><font color="#999999">⊙v⊙ 发表于 2019-5-7 16:52</font></a></font><br />
+0基础，从哪学起，dalao点个明路！<br />
+如果是那个shaderbook的话不行...到了代码那里都不带半个字解释的</blockquote></div><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fwww.shadertoy.com%2F" target="_blank">https://www.shadertoy.com/</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>森林蝙蝠&nbsp; &nbsp; <b>时间: </b>2019-5-7 17:05<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14355945&amp;ptid=863730" target="_blank"><font color="#999999">森林蝙蝠 发表于 2019-5-7 16:56</font></a></font><br />
+https://www.shadertoy.com/</blockquote></div><br />
+当然要参考一些书籍，像什么learn opengl啦，opengl编程指南啦，unity shader精要啦，然后参照这里的源码试着写。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-7 22:25<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14355930&amp;ptid=863730" target="_blank"><font color="#999999">⊙v⊙ 发表于 2019-5-7 16:52</font></a></font><br />
+0基础，从哪学起，dalao点个明路！<br />
+如果是那个shaderbook的话不行...到了代码那里都不带半个字解释的</blockquote></div><br />
+用现成的文件去改会容易些<br />
+主要知道几个基本的函式或变数，其他就是用创意去编程了<br />
+<br />
+首先要知道glsl中的RGBA以及像素点的座标都是0~1的float类型数据<br />
+例如(1.0, 0.0, 0.0, 0.5)可以代表半透明的红色<br />
+而(1.0, 1.0)可以代表画面最右上方像素点的座标<br />
+<br />
+然后要理解成这个程式是每个像素点同时执行的<br />
+也就是解析度800*600的画面，同时会有480000个像素点在执行这段程式<br />
+至于现在是哪个像素点在执行程式，则从texCoord变数得知<br />
+<br />
+常用变数、类型、函数就如下方列表：<br /><div class="blockcode"><div id="code_pxg"><ol><li>// 变数类型<br /><li>sampler2D;&nbsp;&nbsp;// 储存画面数据的变数类型<br /><li>vec2;&nbsp;&nbsp;// 与vec3, vec4同为float vector，差别是阵列长度<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; // vector有一些attributes如xyzw或rgba，分别代表vector中不同位置的数值，可以任意组合成其他vector或取得单一数值<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; // vector可以做许多基本的数值运算<br /><li>ivec2;&nbsp;&nbsp;// int版本的vector系列<br /><li><br /><li>// 常用变数<br /><li>sampler2D DiffuseSampler;&nbsp;&nbsp;// 当前画面的sampler2D变数<br /><li>sampler2D PrevSampler;&nbsp;&nbsp;// 上个画面的sampler2D变数<br /><li>vec2 texCoord;&nbsp;&nbsp;// 目前这个像素点在画面中的位置，是个代表xy座标的vector<br /><li>vec2 oneTexel;&nbsp;&nbsp;// 一个像素点在画面中xy的长度<br /><li>vec4 gl_FragColor;&nbsp;&nbsp;// 当前这个像素点最后要显示的颜色<br /><li><br /><li>// 常用函数<br /><li>vec4 texture2D(sampler2D sampler, vec2 coord);&nbsp;&nbsp;// 取得sampler画面中coord位置的像素的颜色</ol></div><em onclick="copycode($('code_pxg'));">复制代码</em></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>BlackCB.&nbsp; &nbsp; <b>时间: </b>2019-5-7 23:22<br />
+虽然不懂c语言，但看了lz的教程还是学到了很多东西<br />
+mc能做到越来越开放也是很让人激动的呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1305791312&nbsp; &nbsp; <b>时间: </b>2019-5-8 01:36<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>墨仔&nbsp; &nbsp; <b>时间: </b>2019-5-10 15:10<br />
+ 支持支持！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>brooke_zb&nbsp; &nbsp; <b>时间: </b>2019-5-12 16:39<br />
+大佬，恭喜精华，今天刚好看到你油管上解决了动画受玩家fps影响的视频，不如更新一下帖子？#滑稽<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-12 18:28<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14392584&amp;ptid=863730" target="_blank"><font color="#999999">brooke1999 发表于 2019-5-12 16:39</font></a></font><br />
+大佬，恭喜精华，今天刚好看到你油管上解决了动画受玩家fps影响的视频，不如更新一下帖子？#滑稽 ...</blockquote></div><br />
+有时间会更新一下内容<br />
+刚好昨天发现一个用来触发shader动画的好东西<br />
+到时候一起整理出来<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2019-5-13 12:10<br />
+这样夜视效果就能更改了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Hui先生&nbsp; &nbsp; <b>时间: </b>2019-5-13 17:14<br />
+顶顶顶............<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-13 22:26<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14397350&amp;ptid=863730" target="_blank"><font color="#999999">467440721 发表于 2019-5-13 12:10</font></a></font><br />
+这样夜视效果就能更改了？</blockquote></div><br />
+不太理解你的意思<br />
+是指更改什么东西？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2019-5-14 06:32<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14400761&amp;ptid=863730" target="_blank"><font color="#999999">貓狗喵 发表于 2019-5-13 22:26</font></a></font><br />
+不太理解你的意思<br />
+是指更改什么东西？</blockquote></div><br />
+夜视效果的……滤镜？<br />
+让它本来变亮的效果改成变暗<br />
+（这也是着色器的一部分吧）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>半度微凉.&nbsp; &nbsp; <b>时间: </b>2019-5-14 10:13<br />
+顶~很有帮助<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-14 10:26<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14402151&amp;ptid=863730" target="_blank"><font color="#999999">467440721 发表于 2019-5-14 06:32</font></a></font><br />
+夜视效果的……滤镜？<br />
+让它本来变亮的效果改成变暗<br />
+（这也是着色器的一部分吧） ...</blockquote></div><br />
+夜视貌似不是著色器<br />
+感觉只是调整你画面里周围的亮度<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1723624171&nbsp; &nbsp; <b>时间: </b>2019-5-15 07:24<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>王泽大神&nbsp; &nbsp; <b>时间: </b>2019-5-19 10:12<br />
+我感觉我的世界创造出立体材质很困难，所以支持一下作者<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zfydxhjq&nbsp; &nbsp; <b>时间: </b>2019-5-19 12:15<br />
+不懂c语言，但看了lz还是学到很多<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2271091929&nbsp; &nbsp; <b>时间: </b>2019-5-19 22:28<br />
+666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xiaohan_xixi&nbsp; &nbsp; <b>时间: </b>2019-5-20 18:15<br />
+加油加油~ <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>NBone&nbsp; &nbsp; <b>时间: </b>2019-5-24 11:11<br />
+&nbsp; &nbsp; &nbsp; &nbsp; MCBBS有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>NBone&nbsp; &nbsp; <b>时间: </b>2019-5-24 11:11<br />
+&nbsp; &nbsp; &nbsp; &nbsp; MCBBS有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>12345sssssa&nbsp; &nbsp; <b>时间: </b>2019-5-24 12:18<br />
+111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yuri1007&nbsp; &nbsp; <b>时间: </b>2019-5-24 17:31<br />
+What?What this!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-5-25 02:38<br />
+请问能获取玩家的坐标或者面朝的方向吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-25 12:51<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14484377&amp;ptid=863730" target="_blank"><font color="#999999">chyx 发表于 2019-5-25 02:38</font></a></font><br />
+请问能获取玩家的坐标或者面朝的方向吗？</blockquote></div><br />
+这个我不确定，不过看onnowhere的twitter说法应该是可以<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-5-25 15:39<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14488020&amp;ptid=863730" target="_blank"><font color="#999999">貓狗喵 发表于 2019-5-25 12:51</font></a></font><br />
+这个我不确定，不过看onnowhere的twitter说法应该是可以</blockquote></div><br />
+对应的变量是什么呢？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-25 17:19<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14489751&amp;ptid=863730" target="_blank"><font color="#999999">chyx 发表于 2019-5-25 15:39</font></a></font><br />
+对应的变量是什么呢？</blockquote></div><br />
+这我就不清楚了，他的twitter从来不透漏详细作法<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>是暮光哈~&nbsp; &nbsp; <b>时间: </b>2019-5-26 08:22<br />
+好像很复杂，个人认为<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ee12341&nbsp; &nbsp; <b>时间: </b>2019-5-26 17:39<br />
+大佬.............<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2019-5-29 08:33<br />
+问俩问题：<br />
+1、如果使用你的dio材质包，原来的生物发光还能用吗？<br />
+2、我想在我的地图中使用持续的滤镜（整场地图无需切换滤镜），我目前想到的办法是颜色检测直接检测从黑色到白色，然后持续修改，但是有没有更好的办法？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>貓狗喵&nbsp; &nbsp; <b>时间: </b>2019-5-29 11:18<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=14517452&amp;ptid=863730" target="_blank"><font color="#999999">467440721 发表于 2019-5-29 08:33</font></a></font><br />
+问俩问题：<br />
+1、如果使用你的dio材质包，原来的生物发光还能用吗？<br />
+2、我想在我的地图中使用持续的滤镜（整 ...</blockquote></div><br />
+我的DIO那个会盖掉发光效果，虽然就架构来看我觉得可以保留发光效果，但我没有试出来怎么做<br />
+如果只有一种滤镜而且不会取消的话，不用做任何侦测只要保持发光实体在画面中就行<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>htskr&nbsp; &nbsp; <b>时间: </b>2019-6-1 15:01<br />
+6666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>无归&nbsp; &nbsp; <b>时间: </b>2019-6-2 15:23<br />
+感觉好多，慢慢看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704287913&nbsp; &nbsp; <b>时间: </b>2019-6-6 15:12<br />
+mcbbs有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lovethx&nbsp; &nbsp; <b>时间: </b>2019-6-8 11:03<br />
+...................<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>cznbqw&nbsp; &nbsp; <b>时间: </b>2019-6-9 11:36<br />
+太复杂了 ，膜拜一个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>501595504&nbsp; &nbsp; <b>时间: </b>2019-6-10 10:44<br />
+神乎其技，不服不行<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>桐乃源玖&nbsp; &nbsp; <b>时间: </b>2019-6-11 14:45<br />
+小小的优化带来了很好的体验 赞一个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>woc159357&nbsp; &nbsp; <b>时间: </b>2019-7-4 14:52<br />
+<br />
+虽然不懂c语言，但看了lz的教程还是学到了很多东西<br />
+mc能做到越来越开放也是很让人激动的呢....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>苍白的豆子&nbsp; &nbsp; <b>时间: </b>2019-7-14 11:43<br />
+6666666666666
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>数据包标签的使用问题 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05ODk1NDAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>数据包标签的使用问题 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>末地探险者&nbsp; &nbsp; <b>时间: </b>2020-3-18 11:13<br />
+<b>标题: </b>数据包标签的使用问题<br /><i class="pstatus"> 本帖最后由 末地探险者 于 2020-3-18 11:39 编辑 </i><br />
+<br />
+<a href="https://www.mcbbs.net/thread-963143-1-1.html" target="_blank">https://www.mcbbs.net/thread-963143-1-1.html</a>在这个帖子中说明了，数据包标签在命令中的使用范围；<br />
+但是我想知道数据包标签怎么在断言中使用<br />
+由于<a href="http://www.mcbbs.net/plugin.php?id=link_redirect&amp;target=https%3A%2F%2Fcoolshell.cn%2Farticles%2F10804.html" target="_blank">X-Yproblem</a>，可以提出更好的解决方案，没必要拘泥在我的主题中<br />
+<br />
+主干题目1：希望选择某一类的物品<strong>实体</strong><br />
+（1能使用数据包标签吗，已经编写好这一类物品的item数据包标签了，命名地址为kk:tpp）<br />
+（2如果需要数据包标签，怎么在断言中使用（给出具体断言））<br />
+（3<strong>给出明确答案</strong>：item标签是不是只能用在“物品”形式物品/非实体形式的物品）（4如果不能使用数据包标签，要怎么做）<br />
+<br />
+<img id="aimg_ffYiF" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<br />
+题目2:判断两个条件同时成立<br />
+（1断言能够写出“且”的效果吗/除了“或”“非”）<br />
+（2有更好的实现方式吗：判断两个条件同时成立：已知：execute的嵌套）<br />
+<br />
+附加题：如果数据包标签地址是/kk/tags/item/ss/tpp.json，怎么引用数据包标签，分别给出在命令中的形式和在战利品表中的形式<br />
+<br />
+谢谢各位大佬了。<br />
+<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Chelover_C60&nbsp; &nbsp; <b>时间: </b>2020-3-18 11:13<br />
+<i class="pstatus"> 本帖最后由 Chelove_C60 于 2020-3-18 11:33 编辑 </i><br />
+<div class="quote"><blockquote>主干题目1：希望选择某一类的物品实体</blockquote></div><br />
+这个数据包标签做不到。<br />
+物品标签几乎只能应用于clear和战利品表，实体标签也无法区分nbt。<br /><div class="quote"><blockquote>给出明确答案：item标签是不是只能用在“物品”形式物品/非实体形式的物品</blockquote></div><br />
+是的<br />
+替代方案为给需要的物品实体添加tag，然后根据tag来选择。如需要选择钻石和绿宝石<br />
+/tag @e[type=item,nbt={Item:{id:&quot;minecraft:diamond&quot;}}] add a<br />
+/tag @e[type=item,nbt={Item:{id:&quot;minecraft:emerald&quot;}}] add a<br />
+/say @e[tag=a]<br />
+/tag @e[tag=a] remove a<br /><div class="quote"><blockquote>断言能够写出“且”的效果吗</blockquote></div><br />
+非（非A或非B）=A且B<br /><div class="quote"><blockquote>有更好的实现方式吗：判断两个条件同时成立</blockquote></div><br />
+execute if &lt;条件A&gt; if &lt;条件B&gt; <br />
+条件A和条件B的逻辑关系就是且<br /><div class="quote"><blockquote>如果数据包标签地址是/kk/item/ss/tpp.json</blockquote></div><br />
+你这个地址有问题吧，是不是应该是 /kk/tags/item/ss/tpp.json 这样？<br />
+如果是这样，那就是 kk:ss/tpp ，战利品表和命令里都是这种形式<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>末地探险者&nbsp; &nbsp; <b>时间: </b>2020-3-18 11:37<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17003846&amp;ptid=989540" target="_blank"><font color="#999999">Chelove_C60 发表于 2020-3-18 11:31</font></a></font><br />
+这个数据包标签做不到。<br />
+物品标签几乎只能应用于clear和战利品表，实体标签也无法区分nbt。</blockquote></div><br />
+非常感谢！<br />
+<br />
+<br />
+非非的那个已经想到了<br />
+本来想要写进主题去<br />
+<br />
+但是对非非有一个疑问所以不敢写：<br />
+非{条件}<br />
+term是不是只有一项？<br />
+<br />
+是不是只能<br />
+非{或{AorB}}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Chelover_C60&nbsp; &nbsp; <b>时间: </b>2020-3-18 11:40<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17004010&amp;ptid=989540" target="_blank"><font color="#999999">末地探险者 发表于 2020-3-18 11:37</font></a></font><br />
+非常感谢！</blockquote></div><br />
+就是这样<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>末地探险者&nbsp; &nbsp; <b>时间: </b>2020-3-24 15:57<br />
+<i class="pstatus"> 本帖最后由 末地探险者 于 2020-3-24 16:09 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=17004079&amp;ptid=989540" target="_blank"><font color="#999999">Chelove_C60 发表于 2020-3-18 11:40</font></a></font><br />
+就是这样</blockquote></div><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>经过测试<br />
+非非表示且可能不行<br />
+代码及运行结果如下<br /><div class="blockcode"><div id="code_M3m"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;condition&quot;:&quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp; &quot;term&quot;:<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:alternative&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;terms&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:location_check&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;block&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;block&quot;: &quot;minecraft:dirt&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;offsetY&quot;: -1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;: &quot;minecraft:location_check&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;block&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;block&quot;: &quot;minecraft:sugar_cane&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;offsetY&quot;: 0<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp;&nbsp; &nbsp; } <br /><li>}</ol></div><em onclick="copycode($('code_M3m'));">复制代码</em></div><br />
+<br />
+测试1.execute as @e[predicate!=xxx:xxx] at @s run say 1<br />
+结果：在泥土上和在甘蔗上都可以say 1<br />
+<br />
+测试2.execute as @e at @s unless predicate xxx:xxx run say 1<br />
+结果：相同</td></table></div></div><br />
+<br />
+我知道了qaq数学的逻辑不过关<br />
+我再测试一下<br />
+<br /><div class="blockcode"><div id="code_GvV"><ol><li>{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;condition&quot;: &quot;minecraft:alternative&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;terms&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;:&quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;term&quot;:<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {&quot;condition&quot;: &quot;minecraft:location_check&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;block&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;block&quot;: &quot;minecraft:dirt&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;offsetY&quot;: -1<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;condition&quot;:&quot;minecraft:inverted&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;term&quot;:<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; {&quot;condition&quot;: &quot;minecraft:location_check&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;predicate&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;block&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;block&quot;: &quot;minecraft:sugar_cane&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;offsetY&quot;: 0<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>} </ol></div><em onclick="copycode($('code_GvV'));">复制代码</em></div>可以了qaq<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

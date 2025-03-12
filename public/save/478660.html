@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 单次执行模块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00Nzg2NjAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 单次执行模块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-31 19:48<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 单次执行模块<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-1-10 16:28 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><font face="微软雅黑"><font size="6"><strong>多模块关联</strong></font></font></div></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 单次执行模块</font></font></div><div align="left"><div align="left">在模块中，为了达成<strong>一个目的</strong>，可以使用多个语句的<strong>单模块来完成</strong>。</div><div align="left">但是如果模块的输入有<strong>一系列输出</strong>，那么需要<strong>创建多个模块完成</strong>。</div><br />
+<div align="left">因此在单模块中输入输出关系：</div><div align="left"><font size="2"><font color="#800000">输入→输出</font></font></div><br />
+<div align="left"><strong>多模块相当于多个单模块</strong>，所以输出输入关系：</div><div align="left"><font size="2"><font color="#800000">输入&nbsp; &nbsp; →输出</font></font></div><div align="left"><font size="2"><font color="#800000">(输入)&nbsp;&nbsp;→输出</font></font></div><div align="left"><font size="2"><font color="#800000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;→输出</font></font></div><br />
+<div align="left">可以看到多模块更加灵活<strong>不必局限于一个模块的体系</strong>。本章就要学习包括<strong>创建调用</strong>多模块，和<strong>控制多模块的操作类型</strong>。</div><br />
+<font size="4"><strong>多模块最本质的区别：可被调用</strong></font><br />
+<div align="left">多模块关联包括</div><br />
+<div align="left"><strong>建立模块</strong></div><br />
+<div align="left"><strong>调用模块</strong></div><br />
+<div align="left"><strong>初始执行模块</strong></div><br />
+<div align="left"><strong>单次执行模块</strong></div><ul><li><div align="left">setblock法</div><li><div align="left">时钟法</div><li><div align="left">调用效果指令</div><br />
+</ul><div align="left"><strong>调用游戏资源</strong></div><ul><li><div align="left">坐标操作</div><li><div align="left">自动寻路</div><br />
+</ul><div align="left"><strong>远程法调用逻辑组</strong></div><br />
+<div align="left"><strong>关闭模块</strong></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-477002-1-1.html" target="_blank">上一篇</a>（初始执行模块）--<a href="http://www.mcbbs.net/thread-488112-1-1.html" target="_blank">下一篇</a>（调用游戏资源）</font></div><div align="right"><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§8.4 单次执行模块</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 setblock法</font></font><br />
+在模块中，<strong>只需要某一段指令仅仅执行一次</strong>，而不是跟着高频一起无限循环。<br />
+<br />
+做到单次执行，一共有<strong>两种方法</strong>：<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">?8.4.1 setblock法</font></font></strong></div><div align="left"><font face="微软雅黑"><font size="1">下一页为 时钟法</font></font>前面其实讲到过。setblock法分两种：一种是<strong>单次fill</strong>，第二种是<strong>远程连接</strong>。<br />
+<br />
+<ul><li><strong>单次fill</strong><br />
+</ul><strong><img id="aimg_rpSsq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/a4761a611afc50aa.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</strong><br />
+<br />
+<font color="#008000">上面的指令方块：</font><br /><div class="blockcode"><div id="code_umJ"><ol><li>/fill ~ ~-1 ~ ~1 ~-1 ~ air</ol></div><em onclick="copycode($('code_umJ'));">复制代码</em></div><br />
+<font color="#008000">下面的指令方块：</font><br /><div class="blockcode"><div id="code_vFK"><ol><li>/fill ~ ~1 ~ ~1 ~1 ~ redstone_block</ol></div><em onclick="copycode($('code_vFK'));">复制代码</em></div><br />
+<br />
+在两个指令方块中间坐标处放置<strong>红石块即可执行一次</strong>。<br />
+（比如图中的say 1）<br />
+<br />
+<br />
+<ul><li><strong>远程连接</strong><br />
+</ul><strong><img id="aimg_gVUzB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/5fa12164fdc156e6.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<br />
+<font color="#008000">接收信号的指令方块：</font><br /><div class="blockcode"><div id="code_Ckt"><ol><li>/setblock ~ ~1 ~ air </ol></div><em onclick="copycode($('code_Ckt'));">复制代码</em></div><br />
+远程setblock的坐标就是这个<strong>指令方块上面的坐标</strong>。<br />
+其中此处采用红石布线，所以使用<strong>红石顺序</strong>。<br />
+<br />
+<br />
+以上两种方式收到坐标局限，因此对于灵活性较强的<strong>非固定模块不推荐使用</strong>。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">?8.4.2 时钟法</font></font></strong><br />
+通过时钟，<strong>能够让一段指令在符合条件后只会执行一次</strong>：<br />
+<br />
+比如玩家的a&gt;=1后输出一次say 1，<br />
+我们可以借助计分板b来<strong>干涉此次执行，构成时钟</strong>：<br />
+<br />
+<img id="aimg_cPO8A" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/171cf141a22c90ad.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>按照顺序连接高频：</strong><br /><div class="blockcode"><div id="code_c91"><ol><li>/execute @p[score_a_min=1] ~ ~ ~ scoreboard players set @p b 1</ol></div><em onclick="copycode($('code_c91'));">复制代码</em></div><br />
+<font color="#008000">*转存时钟</font><br /><div class="blockcode"><div id="code_DND"><ol><li>/execute @p[score_b_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_DND'));">复制代码</em></div><div class="blockcode"><div id="code_x1l"><ol><li>/execute @p[score_b_min=1] ~ ~ ~ scoreboard players reset @p b</ol></div><em onclick="copycode($('code_x1l'));">复制代码</em></div><br />
+<font color="#008000">*输出时钟并破坏计分板b</font><br /><div class="blockcode"><div id="code_SJI"><ol><li>/execute @p[score_a_min=1] ~ ~ ~ scoreboard players reset @p a</ol></div><em onclick="copycode($('code_SJI'));">复制代码</em></div><br />
+<font color="#008000">*清空a</font><br />
+<br />
+<strong><font size="4">效果：</font></strong><br />
+<br />
+<strong><font size="4"><img id="aimg_MU1w8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/49b883f64a2ad762.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+那么<strong>尽管连接高频，也只会执行一次</strong>。<br />
+<br />
+<br />
+<font size="4"><strong>分析：</strong></font><br />
+首先利用条件语句<strong>切入时钟</strong>，<br />
+接着利用时钟输出，并利用时钟<strong>破坏计分板b，让不再输出</strong>，<br />
+最后破坏条件，让<strong>第二次循环不再输出</strong>。<br />
+<br />
+<br />
+比起前面的setblock法，可以适用于灵活性比较高的<strong>不局限于坐标的模块，仅利用计分板达到输出一次</strong>。<br />
+<br />
+<br />
+<font size="4"><font color="#ff0000"><strong>标准格式：</strong></font></font><br /><div class="blockcode"><div id="code_lPm"><ol><li>条件语句1 /scoreboard players set @p 计分板 1</ol></div><em onclick="copycode($('code_lPm'));">复制代码</em></div><br />
+<font color="#008000">*转存计分板</font><br />
+<br /><div class="blockcode"><div id="code_ICp"><ol><li>/execute @p[score_计分板_min=1] ~ ~ ~ 输出<br /><li>/execute @p[score_计分板_min=1] ~ ~ ~ scoreboard players reset @p 计分板</ol></div><em onclick="copycode($('code_ICp'));">复制代码</em></div><br />
+<font color="#008000">*时钟</font><br />
+<br />
+清除条件1<br />
+<font color="#008000">*清空</font><br />
+<br />
+</div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ksjsk&nbsp; &nbsp; <b>时间: </b>2015-7-31 20:44<br />
+对于我这个红石小白来说就像是天书。伤心呐，，<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Formula3&nbsp; &nbsp; <b>时间: </b>2015-8-1 09:30<br />
+虽然有点看不懂，但是依旧坚持看完了，想说，楼主真乃神人也！！！求抱大腿。
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

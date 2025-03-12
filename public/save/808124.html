@@ -1,0 +1,486 @@
+<html>
+<head>
+<title>【CBL|SPG】[1.14.4] 命令返回值列表 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04MDgxMjQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SPG】[1.14.4] 命令返回值列表 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-7-22 22:03<br />
+<b>标题: </b>【CBL|SPG】[1.14.4] 命令返回值列表<br /><i class="pstatus"> 本帖最后由 SPGoding 于 2019-8-20 17:50 编辑 </i><br />
+<br />
+<a href="http://www.mcbbs.net/thread-808124-1-1.html" target="_blank">http://www.mcbbs.net/thread-808124-1-1.html</a><br />
+<br />
+【CBL|SPG】[1.14.4] 命令返回值列表<br />
+<br />
+<font size="3">由于是手动整理加推测，难免有理解错误 / 遗漏，请务必指出，感谢！<br />
+<br />
+使用 Ctrl + F 可以快速找到你需要的命令。</font><br />
+<br />
+<hr class="l" /><br />
+<font size="6"><strong>Minecraft：Java 版 命令返回值列表。</strong></font><br />
+<br />
+<font size="6"><strong>正文</strong></font><br />
+<br />
+<font size="3"><strong>命令返回值</strong>，直观来看是命令在 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">execute store result</font></font> 命令中可被存储的值。<br />
+该值为 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">Int32</font></font> 类型，取值范围从 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">-2,147,483,648</font></font> 到 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">2,147,483,647</font></font>，因此有部分命令的返回值会发生溢出，本文会对有可能溢出的命令进行标记。</font><br />
+<br />
+<font size="3">在 Minecraft 中，部分命令的返回值是反直觉的。因此本人使用 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">/execute store result score @s result run</font></font> 在 Minecraft 19w11b 下对所有命令进行了测试，整理出本文。</font><br />
+<br />
+<font size="5"><strong>advancement</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>grant</strong></font><br />
+<br />
+<font size="3">返回：实际给予的进度的个数。<br />
+如果玩家被给予某个已经达成的进度，该进度不会被算入返回值。<br />
+特别地，当实际给予的进度数量为 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font> 时，没有返回值（即 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">execute store</font></font> 命令不会引起任何改变）。</font><br />
+<br />
+<font size="4"><strong>revoke</strong></font><br />
+<br />
+<font size="3">返回：实际剥夺的进度的个数。<br />
+如果玩家被给予某个已经达成的进度，该进度不会被算入返回值。<br />
+特别地，当实际剥夺的进度数量为 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font> 时，没有返回值（即 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">execute store</font></font> 命令不会引起任何改变）。</font></td></table></div></div><br />
+<font size="5"><strong>bossbar</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>add</strong></font><br />
+<br />
+<font size="3">返回：在命令执行以后，存在的自定义 bossbar 的数量。<br />
+由游戏创建的 bossbar（如末影龙的血条）不会被计入。<br />
+特别地，如果尝试创建了一个已经存在的 bossbar，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>get</strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>参数</strong></td><td><strong>返回值</strong></td></tr><tr><td>max</td><td>该 bossbar 的最大值。</td></tr><tr><td>players</td><td>可以见到该 bossbar 的玩家个数（也许会溢出，本人没有那么多玩家进行测试，相信你们也没有）。</td></tr><tr><td>value</td><td>该 bossbar 的值。</td></tr><tr><td>visible</td><td>若该 bossbar 可见，则返回 1；否则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr></table></div><br />
+<font size="4"><strong>list</strong></font><br />
+<br />
+<font size="3">返回：存在的自定义 bossbar 的数量。<br />
+由游戏创建的 bossbar（如末影龙的血条）不会被计入。</font><br />
+<br />
+<font size="4"><strong>remove</strong></font><br />
+<br />
+<font size="3">返回：在命令执行以后，存在的自定义 bossbar 的数量。<br />
+由游戏创建的 bossbar（如末影龙的血条）不会被计入。<br />
+特别地，如果尝试删除了一个不存在的 bossbar，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>set</strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>参数</strong></td><td><strong>返回值</strong></td></tr><tr><td>color</td><td>永远的 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>max</td><td>修改后的 bossbar 的最大值。特别地，如果修改后的值与原先值相同，返回 0。</td></tr><tr><td>name</td><td>永远的 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>players</td><td>修改后的可以见到 bossbar 的玩家个数。特别地，如果修改后的<strong>玩家</strong>与原先<strong>玩家</strong>相同，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>style</td><td>永远的 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>value</td><td>修改后的 bossbar 的值。特别地，如果修改后的值与原先值相同，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>visible</td><td>永远的 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr></table></div></td></table></div></div><br />
+<font size="5"><strong>clear</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：实际清除的物品个数。如果最大数量指定为 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>，将会返回背包中指定物品的总个数。</font></td></table></div></div><br />
+<font size="5"><strong>clone</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被复制的方块个数。</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>模式</strong></td><td><strong>返回值</strong></td></tr><tr><td>replace</td><td>该区域包含的所有方块的个数</td></tr><tr><td>masked</td><td>该区域包含的非空气方块的个数</td></tr><tr><td>filtered</td><td>该区域包含的满足指定条件的方块的个数</td></tr></table></div><br />
+<font size="3">特别地，当复制失败（非 force 模式且区域重叠），返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>data</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>get</strong></font><br />
+<br />
+<font size="3">当指定的方块没有 NBT 时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="3"><strong>当指定的为实体/方块实体时</strong></font><br />
+<br />
+<font size="3">下表为乘上倍数（scale）前的数据。</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>路径</strong></td><td><strong>返回值</strong></td></tr><tr><td>未指定</td><td>永远为 1</td></tr><tr><td>Compound</td><td>该 Compound 包含的 键-值对 个数。特别地，对于根 Compound，返回值是<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>（可能溢出）</td></tr><tr><td>List</td><td>该 列表 包含的 项 个数（可能溢出）</td></tr><tr><td>xx Array</td><td>该 数组 包含的 项 个数（可能溢出）</td></tr><tr><td>String</td><td>该 字符串 包含的 字符 个数，其中转义字符算上转义符号为一位（即<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">\\</font></font> <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">\&quot;</font></font>的位数是<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>），中文字符的位数是<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>（可能溢出）</td></tr><tr><td>Byte Short Int</td><td>该 数字 的值</td></tr><tr><td>Long</td><td>该 数字 的值（极有可能溢出）</td></tr><tr><td>Float Double</td><td>该 数字 直接舍弃小数位的值（可能溢出）</td></tr></table></div><br />
+<font size="4"><strong>merge</strong></font><br />
+<br />
+<font size="3">当指定的 NBT 与原先 NBT 不同，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>；<br />
+当指定的 NBT 与原先 NBT 完全相同时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>modify</strong></font><br />
+<br />
+<font size="3">当成功编辑时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>；<br />
+当编辑失败，或是编辑后的值和之前完全一致时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>remove</strong></font><br />
+<br />
+<font size="3">当尝试移除不存在的路径，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>；<br />
+当移除存在的路径，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>datapack</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>disable</strong></font><br />
+<br />
+<font size="3">返回：命令执行后启用的数据包个数。<br />
+特别地，当尝试启用不存在的数据包或已经启用的数据包，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>enable</strong></font><br />
+<br />
+<font size="3">返回：命令执行后启用的数据包个数。<br />
+特别地，当尝试启用不存在的数据包或已经启用的数据包，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>list</strong></font><br />
+<br />
+<font size="3">返回：命令指定类型（<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">available</font></font> 或 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">enabled</font></font>）的数据包的个数。</font></td></table></div></div><br />
+<font size="5"><strong>debug</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>start</strong></font><br />
+<br />
+<font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>stop</strong></font><br />
+<br />
+<font size="3">返回：自 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">debug start</font></font> 后到现在的 tps（ticks per second）（直接舍弃末位小数）。<br />
+特别地，如果没有执行过 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">debug start</font></font>，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>defaultgamemode</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>difficulty</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">若在参数中指定了难度，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>；<br />
+若没有指定参数，返回当前难度的数字 ID，下表是一个对应关系。</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>难度</strong></td><td><strong>英文ID</strong></td><td><strong>数字ID</strong></td></tr><tr><td>和平</td><td>peaceful</td><td>0</td></tr><tr><td>简单</td><td>easy</td><td>1</td></tr><tr><td>普通</td><td>normal</td><td>2</td></tr><tr><td>困难</td><td>hard</td><td>3</td></tr></table></div></td></table></div></div><br />
+<font size="5"><strong>effect</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>give</strong></font><br />
+<br />
+<font size="3">返回：实际被给予效果的实体个数。<br />
+例如，即使指定了给 2 个实体效果，但其中有 1 个实体不支持状态效果，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font> 而不是 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">2</font></font>。</font><br />
+<br />
+<font size="4"><strong>clear</strong></font> <br />
+<font size="3">返回：实际被清除效果的实体个数。<br />
+例如，即使指定清除 2 个实体的效果，但其中有 1 个实体没有这个效果或不支持状态效果，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font> 而不是 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">2</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>enchant</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：实际的手中物品被给予附魔魔咒的实体个数。<br />
+例如，即使指定给予 2 个实体手中物品附魔魔咒，但其中有 1 个实体手中没有物品、手中物品已附魔或手中物品不支持附魔，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font> 而不是 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">2</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>execute</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">若没有接 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">run</font></font>，且没有 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">if|unless</font></font>，没有返回值（即 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">execute store</font></font> 命令不会引起任何改变）；<br />
+若没有接 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">run</font></font> 但有 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">if|unless</font></font>，按下表返回：&nbsp;&nbsp;</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>子命令</strong></td><td><strong>返回值</strong></td></tr><tr><td>block</td><td>若方块匹配，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>；否则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>blocks</td><td>若方块匹配，<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">all</font></font> 模式返回原区域方块个数，<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">masked</font></font> 模式返回原区域非空气方块个数；否则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>data</td><td>返回按照指定的 NBT 路径能够在指定实体/方块实体上获得的 NBT 标签的个数。</td></tr><tr><td>entity</td><td>返回匹配的实体个数。</td></tr><tr><td>score</td><td>若分数匹配，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>；否则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr></table></div><br />
+<font size="3">若 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">run</font></font> 后命令在该 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">execute</font></font> 指定的命令执行者（们）执行后，每个执行者得到的返回值相同，则返回该返回值；若任一返回值不同，则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>experience</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>add</strong></font><br />
+<br />
+<font size="3">返回：被加（或减）经验的玩家的个数。</font><br />
+<br />
+<font size="4"><strong>query</strong></font><br />
+<br />
+<font size="3">返回：指定玩家的经验等级/经验点数。<br />
+注意：点数为在当前等级下的点数，并非玩家的全部点数。</font><br />
+<br />
+<font size="4"><strong>set</strong></font><br />
+<br />
+<font size="3">返回：被设置经验的玩家的个数。 特别地，当设定的经验点数大于玩家当前等级能容纳的最大点数时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>fill</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：实际被填充的方块的个数。<br />
+在非 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">destroy</font></font> 模式下，指定区域内与指定方块相同的方块不会被算入个数中；<br />
+在 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">destroy</font></font> 模式下，返回值即为指定区域内的方块数量。特别地，在空气中填充空气，即使是 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">destroy</font></font> 模式也不会被计入，这一点和 <a href="https://www.mcbbs.net/#setblock" target="_blank">setblock</a> 命令不同。</font></td></table></div></div><br />
+<font size="5"><strong>forceload</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>add</strong></font><br />
+<br />
+<font size="3">返回：命令执行后新增的强制加载区块的个数。</font><br />
+<br />
+<font size="4"><strong>query</strong></font><br />
+<br />
+<font size="3">若指定 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">&lt;pos&gt;</font></font> 参数，当指定坐标所在的区块已被强制加载时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>，否则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。<br />
+若没有指定 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">&lt;pos&gt;</font></font> 参数，则返回当前世界中被强制加载的区块的个数。</font><br />
+<br />
+<font size="4"><strong>remove</strong></font><br />
+<br />
+<font size="3">若指定的参数为 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">all</font></font> 时，永远返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。<br />
+否则，返回命令执行后减少的强制加载区块的数量。</font></td></table></div></div><br />
+<font size="5"><strong>function</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：执行该函数后聊天栏显示的“已执行命令个数”。<br />
+（事实上，没人知道这个数字是使用怎样弱智的手法计算出来的。在函数递归、互相调用的情况下，这个返回的数字简直令人作呕。作为普通玩家，我们也不需要知道这些没用的东西。就让 MJ 自己 S<font style="font-size:0px">*</font>B 去吧！）</font></td></table></div></div><br />
+<font size="5"><strong>gamemode</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：实际被改变模式的玩家个数。<br />
+如果某个玩家本身就是指定模式，它不会被算入返回值。</font></td></table></div></div><br />
+<font size="5"><strong>gamerule</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">当不指定值（即查询指定规则的值）时，按下表返回该规则的值。 当指定值（即设置制定规则的值）时，按下表返回你指定的值。</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>规则类型</strong></td><td><strong>返回值</strong></td></tr><tr><td>Boolean</td><td><font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">true</font></font> 返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>，<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">false</font></font> 返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</td></tr><tr><td>Int</td><td>返回该数字的值</td></tr></table></div></td></table></div></div><br />
+<font size="5"><strong>give</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被给予物品的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>help</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：手动执行该命令后，输出的内容行数。</font></td></table></div></div><br />
+<font size="5"><strong>kick</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被踢出的玩家数量。</font></td></table></div></div><br />
+<font size="5"><strong>kill</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被杀死的实体个数。</font></td></table></div></div><br />
+<font size="5"><strong>list</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：在线的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>loot</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：掉落的物品种数。<br />
+<br />
+e.g. 掉落了「1 个骨头」或「2 个骨头」，返回值均为 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>；掉落了「2 个骨头和 3 支箭」，返回值则为 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">2</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>locate</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：当前坐标距离指定结构坐标的水平距离。 特别地，当指定结构不存在，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>me</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>msg</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被私信的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>particle</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>playsound</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被播放音乐的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>publish</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：该局域网世界被分配的端口数。 特别地，如果该世界已经被开向局域网，或尝试在服务器内执行该命令，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>recipe</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：实际解锁/剥夺的配方个数。</font></td></table></div></div><br />
+<font size="5"><strong>reload</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>replaceitem</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被替换物品的实体/方块个数。</font></td></table></div></div><br />
+<font size="5"><strong>say</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>schedule</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：函数被计划执行的游戏时间（即手动执行命令时，提示「即游戏时间 xxx 时执行」的「xxx」）。</font></td></table></div></div><br />
+<font size="5"><strong>scoreboard</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>objectives add</strong></font><br />
+<br />
+<font size="3">返回：命令执行后的计分项个数。 特别地，当尝试创建一个已经存在的计分项时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>objectives list</strong></font><br />
+<br />
+<font size="3">返回：当前计分项个数。</font><br />
+<br />
+<font size="4"><strong>objectives modify</strong></font><br />
+<br />
+<font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>objectives remove</strong></font><br />
+<br />
+<font size="3">返回：命令执行后的计分项个数。 特别地，当尝试移除一个并不存在的计分项时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>objectives setdisplay</strong></font><br />
+<br />
+<font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>players add</strong></font><br />
+<br />
+<font size="3">返回：命令执行后，指定目标指定计分项的分数。 特别地，当尝试为不存在的计分项添加分数时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>players enable</strong></font><br />
+<br />
+<font size="3">返回：被激活指定计分项的目标个数。 特别地，当尝试激活非 trigger 计分项时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>players get</strong></font><br />
+<br />
+<font size="3">返回：指定目标指定计分项的分数。 特别地，当尝试获取不存在的计分项的分数时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>players list</strong></font><br />
+<br />
+<font size="3">返回：指定目标所拥有的分数个数。</font><br />
+<br />
+<font size="4"><strong>players operation</strong></font><br />
+<br />
+<font size="3">返回：运算结束后，第一组参数指定的目标在指定计分项上的分数。</font><br />
+<br />
+<font size="4"><strong>players remove</strong></font><br />
+<br />
+<font size="3">没有返回值（即 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">execute store</font></font> 命令不会引起任何改变）。</font><br />
+<br />
+<font size="4"><strong>players reset</strong></font><br />
+<br />
+<font size="3">返回：被重置的目标个数。</font><br />
+<br />
+<font size="4"><strong>players set</strong></font><br />
+<br />
+<font size="3">返回：命令执行后，指定目标指定计分项的分数。</font></td></table></div></div><br />
+<font size="5"><strong>seed</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：当前地图的种子。（极有可能溢出）</font></td></table></div></div><br />
+<font size="5"><strong>setblock</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：实际放置的方块个数。<br />
+在非 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">destroy</font></font> 模式下，原位置的方块与放置的方块不同时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>，否则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。<br />
+在 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">destroy</font></font> 模式下，永远返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>，这一点和 <a href="https://www.mcbbs.net/#fill" target="_blank">fill</a> 命令不同，请注意。</font></td></table></div></div><br />
+<font size="5"><strong>setworldspawn</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>spawnpoint</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被设置出生点的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>spreadplayers</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被分散的实体个数。</font></td></table></div></div><br />
+<font size="5"><strong>stopsound</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被停止音效的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>summon</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：如果召唤成功，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">1</font></font>；否则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>tag</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>add</strong></font><br />
+<br />
+<font size="3">返回：实际被加上 tag 的实体个数。<br />
+如果某个实体已经有了该 tag，则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>list</strong></font><br />
+<br />
+<font size="3">返回：指定实体的 tag 个数。</font><br />
+<br />
+<font size="4"><strong>remove</strong></font><br />
+<br />
+<font size="3">返回：实际被移除 tag 的实体个数。<br />
+如果某个实体并没有该 tag，则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>team</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>add</strong></font><br />
+<br />
+<font size="3">返回：命令执行后，存在的队伍个数。 特别地，如果队伍已经存在，则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>empty</strong></font><br />
+<br />
+<font size="3">返回：从指定队伍中移出的实体个数。</font><br />
+<br />
+<font size="4"><strong>join</strong></font><br />
+<br />
+<font size="3">返回：新加入指定队伍的实体个数。<br />
+即使该实体已经在指定队伍内，也会被计入。</font><br />
+<br />
+<font size="4"><strong>leave</strong></font><br />
+<br />
+<font size="3">返回：退出队伍的实体个数。<br />
+即使该实体没有参加任何队伍，也会被计入。</font><br />
+<br />
+<font size="4"><strong>list</strong></font><br />
+<br />
+<font size="3">返回：存在的队伍个数。</font><br />
+<br />
+<font size="4"><strong>modify</strong></font><br />
+<br />
+<font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>remove</strong></font><br />
+<br />
+<font size="3">返回：命令执行后，存在的队伍个数。<br />
+ 特别地，如果指定队伍并不存在，则返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>teleport</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被传送的实体个数。</font></td></table></div></div><br />
+<font size="5"><strong>tell</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">参见 <a href="https://www.mcbbs.net/#msg" target="_blank">msg 命令</a>。</font></td></table></div></div><br />
+<font size="5"><strong>tellraw</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：被显示文本的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>time</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>add</strong></font><br />
+<br />
+<font size="3">返回：命令执行后的 Minecraft 中自破晓后的时间（单位：刻）。</font><br />
+<br />
+<font size="4"><strong>query day</strong></font><br />
+<br />
+<font size="3">返回：Minecraft 中度过的游戏内天数（单位：天）。</font><br />
+<br />
+<font size="4"><strong>query daytime</strong></font><br />
+<br />
+<font size="3">返回： Minecraft 中自破晓后的时间（单位：刻）。</font><br />
+<br />
+<font size="4"><strong>query gametime</strong></font><br />
+<br />
+<font size="3">返回：玩家游玩 当前 Minecraft 存档 的总时长（单位：刻）。</font></td></table></div></div><br />
+<font size="5"><strong>title</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>actionbar</strong></font><br />
+<br />
+<font size="3">返回：被设置 actionbar 的玩家个数。</font><br />
+<br />
+<font size="4"><strong>clear</strong></font><br />
+<br />
+<font size="3">返回：被清除标题的玩家个数。</font><br />
+<br />
+<font size="4"><strong>reset</strong></font><br />
+<br />
+<font size="3">返回：被重置数据的玩家个数。</font><br />
+<br />
+<font size="4"><strong>subtitle</strong></font><br />
+<br />
+<font size="3">返回：被设置副标题的玩家个数。</font><br />
+<br />
+<font size="4"><strong>times</strong></font><br />
+<br />
+<font size="3">返回：被设置时间的玩家个数。</font><br />
+<br />
+<font size="4"><strong>title</strong></font><br />
+<br />
+<font size="3">返回：被标题的玩家个数。</font></td></table></div></div><br />
+<font size="5"><strong>tp</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">参见 <a href="https://www.mcbbs.net/#teleport" target="_blank">teleport 命令</a>。</font></td></table></div></div><br />
+<font size="5"><strong>trigger</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：在命令执行以后，指定计分项在当前目标上的分数。 特别地，当指定目标没有权限修改指定计分项时，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font></td></table></div></div><br />
+<font size="5"><strong>w</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">参见 <a href="https://www.mcbbs.net/#msg" target="_blank">msg 命令</a>。</font></td></table></div></div><br />
+<font size="5"><strong>weather</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">返回：指定天气状态的持续时间（单位为刻，命令中的参数单位为秒）。</font></td></table></div></div><br />
+<font size="5"><strong>worldborder</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="4"><strong>add</strong></font><br />
+<br />
+<font size="3">返回：世界边界变化的宽度（正数为增加，负数为减小）。</font><br />
+<br />
+<font size="4"><strong>center</strong></font><br />
+<br />
+<font size="3">返回：<font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>damage</strong></font><br />
+<br />
+<font size="3">返回：命令中设定的伤害的值。<br />
+特别地，如果伤害值没有任何改变，返回 <font style="background-color:white"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">0</font></font>。</font><br />
+<br />
+<font size="4"><strong>get</strong></font><br />
+<br />
+<font size="3">返回：世界边界的宽度。</font><br />
+<br />
+<font size="4"><strong>set</strong></font><br />
+<br />
+<font size="3">返回：世界边界变化的宽度（正数为增加，负数为减小）。</font><br />
+<br />
+<font size="4"><strong>warning distance</strong></font><br />
+<br />
+<font size="3">返回：开始警告的距离。</font><br />
+<br />
+<font size="4"><strong>warning time</strong></font><br />
+<br />
+<font size="3">返回：开始警告的时间。</font></td></table></div></div><br />
+<font size="5"><strong>xp</strong></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">参见 <a href="https://www.mcbbs.net/#experience" target="_blank">experience 命令</a>。</font></td></table></div></div><br />
+<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>点开了就要给钱啊【不是[afd]SPGoding[/afd]</td></table></div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>苏沫兮之D&nbsp; &nbsp; <b>时间: </b>2018-7-23 15:10<br />
+感谢楼主大大的分享赞一个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>路文豪&nbsp; &nbsp; <b>时间: </b>2018-7-24 14:49<br />
+mcbbs有你更精彩~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2018-8-9 22:49<br />
+https://bugs.mojang.com/browse/MC-122216<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2018-8-9 23:00<br />
+这个bug是我提交的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sky~飞鱼&nbsp; &nbsp; <b>时间: </b>2018-9-1 10:49<br />
+<i class="pstatus"> 本帖最后由 sky~飞鱼 于 2018-9-1 10:50 编辑 </i><br />
+<br />
+这么多，，，大大辛苦了，还是很有用的<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" />，起码我目前这样正在学习指令的还不能完全看懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>池鱼852&nbsp; &nbsp; <b>时间: </b>2018-9-1 20:37<br />
+抢沙发默默观看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>池鱼852&nbsp; &nbsp; <b>时间: </b>2018-9-1 20:37<br />
+抢沙发默默观看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>池鱼852&nbsp; &nbsp; <b>时间: </b>2018-9-1 20:38<br />
+抢沙发默默观看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>池鱼852&nbsp; &nbsp; <b>时间: </b>2018-9-1 20:38<br />
+抢沙发默默观看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>池鱼852&nbsp; &nbsp; <b>时间: </b>2018-9-1 20:39<br />
+抢沙发默默观看<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zoulejun&nbsp; &nbsp; <b>时间: </b>2018-12-4 10:14<br />
+继续加油哦啦啦啦<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1289296032&nbsp; &nbsp; <b>时间: </b>2018-12-5 12:51<br />
+实用实用 感谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2019-7-26 15:18<br />
+<i class="pstatus"> 本帖最后由 Teenager_Yang 于 2019-7-26 15:26 编辑 </i><br />
+<br />
+execute store result score @s result <strong><font color="#ff0000">run</font></strong> ...<br />
+<strike>你这个只有 <strong><font color="#ff0000">run</font></strong> 没有 <strong><font color="#ff0000">if</font></strong>，差评！<img src="static/image/smiley/tong/doge.png" smilieid="1448" border="0" alt="" /></strike><br />
+比如……什么的……<br /><div class="blockcode"><div id="code_RQ2"><ol><li>execute store result score @s result if entity @e[type=xxx]<br /><li>execute store result score @s result if blocks ...</ol></div><em onclick="copycode($('code_RQ2'));">复制代码</em></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-7-26 15:27<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15075796&amp;ptid=808124" target="_blank"><font color="#999999">Teenager_Yang 发表于 2019-7-26 15:18</font></a></font><br />
+execute store result score @s result run ...<br />
+<strike>你这个只有 run 没有 if，差评！</strike><br />
+比如…… ...</blockquote></div><br />
+以前这种写法不会产生任何分数变化，如今已修复。但为保持全文格式统一，不做更改。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1647321154&nbsp; &nbsp; <b>时间: </b>2020-2-10 19:00<br />
+&nbsp; &nbsp; &nbsp; &nbsp; 神乎其技！6的飞起！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>13626464852&nbsp; &nbsp; <b>时间: </b>2020-7-15 08:47<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>shu_fu_&nbsp; &nbsp; <b>时间: </b>2020-7-15 13:41<br />
+48978951324856463456<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kunkun520&nbsp; &nbsp; <b>时间: </b>2020-7-29 20:35<br />
+mcbbs有你更精彩！！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

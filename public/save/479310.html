@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用逻辑组 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzkzMTAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用逻辑组 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-1 22:19<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §8 : 调用逻辑组<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-1-10 16:28 编辑 </i><br />
+<br />
+<div align="center"><div align="center"><font face="微软雅黑"><font size="6"><strong>多模块关联</strong></font></font></div></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 单次执行模块</font></font></div><div align="left"><div align="left">在模块中，为了达成<strong>一个目的</strong>，可以使用多个语句的<strong>单模块来完成</strong>。</div><div align="left">但是如果模块的输入有<strong>一系列输出</strong>，那么需要<strong>创建多个模块完成</strong>。</div><br />
+<div align="left">因此在单模块中输入输出关系：</div><div align="left"><font size="2"><font color="#800000">输入→输出</font></font></div><br />
+<div align="left"><strong>多模块相当于多个单模块</strong>，所以输出输入关系：</div><div align="left"><font size="2"><font color="#800000">输入&nbsp; &nbsp; →输出</font></font></div><div align="left"><font size="2"><font color="#800000">(输入)&nbsp;&nbsp;→输出</font></font></div><div align="left"><font size="2"><font color="#800000">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;→输出</font></font></div><br />
+<div align="left">可以看到多模块更加灵活<strong>不必局限于一个模块的体系</strong>。本章就要学习包括<strong>创建调用</strong>多模块，和<strong>控制多模块的操作类型</strong>。</div><br />
+<font size="4"><strong>多模块最本质的区别：可被调用</strong></font><br />
+<div align="left">多模块关联包括</div><br />
+<div align="left"><strong>建立模块</strong></div><br />
+<div align="left"><strong>调用模块</strong></div><br />
+<div align="left"><strong>初始执行模块</strong></div><br />
+<div align="left"><strong>单次执行模块</strong></div><ul><li><div align="left">setblock法</div><li><div align="left">时钟法</div><li><div align="left">调用效果指令</div><br />
+</ul><div align="left"><strong>调用游戏资源</strong></div><ul><li><div align="left">坐标操作</div><li><div align="left">自动寻路</div><br />
+</ul><div align="left"><strong>远程法调用逻辑组</strong></div><br />
+<div align="left"><strong>关闭模块</strong></div></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/forum.php" target="_blank">上一篇</a>（调用游戏资源）--<a href="http://www.mcbbs.net/thread-479863-1-1.html" target="_blank">下一篇</a>（关闭模块）</font></div><div align="right"><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§8.6 远程法调用逻辑组</font></font></strong><br />
+既然模块和逻辑组都是指令操作，那么模块是否兼容逻辑组。<br />
+答案是<strong>肯定</strong>的。<br />
+<br />
+<br />
+由于模块的坐标不定性，可以使用<strong>两种方式调用逻辑组</strong><br />
+<strong>1.远程setblock</strong><br />
+<strong>2.实体坐标setblock</strong><br />
+<br />
+<ul><li><strong><font size="4">远程setblock</font></strong><br />
+</ul><font size="4"><strong><img id="aimg_J727k" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/61b88ee15a6ab973.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</strong></font><br />
+如果使用减法高频，那么十分简单：<br />
+只需要在高频开启的<strong>红石块坐标处</strong>：<br /><div class="blockcode"><div id="code_j74"><ol><li>/setblock 高频开启的坐标 minecraft:restone_block</ol></div><em onclick="copycode($('code_j74'));">复制代码</em></div><br />
+<br />
+<img id="aimg_R8C88" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/d78206d348444906.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+如果是中继器脉冲，稍微麻烦一点：<br />
+需要在红石线旁<strong>放置红石块后再破坏红石块</strong>：<br /><div class="blockcode"><div id="code_oWa"><ol><li>/setblock 红石线旁的坐标 minecraft:restone_block</ol></div><em onclick="copycode($('code_oWa'));">复制代码</em></div>↓<br /><div class="blockcode"><div id="code_qdZ"><ol><li>/setblock 红石线旁的坐标 minecraft:air</ol></div><em onclick="copycode($('code_qdZ'));">复制代码</em></div><br />
+<br />
+<ul><li><strong><font size="4">实体坐标</font></strong><br />
+</ul>需要在 <strong>高频开启坐标/红石线旁的坐标</strong> 生成一个实体。<br /><div class="blockcode"><div id="code_Zje"><ol><li>/summon ArmroStand ~ ~ ~ {NoAI:1}</ol></div><em onclick="copycode($('code_Zje'));">复制代码</em></div><br />
+<strong>（可以自定义NBT）</strong><br />
+<br />
+那么调用的方式只需要加上execute进行坐标转换：<br /><div class="blockcode"><div id="code_r8r"><ol><li>/execute 目标实体 ~ ~ ~ /setblock 高频开启的坐标 minecraft:restone_block</ol></div><em onclick="copycode($('code_r8r'));">复制代码</em></div><br />
+或<br />
+<br /><div class="blockcode"><div id="code_d6X"><ol><li>/execute 目标实体 ~ ~ ~ /setblock 红石线旁的坐标 minecraft:restone_block</ol></div><em onclick="copycode($('code_d6X'));">复制代码</em></div>↓<br /><div class="blockcode"><div id="code_DkU"><ol><li>/execute 目标实体 ~ ~ ~ /setblock 红石线旁的坐标 minecraft:air</ol></div><em onclick="copycode($('code_DkU'));">复制代码</em></div><br />
+那么此处需要注意如果加载区域过远，需要<strong>使用区块加载器</strong>。<br />
+</div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>owiemaness&nbsp; &nbsp; <b>时间: </b>2015-8-1 22:35<br />
+其实我根本看不懂智商问题吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-1 22:38<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8701851&amp;ptid=479310" target="_blank"><font color="#999999">owiemaness 发表于 2015-8-1 22:35</font></a></font><br />
+其实我根本看不懂智商问题吗</blockquote></div><br />
+要从索引里面慢慢来<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>satgo1546&nbsp; &nbsp; <b>时间: </b>2015-8-2 11:11<br />
+并不想看= =（为何我觉得LZ又水了一贴<br />
+这个系列应该只是作为一个参考……命令在实际用的时候很灵活的。<br />
+我也水一下……<br />
+<hr class="l" /><strong><font size="4">远程summon</font></strong><br />
+适用于比较器时钟。<div class="blockcode"><div id="code_oQo"><ol><li>/summon FallingSand &lt;x&gt; &lt;y&gt; &lt;z&gt; {Block: redstone_block, Time: 1}</ol></div><em onclick="copycode($('code_oQo'));">复制代码</em></div>效果（大概）和setblock法一样。<br />
+为什么要用summon呢？<strike>这样可以增加卡顿。</strike><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-2 11:12<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8704459&amp;ptid=479310" target="_blank"><font color="#999999">satgo1546 发表于 2015-8-2 11:11</font></a></font><br />
+并不想看= =（为何我觉得LZ又水了一贴<br />
+这个系列应该只是作为一个参考……命令在实际用的时候很灵活的。<br />
+我 ...</blockquote></div><br />
+你觉得水贴这是因为你没看之前的帖子<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>党靖皓1234&nbsp; &nbsp; <b>时间: </b>2015-8-2 14:50<br />
+2B大大又换头像了,不过表示还是没看懂
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

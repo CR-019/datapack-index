@@ -1,0 +1,133 @@
+<html>
+<head>
+<title>┣CBL┃2b┫ LootTable集成编辑器 （支持量化操作,涵盖全部项目） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01NzI0NDktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>┣CBL┃2b┫ LootTable集成编辑器 （支持量化操作,涵盖全部项目） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-4-3 20:27<br />
+<b>标题: </b>┣CBL┃2b┫ LootTable集成编辑器 （支持量化操作,涵盖全部项目）<br /><i class="pstatus"> 本帖最后由 贰逼 于 2017-10-2 10:16 编辑 </i><br />
+<br />
+<strong><font size="3">本编辑器适用版本为1.9</font></strong><br />
+<strong>编辑对象为LootTable</strong><br />
+<strong>目前版本Bate 0.3(等待继续完善)</strong><br />
+<br />
+<div align="center"><font size="5"><font color="#8b0000"><strong>介绍</strong></font></font></div><div align="center"><strong>本编辑器考虑了一些网站编辑loottable的劣势，借鉴了他们的优势，制作出来一款适用于所有LootTable项目(仅限原版Minecraft)的编辑器</strong></div>三个字概括相比网站的编辑器优势：<br />
+<br /><div class="quote"><blockquote>'全'-相比其他编辑器只涉及部分项目，此涵盖了所有项目，具有功能上的优势；<br />
+'清'-比起网站的分级梳理Json，采用了多页面式处理。好处就是可以随时提取其中的一个过程值，以便进一步处理；<br />
+'量'-拥有Excel字根功能，能够批量处理LootTable项目。</blockquote></div><br />
+软件还在Bate初级版本，<font size="3"><font color="#8b0000"><strong><u>如有Bug在下方评论反馈</u></strong></font></font><br />
+经测试所生成的loottable能够成功被调用<br />
+<br />
+<font size="5"><font color="#a0522d"><strong>界面：</strong></font></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><strong>四个独立界面，分别操作四个部分：</strong><br /><div class="quote"><blockquote>-Pools(随机池，Entries和Conditions的母列表+Roll)<br />
+-Entries(项目列表，Functions和Conditions的母列表+项目)<br />
+-Functions(功能，Conditions的母列表+功能)<br />
+-Conditions(条件，可以在上述列表任意穿插)</blockquote></div><br />
+界面具体信息在下方<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F465B_570104040" target="_blank"><img id="aimg_q4O49" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/465B_570104040.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F7732_570104040" target="_blank"><img id="aimg_mh95w" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/7732_570104040.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FEAF3_570104040" target="_blank"><img id="aimg_ije1g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/EAF3_570104040.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FE6F5_570104040" target="_blank"><img id="aimg_L3e70" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/E6F5_570104040.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FE7DC_570104050" target="_blank"><img id="aimg_z1hBk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/E7DC_570104050.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F1DC3_570104050" target="_blank"><img id="aimg_uWlRo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/1DC3_570104050.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></td></table></div></div><br />
+<br />
+<font size="5"><font color="#008000"><strong>个性化</strong></font></font><br />
+<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>一个基础功能，演示在下方<br />
+目前包括：<strong>替换背景</strong><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F6999_570108D40" target="_blank"><img id="aimg_c7bWM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/6999_570108D40.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F7DB6_570108D50" target="_blank"><img id="aimg_uIuS7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/7DB6_570108D50.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F0DFF_570108D50" target="_blank"><img id="aimg_MST9R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/0DFF_570108D50.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FBA54_570108D50" target="_blank"><img id="aimg_vnbPH" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/BA54_570108D50.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FBE84_570108D50" target="_blank"><img id="aimg_Jr42r" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/BE84_570108D50.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></td></table></div></div><br />
+<br />
+<font size="5"><font color="#008080"><strong>批量化</strong></font></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>软件一个重要优势。<br />
+<strong>任何一个对应的项目（指Entries列表/Conditions列表/Functions列表）都可以加入字根</strong><br />
+可以在需要调用他们的时候<strong>通过'%'调用</strong><br />
+具体方法：<br /><div class="blockcode"><div id="code_uDH"><ol><li>'%'+'类型'+'字根名'</ol></div><em onclick="copycode($('code_uDH'));">复制代码</em></div><div class="quote"><blockquote>%：判断标志<br />
+类型：E-Entries字根列表 C-Conditions字根列表 F-Functions字根列表<br />
+字根名：在对应字根列表中的名称</blockquote></div><br />
+接着你在需要在对应栏目使用上述三个列表时，不需要再重新复制生成的列表，只需要引用字根即可<br />
+<br />
+字根支持导入导出功能，所以可以随时对已完成的列表进行输出保存。<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F2A31_570109490" target="_blank"><img id="aimg_q5985" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/2A31_570109490.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F0DE3_570109490" target="_blank"><img id="aimg_DM5BO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/0DE3_570109490.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F81A2_570109490" target="_blank"><img id="aimg_Q0ty9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/81A2_570109490.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F834F_570109490" target="_blank"><img id="aimg_u8s8e" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/834F_570109490.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FEF0B_570109490" target="_blank"><img id="aimg_zD429" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/EF0B_570109490.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a>、<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F4FFD_570109490" target="_blank"><img id="aimg_E0x4Y" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/4FFD_570109490.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F0152_570109490" target="_blank"><img id="aimg_Ih4n6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/0152_570109490.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F4A11_5701094A0" target="_blank"><img id="aimg_XkTsU" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/4A11_5701094A0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FF355_5701094A0" target="_blank"><img id="aimg_zUxRs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/F355_5701094A0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FB37D_5701094A0" target="_blank"><img id="aimg_ttntp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/B37D_5701094A0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></td></table></div></div><br />
+<br />
+<br />
+<font size="5"><font color="#800080"><strong>技术性提示：</strong></font></font><br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>http://minecraft.gamepedia.com/Loot_table<br />
+<a href="http://minecraft-zh.gamepedia.com/" target="_blank">http://minecraft-zh.gamepedia.com/</a>可抢夺物品表<br />
+<strong>任何信息都可以在Wiki中查阅。</strong><br />
+<br />
+<br /><div class="quote"><blockquote>1.结合Wiki中的描述，必须在对应栏目填写对应的数据类型（例如''name&quot;后面必须填写string型数据，则不能填写int型）。<br />
+2.Function支持所有unicode，但一些编码中只支持中文unicode而不支持中文本身（比如&quot;我&quot;，则必须替换为&quot;\u6211&quot;）；如果在游戏调用后出现了乱码多半是因为unicode原因。<br />
+3.一个Function只能填写一个Conditions，一个Entry中也只能拥有一个Conditions和Functions。<br />
+4.反编译具有纠错功能，如果不是属于对应项目的Json或者Json有错误会有提示<br />
+5.点击项目的项目名，可以获得消息框提示（提示来自于Wiki）<br />
+6.所有涉及的Wiki内容均有中英文对照描述<br />
+7.所得到的Pools就是最终的LootTable，在存档文档的data文件夹中中新建一个名为&quot;loot_tables&quot;的文件夹，在文件夹中创建名为&quot;x&quot;（任意名字）的子文件夹。创建一个名为&quot;n&quot;（任意名字）的Json文件，在其中粘贴loottable（可以进行格式化不影响成功）。那么最后在改存档游戏中调用时此loottable时，文件路径则为：&quot;x:n&quot;，调用使用LootTable:x:n<br />
+8.如果不能调用loottable，请检查本条目中的1（数据类型是否正确）3（是否有多余的子项目列表）以及一些冲突<br />
+9.如果想要自己编写loottable，切记如果数据类型为string必须带引号，如果数据类型为其他不能带引号。（loottable采用十分严格的Json格式）</blockquote></div><br />
+</td></table></div></div><br />
+<br />
+<br />
+<br />
+<strong><font size="4"><a href="http://pan.baidu.com/s/1dEMtoOT" target="_blank">下载地址</a></font></strong><strong><font size="4"><a href="http://pan.baidu.com/s/1qYhB3mG" target="_blank">最新版本Bate 0.4</a></font></strong><br />
+<div align="right">需要xp以上支持</div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我chao爱MC&nbsp; &nbsp; <b>时间: </b>2016-4-3 20:29<br />
+大大太厉害了！前排沙发！<br />
+很有用！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2016-4-3 20:41<br />
+好东西收了<br />
+我都没见过loottable网页编辑器<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kid小东&nbsp; &nbsp; <b>时间: </b>2016-4-4 22:50<br />
+怎么都是英文。看都看不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-4-5 19:33<br />
+<i class="pstatus"> 本帖最后由 贰逼 于 2016-4-5 19:35 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10083474&amp;ptid=572449" target="_blank"><font color="#999999">kid小东 发表于 2016-4-4 22:50</font></a></font><br />
+怎么都是英文。看都看不懂</blockquote></div><br />
+因为loottable基本都是英文，需要和wiki相匹配<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lsz7575&nbsp; &nbsp; <b>时间: </b>2016-4-13 13:28<br />
+感谢分享~````<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yx2000999&nbsp; &nbsp; <b>时间: </b>2016-9-17 21:46<br />
+楼主大大，你怎能如此的6<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Java_command&nbsp; &nbsp; <b>时间: </b>2016-9-18 09:10<br />
+赞，终于看见中国自己的掉落表生成器了……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Debug.Twilight&nbsp; &nbsp; <b>时间: </b>2016-10-21 13:16<br />
+楼主，代码没有用太多的.Net Framework特性吧，<br />
+这样我就可以把它用.Net Core移植到Linux上了<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>兆空&nbsp; &nbsp; <b>时间: </b>2017-2-1 16:21<br />
+xp不能用啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>清泉呀&nbsp; &nbsp; <b>时间: </b>2019-7-24 13:42<br />
+咋用........
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

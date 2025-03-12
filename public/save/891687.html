@@ -1,0 +1,646 @@
+<html>
+<head>
+<title>[1.14.4] 追根溯「源」——实体选择器 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04OTE2ODctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[1.14.4] 追根溯「源」——实体选择器 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b> SPGoding&nbsp; &nbsp; <b>时间: </b>2019-7-26 00:01<br />
+<b>标题: </b>[1.14.4] 追根溯「源」——实体选择器<br /><i class="pstatus"> 本帖最后由 SPGoding 于 2019-10-7 23:25 编辑 </i><br />
+<br />
+<font style="font-size:32px"><strong>[1.14.4] 追根溯「源」——实体选择器</strong></font><br />
+<br />
+<font style="font-size:16px"><a href="https://github.com/SPGoding/mcbbs-threads/blob/master/LICENSE" target="_blank">MIT</a></font><br />
+<br />
+<font style="font-size:16px"><a href="https://github.com/SPGoding/mcbbs-threads/blob/master/tutorials/seek-the-source/entity_selector/entity_selector.md" target="_blank">GitHub 原帖</a></font><br />
+<br />
+<font style="font-size:16px"><a href="https://www.mcbbs.net/thread-891687-1-1.html" target="_blank">MCBBS 原帖</a></font><br />
+<br />
+<font style="font-size:32px"><strong>追根溯「源」</strong></font><br />
+<br />
+<font style="font-size:16px"><strong>追根溯「源」</strong>，是从源代码角度对部分命令机制的漫谈系列。也许在骂着 Mojang SB 的间隙，偶尔看看他们是怎么犯下的蠢，能帮你更好地驾驭命令？谁知道呢。</font><br />
+<br />
+<font style="font-size:16px">本系列漫谈基于对 Minecraft Java Edition 1.14.4 的反编译与反混淆，十分感谢 <a href="https://github.com/FabricMC" target="_blank">FabricMC</a> 提供的散发着自由气息的 <a href="https://github.com/FabricMC/yarn" target="_blank">yarn</a> 项目，梓榆谨代表自己向所有该项目的贡献者致以最崇高的敬意。三鞠躬。由于散步商业闭源软件的源代码属于违法行为，本帖中只给出极少数代码片段，仅供学习交流使用。当然，因为名字都是人起的，为了方便，本人对部分映射名进行了修改。</font><br />
+<br />
+<font style="font-size:16px">阅读本系列可能需要具备一定的英语水平，或是具备查阅字典的能力，并不需要有多么高深的编程水平。毕竟，笔者压根就不会编程。</font><br />
+<br />
+<font style="font-size:32px"><strong>实体选择器</strong></font><br />
+<br />
+<font style="font-size:16px"><strong>实体选择器（entity selector）</strong>，也叫<strong>目标选择器（target selector）</strong>，是一种用于选择实体的命令参数。你可以在 <a href="https://minecraft.gamepedia.com/Commands#Target_selectors_in_Java_Edition" target="_blank">Wiki</a>（或<a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4#.E7.9B.AE.E6.A0.87.E9.80.89.E6.8B.A9.E5.99.A8" target="_blank">中文 Wiki</a>）中阅读相关信息。</font><br />
+<br />
+<font style="font-size:16px">实体选择器的相关代码放置在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.command.EntitySelector</font></font> 类中。我们可以看到其定义了如下的字段：</font><br />
+<br />
+<font style="font-size:16px"><img id="aimg_ov6R3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://s2.ax1x.com/2019/07/25/eZ4zxU.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:16px">可以发现，它们和实体选择器的参数并不是一一对应的关系。那么是怎样的关系呢？这需要先从 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.command.EntitySelectorReader</font></font> 类讲起。</font><br />
+<br />
+<font style="font-size:24px"><strong>解析</strong></font><br />
+<br />
+<font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">EntitySelectorReader</font></font> 可以解析玩家输入的字符串形式的实体选择器。我们简单来看一下它的流程：</font><br />
+<br />
+<font style="font-size:16px">判断输入字符串是 UUID、玩家名，还是一个实体选择器：</font><br />
+<br />
+<font style="font-size:16px"><ul><li>若第一个字符不是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@</font></font>，则为一个 UUID 或玩家名；<li>若第一个字符是 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@</font></font>，则为一个实体选择器。<br />
+</ul></font><br />
+<font style="font-size:20px"><strong>对于 UUID 或玩家名的处理流程</strong></font><br />
+<br />
+<font style="font-size:16px"><strong>尝试按照 UUID 解析。如果解析成功，则设定：</strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uuid</font></font></td><td>-</td><td>UUID。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=1</font></font>。</td></tr></table></div><br />
+<font style="font-size:16px"><strong>解析失败，说明它不是 UUID，而是一个玩家名。设定：</strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td><strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">playerName</font></font></td><td>-</td><td>玩家名。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=1</font></font>。</td></tr></table></div><br />
+<font style="font-size:20px"><strong>对于实体选择器的处理流程</strong></font><br />
+<br />
+<font style="font-size:16px"><strong>解析实体选择器变量</strong></font><br />
+<br />
+<font style="font-size:16px">在这一步中，将根据不同的实体选择器变量，来设定实体选择器的参数。</font><br />
+<br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@p</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td><strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=1</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">NEAREST</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sort=nearest</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entityType</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">EntityType.PLAYER</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type=player</font></font></td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@a</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td><strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">2147483647</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=2147483647</font></font>。从这里可以看出，<strong>选择器选择的数量默认有上限的，一般达不到就是了。</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">ARBITRARY</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sort=arbitrary</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entityType</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">EntityType.PLAYER</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type=player</font></font></td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@r</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td><strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=1</font></font>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">RANDOM</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sort=random</font></font></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entityType</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">EntityType.PLAYER</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type=player</font></font></td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@s</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">senderOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只选择执行者</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">1</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=1</font></font>。</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Entity::isAlive</font></font></td><td><strong>筛选出活着的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">2147483647</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=2147483647</font></font>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">ARBITRARY</font></font></td><td>相当于我们在选择器参数里写的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sort=arbitrary</font></font></td></tr></table></div><br />
+<font style="font-size:16px"><strong>读取选择器参数</strong></font><br />
+<br />
+<font style="font-size:16px">在这一步中，将根据不同的选择器参数，来设定实体选择器的字段。本部分中使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font> 来简单表示玩家指定的值，实际上整个过程要复杂不少。</font><br />
+<br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">name=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity.getName().asString().equals(%值%) != isNegation</font></font></td><td>判断实体名是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:16px">注： <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 中调用的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">asString()</font></font> 很有意思。我们可以把它返回的内容大体理解为显示出来的文本内容（其实完全不是），因此你使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">/summon xxx ~ ~ ~ {CustomName:'{&quot;text&quot;:&quot;haha&quot;,&quot;color&quot;:&quot;red&quot;}'}</font></font> 命令生成的生物可以被 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[name=haha]</font></font> 选中。可能以后本系列会对 JSON 原始文本进行详细的讲解。</font><br />
+<br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只获取当前世界中的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">level=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td><strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">levelRange</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只获取当前世界中的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offsetX</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只获取当前世界中的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offsetY</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">z=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只获取当前世界中的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offsetZ</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只获取当前世界中的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">boxX</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dy=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只获取当前世界中的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">boxY</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dz=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font></td><td><strong>只获取当前世界中的实体</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">boxZ</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x_rotation=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">pitchRange</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y_rotation=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">yawRange</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sort=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>-</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">gamemode=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td><strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">isNegation ? mode != %值% : mode == %值%</font></font></td><td>判断玩家的游戏模式是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">team=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">teamName.equals(%值%) != isNegation</font></font></td><td>判断实体所处的队伍是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td>某些情况下设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td>当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">minecraft:player</font></font> 并且没有感叹号 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">!</font></font> 时设置为<strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font></td><td>某些情况下设置为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font></td><td>只有在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font> 不包含感叹号 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">!</font></font> 时才设置。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td>略</td><td>判断实体的类型是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tag=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td>略</td><td>判断实体的标签是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:16px">注：设置 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 的函数中有判断 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">%值%</font></font> 是否为空字符串的部分，如果为空，则会设置 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">entity.getScoreboardTags().isEmpty() != isNegation</font></font>。<strong>因此我们可以使用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[tag=]</font></font> 来选择没有标签的实体，用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[tag=!]</font></font> 来选择有任意标签的实体</strong>。<i>我也真佩服 Mojang 绕得出这个逻辑</i>。</font><br />
+<br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">nbt=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">TagHelper.areTagsEqual(%值%, tag, true) != isNegation</font></font></td><td>判断实体的 NBT 标签是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">scores=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td>略</td><td>判断实体的分数是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:14px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">advancements=%值%</font></font></strong></font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字段</strong></td><td><strong>值</strong></td><td><strong>备注</strong></td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font></td><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font></td><td><strong>不允许包含非玩家</strong>。</td></tr><tr><td><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font></td><td>略</td><td>判断实体的进度是否满足指定条件。</td></tr></table></div><br />
+<font style="font-size:20px"><strong>小结</strong></font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px">停一停，我都忘了这部分标题叫什么了！</font></blockquote></div><br />
+<font style="font-size:16px">这一部分的标题是「解析」，讲述的是游戏如何将玩家输入的字符串解析为实体选择器。游戏会根据不同的实体选择器变量、实体选择器参数，来不断调整各种字段的值。</font><br />
+<br />
+<font style="font-size:16px">从上面的字段表中我们可以发现，除了我们熟悉的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font> 等字段对应着实体选择器的各种参数外，还有 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayer</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">senderOnly</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">playerName</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uuid</font></font> 这六个陌生的东西。它们是什么？有什么用？作为 CBer 的我们该如何利用？且看下一部分。</font><br />
+<br />
+<hr class="l" /><br />
+<font style="font-size:16px"><strong>注</strong>：</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>其实「下一个字符」比「第一个字符」更加准确，但这么描述就涉及到了整个命令解析的技术细节，比较繁琐，所以简化了描述；<li>本帖描述省略了各种异常处理。<br />
+</ul></font><br />
+<font style="font-size:24px"><strong>获取</strong></font><br />
+<br />
+<font style="font-size:16px">本部分将讲述实体选择器获取实体的工作流程。</font><br />
+<br />
+<font style="font-size:16px">获取实体的主要行为定义在函数 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getEntities()</font></font> 中。<strong>该函数有一个参数，代表命令的执行者（执行者不一定是实体，也可以是方块、命令函数、控制台等）</strong>。当不满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includeNonPlayers</font></font>，即只允许选取玩家时，该函数会把后续操作交给 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getPlayers()</font></font> 函数进行。</font><br />
+<br />
+<font style="font-size:20px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getPlayers()</font></font> 的流程</strong></font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>当指定了 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">playerName</font></font> 时，遍历服务器玩家列表，找到玩家名和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">playerName</font></font> 一致的玩家（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.server.PlayerManager#getPlayer</font></font>），并<strong>返回</strong>；<li>当指定了 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uuid</font></font> 时，直接从服务器玩家列表中获取 UUID 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uuid</font></font> 的玩家（该操作基于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">HashMap</font></font>，速度非常快）（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.server.PlayerManager#getPlayer</font></font>），并<strong>返回</strong>；<li>基于命令执行坐标等，<strong>建立谓词</strong>（后文有说明）；<li>当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">senderOnly</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font>，即只选择命令执行者时，将检查命令执行者是否为玩家、是否满足谓词，均满足则<strong>返回</strong>命令执行者，否则<strong>返回</strong>空列表。（由于是直接对命令执行者进行判断，而上文又提到过，命令的执行者被作为参数传入函数，因此该判断没有进行任何遍历，非常迅速）；<li>当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font>，即只选择命令执行者所在的世界的玩家时，将遍历该世界的玩家列表，<strong>筛选</strong>出满足谓词的玩家（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.server.world.ServerWorld#getPlayers</font></font>）；<li>否则，遍历全服的玩家列表（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.server.MinecraftServer#getPlayerManager</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.server.PlayerManager#getPlayerList</font></font>），<strong>筛选</strong>出满足谓词的玩家。<li>将上述步骤（5 或 6）中<strong>筛选</strong>出的玩家按照 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font> 排序，再按照 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font> 限制的数量从列表中移除多余的玩家（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.command.EntitySelector#getEntities</font></font>），并<strong>返回</strong>。<br />
+</ul></font><br />
+<font style="font-size:16px">刚刚我们提到了「谓词」，这就进行解释。</font><br />
+<br />
+<font style="font-size:20px"><strong>谓词</strong></font><br />
+<br />
+<font style="font-size:16px"><strong>谓词</strong>，英文 predicate，可简单理解为一系列的条件。当我们把一个实体传入谓词中后，谓词会进行一系列判断，返回这个实体是否满足各种条件。</font><br />
+<br />
+<font style="font-size:16px">上述过程中的「建立谓词」，指的是在<strong>基础谓词</strong>的基础上，加入<strong>坐标谓词</strong>合成出新谓词的过程。</font><br />
+<br />
+<font style="font-size:16px">其中，基础谓词，是在实体选择器的解析过程中不断建立出来的：在解析过程中，设置 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">predicate</font></font> 字段的时候，其实是在将新谓词合并到原有谓词中（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.command.EntitySelectorReader#setPredicate</font></font>）。在全部解析完成后，又会执行一个函数，添加 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x_rotation</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y_rotation</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">level</font></font> 这三个选择器参数对应的谓词到基础谓词当中（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.command.EntitySelectorReader#buildPredicate</font></font>），至此基础谓词彻底建立完毕。例如，根据上面的字段表，在解析实体选择器 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[type=zombie]</font></font> 时，当解析完变量 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e</font></font> 后，会将 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Entity::isAlive</font></font> 加入谓词；当解析完参数 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type=zombie</font></font> 后，会将「判断实体类型是否为僵尸」合并入谓词；全部解析完成后，得到了基础谓词，它要求实体既需要是活的，也需要是一只僵尸。</font><br />
+<br />
+<font style="font-size:16px">坐标谓词，是基于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">z</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dy</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dz</font></font> 这七个选择器参数建立的对实体坐标的谓词。我们省去 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offset</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">box</font></font> 等只在源代码中体现的技术性细节不谈，只说近似结论：</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">z</font></font> 中缺省的项目会使用命令执行坐标补全；<li>当存在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font> 时，会判定实体所在坐标到 (<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>, <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y</font></font>, <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">z</font></font>) 的距离是否在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font> 限定范围之内；<li>当存在 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dy</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dz</font></font> 的任意一个时，会将缺省项目用 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">0.0</font></font> 补齐，然后使用以下函数建立 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Box</font></font>，判定实体的碰撞箱是否与这个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Box</font></font> 相交：<br />
+</ul></font><br /><div class="blockcode"><div id="code_R9y"><ol><li>// net.minecraft.command.EntitySelectorReader#createBox<br /><li>private Box createBox(double dx, double dy, double dz) {<br /><li>&nbsp; &nbsp; boolean boolean_1 = dx &lt; 0.0D;<br /><li>&nbsp; &nbsp; boolean boolean_2 = dy &lt; 0.0D;<br /><li>&nbsp; &nbsp; boolean boolean_3 = dz &lt; 0.0D;<br /><li>&nbsp; &nbsp; double double_1 = boolean_1 ? dx : 0.0D;<br /><li>&nbsp; &nbsp; double double_2 = boolean_2 ? dy : 0.0D;<br /><li>&nbsp; &nbsp; double double_3 = boolean_3 ? dz : 0.0D;<br /><li>&nbsp; &nbsp; double double_4 = (boolean_1 ? 0.0D : dx) + 1.0D;<br /><li>&nbsp; &nbsp; double double_5 = (boolean_2 ? 0.0D : dy) + 1.0D;<br /><li>&nbsp; &nbsp; double double_6 = (boolean_3 ? 0.0D : dz) + 1.0D;<br /><li>&nbsp; &nbsp; return new Box(double_1, double_2, double_3, double_4, double_5, double_6);<br /><li>}</ol></div><em onclick="copycode($('code_R9y'));">复制代码</em></div><br />
+<font style="font-size:16px">这是一个非常莫名其妙的函数。说成人话，即：</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px">如果 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font> 小于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">0.0</font></font>，那么实体的碰撞箱在 x 轴方向上需要接触的范围是 (<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x + dx</font></font>, <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x + 1.0</font></font>)&nbsp;&nbsp;<br />
+如果 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font> 大于等于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">0.0</font></font>，那么该范围是 (<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>, <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x + dx + 1.0</font></font>)&nbsp;&nbsp;<br />
+不论 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font> 取何值，该范围与我们印象中的 (<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>, <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x + dx</font></font>) 都不相同。<br />
+其中 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">x</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font> 均为实体选择器参数。<br />
+（替换为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">y</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dy</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">z</font></font> 和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dz</font></font> 同理。）</font></blockquote></div><br />
+<font style="font-size:16px">还有一件诡异的事情，当你完全没有指定 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dy</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dz</font></font> 这三者，但是指定了 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font> 的最大值（例如 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance=..5</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance=3</font></font> 等）的时候，游戏会自动建立出一个判定区域 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Box</font></font>，判定实体的碰撞箱是否与这个 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Box</font></font> 相交：</font><br />
+<br /><div class="blockcode"><div id="code_M2c"><ol><li>float distanceMax = (Float)this.distance.getMax();<br /><li>box = new Box(<br /><li>&nbsp; &nbsp; (double)(-distanceMax), (double)(-distanceMax), (double)(-distanceMax), <br /><li>&nbsp; &nbsp; (double)(distanceMax + 1.0F), (double)(distanceMax + 1.0F), (double)(distanceMax + 1.0F)<br /><li>);</ol></div><em onclick="copycode($('code_M2c'));">复制代码</em></div><br />
+<font style="font-size:16px">这一段操作看似多出了不少没必要的操作，实则是对实体选择器极大的优化。为什么呢？且看下一部分，注意对比它与 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getPlayers()</font></font> 流程的差异。</font><br />
+<br />
+<font style="font-size:20px"><strong><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getEntities()</font></font> 的流程</strong></font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>当不满足 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includeNonPlayers</font></font>，即只允许选取玩家时，调用上面提到的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getPlayers()</font></font> 函数，并<strong>返回</strong>。<li>当指定了 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">playerName</font></font> 时，遍历服务器玩家列表，找到玩家名和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">playerName</font></font> 一致的玩家（这一步和 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getPlayers()</font></font> 里相应步骤一致），并<strong>返回</strong>；<li>当指定了 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uuid</font></font> 时，遍历所有加载的世界，获取该世界中 UUID 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">uuid</font></font> 的实体（后半部分操作同样基于 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">HashMap</font></font>，速度非常快）（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.server.world.ServerWorld#getEntity</font></font>），并<strong>返回</strong>；<li>基于命令执行坐标等，建立谓词；<li>当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">senderOnly</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font>，即只选择命令执行者时，将检查命令执行者是否为实体、是否满足谓词，均满足则<strong>返回</strong>命令执行者，否则<strong>返回</strong>空列表。（由于是直接对命令执行者进行判断，而上文又提到过，命令的执行者被作为参数传入函数，因此该判断没有进行任何遍历，非常迅速）；<li>当 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font>，即只选择命令执行者所在的世界的实体时，将调用该世界的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getEntities()</font></font> 函数，<strong>筛选</strong>出满足谓词的实体（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.server.world.ServerWorld#getEntities</font></font>）；<li>否则，遍历所有世界，调用每个世界的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getEntities()</font></font> 函数，<strong>筛选</strong>出满足谓词的实体。<li>将上述步骤（6 或 7）中<strong>筛选</strong>出的实体按照 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font> 排序，再按照 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font> 限制的数量从列表中移除多余的实体（见源码 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">net.minecraft.command.EntitySelector#getEntities</font></font>），并<strong>返回</strong>。<br />
+</ul></font><br />
+<font style="font-size:16px">其中，世界的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getEntities()</font></font> 函数代码如下：</font><br />
+<br /><div class="blockcode"><div id="code_myy"><ol><li>// net.minecraft.world.World#getEntities<br /><li>public List&lt;Entity&gt; getEntities(@Nullable EntityType&lt;?&gt; type, Box box, Predicate&lt;? super Entity&gt; predicate) {<br /><li>&nbsp; &nbsp; /* 所谓 box，是根据 x y z dx dy dz 这六个选择器参数计算出来的方块区域，<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;* 而我们上文曾说过，如果指定 distance，游戏会自动计算出一个 box，这便是为了让这一步骤中能够不遍历不必要的区块。<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;* 因此，只要参数中指定了 dx dy dz distance 中的任几个，并且 includingNonPlayer 为 true，都可以享受到由本函数带来的优化。<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;*/<br /><li>&nbsp; &nbsp; // 计算出 box 涉及到的区块坐标们。<br /><li>&nbsp; &nbsp; int chunkMinX = MathHelper.floor((box.minX - 2.0D) / 16.0D);<br /><li>&nbsp; &nbsp; int chunkMaxX = MathHelper.ceil((box.maxX + 2.0D) / 16.0D);<br /><li>&nbsp; &nbsp; int chunkMinZ = MathHelper.floor((box.minZ - 2.0D) / 16.0D);<br /><li>&nbsp; &nbsp; int chunkMaxZ = MathHelper.ceil((box.maxZ + 2.0D) / 16.0D);<br /><li>&nbsp; &nbsp; List&lt;Entity&gt; result = Lists.newArrayList();<br /><li><br /><li>&nbsp; &nbsp; // 遍历这些区块坐标。<br /><li>&nbsp; &nbsp; for(int chunkX = chunkMinX; chunkX &lt; chunkMaxX; ++chunkX) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;for(int chunkZ = chunkMinZ; chunkZ &lt; chunkMaxZ; ++chunkZ) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;WorldChunk chunk = this.getChunkManager().getWorldChunk(chunkX, chunkZ, false);<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if (chunk != null) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* 调用该区块的 appendEntities 函数，把该区块中满足谓词的实体加入返回的实体列表当中。<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; * 而 net.minecraft.world.chunk.Chunk#appendEntities 函数中调用的是 net.minecraft.util.TypeFilterableList#getAllOfType，<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; * 在类 net.minecraft.util.TypeFilterableList 中，元素以类型索引，<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; * 说了这么多废话，就是想说，如果选择器参数中指定了 type，就只会遍历该类型实体的列表了。<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; */<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;chunk.appendEntities((EntityType)type, box, result, predicate);<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li><br /><li>&nbsp; &nbsp; return result;<br /><li>}</ol></div><em onclick="copycode($('code_myy'));">复制代码</em></div><br />
+<font style="font-size:16px">可以看出，这一部分的流程大体与 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">getPlayers()</font></font> 一致，但是在具体代码实现上，是从实体列表中遍历，还引入了针对实体类型 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font>、针对实体坐标所在区块的特殊优化，使得每次检索实体时不一定遍历整个实体列表，而是可以只获取某几个区块的指定类型的生物的实体列表。</font><br />
+<br />
+<font style="font-size:20px"><strong>小结</strong></font><br />
+<br />
+<font style="font-size:16px">实体选择器在获取实体时的步骤，整合以后可以归类如下：</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>对 UUID 的特殊处理，直接从 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">HashMap</font></font> 索引，速度非常快；<li>对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@s</font></font>（<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">senderOnly</font></font>）的特殊处理，直接读取参数，速度非常快；<li>一般情况下，将从列表中获取实体。字段 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayers</font></font> 决定使用实体列表还是玩家列表，字段 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font> 决定范围是当前世界还是全服，是否有字段 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">box</font></font> 决定范围是某几个区块还是全地图，是否有字段 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font> 决定范围是指定类型的实体列表还是全部实体列表；<li>把获取到的实体传入谓词，筛选出符合条件的实体；<li>根据 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">sorter</font></font> 排序，再根据 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">limit</font></font> 移除多余实体。<br />
+</ul></font><br />
+<font style="font-size:16px">如果你追求性能的话：</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>在函数全篇大量使用某个相同实体（如 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[tag=marker]</font></font>）时，不如套一层 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">execute as @e[tag=marker] run function xxx</font></font>，用极其高效的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@s</font></font> 替换掉多次遍历全服实体列表；<li>在选择确定类型的实体的时候，在选择器内显式指定不带感叹号且不是实体标签的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font>；<li>在选择确定位置的实体的时候，尽量指定 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dx</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dy</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">dz</font></font> 中的一个或几个，缩小遍历范围；<li>如果你有些病态，可以用手动指定 UUID 来替代用 tag 标记 marker，但我个人不太推荐这么做。<br />
+</ul></font><br />
+<font style="font-size:16px">另外，由常识：</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>玩家列表通常比实体列表要小，至少不会比它大；<li>当前世界的列表通常比全服列表小，至少不会比它大。<br />
+</ul></font><br />
+<font style="font-size:16px">因此，如果你是一个十分病态、极致追求性能（其实一般情况下没有必要，真的涉及实体数量非常多的话，MC 自己就会卡得不行了，你命令再怎么高性能也挽救不回来）的玩家的话，可以通过限定选择器变量、选择器参数，在允许的情况下尽量使 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayers</font></font> 变为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font>，使 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">localWorldOnly</font></font> 变为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">true</font></font>。</font><br />
+<br />
+<font style="font-size:24px"><strong>后语</strong></font><br />
+<br />
+<font style="font-size:16px">在最初观看 Wiki、看到实体选择器的相关介绍时，我曾有过各种各样的困惑。而如今，我也能够把握十足地回答它们了。请注意，以下内容适用于 Minecraft 1.14.4，可能颠覆您的三观：</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[type=minecraft:player]</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@a</font></font> 是否等价？性能呢？</font></blockquote></div><br />
+<font style="font-size:16px">并不等价。根据「解析」部分的字段表，<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e</font></font> 向谓词中自动加入了 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">Entity::isAlive</font></font>，导致前者不能选中死亡的玩家；后者则没有这种限制。</font><br />
+<br />
+<font style="font-size:16px">性能区别不大。前者在解析完 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">type</font></font> 后会设定 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayers</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font>，后者 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@a</font></font> 自动设定 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">includingNonPlayers</font></font> 为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">false</font></font>，两者都是从玩家列表中选择玩家。</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[nbt={UUIDMost:1L,UUIDLeast:1L}]</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">00000000-0000-0001-0000-000000000001</font></font> 是否等价？ 性能呢？</font></blockquote></div><br />
+<font style="font-size:16px">效果不等价。如上所述，前者不能选中死亡的实体。不过鉴于实体死亡后很快就会从实体列表中移除，这个差别不是很大。</font><br />
+<br />
+<font style="font-size:16px">性能上前者慢于后者。因为前者将遍历全部世界和世界中的全部实体，而后者将在遍历全部世界时直接从 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">HashMap</font></font> 中获取指定 UUID 对应的实体。</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@p[name=SPGoding]</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">SPGoding</font></font> 是否等价？ 性能呢？</font></blockquote></div><br />
+<font style="font-size:16px">效果等价。都是选择名为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">SPGoding</font></font> 的玩家。</font><br />
+<br />
+<font style="font-size:16px">性能区别不大。两者都遍历了一遍全服玩家列表。</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[tag=marker]</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@e[tag=marker,type=minecraft:armor_stand]</font></font> 是否等价？ 性能呢？（假设只有盔甲架有 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">marker</font></font> 标签。）</font></blockquote></div><br />
+<font style="font-size:16px">效果等价。</font><br />
+<br />
+<font style="font-size:16px">性能上前者慢于后者，因为前者将遍历各地图、各区块的全部实体，而后者将只遍历各地图、各区块的盔甲架。</font><br />
+<br /><div class="quote"><blockquote><font style="font-size:16px"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@a[sort=nearest,limit=1]</font></font>、<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">@p</font></font> 是否等价？ 性能呢？</font></blockquote></div><br />
+<font style="font-size:16px">效果等价，都是选择最近的玩家。</font><br />
+<br />
+<font style="font-size:16px">性能几乎一致。不过，写那么一大长串的人似乎不太聪明…？</font><br />
+<br />
+<font style="font-size:24px"><strong>结语</strong></font><br />
+<br />
+<font style="font-size:16px">不知道本帖是否具有很高的实用性，但我个人认为，从源代码的角度理解实体选择器的运作原理，能让人不那么「被 Mojang 牵着鼻子走」，至少在写下每一个选择器的时候，心里能有点底，知道它到底意味着什么。</font><br />
+<br />
+<font style="font-size:16px">由于笔者完全不会编程，只是对命令略有涉猎，文章中可能有不少错误，望各位 dalaoes 不吝指出，感谢。</font><br />
+<br />
+<font style="font-size:24px"><strong>你知道吗</strong></font><br />
+<br />
+<font style="font-size:16px">本部分是本人在分析反编译后的源代码中发现的一些有趣的事情。</font><br />
+<br />
+<font style="font-size:16px"><ul type="1" class="litype_1"><li>在判断实体到指定坐标的距离是否满足选择器参数 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">distance</font></font> 中规定的范围时，Mojang 进行比较的是距离的平方，省去了很多次开根运算。<strong>其实我们在写一些数据包的时候也可以这样的，不一定非要算出距离是多少，距离的平方也许就够用了</strong>；<li>在判断实体 NBT 标签的谓词中，有一句向玩家的标签中添加 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">SelectedItem</font></font> 的代码。也就是说，<strong>我们平时检测得很爽的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">SelectedItem</font></font> 标签其实原本是不存在的，它是 Mojang 为了让我们方便检测，硬生生加出来的</strong>。感动！<li>对字符串进行的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">switch</font></font> 编译以后会变成对 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">hashCode()</font></font> 的 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">switch</font></font>。这是因为 <font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">switch</font></font> 其实只能对数字进行，对字符串的支持是在 Java7 加入的补救措施。<br />
+</ul></font><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2019-7-26 00:39<br />
+SelectedItem 应该是1.8加入的，以前就只能恼人地用SelectedItemSlot+背包判断，所以还是mojang良心发现加入的……<br />
+<br />
+另外，不是说一般加上distance或者其它范围限制的话会比直接从所有实体选择要快吗？这一点能看出来吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b> SPGoding&nbsp; &nbsp; <b>时间: </b>2019-7-26 00:45<br />
+<i class="pstatus"> 本帖最后由 梓榆 于 2019-7-26 11:49 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15072196&amp;ptid=891687" target="_blank"><font color="#999999">ruhuasiyu 发表于 2019-7-26 00:39</font></a></font><br />
+SelectedItem 应该是1.8加入的，以前就只能恼人地用SelectedItemSlot+背包判断，所以还是mojang良心发现加 ...</blockquote></div><br />
+<strike>不能，大概是谣传 ;(</strike><br />
+<br />
+确实如此。distance、dx、dy、dz 中任意定义一个或几个，都能有效减少遍历范围。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-7-26 03:37<br />
+<div class="quote"><blockquote>效果等价，都是选择 UUID 为&nbsp;&nbsp;00000000-0000-0001-0000-00000000000 的实体。<br />
+<br />
+性能上前者慢于后者。因为前者将遍历全部世界和世界中的全部实体，而后者将在遍历全部世界时直接从 HashMap 中获取指定 UUID 对应的实体。</blockquote></div><br />
+你不是上面刚说完前者选不到死了的吗。。。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⊙v⊙&nbsp; &nbsp; <b>时间: </b>2019-7-26 04:47<br />
+<i class="pstatus"> 本帖最后由 ⊙v⊙ 于 2019-7-25 10:57 编辑 </i><br />
+<br />
+说得好，但还是有一些疑问<br />
+<br />
+dxdydz创建的box做不到(范围从全世界缩减到box范围)减少目标的效果？<br />
+<font size="1"><font color="Silver">@e[tag=marker]、@e[tag=marker,type=minecraft:armor_stand] 是否等价？ 性能呢？（假设只有盔甲架有 marker 标签。）</font></font><br />
+选择器参数是否有处理顺序，如果有的话，例中使用[type,tag]是否会有不同的效果？<br />
+为什么@e的值是EntityType.PLAYER？<br />
+这是哪个大佬的小号？<strike>头像为什么不是往中间摔?</strike><br />
+<br />
+<br />
+也请大佬讲讲这些差别...<br /><div class="blockcode"><div id="code_F9b"><ol><li>execute if score @s board matches 1..<br /><li>execute if entity @s[scores={board=1..}]</ol></div><em onclick="copycode($('code_F9b'));">复制代码</em></div><div class="blockcode"><div id="code_gsS"><ol><li>execute if data @s A.B<br /><li>execute if entity @s[nbt={A:{B:1b}}]</ol></div><em onclick="copycode($('code_gsS'));">复制代码</em></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b> SPGoding&nbsp; &nbsp; <b>时间: </b>2019-7-26 10:16<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15072459&amp;ptid=891687" target="_blank"><font color="#999999">chyx 发表于 2019-7-26 03:37</font></a></font><br />
+你不是上面刚说完前者选不到死了的吗。。。。。。</blockquote></div><br />
+因为普通实体死了之后没多久就删了，所以没考虑这么多…<br />
+补上了！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b> SPGoding&nbsp; &nbsp; <b>时间: </b>2019-7-26 10:41<br />
+<i class="pstatus"> 本帖最后由 梓榆 于 2019-7-26 14:41 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15072509&amp;ptid=891687" target="_blank"><font color="#999999">⊙v⊙ 发表于 2019-7-26 04:47</font></a></font><br />
+说得好，但还是有一些疑问</blockquote></div><div class="quote"><blockquote>dxdydz创建的box做不到(范围从全世界缩减到box范围)减少目标的效果？</blockquote></div><br />
+没错，dx dy dz distance 都可以，帖子已更新<br />
+<br /><div class="quote"><blockquote>为什么@e的值是EntityType.PLAYER？</blockquote></div><br />
+对不起！！！<br />
+<br /><div class="quote"><blockquote><strike>这是哪个大佬的小号？头像为什么不是往中间摔？</strike></blockquote></div><br />
+<strike>为什么你用户名的嘴是尖的，而不是圆的？</strike><br />
+<br /><div class="quote"><blockquote>execute if score @s board matches 1..<br />
+execute if entity @s[scores={board=1..}]</blockquote></div><br />
+前者的代码是这样的<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_X6e"><ol><li>// 省略一堆<br /><li>.then(CommandManager.literal(&quot;score&quot;).then(CommandManager.argument(&quot;target&quot;, ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER).then(((RequiredArgumentBuilder)((RequiredArgumentBuilder)((RequiredArgumentBuilder)((RequiredArgumentBuilder)((RequiredArgumentBuilder)CommandManager.argument(&quot;targetObjective&quot;, ObjectiveArgumentType.objective()).then(CommandManager.literal(&quot;=&quot;).then(CommandManager.argument(&quot;source&quot;, ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER).then(addConditionLogic(commandNode_1, CommandManager.argument(&quot;sourceObjective&quot;, ObjectiveArgumentType.objective()), boolean_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return testScoreCondition(commandContext_1, Integer::equals);<br /><li>}))))).then(CommandManager.literal(&quot;&lt;&quot;).then(CommandManager.argument(&quot;source&quot;, ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER).then(addConditionLogic(commandNode_1, CommandManager.argument(&quot;sourceObjective&quot;, ObjectiveArgumentType.objective()), boolean_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return testScoreCondition(commandContext_1, (integer_1, integer_2) -&gt; {<br /><li>&nbsp; &nbsp; return integer_1 &lt; integer_2;<br /><li>&nbsp; &nbsp; });<br /><li>}))))).then(CommandManager.literal(&quot;&lt;=&quot;).then(CommandManager.argument(&quot;source&quot;, ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER).then(addConditionLogic(commandNode_1, CommandManager.argument(&quot;sourceObjective&quot;, ObjectiveArgumentType.objective()), boolean_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return testScoreCondition(commandContext_1, (integer_1, integer_2) -&gt; {<br /><li>&nbsp; &nbsp; return integer_1 &lt;= integer_2;<br /><li>&nbsp; &nbsp; });<br /><li>}))))).then(CommandManager.literal(&quot;&gt;&quot;).then(CommandManager.argument(&quot;source&quot;, ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER).then(addConditionLogic(commandNode_1, CommandManager.argument(&quot;sourceObjective&quot;, ObjectiveArgumentType.objective()), boolean_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return testScoreCondition(commandContext_1, (integer_1, integer_2) -&gt; {<br /><li>&nbsp; &nbsp; return integer_1 &gt; integer_2;<br /><li>&nbsp; &nbsp; });<br /><li>}))))).then(CommandManager.literal(&quot;&gt;=&quot;).then(CommandManager.argument(&quot;source&quot;, ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER).then(addConditionLogic(commandNode_1, CommandManager.argument(&quot;sourceObjective&quot;, ObjectiveArgumentType.objective()), boolean_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return testScoreCondition(commandContext_1, (integer_1, integer_2) -&gt; {<br /><li>&nbsp; &nbsp; return integer_1 &gt;= integer_2;<br /><li>&nbsp; &nbsp; });<br /><li>}))))).then(CommandManager.literal(&quot;matches&quot;).then(addConditionLogic(commandNode_1, CommandManager.argument(&quot;range&quot;, NumberRangeArgumentType.numberRange()), boolean_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return testScoreMatch(commandContext_1, NumberRangeArgumentType.IntRangeArgumentType.getRangeArgument(commandContext_1, &quot;range&quot;));<br /><li>})))))))</ol></div><em onclick="copycode($('code_X6e'));">复制代码</em></div></td></table></div></div><br />
+<br />
+后者 scores 所引入的断言代码是这样的<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_m4q"><ol><li>class_2303_1.setPredicate((entity) -&gt; {<br /><li>&nbsp; &nbsp; Scoreboard scoreboard = entity.getServer().getScoreboard();<br /><li>&nbsp; &nbsp; String string_1 = entity.getEntityName();<br /><li>&nbsp; &nbsp; Iterator var4 = rangesOfObjective.entrySet().iterator();<br /><li><br /><li>&nbsp; &nbsp; Entry key;<br /><li>&nbsp; &nbsp; int score;<br /><li>&nbsp; &nbsp; do {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if (!var4.hasNext()) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;return true;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li><br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;key = (Entry)var4.next();<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ScoreboardObjective objective = scoreboard.getNullableObjective((String)key.getKey());<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if (objective == null) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;return false;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li><br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if (!scoreboard.playerHasObjective(string_1, objective)) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;return false;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li><br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ScoreboardPlayerScore scoreObj = scoreboard.getPlayerScore(string_1, objective);<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;score = scoreObj.getScore();<br /><li>&nbsp; &nbsp; } while(((NumberRange.IntRange)key.getValue()).test(score));<br /><li><br /><li>&nbsp; &nbsp; return false;<br /><li>});</ol></div><em onclick="copycode($('code_m4q'));">复制代码</em></div></td></table></div></div><br />
+<br />
+前者直接解析出对应的计分项，然后比较值的大小；而后者会遍历一次实体的全部分数。所以前者性能更好。<br />
+<br /><div class="quote"><blockquote>execute if data @s A.B<br />
+execute if entity @s[nbt={A:{B:1b}}]</blockquote></div><br />
+这两个效果首先就不等效。第一个只要有 B 就行，而第二个需要 B 为 1b。当然，如果 B 是自定义标签并且只在 1b 的时候才设置的话，效果上就没有区别了。<br />
+<br />
+前者的代码<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_aJt"><ol><li>literalArgumentBuilder_1.then(class_3164$class_3167_1.addArgumentsToBuilder(CommandManager.literal(&quot;data&quot;), (argumentBuilder_1) -&gt; {<br /><li>return argumentBuilder_1.then(((RequiredArgumentBuilder)CommandManager.argument(&quot;path&quot;, NbtPathArgumentType.nbtPath()).fork(commandNode_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return getSourceOrEmptyForConditionFork(commandContext_1, boolean_1, countPathMatches(class_3164$class_3167_1.getObject(commandContext_1), NbtPathArgumentType.getNbtPath(commandContext_1, &quot;path&quot;)) &gt; 0);<br /><li>})).executes(getExistsConditionExecute(boolean_1, (commandContext_1) -&gt; {<br /><li>&nbsp; &nbsp; return countPathMatches(class_3164$class_3167_1.getObject(commandContext_1), NbtPathArgumentType.getNbtPath(commandContext_1, &quot;path&quot;));<br /><li>})));<br /><li>}));<br /><li><br /><li>// 各种调用以后，最终调用到的计数代码<br /><li>// net.minecraft.command.arguments.NbtPathArgumentType.NbtPath#count<br /><li>public int count(Tag tag) {<br /><li>&nbsp; &nbsp; List&lt;Tag&gt; list = Collections.singletonList(tag);<br /><li>&nbsp; &nbsp; NbtPathArgumentType.NbtPathNode[] nodes = this.nodes;<br /><li>&nbsp; &nbsp; int nodesLength = nodes.length;<br /><li><br /><li>&nbsp; &nbsp; for(int i = 0; i &lt; nodesLength; ++i) {<br /><li>&nbsp; &nbsp; NbtPathArgumentType.NbtPathNode node = nodes[i];<br /><li>&nbsp; &nbsp; list = node.get(list);<br /><li>&nbsp; &nbsp; if (list.isEmpty()) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;return 0;<br /><li>&nbsp; &nbsp; }<br /><li>&nbsp; &nbsp; }<br /><li><br /><li>&nbsp; &nbsp; return list.size();<br /><li>}</ol></div><em onclick="copycode($('code_aJt'));">复制代码</em></div></td></table></div></div><br />
+<br />
+后者的代码<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><div class="blockcode"><div id="code_U3h"><ol><li>class_2303_1.setPredicate((entity) -&gt; {<br /><li>&nbsp; &nbsp; CompoundTag tag = entity.toTag(new CompoundTag());<br /><li>&nbsp; &nbsp; if (entity instanceof ServerPlayerEntity) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ItemStack class_1799_1 = ((ServerPlayerEntity)entity).inventory.getMainHandStack();<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if (!class_1799_1.isEmpty()) {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;tag.put(&quot;SelectedItem&quot;, class_1799_1.toTag(new CompoundTag()));<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; }<br /><li><br /><li>&nbsp; &nbsp; return TagHelper.areTagsEqual(valueTag, tag, true) != isNegation;<br /><li>});<br /><li><br /><li>// 判断标签是否相等的代码<br /><li>// net.minecraft.util.TagHelper#areTagsEqual<br /><li>// 不贴了…贴得太多了…</ol></div><em onclick="copycode($('code_U3h'));">复制代码</em></div></td></table></div></div><br />
+<br />
+两者都是先用实体的 `toTag()` 构造出 NBT。前者是不断层层递进，看 NBT 标签符不符合传入的路径；后者是遍历 valueTag 复合标签中的键，看该键在 valueTag 中的值与在 tag 中的值是否相等。俩都挺复杂的…可能后者因为涉及到两个标签间的比较会更慢一些。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-7-30 01:18<br />
+0-0-1-0-1<br />
+和<br />
+00000000-0000-0001-0000-000000000001<br />
+等价吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>:spgbigfan:&nbsp; &nbsp; <b>时间: </b>2019-7-30 22:22<br />
+
+<ignore_js_op>
+
+<img id="aimg_1362542" aid="1362542" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201907/30/222155rqxkeykbryqr3ybj.jpg" file="https://attachment.mcbbs.net/forum/201907/30/222155rqxkeykbryqr3ybj.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="212" id="aimg_1362542" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1362542_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>4qiiaikg8w0ffsa3qby4mhpch.jpg</strong> <em class="xg1">(11.2 KB, 下载次数: 34)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTM2MjU0Mnw0ZTBlYTkxMHwxNjEzOTkwMjQ1fDI0MTk0ODZ8ODkxNjg3&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-7-30 22:21 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[15120477] = ['1362542'];
+attachimggroup(15120477);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b> SPGoding&nbsp; &nbsp; <b>时间: </b>2019-7-30 23:13<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15108155&amp;ptid=891687" target="_blank"><font color="#999999">chyx 发表于 2019-7-30 01:18</font></a></font><br />
+0-0-1-0-1<br />
+和<br />
+00000000-0000-0001-0000-000000000001</blockquote></div><br />
+<font size="3">这一部分解析是由 Java 的 <font style="background-color:#ebddc0"><font face="Monaco,Consolas,'Lucida Console','Courier New',serif">java.util.UUID.fromString</font></font> 所实现的，我 哪 知 道【跑</font><br />
+<br />
+<font size="3">也许查看 <a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FUniversally_unique_identifier" target="_blank">Wikipedia</a> 对 UUID 的介绍能明白些什么，但因为太硬核了我不想看</font><br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1581277682&nbsp; &nbsp; <b>时间: </b>2019-7-31 17:18<br />
+666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xin_erQWQ&nbsp; &nbsp; <b>时间: </b>2019-8-1 06:05<br />
+好复杂看不懂...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>RF_Tar_Railt&nbsp; &nbsp; <b>时间: </b>2019-8-2 00:59<br />
+那性能上execute as @e[tag=marker,type=minecraft:armor_stand] run fuction foo:c与<br />
+a.mcfunction:<br />
+execute as @e[type=minecraft:armor_stand] run function foo:b<br />
+b.mcfunction:<br />
+execute as @e[tag=marker] run function foo:c<br />
+是否相同？<br />
+还有@e[tag=marker,nbt={A:{B:1b}}] 与 @e[tag=marker] if entity @s [nbt={A:{B:1b}}]？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2019-8-2 08:48<br />
+<i class="pstatus"> 本帖最后由 Teenager_Yang 于 2019-8-2 16:18 编辑 </i><br />
+<br />
+我也要来问问题！<br />
+dalao 分析一下：<br />
+effect give @a[tag=233] minecraft:speed 10 0 true<br />
+execute as @a[tag=233] run effect give @s minecraft:speed 10 0 true<br />
+execute as @a run effect give @s[tag=233] minecraft:speed 10 0 true<br />
+execute as @a if entity @s[tag=233] run effect give @s minecraft:speed 10 0 true<br />
+这几个在性能上的差异。<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Doraemon_&nbsp; &nbsp; <b>时间: </b>2019-8-2 10:43<br />
+感谢大佬搬运 ,虽然我这个菜鸡不怎么看得懂（手动滑稽）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>底层咸鱼&nbsp; &nbsp; <b>时间: </b>2019-8-2 16:09<br />
+<i class="pstatus"> 本帖最后由 897412176 于 2019-8-4 10:03 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15150341&amp;ptid=891687" target="_blank"><font color="#999999">RF_Tar_Railt 发表于 2019-8-2 00:59</font></a></font><br />
+那性能上execute as @e[tag=marker,type=minecraft:armor_stand] run fuction foo:c与<br />
+a.mcfunction:<br />
+execu ...</blockquote></div><br />
+就第 1 个问题的话，我觉得应该差不多。<br />
+execute as @e[tag=marker,type=minecraft:armor_stand] run fuction foo:c<br />
+和<br />
+<strong>a: </strong>execute as @e[type=minecraft:armor_stand] run function foo:b<br />
+<strong>b: </strong>execute as @e[tag=marker] run function foo:c<br />
+（<strong>a: </strong>我个人没有去翻过代码，不知道当 tag 和 type 同时出现的话，不知道是先检测 tag 还是 type……<br />
+不过我记得应该和你写的顺序无关，检测顺序应该是代码写死的）<br />
+当然，如果是先检测 type，再检测 tag 的话，两个应该是等价的（不考虑在函数内调用其他函数消耗的性能）<br />
+<strike>当然，我对代码和英语一窍不通，如果说错了不要打我（请求）</strike><br />
+（此答案仅供参考，具体等楼主回答）<br />
+<strike>强行甩锅<img src="static/image/smiley/tong/doge.png" smilieid="1448" border="0" alt="" /></strike><br />
+<hr class="l" />经 SPG dalao 这么一说，发现两个并不是等价的（无论是性能还是效果）<br />
+第2个：先 as 所有盔甲架 ，再 as 所有 marker，那么所有没有 type=minecraft:armor_stand，但是有 tag=marker 也会执行函数 c 。举个例子：有 m 个只有 type=minecraft:armor_stand 和 n 个只有 tag=marker 以及 type 和 tag 两者都有的 k 个，那么函数 c 会执行：（m+k）（n+k）次 。<br />
+<hr class="l" />当然如果把函数 b 改成 as @s[tag=marker] ，我说的应该是对的。<hr class="l" /><strike>Spg dalao 快来帮我！</strike><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>uuu2011&nbsp; &nbsp; <b>时间: </b>2019-8-3 03:29<br />
+在函数全篇大量使用某个相同实体（如 @e[tag=marker]）时，不如套一层 execute as @e[tag=marker] run function xxx，用极其高效的 @s 替换掉多次遍历全服实体列表；<br />
+<br />
+这个太有用了，我一直在困惑是否需要用在大量 @e 外面套一层 execute ，今天找到答案了<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-3 23:28<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15150341&amp;ptid=891687" target="_blank"><font color="#999999">RF_Tar_Railt 发表于 2019-8-2 00:59</font></a></font><br />
+那性能上execute as @e[tag=marker,type=minecraft:armor_stand] run fuction foo:c与<br />
+a.mcfunction:<br />
+execu ...</blockquote></div><br />
+久等了。<br />
+<br />
+<strong>一</strong><br />
+execute as @e [tag=marker,type=minecraft:armor_stand] run fuction foo:c<br />
+只遍历了一次盔甲架的列表<br />
+<br />
+a.mcfunction:<br />
+execute as @e[type=minecraft:armor_stand] run function foo:b<br />
+b.mcfunction:<br />
+execute as @e[tag=marker] run function foo:c<br />
+遍历了一次盔甲架的列表、一次全部实体列表，肯定会慢一些。我觉得把 b 里面的 @e 改成 @s 的话，两种写法性能差别就不是很大了。<br />
+<br />
+<strong>二</strong><br />
+@e[tag=marker,nbt={A:{B:1b}}]<br />
+@e[tag=marker] if entity @s [nbt={A:{B:1b}}]<br />
+我个人认为区别不大…众所周知，@s 超级快（<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-3 23:31<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15151807&amp;ptid=891687" target="_blank"><font color="#999999">Teenager_Yang 发表于 2019-8-2 08:48</font></a></font><br />
+我也要来问问题！<br />
+dalao 分析一下：<br />
+effect give @a[tag=233] minecraft:speed 10 0 true</blockquote></div><br />
+不知道，<strong>别纠结这没用的</strong><br />
+<br />
+<hr class="l" /><br />
+从命令解析的角度，第一句最快，只读取了一次命令树，没有奇怪的 redirect（等一下，你在讲什么，帖子里一句没提到这个啊）<br />
+剩下三种写法的话，都挺…那什么的。我不知道谁更快，也不想知道。<br />
+<br />
+另外，一般第一种写法最便于理解，剩下的都太诡异了，选择器参数这儿一块儿那一块儿的，为了你自己的视力着想，也不能选择后三种啊！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mon-yu&nbsp; &nbsp; <b>时间: </b>2019-8-4 12:05<br />
+?(.???.)?来份????<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>DOPING_DEFINED&nbsp; &nbsp; <b>时间: </b>2019-8-5 10:07<br />
+顶顶顶顶顶顶顶顶顶顶顶顶顶顶！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3220392&nbsp; &nbsp; <b>时间: </b>2019-8-5 16:25<br />
+又是个大佬，萌新表示看不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>海豹暴晒&nbsp; &nbsp; <b>时间: </b>2019-8-6 01:54<br />
+哇刚入门java的我还是完全看不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Potat&nbsp; &nbsp; <b>时间: </b>2019-8-6 08:43<br />
+对小白的我来说，真是头大<img src="static/image/smiley/tong/Strong_smile.png" smilieid="1435" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>13851214659qwe&nbsp; &nbsp; <b>时间: </b>2019-8-6 16:36<br />
+6666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>奋飞的小鸟&nbsp; &nbsp; <b>时间: </b>2019-8-6 17:44<br />
+你们知道吗？对于一个问心无愧的命令方块渣渣，这个帖子扎了TA多深的心吗？都是因为TA看不懂！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>烟火依旧&nbsp; &nbsp; <b>时间: </b>2019-8-7 13:41<br />
+MCBBS有你更精彩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>歪歪c&nbsp; &nbsp; <b>时间: </b>2019-8-9 00:24<br />
+牛逼啊，铁子，可以<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>趴趴小猪&nbsp; &nbsp; <b>时间: </b>2019-8-11 15:25<br />
+6666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>745056399&nbsp; &nbsp; <b>时间: </b>2019-8-12 17:50<br />
+很好，楼主很用心，期待楼主能在mcbbs中有更多的作品<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>寒冰520&nbsp; &nbsp; <b>时间: </b>2019-8-12 18:05<br />
+厉害厉害厉害厉害<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>junkoofpurity&nbsp; &nbsp; <b>时间: </b>2019-8-12 23:13<br />
+大佬，少见如此细致的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>柘木铃&nbsp; &nbsp; <b>时间: </b>2019-8-13 08:51<br />
+这样，如果减少遍历的实体数，即使把选择器加得更长，性能也会优化这样？<br />
+之后一定可以派上用场，感谢梓榆<br />
+梓榆的教程风格还是一如既往地让人安心（某叔写这种代码层面的教程的话铃子可能见标题就跑（？<br />
+顺便以后有机会看到更多同系列的作品吗？铃子相当期待<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1755201743&nbsp; &nbsp; <b>时间: </b>2019-8-13 12:24<br />
+666666666666666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b> SPGoding&nbsp; &nbsp; <b>时间: </b>2019-8-13 12:37<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15311278&amp;ptid=891687" target="_blank"><font color="#999999">柘木铃 发表于 2019-8-13 08:51</font></a></font><br />
+这样，如果减少遍历的实体数，即使把选择器加得更长，性能也会优化这样？<br />
+之后一定可以派上用场，感谢梓榆<br />
+ ...</blockquote></div><br />
+选择器写得长些也只是解析的时候要多读几个字符而已，性能损耗相比于整个实体列表的减小应该是可以忽略不计的。<br />
+<br />
+谢谢铃子夸奖w 是想继续写下去来着，但人比较懒，鱼身上的毛又那么柔软，让人忍不住想去摸…<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>233小星星&nbsp; &nbsp; <b>时间: </b>2019-8-13 14:55<br />
+<div class="quote"><blockquote><font color="#999999">1755201743 发表于 2019-8-13 12:24</font><br />
+<font color="#999999">**** 作者被禁止或删除 内容自动屏蔽 ****</font></blockquote></div><br />
+你很六牛批666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>AppleCarrot&nbsp; &nbsp; <b>时间: </b>2019-8-14 09:00<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15072459&amp;ptid=891687" target="_blank"><font color="#999999">chyx 发表于 2019-7-26 03:37</font></a></font><br />
+你不是上面刚说完前者选不到死了的吗。。。。。。</blockquote></div><br />
+其实相差不大,实体死的时候很快两个选择器都选不到了,后者可以选中正在死亡的实体,但如果这个uuid是个玩家的,就跟@e[type=player]和@a区别一样了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>末、红尘&nbsp; &nbsp; <b>时间: </b>2019-8-14 10:09<br />
+加油！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2019-8-14 11:38<br />
+<div class="quote"><blockquote><font color="#999999">AppleCarrot 发表于 2019-8-14 09:00</font><br />
+<font color="#999999">其实相差不大,实体死的时候很快两个选择器都选不到了,后者可以选中正在死亡的实体,但如果这个uuid是个玩 ...</font></blockquote></div><br />
+要是能选择到正在死亡的实体<br />
+是可以改大它的生命来把它救回来的<br />
+明白我的意思不？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>AppleCarrot&nbsp; &nbsp; <b>时间: </b>2019-8-14 13:50<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15327748&amp;ptid=891687" target="_blank"><font color="#999999">chyx 发表于 2019-8-14 11:38</font></a></font><br />
+要是能选择到正在死亡的实体<br />
+是可以改大它的生命来把它救回来的<br />
+明白我的意思不？ ...</blockquote></div><br />
+ee其实并不能只是这么做<br />
+标签控制死亡的NBT标签 并不仅仅是是health标签[控制生命值的]还受到deathTime标签[控制死亡动画]影响,后者在为0是就是实体活着<br />
+前者是触发后者的条件,然而反过来当后者触发时候修改前者为正数,并不会阻止后者的增加<br />
+换句话说当死亡动画已经播放时,增加这个实体的生命值并不能挽救它,除非同时更改前者为正数且后者为0<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QAQexe&nbsp; &nbsp; <b>时间: </b>2019-8-15 17:26<br />
+看看，感谢分享<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>PhonixSupheria&nbsp; &nbsp; <b>时间: </b>2019-8-15 20:39<br />
+赞赞赞，码上<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>bhyzgzz&nbsp; &nbsp; <b>时间: </b>2019-8-17 10:17<br />
+牛逼啊大触<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hiahiahi&nbsp; &nbsp; <b>时间: </b>2019-8-17 13:20<br />
+666666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>紫云SAMA_&nbsp; &nbsp; <b>时间: </b>2019-8-20 22:03<br />
+<img src="static/image/smiley/rabbit/49.gif" smilieid="699" border="0" alt="" /><img src="static/image/smiley/rabbit/67.gif" smilieid="717" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2047283952&nbsp; &nbsp; <b>时间: </b>2019-8-22 15:55<br />
+牛逼６６６<img src="static/image/smiley/rabbit/51.gif" smilieid="701" border="0" alt="" />５５５５<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>亿岁&nbsp; &nbsp; <b>时间: </b>2019-8-23 16:18<br />
+看着有点晕<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC520520&nbsp; &nbsp; <b>时间: </b>2019-8-23 20:57<br />
+有点复杂.....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>念旧丶无心&nbsp; &nbsp; <b>时间: </b>2019-8-24 20:40<br />
+很棒棒的啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Just_Suning&nbsp; &nbsp; <b>时间: </b>2019-8-27 21:28<br />
+6666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>51691&nbsp; &nbsp; <b>时间: </b>2019-8-30 15:51<br />
+这操作太真实<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Vioket_QAQ&nbsp; &nbsp; <b>时间: </b>2019-9-4 20:04<br />
+6666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>森林蝙蝠&nbsp; &nbsp; <b>时间: </b>2019-9-5 08:34<br />
+predicate&lt;T&gt;在Java中不是“断言”，而是“谓词”，指那种T-&gt;return boolean的lambda表达式，例如ruhua-&gt;ruhua.isThirty()==true;<br />
+而Java里的断言叫做assert，用于单元测试，比如assertTrue(ruhua.getAge()，30)，如果getAge的结果不是30说明有问题，会弹消息。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>apzt&nbsp; &nbsp; <b>时间: </b>2019-9-6 21:25<br />
+很有帮助，感谢感谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>o320481446&nbsp; &nbsp; <b>时间: </b>2019-9-6 22:45<br />
+太复杂了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ZhuJingYe&nbsp; &nbsp; <b>时间: </b>2019-9-7 10:46<br />
+实体选择器折磨好啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzk122001333&nbsp; &nbsp; <b>时间: </b>2019-9-7 23:18<br />
+感谢大佬 就是没看懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HHQart&nbsp; &nbsp; <b>时间: </b>2019-9-9 17:10<br />
+作为基岩版玩家我对此一窍不通【而且基岩版@r后面加type参数就可以选择非玩家实体了】<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>loubi&nbsp; &nbsp; <b>时间: </b>2019-9-9 18:57<br />
+6666666666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>邪恶草&nbsp; &nbsp; <b>时间: </b>2019-9-19 14:46<br />
+看来要准备学习Java了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>liness&nbsp; &nbsp; <b>时间: </b>2019-9-21 16:47<br />
+233333333333333333<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>deatin6long&nbsp; &nbsp; <b>时间: </b>2019-9-24 12:50<br />
+5555555555<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1272097077&nbsp; &nbsp; <b>时间: </b>2019-9-28 20:57<br />
+很好 ，学习一下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>‮ebotanihS&nbsp; &nbsp; <b>时间: </b>2019-12-26 19:24<br />
+<img src="static/image/smiley/rabbit/49.gif" smilieid="699" border="0" alt="" />刚刚学完java的萌新来拜读此文，然后发现<br />
+<br />
+predicate不就是一种filter嘛，叫“滤器”不就非常棒<img src="static/image/smiley/tong/....png" smilieid="1443" border="0" alt="" /><br />
+<br />
+请lz轻喷（<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b> SPGoding&nbsp; &nbsp; <b>时间: </b>2019-12-27 01:10<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15987209&amp;ptid=891687" target="_blank"><font color="#999999">Shinatobe 发表于 2019-12-26 19:24</font></a></font><br />
+刚刚学完java的萌新来拜读此文，然后发现<br />
+<br />
+predicate不就是一种filter嘛，叫“滤器”不就非常棒[:.. ...</blockquote></div><br />
+确实，filter 和 predicate 经常一起出现，比如<br /><div class="blockcode"><div id="code_ZvV"><ol><li>Predicate&lt;Integer&gt; isEven = e -&gt; e % 2 == 0;<br /><li>...<br /><li>x.stream().filter(isEven)</ol></div><em onclick="copycode($('code_ZvV'));">复制代码</em></div><br />
+（我不会编程，所以代码是复制的：<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F36798742%2Fwhat-is-the-difference-between-using-a-predicate-or-a-function-as-a-java-stream" target="_blank">在这里</a>）<br />
+<br />
+但因为我不懂编程，我也不敢瞎翻译。只好听取博学的编程 dalaoes 的建议喽<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>‮ebotanihS&nbsp; &nbsp; <b>时间: </b>2019-12-27 12:33<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15988427&amp;ptid=891687" target="_blank"><font color="#999999">梓榆 发表于 2019-12-27 01:10</font></a></font><br />
+确实，filter 和 predicate 经常一起出现，比如<br />
+<br />
+（我不会编程，所以代码是复制的：在这里）</blockquote></div><br />
+我明白了。更精细地说，与其说它是“滤器”，不如说是“过滤条件”。
+<ignore_js_op>
+
+<img id="aimg_1423780" aid="1423780" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201912/27/122537e2mjmlf7kjmm2f27.png" file="https://attachment.mcbbs.net/forum/201912/27/122537e2mjmlf7kjmm2f27.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="30" id="aimg_1423780" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_1423780_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>i_f13.png</strong> <em class="xg1">(4.95 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTQyMzc4MHxkZDg3OGQ2Y3wxNjEzOTkwMjQ1fDI0MTk0ODZ8ODkxNjg3&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2019-12-27 12:25 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+或者<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F3230944%2Fwhat-does-predicate-mean-in-the-context-of-computer-science" target="_blank"><font color="#242729"><font style="background-color:rgb(251, 242, 212)"><font face="Arial, &amp;quot;"><font style="font-size:15px">filter criteria……</font></font></font></font></a><br />
+<br />
+<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" />……或者“滤网”？（逃<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[15989206] = ['1423780'];
+attachimggroup(15989206);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fukemansite&nbsp; &nbsp; <b>时间: </b>2020-1-7 15:41<br />
+真的是大佬哦。佩服佩服耶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Evasi0n丶&nbsp; &nbsp; <b>时间: </b>2020-1-19 22:58<br />
+楼主大大你好！想问一下，我是1.12.2的版本，参数里没有distance什么的，我想知道如果我设定了x=,y=,z=,r=的参数，可不可以有效地帮我缩小实体的遍历范围呢？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>brooke_zb&nbsp; &nbsp; <b>时间: </b>2020-2-15 08:54<br />
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=2444378" target="_blank">@SPGoding</a> 出来答题（<br />
+假设tag为foo的盔甲架只存在一个，那么是不是<br />
+@e[type=armor_stand,tag=foo,limit=1]的效率会比@e[type=armor_stand,tag=foo]的效率要高？<strike>（除非很不幸遍历到最后一个盔甲架才符合结果）<br />
+</strike><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2020-2-15 16:06<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16389754&amp;ptid=891687" target="_blank"><font color="#999999">brooke_zb 发表于 2020-2-15 08:54</font></a></font><br />
+@SPGoding 出来答题（<br />
+假设tag为foo的盔甲架只存在一个，那么是不是<br />
+@e[type=armor_stand,tag=foo,limit=1] ...</blockquote></div><br />
+不是<br />
+<br />
+limit 是最后处理的，事实上加了以后反而还要多一步移除多余实体的操作。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>13626464852&nbsp; &nbsp; <b>时间: </b>2020-7-15 08:45<br />
+从头看到尾懵逼的我<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kunkun520&nbsp; &nbsp; <b>时间: </b>2020-7-29 20:37<br />
+mcbbs有你更精彩！！！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

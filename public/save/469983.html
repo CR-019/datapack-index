@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §5 : 循环中条件语句 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00Njk5ODMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 循环中条件语句 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-16 20:20<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §5 : 循环中条件语句<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-23 16:05 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>循环语句与条件语句结合</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 循环中条件语句</font></font></div><div align="left">本章将前两章内容进行结合，</div><div align="left">便是循环体中使用条件语句；</div><div align="left">和条件语句中使用循环。</div><br />
+循环语句结合条件语句将会涉及到 <div align="left"><strong>循环中条件语句</strong></div><br />
+<div align="left"><strong>时钟</strong></div><ul><li><div align="left">建立时钟</div><li><div align="left">时钟中条件语句</div><br />
+</ul><div align="left"><strong>结束循环</strong></div><br />
+<div align="left"><strong>跳过循环</strong></div><br />
+<div align="left"><strong>循环嵌套</strong></div><ul><li><div align="left">判断条件</div><li><div align="left">终止循环</div><br />
+</ul><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-469197-1-1.html" target="_blank">上一篇</a>（for循环模拟机械赋值 ）--<a href="http://www.mcbbs.net/thread-470597-1-1.html" target="_blank">下一篇</a>（时钟）</font></div><div align="right"><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§5.1 循环中条件语句</font></font></strong><br />
+<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.1.0 区别</font></font></strong><br />
+虽然循环自身也是条件语句，但是与循环区别的是，<br />
+此处条件语句在循环体之中。<br />
+<br />
+如果说循环是一层条件，那么这里条件属于嵌套条件。<br />
+<br />
+<font size="4"><font color="#ff0000"><strong>循环与条件语句结构：</strong></font></font><br />
+进一步分析：<br />
+<font color="#808080">/scoreboard players add @p[score_a=5] a 1</font><br />
+<font color="#008000">/execute @p[score_a=5] ~ ~ ~</font> <font color="#800000">say 1</font><br />
+<font color="#008000">/execute @p[score_a=5] ~ ~ ~</font> <font color="#800000">/execute @p[score_b_min=1] ~ ~ ~ </font><font color="#0000ff">say 2</font><br />
+<br />
+构成了一个循环，<br />
+（使用/scoreboard players set @p a 1设定初值开始循环5次）<br />
+其中：<br />
+<font size="2"><font color="#808080">/scoreboard players add @p[score_a=5] a 1</font></font><br />
+<font size="2"><font color="#000000">为循环基础，维持循环进行。</font></font><br />
+ <br />
+<font color="#808080"><font size="2"><font color="#008000">/execute @p[score_a=5] ~ ~ ~</font><font color="#000000"> </font></font></font><br />
+<font size="2">为循环体基础判定，后缀则是循环中的输出。</font><br />
+ <br />
+<font size="2"><font color="#800000">say 1</font></font><br />
+<font size="2"><font color="#800000">/execute @p[score_b_min=1] ~ ~ ~ </font></font><br />
+<font size="2"><font color="#000000">都是循环中输出，但是say 1直接输出，而后者则又是一个条件判断，</font></font><br />
+ <br />
+<font size="2"><font color="#0000ff">say 2</font></font><br />
+<font size="2"><font color="#000000">是循环中<font color="#800000">/execute @p[score_b_min=1] ~ ~ ~ </font>条件判断的输出。</font></font><br />
+<br />
+↑得到循环中的结构关系。（如果在第四章没弄懂的此处可以理解）<br />
+<br />
+<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">5.1.1 输出关系</font></font></strong><br />
+<strong><font face="微软雅黑"><font size="4"><img id="aimg_FuHu8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/f67a985802f4b88e.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></font></strong><br />
+使用上面的指令。<br />
+<br />
+<ul><li><strong>输出与条件</strong><br />
+</ul>显然循环中此条件语句只有条件满足才有输出，而且输出次数与循环和循环体操作有关：<br />
+<br />
+<img id="aimg_GYS5s" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/d696e1dfe196cb31.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+当我预设b为1，那么会一直输出。<br />
+<img id="aimg_IN3d7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/82319701e741d83d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+在最后新增一个指令方块：<br /><div class="blockcode"><div id="code_xpZ"><ol><li>/execute @p[score_a_min=3] ~ ~ ~ scoreboard players set @p b 1</ol></div><em onclick="copycode($('code_xpZ'));">复制代码</em></div><br />
+那么在<strong>执行第3次时，将b设为1</strong>，那么就会有输出。<br />
+（构成简易时钟，关于具体是什么，咱么下篇讲解）<br />
+<ul><li>执行顺序<br />
+</ul>既然是循环，和顺序不可能托不上关系。<br />
+<br />
+在上面的例子里，我们在最末加入，也就是最后执行，显然已经<strong>过了输出say 2的时辰</strong>。所以后来设b为1，<strong>没有本轮say 2的输出</strong>。<br />
+<strong>从第四次循环开始，才有say 2输出</strong>。<br />
+<br />
+然而：<br />
+<img id="aimg_JuM6s" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/5e37ac0f017b511f.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+将<br /><div class="blockcode"><div id="code_NS8"><ol><li>/execute @p[score_a_min=3] ~ ~ ~ scoreboard players set @p b 1</ol></div><em onclick="copycode($('code_NS8'));">复制代码</em></div><br />
+放在<br />
+<font color="#008000">/execute @p[score_a=5] ~ ~ ~</font> <font color="#800000">/execute @p[score_b_min=1] ~ ~ ~ </font><font color="#0000ff">say 2</font><br />
+<font color="#000000">前</font><br />
+<br />
+<font color="#000000">那么从第三次循环就有输出了。</font><br />
+<font color="#000000">这就是顺<strong>序的重要性，他影响时序和输出，若操作不当可能会造成延误</strong>。</font><br />
+ <br />
+ <br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><div align="left"><font face="微软雅黑"><strong>前面花了十分多的笔墨来着重描述条件语句和循环语句作用，本章作为实践章也需要自己动手了</strong></font></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">建立一个循环20次的高频，当循环15次后一直输出say 1；</div><li><div align="left">自己实践循环和条件语句，结合教程。</div><br />
+</ul></div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ACE.ACE.ACE&nbsp; &nbsp; <b>时间: </b>2015-7-16 20:22<br />
+支持技术贴<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-7-16 20:23<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2015-7-16 20:25 编辑 </i><br />
+<br />
+想知道跳出循环有什么简单方法 像break<br />
+我现在为了避免执行之后的部分要在后面的部分每个前面都加execute帽子 <br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小白~别喷。&nbsp; &nbsp; <b>时间: </b>2015-7-16 20:42<br />
+支持LZ的教程贴<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>凛&nbsp; &nbsp; <b>时间: </b>2015-7-16 20:45<br />
+红石大触你好<br />
+我是红石小白<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>cowb&nbsp; &nbsp; <b>时间: </b>2015-7-16 21:41<br />
+2b大大的作品，不明觉厉！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

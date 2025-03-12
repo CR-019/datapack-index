@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : else表达 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01MjI3MzUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : else表达 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-15 18:51<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : else表达<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-11-15 18:53 编辑 </i><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="5">3.3+ else</font></font></strong><br />
+之前的枚举就是：<br />
+if和if else，是对于不同结果的输出。<br />
+情况不能被全部枚举，如果我要<strong>检测并不是枚举过的条件并输出</strong>，那么就需要<strong>else（另）</strong><br />
+<br />
+在1.9中，else有三种表达方式。<br />
+<i>（↓表示输出接口，∨表示condition输出）</i><br />
+<ul><li><strong>串联模块中的execute枚举使用bool变量</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F0BD3_564858560" target="_blank"><img id="aimg_T5kXa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/0BD3_564858560.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F9CC4_564858570" target="_blank"><img id="aimg_HFa2G" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/9CC4_564858570.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F4CC9_564858570" target="_blank"><img id="aimg_Px6L7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/4CC9_564858570.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F9060_564858570" target="_blank"><img id="aimg_Tr6l7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/9060_564858570.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FACB9_564858570" target="_blank"><img id="aimg_szECE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/ACB9_564858570.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<br /><div class="quote"><blockquote><div align="center"><font color="#ff0000">/scoreboard players tag 转存实体 add bool变量名</font></div><br />
+<div align="center"><font color="#ff0000">↓</font></div><br />
+<div align="center"><font color="#408080">/execute 条件1 输出1</font></div><br />
+<div align="center"><font color="#408080">↓</font></div><br />
+<div align="center"><font color="#408080">/execute 条件1 /scoreboard players tag 转存实体 remove bool变量名</font></div><br />
+<div align="center"><font color="#408080">↓</font></div><br />
+<div align="center"><font color="#408080">/execute 条件2 输出2</font></div><br />
+<div align="center"><font color="#408080">↓</font></div><br />
+<div align="center"><font color="#408080">/execute 条件2 /scoreboard players tag 转存实体 remove bool变量名</font></div><br />
+<div align="center"><font color="#008080">┋</font></div><br />
+<div align="center"><font color="#408080">/execute 条件n 输出n</font></div><br />
+<div align="center"><font color="#408080">↓</font></div><br />
+<div align="center"><font color="#408080">/execute 条件n /scoreboard players tag 转存实体 remove bool变量名</font></div><br />
+<div align="center"><font color="#408080">↓</font></div><br />
+<div align="center"><font color="#408080">/execute 转存实体[tag=bool变量名] else输出</font></div></blockquote></div><br />
+主要就是<strong>使用bool变量转存枚举的输出情况，然后else判断后输出</strong><br />
+<br />
+<br />
+<ul><li><strong>并联模块中的&quot;条件嵌套&quot;枚举使用bool变量</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F97AF_564858570" target="_blank"><img id="aimg_D7D9u" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/97AF_564858570.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FED5F_564858580" target="_blank"><img id="aimg_Zem57" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/ED5F_564858580.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FC627_564858580" target="_blank"><img id="aimg_r2yZy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/C627_564858580.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FA472_564858580" target="_blank"><img id="aimg_m1110" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/A472_564858580.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F650F_564858580" target="_blank"><img id="aimg_l6Y1u" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/650F_564858580.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+将串联分为并联，仍然使用bool变量<br />
+<br />
+<br /><div class="quote"><blockquote><div align="center"><font color="#ff0000">/scoreboard players tag 转存实体 add bool变量名</font></div><br />
+<div align="center"><font color="#ff0000">↓</font></div><br />
+<div align="center"><font color="#408080">条件1</font></div><br />
+<div align="center"><font color="#408080">∨</font></div><br />
+<div align="center"><font color="#408080">输出1</font></div><br />
+<br />
+<div align="center"><font color="#ff0000">条件2</font></div><br />
+<div align="center"><font color="#ff0000">∨</font></div><br />
+<br />
+<div align="center"><font color="#408080">输出2</font></div><br />
+<div align="center"><font color="#800080">┋</font></div><br />
+<div align="center"><font color="#ff0000">条件n</font></div><br />
+<div align="center"><font color="#ff0000">∨</font></div><br />
+<div align="center"><font color="#408080">输出n</font></div><br />
+<br />
+<div align="center"><font color="#ff0000">/testfor 转存实体[tag=bool变量名]</font></div><br />
+<font color="#ff0000"><div align="center"><font style="background-color:initial">∨</font></div><br />
+</font><div align="center"><font color="#408080">else输出</font></div></blockquote></div><br />
+原理和execute的bool法相同。<br />
+<font color="#008000"><font color="#008000">*<strong>需要注意核心的位置</strong></font>（<strong>先后顺序，否则逻辑矛盾）</strong></font><br />
+<font color="#008000">图中使用的还是execute并联，可以对比以下&quot;条件嵌套&quot;和execute区别和共同点）</font><br />
+<br />
+<ul><li><strong>串联模块使用NBT修改</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F7CE7_564858580" target="_blank"><img id="aimg_x4xF2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/7CE7_564858580.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FCD7C_564858580" target="_blank"><img id="aimg_tQHg2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/CD7C_564858580.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F971C_564858590" target="_blank"><img id="aimg_WB5tv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/971C_564858590.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FE1B3_564858590" target="_blank"><img id="aimg_VVKc6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/E1B3_564858590.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FB54C_564858590" target="_blank"><img id="aimg_VSlE6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/B54C_564858590.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+不用任何实体转存，靠NBT修改完成<br />
+<br /><div class="quote"><blockquote><div align="center"><font color="#ff0000">条件1</font></div><br />
+<div align="center"><font color="#ff0000">∨</font></div><br />
+<div align="center"><font color="#ff0000">/blockdata else输出核心坐标 {conditionMet:0b}</font></div><br />
+<div align="center"><font color="#ff0000">↓</font></div><br />
+<div align="center"><font color="#ff0000">输出1</font></div><br />
+<div align="center"><font color="#ff0000"> </font></div><br />
+<font color="#ff0000"><div align="center"><font color="#ff0000">条件2</font></div><br />
+<div align="center"><font color="#ff0000">∨</font></div><br />
+<div align="center"><font color="#ff0000">/blockdata else输出核心坐标 {conditionMet:0b}</font></div><br />
+<div align="center"><font color="#ff0000">↓</font></div><br />
+<div align="center"><font color="#ff0000">输出2</font></div><br />
+<div align="center"><font color="#800080">┋</font></div><br />
+<div align="center"><font color="#ff0000">条件n</font></div><br />
+<div align="center"><font color="#ff0000">∨</font></div><br />
+<div align="center"><font color="#ff0000">/blockdata else输出核心坐标 {conditionMet:0b}</font></div><br />
+<div align="center"><font color="#ff0000">↓</font></div><br />
+<div align="center"><font color="#ff0000">输出n</font></div><br />
+<div align="center"><font color="#ff0000"> </font></div><br />
+<font color="#ff0000"><div align="center"><font color="#ff0000">else输出核心</font></div><br />
+<div align="center"><font color="#ff0000">↓</font></div><br />
+<div align="center"><font color="#408080">else输出）</font></div><br />
+<div align="center"><font color="#408080">↓</font></div><br />
+<div align="center"><font color="#408080">/blockdata else输出核心坐标 {conditionMet:1b}</font></div><br />
+</font><br />
+</font></blockquote></div><br />
+原理就是<strong>如果前面的并联模块的枚举有任意输出，就使else输出的核心变为conditional，从而中断else输出的模块。</strong><br />
+<font color="#008000">*其中需要注意<strong>何处摆放condition和指令方块的类型（否则无法达成目的），依旧需要注意核心的位置（先后顺序，否则逻辑矛盾）</strong></font><br />
+<br />
+<br />
+<i>这些方式输出依据主要运用时钟，而时钟以后会讲到。</i><br />
+<br />
+ <br />
+<font size="4"><strong>对比：</strong></font><br /><div class="quote"><blockquote><font color="#008080"><strong>方案一是串联模块枚举</strong></font><br />
+<br />
+<font color="#008000"><strong>方案二是并联模块枚举的逻辑层次简化</strong></font><br />
+<br />
+<font color="#808000"><strong>方案三是并联模块枚举的指令数量简化</strong></font></blockquote></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>asjkdaskljda&nbsp; &nbsp; <b>时间: </b>2015-11-15 18:53<br />
+有鸡有鸡有牛有牛<br />
+鸡.鸡.鸡.鸡.牛牛牛牛！表示看不懂~<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>青格大D&nbsp; &nbsp; <b>时间: </b>2015-11-15 18:59<br />
+又一次堪比高三数学试卷的技术帖<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Faint_King&nbsp; &nbsp; <b>时间: </b>2015-11-15 19:17<br />
+有点像编程<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zkxn&nbsp; &nbsp; <b>时间: </b>2015-11-15 19:59<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

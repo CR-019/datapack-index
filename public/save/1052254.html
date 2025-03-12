@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>[资源包搬运]负空格字体黑科技 让json文本错位、堆叠显示[1.16+] - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMDUyMjU0LTEtMS5odG1sP2FjdGlvbj1wcmludGFibGU=', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[资源包搬运]负空格字体黑科技 让json文本错位、堆叠显示[1.16+] <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kongbaiyo&nbsp; &nbsp; <b>时间: </b>2020-5-28 13:37<br />
+<b>标题: </b>[资源包搬运]负空格字体黑科技 让json文本错位、堆叠显示[1.16+]<br /><i class="pstatus"> 本帖最后由 kongbaiyo 于 2020-8-5 13:32 编辑 </i><br />
+<br />
+<font style="font-size:32px"><strong>负空格字体资源包</strong></font><br />
+<br />
+原帖地址：<a href="https://github.com/AmberWat/NegativeSpaceFont" target="_blank">https://github.com/AmberWat/NegativeSpaceFont</a><br />
+<br />
+<font style="font-size:16px">本资源包包含了负空格与正空格，允许你精确的将字符在屏幕上向左或向右偏移。</font><br />
+<font style="font-size:16px">原作者discord id: AmberW#4615 （已取得授权）</font><br />
+<br />
+<font style="font-size:24px"><strong>使用方法</strong></font><br />
+<br />
+<font style="font-size:16px">以下三种方法可以达到相同效果</font><br />
+<br />
+<font style="font-size:20px"><strong>使用unicode字符</strong></font><br />
+<br />
+<font style="font-size:16px">本资源包修改了minecraft默认字体中\uF800-\uF83F的字符，用于产生正空格及负空格。</font><br />
+<br />
+<font style="font-size:16px">其中：</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字符范围</strong></td><td><strong>偏移量(像素)</strong></td></tr><tr><td>\uF801 - \uF808</td><td>-1 ~ -8</td></tr><tr><td>\uF809 - \uF80F</td><td>-16, -32, -64, -128, -256, -512, -1024</td></tr><tr><td>\uF821 - \uF828</td><td>1 ~ 8</td></tr><tr><td>\uF829 - \uF82F</td><td>16, 32, 64, 128, 256, 512, 1024</td></tr><tr><td>\uF800</td><td>-max</td></tr><tr><td>\uF820</td><td>+max</td></tr></table></div><br />
+<font style="font-size:16px">使用方法如：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tellraw @a [&quot;这里是开始\uF808\uF803&quot;,{&quot;text&quot;:&quot;把光标向左偏移了11个像素&quot;,&quot;color&quot;:&quot;yellow&quot;},&quot;这里是结束&quot;]</font></font> </font><br />
+<font style="font-size:16px"><img id="aimg_U4HFh" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2020/05/28/RohaUuVKCEGMFNQ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:20px"><strong>使用translate代码</strong></font><br />
+<br />
+<font style="font-size:16px">本资源包提供了一系列translate代码以进行更为简便的偏移（免去计算）。</font><br />
+<br />
+<font style="font-size:16px">在json文本中插入translate代码<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">space.x</font></font>（x为偏移量）即可把光标进行向前（负值）或向后（正值）的偏移，如：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tellraw @a [{&quot;text&quot;:&quot;这里是开始&quot;},{&quot;translate&quot;:&quot;space.-11&quot;},{&quot;text&quot;:&quot;把光标向左偏移了11个像素&quot;,&quot;color&quot;:&quot;yellow&quot;},{&quot;text&quot;:&quot;这里是结束&quot;}]</font></font></font><br />
+<font style="font-size:16px"> <img id="aimg_Tv9zN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2020/05/28/1r8ZDcxXwMIHpgY.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<br />
+<font style="font-size:16px">在json文本中插入需配合with使用的translate代码<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">offset.x</font></font>（x为偏移量）即可把一部分文本整体偏移而不影响后续文本，如：<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tellraw @a [{&quot;text&quot;:&quot;这里是开始&quot;},{&quot;translate&quot;:&quot;offset.-14&quot;,&quot;with&quot;:[{&quot;text&quot;:&quot;我被向左偏移了14个像素&quot;,&quot;color&quot;:&quot;yellow&quot;}]},{&quot;text&quot;:&quot;这里是结束&quot;}]</font></font></font><br />
+<font style="font-size:16px"> <img id="aimg_Z7w24" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2020/05/28/BpTAwfZDOxaWhno.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+<br />
+<font style="font-size:20px"><strong>使用计分板动态偏移</strong></font><br />
+<br />
+<font style="font-size:16px">本资源包新建了一个字体<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">space:default</font></font>，该字体将1-9九个数字以及负号修改成了正负空格，以下是对照表：</font><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:98%"><tr><td><strong>字符</strong></td><td><strong>偏移量（像素）</strong></td></tr><tr><td>9</td><td>1</td></tr><tr><td>8</td><td>3</td></tr><tr><td>7</td><td>8</td></tr><tr><td>6</td><td>21</td></tr><tr><td>5</td><td>55</td></tr><tr><td>4</td><td>144</td></tr><tr><td>3</td><td>377</td></tr><tr><td>2</td><td>987</td></tr><tr><td>1</td><td>2584</td></tr><tr><td>-</td><td>-6765</td></tr></table></div><br />
+<font style="font-size:16px">使用方法例子：首先新建名为<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">test</font></font>的计分板，将<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">#space</font></font>的分数设为<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">-11234569</font></font>，执行<font face="Monaco,Consolas,'Lucida Console','Courier New',serif"><font style="background-color:#ebddc0">tellraw @a [{&quot;text&quot;:&quot;这里是开始&quot;},{&quot;score&quot;:{&quot;objective&quot;:&quot;test&quot;,&quot;name&quot;:&quot;#space&quot;},&quot;font&quot;:&quot;space:default&quot;},{&quot;text&quot;:&quot;把光标向左偏移了11个像素&quot;,&quot;color&quot;:&quot;yellow&quot;},{&quot;text&quot;:&quot;这里是结束&quot;}]</font></font></font><br />
+<br />
+<font style="font-size:24px"><strong>相关应用</strong></font><br />
+<font style="font-size:16px"><ul><li><a href="https://www.mcbbs.net/thread-913031-1-1.html" target="_blank">潜影盒内容预览</a><li>等待补充...<br />
+</ul></font><br />
+<br />
+<font style="font-size:24px"><strong>更新日志</strong></font><br />
+<br />
+<font style="font-size:16px">目前版本：Version 4</font><br />
+<br />
+<font style="font-size:16px">相比pre-release 2的改变:</font><br />
+<br />
+<font style="font-size:16px"><ul><li>渲染修复<li>为1.16增加新字体<li>增加分发许可<br />
+</ul></font><br />
+<font style="font-size:16px">相比version 3的改变:</font><br />
+<br />
+<font style="font-size:16px"><ul><li>增加Intel显卡的适配<li>增加-1024到1024的偏移量的翻译代码<li>为1.16增加新字体以及计分板动态偏移<li>以CC Attribution 4.0 International协议进行分发<br />
+</ul></font><br />
+<br />
+
+<ignore_js_op>
+<dl class="tattl">
+<dt>
+<img src="static/image/filetype/zip.gif" border="0" class="vm" alt="" />
+</dt>
+<dd>
+<p class="attnm">
+
+<a href="forum.php?mod=attachment&amp;aid=MTYwNDYxMXw0YTA2M2NiZHwxNjE0MDM2NjU1fDI0MTk0ODZ8MTA1MjI1NA%3D%3D" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid1604611" target="_blank">NegativeSpaceFont4pre3.zip</a>
+
+<div class="tip tip_4" id="aid1604611_menu" style="display: none" disautofocus="true">
+<div class="tip_c">
+<p class="y">2020-5-28 13:37 上传</p>
+<p>点击文件名下载附件</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+</p>
+<p>59.09 KB, 下载次数: 197</p>
+<p>
+
+</p>
+
+
+</dd>
+</dl>
+</ignore_js_op>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jokey_钥匙&nbsp; &nbsp; <b>时间: </b>2020-5-28 13:48<br />
+<i class="pstatus"> 本帖最后由 Jokey_钥匙 于 2020-5-28 14:40 编辑 </i><br />
+<br />
+负空格超强 国外许多大佬都已经在地图中使用<br />
+应用面很广 基础可以做自定义血条、地图的显示（例如马大哈） 进阶可以做出极度炫酷的界面（点名哈利波特）<br />
+相关教程<a href="https://www.mcbbs.net/thread-835539-1-1.html" target="_blank">https://www.mcbbs.net/thread-835539-1-1.html</a> @⊙v⊙ 点名催更）<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>丸尾青貓&nbsp; &nbsp; <b>时间: </b>2020-5-28 14:05<br />
+感觉挺有用但是又想不到怎么用，这就是我啊......<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kongbaiyo&nbsp; &nbsp; <b>时间: </b>2020-5-28 15:15<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18364455&amp;ptid=1052254" target="_blank"><font color="#999999">Jokey_钥匙 发表于 2020-5-28 13:48</font></a></font><br />
+负空格超强 国外许多大佬都已经在地图中使用<br />
+应用面很广 基础可以做自定义血条、地图的显示（例如马大哈）&nbsp;&nbsp;...</blockquote></div><br />
+有应用的链接嘛（<br />
+我丢到帖子里！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>(=°ω°)丿&nbsp; &nbsp; <b>时间: </b>2020-5-30 21:41<br />
+好，希望没有性能问题（<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>堕天使之墓&nbsp; &nbsp; <b>时间: </b>2020-8-2 22:56<br />
+偏移这玩意应该属于“该用到的时候发现很有用”一类的东西吧......<br />
+<br />
+此外：<br />
+资源包内发现了nosplit变种，试了半天没发现有什么区别，希望说明一下一类的<br />
+* \uF81x是\uF80x的nosplit版本<br />
+* \uF83x是\uF82x的nosplit版本<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kongbaiyo&nbsp; &nbsp; <b>时间: </b>2020-8-5 13:29<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=19271120&amp;ptid=1052254" target="_blank"><font color="#999999">天真可爱咖啦子 发表于 2020-8-2 22:56</font></a></font><br />
+偏移这玩意应该属于“该用到的时候发现很有用”一类的东西吧......<br />
+<br />
+此外：</blockquote></div><br />
+主要是原版也没说明...<br />
+不过我看过他开发过程的聊天记录<br />
+大概意思就是nosplit版本性能更好（这个我测试了一下确实这样），造成的卡顿更少<br />
+但是代价是z轴关系被破坏 就是说后输出的字符不一定显示在上层 不过变化规律目前我也没找到
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

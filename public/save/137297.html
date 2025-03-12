@@ -1,0 +1,217 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 17.属性及修饰符（1.6） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC0xMzcyOTctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 17.属性及修饰符（1.6） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-4 09:47<br />
+<b>标题: </b>【CBL|SYL】NBT教程 17.属性及修饰符（1.6）<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:39 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+你真以为你还能看到封面图？现在用图床不方便啊，说了以后都用word文档了<br />
+<a href="http://pan.baidu.com/share/link?shareid=1569427455&amp;uk=3760538464" target="_blank">http://pan.baidu.com/share/link?shareid=1569427455&amp;uk=3760538464</a>这里是我的网盘，里面放了所有的NBT教程了，可以自己去下载，17章当然不例外<br />
+至于360doc那边：<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F13%2F0704%2F09%2F12976409_297526553.shtml" target="_blank">http://www.360doc.com/content/13/0704/09/12976409_297526553.shtml</a><br />
+这次题目就是关于1.6的新东西了<br />
+说什么？<br />
+呵呵自己看啊<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-4 09:48<br />
+总是感觉我在坑爹的样子呵呵呵呵呵<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>geludan&nbsp; &nbsp; <b>时间: </b>2013-7-4 09:50<br />
+lz太监<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1277832129&nbsp; &nbsp; <b>时间: </b>2013-7-4 09:51<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">geludan 发表于 2013-7-4 09:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2452671&amp;ptid=137297" target="_blank"><img id="aimg_iwT8I" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+lz太监</blockquote></div><br />
+你的答复已被设为最佳答案<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1277832129&nbsp; &nbsp; <b>时间: </b>2013-7-4 09:52<br />
+我看到血条后吐血了 <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>PTmissionary&nbsp; &nbsp; <b>时间: </b>2013-7-4 09:53<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 09:48</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2452656&amp;ptid=137297" target="_blank"><img id="aimg_K816t" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+总是感觉我在坑爹的样子呵呵呵呵呵</blockquote></div><br />
+完全同意。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>52Dora&nbsp; &nbsp; <b>时间: </b>2013-7-4 10:00<br />
+1.6有Ingame NBTEdit了？！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>IceFreeze&nbsp; &nbsp; <b>时间: </b>2013-7-4 10:01<br />
+终于更新了∑(っ °Д °;)っ?<br />
+终于更新了\(^o^)/~!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>冰块⑨号&nbsp; &nbsp; <b>时间: </b>2013-7-4 10:07<br />
+是不是关于那个物品的附加属性？<br />
+<br />
+Sethbling 那儿的滤器也更了……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>renzhen2001&nbsp; &nbsp; <b>时间: </b>2013-7-4 10:08<br />
+好深奥，求视频。其他几期简单多了！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-4 13:02<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">52Dora 发表于 2013-7-4 10:00</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2452749&amp;ptid=137297" target="_blank"><img id="aimg_Gi6n0" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+1.6有Ingame NBTEdit了？！</blockquote></div><br />
+有的<br />
+昨晚发现的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-4 13:04<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">PTmissionary 发表于 2013-7-4 09:53</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2452698&amp;ptid=137297" target="_blank"><img id="aimg_Ree7C" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+完全同意。</blockquote></div><br />
+求高亮XD<br />
+其实确实是写好的，放网盘了<br />
+360doc居然还没过审核<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>52Dora&nbsp; &nbsp; <b>时间: </b>2013-7-4 14:42<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 13:02</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2454292&amp;ptid=137297" target="_blank"><img id="aimg_zPLww" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+有的<br />
+昨晚发现的</blockquote></div><br />
+为什么要那个失败的Forge？<br />
+Lib都下不了！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-4 18:07<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">52Dora 发表于 2013-7-4 14:42</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2455226&amp;ptid=137297" target="_blank"><img id="aimg_KRvpV" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+为什么要那个失败的Forge？<br />
+Lib都下不了！</blockquote></div><br />
+嘿嘿<br />
+香港下载无压力<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>52Dora&nbsp; &nbsp; <b>时间: </b>2013-7-4 18:13<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 18:07</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2457426&amp;ptid=137297" target="_blank"><img id="aimg_nCkRv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+嘿嘿<br />
+香港下载无压力</blockquote></div><br />
+为什么我挂代理也不行<br />
+而且都开不了？<br />
+这个失败之作！Shlt！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yeyaowei&nbsp; &nbsp; <b>时间: </b>2013-7-5 12:35<br />
+话说关于物品属性的我发过一个帖子。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>115260390&nbsp; &nbsp; <b>时间: </b>2013-7-5 17:06<br />
+求1.6版本的nbt，翻不了墙啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>飞龙神王&nbsp; &nbsp; <b>时间: </b>2013-7-5 22:50<br />
+什么东东属性及修饰符 大大什么意思<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-5 22:53<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">飞龙神王 发表于 2013-7-5 22:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2471403&amp;ptid=137297" target="_blank"><img id="aimg_p1f8j" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+什么东东属性及修饰符 大大什么意思</blockquote></div><br />
+自己看教程啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhanghao074&nbsp; &nbsp; <b>时间: </b>2013-7-8 21:47<br />
+楼主发一个1.6整合包吧，照顾新手。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-9 08:53<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">zhanghao074 发表于 2013-7-8 21:47</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2501981&amp;ptid=137297" target="_blank"><img id="aimg_gKMeQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+楼主发一个1.6整合包吧，照顾新手。</blockquote></div><br />
+1.6.2的还没出<br />
+出了才出整合包<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>su3155323&nbsp; &nbsp; <b>时间: </b>2013-7-9 19:18<br />
+现在猪猪君只能当看客了么...都进阶成马了0A0<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-9 19:20<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">su3155323 发表于 2013-7-9 19:18</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2510165&amp;ptid=137297" target="_blank"><img id="aimg_gHChs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+现在猪猪君只能当看客了么...都进阶成马了0A0</blockquote></div><br />
+哦<br />
+我不会忘记他的（肚子饿的时候）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1378495772&nbsp; &nbsp; <b>时间: </b>2013-7-11 06:04<br />
+支持了.................<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1051262901&nbsp; &nbsp; <b>时间: </b>2013-7-30 11:07<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">52Dora 发表于 2013-7-4 18:13</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2457490&amp;ptid=137297" target="_blank"><img id="aimg_KPdDy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+为什么我挂代理也不行<br />
+而且都开不了？<br />
+这个失败之作！Shlt！</blockquote></div><br />
+现在的代理是下载不了那个网站的东西的想要的话去找找资源中转站吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我是大好人&nbsp; &nbsp; <b>时间: </b>2013-8-11 11:20<br />
+属性名去哪里找啊？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-8-11 12:22<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">我是大好人 发表于 2013-8-11 11:20</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2866178&amp;ptid=137297" target="_blank"><img id="aimg_W9nHp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+属性名去哪里找啊？</blockquote></div><br />
+对应生物的属性里面<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-8-13 16:13<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 09:48</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2452656&amp;ptid=137297" target="_blank"><img id="aimg_tqjvo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+总是感觉我在坑爹的样子呵呵呵呵呵</blockquote></div><br />
+巨坑爹，等看完再给分。<br />
+好久没回单人版晃悠了，现在有种前浪死在沙滩上的感觉……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-8-13 17:56<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-8-13 16:13</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2899022&amp;ptid=137297" target="_blank"><img id="aimg_nP2qa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+巨坑爹，等看完再给分。<br />
+好久没回单人版晃悠了，现在有种前浪死在沙滩上的感觉……</blockquote></div><br />
+啊哈……<br />
+修饰符和属性确实很坑爹<br />
+拿一把剑能够让生命突破天际<br />
+拿个铁门能一击秒杀BOSS之类的奇葩玩法<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-8-13 18:16<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-8-13 17:56</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2900948&amp;ptid=137297" target="_blank"><img id="aimg_jZtuW" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+啊哈……<br />
+修饰符和属性确实很坑爹<br />
+拿一把剑能够让生命突破天际</blockquote></div><br />
+看完表示强烈的暗黑2即视感。敢弄个ED、IAS珠镶嵌么。就是没有装备在物品栏里就能生效的小护身符啊。不过这次质量还行，就是加不了贡献了。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-8-14 18:06<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-8-13 18:16</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2901327&amp;ptid=137297" target="_blank"><img id="aimg_R3FfF" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+看完表示强烈的暗黑2即视感。敢弄个ED、IAS珠镶嵌么。就是没有装备在物品栏里就能生效的小护身符啊。不过 ...</blockquote></div><br />
+不过要拿着才生效<br />
+目测新版工具的攻击力就是内置的修饰符<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>green~hand&nbsp; &nbsp; <b>时间: </b>2013-8-18 12:02<br />
+我修改装备修饰符出问题了……：<br />
+我是完全按照教程改的，可是改完之后装备变成了Unnamed,拿在手上地图就崩了……<br />
+我又试了几次，还是一样……我以为是我名字打错了，就用MCEDIT做了几次，结果还是一样……<br />
+这是怎么回事……<br />
+<br />
+ps:我的minecraft是1.6.2的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>~KU~&nbsp; &nbsp; <b>时间: </b>2013-8-18 22:33<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 18:07</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2457426&amp;ptid=137297" target="_blank"><img id="aimg_lvCvc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+嘿嘿<br />
+香港下载无压力</blockquote></div><br />
+同感呀，同鄉嗎？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>真☆熊孩子㊣&nbsp; &nbsp; <b>时间: </b>2013-9-3 18:29<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 13:02</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2454292&amp;ptid=137297" target="_blank"><img id="aimg_vA555" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+有的<br />
+昨晚发现的</blockquote></div><br />
+MCE插件怎么改出的那个武器啊？&nbsp;&nbsp;我实在是不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>BK2&nbsp; &nbsp; <b>时间: </b>2013-9-13 17:49<br />
+求全部饰符全部~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sosxogbh&nbsp; &nbsp; <b>时间: </b>2013-12-18 13:11<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 09:48</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2452656&amp;ptid=137297" target="_blank"><img id="aimg_j9YHt" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+总是感觉我在坑爹的样子呵呵呵呵呵</blockquote></div><br />
+看不懂啊<br />
+{:10_492:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>303082293&nbsp; &nbsp; <b>时间: </b>2014-3-5 19:48<br />
+请问你在这章节的讲解就只有移动速度和生命加成的那些特效吗？还是还有很多，请问在哪里找到，给个地址，我做图用的，谢谢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-3-5 20:46<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4775044&amp;ptid=137297" target="_blank"><font color="#999999">303082293 发表于 2014-3-5 19:48</font></a></font><br />
+请问你在这章节的讲解就只有移动速度和生命加成的那些特效吗？还是还有很多，请问在哪里找到，给个地址，我 ...</blockquote></div><br />
+就那些<br />
+我没记错应该都列出来了<br />
+（到目前为止也还是没有新的）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>303082293&nbsp; &nbsp; <b>时间: </b>2014-3-5 20:51<br />
+好吧.....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Jing-L&nbsp; &nbsp; <b>时间: </b>2014-3-6 11:55<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2452656&amp;ptid=137297" target="_blank"><font color="#999999">sylqiuyifeng 发表于 2013-7-4 09:48</font></a></font><br />
+总是感觉我在坑爹的样子呵呵呵呵呵</blockquote></div><br />
+LZ我想知道更多的属性→_→ 不可能就一个 生命上线什么的吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Baby丶尘埃&nbsp; &nbsp; <b>时间: </b>2014-5-13 13:01<br />
+<i class="pstatus"> 本帖最后由 Baby丶尘埃 于 2018-5-14 17:57 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2914375&amp;ptid=137297" target="_blank"><font color="#999999">sylqiuyifeng 发表于 2013-8-14 18:06</font></a></font><br />
+不过要拿着才生效<br />
+目测新版工具的攻击力就是内置的修饰符</blockquote></div><br />
+12312312312312312312312<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>龙sky&nbsp; &nbsp; <b>时间: </b>2014-5-13 17:18<br />
+看不懂 太高深了！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2014-5-13 18:33<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=4777793&amp;ptid=137297" target="_blank"><font color="#999999">Jing-L 发表于 2014-3-6 11:55</font></a></font><br />
+LZ我想知道更多的属性→_→ 不可能就一个 生命上线什么的吧</blockquote></div><br />
+玩家就那几个<br />
+坑爹什么的自己问mojang去，他们就给那么多我有什么办法<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>霸气々爷&nbsp; &nbsp; <b>时间: </b>2014-6-7 12:12<br />
+弱弱的问一下 怎么打开自己的NBT<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>太郎酱&nbsp; &nbsp; <b>时间: </b>2014-6-7 13:55<br />
+学习学习，撸主牛逼<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jhaiyan01&nbsp; &nbsp; <b>时间: </b>2014-8-19 18:24<br />
+武器的话加强攻击力是怎么弄的？你只教我们僵尸。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>炎炎夏曰&nbsp; &nbsp; <b>时间: </b>2015-9-18 21:35<br />
+楼主大大，可以用NBTEdit自定义生物掉落物吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1304392949&nbsp; &nbsp; <b>时间: </b>2017-7-29 20:11<br />
+好老的帖子啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1304392949&nbsp; &nbsp; <b>时间: </b>2017-7-29 20:12<br />
+还好，我来盗墓了<img src="static/image/smiley/mc_mob_food_plants/creeper.gif" smilieid="832" border="0" alt="" />
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

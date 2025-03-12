@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅰ结构和标签 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02MTg5NjktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅰ结构和标签 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-8-11 10:23<br />
+<b>标题: </b>[CBL∫2b]Loottable - 创造一个看脸看玄的世界 Ⅰ结构和标签<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-8-12 16:24 编辑 </i><br />
+<br />
+<strong><font size="3">Loottable（可抢夺物品列表）是1.9+中的一个新特性，主要靠调用外置json文件实现对物品奖励获取的随机.</font></strong><br />
+<strong>第一章内将会向各位介绍Loottable中的结构和标签</strong><br />
+<br />
+<font size="3"><font color="#a0522d"><strong>Chm版本：<a href="http://pan.baidu.com/s/1c1U4804" target="_blank">http://pan.baidu.com/s/1c1U4804</a> （若.chm遇到问题下载压缩文件）</strong></font></font><br />
+<font color="#ff0000"><strong><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=619468" target="_blank"><font size="5">全部章节总索引</font></a></strong></font><br />
+<div align="right"><u><strong><font color="#8b0000"><a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=619304" target="_blank">下一章 实例与详解</a></font></strong></u></div><br /><br />
+<hr class="l" /><br />
+<hr class="l" /><strong><font face="微软雅黑"><font size="4">Loottable 一个可抢夺物品列表</font></font></strong><br />
+<br />
+<div align="left"><strong>一个可抢夺物品列表（复合）：<font size="2">即loottable</font></strong></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ Pools（列表）：</font><font size="2"><strong>所有随机池，规定了全部随机的项目</strong></font></div></blockquote><br />
+<div align="left">一个可抢夺物品随机列表只能包含一个Pools.</div><div align="left">而一个可抢夺物品列表即loottable的文件（json文件）.</div><div align="left"><hr class="l" /><strong><font face="微软雅黑"><font size="4">Pools 随机池列表</font></font></strong></div><br />
+<div align="left"><strong>Pools（列表） ：</strong><strong><font size="2">所有随机池，规定了全部随机的项目</font></strong></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ A Pool（复合）：<strong>一个随机池</strong></font></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ conditions（列表）：条件列表</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ rolls（整型）：roll项目列表的次数</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ rolls（复合）：roll项目列表的最大次数和最小次数</font></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;└ <i>min（整型）：roll项目列表的最小次数</i></font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;└ <i>max（整型）：roll项目列表的最大次数</i></font></div></blockquote><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ bonus_rolls（浮点）：每点幸运值增加roll的次数，</font><font size="2">向下取整数</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ bonus_rolls（复合）：每点幸运值增加最大和最小roll的次数，</font><font size="2">向下取整数</font></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;└ <i>min（浮点）：每点幸运值增加最小roll的次数</i></font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;└ <i>max（浮点）：每点幸运值增加最大roll的次数</i></font></div></blockquote><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ Entries（列表）：项目列表</font> <br />
+</blockquote></blockquote><div align="left">Pools父级为Loottable.</div><div align="left">Pools是一个包含多个随机池的列表.</div><div align="left">conditions是调用该随机池的条件.</div><div align="left">rolls是从项目列表中随机选出一个项目的次数，默认为0.</div>bonus_rolls是对rolls次数的一个增值，也可为负数；如果填1.2，那么如果你幸运值为4，rolls会增加（4*1.2=4.8取整为4）4次.<br />
+<br />
+Entries是该随机池中的项目列表，只能有一个.<br />
+<div align="left"><hr class="l" /><strong><font face="微软雅黑"><font size="4">Entries 项目列表</font></font></strong></div><br />
+<div align="left"><strong>Entries（列表） ：</strong><strong><font size="2">项目列表</font></strong></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp; ┕ A Entry（复合）：<strong>一个项目</strong></font></div><blockquote><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ conditions（列表）：条件列表</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ type（字符串）：该项目的类型.可以是loot_table、item、empty</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ name（字符串）：如果是loottable是其路径表达式；如果是item则是物品名</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ functions（列表）：功能列表</font></div><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ weight（整型）：该项目被选中的权重</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;┕ quality（整型）：幸运值对该项目的权重增值</font><br />
+<br />
+</blockquote></blockquote><div align="left">Entries父级为A Pool.</div><div align="left">Entries是一个包含多个项目的列表.</div><div align="left">conditions是调用该项目的条件.</div><div align="left">type为项目类型.</div><div align="left">name为项目名称.（item是物品名，例如minecraft:stone；loot_table是路径表达式，例如test:1）</div><div align="left">weight是项目的权重.</div><div align="left">quality是项目权重的增值，公式为（权重+权重增值*幸运值）的值向下取整.</div><br />
+Functions是该项目的功能，只能有一个.<br /><hr class="l" /><strong><font face="微软雅黑"><font size="4">Functions 功能列表</font></font></strong><br />
+<a href="http://minecraft-zh.gamepedia.com/%E5%8F%AF%E6%8A%A2%E5%A4%BA%E7%89%A9%E5%93%81%E8%A1%A8#.E5.8A.9F.E8.83.BD" target="_blank">http://minecraft-zh.gamepedia.com/可抢夺物品表#.E5.8A.9F.E8.83.BD</a><br />
+中有解释.<br />
+<br />
+而具体功能请看实例与详解.<br /><hr class="l" /><br />
+<strong><font face="微软雅黑"><font size="4">Conditions 条件列表</font></font></strong><br />
+<a href="http://minecraft-zh.gamepedia.com/%E5%8F%AF%E6%8A%A2%E5%A4%BA%E7%89%A9%E5%93%81%E8%A1%A8#.E6.9D.A1.E4.BB.B6" target="_blank">http://minecraft-zh.gamepedia.com/可抢夺物品表#.E6.9D.A1.E4.BB.B6</a><br />
+中有解释.<br />
+而具体条件请看实例与详解.<br />
+<br />
+需要注意的是：条件列表的父级不是其他列表，而是一个个体.<br />
+例如一个随机池（A Pool）、一个项目（A Entry）、一个功能（A Function）<br />
+<br />
+<br />
+条件列表不能被条件列表直接调用.<br />
+<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>星E君&nbsp; &nbsp; <b>时间: </b>2016-8-11 10:26<br />
+Loottable可是一个好东西23333<br />
+<br />
+但是Conditions之类的... 有么..?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-8-11 10:28<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10742321&amp;ptid=618969" target="_blank"><font color="#999999">天迹灬战狂神 发表于 2016-8-11 10:26</font></a></font><br />
+Loottable可是一个好东西23333<br />
+<br />
+但是Conditions之类的... 有么..?</blockquote></div><br />
+当然有啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2016-8-21 12:58<br />
+这个贴居然玄的FHC看不懂了23333<br />
+我居然看懂了23333
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

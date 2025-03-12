@@ -1,0 +1,150 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §7 : 执行值与条件语句 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzYxMDYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §7 : 执行值与条件语句 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-27 10:12<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §7 : 执行值与条件语句<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-10 10:02 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>单模块关联</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 执行值与条件语句</font></font></div><div align="left">本章着重复习前面的内容，加深多个模块语句的概念和关联的概念。</div><br />
+<div align="left">所谓单模块是指<strong>多个模块语句组成的</strong>，</div><div align="left">和多模块不同，<strong>单模块内语句着重过程</strong>，<strong>模块本身强调对象</strong>。</div><br />
+<br />
+<div align="left">单模块关联将会涉及到</div><br />
+<div align="left"><strong>执行值与条件语句</strong></div><br />
+<div align="left"><strong>执行值与循环</strong></div><br />
+<div align="left"><strong>执行值与时钟</strong></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-475891-1-1.html" target="_blank">上一篇</a>（stats与时钟）--<a href="http://www.mcbbs.net/thread-476317-1-1.html" target="_blank">下一篇</a>（执行值与循环）</font></div><div align="right"><div align="left"><br />
+<strong><font face="碳化硅大黑体"><font size="5">§7.1 执行值与条件语句</font></font></strong><br />
+在本章内，<strong>需要将条件语句、循环语句、时钟、执行值看作多个模块语句</strong>，<br />
+多个语句模块组成的单模块。<br />
+<br />
+<br />
+首先来复习条件语句和执行值：<br />
+以前也提到了看作<strong>多个语句的概念</strong>，这里我们<strong>加深印象</strong>。<br />
+之前在<a href="https://www.mcbbs.net/file:///C:/Users/Administrator/AppData/Local/Temp/CHM%20Editor/%E8%BF%9B%E9%98%B6%EF%BC%9A%E6%8C%87%E4%BB%A4%E6%96%B9%E5%9D%97%E6%A8%A1%E5%9D%97%E6%95%99%E7%A8%8B_42212.407291956/page_87.html" target="_blank">子条件detect</a>中说明了detect只能向下检测方块，通过stats可以达到向上检测的效果：<br />
+<br />
+如果detect能够向上检测方块，那么可以直接使用<br /><div class="blockcode"><div id="code_xx2"><ol><li>/execute @e[name=f] ~ ~ ~ detect ~ ~1 ~ minecraft:wool 15 say 1</ol></div><em onclick="copycode($('code_xx2'));">复制代码</em></div><br />
+但是通过stats可以分解为以下指令：<br />
+<img id="aimg_hCA66" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/594bb271dcab8dc3.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_aMJ"><ol><li>/scoreboard players set @e[name=f] a 0<br /><li>/stats entity @e[name=f] set SuccessCount @e[name=f] a<br /><li>/execute @e[name=f] ~ ~ ~ testforblock ~ ~2 ~ minecraft:wool 14</ol></div><em onclick="copycode($('code_aMJ'));">复制代码</em></div><br />
+<font color="#008000">*执行值获取</font><br /><div class="blockcode"><div id="code_SWP"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_SWP'));">复制代码</em></div><br />
+<font color="#008000">*条件语句输出</font><br />
+<br />
+<strong><font size="4">效果：</font></strong><br />
+<br />
+<strong><font size="4"><img id="aimg_H54wE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/56572106f30041b9.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+一旦头顶上检测到了红色羊毛，即可输出。<br />
+<br />
+<font size="4"><strong>分析：</strong></font><br />
+<font color="#ff0000">执行值获取需要设定初始值不需要强调了。</font><br />
+可以将获取testforblock的执行成功次数<strong>看作一个语句</strong>，<br />
+它的值<strong>关联条件语句</strong>，因此构成了<strong>一个单模块</strong>，<br />
+用于产生f的头顶有红色羊毛输出say 1的<strong>对象</strong>。<br />
+<br />
+<strong>单模块关联的概念十分重要，计分板和实体是关联单模块所有语句的重要方式</strong>，因此需要掌握。<br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">将stats（第六章）中所有例子按照单模块关联概念理解；</div><br />
+</ul></div></div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yjz1368568129&nbsp; &nbsp; <b>时间: </b>2015-7-27 10:25<br />
+这个不错，我对命令方块不是很精通<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jimmy1234&nbsp; &nbsp; <b>时间: </b>2015-7-27 10:37<br />
+虽然,我研究过命令方块...但是....<br />
+贰逼说的我完全听不懂啊！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 11:18<br />
+<i class="pstatus"> 本帖最后由 langyo 于 2015-8-8 11:20 编辑 </i><br />
+<br />
+一开始我还犯糊涂，我明明会编程的判断语句，为什么这些个指令看不懂？……<br />
+<br />
+然后我仔细研究了下，发现原来如此简单……<br />
+<br />
+用伪代码说明下吧= =<br />
+/scoreboard players set @e[name=f] a 0<br />
+是指&nbsp;&nbsp;int a=0<br />
+/stats entity @e[name=f]set SuccessCount @e[name=f] a<br />
+是指&nbsp;&nbsp;if<br />
+然后是条件，也就是检查是否执行成功的语句：/execute @e[name=f] ~ ~ ~ testforblock ~ ~2 ~ minecraft:wool 14<br />
+检查红色羊毛是否在指定位置<br />
+条件是a是否大于等于1（score_a_min=1）<br />
+如果成立，就：<br />
+then say(1)<br />
+<br />
+<br />
+<br />
+2B功夫深不可测，能想到把一个游戏变成一编程语言……<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 11:20<br />
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=160123" target="_blank">@贰逼</a> <br />
+你这里，除了能if...then...，有没有办法能if...then...else...？<br />
+<br />
+我只是问问，如果你知道，请告诉我，谢谢<br />
+= =在你开的大坑中学习ing<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 11:25<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8758757&amp;ptid=476106" target="_blank"><font color="#999999">langyo 发表于 2015-8-8 11:20</font></a></font><br />
+@贰逼 <br />
+你这里，除了能if...then...，有没有办法能if...then...else...？</blockquote></div><br />
+<a href="http://www.mcbbs.net/thread-465795-1-1.html" target="_blank">http://www.mcbbs.net/thread-465795-1-1.html</a><br />
+可以将<br />
+if else转成<br />
+if <br />
+else if !<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 11:29<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8758809&amp;ptid=476106" target="_blank"><font color="#999999">贰逼 发表于 2015-8-8 11:25</font></a></font><br />
+http://www.mcbbs.net/thread-465795-1-1.html<br />
+可以将<br />
+if else转成</blockquote></div><br />
+多谢= =<br />
+以后我会仔细看索引的= =<br />
+<strike>给你一个比较好的脑洞，用模块制作一个原版的服务器贸易系统吧，<strong>逼死插件系列233333</strong></strike><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 14:08<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8758830&amp;ptid=476106" target="_blank"><font color="#999999">langyo 发表于 2015-8-8 11:29</font></a></font><br />
+多谢= =<br />
+以后我会仔细看索引的= =<br />
+<strike>给你一个比较好的脑洞，用模块制作一个原版的服务器贸易系统吧，逼 ...</blockquote></div><br />
+模块对于服务器so lag<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 14:57<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8760468&amp;ptid=476106" target="_blank"><font color="#999999">贰逼 发表于 2015-8-8 14:08</font></a></font><br />
+模块对于服务器so lag</blockquote></div><br />
+so lag？<br />
+<br />
+什么鬼？……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 16:39<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8761080&amp;ptid=476106" target="_blank"><font color="#999999">langyo 发表于 2015-8-8 14:57</font></a></font><br />
+so lag？<br />
+<br />
+什么鬼？……</blockquote></div><br />
+涉及高频比较卡顿，如果没有特殊的处理方法，服务器不达要求无法承受高频<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo&nbsp; &nbsp; <b>时间: </b>2015-8-8 16:43<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8762309&amp;ptid=476106" target="_blank"><font color="#999999">贰逼 发表于 2015-8-8 16:39</font></a></font><br />
+涉及高频比较卡顿，如果没有特殊的处理方法，服务器不达要求无法承受高频 ...</blockquote></div><br />
+那就在需要的时候启动<br />
+<br />
+就是这么简单<br />
+而且它实际上只有在运算的时候才需要超频，就几秒的事情<br />
+执行完成后就立即关闭其它所有超频，只剩一个超频用来检测<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

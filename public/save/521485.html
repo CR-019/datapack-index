@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : #1.9 标签与execute（标记与bool变量） - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01MjE0ODUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : #1.9 标签与execute（标记与bool变量） <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-12 21:20<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : #1.9 标签与execute（标记与bool变量）<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-11-14 18:21 编辑 </i><br />
+<br />
+<font size="5">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong>#1.9</strong><strong> 标签与execute（标记与bool变量）</strong></font><br />
+标签与execute有一下用途：<br />
+<ul><li><strong>标记实体与excute</strong><br />
+</ul>这是一种<strong>简便的标记方式</strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F8DC1_564490DC0" target="_blank"><img id="aimg_Iaf3i" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/8DC1_564490DC0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FDB35_564490DC0" target="_blank"><img id="aimg_at3Z3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/DB35_564490DC0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F3FD6_564490DD0" target="_blank"><img id="aimg_qy7W8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/3FD6_564490DD0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br /><div class="blockcode"><div id="code_s09"><ol><li>/scoreboard players tag @e[type=Creeper] add LoL {CustomName:&quot;n&quot;}</ol></div><em onclick="copycode($('code_s09'));">复制代码</em></div><br />
+<font color="#ff0000">*给所有名为'n'的爬行者标记'LoL'标签</font><br />
+<font color="#ff0000">↓</font><br /><div class="blockcode"><div id="code_Q1z"><ol><li>/say @e[tag=LoL]</ol></div><em onclick="copycode($('code_Q1z'));">复制代码</em></div><br />
+<font color="#408080">*输出被标记标签为'LoL'的实体名</font><br />
+<br />
+这就是一个基本的标记，能够<strong>做到一个控制标记</strong>，另外一个输出标记（可以有多个输出）<br />
+在模块中标记制定实体是一个常事，<br />
+有的需要实体中介，有的则为数据判定，所以<strong>掌握标记是非常重要</strong>的。<br />
+<br />
+<ul><li><font size="4"><strong>bool变量</strong></font><br />
+</ul>bool变量就是一个<strong>只包含true和false的变量</strong>。<br />
+<br />
+条件语句是否执行其实是判<strong>断的条件给的一个返回值</strong>：<br />
+<font face="黑体">若成功就是true，输出；</font><br />
+<font face="黑体">若失败就是false，不输出。</font><br />
+所以bool变量能直观控制条件语句。<br />
+在条件语句判断bool变量时，<strong>直接取bool的值</strong>。<br />
+<br />
+<br />
+而模块中，条件语句执行是取决于指令的成功，<br />
+在模块中的语句，通过逻辑运算也能直观控制条件语句。<br />
+而这里<strong>的bool，就是tag</strong><br />
+<br />
+<br />
+依旧用到execute的中预置：<br /><div class="blockcode"><div id="code_NSo"><ol><li>/summon ArmorStand ~ ~ ~ {CustomName:&quot;f&quot;,CustomNameVisible:1} </ol></div><em onclick="copycode($('code_NSo'));">复制代码</em></div><br />
+<strong>*实体中介</strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F4DBD_564490DD0" target="_blank"><img id="aimg_d7r00" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/4DBD_564490DD0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F6612_564490DD0" target="_blank"><img id="aimg_Lcc7J" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/6612_564490DD0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F1CC3_564490DD0" target="_blank"><img id="aimg_wx613" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/1CC3_564490DD0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F90B6_564490DE0" target="_blank"><img id="aimg_QLWl7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/90B6_564490DE0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F3413_564490DD0" target="_blank"><img id="aimg_G3zdn" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/3413_564490DD0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FEF81_564490DE0" target="_blank"><img id="aimg_lk0UQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/EF81_564490DE0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F25C8_564490DE0" target="_blank"><img id="aimg_FW9j3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/25C8_564490DE0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FA18A_564490DE0" target="_blank"><img id="aimg_xS3PK" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/A18A_564490DE0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br /><div class="quote"><blockquote>/execute 实体中介选择器[tag=标签] ~ ~ ~ 输出<br />
+<font color="#800000">*相当于直接取这个bool变量的值，true输出，false不输出</font><br />
+/execute 实体中介选择器[tag=标签] ~ ~ ~ 输出 1<br />
+<font color="#008080"><font color="#000000"><font color="#008080">*</font></font>相当于反向取这个bool变量的值，true不输出，false输出</font><br />
+<br />
+/scoreboard players tag 实体中介选择器 add 标签<br />
+<font color="#008000">*相当于设定这个bool变量为true</font><br />
+/scoreboard players tag 实体中介选择器 remove 标签<br />
+<font color="#000080">*相当于设定这个bool变量为false</font></blockquote></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>青格大D&nbsp; &nbsp; <b>时间: </b>2015-11-12 21:32<br />
+渣渣路过，看不太懂，祝精。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ufof&nbsp; &nbsp; <b>时间: </b>2015-11-14 21:56<br />
+我想学CB了。。学习路线可以大概给我这个小白说一下嘛{:10_492:}
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

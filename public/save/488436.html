@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §ж : OneCommand - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODg0MzYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §ж : OneCommand <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-17 11:43<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §ж : OneCommand<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-1-24 08:03 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（附）OneCommand教程</strong></font></font></div><div align="center"><strong>第二页为 模块分类</strong></div><div align="left">既然可以将模块视作一个包，那么也可以用<strong>一条指令进行生成</strong>。</div><div align="left">OneCommand就是模块的加工产品，简称OOC（OnlyOneCommand）</div><div align="left">OOC使模块能够<strong>随时随地地使用</strong>。</div><br />
+<div align="left">OneCommand教程包含以下内容</div><div align="left"><strong>模块分类</strong></div><ul><li><div align="left">初始执行</div><li><div align="left">单次执行指令</div><br />
+</ul><div align="left"><strong>指令生成</strong></div><br />
+<div align="left"><strong>反编译</strong></div><br />
+<div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-483844-1-1.html" target="_blank">上一篇</a>（粒子效果）-</font><font size="5"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></font></font></div><div align="right"><div align="left"><br />
+<font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>ж</strong></font></font><strong>.1 模块分类</strong><br />
+<strong>第三页为 初始执行</strong><br />
+OneCommand的生成是依靠滤器/软件的生成器，其中某些提供了更详尽的功能以完全使用模块的各个模块。<br />
+<br />
+OneCommand的生成器大致分为三种：<br />
+<strong>-针对多模块&nbsp;&nbsp;—— CPToOneCommand滤器等主流，能够区分初始执行模块和其他多模块。</strong><br />
+<strong>-针对整体操作—— 主流OOC软件，能够一般性完成生成。</strong><br />
+<strong>-针对逻辑组&nbsp;&nbsp;—— 除了模块能够生成，也可以生成逻辑组：OOCSS，但是对于逻辑组不稳定，慎重使用。</strong><br />
+<br />
+<br />
+<strong>原理：</strong><br />
+大部分是<strong>通过矿车/掉落沙指令生成</strong>的。<br />
+请注意，指令最大字节64kb，也就是65536个字节。<br />
+如果能省略转义符'\'或引号&quot;&quot;&quot;<strong>尽量省略</strong>。<br />
+<br />
+<br />
+针对主流OOC，需要<strong>分类模块</strong>。<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>ж</strong></font></font><strong>.2.1 初始执行</strong><br />
+<strong>第四页为 单次执行与循环</strong><br />
+按照：<br />
+<strong><a href="https://www.mcbbs.net/file:///C:/Users/Adiminster/AppData/Local/Temp/CHM%20Editor/%E8%BF%9B%E9%98%B6%EF%BC%9A%E6%8C%87%E4%BB%A4%E6%96%B9%E5%9D%97%E6%A8%A1%E5%9D%97%E6%95%99%E7%A8%8B_42233.4795623495/page_102.html" target="_blank">初始执行模块的方法</a>，将初始执行模块和主模块分开。</strong><br />
+<br />
+主流滤器除了文中说到的初始执行外，还有其他功能： <img id="aimg_qNC80" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" height="1" src="http://i1.tietuku.com/b56879cad71bf875.png" border="0" alt="" /><br />
+<br />
+<ul><li><strong>Gamerule</strong><br />
+</ul>滤器中可以自动选择影响指令输出聊天框/后台/管理的规则。<br />
+<strong>其他需要自行添加</strong>。<br />
+<ul><li><strong>Scoreboard</strong><br />
+</ul>滤器中自动选择，<strong>无需添加</strong>。<br />
+<ul><li><strong>Fill</strong><br />
+</ul>滤器自动计算模块保护方块的范围，且能自定义选择保护方块，<strong>无需添加</strong>。<br />
+<ul><li><strong>SignJson</strong><br />
+</ul>模块保护前部的横条可以<strong>添加最多10个Json牌子</strong>，可以使用SignJson<strong>生成牌子后选择牌子</strong>，自动添加。<br />
+<ul><li><strong>Tellraw/Title等效果指令</strong><br />
+</ul>将指令<strong>放进指令方块内，选择即可</strong>。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>ж</strong></font></font><strong>.2.2 单次执行与循环</strong><br />
+<strong>第五页为 指令生成</strong><br />
+这就需要你的之前学到的内容了。<br />
+<br />
+<strong><a href="http://www.mcbbs.net/thread-478660-1-1.html" target="_blank">单次执行时钟法</a></strong><strong>（必须使用时钟法）</strong><br />
+<strong><a href="http://www.mcbbs.net/thread-467902-1-1.html" target="_blank">循环</a></strong><strong>（请利用多模块关联循环）</strong><br />
+<br />
+<strong><font color="#800000">所有这些内容全部放进模块中，可以多个模块，但请注意顺序</font></strong><br />
+<br />
+<strong><font color="#800000"><br />
+</font></strong><font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>ж</strong></font></font><strong>.2 指令生成</strong><br />
+<strong>第六页为 反编译</strong><br />
+<a href="http://pan.baidu.com/s/1dDm2X1Z" target="_blank"><strong>CpToOneCommand下载</strong></a><br />
+<ul><li>滤器<br />
+</ul>这是一个制作好的模块<br />
+<br />
+<img id="aimg_e0Mv7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="571" height="574" src="http://i1.tietuku.com/1db59c1360fd9e04.png" border="0" alt="" /><br />
+<br />
+下载好滤器后拖入mcedit的filters文件夹中。<br />
+<img id="aimg_aw1QQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="571" height="574" src="http://i1.tietuku.com/e016f772dc561e7b.jpg" border="0" alt="" /><br />
+<br />
+进入Mce<br />
+<img id="aimg_Vmc5s" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="595" height="672" src="http://i1.tietuku.com/14a6c1d1f3fe85d9.jpg" border="0" alt="" /><br />
+<br />
+选中模块<br />
+<img id="aimg_GWJBW" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/d176abc715146c79.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+选择Filter进入滤器<br />
+<img id="aimg_QD667" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/657d78d2daae01b2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+选择ToOneCommand滤器<br />
+<img id="aimg_G9Pdu" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/81e0a61476480978.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+进入面板<br />
+<img id="aimg_LZ11W" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/a88852fbb4a30ee7.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+自定义保护材质<br />
+<img id="aimg_np78V" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/14544074dc6db675.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+计分板推荐不要使用自动的，而且创建计分板最好也放进模块中以免破坏。<br />
+<img id="aimg_r15Jj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/ccaed9ff166b2066.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+前置默认即可<br />
+<img id="aimg_CuuM6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/c3faaac683ba90df.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+点击这个按钮<br />
+<img id="aimg_esl26" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/8e2cc37e4c39dbab.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+创建了OneCommand的指令，点击这个方块移动鼠标放置在世界里，再点击Import绿色按钮放置。<br />
+<img id="aimg_zBObS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/4ec1900dbca32b34.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+如图。<br />
+<img id="aimg_tea44" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="325" height="350" src="http://i1.tietuku.com/7330598b98c356ad.png" border="0" alt="" /><br />
+<br />
+点击save世界即可<br />
+<br />
+进入游戏获得生成的指令方块指令，就是OneCommand指令<br />
+<ul><li>软件<br />
+</ul>一般软件只需要<strong>按照顺序粘贴指令</strong>即可。<br />
+<br />
+OCS：<a href="http://www.mcbbs.net/thread-443950-1-1.html" target="_blank">http://www.mcbbs.net/thread-443950-1-1.html</a>（支持国内原创）<br />
+<br /><br />
+<font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>ж</strong></font></font><strong>.3 反编译</strong><br />
+学习他人的模块，但是若是OneCommand，看起来不是一件容易事。<br />
+<strong>反编译器：（教程在帖子下方）</strong><br />
+<a href="http://www.mcbbs.net/thread-458209-1-1.html" target="_blank">OOC反编译器</a><br />
+<br />
+</div><div align="left"><br />
+<a href="http://www.mcbbs.net/thread-545126-1-1.html" target="_blank"><font size="3"><strong>1.9的OneCommand</strong></font></a></div></div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>NobleGolden&nbsp; &nbsp; <b>时间: </b>2015-8-17 12:08<br />
+前排围观贰逼大触~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>囧涮锅&nbsp; &nbsp; <b>时间: </b>2015-8-19 17:05<br />
+OneCommand滤器有BUG（不然就是我使用方法错了，要不就是开了一些不该开的东西、），它生成出来的不是我选中的东西，而是一堆乱七八糟的东西，
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

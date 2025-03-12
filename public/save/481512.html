@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §д : 实意指令与效果指令区别 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODE1MTItMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 实意指令与效果指令区别 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-5 20:22<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 实意指令与效果指令区别<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-5 21:40 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（附）效果指令</strong></font></font></div><div align="center"><font size="1">第二页为 区别</font></div><div align="left">效果指令作为语句的一个输出，通常为<strong>对游戏本体产生影响效果操作的指令</strong>。</div><br />
+<div align="left">效果指令包含以下内容</div><br />
+<div align="left"><strong>实意指令与效果指令区别</strong></div><br />
+<div align="left"><strong>文字</strong></div><ul><li><div align="left">json</div><li><div align="left">其他</div><br />
+</ul><div align="left"><strong>物品操作</strong></div><ul><li><div align="left">give</div><li><div align="left">replaceitem</div><br />
+</ul><div align="left"><strong>实体操作</strong></div><ul><li><div align="left">summon</div><li><div align="left">kill</div><br />
+</ul><div align="left"><strong>方块操作</strong></div><ul><li><div align="left">setblock</div><li><div align="left">clone</div><li><div align="left">fill</div><br />
+</ul><div align="left"><strong>音效</strong></div><ul><li><div align="left">playsound大全</div><br />
+</ul><div align="left"><strong>粒子效果</strong></div><ul><li><div align="left">粒子大全</div><br />
+</ul><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-479863-1-1.html" target="_blank">上一篇</a>（关闭模块）--<a href="http://www.mcbbs.net/thread-481569-1-1.html" target="_blank">下一篇</a>（文字）</font></div><div align="right"><div align="left"><br />
+<strong>§</strong><font face="碳化硅大黑体"><font size="5"><strong>д</strong></font></font><strong>.1 实意指令与效果指令区别</strong><br />
+<br />
+不管是实意指令还是效果指令，都是<strong>输出的指令</strong><br />
+<br />
+对比一下三条作为输出的指令：<br />
+<img id="aimg_mk2T3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/17ff6ec197c2fa3b.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_fn3"><ol><li>/scoreboard players set @p a 1</ol></div><em onclick="copycode($('code_fn3'));">复制代码</em></div><br />
+<font color="#008000">将最近玩家的a计分版设为1</font><br />
+<br />
+<font color="#008000"><br />
+</font><br />
+<font color="#008000"><img id="aimg_otxqq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/0317bb787709112d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font><br /><div class="blockcode"><div id="code_B8w"><ol><li>summon ArmorStand ~ ~1 ~ <br /><li>{Pose:{RightArm:[0.0F,30.0F,0.0F]},ShowArms:1}</ol></div><em onclick="copycode($('code_B8w'));">复制代码</em></div><br />
+<font color="#008000">生成一个ArmorStand</font><br />
+<br />
+<font color="#008000"><br />
+</font><br />
+<font color="#008000"><img id="aimg_C4M5B" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/3a33ba52a15628e2.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font><br /><div class="blockcode"><div id="code_tB9"><ol><li>say 1</ol></div><em onclick="copycode($('code_tB9'));">复制代码</em></div><br />
+<font color="#008000">聊天框输出1</font><br />
+<br />
+<br />
+那么可以看到scoreboard指令并没有对游戏外有什么输出（除了返回后台或者聊天框），而是<strong>有一个对数和量有意义的输出</strong>。<br />
+然而summon和say都在游戏内有具体输出，然而<strong>没有输出具体的量</strong>（<i>可以通过stats转成量</i>）<br />
+<br />
+实意指令就像scoreboard等指令，<strong>有一个量的输出，有具体的意义</strong>；<br />
+效果指令只是<strong>追求一个效果，可以没有具体的量和意义</strong>；<br />
+<strong>效果指令使用stats可以获取量。</strong><br />
+<br />
+</div></div><br />
+[groupid=546]Command Block Logic[/groupid]
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<html>
+<head>
+<title>【CBL|SYL】【1.13】新版本execute嵌套的改变 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC03NzAxOTgtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】【1.13】新版本execute嵌套的改变 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2017-11-26 21:28<br />
+<b>标题: </b>【CBL|SYL】【1.13】新版本execute嵌套的改变<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2017-11-28 18:58 编辑 </i><br />
+<br />
+大家好我是<strike>帅得死掉然后现在又帅活过来的</strike>猪骑<br />
+现在来冒泡证明我还活着<br />
+谢谢围观，我们下次再见<br />
+<hr class="l" /><br />
+好了不玩了，现在来说正事<br />
+我们先来看看一个例子再解释发生了什么<br />
+比如说现在有两个盔甲架，下面简称AMS（为什么不是AS？因为1.13有个execute as的子命令，避免混淆）<br />
+<img id="aimg_DO0wb" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx1.sinaimg.cn/mw690/006CKPzGgy1flvnhtkqg8j311x0kcgo0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这是F3 debug界面，高亮部分显示的是 渲染实体数（不含玩家）/&nbsp;&nbsp;含玩家总实体数<br />
+然后我们执行这个exe嵌套命令<br /><div class="blockcode"><div id="code_lkV"><ol><li>/execute @e[type=armor_stand] ~ ~ ~ execute @e[type=armor_stand] ~ ~ ~ summon armor_stand</ol></div><em onclick="copycode($('code_lkV'));">复制代码</em></div>执行结果如下<br />
+<br />
+<img id="aimg_H7Fl2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx2.sinaimg.cn/mw690/006CKPzGgy1flvnhu78o3j311q0omn0b.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+一共8个AMS<br />
+<hr class="l" /><br />
+然而在1.13版本（其实是快照啦）下，相同的两个AMS，运行<br /><div class="blockcode"><div id="code_Cp2"><ol><li>/execute as @e[type=armor_stand] run execute as @e[type=armor_stand] run summon minecraft:armor_stand </ol></div><em onclick="copycode($('code_Cp2'));">复制代码</em></div>（我知道理论上要完全等价于1.12命令的话还要加上at @s，不过在这个例子里面影响不大就算了）<br />
+结果会是<br />
+<img id="aimg_vv5Zj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx4.sinaimg.cn/mw690/006CKPzGgy1flvnhus7hfj314w0nladb.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+一共6个AMS<br />
+<hr class="l" /><br />
+为什么是这样呢在1.12的情况下<br />
+<strike>嵌套狂魔</strike><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fmc-command.oschina.io%2Fcommand-tutorial%2Foutput%2Flogic%2Fexecute.html" target="_blank">pca的教程</a>已经解释过了，嵌套exe时，最外层的exe一开始已经决定了执行次数，是不变的<br />
+<br />
+但是后面的exe会根据实体的实时数量，增加其执行次数，流程图如下：<br />
+<img id="aimg_PqNOq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx1.sinaimg.cn/mw690/006CKPzGgy1flvo3hqflxj30bn0r0t9i.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<ul><li>首先，最外面的exe选中了两个AMS，让它们轮流执行后面的exe<li>然后第一个被选择的AMS，选中了一共两个AMS（自己和对方）执行summon命令，于是总数变为2+2=4个<li>第二个被选择的AMS，选中了2个原本的AMS+2个新summon的AMS，于是总数变为4+4=8个<br />
+</ul><br />
+更多层数嵌套的exe也是一样道理的，不过其逻辑复杂无比，我的脑内逻辑回路连同我的电脑内存一起过载烧掉了，所以就不举例了（警告，3层exe就足够召唤2048个AMS出来，切勿轻易尝试）<br />
+<hr class="l" /><br />
+然而在1.13的版本里面，嵌套exe的逻辑有所改变，其流程如下：<br />
+<img id="aimg_fe6fK" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx3.sinaimg.cn/mw690/006CKPzGgy1flvoi4x14xj30ab0iajrw.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<ul><li>首先，最外面的exe选中了两个AMS，让它们轮流执行后面的exe<li>然后被选中的两个AMS再检测符合条件的实体，每人选中两个AMS（自己和对方）<li>最后执行summon命令，每人召唤2个AMS，加上原本两个AMS，一共6个<br />
+</ul><hr class="l" /><br />
+由此可见，1.13嵌套exe和之前版本最大的区别在于，<font color="#ff0000">exe选中的实体数量不会随着后面执行的部分即时更新</font><br />
+而变成了<font color="#ff8c00">在执行命令前一次过检测，确定所有符合要求的对象后，再执行命令</font><br />
+<hr class="l" />追加一个例子进一步说明这个情况<br />
+还是两个AMS，现在它们都有一个叫test的分数，初始为0<br />
+<img id="aimg_RhHh4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx3.sinaimg.cn/mw690/006CKPzGgy1flvnhw3nmyj30pi036wei.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+然后我们执行<br /><div class="blockcode"><div id="code_tpp"><ol><li>/execute @e[score_test=0] ~ ~ ~ execute @e[score_test=0] ~ ~ ~ scoreboard players add @e[type=armor_stand] test 1</ol></div><em onclick="copycode($('code_tpp'));">复制代码</em></div><br />
+结果会是<br />
+<img id="aimg_E0leS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx2.sinaimg.cn/mw690/006CKPzGgy1flvnhvganaj30pk0373yi.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+为什么会是2呢？<br />
+因为被最外层exe选中的第一个AMS，会exe自己和另一个AMS，共两个AMS执行了score add的命令，这时候两个AMS的分数从0增加到2<br />
+第二个AMS判定的时候，由于两个AMS的分数都不为0，所以不会再执行加分<br />
+<hr class="l" /><br />
+那么在1.13的情况呢？<br />
+<img id="aimg_b2aay" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx2.sinaimg.cn/mw690/006CKPzGgy1flvnhwmno6j30pq03gaa1.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+执行命令<br /><div class="blockcode"><div id="code_GJu"><ol><li>/execute as @e[scores={test=0}] run execute as @e[scores={test=0}] run scoreboard players add @e[type=armor_stand] test 1</ol></div><em onclick="copycode($('code_GJu'));">复制代码</em></div><br />
+<img id="aimg_LVW8b" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://wx4.sinaimg.cn/mw690/006CKPzGgy1flvnhx7mm5j30po03adfo.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+结果是4<br />
+其道理和summon的例子类似<br />
+这个命令会先根据目标选择器确定所有需要执行命令的实体<br />
+两个AMS分别选中对方，整个命令总共选中了4个实体（每个AMS分别选中2次）<br />
+然后最后根据这个实体列表执行最后的score add命令，所以总共会加4分<br />
+中间AMS的分数即使已经改变，但由于被选中的实体已经是确定的，所以不会影响这个过程<br />
+<hr class="l" /><br />
+题外话，在1.13中，一条execute命令中有两个as/at，效果等同于as run as<br />
+例如<br /><div class="blockcode"><div id="code_OJF"><ol><li>/execute as @e[scores={test=0}] as @e[scores={test=0}] run scoreboard players add @e[type=armor_stand] test 1</ol></div><em onclick="copycode($('code_OJF'));">复制代码</em></div><br />
+和<br /><div class="blockcode"><div id="code_y7a"><ol><li>/execute as @e[scores={test=0}] run execute as @e[scores={test=0}] run scoreboard players add @e[type=armor_stand] test 1</ol></div><em onclick="copycode($('code_y7a'));">复制代码</em></div><br />
+是一样效果的<br />
+<hr class="l" /><br />
+那么如果想在1.13中达成以前的嵌套效果那是不是就不成了呢？<br />
+不是，有一个麻烦一点的方法可以做到，那就是使用func<br />
+比方说现在我们有个func<br />
+名为test:summon，命令为<br /><div class="blockcode"><div id="code_d1J"><ol><li>execute as @e[type=armor_stand] run summon minecraft:armor_stand</ol></div><em onclick="copycode($('code_d1J'));">复制代码</em></div><br />
+然后我们执行<br /><div class="blockcode"><div id="code_nHs"><ol><li>execute as @e[type=armor_stand] run function test:summon</ol></div><em onclick="copycode($('code_nHs'));">复制代码</em></div><br />
+即不直接嵌套两个execute，通过放到function中嵌套<br />
+效果会等于1.12前的execute嵌套，为什么呢？其逻辑为<br />
+<ul><li>execute在执行run内的命令前确定好目标实体，分别为两个AMS<li>两个AMS轮流执行function<li>执行function的时候里面的execute检查执行对象<li>第一个func选中了两个AMS（本身和对方），召唤了2个AMS<li>第二个func选中了共4个AMS，再召唤4个AMS，共8个AMS<br />
+</ul><br />
+<hr class="l" /><br />
+我想说的废话到此为止了，泡也冒完了，<strike>组长跑路了现在出来卖教程赚工资卖完了</strike>，可以回去摸鱼了好像是<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-11-26 21:42<br />
+好了，先解释一下为啥叫xecute而不是execute，这不是打错，而是因为：<br />
+<img id="aimg_tC7I5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://i.loli.net/2017/11/26/5a1ac31f53f62.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+然后简单总(zhuang)结(bi)一下1.8 - 1.12和1.13快照的execute的最大分别：<br />
+1.8-1.12的execute就是把<strong>每条</strong>execute及其之后的命令视作独立命令，执行时找出其执行坐标及选择器选择到的实体。简单来说就是Depth first，令解析树上其他分支会被之前执行的东西干扰。<br />
+1.13快照的execute就是把<strong>统一</strong>把连起来的execute视作一条命令，找出其执行坐标及选择器选择到的实体。故此在之后run运行的命令运行之前已经决(qin)定(dian)了选择到的实体那些，自然不会被run之后的命令干扰。而这也解释了为什么function就可破此局：因为这令execute不再连起来，游戏就没法统一对它们进行处理，不同时候执行的function属于不同个体自然得分别处理了。<br />
+<br />
+最后我想说的是，Make execute great again!<br />
+Execute神教千秋万代！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-11-26 21:56<br />
+This will Make [e]xecute great again! Mega!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>cyqsimon&nbsp; &nbsp; <b>时间: </b>2017-11-27 10:14<br />
+<img id="aimg_esE0d" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://wx3.sinaimg.cn/large/94492606gy1flwf9ygsi8g202600smwz.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+哇 syl您居然还活着啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2017-11-27 21:27<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=12542934&amp;ptid=770198" target="_blank"><font color="#999999">cyqsimon 发表于 2017-11-27 10:14</font></a></font><br />
+哇 syl您居然还活着啊</blockquote></div><br />
+所以说再不冒泡大家就真以为我死了<br />
+深潜摸鱼摸久了而已<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>:spgbigfan:&nbsp; &nbsp; <b>时间: </b>2017-12-15 21:28<br />
+1.13随便在一个正常地图/execute as @e as kakagou run tp ~ ~3 ~<br />
+结果就是被tp到同一个位置很多次<br />
+看来不单只是实体，坐标也是预先指定的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>:spgbigfan:&nbsp; &nbsp; <b>时间: </b>2017-12-15 23:08<br />
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=720449" target="_blank">@玄素</a> 1.12 execute @e ~ ~ ~ execute kakagou ~ ~ ~ tp ~ ~3 ~可以飞上1000+的高空<br />
+1.13 execute as @e as kakagou run tp ~ ~3 ~ tp到3格往上，tp很多次<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-12-16 16:10<br />
+Big news!<br />
+坐标也是如此，看来execute嵌套神教被mj坑死了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2017-12-17 00:25<br />
+<i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2017-12-17 00:28 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=12569843&amp;ptid=770198" target="_blank"><font color="#999999">kakagou12 发表于 2017-12-15 23:08</font></a></font><br />
+@玄素 1.12 execute @e ~ ~ ~ execute kakagou ~ ~ ~ tp ~ ~3 ~可以飞上1000+的高空<br />
+1.13 execute as @e as ...</blockquote></div><br />
+1. 1.13的TP被魔改成了teleport，所以传送起始点以执行者坐标算<br />
+2. 在1.13的xecute逻辑下这命令相等于让每个实体对让你执行一次teleport ~ ~3 ~，然后现在xecute不受即时更新影响，所以只会传送该命令到执行者上方3格的位子（BTW 说不定MJ修好坏掉的xecute之后我这贴就废了呢233）<br />
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

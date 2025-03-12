@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 2.NBTedit基本使用 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC03ODczMi0xLTEuaHRtbD9hY3Rpb249cHJpbnRhYmxl', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 2.NBTedit基本使用 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-1-17 19:36<br />
+<b>标题: </b>【CBL|SYL】NBT教程 2.NBTedit基本使用<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:31 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+<font color="#ff00"><font size="5">看不到图的请移步到索引贴，那里提供了下载与在线观看地址</font></font><br />
+好的久等了……此章将介绍NBT标签的基本操作，第三章将会进入第一个话题：物品重命名及附加标注<br />
+<hr class="l" /><br />
+先说Explorer<br />
+<img id="aimg_ksjTS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/v4XWP.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+先起个玻璃房子，记录坐标<br />
+<img id="aimg_rN5KA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/F3nEQ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+把骷髅放进去<br />
+<img id="aimg_ni4Od" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/THBDH.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+调出那个小文件，进行定位计算<br />
+<img id="aimg_B5Zg5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/L9eVU.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+打开Explorer，然后左边那个开启文件的按钮（在右边的2个按钮分别是开启文件夹和保存），找到存档的region文件夹<br />
+<img id="aimg_SHVM3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/S6ltN.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+你会看见这一系列文件……明白刚才计算的结果有什么用了没？<br />
+<img id="aimg_QFWRa" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/HITJI.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+打开以后……成吨的东西呵呵……接着猜到怎么做没有？<br />
+<img id="aimg_k2JmT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/onlIo.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+找到结果表示的compound标签，左边加号展开，把level标签也展开，这时可以看到里面的数据<br />
+其中entitles列表表示的是该区块实体，TileEntitles表示该区块内的拥有实体附加值的东西<br />
+<img id="aimg_AGcMv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/knHPO.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+展开，发现2个实体，这时展开进行核对<br />
+<img id="aimg_wIIp8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/3ZG3Y.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+其中上面那个，ID显示为“item”，就是物品的意思，无视<br />
+<br />
+<img id="aimg_QuPe4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/wZdWU.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这个显示的是骷髅，没错了（另外一种核对方法就是展开下面有一栏为“pos”标签，里面3个数字依次为xyz坐标<br />
+<img id="aimg_XzUy5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/GCdRw.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这时再介绍一下上面的按钮，黄色那边就是简单的复制，剪切，黏贴……不需要介绍了吧？<br />
+红色的是：重命名标签（冒号前面那个），改变标签数据（冒号后面），和删除（这个不需要解释了吧？）<br />
+绿色的，是添加不同类型的标签，具体可以去之前的wiki查看，但这章里面我们不予讨论，下一章将配合实例介绍<br />
+<hr class="l" /><br />
+来点有趣的<br />
+<img id="aimg_cdRnP" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/5pW7l.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+我们打开equipment列表栏，这里代表是生物装备的物品，从上到下为：手持，头，身，腿，脚<br />
+由于骷髅手持弓箭，我们打开第一栏<br />
+看到黄色部分的图标没有？这里就是代表该标签的格式（简单来说，就是java的那几个int之类的啦，还有一些如list，compound等），每一种东西要求的制式都不同，这里记录的就是如手持物品的耐久，数量和ID<br />
+<img id="aimg_Wx2ho" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/8wzY6.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+全部删掉……<br />
+当然别忘记保存（此软件好像有个小小的bug，只是删除了东西保存按钮无法使用，你只需要随便选择编辑一个标签，不动然后确定，就能保存了，这里我为了示范下一个软件我不保存了）<br />
+<hr class="l" />接着来ingame那个的示范<br />
+<img id="aimg_O3U73" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Fq5jD.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+第一章介绍过了，/nbtedit对着骷髅输入，可看到除了图标不同了以外其他东西都一样<br />
+<img id="aimg_SEHHx" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/ficbF.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+按delet按钮删除（介绍一下上面的按钮，从左到右，黏贴，剪切，复制，重命名标签和删除，但注意的是，此mod支援快捷键，就是诸如ctrl+c之类的）<br />
+<img id="aimg_FKMzP" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/L9X9S.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+别忘了按save退出<br />
+<img id="aimg_PGjt8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/9PYNT.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+缴械成功……现在骷髅没法打我了哈<br />
+<hr class="l" />好的，第二章完成……<br />
+记得留下点打赏！明天第三章开始实例……<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我被盗号了&nbsp; &nbsp; <b>时间: </b>2013-1-17 19:51<br />
+杀马特！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xueqian&nbsp; &nbsp; <b>时间: </b>2013-1-18 14:42<br />
+顶～话说还是游戏内那个实用一些～<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>PpY_SK&nbsp; &nbsp; <b>时间: </b>2013-1-18 18:19<br />
+帮兰州手动顶起<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-1-18 20:17<br />
+确实是游戏里的靠谱一些。毕竟内置修改器向来是MC里喜闻乐见的东西，像TMI内置了指令附魔我就觉得很好。这个做闯关地图应该会很方便。<br />
+我觉得既然是改标签的话……刷怪箱、村民商店什么的改起来应该会很好用。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>tsy123456&nbsp; &nbsp; <b>时间: </b>2013-1-28 21:10<br />
+其实我想知道怎么修改怪物的攻击力...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1026620934&nbsp; &nbsp; <b>时间: </b>2013-2-3 13:14<br />
+怎么该血量<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-2-3 14:14<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">1026620934 发表于 2013-2-3 13:14</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1331214&amp;ptid=78732" target="_blank"><img id="aimg_JcinI" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+怎么该血量</blockquote></div><br />
+Health这个标签<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>霸道范er&nbsp; &nbsp; <b>时间: </b>2013-7-19 17:35<br />
+谢谢分享{:10_523:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2442813933&nbsp; &nbsp; <b>时间: </b>2013-8-7 13:13<br />
+好牛逼&nbsp; &nbsp;要是能把末影龙定住&nbsp;&nbsp;我就无敌了&nbsp;&nbsp;呵呵<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>keepwonder&nbsp; &nbsp; <b>时间: </b>2013-9-20 20:03<br />
+为什么我用exploroer 删除了也保存了但没能删它武器？能教教我吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>虚空之巅&nbsp; &nbsp; <b>时间: </b>2013-10-13 17:52<br />
+<font color="#000000">恩，都看懂了，已顶！谢谢分享！</font><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zuji1911&nbsp; &nbsp; <b>时间: </b>2013-10-19 12:03<br />
+看不懂TAT<br />
+有没有更简单的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>大爱Creeper&nbsp; &nbsp; <b>时间: </b>2013-11-20 21:18<br />
+楼主你太帅了~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>6282801&nbsp; &nbsp; <b>时间: </b>2014-1-3 18:12<br />
+{:10_510:}求全部NBT教程{:10_495:}好像是发在什么...Word吧...里面<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>你猜吧&nbsp; &nbsp; <b>时间: </b>2014-5-6 19:52<br />
+lz求教，那个事你所指的小文件<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Ft1.qpic.cn%2Fmblogpic%2F4d07bc2f8db78cd38ac2%2F2000.jpg" target="_blank">http://t1.qpic.cn/mblogpic/4d07bc2f8db78cd38ac2/2000.jpg</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>你猜吧&nbsp; &nbsp; <b>时间: </b>2014-5-6 19:53<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=5254239&amp;ptid=78732" target="_blank"><font color="#999999">你猜吧 发表于 2014-5-6 19:52</font></a></font><br />
+lz求教，那个事你所指的小文件http://t1.qpic.cn/mblogpic/4d07bc2f8db78cd38ac2/2000.jpg</blockquote></div><br />
+打错子，“事”是“是”<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Littleのrabbit&nbsp; &nbsp; <b>时间: </b>2014-5-6 20:57<br />
+其实。。骷髅没有了武器也可以空手撸人<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>纸片粉丝&nbsp; &nbsp; <b>时间: </b>2014-5-11 10:25<br />
+把弓去掉它还能射{:10_524:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zzZ睡觉&nbsp; &nbsp; <b>时间: </b>2014-5-14 13:21<br />
+打了/nbtedit没反应啊{:10_527:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>太郎酱&nbsp; &nbsp; <b>时间: </b>2014-6-11 13:59<br />
+这真是极好的，拿板凳学习<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>shui_shi&nbsp; &nbsp; <b>时间: </b>2015-8-10 11:04<br />
+那个小文件是啥？找不到啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>shui_shi&nbsp; &nbsp; <b>时间: </b>2015-8-10 16:05<br />
+为啥不能保存呢？点保存后点退出，并没有<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>qq573686835&nbsp; &nbsp; <b>时间: </b>2016-3-8 14:59<br />
+这个&nbsp;&nbsp;改生物的名字 是要改哪一栏的东西啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>cjf2003&nbsp; &nbsp; <b>时间: </b>2020-4-28 09:58<br />
+那个。。。怎么让显示了耐久条的物品不再掉耐久？
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

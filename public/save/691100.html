@@ -1,0 +1,531 @@
+<html>
+<head>
+<title>【CBL|秋一】(1.13)函数命令系统：当命令脱离命令方块 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02OTExMDAtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|秋一】(1.13)函数命令系统：当命令脱离命令方块 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋一&nbsp; &nbsp; <b>时间: </b>2017-5-8 03:22<br />
+<b>标题: </b>【CBL|秋一】(1.13)函数命令系统：当命令脱离命令方块<br /><i class="pstatus"> 本帖最后由 acordome 于 2018-4-16 06:32 编辑 </i><br /><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" ><tr style="background-color:#FAFAD2"><td><table cellspacing="0" class="t_table" ><tr style="background-color:#F0FFF0"><td><font size="5">　这个帖子目前对应版本为<strong>1.12 正式版</strong>，后续版本随时可能更改。请知悉。　</font><br />
+</td></tr></table></td></tr></table></div><br />
+<br />
+<font size="7"><strong>&nbsp;&nbsp;§1 - 写在前面的话</strong></font><br />
+<br />
+<font size="4">　　1.9的更新为我们带来了三色命令方块，让命令方块脱离了红石成为独立的体系，我们因此可以更好实现一些想法；时隔3个版本，MOJANG再次为我们带来惊人的变革。</font><br />
+<font size="4">　　</font><font color="#ff0000"><font size="4"><strong>1.12中，函数与进度系统的出现，让命令脱离命令方块——这句曾经说过的玩笑般的预言，正式成为可能。</strong></font></font><br />
+<br />
+<hr class="l" /><br />
+<font size="4">　　在这之前，你有想过<strong>完全不使用命令方块，去完成一张地图吗？</strong><br />
+　　这当然是可以做到的，而且我们已经做到了。</font><br />
+<br />
+<div align="center"><font size="4"><table cellspacing="0" class="t_table" ><tr style="background-color:#8CC4EC"><td><table cellspacing="0" class="t_table" ><tr style="background-color:#FEFEFE"><td><font size="4">　广告传送门：<a href="http://www.mcbbs.net/thread-571653-1-1.html" target="_blank">【RCG出品】喋血冰封Ⅱ：原创大型PVP！全新战斗体验！</a>　</font><br />
+</td></tr></table></td></tr></table></font></div><br />
+<hr class="l" /><br />
+<font size="4">　　废话就不多讲了，在这里我们来聊聊函数系统、进度系统以及命令方块系统的<strong>联系和对比</strong>，看看他们各自的一些<strong>优缺点</strong>吧！</font><br />
+<br />
+<font size="4">　　（<strong>点击目录中的对应章节可以查看相应内容</strong>）</font><br />
+<br />
+<br />
+<font size="4"></font><br />
+<div align="center"><font size="4"><table cellspacing="0" class="t_table" ><tr style="background-color:#FAFAD2"><td><table cellspacing="0" class="t_table" ><tr style="background-color:#F0FFF0"><td><font size="5">　<strong>本页</strong>目前对应版本为<strong>1.13 (18w15a)</strong>，后续版本随时可能更改。请知悉。</font><br />
+</td></tr></table></td></tr></table></font></div><font size="4"><br />
+<font size="7"><strong>&nbsp;&nbsp;§2 - 函数系统的构成</strong></font><br />
+<br />
+<font size="5"><div align="center">- 函数系统的由来 -</div></font></font><br />
+<table cellspacing="0" class="t_table" ><tr><td><table cellspacing="0" class="t_table" ><tr><td><font size="4">　　函数（function）系统，是 MC 1.12 Pre-1 版本中新增的一个功能，它将原来进度系统中返回指令的部分单独提取出来，做成了现在的函数系统。</font><br />
+</td></tr></table></td></tr></table><br />
+<br />
+<font size="5"><font size="4"><div align="center">- 函数系统的形式 -</div></font></font><br />
+<table cellspacing="0" class="t_table" ><tr><td><table cellspacing="0" class="t_table" ><tr><td><font size="4">　　函数系统由<strong>命名空间</strong>和<strong>函数文件</strong>组成，这些文件保存在<strong>存档目录/data/functions/</strong>下。functions 目录下的文件夹，称为<strong>命名空间</strong>，各个命名空间下存放不同的函数文件。实际上，命名空间就是方便我们编写者<strong>分类并管理各种函数文件</strong>。<br />
+　　函数文件是<strong>以.mcfunction为后缀名的文本文件</strong>，建议采用 <strong>utf-8无BOM </strong>编码以防显示错乱。<strong>简单来讲，一个函数等价于一个多行命令方块</strong>，函数文件里面每一行写一条指令，当执行这个函数时，里面的指令会<strong>按行依次执行</strong>。如果在一个函数中调用其它函数，那么<strong>在同一游戏刻</strong>，被调用的函数中所有指令先执行完，再继续当前函数中后续的指令，<strong>就像插队一样</strong>，我们在后面对比命令方块时还会说到这个。</font></td></tr></table></td></tr></table><br />
+<br />
+<hr class="l" /><font size="4">　　请注意：在 1.12 Pre-3 版本中存在一个严重漏洞，即命令执行体<strong>不能正确地通过execute传递到被调用的函数中去</strong>，这个漏洞有望在后续版本以及正式版修复。</font><br />
+<hr class="l" /><br />
+<font size="4">　　以下是本帖用到的一个函数系统的目录，带有&quot;+&quot;的表示为目录</font><br />
+<div align="center"><font size="4"><table cellspacing="0" class="t_table" style="width:80%"><tr><td><font size="4"><br />
+　　　+ functions　　　<br />
+　　　　+ say　　　<br />
+　　　　　hi.mcfunction　　　<br />
+　　　　　bye.mcfunction　　　<br />
+　　　　　Text1.mcfunction　　　<br />
+　　　　　text2.mcfunction　　　<br />
+　　　　+ system　　　<br />
+　　　　　+ process　　　<br />
+　　　　　　_process.mcfunction　　　<br />
+　　　　　_main.mcfunction　　　<br />
+　　　　　player_tick.mcfunction　　<br />
+</font><br />
+</td></tr></table></font></div><br />
+　　<font size="4">**** 注意：从 1.13 开始，函数目录发生了变化 ****</font><br />
+<div align="center"><font size="4"><table cellspacing="0" class="t_table" style="width:80%"><tr><td><font size="4"><br />
+　　　+ datapacks　　　<br />
+　　　　+ &lt;数据包名&gt;<br />
+　　　　+ test<br />
+　　　　　+ data<br />
+　　　　　　+ &lt;命名空间&gt;<br />
+　　　　　　+ say<br />
+　　　　　　　+ functions<br />
+　　　　　　　　hi.mcfunction　　　<br />
+　　　　　　　　bye.mcfunction　　　<br />
+　　　　　　　　Text1.mcfunction　　　<br />
+　　　　　　　　text2.mcfunction　　　<br />
+　　　　　　+ system<br />
+　　　　　　　+ functions　　<br />
+　　　　　　　　+ process　　　<br />
+　　　　　　　　　_process.mcfunction　　　<br />
+　　　　　　　　_main.mcfunction　　　<br />
+　　　　　　　　player_tick.mcfunction<br />
+　　　　　pack.mcmeta<br />
+</font><br />
+</td></tr></table></font></div><br />
+<br />
+ <br />
+<font size="5"><font size="4"><div align="center">- 如何调用函数 -</div></font></font><br />
+<table cellspacing="0" class="t_table" ><tr><td><table cellspacing="0" class="t_table" ><tr><td><font size="4">　　在 1.12 中，MOJANG新增了<strong>function指令</strong>和一条名为<strong>gameLoopFunction</strong>的<strong>游戏规则</strong>来辅助我们使用函数系统。<br />
+　　function指令的格式如下：<div class="blockcode"><div id="code_RE8"><ol><li>function &lt;命名空间:函数名&gt;<br /><li>function &lt;命名空间:函数名&gt; &lt;if|unless&gt; &lt;选择器&gt;</ol></div><em onclick="copycode($('code_RE8'));">复制代码</em></div>　　这两条都是可行的。其中，<strong> if|unless </strong>是在 1.12 pre-4 加入的功能，后面我会解释到这个。我们先来说说第一种形式。<br />
+　　例如上面的目录中，要调用 system 这个命名空间下的_main文件，就是输入这样的指令：<div class="blockcode"><div id="code_Rw4"><ol><li>function system:_main</ol></div><em onclick="copycode($('code_Rw4'));">复制代码</em></div>　　现在，我们来看一个例子例如 say 命名空间下的<strong>Text1.mcfunction</strong>和<strong>text2.mcfunction</strong>，里面分别写上这些内容<br />
+<br />
+　　<div align="center">Text1.mcfunction</div><div class="blockcode"><div id="code_gVR"><ol><li>#这是一个范例，在function文件中可以用#来注释行。请注意，不能够使用//来注释！<br /><li>say 1<br /><li>function say:text2<br /><li>say 2</ol></div><em onclick="copycode($('code_gVR'));">复制代码</em></div><br />
+<div align="center">text2.mcfunction</div><div class="blockcode"><div id="code_pBe"><ol><li>say 3<br /><li>say 4</ol></div><em onclick="copycode($('code_pBe'));">复制代码</em></div><br />
+　　当我在系统后台输入<strong>function say:text1</strong>时，聊天框会出现这些内容：<div class="blockcode"><div id="code_n4h"><ol><li>[server] 1<br /><li>[server] 3<br /><li>[server] 4<br /><li>[server] 2</ol></div><em onclick="copycode($('code_n4h'));">复制代码</em></div><br />
+　　也就是说，<strong>执行 function 指令的人，会把函数里面的指令依次执行</strong>——我在系统后台输入 function 指令，就是系统在执行，我自己输入 function 指令，就是我本人在执行。<br />
+　　大家可能注意到了，函数中支持使用#进行注释<strong>（旧版本支持//注释，当前版本已经不再支持）</strong>，也就是说被注释行不会作为指令而执行，这一点有多方便相比不比我再说了。<br />
+　　同时需要大家注意：<strong>函数中所有指令不能够以/开头</strong>。例如，你可以这样写：<div class="blockcode"><div id="code_Fj5"><ol><li>say @s</ol></div><em onclick="copycode($('code_Fj5'));">复制代码</em></div><br />
+　　但是<strong>不能</strong>这样写：<div class="blockcode"><div id="code_ibs"><ol><li>/say @s</ol></div><em onclick="copycode($('code_ibs'));">复制代码</em></div><br />
+　　最后有一点需要注意的是，在function指令中调用函数时，<strong>不区分大小写</strong>。例如前面 say 命名空间下的 Text1.mcfunction，我在调用的时候写的是 say:text1<br />
+<br />
+　　然后是第二种形式，也就是带有<strong> if|unless </strong>的。我简单举两个例子，大家就知道是什么意思了。<br />
+<br />
+<div align="center">say:tellraw.mcfunction</div><div class="blockcode"><div id="code_U5I"><ol><li>scoreboard objectives add timer dummy 计时器<br /><li>scoreboard players add @s timer 1<br /><li>function random:title if @s[score_timer_min=1200]<br /><li>scoreboard players reset @s[score_timer_min=1200] timer</ol></div><em onclick="copycode($('code_U5I'));">复制代码</em></div><br />
+<div align="center">random:title.mcfunction</div><div class="blockcode"><div id="code_rNh"><ol><li>summon area_effect_cloud ~ ~ ~ {Tags:[&quot;rnd_title&quot;,&quot;rnd_title1&quot;]}<br /><li>summon area_effect_cloud ~ ~ ~ {Tags:[&quot;rnd_title&quot;,&quot;rnd_title2&quot;]}<br /><li>summon area_effect_cloud ~ ~ ~ {Tags:[&quot;rnd_title&quot;,&quot;rnd_title3&quot;]}<br /><li>summon area_effect_cloud ~ ~ ~ {Tags:[&quot;rnd_title&quot;,&quot;rnd_title4&quot;]}<br /><li>summon area_effect_cloud ~ ~ ~ {Tags:[&quot;rnd_title&quot;,&quot;rnd_title5&quot;]}<br /><li>entitydata @r[r=0,type=area_effect_cloud,tag=rnd_title] {CustomName:&quot;rnd_title&quot;}<br /><li>execute @e[name=rnd_title,tag=rnd_title1] ~ ~ ~ tellraw @a[r=0,c=1] [&quot;1&quot;]<br /><li>execute @e[name=rnd_title,tag=rnd_title2] ~ ~ ~ tellraw @a[r=0,c=1] [&quot;2&quot;]<br /><li>execute @e[name=rnd_title,tag=rnd_title3] ~ ~ ~ tellraw @a[r=0,c=1] [&quot;3&quot;]<br /><li>execute @e[name=rnd_title,tag=rnd_title4] ~ ~ ~ tellraw @a[r=0,c=1] [&quot;4&quot;]<br /><li>execute @e[name=rnd_title,tag=rnd_title5] ~ ~ ~ tellraw @a[r=0,c=1] [&quot;5&quot;]</ol></div><em onclick="copycode($('code_rNh'));">复制代码</em></div><br />
+　　将say:tellraw放到主进程中<div class="blockcode"><div id="code_n33"><ol><li>execute @a ~ ~ ~ function say:tellraw</ol></div><em onclick="copycode($('code_n33'));">复制代码</em></div><br />
+　　则每位玩家每分钟将会看到1~5中随机一个数字出现在聊天框。<br />
+　　也就是说，只有计时器分数满1200的人会执行后面的随机部分。<br />
+　　那么很显然，带有<strong> if </strong>的意思就是，如果能找到后面的选择器，就执行这个函数，否则不执行。<strong>相当于 testfor</strong>。<br />
+<br />
+　　那么<strong> unless </strong>的意思也就很明显了：在找不到后面的选择器的时候，执行这个函数，<strong>相当于 testfor+非门</strong>。</font><br />
+</td></tr></table></td></tr></table><font size="4"><br />
+<br />
+<div align="center">- gameLoopFunction -</div><br />
+</font><table cellspacing="0" class="t_table" ><tr><td><table cellspacing="0" class="t_table" ><tr><td><font size="4">　　讲完调用，就该讲讲高频了。玩命令方块的人都知道<strong>高频是实现许多功能的前提</strong>。在函数系统中，MOJANG 为我们提供了一条名为 <strong>gameLoopFunction</strong> 的游戏规则来实现高频。它的格式是<div class="blockcode"><div id="code_iJz"><ol><li>gamerule gameLoopFunction &lt;命名空间:函数&gt;</ol></div><em onclick="copycode($('code_iJz'));">复制代码</em></div><br />
+　　也就是说，你可以指定一个函数来高频执行，这个高频是 20 Hz 的，也就是<strong>每一个游戏刻都会执行一遍</strong>。<br />
+　　新建的存档如果没有执行过这条指令，而是用<strong>gamerule gameLoopFunction</strong>来查询的话，得到的返回值是-<br />
+<br />
+　　为了方便，我们将这个规则简称为<strong>glf</strong>。<br />
+　　在旧版本中，glf指定的函数，由系统（server）作为执行体；而在新的版本中，MOJANG 引入了<strong>虚拟执行体</strong>，例如将 say:text2 指定为glf时，每一个游戏刻得到的结果是这样的<div class="blockcode"><div id="code_l9h"><ol><li>[say:text2] 3<br /><li>[say:text2] 4</ol></div><em onclick="copycode($('code_l9h'));">复制代码</em></div><br />
+　　也就是说，系统不再作为执行体，而是由虚拟的执行体代为执行。<br />
+<br />
+　　关于 glf 多说两句。使用 glf 去高频执行一个函数，和使用 RCB（循环型命令方块，紫色那种）去执行，是不一样的。区别主要在于其更新顺序先后。一般而言不会造成严重影响，但是在某些情况会不一样。比如，使用 CB 能检测到生物的{HurtTime:10s}这个 NBT，而使用 glf 执行函数只能检测到的是{HurtTime:9s}，检测不到10，这是因为关于函数的更新，都放在了生物更新之后，而 CB 的更新则是在生物更新之前。<br />
+　　详情可以看<a href="https://bugs.mojang.com/browse/MC-117360" target="_blank">这里</a>。按照 Searge 的说法，函数并不是命令方块的完全替代。这个说法，大家就见仁见智了。对我个人而言这个影响不大。</font><br />
+</td></tr></table></td></tr></table><br />
+<hr class="l" /><br />
+<font size="4">　　以上是函数系统的相关构成，以及如何调用函数。接下来我们来了解一下函数系统的模块分类。</font><br />
+<br />
+<font size="4"></font><br />
+<br />
+<div align="center"><font size="4"><table cellspacing="0" class="t_table" ><tr style="background-color:#FAFAD2"><td><table cellspacing="0" class="t_table" ><tr style="background-color:#F0FFF0"><td><font size="5">　这个帖子目前对应版本为<strong>1.12 正式版</strong>，后续版本随时可能更改。请知悉。　</font><br />
+</td></tr></table></td></tr></table></font></div><font size="4"><br />
+<br />
+<font size="7"><strong>&nbsp;&nbsp;§3 - 函数系统的模块调用</strong></font><br />
+<br />
+<table cellspacing="0" class="t_table" ><tr><td><table cellspacing="0" class="t_table" ><tr><td><font size="4">　　对于一个完整的命令系统而言，模块一般可以分为三类：对执行顺序先后有要求的高频模块、对执行顺序先后无要求的高频模块、非高频模块。<br />
+　　在函数系统中，我们同样可以将模块分成这三类。为了方便后续讲解。我们作这样的设定：<br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:50%"><tr><td>将 <strong>system:_main</strong>设为 glf ，并称之为<strong>主进程</strong>或者<strong>主时钟</strong></td></tr></table></div><br />
+　　对于上面讲到的三类模块，我们通过三种不同的方式去调用。<br />
+<br />
+　　<strong>对执行顺序先后有要求的高频模块</strong>，在主进程中按照需要的顺序排列好来调用。<br />
+　　<strong>对执行顺序先后没有要求的高频模块</strong>，在主进程中可以比较随意放置位置，但是一般不会考虑优先执行。<strong>特别地，如果这个模块是针对每一个玩家独立执行的，可以使用进度系统中的&quot;tick&quot;触发器来调用，而不需要放在主进程中</strong>。<br />
+　　<strong>仅在特定情况下触发的非高频模块</strong>，在主进程中调用，但是辅以<strong> execute、scoreboard 和选择器参数</strong>去控制其在合适的时候被调用，这里的选择器，包括了<strong>在 1.12 pre-4 中新增的 if/unless </strong>的部分。<br />
+<br />
+　　非高频模块在特定条件下激活，也在很大程度上减少了模块中<strong>大量重复出现execute</strong>的现象，并完全杜绝了超长的Conditional链，因为function中<strong>并不直接</strong>支持Conditional。不直接支持，说明可以间接支持，对吧。<br />
+　　我们来看一个例子。<br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" style="width:90%"><tr><td>假设有红蓝两队，在开始前考虑到互殴问题不进行分队，而是采用挂tag的方式。<br />
+红队以tag=redTeam为标记，蓝队则以tag=blueTeam为标记，准备观战的玩家以tag=specTeam为标记<br />
+当玩家站在相应区域（红蓝两队的所有玩家还需要选择了职业）添加Ready的标记，视为准备就绪。<br />
+如果玩家不在相应区域时就移除Ready的标记。<br />
+选择了职业的玩家，其记分板项selectClass数值大于等于1<br />
+全部玩家准备就绪后，游戏进入倒计时，倒计时结束时游戏开始<br />
+倒计时未结束，有玩家脱离准备就绪的状态，则倒计时中断</td></tr></table></div><br />
+　　条件比较多，我们先来看看怎么写这个模块，再进行分析<br />
+　　在这里，我们准备了一个<strong>名为gameStat的aec实体</strong>作为标记，所有<strong>游戏进程</strong>会以tag或者score的形式<strong>挂载到该实体</strong>上。请看指令部分<div class="blockcode"><div id="code_NZT"><ol><li>execute @p[tag=redTeam,score_selectClass_min=1] ~ ~ ~ execute @p[tag=blueTeam,score_selectClass_min=1] ~ ~ ~ scoreboard players tag @e[type=area_effect_cloud,name=gameStat,tag=notGaming] add allReady<br /><li>execute @p[tag=!Ready,m=2] ~ ~ ~ scoreboard players tag @e[name=gameStat,type=area_effect_cloud,tag=notGaming] remove allReady<br /><li>execute @p[tag=!Ready,m=2] ~ ~ ~ execute @e[name=gameStat,type=area_effect_cloud,tag=notGaming] ~ ~ ~ execute @s[tag=!allReady,score_waitTime_min=1] ~ ~ ~ title @a clear<br /><li>execute @p[tag=!Ready,m=2] ~ ~ ~ execute @e[name=gameStat,type=area_effect_cloud,tag=notGaming] ~ ~ ~ execute @s[tag=!allReady,score_waitTime_min=1] ~ ~ ~ title @a reset<br /><li>execute @p[tag=!Ready,m=2] ~ ~ ~ execute @e[name=gameStat,type=area_effect_cloud,tag=notGaming] ~ ~ ~ scoreboard players reset @s[tag=!allReady] waitTime<br /><li><br /><li>scoreboard players add @e[name=gameStat,tag=allReady] waitTime 1<br /><li>execute @e[name=gameStat,score_waitTime=1,score_waitTime_min=1] ~ ~ ~ title @a times 10 140 10<br /><li>execute @e[name=gameStat,score_waitTime=1,score_waitTime_min=1] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;请玩家站在准备区域不要离开&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=1,score_waitTime_min=1] ~ ~ ~ title @a title [{&quot;color&quot;:&quot;yellow&quot;,&quot;text&quot;:&quot;游戏即将开始&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=40,score_waitTime_min=40] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;3&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=40,score_waitTime_min=40] ~ ~ ~ execute @a ~ ~ ~ playsound block.note.pling voice @p ~ ~ ~ 1 0<br /><li>execute @e[name=gameStat,score_waitTime=60,score_waitTime_min=60] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;2&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=60,score_waitTime_min=60] ~ ~ ~ execute @a ~ ~ ~ playsound block.note.pling voice @p ~ ~ ~ 1 0<br /><li>execute @e[name=gameStat,score_waitTime=80,score_waitTime_min=80] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;1&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=80,score_waitTime_min=80] ~ ~ ~ execute @a ~ ~ ~ playsound block.note.pling voice @p ~ ~ ~ 1 0<br /><li>execute @e[name=gameStat,score_waitTime_min=100] ~ ~ ~ title @a times 10 30 10<br /><li>execute @e[name=gameStat,score_waitTime_min=100] ~ ~ ~ title @a title [{&quot;color&quot;:&quot;gold&quot;,&quot;text&quot;:&quot;游戏开始&quot;}]<br /><li>scoreboard players set @e[name=gameStat,type=area_effect_cloud,score_waitTime_min=100] gameStat 1<br /><li>scoreboard players reset @e[name=gameStat,score_gameStat_min=1,score_gameStat=1] waitTime<br /><li>scoreboard players tag @e[name=gameStat,score_gameStat_min=1,score_gameStat=1] remove allReady<br /><li><br /><li>execute @e[type=area_effect_cloud,name=gameStat,score_gameStat_min=1,score_gameStat=1] ~ ~ ~ function system:StartGame</ol></div><em onclick="copycode($('code_NZT'));">复制代码</em></div>　　接下来我们来慢慢分析。<br />
+　　首先是开始的条件。有红蓝两队，那么<strong>这两队都肯定需要有人，才能够开始</strong>，考虑到<strong>同一选择器中不能重复使用tag的参数</strong>，我们保留了区分队伍的参数，而不是区分是否准备就绪的参数。因此，第一条指令的意思是，当存在选了职业并选红队的玩家以及选了职业并选蓝队的玩家，我们<strong>给中心实体加上allReady这个标记</strong>，以表明<strong>可能</strong>满足开始条件。<br />
+　　至于满足条件吗？如果<strong>有未准备就绪的玩家，就说明不满足</strong>，那我们就<strong>让一个没有准备就绪的玩家来去掉allReady</strong>这个标记好了。<br />
+　　对于3~5行，我们放后面点讲。先看后面。满足开始条件以后，我们会给中心实体加分（使用<strong>waitTime</strong>这个记分板项），在第一刻加分后出现提示文字提示准备开始，然后进入循环计时，最后计时满了，调用<strong>system:startgame</strong>这个函数来开始游戏（这里不是例子的部分，不作说明）。<br />
+　　那么回过头来看3~5行，这里明显是打断的部分。打断，就是要清掉提示文字、重置计时器。如果此时都还没有进行过加分，那么我们就不必进行那三条指令，因此可以看到中间有个选择器里有<strong>score_waitTime_min=1</strong>的参数加以限制。<br />
+　　重点来了，我们看到这3条指令前面<strong>相当长一串execute是重复的</strong>。因为在以前用cb写的时候，这里我使用了Conditional，而现在函数不直接支持Conditional，所以我用了一大堆execute，但是这里我们可以稍作修改，对不对？请看下面<div class="blockcode"><div id="code_hcb"><ol><li>execute @p[tag=redTeam,score_selectClass_min=1] ~ ~ ~ execute @p[tag=blueTeam,score_selectClass_min=1] ~ ~ ~ scoreboard players tag @e[type=area_effect_cloud,name=gameStat,tag=notGaming] add allReady<br /><li>execute @p[tag=!Ready,m=2] ~ ~ ~ scoreboard players tag @e[name=gameStat,type=area_effect_cloud,tag=notGaming] remove allReady<br /><li>execute @p[tag=!Ready,m=2] ~ ~ ~ execute @e[name=gameStat,type=area_effect_cloud,tag=notGaming] ~ ~ ~ execute @s[tag=!allReady,score_waitTime_min=1] ~ ~ ~ function system:cond_breakstartcount<br /><li><br /><li>scoreboard players add @e[name=gameStat,tag=allReady] waitTime 1<br /><li>execute @e[name=gameStat,score_waitTime=1,score_waitTime_min=1] ~ ~ ~ title @a times 10 140 10<br /><li>execute @e[name=gameStat,score_waitTime=1,score_waitTime_min=1] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;请玩家站在准备区域不要离开&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=1,score_waitTime_min=1] ~ ~ ~ title @a title [{&quot;color&quot;:&quot;yellow&quot;,&quot;text&quot;:&quot;游戏即将开始&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=40,score_waitTime_min=40] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;3&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=40,score_waitTime_min=40] ~ ~ ~ execute @a ~ ~ ~ playsound block.note.pling voice @p ~ ~ ~ 1 0<br /><li>execute @e[name=gameStat,score_waitTime=60,score_waitTime_min=60] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;2&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=60,score_waitTime_min=60] ~ ~ ~ execute @a ~ ~ ~ playsound block.note.pling voice @p ~ ~ ~ 1 0<br /><li>execute @e[name=gameStat,score_waitTime=80,score_waitTime_min=80] ~ ~ ~ title @a subtitle [{&quot;color&quot;:&quot;aqua&quot;,&quot;text&quot;:&quot;1&quot;}]<br /><li>execute @e[name=gameStat,score_waitTime=80,score_waitTime_min=80] ~ ~ ~ execute @a ~ ~ ~ playsound block.note.pling voice @p ~ ~ ~ 1 0<br /><li>execute @e[name=gameStat,score_waitTime_min=100] ~ ~ ~ title @a times 10 30 10<br /><li>execute @e[name=gameStat,score_waitTime_min=100] ~ ~ ~ title @a title [{&quot;color&quot;:&quot;gold&quot;,&quot;text&quot;:&quot;游戏开始&quot;}]<br /><li>scoreboard players set @e[name=gameStat,type=area_effect_cloud,score_waitTime_min=100] gameStat 1<br /><li>scoreboard players reset @e[name=gameStat,score_gameStat_min=1,score_gameStat=1] waitTime<br /><li>scoreboard players tag @e[name=gameStat,score_gameStat_min=1,score_gameStat=1] remove allReady<br /><li><br /><li>execute @e[type=area_effect_cloud,name=gameStat,score_gameStat_min=1,score_gameStat=1] ~ ~ ~ function system:StartGame</ol></div><em onclick="copycode($('code_hcb'));">复制代码</em></div><br />
+<div align="center">system:cond_breakstartcount.mcfunction</div><div class="blockcode"><div id="code_TZl"><ol><li>title @a clear<br /><li>title @a reset<br /><li>scoreboard players reset @s waitTime</ol></div><em onclick="copycode($('code_TZl'));">复制代码</em></div>　　虽然这个独立出来的子模块只有3条指令，但是如果分离出来的是30条而不是3条呢？能够节省多少功夫想必不需要我解释了吧？<br />
+</font></td></tr></table></td></tr></table></font><hr class="l" /><br />
+<font size="4">　　以上是关于函数系统模块调用的部分，当中有提到使用进度系统来调用部分独立模块，我们接下来来讲这一部分。</font><font size="4"><font size="4"><br />
+<br /><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" ><tr style="background-color:#FAFAD2"><td><table cellspacing="0" class="t_table" ><tr style="background-color:#F0FFF0"><td><font size="5">　这个帖子目前对应版本为<strong>1.12 正式版</strong>，后续版本随时可能更改。请知悉。　</font><br />
+</td></tr></table></td></tr></table></div><font size="4"><br />
+<br />
+<font size="7"><strong>&nbsp;&nbsp;§4 - 函数系统与进度系统的联动</strong></font><br />
+<br />
+<table cellspacing="0" class="t_table" ><tr><td><table cellspacing="0" class="t_table" ><tr><td><font size="4">　　advancement，亦简称adv，目前wiki翻译叫<strong>进度</strong>。这里就不多作介绍了。在17w17b中MOJANG允许进度返回指令作为<strong>达成进度的奖励</strong>（详见<a href="http://www.mcbbs.net/thread-688979-1-1.html" target="_blank">此帖</a>，但是请注意，旧版本的内容现在不再适用），让不少玩家发现了新大陆。随后在17w18b中，MOJANG进一步完善进度系统，使其可以完全独立于命令方块而建立起一个命令系统；在1.12 pre1中，MOJANG又作出了修改，将进度系统中的命令部分拿出来做成了如今的函数系统。<br />
+　　但是这并不意味着进度系统就不可以参与到命令系统中来，因为<strong>如今的进度系统可以返回函数作为达成进度的奖励</strong>。<br />
+<br />
+　　相信很多人已经知道进度系统的结构了，但仍有相当一部分朋友还没有了解，在这里我们不妨来温习一下。<br />
+　　自定义的进度，所有文件都保存在<strong>存档目录/data/advancements/</strong>下，在这里新建的文件夹同样都称为<strong>命名空间</strong>，命名空间下存放各种进度文件。进度文件使用 json 格式。这里展示一个用于进度命令系统的例子<br />
+　　所涉及的两个文件分别是data/advancements/system/HelloTitle.json和data/functions/system/HelloTitle.mcfunction，这里进度和函数都用同样的命名空间和文件名方便记忆和管理，可以看到函数文件是 .mcfunction，而进度文件是 .json<br />
+<br />
+<div align="center">system:HelloTitle.json</div><div class="blockcode"><div id="code_gUu"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;criteria&quot;:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;custom_name&quot;:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;:&quot;minecraft:tick&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;rewards&quot;:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;function&quot;:&quot;system:hellotitle&quot;<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_gUu'));">复制代码</em></div><br />
+<div align="center">system:HelloTitle.mcfunction</div><div class="blockcode"><div id="code_HD7"><ol><li>#revoke adv，用于下次再激活<br /><li>advancement revoke @s only system:hellotitle<br /><li>#命令部分<br /><li>scoreboard objectives add helloTitle stat.leaveGame<br /><li>scoreboard players tag @s[tag=HelloTitle,score_helloTitle_min=1] remove HelloTitle<br /><li>tellraw @s[tag=!HelloTitle] [&quot;&quot;,{&quot;text&quot;:&quot;Hello &quot;,&quot;color&quot;:&quot;yellow&quot;},{&quot;selector&quot;:&quot;@s&quot;},{&quot;text&quot;:&quot;! Welcome to Minecraft!&quot;,&quot;color&quot;:&quot;yellow&quot;}]<br /><li>scoreboard players tag @s[tag=!HelloTitle] add HelloTitle<br /><li>scoreboard players reset @s[score_helloTitle_min=1] helloTitle</ol></div><em onclick="copycode($('code_HD7'));">复制代码</em></div>　　这个进度会在<strong>下一个游戏刻达成</strong>，对象是<strong>全体在线玩家</strong>，达成进度后会执行HelloTitle.mcfunction中的指令。其实现的效果是，<strong>当玩家进入这个世界时，会在聊天框看见问候语（其他人看不到）</strong>。<br />
+　　可以看到，相比于以前命令方块高频，这里采用了进度系统的 tick 触发器和@s选择器。如果单纯用命令方块高频或者函数系统，那么只需要这样<div class="blockcode"><div id="code_LRY"><ol><li>scoreboard objectives add helloTitle stat.leaveGame<br /><li>scoreboard players tag @a[tag=HelloTitle,score_helloTitle_min=1] remove HelloTitle<br /><li>execute @a[tag=!HelloTitle] ~ ~ ~ tellraw @s [&quot;&quot;,{&quot;text&quot;:&quot;Hello &quot;,&quot;color&quot;:&quot;yellow&quot;},{&quot;selector&quot;:&quot;@s&quot;},{&quot;text&quot;:&quot;! Welcome to Minecraft!&quot;,&quot;color&quot;:&quot;yellow&quot;}]<br /><li>scoreboard players tag @a[tag=!HelloTitle] add HelloTitle<br /><li>scoreboard players reset @a[score_helloTitle_min=1] helloTitle</ol></div><em onclick="copycode($('code_LRY'));">复制代码</em></div>　　区别就是选择器上的不一样。如果大家觉得进度系统很麻烦，可以不去使用，但是接下来我们会看到一个使用进度系统的其他触发器来调用函数的例子。例如，<strong>要让所有冒险模式玩家入水即死</strong>。<br />
+<br />
+<div align="center">rules:DieInWater.json</div><div class="blockcode"><div id="code_vmN"><ol><li>{<br /><li>&nbsp; &nbsp; &quot;criteria&quot;:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;1&quot;:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;:&quot;enter_block&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;condition&quot;:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;block&quot;:&quot;water&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;&quot;rewards&quot;:{<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;function&quot;:&quot;rules:dieinwater&quot;<br /><li>&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>}</ol></div><em onclick="copycode($('code_vmN'));">复制代码</em></div><br />
+<div align="center">rules:DieInWater.mcfunction</div><div class="blockcode"><div id="code_NTE"><ol><li>#revoke<br /><li>advancement revoke @s only rules:dieinwater<br /><li>#commands<br /><li>scoreboard players tag @p[m=2,r=0] add waterKill<br /><li>execute @s[tag=waterKill] ~ ~ ~ tellraw @a [{&quot;selector&quot;:&quot;@s&quot;},{&quot;color&quot;:&quot;white&quot;,&quot;text&quot;:&quot; 被水淹没了&quot;}]<br /><li>execute @s[tag=waterKill] ~ ~ ~ gamerule showDeathMessages false<br /><li>kill @s[tag=waterKill]<br /><li>execute @s[tag=waterKill] ~ ~ ~ gamerule showDeathMessages true<br /><li>scoreboard players tag @s[tag=waterKill] remove waterKill</ol></div><em onclick="copycode($('code_NTE'));">复制代码</em></div><br />
+　　当玩家踏入水中时，我们要给玩家加上一个tag，然后杀掉他。至于为什么用@p而不用@s呢？因为<strong>@p不能选中死人，而@s可以</strong>，如果不想看到<strong>聊天框刷屏</strong>，就不要选择用@s。<br />
+<br />
+　　以上是利用进度系统的 enter_block(玩家进入方块) 这一触发器来实现落水即死功能的，如果单纯依靠函数，不依靠进度系统去实现的话，可以这样写<br />
+<br />
+<div align="center">rules:DieInWater_FUNCONLY.mcfunction</div><div class="blockcode"><div id="code_u09"><ol><li>execute @a[m=2] ~ ~ ~ detect ~ ~ ~ water -1 scoreboard players tag @p[r=0] add waterKill<br /><li>execute @a[tag=waterKill] ~ ~ ~ tellraw @a [{&quot;selector&quot;:&quot;@s&quot;},{&quot;color&quot;:&quot;white&quot;,&quot;text&quot;:&quot; 被水淹没了&quot;}]<br /><li>execute @a[tag=waterKill] ~ ~ ~ gamerule showDeathMessages false<br /><li>kill @a[tag=waterKill]<br /><li>execute @a[tag=waterKill] ~ ~ ~ gamerule showDeathMessages true<br /><li>scoreboard players tag @a[tag=waterKill] remove waterKill</ol></div><em onclick="copycode($('code_u09'));">复制代码</em></div><br />
+　　然后将这个函数扔进主进程中高频执行即可。<br />
+</font></td></tr></table></td></tr></table><hr class="l" /><br />
+<font size="4"><br />
+　　我们讲完了函数系统与进度系统的联动部分。道理而言已经讲完了函数系统的基础使用，那么在最后，我们来聊聊函数系统与命令方块系统的对比吧，看看它们各自的优缺点。</font><br />
+<br /><br />
+<br />
+<div align="center"><table cellspacing="0" class="t_table" ><tr style="background-color:#FAFAD2"><td><table cellspacing="0" class="t_table" ><tr style="background-color:#F0FFF0"><td><font size="5">　这个帖子目前对应版本为<strong>1.12 正式版</strong>，后续版本随时可能更改。请知悉。　</font><br />
+</td></tr></table></td></tr></table></div><font size="4"><br />
+<br />
+<font size="7"><strong>&nbsp;&nbsp;§5 - 函数系统与命令方块的对比</strong></font><br />
+<br />
+<table cellspacing="0" class="t_table" ><tr><td><table cellspacing="0" class="t_table" ><tr><td><font size="4">　　如果你看上面的看得有点迷糊，那我们来简单讲讲<strong>函数系统和命令方块 (CB) 系统的对比</strong>吧，<strong>进度作为函数的联动触发形式，就不作过多讲解了</strong>。<br />
+<br />
+　　前面第三章讲到的三种模块中，<strong>对执行顺序无要求的高频模块</strong>无论是用函数还是 CB 都没有什么问题，而那些<strong>需要严格保证执行顺序的模块</strong>，以前我会将他们全部连在一起，只用一个 RCB（循环型命令方块，即高频CB源）作为“信号源”。<br />
+　　为什么不划出做成子模块（通常以<strong> ICB - 脉冲型命令方块</strong>起头，后面跟一串<strong> CCB - 连接型命令方块</strong>）调用呢？因为你在当前游戏刻调用了 ICB 子模块以后，它会<strong>等到下一个游戏刻才执行</strong>。可不要小看这一个游戏刻的延迟，它往往可能让你的系统出现意外，进而产生各种蜜汁bug。<br />
+　　而函数系统中，调用的子模块会<strong>立即插队执行</strong>，从而能够<strong>严格保证执行顺序</strong>，出错的可能性<strong>大大降低</strong>了。<br />
+<br />
+　　函数系统不能够直接支持 Conditional 模式，也就是条件激活，而 CB 是支持的。关于这一点，以我个人的经验，影响是不大的，过去1.8没有<br />
+ Conditional 不也是这么过来了吗？<br />
+<br />
+　　函数系统的主进程使用<strong> gamerule gameLoopFunction &lt;命名空间:函数&gt; </strong>来挂载，而 CB 系统的&quot;主进程&quot;使用 RCB 作为高频信号源。<br />
+　　在过去的版本，通过 glf 挂载的主进程，其执行者是系统，也就是 server 。这个设定会产生<strong>各种各样的安全隐患</strong>，于是在后来的版本中，MOJANG 将其执行者改成了<strong> glf 所挂载的函数</strong>（前面也讲到了）。就目前而言，仅仅通过函数系统，就能够实现过去 CB 能够实现的功能，甚至还有一些是 CB 难以实现的功能。在这里就不过多讲了，希望对大家有所启发，可以研发各种各样的黑科技出来~<br />
+<br />
+<br />
+　　这里插入讲一点，我想对于地图制作者来讲是<strong>绝对的福音</strong>。<br />
+<br />
+　　<strong>mcf系统<font color="#ff0000">直接支持</font>样式代码§。</strong><br />
+　　CB 系统的颜色黑科技什么的在这个面前根本不值一提。<br />
+<br />
+　　<strong>资源占用方面</strong>，简单说一下我个人的经验。<br />
+　　我们花了不到一天的时间把《<a href="http://www.mcbbs.net/thread-571653-1-1.html" target="_blank">喋血冰封II</a>》升级到<strong>新的命令系统</strong>。新系统在资源占用方面明显比之前庞大的 CB 系统少了很多，<strong>流畅度不降反升</strong>，这也得益于函数系统更加接近游戏底层。CB 系统在方块更新这一方面就输掉了一大截。更何况它需要占地。<br />
+<br />
+　　试想一下，<strong><font color="#00bfff">如果你的系统足够庞大，出生地可以加载的区域放多 CB，你能够记得住吗？</font></strong>你在调试系统的时候，需要花多少时间去找到你要修改的指令呢？<br />
+　　此外，对于一些不放在出生点的模块，我们还需要考虑到<strong>区块加载的问题</strong>，相信这也是让许多人头疼的问题吧？<br />
+　　函数系统显然不需要担心这个，因为它所有的内容都<strong>保存在文件里</strong>，不具体地出现在游戏世界中，在资源占用方面相比与 CB 系统而言，是要占优的。<br />
+<br />
+　　我们知道，写一个功能可能只要一两天，debug 可能要一周。过去 CB 系统，不依靠编辑器的话，你得手动检查，如果要在中间插入什么指令的话，还得整体移动 CB，实际工作效率是十分感人的；借助于编辑器，我们可以通过 ooc 导入的方式来实现快速修改<br />
+　　而函数系统呢？你需要改点什么，直接去翻文件改，改完了保存一下，再在游戏里通过<strong>/reload</strong>指令直接刷新，完事儿了。游戏都不用退出重进。<br />
+<br />
+　　但凡地图制作者，知道了这些，都应该会心动的吧。<br />
+　　讲了这么多，相信大家对新系统也有一定的了解了，说不定已经激动得说不出话来了吧，那么更多内容就请大家自行去体验一下吧。在接下来的更新里，没准还会多出什么意想不到的东西呢！</font><br />
+</td></tr></table></td></tr></table><br />
+</font></font></font></font><br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-5-8 03:46<br />
+凌晨3点,你起来就为了发这破玩意?= =<br />
+<br />
+<a href="https://www.mcbbs.net/commandtutorials.neocities.org/tutorials/advancement/advancement.html" target="_blank">点我跳转</a>,把这个附在帖子里,就足以让所有CB爱好者全体转移目标了<br />
+<br />
+开头那两个新trigger很棒棒哦<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋一&nbsp; &nbsp; <b>时间: </b>2017-5-8 05:12<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11769646&amp;ptid=691100" target="_blank"><font color="#999999">langyo_v3 发表于 2017-5-8 03:46</font></a></font><br />
+凌晨3点,你起来就为了发这破玩意?= =<br />
+<br />
+点我跳转,把这个附在帖子里,就足以让所有CB爱好者全体转移目标了</blockquote></div><br />
+凌晨3点。。刚好吃夜宵回来随手发<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2017-5-8 07:06<br />
+pcc除了tick以外的功能都做到了，看来得加个tick了2333<br />
+然而纯cb也不是没好处，起码一些应该要没人的情况下也能运行的就得cb了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>乙烯_中国&nbsp; &nbsp; <b>时间: </b>2017-5-8 10:05<br />
+推荐，如果进一步详尽叙述设计思路，满足“仔细阅读后就能会”的条件后可提升评级。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-5-8 10:58<br />
+<i class="pstatus"> 本帖最后由 ruhuasiyu 于 2017-5-8 12:10 编辑 </i><br />
+<br />
+辛苦<br />
+<br />
+但是注意一点，当前快照版本中，arbitrary_player_tick有一个很大的问题，例如<br /><div class="blockcode"><div id="code_z1C"><ol><li>cpp:craft/test.json<br /><li><br /><li>{<br /><li>&nbsp; &nbsp; &quot;display&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;icon&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;item&quot;: &quot;minecraft:egg&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;},<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;title&quot;: &quot;233&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;description&quot;: &quot;&quot;<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;parent&quot;: &quot;cpp:craft/root&quot;,<br /><li>&nbsp; &nbsp; &quot;criteria&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&quot;233&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;trigger&quot;: &quot;minecraft:arbitrary_player_tick&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;}<br /><li>&nbsp; &nbsp; },<br /><li>&nbsp; &nbsp; &quot;rewards&quot;: {<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &quot;commands&quot;: [<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;say 1&quot;,<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&quot;advancement revoke @a only cpp:craft/test&quot;<br /><li>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;]<br /><li>&nbsp; &nbsp; }<br /><li>}</ol></div><em onclick="copycode($('code_z1C'));">复制代码</em></div><br />
+<br />
+在玩家从末地返回主世界时，不能正确地剥夺该进度。<br />
+这似乎应该是一个bug，但是tick可以正确运行。<br />
+因为理论上来说rewards的命令应该在获得进度的时候立即执行才对。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-5-8 10:59<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11769682&amp;ptid=691100" target="_blank"><font color="#999999">pca006132 发表于 2017-5-8 07:06</font></a></font><br />
+pcc除了tick以外的功能都做到了，看来得加个tick了2333<br />
+然而纯cb也不是没好处，起码一些应该要没人的情况下 ...</blockquote></div><br />
+嗯，不过不像以前需要那么多了就是，至少大部分指令都可以用adv来解决了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-5-8 11:01<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11769682&amp;ptid=691100" target="_blank"><font color="#999999">pca006132 发表于 2017-5-8 07:06</font></a></font><br />
+pcc除了tick以外的功能都做到了，看来得加个tick了2333<br />
+然而纯cb也不是没好处，起码一些应该要没人的情况下 ...</blockquote></div><br />
+把这帖收进你的新人手册吧<br />
+<br />
+这回版本又新了一点,17w18b……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>。—。&nbsp; &nbsp; <b>时间: </b>2017-5-8 13:04<br />
+居然看到了HelloWorld，看来minecraft 1.12将会是个面向JSON编程的时代……<br />
+进化系统不像command block依赖方块坐标，个体间通信全靠标签，这点爽歪歪了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-5-8 15:36<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2017-5-8 15:56 编辑 </i><br />
+<br />
+　　“试想一下，如果你的系统足够庞大，出生地可以加载的区域放不下那么多cb，怎么办？”<br />
+<br />
+^_^<br />
+<br />
+<br />
+<br />
+出生地常加载区块至少有16*16个区块 每个区块是16*16*256个方块<br />
+让我试想一下这个啊<br />
+<br />
+我想我早就先死了<br />
+<br />
+而且 过去的版本里每游戏刻的cb执行个数是有限的。远没有这么大<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋一&nbsp; &nbsp; <b>时间: </b>2017-5-8 17:40<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11770249&amp;ptid=691100" target="_blank"><font color="#999999">chyx 发表于 2017-5-8 15:36</font></a></font><br />
+　　“试想一下，如果你的系统足够庞大，出生地可以加载的区域放不下那么多cb，怎么办？”<br />
+<br />
+^_^</blockquote></div><br />
+我觉得你可以看看2b的索引帖，里面有说到CB方块更新数量对多人服务器的影响，就是我们俗称的63大法。出生点区域看起来空间很大，实际做东西的时候能利用的空间真的是少的可怜，你还要和其他人预先商量好什么模块放在哪里，才能尽可能利用空间。adv就没有这方面的担心，完全没有<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2017-5-8 18:51<br />
+如果命令以JSON形式输入的话，那么CB只需要在事件层面（硬件层）提供I/O就可以了。这个确实显著提高系统可读性和执行效率。既往的CB阵列可读性确实……<br />
+如果说以前CB系统是做硬件编程的单片机，那这个的出现就是升级为嵌入式系统。<br />
+<br />
+标准MC游戏指令引擎(字库/DirectDraw/etc.)或许可以实现？譬如Include stdio.json?<br />
+<br />
+由@e变成@s，感觉是在玩家私有属性上可以简化大量的选择器设定。提高了一定的独立性，不知支不支持虚拟玩家（作变量）。顺便Mojang果然是膜酱，+@s<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>fsxitutu&nbsp; &nbsp; <b>时间: </b>2017-5-8 19:56<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11769646&amp;ptid=691100" target="_blank"><font color="#999999">langyo_v3 发表于 2017-5-8 03:46</font></a></font><br />
+凌晨3点,你起来就为了发这破玩意?= =<br />
+<br />
+点我跳转,把这个附在帖子里,就足以让所有CB爱好者全体转移目标了</blockquote></div><br />
+那个链接404了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-5-8 20:05<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11769646&amp;ptid=691100" target="_blank"><font color="#999999">langyo_v3 发表于 2017-5-8 03:46</font></a></font><br />
+凌晨3点,你起来就为了发这破玩意?= =<br />
+<br />
+点我跳转,把这个附在帖子里,就足以让所有CB爱好者全体转移目标了</blockquote></div><br />
+too naive<br />
+链接都放错了……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-5-8 20:12<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11770843&amp;ptid=691100" target="_blank"><font color="#999999">fsxitutu 发表于 2017-5-8 19:56</font></a></font><br />
+那个链接404了</blockquote></div><br />
+commandtutorials.neocities.org/tutorials/advancement/advancement.html?_e_pi_=7%2CPAGE_ID10%2C6888464040<br />
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=975525" target="_blank">@ruhuasiyu</a> <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>秋一&nbsp; &nbsp; <b>时间: </b>2017-5-8 20:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11770613&amp;ptid=691100" target="_blank"><font color="#999999">jianghr 发表于 2017-5-8 18:51</font></a></font><br />
+如果命令以JSON形式输入的话，那么CB只需要在事件层面（硬件层）提供I/O就可以了。这个确实显著提高系统可 ...</blockquote></div><br />
+adv系统触发必然需要在线玩家，虚假玩家都不行~ @s倒是仅仅针对命令执行者，跟是玩家还是其他实体没什么关系。至于conditional……现在的adv就没法了，所以诸如scoreboard players test PLAYER SCORE SCORE然后接cond输出这种套路是没法用了。这个套路一般用在主时钟里面，到了adv还要想方设法挂个实体去搞这个。<br />
+<br />
+没人在线的时候adv系统不会运行，所以对服务器压力应该是降低了不少的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-5-8 20:58<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11770887&amp;ptid=691100" target="_blank"><font color="#999999">langyo_v3 发表于 2017-5-8 20:12</font></a></font><br />
+commandtutorials.neocities.org/tutorials/advancement/advancement.html?_e_pi_=7%2CPAGE_ID10%2C68884 ...</blockquote></div><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Fcommandtutorials.neocities.org%2Ftutorials%2Fadvancement%2Fadvancement.html" target="_blank">https://commandtutorials.neociti ... nt/advancement.html</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-5-8 21:00<br />
+<i class="pstatus"> 本帖最后由 ruhuasiyu 于 2017-5-8 21:20 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11770902&amp;ptid=691100" target="_blank"><font color="#999999">acordome 发表于 2017-5-8 20:17</font></a></font><br />
+adv系统触发必然需要在线玩家，虚假玩家都不行~ @s倒是仅仅针对命令执行者，跟是玩家还是其他实体没什么 ...</blockquote></div><br />
+单纯的testfor player或者 scoreboard test player还可以通过execute来实现<br />
+<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2017-5-8 21:02<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11771093&amp;ptid=691100" target="_blank"><font color="#999999">chyx 发表于 2017-5-8 21:17</font></a></font><br />
+不行么 可以给玩家挂stats吧？</blockquote></div><br />
+我2了……用cb查询惯了之后已经忘记玩家也可以执行命令了<img src="static/image/smiley/rabbit/45.gif" smilieid="695" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-5-8 21:11<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11770414&amp;ptid=691100" target="_blank"><font color="#999999">acordome 发表于 2017-5-8 17:40</font></a></font><br />
+我觉得你可以看看2b的索引帖，里面有说到CB方块更新数量对多人服务器的影响，就是我们俗称的63大法。出生 ...</blockquote></div><br />
+我的意思是过去版本由于mc的命令方块的每游戏刻执行个数的上限远低于出生地区块的方块数<br />
+你要说cb在这一点上的不足 更应该说这个上限而不是出生地能不能塞得下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-5-8 21:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11771045&amp;ptid=691100" target="_blank"><font color="#999999">ruhuasiyu 发表于 2017-5-8 21:00</font></a></font><br />
+单纯的testfor player或者 scoreboard test player还可以通过execute来实现<br />
+<br />
+另外除了cond,还有query也不 ...</blockquote></div><br />
+不行么 可以给玩家挂stats吧？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hhttll&nbsp; &nbsp; <b>时间: </b>2017-5-13 16:04<br />
+minecraft 式编程语言<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-5-18 23:20<br />
+偷偷更新不提升帖子…<br />
+<br />
+好吧我顶下帖子<br />
+<br />
+帖子排版看着挺舒服的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-5-21 10:44<br />
+很好,更新到pre5了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yaossg&nbsp; &nbsp; <b>时间: </b>2017-5-21 22:58<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11802727&amp;ptid=691100" target="_blank"><font color="#999999">langyo_v3 发表于 2017-5-21 10:44</font></a></font><br />
+很好,更新到pre5了</blockquote></div><br />
+pre5...新闻版pre5的帖子我可是楼主(大雾<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>苟活与世&nbsp; &nbsp; <b>时间: </b>2017-5-30 19:23<br />
+收藏 虽然没看懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>David_Zhu&nbsp; &nbsp; <b>时间: </b>2017-5-31 19:13<br />
+§2的random貌似打错了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-6-3 15:24<br />
+现在已经pre7了…<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2017-6-8 22:50<br />
+嗯,很及时啊<br /><br />考完再来玩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Dying_zero&nbsp; &nbsp; <b>时间: </b>2017-7-13 22:18<br />
+太赞了这帖，帮助很大<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>南歌_未央_&nbsp; &nbsp; <b>时间: </b>2017-7-13 23:07<br />
+学到东西了辛苦LZ<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>回调然后他&nbsp; &nbsp; <b>时间: </b>2017-7-23 18:34<br />
+我不得不说一下，为什么我这里看的，都出去了，好多都出去了，要不是ctrl+c+v复制出去，我都看不到了。（别问什么都出去了）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>咲千_zhvsjia&nbsp; &nbsp; <b>时间: </b>2017-8-3 17:25<br />
+作为地图制作者，我的确很心动<br />
+然而<br />
+根本看不懂。。。<br />
+表示输命令没有问题，但是那些编程之类的该文件之类的我完全没有概念。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>咲千_zhvsjia&nbsp; &nbsp; <b>时间: </b>2017-8-3 17:25<br />
+作为地图制作者，我的确很心动<br />
+然而<br />
+根本看不懂。。。<br />
+表示输命令没有问题，但是那些编程之类的该文件之类的我完全没有概念。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1332082102&nbsp; &nbsp; <b>时间: </b>2017-8-7 17:48<br />
+在服务器里面搞这些会不会很卡<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小戴子&nbsp; &nbsp; <b>时间: </b>2017-8-31 11:02<br />
+厉害了，太太太厉害了，牛逼.<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>大炮哥哥&nbsp; &nbsp; <b>时间: </b>2017-9-8 11:58<br />
+数学我不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>大炮哥哥&nbsp; &nbsp; <b>时间: </b>2017-9-8 11:59<br />
+表示大神的世界不懂<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>903402421&nbsp; &nbsp; <b>时间: </b>2017-9-10 18:50<br />
+签到签到签到签到签到签到签到签到签到签到签到<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mega_bed&nbsp; &nbsp; <b>时间: </b>2017-9-30 00:09<br />
+给大佬递茶。。。阿不。。卡布奇诺qwq<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1469636740&nbsp; &nbsp; <b>时间: </b>2017-10-2 19:31<br />
+牛逼啊，不服不行<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>whg1975123&nbsp; &nbsp; <b>时间: </b>2017-10-2 21:06<br />
+还有这种操作<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zcd23555&nbsp; &nbsp; <b>时间: </b>2017-10-8 09:46<br />
+dalao又来发帖了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sweet与糖&nbsp; &nbsp; <b>时间: </b>2017-10-21 10:56<br />
+函数有个很坑的点:<br />
+你写错了一个指令(即指令格式不正确),在mc中就成了未知函数,还不直接告诉你这函数有错，让我以为这是bug...<br />
+这个点使我差点崩溃，失去30金粒去问问题<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>水花四溅飞&nbsp; &nbsp; <b>时间: </b>2017-11-10 18:52<br />
+Perfeat!完美<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>水花四溅飞&nbsp; &nbsp; <b>时间: </b>2017-11-10 18:54<br />
+简直了，毫不犹豫的为你写上一个，”优秀“<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>水花四溅飞&nbsp; &nbsp; <b>时间: </b>2017-11-10 19:01<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11770887&amp;ptid=691100" target="_blank"><font color="#999999">langyo_v3 发表于 2017-5-8 20:12</font></a></font><br />
+commandtutorials.neocities.org/tutorials/advancement/advancement.html?_e_pi_=7%2CPAGE_ID10%2C68884 ...</blockquote></div><br />
+只能说四个字：太，敬，业，了<img src="static/image/smiley/ornaments/structure_block_data.png" smilieid="1059" border="0" alt="" /><img src="static/image/smiley/colorblack/glass_pink.png" smilieid="1297" border="0" alt="" /><img src="static/image/smiley/colorblack/glass_pink.png" smilieid="1297" border="0" alt="" /><img src="static/image/smiley/colorblack/glass_pink.png" smilieid="1297" border="0" alt="" /><img src="static/image/smiley/colorblack/glass_pink.png" smilieid="1297" border="0" alt="" /><img src="static/image/smiley/machine/piston_inner.png" smilieid="1345" border="0" alt="" /><img src="static/image/smiley/machine/hopper.png" smilieid="1351" border="0" alt="" /><img src="static/image/smiley/machine/piston_inner.png" smilieid="1345" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>123456789548548&nbsp; &nbsp; <b>时间: </b>2017-11-12 15:01<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>123456789548548&nbsp; &nbsp; <b>时间: </b>2017-11-15 22:52<br />
+MCBBS有你更精彩~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>z15399658078&nbsp; &nbsp; <b>时间: </b>2017-11-29 19:26<br />
+谢谢楼主..........<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>3304225512&nbsp; &nbsp; <b>时间: </b>2017-12-30 10:20<br />
+鹅鹅鹅鹅鹅鹅鹅鹅鹅鹅鹅鹅鹅鹅鹅饿额鹅鹅鹅鹅鹅鹅饿鹅鹅鹅饿鹅鹅鹅饿<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dreamjet&nbsp; &nbsp; <b>时间: </b>2018-1-9 22:09<br />
+emmm看不懂。。。。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>碍事币&nbsp; &nbsp; <b>时间: </b>2018-1-20 21:02<br />
+2333333333333333<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>任祝明&nbsp; &nbsp; <b>时间: </b>2018-2-3 22:03<br />
+666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jch1234&nbsp; &nbsp; <b>时间: </b>2018-2-14 12:24<br />
+看起来很深奥<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>as7314051&nbsp; &nbsp; <b>时间: </b>2018-2-15 09:57<br />
+虽然看不懂，但是感觉楼主很厉害，点个赞<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mcen314&nbsp; &nbsp; <b>时间: </b>2018-2-20 09:45<br />
+函数系统也许要迫使玩家通过点牌子来执行一连串命令（如开始游戏）。因为牌子有个clickEvent，里面可以直接跟函数。按钮还需要借助一个CB。这会不利于那些不知道点牌子的新手。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱笑的小白&nbsp; &nbsp; <b>时间: </b>2018-2-21 23:28<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Ender_hz&nbsp; &nbsp; <b>时间: </b>2018-2-22 17:28<br />
+可以可以，很厉害≥ ≤<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yian6664&nbsp; &nbsp; <b>时间: </b>2018-2-23 14:04<br />
+但是如果脱离命令方块的话不会出bug吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Sostrange&nbsp; &nbsp; <b>时间: </b>2018-2-25 17:06<br />
+emmmmmmmmm<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wzt040615&nbsp; &nbsp; <b>时间: </b>2018-3-3 07:50<br />
+好想试试<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wzt040615&nbsp; &nbsp; <b>时间: </b>2018-3-3 07:56<br />
+大佬啊，学到东西了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hechengbiao&nbsp; &nbsp; <b>时间: </b>2018-4-17 17:38<br />
+申请转载,可以吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>银星sama&nbsp; &nbsp; <b>时间: </b>2018-6-20 20:48<br />
+我的目标是成为18级大神。假如你每天签到拿4经验，18级300000/4=75000天， 如果从1岁开始签到，那100年=36500天，你差不多要 活200年保持每天签到（谁知道200年后还有没有签到 这玩意），如果你每天再水4经验，时间减半，但考虑 现实，你不可能再活100年，取50年吧，你就要每天水 16经验，可能你是个勤快的人，每天水32经验，那就 需要25年！！！再如果你是个大水怪，每天水64经验 ，那就只要12.5年！！！还如果你个心急的人，每天水 128经验，你只要6.25年！！！！假如你已经急不可耐 了，每天水256经验，那你碉堡了，只要3.125年！！！ 当然，你会觉得3年还是太远了，每天你闲的蛋疼，忙 忙碌碌的水512经验，碉堡了，你只需要1.5625年，只 比1年半多一点！！！什么！！你还不满意，那你觉得 你可能一天水1024经验吗，可能吗！！可能吗！！！据 说回复100字或者一百字以上可以得到11~30经验，那么，按照队形，点击复制吧！！！ ... ... ... ... .. ... ... ... ... ... ...（我表示只是试试） ...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SMFX阜星&nbsp; &nbsp; <b>时间: </b>2018-6-21 11:27<br />
+1.13的数据包就能劝退我了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CRAZY_BOY_l&nbsp; &nbsp; <b>时间: </b>2018-6-22 16:54<br />
+不明觉厉<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>dyx666&nbsp; &nbsp; <b>时间: </b>2018-7-1 16:46<br />
+666厉害666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天空氏老方&nbsp; &nbsp; <b>时间: </b>2018-7-5 08:52<br />
+看不懂.........<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天空氏老方&nbsp; &nbsp; <b>时间: </b>2018-7-5 09:08<br />
+这.............<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>bxz1236987450&nbsp; &nbsp; <b>时间: </b>2018-7-7 07:57<br />
+我的目标是成为18级大神。假如你每天签到拿4经验，18级300000/4=75000天， 如果从1岁开始签到，那100年=36500天，你差不多要 活200年保持每天签到（谁知道200年后还有没有签到 这玩意），如果你每天再水4经验，时间减半，但考虑 现实，你不可能再活100年，取50年吧，你就要每天水 16经验，可能你是个勤快的人，每天水32经验，那就 需要25年！！！再如果你是个大水怪，每天水64经验 ，那就只要12.5年！！！还如果你个心急的人，每天水 128经验，你只要6.25年！！！！假如你已经急不可耐 了，每天水256经验，那你碉堡了，只要3.125年！！！ 当然，你会觉得3年还是太远了，每天你闲的蛋疼，忙 忙碌碌的水512经验，碉堡了，你只需要1.5625年，只 比1年半多一点！！！什么！！你还不满意，那你觉得 你可能一天水1024经验吗，可能吗！！可能吗！！！据 说回复100字或者一百字以上可以得到11~30经验，那么，按照队形，点击复制吧！！！ ... ... ... ... ... . ... ... .. ... ...(我表示只是试试) ... <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>13665374636&nbsp; &nbsp; <b>时间: </b>2018-7-19 01:24<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1204942617&nbsp; &nbsp; <b>时间: </b>2018-8-7 23:11<br />
+突然感觉好像很复杂的样子........我还是乖乖用命令方块吧......<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>aqqwws133&nbsp; &nbsp; <b>时间: </b>2019-2-24 01:09<br />
+00000000000000000000000<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>aqqwws133&nbsp; &nbsp; <b>时间: </b>2019-2-24 01:10<br />
+财富，名声，力量，曾拥有百渡世界一切的男人——百渡.老总.李Y宏，在临死前的一句话让全世界人们趋之若鹜的奔向贴吧。“想要我的经验吗？想要的话可以全部给你，去找吧！我把所有的经验都放在那里！”于是所有的用户涌向贴吧！让世界迎接大水帖时代，伟大的水贴之路开启了！ 水贴王，我当定了！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kfong&nbsp; &nbsp; <b>时间: </b>2019-2-25 13:03<br />
+膜拜大佬<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Setrod_S&nbsp; &nbsp; <b>时间: </b>2019-5-19 08:51<br />
+gamerule gameLoopFunction 被移除了，想问一下现在该怎么调用高频function<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>超人152&nbsp; &nbsp; <b>时间: </b>2019-5-19 20:38<br />
+可以可以，学习一下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>雨纪v&nbsp; &nbsp; <b>时间: </b>2019-5-20 21:27<br />
+命令方块@s怎么用?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>延旬&nbsp; &nbsp; <b>时间: </b>2020-2-8 15:43<br />
+那探测nbt标签怎么搞，貌似if、unless并不能实现完整的testfor功能，那探测的输出要怎么用呢，execute似乎也不起作用<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>5352&nbsp; &nbsp; <b>时间: </b>2020-2-9 00:34<br />
+为什么有些字体偏向右侧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>5352&nbsp; &nbsp; <b>时间: </b>2020-2-12 21:49<br />
+那1.13的呢？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>晓夜Port&nbsp; &nbsp; <b>时间: </b>2020-2-13 16:36<br />
+3 4 章排版炸了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CreasedSir&nbsp; &nbsp; <b>时间: </b>2020-2-13 17:51<br />
+完成任务<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CreasedSir&nbsp; &nbsp; <b>时间: </b>2020-2-13 17:51<br />
+完成任务<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>5352&nbsp; &nbsp; <b>时间: </b>2020-2-14 23:57<br />
+目录怎么弄你讲的不详细，只知道是function+名称，但是我名称怎么写？经常出现没有该函数<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>金子89&nbsp; &nbsp; <b>时间: </b>2020-7-21 22:44<br />
+求助，gameloopfunction的存在似乎会使logs文件变得体积巨大，因为每个function每t它都要记一下，怎么破？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>kunkun520&nbsp; &nbsp; <b>时间: </b>2020-7-29 14:38<br />
+mcbbs有你更精彩！！！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

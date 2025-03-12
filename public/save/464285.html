@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : 关于枚举与多个条件输出 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NjQyODUtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : 关于枚举与多个条件输出 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-6 14:05<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : 关于枚举与多个条件输出<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-24 21:27 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>条件语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 枚举概念详解</font></font></div><div align="left">条件语句是模块中的一个重要指令</div><div align="left">它用于<strong>判断事件是否成立</strong>，</div><div align="left">若成立则输出；</div><div align="left">若不成立则跳过。</div><br />
+<br />
+<div align="left">条件语句将会涉及到</div><div align="left"><strong>execute</strong></div><ul><li><div align="left">条件与变量</div><li><div align="left">相对性</div><br />
+</ul><div align="left"><strong>testfor</strong></div><br />
+<div align="left"><strong>关于枚举多个条件输出</strong></div><br />
+<div align="left"><strong>或|| 与 且&amp;&amp;</strong></div><ul><li><div align="left">或||</div><li><div align="left">且&amp;&amp;</div><li><div align="left">或且结合</div><br />
+</ul><div align="left"><strong>!非的表达</strong></div><ul><li><div align="left">!非 单个变量</div><li><div align="left">!非 多个执行体</div><br />
+</ul><div align="left"><strong>条件嵌套</strong></div><ul><li><div align="left">条件嵌套相对性</div><li><div align="left">条件嵌套与变量</div><li><div align="left">子条件detect</div><br />
+</ul><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-462449-1-1.html" target="_blank">上一篇</a>（testfor）--<a href="http://www.mcbbs.net/thread-465196-1-1.html" target="_blank">下一篇</a>（或|| 与 且&amp;&amp;）</font></div><div align="left"><br />
+<br />
+<strong><font face="碳化硅大黑体"><font size="5">§3.3 枚举与多个条件输出</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 枚举详解</font></font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.3.1 基本概念</font></font></strong><br />
+<i>对于多个条件我们只能<strong>枚举条件</strong>，并对于这些枚举的条件<strong>分别输出</strong>：</i><br />
+<br />
+<font size="2"><font color="#800000">如果：条件1 → 输出：指令1</font></font><br />
+<font size="2"><font color="#800000">如果：条件2 → 输出：指令2</font></font><br />
+<font size="2"><font color="#800000">┊</font></font><br />
+<font size="2"><font color="#800000">如果：条件n → 输出：指令n</font></font><br />
+<br />
+<br />
+<i>如果写成指令就是：</i><br />
+ <br />
+<font size="2"><font color="#800000">/execute 条件1 相对坐标 指令1</font></font><br />
+<font size="2"><font color="#800000">/execute 条件2 相对坐标 指令2</font></font><br />
+<font size="2"><font color="#800000">┊</font></font><br />
+<font size="2"><font color="#800000">/execute 条件n 相对坐标 指令n</font></font><br /><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.3.2 条件结合变量</font></font></strong><br />
+使用<a href="https://www.mcbbs.net/file:///C:/Users/Administrator/AppData/Local/Temp/CHM%20Editor/%E8%BF%9B%E9%98%B6%EF%BC%9A%E6%8C%87%E4%BB%A4%E6%96%B9%E5%9D%97%E6%A8%A1%E5%9D%97%E6%95%99%E7%A8%8B_42191.5647891204/page_37.html" target="_blank">execute</a>中的预设。<br />
+使用以下指令：<br />
+<img id="aimg_X7k1U" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/52525295161e2051.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<br />
+/execute @e[name=f,score_a_min=1,score_a=1]<br />
+/execute @e[name=f,score_a_min=2,score_a=2]<br />
+/execute @e[name=f,score_a_min=3,score_a=3]<br />
+也就是说枚举：<strong>对于a的变量值分别为1，2，3的f执行</strong><br />
+<br />
+<br />
+<ul><li><br />
+</ul><br />
+<br />
+<img id="aimg_iuik7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/f0ea715c4a31eb7c.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+/scoreboard players set @e[name=f] a 1 将f的a变量值设成1，<br />
+<br />
+<img id="aimg_j2b21" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/ce9077aead891535.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>那么检测f的a变量值为1的指令方块就有输出。</strong><br />
+/execute @e[name=f,score_a_min=1,score_a=1]<br />
+<br />
+其他同理：<br />
+<ul><li><br />
+</ul>/scoreboard players set @e[name=f] a 2<br />
+将f的a变量值设成2，<br />
+<strong>那么检测f的a变量值为2的指令方块就有输出。</strong><br />
+/execute @e[name=f,score_a_min=2,score_a=2]<br />
+<br />
+<ul><li><br />
+</ul>/scoreboard players set @e[name=f] a 3<br />
+将f的a变量值设成3，<br />
+<strong>那么检测f的a变量值为3的指令方块就有输出。</strong><br />
+/execute @e[name=f,score_a_min=3,score_a=3]<br />
+<br />
+<strong><font color="#ff0000">综合以上例子，多个条件的变量进行枚举，可以得到个体分别的输出。</font></strong><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.3.3 条件结合相对性（多个输出）</font></font></strong><br />
+<br />
+<strong><font face="微软雅黑"><font size="4"><img id="aimg_nkikN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/1e84c0eab3dd4495.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></font></strong><br />
+按照以上指令：<br />
+/execute @e[name=f] ~ ~ ~ say @p[r=1] <br />
+/execute @e[name=f] ~ ~ ~ say @p[r=2]<br />
+/execute @e[name=f] ~ ~ ~ say @p[r=3]<br />
+相对于f分别说出在他周围1格，2格，3格的玩家名字。<br />
+<br />
+<img id="aimg_X1Lb4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/6e9266ad29d9088c.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<font color="#008000">绿色</font>表示1格，<font color="#0000ff">蓝色</font>表示2格，<font color="#ff8040">橙色</font>表示3格。<br />
+<br />
+<ul><li><font color="#008000">绿色</font><br />
+</ul><font color="#008000"><img id="aimg_kmuIM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/b3a41f0bad2e952e.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font><br />
+<strong><font color="#008000">由于我在3格范围内，又在2格范围内，还在1格范围内，所以三条指令都会输出。</font></strong><br />
+<ul><li><font color="#0000ff">蓝色</font><br />
+</ul><img id="aimg_SA9fV" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/697fd880d5c878f1.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><font color="#0000ff"><br />
+</font><br />
+<font color="#0000ff"><strong>由于我在3格范围内，又在2格范围内，但在在1格范围内，所以只有两条指令会输出。</strong></font><br />
+<ul><li><font color="#ff8040">橙色</font><br />
+</ul><img id="aimg_KgDyN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/983e34698f2fde57.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><font color="#ff8040"><br />
+</font><br />
+<strong><font color="#ff8040">我只在三格范围内，只有一次输出</font></strong><br />
+<br />
+<strong><font color="#ff0000">综合相对性来看，枚举是依旧有效的。</font></strong><br />
+<strong><font color="#ff0000">其次就是，若条件枚举有重复，也是会多个符合条件的个体一起输出的。</font></strong><br />
+<br />
+<br />
+<br />
+<font size="4">总结来说，条件枚举<strong>不仅仅针对于单个条件</strong>，而是多个条件<strong>一起集合</strong>在一起<strong><font color="#ff0000">分别</font></strong>执行的，</font><br />
+<font size="4">而且同样能够<strong>运用变量和相对性</strong>。</font><br />
+<font size="4"><font color="#ff0000"><strong>若符合其中一个枚举，那么这个个体会输出；</strong></font></font><br />
+<font size="4"><font color="#ff0000"><strong>若符合多个枚举，那么这些个体全部都有输出。</strong></font></font><br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">使用testfor模拟上面的输出（感受testfor和execute的区别）；</div><li><div align="left">将上面的变量的例子和相对性的例子结合（熟练掌握条件变量+相对性）。</div><br />
+</ul></div><br />
+<br />
+<br />
+</div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>RainbowCity&nbsp; &nbsp; <b>时间: </b>2015-7-6 14:35<br />
+脚本方块和指令方块有什么不同？&nbsp; &nbsp;必究脚本方块功能强大！
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

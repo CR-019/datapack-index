@@ -1,0 +1,325 @@
+<html>
+<head>
+<title>particle指令（粒子指令）的大小、颜色、格式变化以及扩展 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC02MjU5NjMtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>particle指令（粒子指令）的大小、颜色、格式变化以及扩展 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2016-8-23 21:21<br />
+<b>标题: </b>particle指令（粒子指令）的大小、颜色、格式变化以及扩展<br /><i class="pstatus"> 本帖最后由 FHC红石 于 2016-9-19 22:34 编辑 </i><br />
+<br />
+<font size="3"><img id="aimg_Ep9np" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：particle（粒子/颗粒）指令是在1.8 (14w04a)中加入的新指令</font><br />
+<font size="3">指令格式是</font><a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">1.8：</font><a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br /><div class="blockcode"><div id="code_JN1"><ol><li>particle 粒子名 x坐标 y坐标 z坐标 x方向长度 y方向长度 z方向长度 速度 数量 模式</ol></div><em onclick="copycode($('code_JN1'));">复制代码</em></div><font size="3">1.9+：</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br /><div class="blockcode"><div id="code_jBl"><ol><li>particle 粒子名 x坐标 y坐标 z坐标 x方向长度 y方向长度 z方向长度 速度 数量 模式 选择器（玩家） 参数</ol></div><em onclick="copycode($('code_jBl'));">复制代码</em></div><font size="3">当然，今天我不是来讲particle怎么用的</font><br />
+<font size="3"><img id="aimg_m2lDM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：是啊论坛有教程：</font><font size="3"><a href="http://www.mcbbs.net/thread-388996-1-1.html" target="_blank">http://www.mcbbs.net/thread-388996-1-1.html</a></font><br />
+<img id="aimg_d1tJF" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" /><font size="3">：我今天是来讲关于particle指令格式的变化和大家不知道不常用的东西</font><br />
+<img id="aimg_PVNlX" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" /><font size="3">：<strike>其实没几个</strike></font><br />
+<div align="center"><strong><font size="4"><font color="#0000ff">粒子大小</font></font></strong><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td></div><font size="3"><img id="aimg_lsf1u" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：先讲1.8+的内容</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">在播放粒子的时候，x方向长度、y方向长度、z方向长度（即粒子的大小也是很重要的）</font><br />
+<font size="3">但是很多人会发现，实际效果往往要比填写的大很多</font><br />
+<font size="3"><img id="aimg_JnKr9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：比如填写1 1 1，结果给我造了一个好大的粒子球= =</font><br />
+<img id="aimg_E14ib" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="383" height="387" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187815396.jpg" border="0" alt="" /><br />
+<font size="3"><img id="aimg_b16N4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：让我们来看看英文wiki是怎么说的</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">Specifies the size of the 3-dimensional cuboid volume to spawn particles in, centered on position x y z, and divided by about 8 (using 1 1 1 specifies a cuboid of about 8×8×8 in size).</font><br />
+<font size="3">翻译过来大概是：指定三维立方体的体积产生粒子的大小</font><font size="3">以位置x y z，除以8（<font color="#ff0000"><strong>使用1 1 1就指定了一个长方体约8×8×8的大小</strong></font>）。</font><br />
+<font size="3"><img id="aimg_V8t3C" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：所以说<font color="#ff0000"><strong>1就等于8</strong></font>（什么鬼？）</font><br />
+<img id="aimg_gZCWM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="188" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187815451.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<font size="3"><img id="aimg_EdKBf" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：所以如果要<font color="#ff0000"><strong>在一格内产生粒子应该填0.125（即1/8）</strong></font></font><br />
+<font size="3">不过，产生的粒子不是正方形的，是圆形的</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">但是这个圆的直径并不是你所填的数字乘以8，它大概是乘以7或者6</font><br />
+<font size="3">所以如果想要<font color="#ff0000"><strong>在一格内更精确的播放粒子效果可以把1除以7或者6</strong></font></font><br />
+<img id="aimg_aBnN7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="402" height="409" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187815515.jpg" border="0" alt="" /><br />
+<font size="3"><img id="aimg_CzMgW" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：如果粒子数量够多，就能做一个彩球了</font><br />
+<img id="aimg_k8ue8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="248" height="232" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187815743.jpg" border="0" alt="" /><br />
+<font size="3">指令：</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br /><div class="blockcode"><div id="code_x1Z"><ol><li>particle reddust ~ ~1 ~ 0.125 0.125 0.125 1 100</ol></div><em onclick="copycode($('code_x1Z'));">复制代码</em></div><font size="3">或者一个漂亮的彩灯2333</font><br />
+<img id="aimg_iU66s" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="340" height="356" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187815947.jpg" border="0" alt="" /><br />
+<font size="3">指令：</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br /><div class="blockcode"><div id="code_eTx"><ol><li>particle reddust ~ ~1 ~ 0.2 0.2 0.2 1 500</ol></div><em onclick="copycode($('code_eTx'));">复制代码</em></div></td></table></div></div><div align="center"><font size="4"><strong><font color="Blue">粒子颜色</font></strong></font></div><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3"><img id="aimg_r9LfF" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：接下来我们来讲讲粒子的颜色</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">大家都知道，如果直接<font color="#ff0000"><strong>播放reddust（红石粒子）、mobSpell（药水粒子）、mobSpellAmbient（隐身时的药水粒子）会出现五颜六色的粒子</strong></font></font><br />
+<img id="aimg_plXxd" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="289" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187816159.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<font size="3">前提是<font color="#ff0000"><strong>速度不为0，数量不为0（或者未设定）</strong></font>，不然是黑色的</font><br />
+<font size="3">但是有个有趣的东西，<strong><font color="#ff0000">仅限1.8</font></strong></font><br />
+<font size="3">如果<strong><font color="#ff0000">速度大于0且小等于10，那么数字越大粒子看起来就越亮</font></strong></font><br />
+<font size="3">如果是0.1则基本看起来是黑色，偶尔有个暗绿色或者暗红色</font><br />
+<img id="aimg_O23d2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="485" height="309" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187816349.jpg" border="0" alt="" /><br />
+<font size="3">0.5的话颜色比较正常</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<img id="aimg_PRYYY" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="460" height="296" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187816547.jpg" border="0" alt="" /><br />
+<font size="3">1的话更亮一些（貌似数字越大颜色越丰富）</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<img id="aimg_OtT81" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="433" height="344" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187816747.jpg" border="0" alt="" /><br />
+<font size="3">10的话非常亮，可能看不出来？下面这个图就是很好的对比（1与10）</font><br />
+<img id="aimg_c8z0j" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="402" height="409" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187817003.jpg" border="0" alt="" /><img id="aimg_ZaqHd" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="341" height="373" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187817245.jpg" border="0" alt="" /><br />
+<font size="3">但是<font color="#ff0000"><strong>在1.9+中就有点不同了，如果速度大于0且小等于1，则速度越大颜色越浅</strong></font></font><font size="3"><img id="aimg_F0Bll" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="208" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187818675.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+0.1的时候都是比较正常的颜色</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<img id="aimg_p49sz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="429" height="270" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187817441.jpg" border="0" alt="" /><br />
+<font size="3">到1看起来就有点浅了</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<img id="aimg_K0fvN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="365" height="332" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187817638.jpg" border="0" alt="" /><br />
+<font size="3"><font color="#ff0000"><strong>1.9还有个好玩的特性，如果出击速度为250就和0.1的时候一样是黑色，125就等于0.5时候的颜色深度，以此类推，然后以250为倍数貌似可以无限循环</strong></font>（然并卵）（图片点击放大）</font><br />
+<img id="aimg_QjB6F" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="202" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/14718781786.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<font size="3"><img id="aimg_KWzDD" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：实际上这都是出击速度的锅</font><br />
+<font size="3"><img id="aimg_RuS5s" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：貌似在一定范围内出击速度越大，貌似颜色就越丰富、越亮</font><br />
+<font size="3"><img id="aimg_G40TM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：那么，如何自定义颜色呢？</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_cTYK1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：这就比较复杂了</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_al7yD" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：那我用方块粒子代替好了23333（雾</font><br />
+<font size="3"><img id="aimg_gRZ5x" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：让我们来看看英文wiki（中文又不完整了）：</font><br />
+<font size="3">xd yd zd（x方向长度 y方向长度 z方向长度）</font><br />
+<font size="3">Exception: When name is reddust, mobSpell, or mobSpellAmbient and speed is not 0, and count is 0 or not specified, these values are set as the RGB channel values of the color of the particle, and are specified in the range 0 to 1. In this usage, the speed parameter acts as a multiplier on these values. If count is greater than 0 for those particles, xd yd zd are treated as a 3-dimensional volume as usual, rather than as a color, and randomized colors are used.</font><br />
+<font size="3"><img id="aimg_PWVb7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：从来不看英文wiki，看不懂</font><br />
+<font size="3"><img id="aimg_QsWVJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：这里我给大家通俗的讲下，就是reddust（红石粒子）、mobSpell（药水粒子）、mobSpellAmbient（隐身时的药水粒子）这三种粒子<strong><font color="#ff0000">当速度不为0，且数量为0或者未设定时，x方向长度、y方向长度、z方向长度上的数值就变成了RGB，并且数值为0到1之间。</font></strong>并且在这种模式下，<font color="#ff0000"><strong>速度与颜色深度有关。</strong></font>但是如果数量大于0，则xd yd zd就会变回x方向长度、y方向长度、z方向长度，不具有颜色属性，并且使用随机颜色</font><br />
+<font size="3"><img id="aimg_iJ00J" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：那么单种颜色要怎么弄呢（一脸懵逼中）</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_og4zT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：只想说Notch的脑洞真大，用x方向长度、y方向长度、z方向长度实现RGB</font><br />
+<font size="3">x方向长度代表红色，y方向长度代表绿色，z方向长度代表蓝色</font><br />
+<font size="3">所以0 0 0就是黑色，1 0 0就是红色，0 1 0就是绿色，0 0 1，就是蓝色，1 1 1就是白色</font><br />
+<font size="3">当然<strong><font color="#ff0000">红石粒子除外，它比较特殊</font></strong></font><br />
+<font size="3">0 0 0默认是红色，但是0.1 0 0就是黑色了，相当于只加了一点红色（<a href="http://www.mcbbs.net/home.php?mod=space&amp;uid=582040" target="_blank">chyx</a>：<strong><font color="#ff0000">在1.8中用-1等于不加红色</font></strong>），所以看起来是黑色，如果把第一个数值再调大点就是暗红色了，但是1 0 0依然是红色</font><br />
+<font size="3">所以<font color="#ff0000"><strong>如果xd设为0，那么MC会默认设为1</strong></font></font><br />
+<font size="3">来自wiki原文：The reddust particle's red channel behaves differently: it has a default value of 1, so that setting xd to 0 will instead set the red channel to 1, though setting it to any other value behaves as usual.</font><br />
+<font size="3">然后要注意的是，<font color="#ff0000"><strong>红石粒子的颜色不是一尘不变的，它是有深浅的，</strong></font>仔细观察红石线，会发现有亮一点的红石粒子，也有暗一点的红石粒子，所以如果你要用粒子效果做准确的颜色，最好不要用红石粒子</font><br />
+<font size="3">但是，如果你是<strong><font color="#ff0000">1.9+的版本，那么可以用负数制造纯色的红石粒子（并且看起来会更亮）</font></strong></font><br />
+<font size="3"><img id="aimg_NfBwm" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="590" height="189" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147203488891.jpg" border="0" alt="" /><br />
+<img id="aimg_aNh3p" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="664" height="255" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147203488846.jpg" border="0" alt="" /><br />
+</font><font size="3">指令是：</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br /><div class="blockcode"><div id="code_LwA"><ol><li>particle reddust ~ ~1 ~ -0.1 0 0 1</ol></div><em onclick="copycode($('code_LwA'));">复制代码</em></div><font size="3">只要<strong><font color="#ff0000">数字前面有个负号</font></strong>就行，<font color="#ff0000"><strong>最多两位小数</strong></font>，如果再加一位小数则粒子变成黑色</font><br />
+<font size="3"><strong><font color="#ff0000">数字越大杂色越多（所以0.01-0.1之间效果最好）</font></strong></font><br />
+<font size="3"><img id="aimg_kO3NN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="276" height="252" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147203488784.jpg" border="0" alt="" /><br />
+</font><font size="3">这是-10的效果，可以看到杂色中连黑色都有</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">来自wiki原文：Even after all this, reddust will apply a randomization to that color: each channel's value is multiplied by a separate random value from 0.8 to 1.0, then they all are multiplied by a single random value from 0.6 to 1.0.</font><br />
+<font size="3">以及对于reddust粒子特殊的颜色设定wiki也有个列表</font><br />
+<font size="3"><img id="aimg_s7zK0" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="286" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187818241.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<img id="aimg_N9E1E" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：不要告诉我你看不懂红黄蓝绿的英文23333</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<table cellspacing="0" class="t_table" style="width:499px"><tr><td width="193">&nbsp;&nbsp;<div align="center"><font size="3">given value（设置值）</font></div><font size="3">&nbsp;&nbsp;</font></td><td width="241"><div align="left"><div align="center"><font size="3">effective value（实际值）</font></div></div></td><td width="64"><div align="left"><div align="center"><font size="3">color</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0 0 0, or 1 0 0</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">1 0 0</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">red</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0 1 0, or 1 1 0</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">1 1 0</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">yellow</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0 0.5 0, or 1 0.5 0</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">1 0.5 0</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">orange</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0 0 1, or 1 0 1</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">1 0 1</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">purple</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0 1 1, or 1 1 1</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">1 1 1</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">white</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0.001 0 0</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">0.001 0 0</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">black</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0.001 1 0</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">0.001 0 0</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">green</font></div></div></td></tr><tr><td width="193"><div align="left"><div align="left"><font size="3">0.001 0 1</font></div></div></td><td width="241"><div align="right"><div align="left"><font size="3">0.001 0 0</font></div></div></td><td width="64"><div align="right"><div align="left"><font size="3">blue</font></div></div></td></tr></table><font size="3">然后我们来调整颜色的深浅，上面说到了</font><br />
+<font size="3"><strong><font color="#ff0000">粒子速度会影响颜色深浅</font></strong></font><font size="3"><font color="#ff0000"><strong>所以在单种颜色中也是同理，数值为0到1之间，数值越大则越亮</strong></font></font><br />
+<img id="aimg_EOGZB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="178" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187818055.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<font size="3">我还是给个例子吧（建议用高频激活查看）</font><br />
+<font size="3">黑色药水粒子：</font><br /><div class="blockcode"><div id="code_AM4"><ol><li>/particle mobSpell ~ ~1 ~ 0 0 0 1 0</ol></div><em onclick="copycode($('code_AM4'));">复制代码</em></div><font size="3">红色药水粒子：</font><br /><div class="blockcode"><div id="code_H5Q"><ol><li>/particle mobSpell ~ ~1 ~ 1 0 0 1 0</ol></div><em onclick="copycode($('code_H5Q'));">复制代码</em></div><font size="3">暗红色药水粒子：</font><br /><div class="blockcode"><div id="code_BpM"><ol><li>/particle mobSpell ~ ~1 ~ 1 0 0 0.5 0</ol></div><em onclick="copycode($('code_BpM'));">复制代码</em></div><font size="3">淡红色（粉色）药水粒子：</font><br /><div class="blockcode"><div id="code_FxC"><ol><li>/particle mobSpell ~ ~1 ~ 1 0.5 0.5 1 0</ol></div><em onclick="copycode($('code_FxC'));">复制代码</em></div><font size="3">黄色药水粒子：</font><br /><div class="blockcode"><div id="code_YSe"><ol><li>/particle mobSpell ~ ~1 ~ 1 1 0 1 0</ol></div><em onclick="copycode($('code_YSe'));">复制代码</em></div><font size="3">淡黄色药水粒子：</font><br /><div class="blockcode"><div id="code_dDw"><ol><li>/particle mobSpell ~ ~1 ~ 1 1 0.5 1 0</ol></div><em onclick="copycode($('code_dDw'));">复制代码</em></div><font size="3">白色药水粒子：</font><br /><div class="blockcode"><div id="code_cx1"><ol><li>/particle mobSpell ~ ~1 ~ 1 1 1 1 0</ol></div><em onclick="copycode($('code_cx1'));">复制代码</em></div><font size="3">论坛背景色粒子（论坛：exm？）：</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br /><div class="blockcode"><div id="code_Ttw"><ol><li>/particle mobSpell ~ ~1 ~ 0.839 0.749 0.588 1 0</ol></div><em onclick="copycode($('code_Ttw'));">复制代码</em></div><font size="3">你问我怎么算的？其实很简单，<font color="#ff0000"><strong>把RGB分别都除以255就行了</strong></font></font><font size="3"><img id="aimg_Xbp1I" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="560" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187818847.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+你说什么？你懒得算？？？</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">好吧给懒人的福利，以下是一些常用颜色的xd、yd、zd、速度的搭配</font><br />
+<font size="3">所有有颜色的粒子都可以使用，包括比较特殊的reddust粒子</font><br />
+<table cellspacing="0" class="t_table" style="width:360px"><tr><td width="72"><font size="3">&nbsp;&nbsp;</font><div align="left"><font face="宋体"><font size="3">颜色</font></font></div><font size="3">&nbsp;&nbsp;</font></td><td width="72"><div align="left"><div align="left"><strong><font size="3"><font color="#ff0000"><font face="宋体">xd</font><font face="宋体">（R）</font></font></font></strong></div></div></td><td width="72"><div align="left"><div align="left"><font size="3"><font color="#00ff00"><strong><font face="宋体">yd</font><font face="宋体">（G）</font></strong></font></font></div></div></td><td width="72"><div align="left"><div align="left"><font size="3"><font color="#0000ff"><strong><font face="宋体">zd</font><font face="宋体">（B）</font></strong></font></font></div></div></td><td width="72"><div align="left"><div align="left"><font face="宋体"><font size="3">速度</font></font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#ff0000"><font size="3"><strong>红色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#ffff00"><font size="3"><strong>黄色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#0000ff"><font size="3"><strong>蓝色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.001</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#00ff00"><font size="3"><strong>绿色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.001</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#9932cc"><font size="3"><strong>紫色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#ffc0cb"><font size="3"><strong>粉色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#8b0000"><font size="3"><strong>深红色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#008000"><font size="3"><strong>深绿色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.001</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#000080"><font size="3"><strong>深蓝色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.001</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#000000"><font size="3"><strong>黑色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.001</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#fffacd"><font size="3"><strong>淡黄色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#48d1cc"><font size="3"><strong>钻石蓝</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.001</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#ffffff"><font size="3"><strong>白色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#ffa500"><font size="3"><strong>橙色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#9acd32"><font size="3"><strong>黄绿色</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.7</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr><tr><td width="72"><div align="left"><div align="left"><font face="宋体"><font color="#98fb98"><font size="3"><strong>宝石绿</strong></font></font></font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.001</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">0.5</font></div></div></td><td width="72"><div align="right"><div align="right"><font size="3">1</font></div></div></td></tr></table><font size="3"><img id="aimg_Vcvr4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：particle指令从入门到放弃hhhhh</font></td></table></div></div><div align="center"><strong><font size="4"><font color="Blue">1.9格式的变化</font></font></strong></div><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3"><img id="aimg_ICCh5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：接着我们来讲下1.9 particle指令格式的变化</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">新增了选择器（玩家）和参数</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_MMG43" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：有什么用呢？</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_qMLYR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：先来讲下选择器（玩家）</font><br />
+<font size="3">如果我们想播放一种粒子，只有特定玩家才能看见，我们就要用选择器了</font><br />
+<font size="3">不过顺便吐槽下，如果用<font color="#ff0000"><strong>@e[c=-1]的话，只有你是最远的实体才能看见</strong></font></font><br />
+<font size="3">但是<strong><font color="#ff0000">@e[c=1]的话即使你不是最近的实体也能看见</font></strong></font><br />
+<font size="3">然后如果加上type=实体，貌似也不代表实体就能看见（至少我用旁观模式看那个生物是看不见粒子效果的）</font><br />
+<font size="3"><img id="aimg_BXU1m" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：接下来讲什么……</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_ua383" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：然后就是参数了，来自英文wiki</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">params (optional)</font><br />
+<font size="3">Allows blockdust, iconcrack, blockcrack and fallingdust to be modified to view a specific item or block. Two parameters are accepted for iconcrack.</font><br />
+<font size="3"><img id="aimg_xn8Rn" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />or blockdust, blockcrack and fallingdust, the params argument specifies a numeric id (block only) and a data value, using a single number: id+(data×4096).</font><br />
+<font size="3"><img id="aimg_g0lFn" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />or iconcrack, two params arguments specify the numeric id (block id or item id) and the data value separately.</font><br />
+<font size="3">简单来说就是格式改了</font><br />
+<font size="3">之前在1.8中，如果我们要实现类似吃东西或者是打掉方块的粒子是这样的：</font><br /><div class="blockcode"><div id="code_Ip2"><ol><li>/particle iconcrack_物品id_数据值 x y z xd yd zd 速度 数量 模式</ol></div><em onclick="copycode($('code_Ip2'));">复制代码</em></div><div class="blockcode"><div id="code_Lcv"><ol><li>/particle blockcrack_物品id+数据值×4096 x y z xd yd zd 速度 数量 模式</ol></div><em onclick="copycode($('code_Lcv'));">复制代码</em></div><font size="3">但是<font color="#ff0000"><strong>1.9+有了参数后，就把物品ID和数据值移到后面去了</strong></font>，变成这样：</font><br /><div class="blockcode"><div id="code_K1g"><ol><li>/particle iconcrack x y z xd yd zd 速度 数量 模式 选择器 物品id 数据值</ol></div><em onclick="copycode($('code_K1g'));">复制代码</em></div><div class="blockcode"><div id="code_A66"><ol><li>/particle blockcrack x y z xd yd zd 速度 数量 模式 选择器 物品id+数据值×4096</ol></div><em onclick="copycode($('code_A66'));">复制代码</em></div><font size="3">注意iconcrack的粒子可以有2个参数，一个物品ID，一个数据值</font><br />
+<font size="3">例子1.9+：（建议用高频激活查看）</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">吃生鲑鱼的粒子是：</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br /><div class="blockcode"><div id="code_ej5"><ol><li>/particle iconcrack ~ ~1 ~ 0 0 0 0 1 force @a 349 1</ol></div><em onclick="copycode($('code_ej5'));">复制代码</em></div><font size="3">吃红石染色玻璃的粒子（What？）：</font><br /><div class="blockcode"><div id="code_WiL"><ol><li>/particle iconcrack ~ ~1 ~ 0 0 0 0 1 force @a 95 14</ol></div><em onclick="copycode($('code_WiL'));">复制代码</em></div><font size="3">吃丢失材质的粒子（什么鬼？）：</font><br /><div class="blockcode"><div id="code_Kkh"><ol><li>/particle iconcrack ~ ~1 ~ 0 0 0 0 1 force @a 0</ol></div><em onclick="copycode($('code_Kkh'));">复制代码</em></div><font size="3">打掉普通石头的粒子</font><br /><div class="blockcode"><div id="code_f4r"><ol><li>/particle blockcrack ~ ~1 ~ 0 0 0 0 1 force @a 1</ol></div><em onclick="copycode($('code_f4r'));">复制代码</em></div><font size="3">打掉花岗岩的粒子</font><br /><div class="blockcode"><div id="code_QxB"><ol><li>/particle blockcrack ~ ~1 ~ 0 0 0 0 1 force @a 4097</ol></div><em onclick="copycode($('code_QxB'));">复制代码</em></div><font size="3">打掉红色粘土的粒子</font><br /><div class="blockcode"><div id="code_GOj"><ol><li>/particle blockcrack ~ ~1 ~ 0 0 0 0 1 force @a 57503</ol></div><em onclick="copycode($('code_GOj'));">复制代码</em></div></td></table></div></div><div align="center"><font size="4"><strong><font color="Blue">另外两个带有参数的粒子</font></strong></font></div><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><font size="3">最后我们来讲讲另外两个有参数的粒子blockdust（wiki记录是在携带版添加？？？）、fallingdust（在1.10添加）</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3">blockdust：破坏盔甲架，跌落（和打掉方块有点区别）</font><br />
+<font size="3">fallingdust：浮空的沙子、红沙、沙砾和铁砧</font><br />
+<font size="3"><img id="aimg_IkqGk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：先讲下blockdust，我一直以为跌落和破坏方块是一个粒子</font><br />
+<font size="3"><img id="aimg_Pw35J" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：<font color="#ff0000"><strong>两个是不一样的</strong></font>，打掉方块粒子是由中心向旁边发散，而跌落是由中间向旁边发散，并且距离较大</font><font size="3">下面这个图就是很好的对比，各个参数都是一样的，但是效果不一样</font><br />
+<img id="aimg_DQh9b" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="387" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819749.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<font size="3">注：<font color="#ff0000"><strong>该粒子的格式和打掉方块的粒子差不多</strong></font></font><br />
+<font size="3"><img id="aimg_hU2Us" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/character.gif" border="0" alt="" />：那fallingdust是干嘛用的</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_lKEcG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：这个是粒子是用来提示玩家旁边有浮空的沙子等东西用的（看来Notch修不了生成的BUG）</font><br />
+<font size="3"><img id="aimg_yQKBk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://www.mcbbs.net/static/image/smiley/mc_mob_food_plants/notch_square.gif" border="0" alt="" />：怪我咯？给你们提示粒子了啊……</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<font size="3"><img id="aimg_hzT0x" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="24" height="24" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147151737383.png" border="0" alt="" />：不过如果我们去播放粒子，格式和打掉方块是一样的，不仅可以播放沙子什么的，其他方块也行（特殊的除外），<font color="#ff0000"><strong>并且只有一种颜色（纯色）</strong></font></font><br />
+<font size="3">下面是例子：</font><br />
+<font size="3"><img id="aimg_P5au6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="315" height="292" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819439.jpg" border="0" alt="" /><br />
+橙色命令方块：</font><br /><div class="blockcode"><div id="code_lTA"><ol><li>/particle fallingdust ~ ~1 ~ 0.2 0.2 0.2 1 1 force @a 137</ol></div><em onclick="copycode($('code_lTA'));">复制代码</em></div><img id="aimg_e9C9Q" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="307" height="332" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819694.jpg" border="0" alt="" /><br />
+<font size="3">绿色命令方块：</font><br /><div class="blockcode"><div id="code_rQ7"><ol><li>/particle fallingdust ~ ~1 ~ 0.2 0.2 0.2 1 1 force @a 211</ol></div><em onclick="copycode($('code_rQ7'));">复制代码</em></div><img id="aimg_YOZ01" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="264" height="250" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819638.jpg" border="0" alt="" /><br />
+<font size="3">紫色命令方块：</font><br /><div class="blockcode"><div id="code_IzZ"><ol><li>/particle fallingdust ~ ~1 ~ 0.2 0.2 0.2 1 1 force @a 210</ol></div><em onclick="copycode($('code_IzZ'));">复制代码</em></div><img id="aimg_QG2B3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="297" height="269" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819037.jpg" border="0" alt="" /><br />
+<font size="3">绿色羊毛（35+5×4096=20515</font><font size="3">）：</font><br /><div class="blockcode"><div id="code_k6g"><ol><li>/particle fallingdust ~ ~1 ~ 0.2 0.2 0.2 1 1 force @a 20515</ol></div><em onclick="copycode($('code_k6g'));">复制代码</em></div><img id="aimg_eHeIB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="332" height="287" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819239.jpg" border="0" alt="" /><br />
+<font size="3">红石粉：</font><br /><div class="blockcode"><div id="code_jKH"><ol><li>/particle fallingdust ~ ~1 ~ 0.2 0.2 0.2 1 1 force @a 51</ol></div><em onclick="copycode($('code_jKH'));">复制代码</em></div><font size="3">空气（纯黑？？？？）：</font><br /><div class="blockcode"><div id="code_I7o"><ol><li>/particle fallingdust ~ ~1 ~ 0.2 0.2 0.2 1 1 force @a 0</ol></div><em onclick="copycode($('code_I7o'));">复制代码</em></div><font size="3">顺便，<strong><font color="#ff0000">用这种粒子还可以人造雪</font></strong>哦，简直6666，地图党新技能Get√</font> <a href="http://www.mcbbs.net/thread-625963-1-1.html" target="_blank"><font color="#D6BF96">防盗链接</font></a><br />
+<img id="aimg_WL22W" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819805.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<img id="aimg_yiiaA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/147187819861.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<font size="3">紫色命令方块激活指令（仅限1.10+）：</font><div class="blockcode"><div id="code_hxZ"><ol><li>/particle fallingdust ~ ~10 ~ 10 1 10 1 100 force @a 80</ol></div><em onclick="copycode($('code_hxZ'));">复制代码</em></div><font size="3">然后在命令方块上面10格的10*10的范围内就会下雪了，坐标大家可以自己调，范围和生成数量也是，<font color="#ff0000"><strong>注意不要一下子调太大</strong></font>，你懂得</font></td></table></div></div><div align="center"><img id="aimg_ykkCq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="148" height="88" src="http://cfpii.img48.wal8.com/img48/555212_20160818184746/14717552712.png" border="0" alt="" /></div>[groupid=534]InfinityStudio[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Green_stone&nbsp; &nbsp; <b>时间: </b>2016-8-23 21:31<br />
+非常优秀、非常全面的particle教程，和execute简直是绝配，让我了解了更多知识<strike>黑科技</strike>！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>史蒂夫勇者&nbsp; &nbsp; <b>时间: </b>2016-8-23 22:22<br />
+这粒子效果刺瞎了我的双眼<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>阴阳师元素祭祀&nbsp; &nbsp; <b>时间: </b>2016-8-24 11:56<br />
+不是很懂1.9+选择器是干嘛<br />
+还有模式是什么鬼<br />
+<br />
+[s]来自你们所说的不是咸鱼的人<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2016-8-24 12:12<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10847423&amp;ptid=625963" target="_blank"><font color="#999999">阴阳师元素祭祀 发表于 2016-8-24 11:56</font></a></font><br />
+不是很懂1.9+选择器是干嘛<br />
+还有模式是什么鬼</blockquote></div><br />
+不知道你有没有看到某人做的红外线，只有带上眼镜才能看到红外线<br />
+然后红外线是粒子，懂了吧<br />
+<br />
+模式啊，不去看看wiki？<br />
+<br />
+来自wiki<br />
+模式(可选)<br />
+指定显示模式。可为 anything 但仅force会拥有一个效果:允许粒子在通常的16方块半径外被看见。<br />
+1.9后改成32了好像<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2016-8-24 14:24<br />
+没记错的话红石粒子能够通过将红色设成负数来抵消默认的自带红色<br />
+不知现在还能不能<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2016-8-24 18:17<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10848566&amp;ptid=625963" target="_blank"><font color="#999999">chyx 发表于 2016-8-24 14:24</font></a></font><br />
+没记错的话红石粒子能够通过将红色设成负数来抵消默认的自带红色<br />
+不知现在还能不能 ...</blockquote></div><br />
+1.9以后貌似不能了，-1是暗红色？<br />
+<img id="aimg_pYmhM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="189" src="http://i4.buimg.com/567571/b0eddcd58790fbcf.jpg" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+不过你让我发现了个神奇的东西，一会写上2333<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Deing&nbsp; &nbsp; <b>时间: </b>2016-8-24 18:59<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10847485&amp;ptid=625963" target="_blank"><font color="#999999">FHC红石 发表于 2016-8-24 12:12</font></a></font><br />
+不知道你有没有看到某人做的红外线，只有带上眼镜才能看到红外线<br />
+然后红外线是粒子，懂了吧</blockquote></div><br />
+这是说那个选择器可以带数据值？还是只能选@p[]这种？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2016-8-24 19:10<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10850305&amp;ptid=625963" target="_blank"><font color="#999999">Deing 发表于 2016-8-24 18:59</font></a></font><br />
+这是说那个选择器可以带数据值？还是只能选@p[]这种？</blockquote></div><br />
+例如@a[score_a_min=1]是可以的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MY200378&nbsp; &nbsp; <b>时间: </b>2016-8-25 11:05<br />
+图挂啦！！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>python_&nbsp; &nbsp; <b>时间: </b>2016-8-25 16:38<br />
+哦，知道了，原来是这样<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>buhuichongfu&nbsp; &nbsp; <b>时间: </b>2016-8-26 15:43<br />
+以前很讨厌喝药后的粒子效果，太粗糙了。<br />
+<br />
+不过这个技术用于RPG可能会很有趣。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>言之安&nbsp; &nbsp; <b>时间: </b>2016-9-1 15:55<br />
+我想明白 <br />
+particle 粒子名 x坐标 y坐标 z坐标 x方向长度 y方向长度 z方向长度 速度 数量 模式 选择器（玩家） 参数<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;↑<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;指的是看的见的玩家还是 在玩家身上播放？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>言之安&nbsp; &nbsp; <b>时间: </b>2016-9-1 16:19<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=10899756&amp;ptid=625963" target="_blank"><font color="#999999">言之安 发表于 2016-9-1 15:55</font></a></font><br />
+我想明白 <br />
+particle 粒子名 x坐标 y坐标 z坐标 x方向长度 y方向长度 z方向长度 速度 数量 模式 选择器（玩 ...</blockquote></div><br />
+已经用过测试了解到了，这里的选择器是指能看得见的玩家<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Sweet2zz&nbsp; &nbsp; <b>时间: </b>2016-9-2 19:38<br />
+{:10_492:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>幻境雲達達&nbsp; &nbsp; <b>时间: </b>2016-9-20 23:55<br />
+服务端插件: exm?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pyb09&nbsp; &nbsp; <b>时间: </b>2016-10-4 09:58<br />
+好好看qwq<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>MC.cdasc&nbsp; &nbsp; <b>时间: </b>2016-10-27 19:48<br />
+mobspellambient是信标药水粒子。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2016-10-27 21:38<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11102771&amp;ptid=625963" target="_blank"><font color="#999999">MC.cdasc 发表于 2016-10-27 19:48</font></a></font><br />
+mobspellambient是信标药水粒子。。。</blockquote></div><br />
+信标的药水粒子就是普通的药水粒子吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2017-1-14 22:45<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2017-1-14 22:50 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11103194&amp;ptid=625963" target="_blank"><font color="#999999">FHC红石 发表于 2016-10-27 21:38</font></a></font><br />
+信标的药水粒子就是普通的药水粒子吧</blockquote></div><br />
+一个是半透明的 一个不是（印象里）<br />
+<br />
+<br />
+信标造成的是那个半透明的（不然玩家在周围永远能看见烟雾很不好对吧）<br />
+在实体（包括玩家）的那个药水的NBT里就有的 你可以查查看<br />
+<br />
+这两种效果用了两种烟雾粒子实现<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>awd410842&nbsp; &nbsp; <b>时间: </b>2017-2-4 14:52<br />
+有一个蛋疼的问题是服务器用命令方块后台会刷大量的命令信息，就像客户端开了gamerule CommandBlockOutput true一样，没找到办法关闭这个，日志文件被刷爆了。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2017-2-4 15:33<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11465739&amp;ptid=625963" target="_blank"><font color="#999999">awd410842 发表于 2017-2-4 14:52</font></a></font><br />
+有一个蛋疼的问题是服务器用命令方块后台会刷大量的命令信息，就像客户端开了gamerule CommandBlockOutput&nbsp;&nbsp;...</blockquote></div><br />
+/gamerule logAdminCommands false<br />
+关闭日志输出<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Belanga&nbsp; &nbsp; <b>时间: </b>2017-2-10 12:32<br />
+自定义颜色的粒子的大小是固定的吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2017-2-21 21:54<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=11551840&amp;ptid=625963" target="_blank"><font color="#999999">nxy 发表于 2017-2-21 22:03</font></a></font><br />
+我在想粒子那么多会不会卡</blockquote></div><br />
+你不知道MOJANG已经优化了粒子吗，不会那么卡了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>nxy&nbsp; &nbsp; <b>时间: </b>2017-2-21 22:03<br />
+我在想粒子那么多会不会卡<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>瑞林&nbsp; &nbsp; <b>时间: </b>2017-3-18 13:19<br />
+例如@a[score_a_min=1]是可以的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>qq501877070&nbsp; &nbsp; <b>时间: </b>2019-3-2 17:46<br />
+大佬，我就想知道一下除了op，是如何给生存玩家有粒子指令的权限的。网上都找不到的。谢谢了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>何合禾河豚&nbsp; &nbsp; <b>时间: </b>2019-3-31 23:48<br />
+学到了！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>woc159357&nbsp; &nbsp; <b>时间: </b>2019-7-4 15:49<br />
+这粒子效果刺瞎了我的双眼<img src="static/image/smiley/rabbit/46.gif" smilieid="696" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>落迁&nbsp; &nbsp; <b>时间: </b>2020-1-11 22:36<br />
+如果想自定义颜色的同时又弄扩散范围，要怎么做到<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>神探王&nbsp; &nbsp; <b>时间: </b>2020-1-12 00:00<br />
+学到了学到了6666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lvxigua&nbsp; &nbsp; <b>时间: </b>2020-1-13 16:19<br />
+学到了，这个可以拿来做mm怪物出厂特效，可以直接用commond,跟effect搭配使用<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>CXiu&nbsp; &nbsp; <b>时间: </b>2020-1-14 11:43<br />
+神乎奇迹 6的飞起<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ATWY&nbsp; &nbsp; <b>时间: </b>2020-2-18 14:17<br />
+感谢分享！！！收藏了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>taolu&nbsp; &nbsp; <b>时间: </b>2020-2-23 22:52<br />
+问一下，如何在全部支持的版本清除particles，我唯一找到的是说1.13以上可以用kill但是1.13以上通过kill只能清除药水效果云，不能清除particle生成的粒子。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2020-2-23 23:07<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=16529794&amp;ptid=625963" target="_blank"><font color="#999999">taolu 发表于 2020-2-23 22:52</font></a></font><br />
+问一下，如何在全部支持的版本清除particles，我唯一找到的是说1.13以上可以用kill但是1.13以上通过kill只 ...</blockquote></div><br />
+particle不属于实体，永远不能被kill<br />
+所以只能等他自然消失<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hf1005hf&nbsp; &nbsp; <b>时间: </b>2020-6-9 21:36<br />
+要怎么制作一个圆形的粒子效果<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2020-6-10 00:37<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18502640&amp;ptid=625963" target="_blank"><font color="#999999">hf1005hf 发表于 2020-6-9 21:36</font></a></font><br />
+要怎么制作一个圆形的粒子效果</blockquote></div><br />
+球形吗，好像不太好做形状呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hf1005hf&nbsp; &nbsp; <b>时间: </b>2020-6-11 13:12<br />
+<div class="quote"><blockquote><font color="#999999">爱心魔王FHC 发表于 2020-6-10 00:37</font><br />
+<font color="#999999">球形吗，好像不太好做形状呢</font></blockquote></div><br />
+我有一个想法是拿船先摆成一个圆形,tp到一起再在面前放梨子,不过不知道怎么实现<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2020-6-11 13:25<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=18518174&amp;ptid=625963" target="_blank"><font color="#999999">hf1005hf 发表于 2020-6-11 13:12</font></a></font><br />
+我有一个想法是拿船先摆成一个圆形,tp到一起再在面前放梨子,不过不知道怎么实现 ...</blockquote></div><br />
+可以去问答版问问呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱吃萝卜和青菜&nbsp; &nbsp; <b>时间: </b>2020-8-26 13:26<br />
+设置的粒子特效还用开到最满吗&nbsp;&nbsp;还是跟这没关系？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2020-8-26 13:30<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=19692331&amp;ptid=625963" target="_blank"><font color="#999999">爱吃萝卜和青菜 发表于 2020-8-26 13:26</font></a></font><br />
+设置的粒子特效还用开到最满吗&nbsp;&nbsp;还是跟这没关系？</blockquote></div><br />
+如果你关掉了肯定看不见粒子啊，所以一般开最满吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱吃萝卜和青菜&nbsp; &nbsp; <b>时间: </b>2020-8-26 13:32<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=19692417&amp;ptid=625963" target="_blank"><font color="#999999">爱心魔王FHC 发表于 2020-8-26 13:30</font></a></font><br />
+如果你关掉了肯定看不见粒子啊，所以一般开最满吧</blockquote></div><br />
+开一半有效果没&nbsp;&nbsp;<br />
+服务器会卡吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2020-8-26 13:46<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=19692441&amp;ptid=625963" target="_blank"><font color="#999999">爱吃萝卜和青菜 发表于 2020-8-26 13:32</font></a></font><br />
+开一半有效果没&nbsp;&nbsp;<br />
+服务器会卡吗</blockquote></div><br />
+开一半粒子效果会少好像，服务器的话，看玩家电脑配置，一点粒子对服务器影响不大<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>晚风拂槐&nbsp; &nbsp; <b>时间: </b>2020-8-26 13:53<br />
+学费了..<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱吃萝卜和青菜&nbsp; &nbsp; <b>时间: </b>2020-8-26 14:08<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=19692661&amp;ptid=625963" target="_blank"><font color="#999999">爱心魔王FHC 发表于 2020-8-26 13:46</font></a></font><br />
+开一半粒子效果会少好像，服务器的话，看玩家电脑配置，一点粒子对服务器影响不大 ...</blockquote></div><br />
+感谢 知道了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>wch20080208&nbsp; &nbsp; <b>时间: </b>2020-8-28 08:34<br />
+好复杂嗷嗷<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>davwq&nbsp; &nbsp; <b>时间: </b>2020-8-28 11:37<br />
+这教程太详细了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>we20&nbsp; &nbsp; <b>时间: </b>2020-9-23 13:07<br />
+火钳刘明A.A<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>刚好动情&nbsp; &nbsp; <b>时间: </b>2020-9-26 11:37<br />
+666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>刘洋洋LiuYang&nbsp; &nbsp; <b>时间: </b>2020-10-1 11:51<br />
+非常棒的模组 支持！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Mikatsukida&nbsp; &nbsp; <b>时间: </b>2020-10-2 11:28<br />
+感谢大佬ww学到惹学到惹
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §д : 音效 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODM4MTEtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 音效 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-9 19:32<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 音效<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-9 20:27 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（附）效果指令</strong></font></font></div><div align="center"><font size="1"><strong>第二页为 自定义音效和playsound教程</strong></font></div><div align="left">效果指令作为语句的一个输出，通常为<strong>对游戏本体产生影响效果操作的指令</strong>。</div><br />
+<div align="left">效果指令包含以下内容</div><br />
+<div align="left"><strong>实意指令与效果指令区别</strong></div><br />
+<div align="left"><strong>文字</strong></div><ul><li><div align="left">json</div><li><div align="left">其他</div><br />
+</ul><div align="left"><strong>物品操作</strong></div><ul><li><div align="left">give</div><li><div align="left">replaceitem</div><br />
+</ul><div align="left"><strong>实体操作</strong></div><ul><li><div align="left">summon</div><li><div align="left">kill</div><br />
+</ul><div align="left"><strong>方块操作</strong></div><ul><li><div align="left">setblock</div><li><div align="left">clone</div><li><div align="left">fill</div><br />
+</ul><div align="left"><strong>音效</strong></div><ul><li><div align="left">playsound大全</div><br />
+</ul><div align="left"><strong>粒子效果</strong></div><ul><li><div align="left">粒子大全</div><br />
+</ul><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-483350-1-1.html" target="_blank">上一篇</a>（</font><font size="5">方块操作</font><font size="5">）--<a href="http://www.mcbbs.net/thread-483844-1-1.html" target="_blank">下一篇</a>（粒子效果）</font></div><div align="right"><div align="left"></div><div align="left"><font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>д</strong></font></font><strong>.6 音效</strong><br />
+<div align="left"><strong>第三页为 playsound大全</strong></div><br />
+输出中除了形上的输出，也有<strong>声音的输出</strong>。<br />
+因为一些局限性，官方提供的音源<strong>仅限于mc原版声源</strong>。<br />
+<br />
+<font size="4"><strong>但是还是有方法自定义声音：</strong></font><br />
+<a href="http://tieba.baidu.com/p/3099383641" target="_blank">http://tieba.baidu.com/p/3099383641</a><br />
+<br />
+<br />
+<strong>Playsound基本格式：</strong><br />
+/playsound 声音名字 对象 坐标 音量 音调 最小音量<br />
+<br />
+<strong>声音名字</strong> - 参见后面的大全，也可以是自定义声音；<br />
+<strong>对象</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 玩家选择器；<br />
+<strong>坐标</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 播放声音的坐标；<br />
+<strong>音量</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 一个小于2的浮点数，控制最大音量；<br />
+<strong>音调</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 音调不解释，如果是乐器音就是音高；<br />
+<strong>最小音量</strong> - 最小音量，小于这个数就没有声音，也就是定义一个范围。<br />
+<br />
+<br />
+其中坐标可以使用条件语句<strong>相对性</strong>：<br /><div class="blockcode"><div id="code_Xtz"><ol><li>/execute 对象 ~ ~ ~ /playsound 声音 对象 ~ ~ ~ 音量 音调 最小音量</ol></div><em onclick="copycode($('code_Xtz'));">复制代码</em></div>就能直接<strong>给对象播放声音</strong><br />
+<br />
+比如<br /><div class="blockcode"><div id="code_J4T"><ol><li>/execute @a ~ ~ ~ /playsound mob.endermen.stare @a ~ ~ ~ 2 0.5 1</ol></div><em onclick="copycode($('code_J4T'));">复制代码</em></div>就是末影人的某个声音<br />
+<br />
+<strong>其中音调比较有意思，可以利用它达到伪其他声音。</strong><br />
+<strong>最小音量就是范围，如果离音源音量小于这个量就无法听到。</strong><br />
+<strong><br />
+</strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>?</strong><strong>д</strong></font></font><strong>.6.1 playsound大全</strong><br />
+<br />
+<strong><font size="4">以下内容来自：</font></strong><a href="http://www.mcbbs.net/thread-146334-1-1.html" target="_blank"><strong><font size="4">http://www.mcbbs.net/thread-146334-1-1.html</font></strong></a><br />
+<br />
+1 - ambient.cave.cave [洞穴的声音]<br />
+2 - ambient.weather.rain [下雨的声音]<br />
+3 - ambient.weather.thunder [打雷的声音]<br />
+-------------------------------------------------------<br />
+4 - damage.fallbing [掉落伤害的声音(大的伤害)]<br />
+5 - damage.fallsmall [掉落伤害的声音(小的伤害)]<br />
+6 - damage.hit [被撸的声音]<br />
+-------------------------------------------------------<br />
+7 - dig.cloth [挖羊毛的声音？ 求人翻译]<br />
+8 - dig.grass [挖草方块的声音]<br />
+9 - dig.gravel [挖沙砾的声音]<br />
+10 - dig.sand [挖沙子的声音]<br />
+11 - dig.snow [挖雪块的声音]<br />
+12 - dig.stone [挖石头的声音(咚咚咚！)]<br />
+--------------------------------------------------------<br />
+14 - fire.fire [火烧的声音]<br />
+15 - fire.ingnite [打火石打火的声音]<br />
+--------------------------------------------------------<br />
+16 - fireworks.blast_far [烟花爆炸的声音(远距离发射，带有回声)]<br />
+17 - fireworks.blast1 [烟花爆炸的声音]<br />
+18 - fireworks.largeBlast_far [大型烟花炸的声音(远距离发射，带有回声)]<br />
+19 - fireworks.largeBlast [大型烟花(指的是被烈焰弹加工的烟花)爆炸的声音]<br />
+20 - fireworks.launch [烟花发射的声音 piu~]21 - 待编辑<br />
+22 - 待编辑<br />
+---------------------------------------------------------<br />
+23 - liquid.lava [岩浆的声音]<br />
+23 - liquid.lavapop [岩浆的声音(动态活跃的)]<br />
+24 - liquid.splash [液体溅起的声音(应该指的是岩浆)]<br />
+26 - liquid.swim [游泳的声音？]<br />
+27 - liquid.water [水的声音 哗啦哗啦~]<br />
+----------------------------------------------------------<br />
+28 - minecart.base [矿车移动的声音]<br />
+29 - minecart.inside [矿车移动的声音(玩家坐在里面时候的声音)]<br />
+----------------------------------------------------------<br />
+30 - mob.bat.death [蝙蝠死亡的声音]<br />
+31 - mob.bat.hurt [蝙蝠受到伤害的声音]<br />
+32 - mob.bat.idle [蝙蝠游荡的声音]<br />
+33 - mob.bat.loop [蝙蝠飞行的声音(翼膜扇动的声音)]<br />
+34 - mob.bat.takeoff [蝙蝠停靠的声音(翼膜收起来的声音)]<br />
+-----------------------------------------------------------<br />
+35 - mob.blaze.breathe [烈焰人呼吸的声音(字面翻译)]<br />
+36 - mob.blaze.death [烈焰人死亡的声音]<br />
+37 - mob.blaze.hit [烈焰人被撸的声音]<br />
+-----------------------------------------------------------<br />
+38 - mob.cat.hiss [猫发出嘶嘶声(尼玛我怎么不知道猫有这种声音！)]<br />
+39 - mob.cat.hitt [猫被撸的声音(喵QAQ)]<br />
+40 - mob.cat.meow [喵喵~]<br />
+41 - mob.cat.purr [猫咕噜咕噜的声音(字面翻译也是这个意思 只有细心的人才能听到吧)]<br />
+42 - mob.cat.purreow [猫呜呜的声音(我自己听到的= =)]-----------------------------------------------------------<br />
+43 - mob.chicken.hurt [小鸡被撸的声音]<br />
+44 - mob.chickken.plop [小鸡出鸡蛋的声音~]<br />
+45 - mob.chicken.say [小鸡普通叫的声音~]46 - mob.chicken.step [意味不明]<br />
+------------------------------------------------------------<br />
+<br />
+50 - mob.creeper.death [苦力怕死亡的声音]<br />
+51 - mob.creeper.say [<br />
+------------------------------------------------------------<br />
+52 - mob.enderdragon.end [末影龙最后蛋碎的声音]<br />
+53 - mob.enderdragon.growl [魔影龙咆哮的声音 哇哦~]<br />
+54 - mob.enderdragon.hit [末影龙被撸的声音]<br />
+55 - mob.enderdragon.wings [末影龙飞行的声音(翅膀扇动)]<br />
+------------------------------------------------------------<br />
+56 - mob.endermen.death [末影人死亡的声音 额耶耶~]<br />
+57 - mob.endermen.hit [末影人被撸的声音]<br />
+58 - mob.endermen.idel [末影人没事干的声音]<br />
+59 - mob.endermen.portal [末影人瞬移的声音]<br />
+60 - mob.endermen.scream [末影人被激怒的声音]<br />
+61 - mob.endermen.stare [你盯着末影人看的时候，发出的很恐怖的声音···试试看吧···]<br />
+-------------------------------------------------------------<br />
+62 - mob.ghast.affectionate_scream [恶魂向你示爱的声音]<br />
+63 - mob.ghast.charge [恶魂准备发射烈焰弹的声音]<br />
+64 - mob.ghast.death [恶魂死亡的声音]<br />
+65 - mob.ghast.fireball [烈焰弹被发射的声音]<br />
+66 - mob.ghast.moan [恶魂没事干的声音 呜呜~]<br />
+67 - mob.ghast.scream [恶魂哭泣的声音]<br />
+--------------------------------------------------------------<br />
+这些声音 马 可是没有包括进去的哦(太多了)<img src="static/image/smiley/mc_mob_food_plants/creeper.gif" smilieid="832" border="0" alt="" /><br />
+--------------------------------------------------------------<br />
+68 - mob.irongolem.death [铁傀儡死亡的声音]<br />
+69 - mob.irongolem.hit [铁傀儡被撸的声音]<br />
+70 - mob.irongolem.throw [铁傀儡挥手的声音]<br />
+71 - mob.irongolem.walk [铁傀儡走动(踏地)的声音]<br />
+--------------------------------------------------------------<br />
+72 - mob.magmacube.big [大型岩浆怪的声音]<br />
+73 - mob.magmacube.jump [岩浆怪跳动的声音]<br />
+74 - mob.magmacube.small [小型岩浆怪的声音]<br />
+-------------------------------------------------------------<br />
+75 - mob.pig.death [猪死亡的声音]<br />
+76 - mob.pig.say [猪普通的声音]<br />
+77 - mob.pig.step [意味不明]<br />
+-------------------------------------------------<br />
+78 - mob.sheep.say [羊：咩~]<br />
+79 - mob.sheep.shear [羊的毛被剪下的声音]<br />
+80 - mob.sheep.step [意味不明]<br />
+-------------------------------------------------<br />
+81 - mob.silverfish.hit [蠹鱼被撸的声音]<br />
+82 - mob.silverfish.kill [蠹鱼被杀死的声音]<br />
+83 - mob.silverfish.say [蠹鱼普通的声音]<br />
+84 - mob.silverfish.step [意味不明]<br />
+-------------------------------------------------<br />
+85 - mob.skeleton.death [骷髅死亡的声音]<br />
+86 - mob.skeleton.hurt [骷髅被撸的声音]<br />
+87 - mob.skeleton.say [骷髅普通的声音]<br />
+88 - mob.skeleton.step [意味不明]<br />
+-------------------------------------------------<br />
+89 - mob.slime.attack [史莱姆扑你的声音~]<br />
+90 - mob.slime.big [大史莱姆的声音]<br />
+91 - mob.slime.small [小史莱姆的声音]<br />
+-------------------------------------------------<br />
+92 - mob.spider.death [蜘蛛死亡的声音]<br />
+93 - mob.spider.say [蜘蛛普通的声音]<br />
+94 - mob.spider.step [STEP各种意味不明]<br />
+-------------------------------------------------<br />
+95 - mob.villager.death [村民死亡的声音]<br />
+96 - mob.villager.haggle [村民讨价还价的声音(机翻= =)]<br />
+97 - mob.villager.hit [村民被撸的声音]<br />
+98 - mob.villager.idle [村民空闲时候的声音]<br />
+99 - mob.villager.no [村民抱怨的声音(把交易物品放上去之后拿下来就会发出这种声音)]<br />
+100 - mob.villager.yes [与村民交易完毕后的声音]<br />
+-------------------------------------------------<br />
+101 - mob.wither.death [凋零死亡的声音]<br />
+102 - mob.wither.hurt [凋零被撸的声音]<br />
+103 - mob.wither.idle [凋零空闲的声音]<br />
+104 - mob.wither.shoot [凋零射♂击的声音]<br />
+105 - mob.wither.spawn [凋零出生的声音(摆好召唤阵之后的可怕声音)]<br />
+-------------------------------------------------<br />
+106 - mob.wolf.bark [狼在吼的声音]<br />
+107 - mob.wolf.death [狼死亡的声音]<br />
+108 - mob.wolf.growl [狼被激怒的声音]<br />
+109 - mob.wolf.howl [狼在月光下吼叫的声音(嗷呜~~ 尼玛我怎么不知道有这声音！)]<br />
+110 - mob.wolf.hurt [狼被撸的声音]<br />
+111 - mob.wolf.panting [狼呼吸(吐舌头)的声音]<br />
+112 - mob.wolf.shake [狼抖动的声音(我咋不知道有这声音···)]<br />
+113 - mob.wolf.step [意味不明]<br />
+114 - mob.wolf.whine [狼悲鸣的声音]<br />
+-------------------------------------------------<br />
+115 - mob.zombie.death [僵尸死亡的声音]<br />
+116 - mob.zombie.hurt [僵尸受到伤害的声音]<br />
+117 - mob.zombie.infect [僵尸把村民感染的声音]<br />
+118 - mob.zombie.metal [不明]<br />
+119 - mob.zombie.say [僵尸普通呜哇的声音]<br />
+120 - mob.zombie.step [意味不明]<br />
+121 - mob.zombie.remedy [村民僵尸被治疗后的破壳声···]<br />
+122 - mob.zombie.unfect [意味不明(难不成是村民僵尸被治疗的第二种声音？)]<br />
+123 - mob.zombie.wood [你好~僵尸快递~麻烦把门开开~]<br />
+124 - mob.zombie.woodbreak [僵尸拆迁队把木门拆了的声音]<br />
+-------------------------------------------------<br />
+125 - mob.zombiepig.zpig [僵尸猪人普通的声音]<br />
+126 - mob.zombiepig.zpigangry [僵尸猪人被激怒的声音]<br />
+127 - mob.zombiepig.zpigdeath [僵尸猪人死亡的声音]<br />
+128 - mob.zombiepig.zpighurt [僵尸猪人受到伤害的声音]-------------------------------------------------<br />
+129 - note.bass [音符盒发出的贝斯声]<br />
+130 - note.bassattack [不明 声音与上面的差不多]<br />
+131 - note.bd [不知道···本人对音乐不是很熟悉]<br />
+132 - note.harp [音符盒发出的钢琴声(请不要吐槽是竖琴,在游戏中实际是钢琴声)]<br />
+133 - note.hat [应该是发出的滴答声]<br />
+134 - note.pling [吉他声 (未在游戏中使用)]<br />
+135 - note.snare [音符盒发出的小鼓声音]<br />
+-------------------------------------------------<br />
+136 - portal.portal [地狱传送门的声音]<br />
+137 - portal.travel [通过地狱传送门传送到另一地点后的声音(好像是)]<br />
+138 - portal.trigger [地狱传送门正在传送的声音]<br />
+-------------------------------------------------<br />
+139 - random.anvil_break [铁砧损坏的声音]<br />
+140 - random.anvil_land [铁砧放置的声音]<br />
+141 - random.anvil_use [铁砧使用的声音]<br />
+142 - random.bow [箭射出去的声音]<br />
+143 - random.bowhit [箭射中目标或落在地上的声音]<br />
+144 - random.break [工具损坏的声音]<br />
+145 - random.breath [呼吸声？？？ 意味不明]<br />
+146 - random.burp [吃完食物后的声音]<br />
+147 - random.chestclosed [箱子关闭的声音]<br />
+148 - random.chestopen [箱子打开的声音]<br />
+149 - random.classic_hurt [Classic版MC受到伤害的声音(MOJANG还留着！)]<br />
+150 - random.click [发射器/投掷器 发射的声音]<br />
+151 - random.door_close [关门的声音]<br />
+152 - random.door_open [开门的声音]<br />
+153 - random.drink [喝 水/药水 的声音]<br />
+154 - random.eat [吃东西的声音]<br />
+155 - random.explode [爆炸的声音]<br />
+156 - random.fizz [嘶嘶声(应该是苦力怕的)]<br />
+157 - random.fuse [苦力怕准备膨胀发出的嘶嘶声]<br />
+158 - random.glass [打破玻璃 萤石之类的声音]<br />
+159 - random.levelup [升级的声音(应该是每升5级发出的声音)]<br />
+160 - random.orb [吃到经验球的声音]<br />
+161 - random.pop [不明]<br />
+162 - random.successful_hit [叮~ 在哪里听过 不过忘记了]<br />
+163 - random.wood_click [不明]<br />
+-------------------------------------------------<br />
+164 - step.cloth [踩在羊毛上的声音]<br />
+165 - step.grass [踩在草皮上的声音]<br />
+166 - step.gravel [踩在沙砾上的声音]<br />
+167 - step.ladder [爬梯子的声音]<br />
+168 - step.sand [踩在沙子上的声音]<br />
+169 - step.snow [踩在雪块上的声音]<br />
+170 - step.stone [踩在石头上的声音]<br />
+171 - step.wood [踩在木头上的声音]<br />
+有些声音与放置声音一致<br />
+-------------------------------------------------<br />
+172 - tile.piston.in [活塞收回的声音]<br />
+173 - tile.piston.out [活塞伸出的声音]&nbsp;&nbsp;<br />
+<br />
+<br />
+</div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>党靖皓1234&nbsp; &nbsp; <b>时间: </b>2015-8-9 19:58<br />
+2b大大说的只听懂不到三分之一,好难理解{:10_526:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>.|°夨.忆ヽ&nbsp; &nbsp; <b>时间: </b>2015-8-9 20:02<br />
+支持楼主~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhaoxingeabc&nbsp; &nbsp; <b>时间: </b>2015-8-9 20:04<br />
+<div class="quote"><blockquote>/execute @a ~ ~ ~ /playsound mob.endermen.stare @a 2 0.5 1</blockquote></div><br />
+前面的execute部分几乎毫无意义……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-9 20:23<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8773873&amp;ptid=483811" target="_blank"><font color="#999999">zhaoxingeabc 发表于 2015-8-9 20:04</font></a></font><br />
+前面的execute部分几乎毫无意义……</blockquote></div><br />
+其实是有用的，/execute能让声音坐标定位玩家。<br />
+如果玩家离音源太远报错：<br />
+Player xx is too far away to hear the sound<br />
+<br />
+没有execute只是指令方块本身坐标播放声音。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jack_lxy&nbsp; &nbsp; <b>时间: </b>2015-9-4 20:52<br />
+sucessful_hit<br />
+翻译：弓箭射到敌人的“叮”一声<br />
+<br />
+creeper_say缺失<br />
+<br />
+ <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-9-4 20:54<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9009812&amp;ptid=483811" target="_blank"><font color="#999999">jack_lxy 发表于 2015-9-4 20:52</font></a></font><br />
+sucessful_hit<br />
+翻译：弓箭射到敌人的“叮”一声</blockquote></div><br />
+为转载内容，请与原作者说明
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

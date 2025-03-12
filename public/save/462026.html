@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : execute - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NjIwMjYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : execute <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-1 20:45<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : execute<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-9 13:53 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>条件语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 格式 与 执行</font></font></div><div align="left">条件语句是模块中的一个重要指令</div><div align="left">它用于<strong>判断事件是否成立</strong>，</div><div align="left">若成立则输出；</div><div align="left">若不成立则跳过。</div><br />
+<br />
+<div align="left">条件语句将会涉及到</div><div align="left"><strong>execute</strong></div><ul><li><div align="left">条件与变量</div><li><div align="left">相对性</div><br />
+</ul><div align="left"><strong>testfor</strong></div><br />
+<div align="left"><strong>关于枚举多个条件输出</strong></div><br />
+<div align="left"><strong>或|| 与 且&amp;&amp;</strong></div><ul><li><div align="left">或||</div><li><div align="left">且&amp;&amp;</div><li><div align="left">或且结合</div><br />
+</ul><div align="left"><strong>!非的表达</strong></div><ul><li><div align="left">!非 单个变量</div><li><div align="left">!非 多个执行体</div><br />
+</ul><div align="left"><strong>条件嵌套</strong></div><ul><li><div align="left">条件嵌套相对性</div><li><div align="left">条件嵌套与变量</div><li><div align="left">子条件detect</div><br />
+</ul><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-460259-1-1.html" target="_blank">上一篇</a>（（序） 模块概念）--<a href="http://www.mcbbs.net/thread-462449-1-1.html" target="_blank">下一篇</a>（testfor</font><font size="5">）</font></div><strong><font face="碳化硅大黑体"><font size="5"></font></font></strong><br />
+<strong><font face="碳化硅大黑体"><font size="5">§3.1 execute</font></font></strong><br />
+<font face="微软雅黑"><font size="1"><strong>下一页为 条件与变量</strong></font></font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">3.1.1 指令格式</font></font></strong><br />
+<strong>execute指令</strong>作为<strong>相对执行指令</strong>成为了条件判断中的主要语句，<br />
+它的主要格式：<br />
+<img id="aimg_rH33r" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/49e19a5d4fb33031.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_c0C"><ol><li>/execute &lt;entity&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; <br /><li>&lt;command&gt;</ol></div><em onclick="copycode($('code_c0C'));">复制代码</em></div><br />
+以及<br /><div class="blockcode"><div id="code_mQ7"><ol><li>/execute &lt;entity&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt; detect <br /><li>&lt;x&gt; &lt;y&gt; &lt;z&gt; &lt;block&gt; &lt;data&gt; <br /><li>&lt;command&gt;</ol></div><em onclick="copycode($('code_mQ7'));">复制代码</em></div><br />
+<i>（detect将在以后讲解）</i><br />
+<br />
+这里主要条件指令execute格式如下：<br /><div class="blockcode"><div id="code_eiI"><ol><li>/execute 选择器x 相对选择器x坐标 指令</ol></div><em onclick="copycode($('code_eiI'));">复制代码</em></div><br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">α.1.1 使用指令执行</font></font></strong> <br />
+<strong><font face="微软雅黑"><font size="4"><img id="aimg_F2tgs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/828d1579f3eb02c9.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></font></strong><br />
+↑<div class="blockcode"><div id="code_nSo"><ol><li>/execute @p ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_nSo'));">复制代码</em></div><br />
+<img id="aimg_LDy8v" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/39b7a76f183db6e4.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+↑<br /><div class="blockcode"><div id="code_OO9"><ol><li>/say 1</ol></div><em onclick="copycode($('code_OO9'));">复制代码</em></div>可以看到两个指令相比有execute相对执行的概念，其效果类似tell指令。<br />
+<br />
+<br />
+<strong><font size="4">预置：</font></strong><br />
+在本小章讲解之前，预置一个实体进行<strong>条件储存</strong>：<br />
+<img id="aimg_phha2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/d2ff1560714c741a.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_I5M"><ol><li>/summon ArmorStand ~ ~ ~ <br /><li>{CustomName:&quot;f&quot;,CustomNameVisible:1}</ol></div><em onclick="copycode($('code_I5M'));">复制代码</em></div><br />
+这边的主要作用已经在<a href="https://www.mcbbs.net/file:///C:/Users/Administrator/AppData/Local/Temp/CHM%20Editor/%E8%BF%9B%E9%98%B6%EF%BC%9A%E6%8C%87%E4%BB%A4%E6%96%B9%E5%9D%97%E6%A8%A1%E5%9D%97%E6%95%99%E7%A8%8B_42186.8566241898/page_17.html" target="_blank">变量与实体</a>中讲解过了<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">α.1.1 条件与变量</font></font></strong><br />
+<strong><font size="1"><br />
+</font></strong><br />
+<strong><font size="1">下一页为 相对性 和 相对性与变量综合</font></strong><br />
+<strong><font face="微软雅黑"><font size="4"><img id="aimg_Rx5E5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/08f6e7d8fa7dcece.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></font></strong><br />
+首先需要给<strong>变量赋值</strong>，来作为一个<strong>条件</strong><br /><div class="quote"><blockquote>/scoreboard players set @e[name=f] a 1</blockquote></div><br />
+<img id="aimg_LX10t" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/f700e074c188dbb3.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+如果运行：<br /><div class="blockcode"><div id="code_pbN"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_pbN'));">复制代码</em></div><br />
+<br />
+那么就会<strong>输出</strong><br />
+这是因为在<strong>选择器中的确有f的a计分板变量&gt;=1</strong><br />
+<br />
+<br />
+<img id="aimg_Uh61q" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/bfa64cd08d1a9d81.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+如果运行：<br /><div class="blockcode"><div id="code_vff"><ol><li>/execute @e[name=f,score_a=0] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_vff'));">复制代码</em></div><br />
+<br />
+那么就<strong>不会输出</strong><br />
+这是因为在<strong>选择器中没有f的a计分板变量&lt;=1</strong><br />
+而<strong>f的a计分板变量=1</strong><br />
+<br />
+<strong></strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">α.1.2 相对性</font></font></strong><br />
+除了能依靠变量执行，还有有关坐标的相对性，<br />
+这里主要利用r的选择器分项来展示：<br />
+<strong><img id="aimg_MpBBZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/18a1e28df40e19fa.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</strong><br />
+运行：<br /><div class="blockcode"><div id="code_C0G"><ol><li>/execute @e[name=f] ~ ~ ~ say @p[r=1]</ol></div><em onclick="copycode($('code_C0G'));">复制代码</em></div><br />
+<br />
+而玩家不在f周围1格<br />
+所以没有输出。<br />
+<br />
+<img id="aimg_ow3P1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/198dfd21524cefd2.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+可以看到输出中输出失败。<br />
+<br />
+<br />
+<img id="aimg_Feaaj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/9fd8274c6a0fef80.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+同样是上面的指令，如果站在f旁边一格就有输出<br />
+<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">α.1.3 相对性与变量综合</font></font></strong> <br />
+<strong><font face="微软雅黑"><font size="4"><img id="aimg_bWGPz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/477dc394ce017f89.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></font></strong><br />
+运行：<br /><div class="blockcode"><div id="code_O3p"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ say @p[r=1]</ol></div><em onclick="copycode($('code_O3p'));">复制代码</em></div><br />
+<br />
+还是原来的位置，所以符合了r=1条件<br />
+此时f计分板a的变量值为1，符合了score_a_min=1的条件<br />
+所以能够输出<br />
+<br />
+<img id="aimg_qn0Cd" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/d38e0da2f00e5c50.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+假如不符合r条件↑<br />
+<img id="aimg_tLlX6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/b0e8d798e8573b4b.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+或者不符合score条件↑<br />
+那么就不会有输出<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2015-7-1 20:53<br />
+我比较好奇参数c能不能用！非<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-7-1 21:33<br />
+<i class="pstatus"> 本帖最后由 chyx 于 2015-7-6 17:34 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="http://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8432506&amp;ptid=462026" target="_blank"><font color="#999999">lzs1234 发表于 2015-7-1 20:53</font></a></font><br />
+我比较好奇参数c能不能用！非</blockquote></div><br />
+<br />
+c表示选择实体的个数 你说说!要是有的话是什么意思。。。<img src="static/image/smiley/rabbit/58.gif" smilieid="708" border="0" alt="" /><br />
+<strong><font face="黑体"><font size="7"><font color="red"><font style="background-color:seagreen">[fly]jj[/fly]</font></font></font></font></strong><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>gazlandy&nbsp; &nbsp; <b>时间: </b>2015-7-1 23:08<br />
+来瞅瞅！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Sad_elevenKH&nbsp; &nbsp; <b>时间: </b>2015-7-25 12:16<br />
+这章开始有点意思了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>创世神123&nbsp; &nbsp; <b>时间: </b>2016-7-1 17:04<br />
+话说那个score_a的值是代表比较符号吗？
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

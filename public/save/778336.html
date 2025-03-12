@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>[18w05a]新命令/bossbar 自定义boss血条实现指向效果 [已稳定] - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC03NzgzMzYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[18w05a]新命令/bossbar 自定义boss血条实现指向效果 [已稳定] <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>switefaster&nbsp; &nbsp; <b>时间: </b>2018-2-1 15:04<br />
+<b>标题: </b>[18w05a]新命令/bossbar 自定义boss血条实现指向效果 [已稳定]<br /><i class="pstatus"> 本帖最后由 switefaster 于 2018-2-2 19:57 编辑 </i><br />
+<br />
+大家好我是switefaster<br />
+18w05a发布了<br />
+加了一个很有意思的命令：/bossbar<br />
+作用是自定义boss血条。至于具体教程……新闻版里已经有了，请自行翻阅。<br />
+那么我就抢新体验一把，拿bossbar做个小东西吧：<div align="center"><font size="5">指向标</font></div><div align="left"><font size="2">听不懂嘛？先上图：</font></div><div align="left"><img id="aimg_ul3Qg" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://ww2.sinaimg.cn/large/0060lm7Tly1fo2cb0n5ceg30mc0dib2d.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></div><div align="left">从图中我们可以看到当玩家指向盔甲架的时候，TARGET这个bossbar满了。当玩家朝向和玩家指向盔甲架的向量的夹角<i>θ</i>超过90°时，TARGET变红，并且夹角<i>θ</i>越大，TARGET的值越大。过程不受抬头/低头影响。（gif中由于鼠标抖动而造成有一点不稳定）</div><div align="left">看着挺高端，其实原理超级简单。就是最基础的Vector Math：点积（dot product）</div><div align="left">我们先上命令：</div><div align="left">init.mcfunction [LOAD]</div><div align="left"><div class="blockcode"><div id="code_p5L"><ol><li># Initialization<br /><li># Create bossbar<br /><li>bossbar create bossbar:target &quot;TARGET&quot;<br /><li># Player's location (X,Z)<br /><li>scoreboard objectives add pos_p_x dummy<br /><li>scoreboard objectives add pos_p_z dummy<br /><li># Target's location (X,Z)<br /><li>scoreboard objectives add pos_t_x dummy<br /><li>scoreboard objectives add pos_t_z dummy<br /><li># Player-facing vector (X,Z)<br /><li>scoreboard objectives add vec_yw_x dummy<br /><li>scoreboard objectives add vec_yw_z dummy<br /><li># Target-to-player vector (X,Z)<br /><li>scoreboard objectives add vec_nvt_x dummy<br /><li>scoreboard objectives add vec_nvt_z dummy<br /><li># Current dot product<br /><li>scoreboard objectives add int_dp_vt dummy<br /><li># Max dot product<br /><li>scoreboard objectives add int_dp_mx dummy<br /><li># Caclation output flag (to current or&nbsp;&nbsp;to max)<br /><li>scoreboard objectives add con_mx_bool dummy<br /><li># Temp score when calculating abs<br /><li>scoreboard objectives add tmp_abs_swp dummy</ol></div><em onclick="copycode($('code_p5L'));">复制代码</em></div>bossbar_navigation.mcfunction [TICK]</div><div align="left"><div class="blockcode"><div id="code_H3l"><ol><li># Calculation<br /><li># Set storage flag(to max or current)<br /><li># Max<br /><li>scoreboard players set @a con_mx_bool 1 <br /><li># Calculate<br /><li>execute as @a at @s facing entity @e[tag=target,sort=nearest,limit=1] eyes run function bossbar:bossbar_dotproduct_calculation<br /><li># Store max<br /><li>execute as @a store result bossbar bossbar:target max run scoreboard players get @s int_dp_mx<br /><li># Current<br /><li>scoreboard players set @a con_mx_bool 0<br /><li># Calculate<br /><li>execute as @a at @s run function bossbar:bossbar_dotproduct_calculation<br /><li># Set display<br /><li># Current equals or is greater than 0<br /><li>execute as @a[scores={int_dp_vt=0..}] run function bossbar:bossbar_positive_display<br /><li># Current is less than 0<br /><li>execute as @a[scores={int_dp_vt=..-1}] run function bossbar:bossbar_minus_display<br /><li># Glow the target so that player can identify them easily<br /><li>execute as @a at @s run effect give @e[tag=target,sort=nearest,limit=1] minecraft:glowing 1</ol></div><em onclick="copycode($('code_H3l'));">复制代码</em></div>bossbar_dotproduct_calculation.mcfunction</div><div class="blockcode"><div id="code_r6g"><ol><li># Reset Scoreboards<br /><li># Current case<br /><li>execute if entity @s[scores={con_mx_bool=0}] run scoreboard players set @s int_dp_vt 0<br /><li># Max case<br /><li>execute if entity @s[scores={con_mx_bool=1}] run scoreboard players set @s int_dp_mx 0<br /><li># Get player's location (X,Z)<br /><li>execute store result score @s pos_p_x run data get entity @s Pos[0] 100<br /><li>execute store result score @s pos_p_z run data get entity @s Pos[2] 100<br /><li># Get player's facing vector(have not been normalized)<br /><li># Summon length-marker<br /><li>execute if entity @s[scores={con_mx_bool=0}] rotated ~ 0 run summon minecraft:area_effect_cloud ^ ^ ^1 {CustomName:&quot;[&quot;p_dir&quot;]&quot;}<br /><li># Get length-marker's location<br /><li>execute store result score @s pos_t_x run data get entity @e[name=p_dir,sort=nearest,limit=1] Pos[0] 100<br /><li>execute store result score @s pos_t_z run data get entity @e[name=p_dir,sort=nearest,limit=1] Pos[2] 100<br /><li># Calculate the vector<br /><li>scoreboard players operation @s vec_yw_x = @s pos_t_x<br /><li>scoreboard players operation @s vec_yw_z = @s pos_t_z<br /><li>execute run scoreboard players operation @s vec_yw_x -= @s pos_p_x<br /><li>execute run scoreboard players operation @s vec_yw_z -= @s pos_p_z<br /><li># Get target-to-player vector<br /><li># Get target's location<br /><li><br /><li># Summon plainizer(X,Z)<br /><li>execute run summon minecraft:area_effect_cloud ~ ~ ~ {CustomName:&quot;[&quot;plainizer&quot;]&quot;}<br /><li># Correct the plainizer's location(Tx,Py,Tz)<br /><li>execute store result entity @e[name=plainizer,sort=nearest,limit=1] Pos[0] double 1 run data get entity @e[tag=target,sort=nearest,limit=1] Pos[0]<br /><li>execute store result entity @e[name=plainizer,sort=nearest,limit=1] Pos[1] double 1 run data get entity @s Pos[1]<br /><li>execute store result entity @e[name=plainizer,sort=nearest,limit=1] Pos[2] double 1 run data get entity @e[tag=target,sort=nearest,limit=1] Pos[2]<br /><li><br /><li># Summon length-marker<br /><li>execute facing entity @e[name=plainizer,sort=nearest,limit=1] eyes run summon minecraft:area_effect_cloud ^ ^ ^1 {CustomName:&quot;[&quot;tp_dir&quot;]&quot;}<br /><li># Get length-marker's location<br /><li>execute store result score @s pos_t_x run data get entity @e[name=tp_dir,sort=nearest,limit=1] Pos[0] 100<br /><li>execute store result score @s pos_t_z run data get entity @e[name=tp_dir,sort=nearest,limit=1] Pos[2] 100<br /><li># Calculate the vector<br /><li>scoreboard players operation @s vec_nvt_x = @s pos_t_x<br /><li>scoreboard players operation @s vec_nvt_z = @s pos_t_z<br /><li>execute run scoreboard players operation @s vec_nvt_x -= @s pos_p_x<br /><li>execute run scoreboard players operation @s vec_nvt_z -= @s pos_p_z<br /><li># Max case<br /><li>execute if entity @s[scores={con_mx_bool=1}] run scoreboard players operation @s vec_yw_x = @s vec_nvt_x<br /><li>execute if entity @s[scores={con_mx_bool=1}] run scoreboard players operation @s vec_yw_z = @s vec_nvt_z<br /><li># Dot Product<br /><li># Multiply the x and z of direction-vector to the x and z of target-to-player vector<br /><li>execute run scoreboard players operation @s vec_nvt_x *= @s vec_yw_x<br /><li>execute run scoreboard players operation @s vec_nvt_z *= @s vec_yw_z<br /><li># Add the result to output-scoreboards<br /><li># Current case<br /><li>execute if entity @s[scores={con_mx_bool=0}] run scoreboard players operation @s int_dp_vt += @s vec_nvt_x<br /><li>execute if entity @s[scores={con_mx_bool=0}] run scoreboard players operation @s int_dp_vt += @s vec_nvt_z<br /><li># Max case<br /><li>execute if entity @s[scores={con_mx_bool=1}] run scoreboard players operation @s int_dp_mx += @s vec_nvt_x<br /><li>execute if entity @s[scores={con_mx_bool=1}] run scoreboard players operation @s int_dp_mx += @s vec_nvt_z</ol></div><em onclick="copycode($('code_r6g'));">复制代码</em></div><div align="left">※ 暂未想到办法简化第二个plainizer...感谢玄素dalao提供rotated思路</div><div align="left">bossbar_positive_display.mcfunction</div><div align="left"><div class="blockcode"><div id="code_oF0"><ol><li># Set color<br /><li>bossbar set bossbar:target color white<br /><li># Write result to bossbar<br /><li>execute store result bossbar bossbar:target value run scoreboard players get @s int_dp_vt</ol></div><em onclick="copycode($('code_oF0'));">复制代码</em></div>bossbar_minus_display.mcfunction</div><div class="blockcode"><div id="code_Z0i"><ol><li># Set color<br /><li>bossbar set bossbar:target color red<br /><li># Get |int_dp_vt| by |int_dp_vt| = -int_dp_vt(int_dp_vt &lt; 0) = int_dp_vt - 2 * int_dp_vt<br /><li>scoreboard players operation @s tmp_abs_swp = @s int_dp_vt<br /><li>scoreboard players operation @s int_dp_vt -= @s tmp_abs_swp<br /><li>scoreboard players operation @s int_dp_vt -= @s tmp_abs_swp<br /><li># Write result to bossbar<br /><li>execute store result bossbar bossbar:target value run scoreboard players get @s int_dp_vt</ol></div><em onclick="copycode($('code_Z0i'));">复制代码</em></div><div align="left">※ 以上所有文件都存在于bossbar命名空间内。请根据需要自行修改</div><div align="left">※ [LOAD]为load.json内的function [TICK]为tick.json内的function</div><div align="left">※ 注意，尽管我使用了@a，但是这个命令组只支持一个玩家。因为bossbar只有一个。</div><div align="left">看着好长一大串对不对？别怕，很多工作都是重复的。但是我们先抛开mc，来考虑一下数学计算。</div><div align="left"><hr class="l" />定义几个量:</div><div align="left"><i>u</i> 玩家朝向的二维向量（因为朝向只存在于xz平民啊内，只考虑x和z） <i>v</i> 玩家指向目标的二维向量（同样存在于xz平面内）</div><div align="left">我们要干什么？是得到 <i>u·v</i>，为了方便操作防止超精度我们得normalize一下，所以得到</div><div align="left"><i>normalize(u) · normalize(v)</i></div><div align="left">这就是我们要求的东西了</div><div align="left"><hr class="l" />现在我们知道我们要干啥了，那么怎么怎么在MC里实现呢？</div><div align="left">大家先看一下创建的记分板，我的记分板是有命名规律的：</div><div align="left">&nbsp;&nbsp;pos_开头表示坐标 vec_开头表示向量 这两种量的第三项都是[x,y,z]以表示分量。因为在xz平面内操作所以只用到了x和z</div><div align="left">&nbsp;&nbsp;剩下的int_ con_ tmp_都是一些常量啊整数啊临时值啊之类的东西</div><div align="left">我们把目光移向两个pos：</div><div align="left">&nbsp;&nbsp;pos_p：存玩家的x,z坐标</div><div align="left">&nbsp;&nbsp;pos_t：存指向目标的x,z坐标</div><div align="left">再看看两个vec：</div><div align="left">&nbsp;&nbsp;vec_yw：存玩家的yaw向量，也就是左右看时头朝向的单位向量</div><div align="left">&nbsp;&nbsp;vec_nvt：存玩家指向目标方向的单位向量</div><div align="left">坐标的获取已经是1.13的基本操作了我就不细讲了。</div><div align="left">重点是这两个向量的求法了。前者的获取很简单，以rotated ~ 0执行以确保平行于xz平面，然后在^ ^ ^1位置生成一个aec，获取坐标然后相减。</div><div align="left">后者的获取也不难</div><div align="left">主要过程就是，因为玩家和目标可能不在一个高度上，导致xz平面上的二维向量长度不是1。所以我们召唤一个aec，把其x,z轴设置为目标的x,z轴，把其y轴设置为玩家的y轴。这样我们就相当于拥有了和玩家在同一高度的这个实体了。</div><div align="left">然后我们获取这个aec的坐标，然后让玩家面向它在视角前方生成另一个aec。我们获取这个aec的坐标，然后获取这个aec指向玩家的向量。怎么获取呢？只要(AEC-玩家坐标)就行了。</div><div align="left">※ 我们把坐标当作向量来操作。相减就能得到两个向量的头指向另一个向量的头的向量。</div><div align="left">那么我们获取到了我们需要进行点积操作的两个向量。我们要进行点积了。这时候我们需要看一下点积的定义（最直接的）：</div><i>u · v = u[sub]x[/sub]v[sub]x[/sub] + u[sub]y[/sub]v[sub]y[/sub]</i>所以我们需要做的就是分别把两个向量的分量相乘然后相加了。<br />
+好的！我们现在拥有了这两个向量的点积。但是只要稍加尝试就会发现点积的最大值会随玩家到目标的距离增加而增加……但是我们的bossbar需要最大值啊？所以我们只要计算最大值就行了。根据点积的定义，只要我们的 yaw向量=(-1 * 玩家-目标向量)，点积的值就是最大的。所以我们只要获取一个玩家面向目标时的点积就行了。具体做法就看我发上去的命令吧。<br />
+核心部分已经解决了……我们现在来看看最不重要的部分——显示<br />
+分为两种情况：1.≥0 2.＜0<br />
+前者只需改个颜色直接写入即可。后者则得取一下绝对值<br />
+上过初中的同学都知道|a|=-a(a≤0)，所以a-2a=-a=|a|(a≤0)，这就是取绝对值操作了……<br />
+<div align="center"><font size="5">EXTRA</font></div><div align="left"><font size="2">这是个没什么用的额外部分……主要说一下已知bug之类的</font></div><div align="left"><font size="2">BUG:</font></div><div align="left"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>1.偶尔会闪动（已解决）</div><div align="left">2.垂直向上/下看时鬼畜（已解决）</div><div align="left">3.待发现……</td></table></div></div></div><div align="left">更新日志：</div><div align="left"><div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td>2018/2/1 在玄素dalao的指点下使用了rotated以解决yaw向量normalize问题</div><div align="left">2018/2/2 通过更正大量算式以实现了预期目标，解决了所有已知bug</td></table></div></div></div><div align="left"><font size="2">最后一提，要被设置为目标的实体得加个target标签才行</font></div>
+<ignore_js_op>
+<dl class="tattl">
+<dt>
+<img src="static/image/filetype/zip.gif" border="0" class="vm" alt="" />
+</dt>
+<dd>
+<p class="attnm">
+
+<a href="forum.php?mod=attachment&amp;aid=MTE3MDQ0OXw5NGY3Y2ZlZXwxNjEzOTU1NDc5fDI0MTk0ODZ8Nzc4MzM2" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid1170449" target="_blank">bossbar.zip</a>
+
+<div class="tip tip_4" id="aid1170449_menu" style="display: none" disautofocus="true">
+<div class="tip_c">
+<p class="y">2018-2-2 19:55 上传</p>
+<p>点击文件名下载附件</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+</p>
+<p>4.17 KB, 下载次数: 17</p>
+<p>
+
+</p>
+<p class="xg2">放入datapacks即可食用</p>
+
+</dd>
+</dl>
+</ignore_js_op>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>langyo_v3&nbsp; &nbsp; <b>时间: </b>2018-2-1 15:24<br />
+对于由于偏航或仰角到一个极值导致条子疯狂闪动的bug，你可以试试设个buffer，缓冲一定的值来修复这个bug<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>玄素&nbsp; &nbsp; <b>时间: </b>2018-2-1 16:13<br />
+<div class="quote"><blockquote>前者的获取很简单，以玩家的位置在视角前方summon一个aec，然后获取它的x和z。。。等等长度不是1啊？</blockquote></div>也许你可以砸一个不那么玄学的execute rotated ~ 0上去……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>switefaster&nbsp; &nbsp; <b>时间: </b>2018-2-1 19:57<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=12664616&amp;ptid=778336" target="_blank"><font color="#999999">玄素 发表于 2018-2-1 16:13</font></a></font><br />
+也许你可以砸一个不那么玄学的execute rotated ~ 0上去……</blockquote></div><br />
+被facing**了2333感谢指点，已修改教程<br />
+但是貌似rotated没法解决目标到玩家的向量的计算……因为facing会被rotated覆盖啊太尴尬了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>繁星如梦&nbsp; &nbsp; <b>时间: </b>2018-2-1 23:59<br />
+66666666666666666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ali1340653579&nbsp; &nbsp; <b>时间: </b>2018-2-2 16:56<br />
+大佬强！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>黑兔ht&nbsp; &nbsp; <b>时间: </b>2018-2-3 08:50<br />
+这个很6的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>虫小哥&nbsp; &nbsp; <b>时间: </b>2018-8-22 11:52<br />
+目前血量 只有set功能，没有add 就有点可惜了不然可以配合实现更好的功能<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>道路施工ing&nbsp; &nbsp; <b>时间: </b>2018-8-23 12:29<br />
+666，厉害了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>732137&nbsp; &nbsp; <b>时间: </b>2018-8-23 14:01<br />
+11111111111111111<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sevevss&nbsp; &nbsp; <b>时间: </b>2018-10-23 00:34<br />
+这个很6的6666<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>别叫我贾蛋&nbsp; &nbsp; <b>时间: </b>2018-10-24 18:56<br />
+学到了学到了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hehehe...li&nbsp; &nbsp; <b>时间: </b>2018-11-10 14:04<br />
+又学得了一样好玩的东西
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

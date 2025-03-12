@@ -1,0 +1,186 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §6 : stats用法 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00NzQ2ODQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : stats用法 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-24 17:53<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : stats用法<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-26 10:14 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>获取执行值</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 stats用法</font></font></div><div align="left">本章将引进新的概念：执行值。</div><br />
+<div align="left">执行值便是一个指令除了输出外执行的结果，通常返回<strong>执行的次数</strong>，<strong>输出值</strong>或者<strong>条件真假</strong>。</div><div align="left">获取执行值就能够随机应变，根据判断来<strong>调整下一步输出</strong>；执行值也可以<strong>用作debug</strong>；执行值也可以<strong>变相获取游戏参数</strong>。</div><br />
+<div align="left">在指令中，<strong>返回值的指令是stats</strong>。使用这条指令可以<strong>对指令影响的实体、方块、物品进行值的返回</strong>，</div><div align="left">结合条件语句<strong>进行下一步输出</strong>；或者<strong>产生对应参数</strong>。</div><br />
+<br />
+获取执行值将会涉及到<br />
+<br />
+<strong>stats用法</strong><br />
+<ul><li>所有执行类型<li>相对执行概念<li>计分板调用<li>实体储存<br />
+</ul><strong>stats与条件语句</strong><br />
+<ul><li>一般执行<li>!非<li>且&amp;&amp;<li>或||<li>结合表达式<br />
+</ul><strong>stats与时钟</strong><br />
+<br />
+<font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-474014-1-1.html" target="_blank">上一篇</a>（循环嵌套）--<a href="http://www.mcbbs.net/thread-475520-1-1.html" target="_blank">下一篇</a>（stats与条件语句）</font></div><br />
+<strong><font face="碳化硅大黑体"><font size="5">§6.1 stats用法</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 所有执行类别</font></font><br />
+stats指令的原理就是将实体或者方块中<strong>添加两个关联计分板的NBT</strong>，这个NBT是什么后面会讲到。<br />
+<br />
+除了通过entitydata修改这两个NBT外，其实可以直接使用<strong>快捷的指令/stats更改</strong>，让对<strong>实体、方块的操作关联计分板</strong>：<br />
+对于实体：<br /><div class="blockcode"><div id="code_zJf"><ol><li>/stats entity &lt;相对执行的对象&gt; &lt;set/add&gt; &lt;stat类型&gt; &lt;计分板对象/假名&gt; &lt;计分板&gt;</ol></div><em onclick="copycode($('code_zJf'));">复制代码</em></div><br />
+对方快：<br /><div class="blockcode"><div id="code_sWW"><ol><li>/stats block &lt;相对执行方块的坐标&gt; &lt;set/add&gt; &lt;stat类型&gt; &lt;计分板对象/假名&gt; &lt;计分板&gt;</ol></div><em onclick="copycode($('code_sWW'));">复制代码</em></div><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">6.1.1 所有执行类别</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 相对执行概念</font></font><br />
+<ul><li><strong>SuccessCountObjective：</strong>计分板名称<li><strong>SuccessCountName：</strong>计分板赋值实体选择器<br />
+</ul>表示上次执行的<strong>命令是否成功</strong>。<br />
+返回值为真或假。（真为1，假为0）<br />
+<br />
+<ul><li><strong>AffectedBlocksObjective：</strong>计分板名称<li><strong>AffectedBlocksName：</strong>计分板赋值实体选择器<br />
+</ul>表示上次执行<strong>成功的命令修改的方块数量</strong>。<br />
+返回值为整数。<br />
+<br />
+<ul><li><strong>AffectedEntitiesObjective：</strong>计分板名称<li><strong>AffectedEntitiesName：</strong>计分板赋值实体选择器<br />
+</ul>表示被上次执行<strong>成功命令修改的实体数量</strong>。<br />
+返回值为整数。<br />
+<br />
+<ul><li><strong>AffectedItemsObjective: </strong>计分板名称<li><strong>AffectedItemsName：</strong>计分板赋值实体选择器<br />
+</ul>表示被上次执行<strong>成功命令修改的物品数量</strong>。（主要是物品栏，非实体物品）<br />
+返回值为整数。<br />
+<br />
+<ul><li><strong>QueryResultObjective: </strong>计分板名称<li><strong>QueryResultName:</strong> 计分板赋值实体选择器<br />
+</ul>表示上次<strong>命令的查询结果</strong>。<br />
+返回值为整数。<br />
+<br /><br />
+ <strong><font face="微软雅黑"><font size="4">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;6.1.2 所有执行类别</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 </font></font><font face="微软雅黑"><font size="1">计分板调用/实体储存</font></font><br />
+既然说到了stats后有两个参数：<strong>block</strong> 和 <strong>entity</strong>，<br />
+block可以对接指令方块获取执行值毋庸置疑，那么<strong>实体如何对接</strong>：<br />
+使用<strong>相对执行</strong>。<br />
+<br />
+以下面为例：<br />
+<font color="#800000">我需要相对物品替换周围九格内白色羊毛为橙色羊毛，获取白色羊毛的数量。</font><br />
+显然可以利用方块完成，<strong>相对fill获取fill的值</strong>。但是此处不必绕一次，<strong>直接利用实体的相对操作完成</strong>。<br />
+使用以下指令：<br />
+<br />
+<img id="aimg_mv6RO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i1.tietuku.com/d60f470eaf4db1d7.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_YiW"><ol><li>/scoreboard players set 1 a 0</ol></div><em onclick="copycode($('code_YiW'));">复制代码</em></div><br />
+<font color="#ff0000">*记住凡是stats的计分板对象必须设定初始值，否则无法获取执行值（此处的对象是假名'1'）</font><br /><div class="blockcode"><div id="code_LDH"><ol><li>/stats entity @e[type=Item] set AffectedBlocks 1 a</ol></div><em onclick="copycode($('code_LDH'));">复制代码</em></div><br />
+<font color="#008000">*给物品添加stats标签（影响方块），返回值对象为计分板a中的'1'假名</font><br /><div class="blockcode"><div id="code_qw6"><ol><li>/execute @e[type=Item] ~ ~ ~ fill ~1 ~ ~1 ~-1 ~ ~-1 minecraft:wool 1 replace minecraft:wool 0 </ol></div><em onclick="copycode($('code_qw6'));">复制代码</em></div><br />
+<font color="#008000">*相对实体操作方块</font><br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_Wy5yK" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/96aab8c72aac9deb.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+在周围九格放置两个白色羊毛<br />
+<img id="aimg_uaw9d" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/5c0e04c19c27eb23.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+激活后，羊毛被替换，获取了2的执行值<br />
+<img id="aimg_F5qrG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/7f6524dccd8fcdd5.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+如果放上4个激活，同样替换后返回4。<br />
+<br />
+<br />
+<strong>本节展示stats除了对接指令方块直接获取参数，也可以找实体作为中介，来相对实体执行，其结果一样。</strong><br />
+<br />
+<strong><br />
+</strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">6.1.3 计分板调用/实体储存</font></font></strong><br />
+由于execute和scoreboard进一步调用计分板的指令使用实体选择器，所以<strong>选择假名兼容性有些差</strong>（当然可以通过scoreboard players test再次连接stats达到检测，但是太慢了）<br />
+<br />
+此外，<strong>实体还有要求：</strong><br />
+1.必须<strong>能够设定初始值</strong>的；<br />
+2.必须在指令执行时<strong>存在</strong>的；<br />
+3.多种执行<strong>不冲突</strong>。<br />
+否则执行值赋值失败。<br />
+<br />
+<font color="#8b0000">我们将上一节的例子中计分板对象转为实体，并在有执行值时输出say 1：</font><br />
+<br />
+<img id="aimg_ObRQJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/e5afe23d2d66bd87.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_dCz"><ol><li>/scoreboard players set @e[name=f] a 0</ol></div><em onclick="copycode($('code_dCz'));">复制代码</em></div><br />
+<font color="#008000">*给实体f设定初始值</font><br /><div class="blockcode"><div id="code_gaX"><ol><li>/stats entity @e[name=f] set AffectedBlocks @e[name=f] a</ol></div><em onclick="copycode($('code_gaX'));">复制代码</em></div><br />
+<font color="#008000">*给实体f添加stats标签，获取影响方块的次数</font><br /><div class="blockcode"><div id="code_WI4"><ol><li>/execute @e[name=f] ~ ~ ~ fill ~1 ~ ~1 ~-1 ~ ~-1 minecraft:wool 1 replace minecraft:wool 0</ol></div><em onclick="copycode($('code_WI4'));">复制代码</em></div><br />
+<font color="#008000">*相对实体f操作方块</font><br /><div class="blockcode"><div id="code_Lgh"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_Lgh'));">复制代码</em></div><br />
+<font color="#008000">*判断输出</font><br />
+<br />
+（相对上一节多了一条条件语句，作为计分板调用的演示）<br />
+<strong><font size="4">效果：</font></strong><br />
+<br />
+<strong><font size="4"><img id="aimg_oJFvZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/e378be07467dcd78.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</font></strong><br />
+替换白色羊毛为橙色羊毛，且执行返回的值是周围9格白色羊毛的次数，由于符合条件（也就是有执行值），输出1。<br />
+<img id="aimg_r0lwB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i1.tietuku.com/9e99452aa8d1f6e9.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+反之，虽然设定了初始值，但是影响的方块为0，不符合条件（无执行值），无输出。<br />
+<br />
+<strong>在stats中，通常使用实体储存来作为计分板调用的工具，希望能尽快掌握。</strong><br />
+<br />
+<div align="left"><strong><font face="碳化硅大黑体"><font size="4">附加部分</font></font></strong></div><br />
+<div align="left"><font face="微软雅黑"><strong>练习：</strong></font></div><div align="left"><ul><li><div align="left">用stats判断一条指令：/testfor @e[type=EnderDragon]是否输出，返回值储存在名为ed积分版内；</div><li><div align="left">制作一个计分板显示游戏时间的小模块，可参考资料。</div><br />
+</ul></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Danger_S.M&nbsp; &nbsp; <b>时间: </b>2015-7-24 18:07<br />
+建议使用一些接地气或简单的语言，不然很难理解<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hhttll&nbsp; &nbsp; <b>时间: </b>2015-7-24 18:09<br />
+难&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hhttll&nbsp; &nbsp; <b>时间: </b>2015-7-24 18:09<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8628251&amp;ptid=474684" target="_blank"><font color="#999999">hhttll 发表于 2015-7-24 18:09</font></a></font><br />
+难</blockquote></div><br />
+不是水回复。。我本来想用一个字强调的，但是感觉有点像水<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>凋零娘&nbsp; &nbsp; <b>时间: </b>2015-7-24 18:28<br />
+打开游戏技巧板块，全是命令方块教程，没有其他在生存模式里面实用的教程吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>海牛的麻烦&nbsp; &nbsp; <b>时间: </b>2015-7-24 19:01<br />
+我还是不要接触指令方块了 <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-7-24 19:02<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8628439&amp;ptid=474684" target="_blank"><font color="#999999">凋零娘 发表于 2015-7-24 18:28</font></a></font><br />
+打开游戏技巧板块，全是命令方块教程，没有其他在生存模式里面实用的教程吗 ...</blockquote></div><br />
+你想知道什么 我看看我知道不知道<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>爱心魔王FHC&nbsp; &nbsp; <b>时间: </b>2016-7-16 16:24<br />
+
+<ignore_js_op>
+
+<img id="aimg_953030" aid="953030" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201607/16/162352wnhlffklkktgzhfe.jpg" file="https://attachment.mcbbs.net/forum/201607/16/162352wnhlffklkktgzhfe.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="644" id="aimg_953030" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_953030_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>00000000000000000000000000000000.jpg</strong> <em class="xg1">(65.63 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=OTUzMDMwfDUwODI3NzRkfDE2MTM4NjI1MTV8MjQxOTQ4Nnw0NzQ2ODQ%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2016-7-16 16:23 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+为什么不行？1.9的原因？<br />
+<script type="text/javascript" reload="1">
+aimgcount[10538525] = ['953030'];
+attachimggroup(10538525);
+new lazyload();
+</script>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

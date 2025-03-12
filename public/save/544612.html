@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §7 : #1.9 &quot;条件嵌套&quot;与执行值 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01NDQ2MTItMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §7 : #1.9 &quot;条件嵌套&quot;与执行值 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-23 11:27<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §7 : #1.9 &quot;条件嵌套&quot;与执行值<br /><font size="5">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font><strong><font size="5">#1.9</font><font size="5"> </font></strong><font size="5"><strong>&quot;条件嵌套&quot;与执行值</strong></font><br />
+<font size="2">条件嵌套和执行值之间的关联<strong>等价于执行值和条件语句</strong>。</font><br />
+<font size="2"> </font><br />
+<font size="2">比如条件嵌套和执行值做出<strong>单刻时钟</strong>：</font><br />
+<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F4FB4_56A2F32F0" target="_blank"><img id="aimg_Nmtb5" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/4FB4_56A2F32F0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F87E4_56A2F32F0" target="_blank"><img id="aimg_Xokxe" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/87E4_56A2F32F0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<font size="3">其中执行值作为<strong>布尔变量</strong>参与了判断中：</font><br />
+<br /><div class="blockcode"><div id="code_StH"><ol><li>&lt;div&gt;&lt;font size=&quot;3&quot;&gt;/testfor @p[score_a_min=1]&lt;/font&gt;&lt;/div&gt;<br /><li>&lt;div&gt;&lt;font size=&quot;3&quot;&gt;/say 1&lt;/font&gt;&lt;/div&gt;</ol></div><em onclick="copycode($('code_StH'));">复制代码</em></div><font size="3"><font color="#008000">*输出</font></font><br />
+<font size="3"><div class="blockcode"><div id="code_Fxf"><ol><li>/stats block ~2 ~ ~ set SuccessCount @p a</ol></div><em onclick="copycode($('code_Fxf'));">复制代码</em></div></font><br />
+<font size="3"><font color="#008000">*stats建立</font></font><br />
+<font size="3"><div class="blockcode"><div id="code_GoL"><ol><li>/scoreboard players set @p a 0</ol></div><em onclick="copycode($('code_GoL'));">复制代码</em></div></font><br />
+<font size="3"><font color="#008000">*单刻重置</font></font><br />
+<font size="3"><div class="blockcode"><div id="code_mQ2"><ol><li>/scoreboard players set @p a 0</ol></div><em onclick="copycode($('code_mQ2'));">复制代码</em></div></font><br />
+<font size="3"><font color="#ff0000">*stats重置</font></font><br />
+ <br />
+ <br />
+<font size="3">其效果和<strong>条件语句和执行值相等</strong>，不做深究。</font><br />
+<br />
+<font size="3"><br />
+</font><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div><br />
+[groupid=546]Command Block Logic[/groupid]
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

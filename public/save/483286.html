@@ -1,0 +1,200 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §д : 实体操作 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODMyODYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 实体操作 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 20:05<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 实体操作<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-8 21:46 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（附）效果指令</strong></font></font></div><div align="center"><font size="1"><strong>第二页为 实体操作指令</strong></font></div><div align="left">效果指令作为语句的一个输出，通常为<strong>对游戏本体产生影响效果操作的指令</strong>。</div><br />
+<div align="left">效果指令包含以下内容</div><br />
+<div align="left"><strong>实意指令与效果指令区别</strong></div><br />
+<div align="left"><strong>文字</strong></div><ul><li><div align="left">json</div><li><div align="left">其他</div><br />
+</ul><div align="left"><strong>物品操作</strong></div><ul><li><div align="left">give</div><li><div align="left">replaceitem</div><br />
+</ul><div align="left"><strong>实体操作</strong></div><ul><li><div align="left">summon</div><li><div align="left">kill</div><br />
+</ul><div align="left"><strong>方块操作</strong></div><ul><li><div align="left">setblock</div><li><div align="left">clone</div><li><div align="left">fill</div><br />
+</ul><div align="left"><strong>音效</strong></div><ul><li><div align="left">playsound大全</div><br />
+</ul><div align="left"><strong>粒子效果</strong></div><ul><li><div align="left">粒子大全</div><br />
+</ul><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-482924-1-1.html" target="_blank">上一篇</a>（</font><font size="5">物品操作</font><font size="5">）--<a href="http://www.mcbbs.net/thread-483350-1-1.html" target="_blank">下一篇</a>（方块操作）</font></div><div align="right"><div align="left"><br />
+<font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>д</strong></font></font><strong>.4 实体操作</strong></div><div align="left"><strong>第三页为 summon</strong>在模块中，由于<strong>数据基本需要转存到实体上</strong>，所以实体操作十分重要。<br />
+<br />
+实体操作拥有三种：<br />
+summon<br />
+kill<br />
+entitydata<br />
+<br />
+<strong>summon&nbsp; &nbsp;&nbsp;&nbsp;- 用于生成实体</strong><br />
+<strong>kill&nbsp; &nbsp;&nbsp; &nbsp; - 用于销毁实体</strong><br />
+<strong>entitydata - 用于修改实体数据</strong><br />
+<br />
+<br />
+对于模块来说，summon和kill用途较大，<br />
+<strong>entitydata用于实体修改，具体用途就不解释了</strong>。<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>д</strong></font></font><strong>.4.1 summon</strong></div><div align="left"><strong>第四页为 kill</strong>summon 用于生成实体。<br />
+<br />
+summon的格式为：<br /><div class="blockcode"><div id="code_X2D"><ol><li>/summon 实体名 坐标 NBT</ol></div><em onclick="copycode($('code_X2D'));">复制代码</em></div><br />
+即<strong>在坐标生成指定NBT的实体</strong>。<br />
+<br />
+<br />
+<ul><li><strong>summon与NBT</strong><br />
+</ul><strong><img id="aimg_BUwFO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/0317bb787709112d.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<br />
+summon ArmorStand ~ ~1 ~ {Pose:{RightArm:[0.0F,30.0F,0.0F]},ShowArms:1}<br />
+生成一个<strong>拥有指定NBT的ArmorStand，坐标为执行体上方</strong>。<br />
+实体NBT大全在：<a href="http://minecraft-zh.gamepedia.com/%E5%8C%BA%E5%9D%97%E6%A0%BC%E5%BC%8F" target="_blank">区块格式</a><br />
+<br />
+<ul><li><strong>summon与坐标</strong><br />
+</ul>summon除了能使用规定的坐标外，结合条件语句的相对性，能够<strong>相对生成:</strong><br />
+<br />
+<strong><img id="aimg_O8b07" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/7d05e40b074d169a.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br /><div class="blockcode"><div id="code_bdd"><ol><li>/execute @p ~ ~ ~ summon ArmorStand ~ ~1 ~ {Pose:{RightArm:[0.0F,30.0F,0.0F]},ShowArms:1}</ol></div><em onclick="copycode($('code_bdd'));">复制代码</em></div><br />
+在玩家<strong>头顶生成一个拥有指定NBT的ArmorStand</strong><br />
+<br />
+由于重力，ArmorStand掉了下来。<br />
+<br />
+<br />
+<br />
+总结来说，summon可以在模块<strong>结合</strong><strong><a href="http://www.mcbbs.net/thread-478660-1-1.html" target="_blank">单次执行模块</a></strong><strong>达到生成自定义实体</strong>的效果。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong>д</strong><strong>.4.2 kill</strong></div><div align="left"><strong>第五页为 kill双用途</strong>kill 用于销毁实体。<br />
+<br />
+kill的格式为：<br /><div class="blockcode"><div id="code_lbz"><ol><li>/kill 实体名</ol></div><em onclick="copycode($('code_lbz'));">复制代码</em></div><br />
+即和summon相反，<strong>销毁指定（默认全部，可在实体选择器加c来规定数量）实体</strong>。<br />
+<br />
+<br />
+kill除了<strong>本身能够杀死实体外，由于实体可以携带计分板数据，所以也能清除计分板某种特定类型的数据源，从而彻底地清除数据</strong>。<br />
+<br /></div><div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>д</strong><strong>.4.2.1 kill双用途</strong></div><div align="left"><strong>第六页为 tp隐藏死亡动画</strong><strong><br />
+<img id="aimg_Dh2ii" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/cfaf2060e9fe5621.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+<strong>按照顺序执行：</strong><br /><div class="blockcode"><div id="code_lzH"><ol><li>/execute @p[score_a_min=1] ~ ~ ~ kill @e[name=f]<br /><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ say 1</ol></div><em onclick="copycode($('code_lzH'));">复制代码</em></div><br />
+<br />
+<br />
+当f计分版a为1<br />
+<br />
+<img id="aimg_PpLlG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/844442e65f412b48.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+不断输出say 1<br />
+<br />
+当最近玩家的计分版a为1<br />
+<br />
+<img id="aimg_DYZiY" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/2e2b3b55b74b1f90.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<strong>将f销毁，这样做到清除数据，阻断输出</strong>。<br />
+<br />
+唯一需要注意时钟，如果先执行输出再kill，<br />
+那么当玩家a分数为1，还会<strong>继续输出一次say 1</strong><br />
+<br />
+<strong><br />
+</strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>д</strong><strong>.4.2.1 tp隐藏死亡动画</strong><br />
+实体中生物被kill，那么就会出现<strong>死亡动画</strong>：<br />
+<br />
+<img id="aimg_ebQvk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/cf494be6406cd8cc.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+对creeper使用kill<br />
+<img id="aimg_r1Jhy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c634ae746a1945f4.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+除了生物倒下的动画，还有影响效果的死亡粒子。<br />
+<br />
+<strong>tp可以弥补这一点</strong>。<br />
+<br />
+<img id="aimg_GmmdM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/7996a5249b4eb250.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+/tp @e[type=Creeper] ~ -64 ~<br />
+将生物tp到<strong>y轴-64处</strong><br />
+<br />
+<strong><img id="aimg_qAcxz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/31bf46c210269a72.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong><br />
+生物<strong>即可消失</strong>。<br />
+<br />
+这是因为实体坠入虚空，<strong>y&lt;-64会掉血（即使无敌也会）</strong><br />
+不过不足的是如果关联高频，那么掉血直到死亡还会有一定死亡时间，所以<strong>仍然不会立即销毁</strong>。<br />
+<br />
+所以一般情况下讲求效率，需要<strong>先</strong><br /><div class="blockcode"><div id="code_s3s"><ol><li>/tp 实体 ~ -64 ~</ol></div><em onclick="copycode($('code_s3s'));">复制代码</em></div><br />
+再<strong>马上执行</strong><br /><div class="blockcode"><div id="code_y9o"><ol><li>/kill 实体</ol></div><em onclick="copycode($('code_y9o'));">复制代码</em></div><br />
+</div></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhaoxingeabc&nbsp; &nbsp; <b>时间: </b>2015-8-8 20:58<br />
+二逼你写教程的速度真的好吗？<br />
+再者这一篇通俗了很多啊<br />
+完全没有开始时高大上的感觉了<br />
+作为面向新手的教程，写成这样才是最适合的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 21:04<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8764928&amp;ptid=483286" target="_blank"><font color="#999999">zhaoxingeabc 发表于 2015-8-8 20:58</font></a></font><br />
+二逼你写教程的速度真的好吗？<br />
+再者这一篇通俗了很多啊<br />
+完全没有开始时高大上的感觉了</blockquote></div><br />
+因为效果指令是附加内容<br />
+前面全部都是模块主语句注重逻辑，<br />
+这边一笔带过介绍一下<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 21:20<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8764928&amp;ptid=483286" target="_blank"><font color="#999999">zhaoxingeabc 发表于 2015-8-8 20:58</font></a></font><br />
+二逼你写教程的速度真的好吗？<br />
+再者这一篇通俗了很多啊<br />
+完全没有开始时高大上的感觉了</blockquote></div><br />
+本身就是进阶教程，模块毕竟将来会成为主流，官方也倾向于完善这个东西。<br />
+然而模块有些复杂，因此需要给指令方块进阶玩家做教程<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhaoxingeabc&nbsp; &nbsp; <b>时间: </b>2015-8-8 22:00<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8765189&amp;ptid=483286" target="_blank"><font color="#999999">贰逼 发表于 2015-8-8 13:20</font></a></font><br />
+本身就是进阶教程，模块毕竟将来会成为主流，官方也倾向于完善这个东西。<br />
+然而模块有些复杂，因此需要给 ...</blockquote></div><br />
+然而作为一种检测机制，高频是必不可少的<br />
+模块的高频尽管属于最节约内存的一种，但大量使用也不是所有机子都带的起的……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>theEinstein&nbsp; &nbsp; <b>时间: </b>2015-8-8 22:06<br />
+tp也算实体操作吧？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 22:08<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8765600&amp;ptid=483286" target="_blank"><font color="#999999">zhaoxingeabc 发表于 2015-8-8 22:00</font></a></font><br />
+然而作为一种检测机制，高频是必不可少的<br />
+模块的高频尽管属于最节约内存的一种，但大量使用也不是所有机 ...</blockquote></div><br />
+nope<br />
+<br />
+其实是可以的，卡的高频都是没掌握技巧的。<br />
+<br />
+就目前：<br />
+一个方块更新发送block package，资源非常小<br />
+小于64方块更新发送blocks package，资源小<br />
+然而一个区块更新，也就是大于等于64个方块更新发送chunk package，资源非常大。<br />
+此外，可以节省区块加载量。<br />
+<br />
+因此，让一个区块高频连接的指令最多63个，让这些指令高频区块原理玩家至少1000个方块，再自行加上区块加载器即可让高频消耗资源非常小，这同样运用服务器/<br />
+<br />
+总之玩的卡的其实是没优化好，真正优化好的地图服务器都能很流畅带动，而实际使用的指令模块数量十分庞大<br />
+<br />
+<br />
+再者：<br />
+Mojang现在让particle采用opengl渲染，也是让资源消耗大大减小，<br />
+将来也许同样能压缩blocks package或者chunkpackage使消耗更小。<br />
+<br />
+<br />
+<strong>所以这种担心是不必要的</strong><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-8 22:12<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8765633&amp;ptid=483286" target="_blank"><font color="#999999">theEinstein 发表于 2015-8-8 22:06</font></a></font><br />
+tp也算实体操作吧？</blockquote></div><br />
+就这么解释，如果我有两个类型，<br />
+一个叫做object，是实体<br />
+object有个子类型叫transform，是行为变换。<br />
+<br />
+那么transform里包含坐标变换Postion<br />
+那么我改变postion也只是改变了子类型，并非改变了实体
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

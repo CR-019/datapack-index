@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §д : 粒子效果 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODM4NDQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 粒子效果 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-9 20:27<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 粒子效果<br /><i class="pstatus"> 本帖最后由 贰逼 于 2016-12-30 18:21 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（附）效果指令</strong></font></font></div><div align="center"><font size="1"><strong>第二页为 自定义音效和playsound教程</strong></font></div><div align="left">效果指令作为语句的一个输出，通常为<strong>对游戏本体产生影响效果操作的指令</strong>。</div><br />
+<div align="left">效果指令包含以下内容</div><br />
+<div align="left"><strong>实意指令与效果指令区别</strong></div><br />
+<div align="left"><strong>文字</strong></div><ul><li><div align="left">json</div><li><div align="left">其他</div><br />
+</ul><div align="left"><strong>物品操作</strong></div><ul><li><div align="left">give</div><li><div align="left">replaceitem</div><br />
+</ul><div align="left"><strong>实体操作</strong></div><ul><li><div align="left">summon</div><li><div align="left">kill</div><br />
+</ul><div align="left"><strong>方块操作</strong></div><ul><li><div align="left">setblock</div><li><div align="left">clone</div><li><div align="left">fill</div><br />
+</ul><div align="left"><strong>音效</strong></div><ul><li><div align="left">playsound大全</div><br />
+</ul><div align="left"><strong>粒子效果</strong></div><ul><li><div align="left">粒子大全</div><br />
+</ul><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-483811-1-1.html" target="_blank">上一篇</a>（音效</font><font size="5">）--<a href="http://www.mcbbs.net/thread-488436-1-1.html" target="_blank">下一篇</a>（OneCommand教程）</font></div><div align="right"><div align="left"></div><div align="left"><font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>д</strong></font></font><strong>.6 粒子效果</strong></div><br />
+<div align="left">粒子效果为一个时间起到增色添彩的作用，是一个<strong>名副其实的效果指令</strong>。</div><br />
+<br />
+<div align="left">Particle是基本指令，格式为：</div><br />
+<div align="left">/particle 粒子效果 坐标 范围 速度 数量 选择器</div><br />
+<br />
+<div align="left"><strong>粒子效果</strong> - 参考粒子大全；</div><br />
+<div align="left"><strong>坐标</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 产生粒子的坐标；</div><br />
+<div align="left"><strong>范围</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 粒子生成的范围；</div><br />
+<div align="left"><strong>速度</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 粒子从生成到消失的速度；</div><br />
+<div align="left"><strong>数量</strong>&nbsp; &nbsp;&nbsp;&nbsp;- 总体产生的粒子数量；</div><br />
+<div align="left"><strong>选择器</strong>&nbsp; &nbsp;- 相对于选择器执行。</div><br />
+<br />
+<br />
+<div align="left">particle有一个很好的相对执行</div><br />
+<div align="left">比如：</div><br />
+<div align="left"><div class="blockcode"><div id="code_CMv"><ol><li>/particle heart ~ ~1 ~ 0.3 0.3 0.3 0.01 100 @p</ol></div><em onclick="copycode($('code_CMv'));">复制代码</em></div></div><br />
+<div align="left"><strong>等价于</strong></div><br />
+<div align="left"><div class="blockcode"><div id="code_gVj"><ol><li>/execute @p ~ ~1 ~ /particle heart ~ ~ ~ 0.3 0.3 0.3 0.01 100</ol></div><em onclick="copycode($('code_gVj'));">复制代码</em></div></div><br />
+<br />
+<br />
+<div align="left">其中坐标不解释，</div><br />
+<div align="left"><strong>范围是一个浮点数，不代表构成立方体范围，而且长度并非单位方块。</strong></div><br />
+<div align="left"><strong>数量是一个整数，控制粒子数量，太过于大会造成渲染卡顿。</strong></div><br />
+<div align="left"><strong>速度对于大多数粒子是速度，然而某些粒子则是data数据，控制颜色。</strong></div><br />
+<div align="left"><strong><br />
+</strong>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>д</strong></font></font><strong>.6.1 粒子大全</strong><br />
+<br />
+<strong><font size="4">以下内容来自：</font></strong><strong><font size="4"><a href="http://www.mcbbs.net/thread-225244-1-1.html" target="_blank">http://www.mcbbs.net/thread-225244-1-1.html</a></font></strong><br />
+<br /><div class="blockcode"><div id="code_gco"><ol><li>1 hugeexplosion 超大爆炸<br /><li>2 largeexplode 大型爆炸<br /><li>3 fireworksSpark <br /><li>烟花火花（烟花起飞时产生）<br /><li>4 bubble 泡泡<br /><li>5 suspended 不明<br /><li>6 depthsuspend 不明<br /><li>7 <br /><li>townaura 与6效果相同<br /><li>8 crit 暴击（机翻）<br /><li>9 magicCrit 魔法暴击？？？<br /><li>10 smoke 烟雾<br /><li>11 <br /><li>mobSpell 黑色圈形颗<br /><li>12 spell 白色圈形颗粒<br /><li>13 instantSpell 白色X形颗粒<br /><li>14 note <br /><li>音符盒的音符<br /><li>15 portal 地狱门/末影人附近的紫色颗粒<br /><li>16 enchantmenttable 从书架飘向附魔台的文字<br /><li>17 <br /><li>explode 爆炸<br /><li>18 flame 刷怪笼刷出一波怪物时的火花<br /><li>19 lava 岩浆飞溅出的火花<br /><li>20 footstep 脚印<br /><li>21 <br /><li>splash 溅起的水花<br /><li>22 largesmoke 大型烟雾<br /><li>23 cloud 云（类似烟雾）<br /><li>24 reddust 黑色颗粒<br /><li>25 <br /><li>snowballpoof 雪球打到生物时产生<br /><li>26 dripWater 天花板滴下的水<br /><li>27 dripLava 天花板滴下的岩浆<br /><li>28 <br /><li>snowshovel 白色颗粒<br /><li>29 slime 史莱姆跳动时的绿色颗粒<br /><li>30 heart 爱心<br /><li>31 wake 蓝色颗粒<br /><li>32 <br /><li>mobSpellAmbient 淡灰色圈形颗粒<br /><li>33 angryVillager 村民生气<br /><li>34 happyVillager 村民高兴<br /><li>35 <br /><li>witchMagic 紫色X形颗粒</ol></div><em onclick="copycode($('code_gco'));">复制代码</em></div><br />
+<br />
+<font size="5"><font color="#ff0000"><strong>其实最全的是wiki：</strong></font></font><br />
+<a href="http://minecraft.gamepedia.com/Particles" target="_blank">http://minecraft.gamepedia.com/Particles</a><br />
+（中文wiki不全）<br />
+</div><br />
+</div>（现版本中选择器表示只有该选择器才能看到粒子）[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>owiemaness&nbsp; &nbsp; <b>时间: </b>2015-8-9 20:57<br />
+英文渣表示永远不知道粒子怎么做<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Teng_Ke腾柯&nbsp; &nbsp; <b>时间: </b>2015-8-9 21:53<br />
+有Minecraft Command Helper表示无压力~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>chyx&nbsp; &nbsp; <b>时间: </b>2015-8-12 14:14<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8774366&amp;ptid=483844" target="_blank"><font color="#999999">owiemaness 发表于 2015-8-9 20:57</font></a></font><br />
+英文渣表示永远不知道粒子怎么做</blockquote></div><br />
+<a href="http://minecraft.gamepedia.com/Particles" target="_blank">http://minecraft.gamepedia.com/Particles</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>卿风&nbsp; &nbsp; <b>时间: </b>2015-8-19 20:55<br />
+{:10_492:}1.7.2的客户端可以弄；粒子效果么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-19 21:18<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=8870505&amp;ptid=483844" target="_blank"><font color="#999999">卿风 发表于 2015-8-19 20:55</font></a></font><br />
+1.7.2的客户端可以弄；粒子效果么？</blockquote></div><br />
+不可以<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>brooke_zb&nbsp; &nbsp; <b>时间: </b>2016-12-30 12:16<br />
+额<br />
+particle有一个很好的相对执行<br />
+<br />
+比如：<br />
+<br /><div class="blockcode"><div id="code_jHY"><ol><li>/particle heart ~ ~1 ~ 0.3 0.3 0.3 0.01 100 @p</ol></div><em onclick="copycode($('code_jHY'));">复制代码</em></div><br />
+<br />
+等价于<br /><div class="blockcode"><div id="code_Dsr"><ol><li><br /><li>/execute @p ~ ~1 ~ /particle heart ~ ~ ~ 0.3 0.3 0.3 0.01 100</ol></div><em onclick="copycode($('code_Dsr'));">复制代码</em></div><font size="3"><font color="#8b0000"><br />
+</font></font><font size="3"><font color="#8b0000">其实不等价，particle的选择器是定义可以让谁看见，而不加execute的话是不能在选择器相对坐标播放粒子效果的，本人亲测</font></font><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>破晓大辣鸡&nbsp; &nbsp; <b>时间: </b>2017-1-5 15:40<br />
+粒子效果插件:？？？？
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

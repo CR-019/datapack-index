@@ -1,0 +1,563 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 7.物品刷怪笼与牌子 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04NTE1Mi0xLTEuaHRtbD9hY3Rpb249cHJpbnRhYmxl', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 7.物品刷怪笼与牌子 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-2-3 19:25<br />
+<b>标题: </b>【CBL|SYL】NBT教程 7.物品刷怪笼与牌子<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:36 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+<font color="#ff00"><font size="5">看不到图的请移步到索引贴，那里提供了下载与在线观看地址</font></font><br />
+废话不多说，进入正题<br />
+这期教大家如何做物品刷怪笼和牌子的标签（下一期预告：实体标签解析）<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+<img id="aimg_YNiM6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/ELCEJ2b.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+首先准备一下你需要刷出的物品（我那个叫桃木……怎么做的请参考之前的教程）和一个刷怪笼……物品扔到你要刷出的地点<br />
+<img id="aimg_n3cOc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/k82n8d7.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+找出物品和刷怪笼在的region，参考之前的教程<br />
+<img id="aimg_z5IIE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/zFPo6oL.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这是物品的标签格式，以后解析，现在你只需要把他的compound找出来（不仅仅是item那个，是整个连同上面那堆东西的那个）<br />
+<img id="aimg_X2t3T" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/D6287HD.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+接着是刷怪笼的<br />
+<img id="aimg_a727Y" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/pfYlODE.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+剪切物品的出来，粘帖进入刷怪笼的标签里面，并且重命名为“SpawnData”（注意大小写，错了地图就完蛋了）（ps 这是对付只刷一种东西的刷怪笼，现在刷怪笼可以刷出多种物品了，接着会讲）<br />
+<img id="aimg_abGt9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/yaGzfyf.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+重入游戏，发现物品不见了<br />
+<img id="aimg_sp1TW" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/xF3soKE.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+看一下现在的标签，发现自动多出了一个list，spawnpo……那个（我懒得打了）<br />
+<img id="aimg_IDI2E" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/aDl79aR.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+打开，讲解一下<br />
+<font color="#8b0000">Weight这个int标签是代表相比其他物品刷出的几率，越高越大（具体怎么算我不知道……）</font><br />
+<font color="#8b0000">Type是该实体的类型，在实体那堆标签里面写着id那个啦……</font><br />
+<font color="#8b0000">Properties是该实体的那个compound标签啦……就是包含着生命之类的啦……其实简单点，就是我们之前复制的那个物品标签啦</font><br />
+其实SpawnData是可以不写的……直接写这个SpawnPo……的也是可以的啦……系统会自动帮你填的……<br />
+好吧别打我……其实是双向的，你写了data系统帮你写potential，你写了potential系统帮你写data<br />
+只刷一种东西当然是data方便啦……<br />
+<img id="aimg_h9RkL" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Dgl3LAr.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+再解析一下上面有用的东西（不说的那些就是改了会出事的）<br />
+<font color="#8b0000">Delay：距离下一次刷新距离的时间，以游戏刻计算（就是二十分之一秒啦）</font><br />
+<font color="#8b0000">MaxNear……：最近的实体上限，什么意思？就是达到这个上限后不再刷新啦，距离吗……</font><br />
+<font color="#000"><font style="background-color:rgb(230, 239, 244)"><font face="sans-serif"><font style="font-size:13px">within a box of spawnrange*2+1 x spawnrange*2+1 x spawnrange+1 centred around the spawner block</font></font></font></font><br />
+<font color="#8b0000">我搞不清楚是什么意思……不是不懂英文而是不懂那公式想表达什么……不过也无伤大雅啦，就是说和spawnrange挂钩啦）</font><br />
+<font color="#8b0000">Max/Minspawn……：max是最大刷新时间，min是最小刷新时间……在这个范围内随机取样，注意，2个数据可以是一样，但必须大于或等于1</font><br />
+<font color="#8b0000">RequiredPlayer……：这个我不小心选中了，可能看的不清楚，指玩家探测距离（就是玩家在这个距离内才刷新），范围是从刷怪箱为中心，6个方向延伸这个数字所组成的大正方体</font><br />
+<font color="#8b0000">例子：1你就别想刷新了……就刷怪笼自己，你怎么站进去</font><br />
+<font color="#8b0000">2就是一个3x3的正方形</font><br />
+<font color="#8b0000">3就是5x5，以此类推</font><br />
+<font color="#8b0000">spawncount：一次刷新多少实体，不想刷多填1吧</font><br />
+<font color="#8b0000">spawnrange：刷新距离，就是会在这个范围（跟上面那个一样算法）里面刷新，所以你得注意，你想刷出东西在指定地点，看清楚这距离能否包含到，不然你就别想刷新出来了</font><br />
+<font color="#8b0000">xyz坐标别动，动了重开刷怪笼会没掉</font><br />
+<font color="#8b0000">entityid:很重要……写错存档会崩溃，就是和那实体的ID一样就好了……</font><br />
+<img id="aimg_HxTpB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/dr4eMOE.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+好的现在我做这个采集点，希望他一次刷1个（其实物品来说，希望一次刷出多点可以改count），侦测范围是2，15秒（15x20=300个游戏刻）刷新一次，改成这样<br />
+<img id="aimg_IkKuJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/6hEVpuI.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+站15秒，桃木出来了<br />
+<img id="aimg_Ahimp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/yVSpJuf.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+桃木：hello！world！</td></table></div></div><br />
+<hr class="l" />附送牌子教程<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+<img id="aimg_e0hsz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/7yyn5Pp.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+一块牌子，记得随便写点东西上去<br />
+<img id="aimg_PwH54" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/v1F8JMA.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这个样子……text1234对应4行，不解释了，支持复制粘帖中文上去哦，还支援<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fzh.minecraftwiki.net%2Fwiki%2F%25E6%25A0%25B7%25E5%25BC%258F%25E4%25BB%25A3%25E7%25A0%2581" target="_blank">样式代码</a>！（这ingame的editor右边附带那个代码符号和换行代码哦，按一下自动填，那个问号其实就是那个代码符号哦<br />
+<img id="aimg_E6JzE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/VnkTBNX.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<img id="aimg_v79ug" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/rJqEuso.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></td></table></div></div><br />
+搞定收工吃饭去……<br />
+（ps……我去我又忘记压缩图片了……折叠补救）<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zjy&nbsp; &nbsp; <b>时间: </b>2013-2-3 19:30<br />
+楼主怎么惨。没人回复= =&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-2-3 19:31<br />
+<i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2013-2-3 19:59 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">zjy 发表于 2013-2-3 19:30</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1334367&amp;ptid=85152" target="_blank"><img id="aimg_H6dzD" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+楼主怎么惨。没人回复= =</blockquote></div><br />
+尼玛我也这么感觉……<br />
+开了坑，拼命填，没人看……<br />
+感觉真挫……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>yeyaowei&nbsp; &nbsp; <b>时间: </b>2013-2-3 19:31<br />
+哇 楼主好厉害<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-2-3 19:33<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">yeyaowei 发表于 2013-2-3 19:31</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1334379&amp;ptid=85152" target="_blank"><img id="aimg_VBegE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哇 楼主好厉害</blockquote></div><br />
+……<br />
+(─.─|||<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-2-4 00:26<br />
+<i class="pstatus"> 本帖最后由 jianghr 于 2013-2-4 00:28 编辑 </i><br />
+<br />
+非常好，这篇应该是亮点。<br />
+NBT标签让RPG地图制作如虎添翼。牧场物语那图已经接近MOD的效果。我觉得你可以在索引贴里放一些应用NBT修改效果优秀RPG地图的链接吸引观众眼球。<br />
+突然觉得MC越来越拉开玩家技术差距了。索引加精我觉得可以申请精2。<br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hyd19991005&nbsp; &nbsp; <b>时间: </b>2013-2-4 11:03<br />
+太好了，这些修改可以让一些本来无法做到的东西出现在原版<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-2-4 16:54<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-2-4 00:26</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1337173&amp;ptid=85152" target="_blank"><img id="aimg_pnRlG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+非常好，这篇应该是亮点。<br />
+NBT标签让RPG地图制作如虎添翼。牧场物语那图已经接近MOD的效果。我觉得你可以在 ...</blockquote></div><br />
+地图什么的……我正在做呢呵呵……<br />
+亮点陆续还有<br />
+光是刷怪笼能玩的花样多着呢（其实NBT最大的坑就是刷怪笼这一块<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a8105&nbsp; &nbsp; <b>时间: </b>2013-2-6 16:03<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-2-4 16:54</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1342422&amp;ptid=85152" target="_blank"><img id="aimg_QNgtS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+地图什么的……我正在做呢呵呵……<br />
+亮点陆续还有<br />
+光是刷怪笼能玩的花样多着呢（其实NBT最大的坑就是刷怪 ...</blockquote></div><br />
+嗯...的确坑= =,比Mcedit复杂很多<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>458529276&nbsp; &nbsp; <b>时间: </b>2013-2-14 14:08<br />
+教学应该用游戏才好哇= =<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>A-Kreedz&nbsp; &nbsp; <b>时间: </b>2013-3-9 08:41<br />
+为什么我刷出来的总是石头<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 12:02<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">A-Kreedz 发表于 2013-3-9 08:41</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1601360&amp;ptid=85152" target="_blank"><img id="aimg_LDx6g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+为什么我刷出来的总是石头</blockquote></div><br />
+tile没改好<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>A-Kreedz&nbsp; &nbsp; <b>时间: </b>2013-3-9 12:44<br />
+<i class="pstatus"> 本帖最后由 A-Kreedz 于 2013-3-9 12:55 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 12:02</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1603211&amp;ptid=85152" target="_blank"><img id="aimg_wSAd9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+tile没改好</blockquote></div><br />
+加个机油吧！还有TILE在哪里改<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 13:26<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">A-Kreedz 发表于 2013-3-9 12:44</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1603698&amp;ptid=85152" target="_blank"><img id="aimg_gM73o" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+加个机油吧！还有TILE在哪里改</blockquote></div><br />
+看教程啊……有说的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 13:28<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">A-Kreedz 发表于 2013-3-9 12:44</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1603698&amp;ptid=85152" target="_blank"><img id="aimg_pD49D" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+加个机油吧！还有TILE在哪里改</blockquote></div><br />
+啊我去<br />
+我看错教程了<br />
+我以为是刷方块那个<br />
+这个是你扔什么<br />
+他就刷啥<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>A-Kreedz&nbsp; &nbsp; <b>时间: </b>2013-3-9 14:52<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 13:28</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1604176&amp;ptid=85152" target="_blank"><img id="aimg_qz1Ov" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+啊我去<br />
+我看错教程了<br />
+我以为是刷方块那个</blockquote></div><br />
+哪里有说啊？<br />
+<br />
+来加个QQ好友吧<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:31<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">A-Kreedz 发表于 2013-3-9 14:52</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605087&amp;ptid=85152" target="_blank"><img id="aimg_BLsuu" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哪里有说啊？<br />
+<br />
+来加个QQ好友吧</blockquote></div><br />
+首先准备一下你需要刷出的物品（我那个叫桃木……怎么做的请参考之前的教程）和一个刷怪笼……物品扔到你要刷出的地点<br />
+ok?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>A-Kreedz&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:31<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 15:31</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605472&amp;ptid=85152" target="_blank"><img id="aimg_JlQlt" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+首先准备一下你需要刷出的物品（我那个叫桃木……怎么做的请参考之前的教程）和一个刷怪笼……物品扔到你 ...</blockquote></div><br />
+就这样吗？<br />
+我试试看！<br />
+<br />
+还是加个好友吧。。我在别人服务器里搞NBT呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:32<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">A-Kreedz 发表于 2013-3-9 15:31</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605482&amp;ptid=85152" target="_blank"><img id="aimg_T2ZW3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+就这样吗？<br />
+我试试看！</blockquote></div><br />
+我都不上QQ的<br />
+加了也没用<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>A-Kreedz&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:34<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 15:32</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605488&amp;ptid=85152" target="_blank"><img id="aimg_UvLVv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我都不上QQ的<br />
+加了也没用</blockquote></div><br />
+哦。。不<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><br />
+<br />
+我好伤心呀<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yihc&nbsp; &nbsp; <b>时间: </b>2013-3-22 08:56<br />
+LZ你厉害&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>916094431&nbsp; &nbsp; <b>时间: </b>2013-3-30 09:51<br />
+虽然没听懂，还是顶个{:10_492:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QAQTAT&nbsp; &nbsp; <b>时间: </b>2013-4-7 20:09<br />
+猪骑士。。。<br />
+我不小心把做的大型地图给。。。<br />
+你懂的。。。<br />
+我没备份。。。<br />
+一进游戏就黑屏。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-7 20:11<br />
+<i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2013-4-7 20:11 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">QAQTAT 发表于 2013-4-7 20:09</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1826541&amp;ptid=85152" target="_blank"><img id="aimg_j9tW8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+猪骑士。。。<br />
+我不小心把做的大型地图给。。。<br />
+你懂的。。。</blockquote></div><br />
+刷怪笼干掉了对吧<br />
+简单了<br />
+开个MCE，把那个坏掉的刷怪笼给去掉<br />
+（不过有时候可以通过重开存档解决，系统会自己去掉那个刷怪笼的）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QAQTAT&nbsp; &nbsp; <b>时间: </b>2013-4-7 20:12<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-4-7 20:11</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1826573&amp;ptid=85152" target="_blank"><img id="aimg_gJ5Id" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+刷怪笼干掉了对吧<br />
+简单了<br />
+开个MCE，把那个坏掉的刷怪笼给去掉</blockquote></div><br />
+干嘛不早说。。。我已经删存档了。完工了80%。。。<br />
+得重做{:10_501:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-7 20:13<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">QAQTAT 发表于 2013-4-7 20:12</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1826587&amp;ptid=85152" target="_blank"><img id="aimg_cgWoD" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+干嘛不早说。。。我已经删存档了。完工了80%。。。<br />
+得重做</blockquote></div><br />
+喜闻乐见！<br />
+SYL集团代表属下分公司发来贺电！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QAQTAT&nbsp; &nbsp; <b>时间: </b>2013-4-7 20:16<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-4-7 20:13</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1826609&amp;ptid=85152" target="_blank"><img id="aimg_V8rNR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+喜闻乐见！<br />
+SYL集团代表属下分公司发来贺电！</blockquote></div><br />
+砍死你啊QAQ{:10_499:}<br />
+我想知道。。。是不是/nbtedit把之前要刷的物品tag剪切到刷怪笼的ROOT里面就可以了？<br />
+貌似没用{:10_499:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-7 20:19<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">QAQTAT 发表于 2013-4-7 20:16</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1826652&amp;ptid=85152" target="_blank"><img id="aimg_dN0uu" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+砍死你啊QAQ<br />
+我想知道。。。是不是/nbtedit把之前要刷的物品tag剪切到刷怪笼的ROOT里面就可以 ...</blockquote></div><br />
+内置的不适合做这个<br />
+内置因为没办法编辑掉落物，还是要靠外置的<br />
+不过物品tag是放SpawnData（没potential之前，有就放对应的吧）的<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>起名字好难啊&nbsp; &nbsp; <b>时间: </b>2013-4-8 20:23<br />
+顶一个{:10_523:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>A-Kreedz&nbsp; &nbsp; <b>时间: </b>2013-4-13 14:19<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-4-7 20:19</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1826699&amp;ptid=85152" target="_blank"><img id="aimg_C8eIo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+内置的不适合做这个<br />
+内置因为没办法编辑掉落物，还是要靠外置的<br />
+不过物品tag是放SpawnData（没potentia ...</blockquote></div><br />
+好吧扔东西过去还是失败，还是刷石头<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-13 15:01<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">A-Kreedz 发表于 2013-4-13 14:19</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1862593&amp;ptid=85152" target="_blank"><img id="aimg_dQQIc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+好吧扔东西过去还是失败，还是刷石头</blockquote></div><br />
+这不可能……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>A-Kreedz&nbsp; &nbsp; <b>时间: </b>2013-4-13 15:33<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-4-13 15:01</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1863118&amp;ptid=85152" target="_blank"><img id="aimg_sLuCr" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+这不可能……</blockquote></div><br />
+这很可能！！！！！！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zyl1212&nbsp; &nbsp; <b>时间: </b>2013-5-26 21:18<br />
+大大，图片被吃掉了，闹哪样。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>z6608778z&nbsp; &nbsp; <b>时间: </b>2013-5-28 00:17<br />
+撸主，图挂了，求图！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>blove7784&nbsp; &nbsp; <b>时间: </b>2013-5-28 22:45<br />
+学习了~谢谢~~~~~~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1123fff&nbsp; &nbsp; <b>时间: </b>2013-6-11 11:13<br />
+看了看楼上刷石头的那位的回复<br />
+我也遇到了这个问题<br />
+不过已经不重要了<br />
+我现在关注的是。怎么把要刷的物品持续性的都刷出来<br />
+我弄出来的笼子只能刷1次，然后就会还原成原先的那个刷怪笼<br />
+<br />
+首先看这边。<br />
+我放出来的这个笼子刷的是蜘蛛<br />
+可以看到 Spider<br />
+<br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198445" aid="198445" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/110637c11b3ikmcys3sztk.png" file="https://attachment.mcbbs.net/forum/201306/11/110637c11b3ikmcys3sztk.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="276" id="aimg_198445" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198445_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Item改蜘蛛？1.png</strong> <em class="xg1">(47.6 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDQ1fDhkNTE1NjUxfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:06 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+然后我吧那个改成 Item&nbsp; &nbsp; 如图<br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198446" aid="198446" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/110638ynhxmbm3yauyf3fw.png" file="https://attachment.mcbbs.net/forum/201306/11/110638ynhxmbm3yauyf3fw.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="500" id="aimg_198446" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198446_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Item改蜘蛛？2.png</strong> <em class="xg1">(138.03 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDQ2fGE1ZGZjZmNlfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:06 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+看，改完了。然后点击save键保存<br />
+<br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198447" aid="198447" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/110639kmjrtjxktykmtwzj.png" file="https://attachment.mcbbs.net/forum/201306/11/110639kmjrtjxktykmtwzj.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="275" id="aimg_198447" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198447_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Item改蜘蛛？3.png</strong> <em class="xg1">(45.81 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDQ3fGM4ZDYxMjgzfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:06 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+可以看到笼子上面一几个小药瓶<br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198448" aid="198448" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/110640dbgddi8zok8e3hzb.png" file="https://attachment.mcbbs.net/forum/201306/11/110640dbgddi8zok8e3hzb.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="324" id="aimg_198448" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198448_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Item改蜘蛛？4.png</strong> <em class="xg1">(62.42 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDQ4fGZkNmUxOTllfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:06 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+但是笼子里面又变成转动的蜘蛛了<br />
+看下么的截图。我之前修改的Item再次变成spider<br />
+重复很多次，都是这个样子。不过至少不再是刷石头了，虽然很麻烦，但我还是弄出来了。<br />
+虽然，只是一次性的笼子。<br />
+<br />
+（我会说nbtexplore修改会导致地图崩溃？<br />
+我会说我是对着explore的窗口在MC里面一个一个手打出来？）<br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198444" aid="198444" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/110636zmpp7hcq7icuqyy7.png" file="https://attachment.mcbbs.net/forum/201306/11/110636zmpp7hcq7icuqyy7.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="500" id="aimg_198444" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198444_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>Item改蜘蛛？5.png</strong> <em class="xg1">(192.75 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDQ0fGJlMjExZjNjfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:06 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[2270565] = ['198444','198445','198446','198447','198448'];
+attachimggroup(2270565);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-6-11 11:15<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">1123fff 发表于 2013-6-11 11:13</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2270565&amp;ptid=85152" target="_blank"><img id="aimg_SnoVP" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+看了看楼上刷石头的那位的回复<br />
+我也遇到了这个问题<br />
+不过已经不重要了</blockquote></div><br />
+这不合理……<br />
+我没这样的情况啊……<br />
+看一下potentials有多少项……<br />
+然后explore不应该弄崩地图的，是不是改错了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1123fff&nbsp; &nbsp; <b>时间: </b>2013-6-11 11:22<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-6-11 11:15</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2270582&amp;ptid=85152" target="_blank"><img id="aimg_NW6wS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+这不合理……<br />
+我没这样的情况啊……<br />
+看一下potentials有多少项……</blockquote></div><br />
+我找不到你说的这一项···<br />
+能说说在哪里的么？<br />
+我很认真的找过了。<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1123fff&nbsp; &nbsp; <b>时间: </b>2013-6-11 11:27<br />
+虽然我是手动搬那些标签的<br />
+不过应该不会有拼写错误或者数据错误的问题的<br />
+因为我是复制标签名称，标签数据的<br />
+下面是对照图<br />
+<br />
+<br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198453" aid="198453" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/112545fhknln18hauc1q0q.jpg" file="https://attachment.mcbbs.net/forum/201306/11/112545fhknln18hauc1q0q.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="500" id="aimg_198453" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198453_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>81742-349e1c6e715f212ed4dcf8c954acb5c5.jpg</strong> <em class="xg1">(26.82 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDUzfDA5MWU2OWNjfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:25 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+
+<ignore_js_op>
+
+<img id="aimg_198452" aid="198452" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/112544aajkd386j8jwz73v.jpg" file="https://attachment.mcbbs.net/forum/201306/11/112544aajkd386j8jwz73v.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="500" id="aimg_198452" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198452_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>70159-365dd52713b3b92b2292a4972a6720ca.jpg</strong> <em class="xg1">(34.83 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDUyfDEzMzYwMmJkfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:25 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198451" aid="198451" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/1125441ktdi3tiditssdvs.jpg" file="https://attachment.mcbbs.net/forum/201306/11/1125441ktdi3tiditssdvs.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="500" id="aimg_198451" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198451_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>69498-4f13457f57f6eeb7f253319a9a31feca.jpg</strong> <em class="xg1">(27.2 KB, 下载次数: 1)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDUxfDUxNjBhY2VjfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:25 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[2270661] = ['198451','198452','198453'];
+attachimggroup(2270661);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-6-11 11:50<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">1123fff 发表于 2013-6-11 11:22</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2270626&amp;ptid=85152" target="_blank"><img id="aimg_DU5aT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我找不到你说的这一项···<br />
+能说说在哪里的么？<br />
+我很认真的找过了。</blockquote></div><br />
+spawnpotential...<br />
+至於崩潰就無能為力了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1123fff&nbsp; &nbsp; <b>时间: </b>2013-6-11 11:55<br />
+<br />
+<br />
+数了数&nbsp;&nbsp;17项<br />
+<br />
+<br />
+<br />
+<br />
+
+<ignore_js_op>
+
+<img id="aimg_198457" aid="198457" src="static/image/common/none.gif" zoomfile="https://attachment.mcbbs.net/forum/201306/11/115425pcv0pkzc05yfi2xk.png" file="https://attachment.mcbbs.net/forum/201306/11/115425pcv0pkzc05yfi2xk.png" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="355" id="aimg_198457" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_198457_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>找不到的那个标签名.png</strong> <em class="xg1">(20.94 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MTk4NDU3fDhjZTY3ODNlfDE2MTM3MzE4MTJ8MjQxOTQ4Nnw4NTE1Mg%3D%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y">2013-6-11 11:54 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+<script type="text/javascript" reload="1">
+aimgcount[2270888] = ['198457'];
+attachimggroup(2270888);
+new lazyload();
+</script>
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1123fff&nbsp; &nbsp; <b>时间: </b>2013-6-11 12:19<br />
+好像我成功了，<br />
+貌似内置编辑器弄完以后还需要外置编辑器来保存一下<br />
+<br />
+不过改变物品的投射距离还是无法<br />
+更改了MOtion的3个标签之后刷出来的药水还是停留在原地。<br />
+我输入的是X5 Y3<br />
+但貌似好像无效果<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>daiyonglong&nbsp; &nbsp; <b>时间: </b>2013-8-7 11:30<br />
+我一直都不懂得改物品生怪磚！今天真喺識曬！真喺要多謝樓主！<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>936728431&nbsp; &nbsp; <b>时间: </b>2013-12-15 11:29<br />
+图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊图挂了啊<br />
+<font size="7"><font color="#00ffff">这不是水，我真的想看，可是图挂了</font></font><br />
+<font size="7"><font color="#00ffff">求修改&nbsp; &nbsp;&nbsp; &nbsp;</font></font><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>小尘&nbsp; &nbsp; <b>时间: </b>2013-12-15 13:02<br />
+图裂了好多- -<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>_乔治_埃德加&nbsp; &nbsp; <b>时间: </b>2014-1-4 22:02<br />
+好多图都显示不出来[diamond_gem]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1051233043&nbsp; &nbsp; <b>时间: </b>2014-1-12 17:48<br />
+<b>标题: </b>RE: 【SYL出版社】NBT教程 7.物品刷怪笼与牌子<br /><img id="aimg_b6STE" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://www.mcbbs.net/data/myattachment/album/201401/12/174801ztfru52w2v3tjayr.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Virtual_Fxz&nbsp; &nbsp; <b>时间: </b>2014-6-20 21:01<br />
+(─.─|||图全挂。。。。
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

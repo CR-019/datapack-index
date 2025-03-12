@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §4 : 循环基础 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00Njc5MDItMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §4 : 循环基础 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-13 09:07<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §4 : 循环基础<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-17 12:22 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>循环语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 循环基础</font></font></div><div align="left">循环语句也是模块中的一个重要指令</div><div align="left">它用于<strong>不断执行某些指令</strong>，</div><div align="left">从而让指令不断输出。</div><br />
+<br />
+<div align="left">循环语句将会涉及到</div><div align="left"><strong>基础</strong></div><ul><li><div align="left">与计分板关联</div><br />
+</ul><div align="left"><strong>无限循环与while循环</strong></div><ul><li><div align="left">判断条件</div><li><div align="left">终止循环</div><br />
+</ul><div align="left"><strong>for循环</strong></div><ul><li><div align="left"><strong>判断次数</strong></div><li><div align="left"><strong>终止循环</strong></div><br />
+</ul><div align="left"><strong>for循环模拟机械赋值</strong></div><div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-466816-1-1.html" target="_blank">上一篇</a>（条件嵌套 ）--<a href="http://www.mcbbs.net/thread-468489-1-1.html" target="_blank">下一篇</a>（无限循环与while循环）</font></div><font size="2"></font><br />
+<strong><font face="碳化硅大黑体"><font size="5">§4.1 基础</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 与计分板结合</font></font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">4.1.0 初涉循环</font></font></strong><br />
+<div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>4<font face="黑体">.1.0.1 意义</font></strong></div><br />
+作为一个循环，也就是说不断地执行某些指令，从而不断的输出。<br />
+<br />
+<font size="4"><strong>编程意义：</strong></font><br />
+在不少实际问题中有许多具有规律性的重复操作，因此在程序中就需要重复执行某些语句。<br />
+一组被重复执行的语句称之为循环体；能否继续重复，是决定循环的终止条件。<br />
+循环语句是由<strong>循环体及循环的终止条件两部分组成的</strong>。<br />
+<br />
+<font size="4"><strong>模块意义：</strong></font><br />
+某些条件需要不断的更新，所以需要枚举和不断地激活。<br />
+一组被重复执行的指令称之为循环体；决定判断条件和终止循环的指令是终止条件。<br />
+循环同样是由<strong>循环体和终止条件两部分构成的</strong>。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <strong>4<font face="黑体">.1.0.2 核心</font></strong><br />
+<br />
+<strong><font face="黑体"><img id="aimg_NOoeZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/bb73da3c95a737b8.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+</font></strong><br />
+<strong>循环的核心是</strong><strong><a href="http://www.mcbbs.net/thread-460038-1-1.html" target="_blank">高频和超频</a></strong>↑<br />
+<br />
+上图是一个最简单的循环；<br />
+它不断的执行say @p<br />
+可以从聊天框中看到这条指令正在被循环执行。<br />
+<br />
+<ul><li>执行顺序<br />
+</ul>与<strong>高频/超频顺序相同</strong><br />
+<font color="#ff0000">应当格外注意指令与指令间的顺序；</font><br />
+<font color="#ff0000">此章注意<strong>判断条件在循环体前面；终止循环必定在循环体末端</strong>。</font><br />
+<br />
+<font color="#ff0000"><br />
+</font>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">4.1.1 与计分板关联</font></font></strong><br />
+一个最简单的条件指令关联例子：<br />
+<font size="2"><font color="#800000">f的a</font></font><br />
+<font size="2"><font color="#800000">&gt;0说明是正数；</font></font><br />
+<font size="2"><font color="#800000">&lt;0说明是负数；</font></font><br />
+<font size="2"><font color="#800000">=0说明是0。</font></font><br />
+<br />
+所以可以以下面的指令达到这一效果：<br />
+<br />
+<img id="aimg_HBQuw" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/86f2bafbb7df78b4.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_Oli"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ say It's a positive number<br /><li>/execute @e[name=f,score_a=-1] ~ ~ ~ say It's a negative number<br /><li>/execute @e[name=f,score_a_min=0,score_a=0] ~ ~ ~ say It's 0</ol></div><em onclick="copycode($('code_Oli'));">复制代码</em></div><br />
+<br />
+<br />
+<font size="4"><strong>效果：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_cXDyO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/af1ef49c370e19b0.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+=1&gt;0所以输出 它是一个正数<br />
+<img id="aimg_LzMn8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/1387ea7eb776ba51.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+=0说以输出 它是0<br />
+<img id="aimg_X4CR3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/bb10195eb0ee4d9a.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+=-5&lt;0所以输出 它是一个负数<br />
+<br />
+与<strong>单次执行最大不同是</strong><br />
+<strong>不用手动执行，它会自动执行</strong>；<br />
+<i>但是若不清空，执行效果指令会一直循环（图中无终止循环，所以是无限循环）。</i><br />
+<br />
+</div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>asdasd1031&nbsp; &nbsp; <b>时间: </b>2015-7-13 09:35<br />
+不懂英语，很难懂诶<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lorinder&nbsp; &nbsp; <b>时间: </b>2015-7-14 10:13<br />
+命令方块渣与你同在= =
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

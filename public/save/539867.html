@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §6 : #1.9 &quot;条件嵌套&quot;与stats - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01Mzk4NjctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : #1.9 &quot;条件嵌套&quot;与stats <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-10 16:54<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §6 : #1.9 &quot;条件嵌套&quot;与stats<br /><font size="5">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font><strong><font size="5">#1.9</font><font size="5"> </font></strong><font size="5"><strong>&quot;条件嵌套&quot;与</strong><strong>stats</strong></font><br />
+条件嵌套表达的条件语句和结合表达式<strong>是等效的</strong><br />
+来看下面的例子<br />
+<br />
+检测玩家是否在石头平地边缘：<br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F43D3_56921B900" target="_blank"><img id="aimg_e1OHf" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/43D3_56921B900.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F70F9_56921B900" target="_blank"><img id="aimg_C1705" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/70F9_56921B900.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FD399_56921B900" target="_blank"><img id="aimg_dE45R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/D399_56921B900.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FF311_56921B910" target="_blank"><img id="aimg_wN2nJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/F311_56921B910.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F1077_56921B910" target="_blank"><img id="aimg_Mwmmx" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/1077_56921B910.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br />
+<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F41F2_56921B910" target="_blank"><img id="aimg_Ozqw8" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/41F2_56921B910.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a><br /><div class="blockcode"><div id="code_r6s"><ol><li>/scoreboard players set @p a 0<br /><li>/stats entity @p set AffectedBlocks @p a</ol></div><em onclick="copycode($('code_r6s'));">复制代码</em></div><font color="#008000">*建立stats</font><br /><div class="blockcode"><div id="code_uD2"><ol><li>/execute @p ~ ~ ~ fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 minecraft:barrier 0 replace minecraft:stone 0<br /><li>/execute @p ~ ~ ~ fill ~-1 ~-1 ~-1 ~1 ~-1 ~1 minecraft:stone 0 replace minecraft:barrier 0</ol></div><em onclick="copycode($('code_uD2'));">复制代码</em></div><font color="#008000">*方块操作</font><br /><div class="blockcode"><div id="code_tyx"><ol><li>/testfor @p[score_a_min=4]<br /><li>/testfor @p[score_a=6]</ol></div><em onclick="copycode($('code_tyx'));">复制代码</em></div><font color="#008000">*条件嵌套</font><br /><div class="blockcode"><div id="code_zYM"><ol><li>/say 1</ol></div><em onclick="copycode($('code_zYM'));">复制代码</em></div><font color="#008000">*输出</font><br />
+<br />
+<font size="4">当stats运用到1.9模块中，<strong>效果其实和1.8相同</strong></font><br />
+<font size="4">而且条件嵌套比起1.8的结合表达式优势在于<strong>逻辑简单</strong>，<strong>无需其他变量参与</strong>（除了部分!非表达的方法外）</font><br />
+<font size="4"><br />
+</font><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2403983250&nbsp; &nbsp; <b>时间: </b>2016-1-10 17:01<br />
+沙发，这自动警告机好，还有能给我科普一下帖子标题上的cbl是什么意思吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-10 17:11<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9610950&amp;ptid=539867" target="_blank"><font color="#999999">2403983250 发表于 2016-1-10 17:01</font></a></font><br />
+沙发，这自动警告机好，还有能给我科普一下帖子标题上的cbl是什么意思吗？ ...</blockquote></div><br />
+cbl=CommandBlockLogic小组<br />
+详情本人签名档<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2016-1-10 17:28<br />
+<i class="pstatus"> 本帖最后由 林扬骐 于 2016-1-10 20:12 编辑 </i><br />
+<br />
+1.看看站在屏障上……<br />
+2.只要几个execute的自我加分就可以做到这个效果，这个确实复杂了些<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>pca006132&nbsp; &nbsp; <b>时间: </b>2016-1-10 17:38<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9611112&amp;ptid=539867" target="_blank"><font color="#999999">林扬骐 发表于 2016-1-10 17:28</font></a></font><br />
+1.看看站在屏障上……<br />
+2.只要几个execute的自我加分就可以做到这个效果，这个确实复制了些 ...</blockquote></div><br />
+有时候呢，execute不是万能的，只不过是这个例子比较简单而已，那么让我来举一个例子吧<br />
+比如说，在实体A条件满足的时候，在命令方块的相对坐标里fill一个平台出来<br />
+如果用execute，就未必能够做到了，因为你一旦execute就代表执行坐标更改了，如果用condition的话就非常方便。(不要说让实体站在命令方块的位置，有时候不能那么做的，或者是很麻烦)<br />
+当然，condition也不是万能的，毕竟这个不能针对独立实体来操作。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-10 17:42<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9611112&amp;ptid=539867" target="_blank"><font color="#999999">林扬骐 发表于 2016-1-10 17:28</font></a></font><br />
+1.看看站在屏障上……<br />
+2.只要几个execute的自我加分就可以做到这个效果，这个确实复制了些 ...</blockquote></div><br />
+我在这里要照应标题：&quot;条件嵌套&quot;与stats<br />
+简单方法多的是，我要为了演示&quot;条件嵌套&quot;与stats<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-10 17:46<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9611206&amp;ptid=539867" target="_blank"><font color="#999999">pca006132 发表于 2016-1-10 17:38</font></a></font><br />
+有时候呢，execute不是万能的，只不过是这个例子比较简单而已，那么让我来举一个例子吧<br />
+比如说，在实体A ...</blockquote></div><br />
+不需要和他争辩<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2016-1-10 20:07<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9611244&amp;ptid=539867" target="_blank"><font color="#999999">贰逼 发表于 2016-1-10 17:42</font></a></font><br />
+我在这里要照应标题：&quot;条件嵌套&quot;与stats<br />
+简单方法多的是，我要为了演示&quot;条件嵌套&quot;与stats ...</blockquote></div><br />
+嗯，和学一次函数的感觉是一样的，先是很麻烦，但是后面就可以解决更多问题<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2016-1-10 20:12<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9611206&amp;ptid=539867" target="_blank"><font color="#999999">pca006132 发表于 2016-1-10 17:38</font></a></font><br />
+有时候呢，execute不是万能的，只不过是这个例子比较简单而已，那么让我来举一个例子吧<br />
+比如说，在实体A ...</blockquote></div><br />
+要学会多种方法一起配合，这样可以做到更多<br />
+不过的确，我在这里说简单的方法<strike>简直在作死</strike>，就像我在学一次函数的时候一样<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>_hua_px&nbsp; &nbsp; <b>时间: </b>2016-1-13 20:19<br />
+2B大神能教一下探测玩家的指令吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2016-1-13 21:03<br />
+<i class="pstatus"> 本帖最后由 贰逼 于 2016-1-13 21:05 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9623445&amp;ptid=539867" target="_blank"><font color="#999999">_hua_px 发表于 2016-1-13 20:19</font></a></font><br />
+2B大神能教一下探测玩家的指令吗？</blockquote></div><div class="blockcode"><div id="code_xTY"><ol><li>/testfor 玩家选择器 NBT</ol></div><em onclick="copycode($('code_xTY'));">复制代码</em></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>zhangyu40177&nbsp; &nbsp; <b>时间: </b>2016-1-13 22:57<br />
+。。这是些什么鬼命令方块。。怎么我都没见过。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>_hua_px&nbsp; &nbsp; <b>时间: </b>2016-1-14 09:55<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9623726&amp;ptid=539867" target="_blank"><font color="#999999">贰逼 发表于 2016-1-13 21:03</font></a></font></blockquote></div><br />
+好的，谢谢
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

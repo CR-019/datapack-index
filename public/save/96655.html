@@ -1,0 +1,342 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 10.火球炮刷怪笼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05NjY1NS0xLTEuaHRtbD9hY3Rpb249cHJpbnRhYmxl', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 10.火球炮刷怪笼 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:53<br />
+<b>标题: </b>【CBL|SYL】NBT教程 10.火球炮刷怪笼<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:36 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+<font color="#ff00"><font size="5">看不到图的请移步到索引贴，那里提供了下载与在线观看地址</font></font><br />
+这其实不算很正式的教程……<br />
+你们当成福利吧……<br />
+<img id="aimg_B2u2n" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/mKInCuF.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+某颗核弹火球留下的痕迹<br />
+<hr class="l" />“炮弹”制作流程<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+<img id="aimg_Bhn77" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/JXG0TfQ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+我们准备一个燃烧弹发射器，准备利用NBT改装为爆炸的火球<br />
+<img id="aimg_kP7lg" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/NsS1wDo.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+记录发射器前面那个方块的坐标，然后发射的那一刻（就是他出现在那个方块上，其实有一点误差也不要紧，只要别跨出了同一个chuck就好了），保存，退出<br />
+<img id="aimg_qT7yB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/hbGmaJj.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+找到相应的chuck<br />
+<img id="aimg_hmVoL" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/ryEDFf4.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+翻开里面的实体列表，找到ID名为<font color="#ff0000">SmallFireball就对了，这种就是诸如火焰弹这种不会爆炸的火球的实体名称</font><br />
+<img id="aimg_PF77b" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/v9TzEhM.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+改为<font color="#ff0000">Fireball，这种就是恶魂的那种火球的实体名称了</font><br />
+<img id="aimg_cyXcq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/0nsKWRJ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+同时记得把direction和motion在这2个list里面全部改成0<br />
+<font color="#ff0000">这2个list都是记录了他的运动方向和速率，分别对应XYZ轴速率，而且这2个标签记录内容一样，不过direction是火球这里尸体才有的，motion是所有实体都有的</font><br />
+<font color="#ff0000"><img id="aimg_G5sLG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/oUmZZZe.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></font><br />
+如果你保存之后再用NBT打开（这里我用的是外置，其实内置的修改器也可以），你会发现多了一个ExplosionPower的标签，这个是记录了火球的爆炸伤害和范围<br />
+<img id="aimg_V3hTz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/OcdRsxK.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+玩大的……改成10<br />
+<img id="aimg_yby6l" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/gY9rDjI.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+做个比较，这是普通的火球范围<br />
+<img id="aimg_MlSsl" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/SbI7CaP.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这是10的<br />
+<img id="aimg_Lr005" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/1DUAA2g.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+而且还直接把苦力帕炸成4血了（关于生物的标签详解嘛……下一次出）<br />
+ </td></table></div></div><br />
+“火球炮”制作流程<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+呵呵应该有人猜到是用刷怪笼了吧？<br />
+<img id="aimg_Vjjy2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/zlOe6b5.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+用nbtedit打开一个做好的火球，复制全部内容（就是最上面那个“root”compound标签）<br />
+<img id="aimg_T6s3f" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/5HVJhxl.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+类似于TNT炮，放进去，更名为SpawnData，然后把ID改成Fireball<br />
+<img id="aimg_QIGU7" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/7mm1CIx.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+SpawnCount记得改成1，不然火球碰一起会原地自爆<br />
+<img id="aimg_BDmQw" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/SZ5AwTa.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+再改好方向，之后什么最大和最小刷新时间不用教了吧？实在不懂看物品刷怪笼那张，里面有刷怪笼标签解析<br />
+<img id="aimg_tnf1k" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Kjf3ZPa.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<img id="aimg_Gx030" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Kjf3ZPa.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这个炮有趣的是，炮弹很快会停滞，但之后的火球冲上来，爆炸，推动前面的火球……一路循环<br />
+<img id="aimg_vPuQ4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/S15PpfB.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+就像这样<br />
+</td></table></div></div><br />
+搞定收工坐等沉……呵呵<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Aikawastep&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:54<br />
+嘛~顶一个~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>八颗牙齿晒太阳&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:57<br />
+NBT不会用的撸过（不会英语真蛋疼）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:58<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">八颗牙齿晒太阳 发表于 2013-3-9 15:57</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605803&amp;ptid=96655" target="_blank"><img id="aimg_ldvsm" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+NBT不会用的撸过（不会英语真蛋疼）</blockquote></div><br />
+{:10_493:}<br />
+就是知道你们不会英文才出教程……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>accee&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:58<br />
+表示不明白&nbsp; &nbsp; <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>IceFreeze&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:58<br />
+添加爆炸属性这个倒是不错的想法...所有东西都可以爆炸了- -<br />
+感谢猪骑士啊哈哈→←~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 15:59<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">accee 发表于 2013-3-9 15:58</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605814&amp;ptid=96655" target="_blank"><img id="aimg_t7PV1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+表示不明白</blockquote></div><br />
+{:10_527:}<br />
+究竟是我写得差……<br />
+还是你压根没去看前面就看这篇<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>IceFreeze&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 15:58</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605810&amp;ptid=96655" target="_blank"><img id="aimg_K3nRR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+就是知道你们不会英文才出教程……</blockquote></div><br />
+我会英语%&gt;_&lt;%虽然水平还是有点低..<br />
+不过我苦恼的是为什么我只能打开NBTExplorer%&gt;_&lt;%,其他不管什么包括inGameNBTMod也不行...<br />
+而且为什么我在NBTExplorer里修改永远是无效的%&gt;_&lt;%!!!<br />
+天哪是我运气不好还是...电脑有问题→→?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">IceFreeze 发表于 2013-3-9 15:58</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605822&amp;ptid=96655" target="_blank"><img id="aimg_Lp666" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+添加爆炸属性这个倒是不错的想法...所有东西都可以爆炸了- -<br />
+感谢猪骑士啊哈哈→←~</blockquote></div><br />
+不是所有<br />
+只限于恶魂火球……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>八颗牙齿晒太阳&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:01<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 15:58</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605810&amp;ptid=96655" target="_blank"><img id="aimg_yIL2L" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+就是知道你们不会英文才出教程……</blockquote></div><br />
+那么。。。NBT是啥？修改器？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:01<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">八颗牙齿晒太阳 发表于 2013-3-9 16:01</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605854&amp;ptid=96655" target="_blank"><img id="aimg_Lr871" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+那么。。。NBT是啥？修改器？</blockquote></div><br />
+好的<br />
+又发现一个没看前面基础的家伙了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>八颗牙齿晒太阳&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:03<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 16:01</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605862&amp;ptid=96655" target="_blank"><img id="aimg_q777g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+好的<br />
+又发现一个没看前面基础的家伙了</blockquote></div><br />
+谁说我没看。。。看不懂QAQ<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>mclauncher&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:08<br />
+怎么感觉略坑。。。。。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>52Dora&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:32<br />
+&amp;#65399;&amp;#65388;━━━━(&amp;#65439;&amp;#8704;&amp;#65439;)━━━━!!<br />
+我正好看过你的NBT教程呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:36<br />
+哟~SYL诈尸了~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:37<br />
+索引和这个我都顶了下，我看3小时前索引帖上了精2。果然是受了鼓励么～<br />
+对于此贴我想问一下核弹火球炸后的残留火焰是不是在爆炸半径内随机生成的？还有能用这个做发射药么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hyd19991005&nbsp; &nbsp; <b>时间: </b>2013-3-9 16:55<br />
+<i class="pstatus"> 本帖最后由 hyd19991005 于 2013-3-9 16:57 编辑 </i><br />
+<br />
+很不错呢，如果可控就更好了，可以讲解一下上次那个挡风玻璃矿车吗<br />
+<a href="http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=77202&amp;highlight=%B5%B2%B7%E7%B2%A3%C1%A7" target="_blank">http://www.mcbbs.net/forum.php?mod=viewthread&amp;tid=77202&amp;highlight=%B5%B2%B7%E7%B2%A3%C1%A7</a><br />
+<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QAQTAT&nbsp; &nbsp; <b>时间: </b>2013-3-9 19:45<br />
+噗。。。顶一个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:45<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">hyd19991005 发表于 2013-3-9 16:55</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1606469&amp;ptid=96655" target="_blank"><img id="aimg_fCr00" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+很不错呢，如果可控就更好了，可以讲解一下上次那个挡风玻璃矿车吗<br />
+http://www.mcbbs.net/forum.php?mod=v ...</blockquote></div><br />
+可以<br />
+不过得等1.5和1.5的ingame edit<br />
+原因？我懒……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:48<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-3-9 16:37</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1606240&amp;ptid=96655" target="_blank"><img id="aimg_W3KKy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+索引和这个我都顶了下，我看3小时前索引帖上了精2。果然是受了鼓励么～<br />
+对于此贴我想问一下核弹火球炸后的 ...</blockquote></div><br />
+是随机的，无法控制呵呵<br />
+至于发射药吗……<br />
+完全可以利用一串刷怪笼产生锁链效应……<br />
+感觉有点像核弹诶……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:49<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">IceFreeze 发表于 2013-3-9 16:00</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605852&amp;ptid=96655" target="_blank"><img id="aimg_R5wLM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我会英语%&gt;___</blockquote></div><br />
+有没有保存……<br />
+ingame的就奇怪了<br />
+我看看1.5版弄个整合包出来吧<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:50<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">八颗牙齿晒太阳 发表于 2013-3-9 16:03</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605883&amp;ptid=96655" target="_blank"><img id="aimg_B8P5K" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+谁说我没看。。。看不懂QAQ</blockquote></div><br />
+1句话<br />
+边看边动手<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:50<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">猫小沫 发表于 2013-3-9 16:36</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1606227&amp;ptid=96655" target="_blank"><img id="aimg_eVBvb" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哟~SYL诈尸了~</blockquote></div><br />
+啥……<br />
+不过是填坑慢了点了啦……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:51<br />
+<i class="pstatus"> 本帖最后由 猫小沫 于 2013-3-9 20:52 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609156&amp;ptid=96655" target="_blank"><img id="aimg_jBUss" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+啥……<br />
+不过是填坑慢了点了啦……</blockquote></div><br />
+表示对你对MOD超强的领悟力表示由衷的<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+默默鄙视……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:52<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">猫小沫 发表于 2013-3-9 20:51</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609175&amp;ptid=96655" target="_blank"><img id="aimg_cKR77" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+表示对你对MOD超强的领悟力表示由衷的</blockquote></div><br />
+我才不告诉你NBT其实是我翻英文WIKI学的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:53<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609156&amp;ptid=96655" target="_blank"><img id="aimg_R639n" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+啥……<br />
+不过是填坑慢了点了啦……</blockquote></div><br />
+五连了!五连了!!!!<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:53<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">猫小沫 发表于 2013-3-9 20:53</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609191&amp;ptid=96655" target="_blank"><img id="aimg_VYiMf" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+五连了!五连了!!!!</blockquote></div><br />
+oh……<br />
+不过貌似没了点评好像没三连限制了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>IceFreeze&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:53<br />
+<i class="pstatus"> 本帖最后由 IceFreeze 于 2013-3-9 20:54 编辑 </i><br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:49</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609150&amp;ptid=96655" target="_blank"><img id="aimg_BtqYs" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+有没有保存……<br />
+ingame的就奇怪了<br />
+我看看1.5版弄个整合包出来吧</blockquote></div><br />
+怎么可能忘记保存o(╯□╰)o<br />
+不过那个ingame的我用别人整合好的或者自己装的都没反应...唯一反应就是不会提示没有这个命令了...<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:54<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">猫小沫 发表于 2013-3-9 20:53</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609191&amp;ptid=96655" target="_blank"><img id="aimg_a6Czk" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+五连了!五连了!!!!</blockquote></div><br />
+回复3连以上：点评/回复警告&nbsp;&nbsp;废除<br />
+XD<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:55<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:54</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609208&amp;ptid=96655" target="_blank"><img id="aimg_IW1ho" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+回复3连以上：点评/回复警告&nbsp;&nbsp;废除<br />
+XD</blockquote></div><br />
+好吧……<br />
+刷屏的勋章……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:55<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">IceFreeze 发表于 2013-3-9 20:53</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609204&amp;ptid=96655" target="_blank"><img id="aimg_TBqkg" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+怎么可能忘记保存o(╯□╰)o<br />
+不过那个ingame的我用别人整合好的或者自己装的都没反应...唯一反应就是不会 ...</blockquote></div><br />
+(─.─|||<br />
+这就奇怪了……<br />
+不应该啊……<br />
+准心有对着实体吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:55<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">猫小沫 发表于 2013-3-9 20:55</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609217&amp;ptid=96655" target="_blank"><img id="aimg_UPssN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+好吧……<br />
+刷屏的勋章……</blockquote></div><br />
+咦？之前我不是收起来只留下最高等级的吗……<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:58<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:55</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609226&amp;ptid=96655" target="_blank"><img id="aimg_j8Hby" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+咦？之前我不是收起来只留下最高等级的吗……</blockquote></div><br />
+现在是了……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>IceFreeze&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:59<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:55</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609220&amp;ptid=96655" target="_blank"><img id="aimg_fhjVy" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+(─.─|||<br />
+这就奇怪了……<br />
+不应该啊……</blockquote></div><br />
+不对准实体的话会提示错误的- -|||<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:59<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">IceFreeze 发表于 2013-3-9 20:59</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609269&amp;ptid=96655" target="_blank"><img id="aimg_WNYEc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+不对准实体的话会提示错误的- -|||</blockquote></div><br />
+）&amp;（#……（&amp;@<br />
+这真是奇葩了……<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 20:59<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">猫小沫 发表于 2013-3-9 20:58</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609267&amp;ptid=96655" target="_blank"><img id="aimg_e9sZS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+现在是了……</blockquote></div><br />
+刚刚去弄的<br />
+可能因为新拿了个曲奇结果全刷出来了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-9 21:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:59</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609279&amp;ptid=96655" target="_blank"><img id="aimg_rq33Q" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+刚刚去弄的<br />
+可能因为新拿了个曲奇结果全刷出来了</blockquote></div><br />
+哎呀……我也想弄一堆了……<br />
+另：求围观<a href="http://www.mcbbs.net/thread-94610-1-1.html" target="_blank">http://www.mcbbs.net/thread-94610-1-1.html</a><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>IceFreeze&nbsp; &nbsp; <b>时间: </b>2013-3-9 21:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:59</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609279&amp;ptid=96655" target="_blank"><img id="aimg_n5YOu" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+刚刚去弄的<br />
+可能因为新拿了个曲奇结果全刷出来了</blockquote></div><br />
+曲奇是什么...莫非是那个很好吃的那个吗...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 21:15<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">IceFreeze 发表于 2013-3-9 21:00</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609290&amp;ptid=96655" target="_blank"><img id="aimg_rcVGM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+曲奇是什么...莫非是那个很好吃的那个吗...</blockquote></div><br />
+50贡献那个<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>IceFreeze&nbsp; &nbsp; <b>时间: </b>2013-3-9 21:21<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 21:15</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609454&amp;ptid=96655" target="_blank"><img id="aimg_qj282" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+50贡献那个</blockquote></div><br />
+天哪,,,我贡献才37..%&gt;_&lt;%<br />
+诶..?!签名档什么时候加了一个精华图章了...?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-9 21:30<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">IceFreeze 发表于 2013-3-9 21:21</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609504&amp;ptid=96655" target="_blank"><img id="aimg_J0nw0" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+天哪,,,我贡献才37..%&gt;_</blockquote></div><br />
+刚刚哈哈……<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1025891364&nbsp; &nbsp; <b>时间: </b>2013-3-10 13:24<br />
+呵呵，这个早知道了嘛~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-3-10 21:56<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-9 20:53</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1609203&amp;ptid=96655" target="_blank"><img id="aimg_HGdsb" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+oh……<br />
+不过貌似没了点评好像没三连限制了</blockquote></div><br />
+本版单设了一般人仍不能三连，楼主回复他人顶多4连。<img src="static/image/smiley/rabbit/43.gif" smilieid="693" border="0" alt="" /><br /><div class="quote"><blockquote>论坛及单人游戏版块规章最新修改注意<br />
+<a href="http://www.mcbbs.net/thread-82415-1-1.html" target="_blank">http://www.mcbbs.net/thread-82415-1-1.html</a></blockquote></div><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-10 21:57<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-3-10 21:56</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1620983&amp;ptid=96655" target="_blank"><img id="aimg_GIj22" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+本版单设了一般人仍不能三连，楼主回复他人顶多4连。</blockquote></div><br />
+怨念……<br />
+点评啊点评啊……<br />
+你这就去了结果害我5连了啊……<br />
+{:10_527:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yihc&nbsp; &nbsp; <b>时间: </b>2013-3-22 08:46<br />
+谢谢了.很好&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>icrdr&nbsp; &nbsp; <b>时间: </b>2013-4-3 08:20<br />
+恶魂的火球我有一次好奇改成100，一泡发来太赞了！所有的掉落方块明显向爆炸中心聚了一下，然后坍塌！卧槽太帅了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-3 17:13<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">icrdr 发表于 2013-4-3 08:20</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1781428&amp;ptid=96655" target="_blank"><img id="aimg_Q75HA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+恶魂的火球我有一次好奇改成100，一泡发来太赞了！所有的掉落方块明显向爆炸中心聚了一下，然后坍塌！卧槽太 ...</blockquote></div><br />
+creeper也可以改NBT<br />
+一样效果<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>gyf&nbsp; &nbsp; <b>时间: </b>2013-6-22 13:02<br />
+好复杂 不过挺有意思<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>苦力怕最可爱&nbsp; &nbsp; <b>时间: </b>2013-8-10 16:45<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">Aikawastep 发表于 2013-3-9 15:54</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1605767&amp;ptid=96655" target="_blank"><img id="aimg_nkOqc" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+嘛~顶一个~</blockquote></div><br />
+嘛~顶一个~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>EtCreeper&nbsp; &nbsp; <b>时间: </b>2013-12-21 21:13<br />
+牛啊&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;整人很不错<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>1395170632&nbsp; &nbsp; <b>时间: </b>2013-12-25 20:43<br />
+<i class="pstatus"> 本帖最后由 1395170632 于 2013-12-25 20:43 编辑 </i><br />
+<br />
+<img id="aimg_v0qtz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="550" height="225" src="http://img14.poco.cn/mypoco/myphoto/20130406/20/1736296132013040620465526THX.jpg" border="0" alt="" /><br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>WY.&nbsp; &nbsp; <b>时间: </b>2014-11-29 10:58<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

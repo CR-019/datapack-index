@@ -1,0 +1,249 @@
+<html>
+<head>
+<title>[1.13+]新版execute命令详解 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?LPb" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?LPb" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'LPb', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05MDEzNjQtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[1.13+]新版execute命令详解 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>song2006&nbsp; &nbsp; <b>时间: </b>2019-8-14 11:49<br />
+<b>标题: </b>[1.13+]新版execute命令详解<br /><i class="pstatus"> 本帖最后由 song2006 于 2019-8-14 12:30 编辑 </i><br />
+<font size="3">相信很多人在经历1.13的命令大改后都不会用execute了吧<img src="static/image/smiley/rabbit/48.gif" smilieid="698" border="0" alt="" /><br />
+那就跟我一起从头学习一下1.13的execute新语法吧</font><br />
+<br />
+<div align="center"><img id="aimg_Oq7Qv" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></div><font size="5"><br />
+</font><div align="center"><strong><font size="5">1.基本语法</font></strong></div><br />
+<br />
+<br />
+命令格式：<strong>/execute [修饰子命令] [修饰子命令参数] ... [条件子命令] [条件子命令判断类型] [条件判断内容] ... [储存子命令] [储存子命令参数] ... [run子命令] [要运行的具体命令]</strong><br />
+从上面看到，execute的<strong>所有参数都是可选的</strong>，说明这条命令有着<strong>极大的拓展性</strong>（那run和要执行的命令都可以没有？？这个留到后面讲）<br />
+<br />
+<div align="center"><strong><font size="5">2.run子命令</font></strong></div><br />
+<div align="left"><font size="2">它的作用很简单：<strong>执行一条命令</strong>。这个子命令比较特殊，只能放在execute的最末尾。</font></div><br />
+<div align="left"><font size="2"><i>举个例子：</i>/execute <u>run setblock ~ ~ ~ stone</u></font></div><br />
+<div align="left"><font size="2"> - 和一般的命令没有区别，就是在当前位置放一个石头。</font></div><br />
+<br />
+<div align="center"><strong><font size="5">3.修饰子命令</font></strong></div><br />
+<div align="left"><ul><li><strong><font size="4">什么是修饰子命令？</font></strong><br />
+</ul></div><div align="left"><font size="2">修饰子命令可以<strong>更改命令运行的环境</strong>。例如模拟指定实体对象、模拟指定位置等。一个execute可以套多个修饰子命令，系统会<strong>由左到右</strong>依次解析。</font></div><br />
+<div align="left"><font size="2"><br />
+</font></div><br />
+<div align="left"><ul><li><strong><font size="3">修饰子命令-as</font></strong><br />
+</ul><font size="2">它可以使命令的执行者作为指定的实体。参数就是一个实体选择器。如果同时选中了多个目标，每个目标都会执行一次。</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute <u>as <a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=1702895" target="_blank">@e[type=item]</a></u> run say 我是物品</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 让所有的掉落物都说一句“我是物品”。</font><br />
+<font size="2"><br />
+</font><br />
+<ul><li><strong><font size="3">修饰子命令-at</font></strong><br />
+</ul><font size="2">让命令的执行位置改为指定的实体位置、朝向和维度。参数是一个实体选择器。</font><font size="2">如果同时选中了多个目标，每个目标都会执行一次。它通常与as连用，做到模拟指定实体执行命令的效果（就像1.12前那样）。相当于打包的rotated as、in和</font>positioned as。<br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute <u>at @a</u> run summon pig ~ ~2 ~</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 让所有的玩家头上生成一头猪。</font><br />
+<font size="2"><br />
+</font><br />
+<ul><li><font size="3"><strong>修饰子命令-align</strong></font><br />
+</ul><font size="2">将运行位置的坐标转化为方块坐标（向下取整）。可以用这个子命令来偏正盔甲架或玩家的位置。它的参数可以是x、y、z三个字母的任意组合，表示需要转化的坐标轴。</font><br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute <u>align xyz</u> run tp @s ~ ~ ~</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 把你的坐标偏正为方块中心的位置。</font><br />
+<font size="2"><br />
+</font><br />
+<font size="2"><br />
+</font><br />
+<ul><li><strong><font size="3">修饰子命令-</font>anchored</strong><br />
+</ul>在使用局部坐标时或者使用朝向命令时更改此命令的基准点为实体脚或眼睛的位置。参数只能是feet或eyes。</div><div align="left"><font size="2"><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>其实我也没读懂......还是不举例免得误导别人吧</i></font><br />
+<br />
+<font size="2"><br />
+</font><br />
+<ul><li><strong><font size="3">修饰子命令-</font>facing</strong><br />
+</ul><font size="2">将命令执行的朝向修改为朝向指定的位置，可以指定为朝向一个方块或是一个实体。他的参数可以是一个坐标（此模式下将会朝向这个坐标），或是entity &lt;实体选择器&gt; &lt;feet|eyes&gt;（此模式下会朝向选定的实体，feet代表朝向实体的脚，eyes则代表眼睛）</font></div><div align="left"><font size="2"><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute <u>facing entity @e[type=armor_stand,limit=1,sort=nearest] feet</u> run tp @s ~ ~ ~ ~ ~</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 使你面向最近的一个盔甲架。</font><br />
+<br />
+<font size="2"><br />
+</font><br />
+<ul><li><strong><font size="3">修饰子命令-in</font></strong><br />
+</ul><font size="2">将命令的执行维度改为指定的维度。参数只能是overworld（主世界），the_nether（下界），the_end（末地）。</font><br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute <u>in the_nether</u> run tp ~ ~ ~</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 把你传送到下界，但坐标不变。</font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><font size="2"><br />
+</font><br />
+<ul><li><strong><font size="3">修饰子命令-</font>positioned</strong><br />
+</ul><font size="2">将命令的执行位置改为指定的坐标。参数可以直接填一个坐标（直接作为该坐标），或是as &lt;目标选择器&gt;（作为指定实体的坐标，和at有一点点区别，这个子命令只更改<strong>位置</strong>，而at可以模拟<strong>位置、朝向和维度</strong></font><font size="2">）。</font><br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute <u>positioned 0 0 0</u> run kill @a[distance=..10]</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 清除所有靠近坐标0,0,0十格以内的玩家。 </font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><ul><li><strong><font size="3">修饰子命令-</font>rotated</strong><br />
+</ul>将命令执行的朝向改为指定的朝向（<strong>注意他和facing不同</strong>）。参数可以直接填y和x的旋转角度（直接作为该朝向），或是as &lt;实体选择器&gt;（作为指定实体的朝向，<strong>而不是朝向此实体</strong>）<br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute <u>rotated as @e[type=armor_stand,limit=1,sort=nearest]</u> run tp @s ~ ~ ~ ~ ~</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 使你的朝向与最近的一个盔甲架相同。<strong>请注意和facing中的例子区分。</strong></font></div><div align="left"><div align="center"><strong><font size="5">4.条件子命令</font></strong></div></div><div align="left"><div align="left"><ul><li><strong><font size="4">什么是条件子命令？</font></strong><br />
+</ul><font size="2">条件子命令可以<strong>让命令在满足/不满足特定条件的情况下才能执行</strong>。和修饰子命令一样，一个execute中可以套用多个条件子命令，由左到右进行解析。如果套有多个条件子命令，他们的关系是“<strong>和</strong>”，也就是说<strong>只要有一个条件子命令不符合条件，整个命令都不会执行</strong>。</font><br />
+<font size="2"><br />
+</font><br />
+<ul><li><font size="3"><strong>条件子命令-if和unless</strong></font><br />
+</ul><font size="2">if和unless的作用差不多，并且他们可选的参数都是一样的，只不过if模式下<strong>满足特定条件才能执行命令</strong>，unless模式则反之，<strong>不满足特定条件则执行命令</strong>。还记得一开头提到run和执行的命令也可以不用填写吗？<strong>只有在execute以条件子命令结尾时才可以不填写run</strong>，用来判断指定事物并返回判断结果（可以用后面讲的储存子命令来获取，或是用红石比较器来作为红石信号输出）</font><br />
+<br />
+<font size="2"><br />
+</font><br />
+<ul><li><strong><font size="3">条件判断参数-block</font></strong><br />
+</ul><font size="2">判断指定位置的方块是否与指定的方块相符。（<i>等效于1.12之前的/testforblock</i>）</font><br />
+<font size="2">格式：/execute ... &lt;if|unless&gt; <u>block &lt;坐标&gt; &lt;方块&gt;</u></font><br />
+<br />
+<font size="2">方块一栏可以填写方块英文名称，也可以填写一个方块标签（表示判断这个方块是否拥有指定标签）。支持方块状态和NBT标签的判断。</font><br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute as @a at @a <u>if block ~ ~-1 ~ #minecraft:wool</u> run kill @s</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 如果玩家脚下是羊毛，则清除该玩家。</font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><ul><li><strong><font size="3">条件判断参数-blocks</font></strong><br />
+</ul><font size="2">判断两个区域内的方块是否相符。（<i>等效于1.12之前的/testforblocks</i>）</font><br />
+<font size="2">格式：/execute ... &lt;if|unless&gt; <u>blocks &lt;区域1的起点坐标&gt; &lt;区域1的终点坐标&gt; &lt;区域2的坐标&gt; &lt;all|masked&gt;</u></font><br />
+<br />
+坐标的填写格式与/clone相同。all模式表示选中并比较区域内所有的方块，masked则会忽略空气方块和结构空位。<br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute if blocks ~ ~-1 ~ ~ ~-1 ~ 20 5 60 all run give @s diamond</font><br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 如果玩家脚下的方块和处于20,5,60坐标的方块相同，给予玩家一个钻石。</font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><ul><li><strong><font size="3">条件判断参数-data</font></strong><br />
+</ul><font size="2">判断指定的实体或方块的NBT标签是否和指定的相符。</font><br />
+<font size="2">格式：/execute ... &lt;if|unless&gt; <u>data &lt;block|entity&gt; &lt;选择器|方块坐标&gt; &lt;指定NBT标签|NBT索引路径&gt;</u></font><br />
+<br />
+<font size="2">只有在block模式下才能使用方块坐标，在entity模式下才能使用选择器。NBT索引路径的格式详见</font><a href="https://minecraft-zh.gamepedia.com/教程/NBT与JSON#NBT路径的表示方法" target="_blank">这里</a><font size="2">。</font><br />
+<br />
+<font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute if data entity @s {example:20s</font><font size="2">}</font></div><div align="left"><font size="2">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 判断执行者的example标签的值是否为short类型的20。</font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><font size="2"><br />
+</font></div><div align="left"><div align="left"><ul><li><strong><font size="3">条件判断参数-entity</font></strong><br />
+</ul><font size="2">判断世界上是否存在指定的实体。<i>(等效于1.12之前的/testfor)</i></font><br />
+<font size="2">格式：/execute ... &lt;if|unless&gt; <u>entity &lt;选择器&gt;</u></font><br />
+<br />
+<font size="2"><i>这么简单我还是不举例子了吧</i></font><br />
+</div><div align="left"><div align="left"><ul><li><strong><font size="3">条件判断参数-score</font></strong><br />
+</ul><font size="2">判断指定实体的计分板分数是否满足指定运算符的条件，或是处于指定的范围中。<i>（是升级版的1.12前的/scoreboard players test）</i></font><br />
+<font size="2">格式：/execute ... &lt;if|unless&gt; <u>score &lt;选择器&gt; &lt;目标记分项&gt; &lt;运算符&gt; &lt;要比较的实体选择器&gt; &lt;要比较的目标计分项&gt;</u></font></div><div align="left"><font size="2">或：</font><font size="2">/execute ... &lt;if|unless&gt; </font><u>score &lt;选择器&gt; &lt;目标记分项&gt; matches &lt;数值范围&gt;</u></div><div align="left">数值范围的表示方法参照1.13的<a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4#%E9%80%9A%E8%BF%87%E5%88%86%E6%95%B0%E9%80%89%E6%8B%A9%E7%9B%AE%E6%A0%87" target="_blank">新方式</a>。<br />
+</div><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute if score @s foo matches 2..10 run effect give @s speed 30</div><div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 如果执行者的foo分数在2~10之间，那么给予执行者速度效果30秒。</div><br />
+<br />
+<br />
+<div align="left"><div align="left"><div align="left"><ul><li><strong><font size="3">条件判断参数-score</font></strong><br />
+</ul><font size="2">判断指定实体的计分板分数是否满足指定运算符的条件，或是处于指定的范围中。<i>（是升级版的1.12前的/scoreboard players test）</i></font><br />
+<font size="2">格式：/execute ... &lt;if|unless&gt; <u>score &lt;选择器&gt; &lt;目标记分项&gt; &lt;运算符&gt; &lt;要比较的实体选择器&gt; &lt;要比较的目标计分项&gt;</u></font></div><div align="left"><font size="2">或：</font><font size="2">/execute ... &lt;if|unless&gt; </font><u>score &lt;选择器&gt; &lt;目标记分项&gt; matches &lt;数值范围&gt;</u></div><div align="left">数值范围的表示方法参照1.13的<a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4#%E9%80%9A%E8%BF%87%E5%88%86%E6%95%B0%E9%80%89%E6%8B%A9%E7%9B%AE%E6%A0%87" target="_blank">新方式</a>。<br />
+</div><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<i>举个例子：</i>/execute if score @s foo matches 2..10 run effect give @s speed 30</div><div align="left">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 如果执行者的foo分数在2~10之间，那么给予执行者速度效果30秒。</div><br />
+<br />
+<div align="left"><div align="center"><strong><font size="5">5.储存子命令</font></strong></div></div><div align="left"><div align="left"><ul><li><strong><font size="4">什么是储存子命令？</font></strong><br />
+</ul><font size="2">储存子命令用于将<strong>命令的执行/返回结果储存到计分板、NBT标签或是</strong></font><a href="https://minecraft-zh.gamepedia.com/%E5%91%BD%E4%BB%A4/bossbar" target="_blank">boss栏</a><font size="2">。<i>是1.12之前/stats的升级版。</i></font><br />
+<br />
+<strong><font size="3">后面的内容可能有点难懂，萌新请跳过或左转</font></strong><br />
+<strong><font size="3"><br />
+</font></strong><br />
+<strong><font size="3"><br />
+</font></strong><br />
+<ul><li><strong><font size="3">储存子命令-store</font></strong><br />
+</ul><font size="2">基本的储存子命令，配合后面的<strong>储存子命令模式</strong>使用。</font><br />
+<br />
+<br />
+<br />
+<ul><li><strong><font size="3">储存子命令模式-</font></strong><strong><font size="3">result和success</font></strong><br />
+</ul><font size="2">result会储存<strong>命令返回的更改结果</strong>，取代了之前的/stats ... </font>AffectedBlocks（更改的方块数），AffectedEntities（更改的实体数），AffectedItems（更改的物品数）和QueryResult（查询类命令的查询结果）。<br />
+<br />
+success会储存<strong>命令的成功次数</strong>。一般来说它返回的值只能是0或1，如果和as连用使多个实体执行同一命令，那么有多少个实体成功执行了命令，返回值就为几。<br />
+<br />
+格式：<br />
+/execute ... store &lt;result|success&gt; score &lt;选择器&gt; &lt;目标记分项&gt;<br />
+将返回的值储存为指定实体的计分项。<br />
+<br />
+/execute ... store &lt;result|success&gt; &lt;block|entity&gt; &lt;方块坐标|实体选择器&gt; &lt;NBT索引路径&gt; <font style="background-color:wheat">&lt;byte|double|float|int|long|short&gt;</font> &lt;倍率&gt;<br />
+将返回的值先乘上指定倍率，再储存到指定方块或实体的NBT中。浅黄色背景部分表示储存值的数据类型。如果储存为float或double等小数类型，那么会先乘以倍率后向下取整。这个命令只能替换现有的NBT值，不能创造新的标签。<br />
+<br />
+/execute ... store &lt;result|success&gt; bossbar &lt;boss栏的id&gt; &lt;value|max&gt;<br />
+将返回的值储存到boss栏的当前值或上限值。<br />
+<br />
+<br />
+<i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;举几个例子：</i><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute as @a store success score #fakeman players run trigger foo<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 将玩家数量的值储存到#fakeman的players分数中。假设foo触发器存在，没有任何用途，并且一直保持开启。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/execute store result score #fakeman entity run kill @e[type=!player]<br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;- 清除世界上所有除玩家外的实体，并将实体的数量储存到#fakeman的entity分数中。 <br />
+<br />
+<br />
+<br />
+<br />
+<div align="center"><img id="aimg_x577e" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/hrline/line2.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></div><br />
+<br />
+<div align="center"><strong><font size="5">6.结束语</font></strong></div><br />
+<div align="center"><strong><font size="5"><br />
+</font></strong></div><br />
+<div align="center"><font size="3">可以看到，其实1.13的命令大改是把命令变得更好理解（英文国家）、更好用了。</font></div><br />
+<div align="center"><font size="3">所以不要惧怕这种大的改变，</font></div><br />
+<div align="center"><font size="3">要积极地去学习与了解。</font></div><br />
+<div align="center"><font size="3"><br />
+</font></div><br />
+<div align="center"><font size="3"><br />
+</font></div><br />
+<div align="center"><font size="3"><br />
+</font></div><br />
+<div align="center"><font size="3">一位mcbbs萌新写的第一篇教程帖，若有错误欢迎指出，还请大佬们多多包涵。</font></div><br />
+<div align="center"><font size="3"><br />
+</font></div><br />
+<div align="center"><font size="3">部分内容引自中文Minecraft Wiki：</font></div><br />
+<div align="center"><a href="https://minecraft-zh.gamepedia.com/命令/execute" target="_blank">命令/execute</a></div><br />
+<div align="center"><a href="https://minecraft-zh.gamepedia.com/命令/stats" target="_blank">命令/stats</a></div><br />
+<div align="center"><a href="https://minecraft-zh.gamepedia.com/命令" target="_blank">命令</a></div><br />
+<div align="center"><a href="https://minecraft-zh.gamepedia.com/计分板" target="_blank">计分板</a></div><br />
+<div align="center"><a href="https://minecraft-zh.gamepedia.com/命令#通过分数选择目标" target="_blank">命令#通过分数选择目标</a></div><br />
+<div align="center"><a href="https://minecraft-zh.gamepedia.com/命令/bossbar" target="_blank">命令/bossbar</a></div><br />
+<div align="center"><a href="https://minecraft-zh.gamepedia.com/教程/NBT与JSON#NBT路径的表示方法" target="_blank">教程/NBT与JSON#NBT路径的表示方法</a></div><br />
+<br />
+<br />
+<div align="center"><font size="1">欢迎评分送人气丫</font></div><br />
+<br />
+<br />
+<br />
+</div></div></div></div></div><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2019-8-14 12:05<br />
+所以你看了wiki还是没搞懂at和positioned as的区别吗？anchored你基本也没说清<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>song2006&nbsp; &nbsp; <b>时间: </b>2019-8-14 12:25<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=15328101&amp;ptid=901364" target="_blank"><font color="#999999">ruhuasiyu 发表于 2019-8-14 12:05</font></a></font><br />
+所以你看了wiki还是没搞懂at和positioned as的区别吗？anchored你基本也没说清</blockquote></div><br />
+已修改awa<br />
+写的时候有点急没看清<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>颜魂i&nbsp; &nbsp; <b>时间: </b>2019-8-14 12:48<br />
+看半天没看懂<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>BlackCB.&nbsp; &nbsp; <b>时间: </b>2019-8-14 13:04<br />
+我感觉这样的教程还不如直接去看维基<br />
+给不会的人写的基础教程就应该尽可能的简单易懂，而不是搬弄晦涩的词汇<br />
+起码得有几个例子吧？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>song2006&nbsp; &nbsp; <b>时间: </b>2019-8-14 14:29<br />
+<div class="quote"><blockquote><font color="#999999">天狼星black 发表于 2019-8-14 13:04</font><br />
+<font color="#999999">我感觉这样的教程还不如直接去看维基<br />
+给不会的人写的基础教程就应该尽可能的简单易懂，而不是搬弄晦涩的词 ...</font></blockquote></div><br />
+没有例子？每个子命令下面不都举了例子吗？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Chelover_C60&nbsp; &nbsp; <b>时间: </b>2019-8-14 22:11<br />
+<i class="pstatus"> 本帖最后由 CHElover_C60 于 2019-8-14 22:14 编辑 </i><br />
+<br />
+anchored用于修改命令基准点，影响局部坐标以及facing子命令。默认指令基准点为feet<br />
+<br />
+/tp ^ ^ ^&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; #将自己传送至脚部（相当于没变化）<br />
+/execute anchored eyes run tp ^ ^ ^&nbsp; &nbsp;&nbsp; &nbsp; #将自己传送至眼部（没有潜行时，相当于向上传送1.62个方块）
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

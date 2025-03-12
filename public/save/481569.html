@@ -1,0 +1,138 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §д : 文字 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00ODE1NjktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 文字 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-8-5 21:39<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §д : 文字<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-8-8 19:57 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>（附）效果指令</strong></font></font></div><div align="center"><font size="1"><strong>第二页为 文字种类</strong></font></div><div align="left">效果指令作为语句的一个输出，通常为<strong>对游戏本体产生影响效果操作的指令</strong>。</div><br />
+<div align="left">效果指令包含以下内容</div><br />
+<div align="left"><strong>实意指令与效果指令区别</strong></div><br />
+<div align="left"><strong>文字</strong></div><ul><li><div align="left">json</div><li><div align="left">其他</div><br />
+</ul><div align="left"><strong>物品操作</strong></div><ul><li><div align="left">give</div><li><div align="left">replaceitem</div><br />
+</ul><div align="left"><strong>实体操作</strong></div><ul><li><div align="left">summon</div><li><div align="left">kill</div><br />
+</ul><div align="left"><strong>方块操作</strong></div><ul><li><div align="left">setblock</div><li><div align="left">clone</div><li><div align="left">fill</div><br />
+</ul><div align="left"><strong>音效</strong></div><ul><li><div align="left">playsound大全</div><br />
+</ul><div align="left"><strong>粒子效果</strong></div><ul><li><div align="left">粒子大全</div><br />
+</ul><br />
+<font size="5"><strong><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">全索引链接</a></strong></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-481512-1-1.html" target="_blank">上一篇</a>（实意指令与效果指令区别）--<a href="http://www.mcbbs.net/thread-482924-1-1.html" target="_blank">下一篇</a>（物品操作）</font></div><div align="right"><div align="left"><br />
+<font face="碳化硅大黑体"><font size="5"><strong>§</strong><strong>д</strong></font></font><strong>.2 文字</strong><br />
+<font size="1"><strong>第三页为 json</strong></font><br />
+文字 类效果指令指<strong>对文字进行输出的指令</strong>。<br />
+其主要分为：<strong>json和其他</strong><br />
+<br />
+<strong>json是一个强大的文字输出类，它包含了聊天框/牌子/书本/标题，且支持下划线/粗体/斜体/模糊/删除线等效果，也有自带几种颜色，并且能够完成自定义事件。</strong><br />
+其他表示能够输出在含文本框的地方，能够完成基本输出。<br />
+<br />
+<i>两者都有优有劣，所以可以互相取长补短。</i><br />
+<i><br />
+</i>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>д</strong></font></font><strong>.2.1 json</strong><br />
+<font size="1"><strong>第四页为 其他</strong></font><br />
+json的<strong>基础指令有很多，其中聊天框/屏幕的输出是</strong>：<br />
+tellraw和title，具体指令在<strong>相关链接</strong>中。<br />
+<br />
+而其他的例如书本json和牌子json需要give或者setblock等修改nbt的指令，将在<strong>物品操作和方块操作中讲解</strong>。<br />
+<br />
+例如以下<strong>文字输出</strong>：<br />
+<br />
+<img id="aimg_GcAad" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/ad13b3fab9742348.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br /><div class="blockcode"><div id="code_w78"><ol><li>/tellraw @p <br /><li>{text:&quot;&quot;,extra:[{text:&quot;CommandBlockLogic&quot;,color:dark_aqua,bold:true,underlined:true}]}</ol></div><em onclick="copycode($('code_w78'));">复制代码</em></div><br />
+<br />
+<strong>可以看到这段文字对游戏本身只起到效果显示，并没有增加一个量</strong>。<br />
+<br />
+<br />
+<i>关于Json中的用法，类似于nbt标签，</i><br />
+<i>color表示颜色，</i><br />
+<i>bold等则是样式。</i><br />
+<i>当然还有 点击事件/悬浮事件/触发器 等功能，但是由于json局限性，无法对于所有文字支持样式修改。</i><br />
+<br />
+<br />
+<font size="4"><strong>相关链接：</strong></font><br />
+<a href="http://www.mcbbs.net/thread-431678-1-1.html" target="_blank"><strong>json圣典</strong></a><br />
+<strong><a href="http://www.mcbbs.net/thread-419522-1-1.html" target="_blank">json编辑器</a></strong><br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<font face="微软雅黑"><font size="4"><strong>д</strong></font></font><strong>.2.2 其他</strong><br />
+其他则是<strong>纯属输出普通文字的，但是输出文字对象或者方式都有所不同</strong>。<br />
+<br />
+<ul><li>say<br />
+</ul><img id="aimg_tmb61" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/847beefae2a52d66.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<br /><div class="blockcode"><div id="code_Gux"><ol><li>/execute @p ~ ~ ~ say @p</ol></div><em onclick="copycode($('code_Gux'));">复制代码</em></div><br />
+相对最近玩家输出最近玩家名<br />
+<br />
+<br />
+say包含两个部分：相对执行体和文字<br />
+其中文字<strong>可以是选择器或者字符串</strong>，<strong>所以say @p @p就是两次玩家名</strong><br />
+<br />
+say的格式是<u>/say 文字</u>，可以前缀execute表相对执行<br />
+say的输出格式就是：<u>[相对执行体] 文字</u><br />
+（这类似于全服务器公告或者玩家说话）<br />
+<br />
+如果没有相对执行体输出@，也就是<strong>省略玩家</strong>。<br />
+<ul><li>tell<br />
+</ul><img id="aimg_pm0Z6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/c69d181696bb15fb.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<br /><div class="blockcode"><div id="code_piv"><ol><li>/tell @p @p @p 1</ol></div><em onclick="copycode($('code_piv'));">复制代码</em></div><br />
+告诉最近玩家：最近玩家名 最近玩家名 1<br />
+<br />
+tell和say一样，只不过多了一个目标选择器，<br />
+tell格式就是：<u>/tell 目标选择器 文字</u>，可以前缀execute表相对执行<br />
+tell输出就是：<u>发送者 whispers to you: 文字</u>（这段文字只有目标能够接收）<br />
+<br />
+和say一样，文字能够无限选择器名。<br />
+（类似于私密对话，当然和在服务器点击玩家名的/msg一样）<br />
+<br />
+<ul><li>msg<br />
+</ul><img id="aimg_Yby1I" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/31d6d129e31bbb74.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<br /><div class="blockcode"><div id="code_pB8"><ol><li>/msg @p @p @p 1</ol></div><em onclick="copycode($('code_pB8'));">复制代码</em></div><br />
+同tell<br />
+<br />
+<ul><li>me<br />
+</ul><img id="aimg_nH27K" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/2fb44067e38383e3.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+<br /><div class="blockcode"><div id="code_eqo"><ol><li>/me @p @p @p 1</ol></div><em onclick="copycode($('code_eqo'));">复制代码</em></div><br />
+<font color="#008000">省略玩家对最近玩家输出：最近玩家 最近玩家 1</font><br />
+<br />
+和say差不多，<br />
+tell格式就是：<u>/me 目标选择器 文字</u>，可以前缀execute表相对执行<br />
+tell输出就是：<u>* 输入玩家 目标 文字</u>（这段文字只有目标能够接收）<br />
+<br />
+<br />
+<ul><li><strong>让物品/实体名等文字变色</strong><br />
+</ul>通过unicode让普通文字达到json效果（实现输入已经移除的§样式代码）<br />
+<a href="http://www.mcbbs.net/thread-443181-1-1.html" target="_blank"><strong>改变普通文字颜色</strong></a><br />
+<br />
+</div></div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>格林&nbsp; &nbsp; <b>时间: </b>2015-8-5 21:50<br />
+贴子不错，以前也经常看你的红石帖子，总之支持你一下吧，<br />
+期待你以后更好的红石帖子和作品。<br />
+<br />
+<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Viceapple&nbsp; &nbsp; <b>时间: </b>2015-8-5 23:14<br />
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+
+<!-- saved from url=(0061)https://www.mcbbs.net/thread-805687-1-1.html?action=printable -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>【CBL|SPG】让钓鱼竿真的能够钓鱼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="./【CBL_SPG】让钓鱼竿真的能够钓鱼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/common.js.下载" type="text/javascript"></script>
+<script src="./【CBL_SPG】让钓鱼竿真的能够钓鱼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'cM7', charset = 'UTF-8', discuz_uid = '703042', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC04MDU2ODctMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SPG】让钓鱼竿真的能够钓鱼 <b><a href="https://www.mcbbs.net/thread-805687-1-1.html?action=printable###" onclick="this.style.visibility=&#39;hidden&#39;;window.print();this.style.visibility=&#39;visible&#39;">[打印本页]</a></b><br>
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-7-13 22:59<br>
+<b>标题: </b>【CBL|SPG】让钓鱼竿真的能够钓鱼<br><i class="pstatus"> 本帖最后由 SPGoding 于 2019-7-24 23:56 编辑 </i><br>
+<br>
+Hello，好久不见，我是 SPGoding。<br>
+<br>
+众所周知，Minecraft 1.13 中新增加了鸽了许久的实体鱼，并出现了用水桶捕鱼的新操作。但是！原先的钓鱼系统一点没变，想象一下：在满是鱼的鱼塘当中抛出钓鱼竿，等待片刻，一串诡异的气泡冲向浮标，然后…钓上来了一个木碗！<br>
+<br>
+太匪夷所思了，是的。于是，本人制作了这么一个 datapack。使用的是截止2018年7月13日最稳定的1.13-pre5版本。该 datapack 并没有什么技术含量，可供的参考点有（本帖不会详细讲述该钓鱼系统本身的原理，更多只是提供一些能够复用的思路。这部分思路都已加粗。本帖同时假设你已经熟悉了所有命令与 <a href="https://minecraft.gamepedia.com/Chunk_format" target="_blank">Chunk Format</a> 页面，只提供思路，不进行用法的说明）：<ul><li>脑洞</li><li>覆盖 Vanilla data</li><li>兼容多人</li><li>操纵实体运动</li><li>fishing_bobber<br>
+</li></ul><br>
+<br>
+<img id="aimg_mTi3Z" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="./【CBL_SPG】让钓鱼竿真的能够钓鱼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/5b48bdc67d57d.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" width="600" height="547" style="cursor: pointer;"><br>
+<br>
+为了制作我们自己的钓鱼系统，我们首先需要屏蔽 Minecraft 原版【官方称其为 Vanilla（香草）】对于钓鱼的处理。由于我们<strong>不能操作代码层面的东西</strong>，只能通过<strong>覆盖 Vanilla 中</strong>的钓鱼的<strong>战利品表</strong>为空。于是，我们首先在自己的 datapack 中把 <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">minecraft:gameplay/fishing</font></font> 覆盖为空（即<font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">{}</font></font>）。但这样仍有一个缺点，虽然钓鱼竿钓不上东西了，但是仍然会有“鱼上钩”了的音效声。不要紧，通过高频<strong>命令</strong> <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><strong>stopsound</strong> @a * minecraft:entity.fishing_bobber.splash</font></font> 即可<strong>停止</strong>这个<strong>音效</strong>。<br>
+<br>
+接下来需要整理下自己的钓鱼系统的需求：<ul><li>抛出鱼竿需要消耗鱼饵（暂定为曲奇）</li><li>因为有了鱼饵，所以浮标会吸引周边的鱼上钩</li><li>鱼碰到浮标即判定为“上钩”，自动收回鱼竿与鱼（的尸体）</li><li>聪慧的鱼会在即将上钩的时候把自己换成水里的杂物</li><li>因为每次钓鱼已经会消耗鱼饵了，就不再掉鱼竿耐久了<br>
+</li></ul><br>
+为了<strong>方便</strong>以后<strong>拓展</strong>，我们<strong>使用</strong>一个<strong>物品标签</strong>（<font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">spgoding:better_fishing/bait</font></font>）来储存所有能作为鱼饵的物品。如何判定玩家有无鱼饵呢？以前我们会使用 <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">clear</font></font> 与 cond 结合，而使用函数只须<strong>用命令 <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">execute store success</font></font> 替代 cond</strong> 即可。<br>
+<br>
+至于吸引鱼儿上钩，换句话说就是要<strong>控制</strong>鱼儿的<strong>运动</strong>，最开始我想的是通过设置鱼儿的 <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">Motion</font></font> 标签，但总是会出各种莫名其妙的 Bug，使我不得不抛弃这种方式。当然，现在用的方法也不复杂，<strong>首先</strong>用<font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">teleport facing</font></font>命令让鱼儿<strong>面向浮标</strong>，<strong>然后</strong><font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">teleport ^ ^ ^0.1</font></font>使鱼儿<strong>向浮标游动</strong>。但是，这样做的缺点是在命令两次执行之间（1tick）鱼会尝试转向，会造成鱼十分鬼畜地原地转圈圈。想要解决，就需要让鱼乖乖听我们的话——没错，<font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><strong>NoAI:1b</strong></font></font>！（当然，如果玩家收回了鱼竿，需要恢复鱼的状态。为了帖子思路简洁不再赘言）<br>
+<br>
+为了让这个系统兼容多人，有些地方需要麻烦一下下。<strong>兼容多人的非常常用的思路就是给每个玩家分配一个 UID，把与这个玩家相关联的所有实体也都给上相同的 UID，分批对所有相同 UID 的实体进行处理。</strong>我们给每个玩家抛出的钓鱼竿赋上这个玩家的 UID，然后再给钓鱼竿正在吸引的鱼同样的 UID（设定是钓鱼竿每次只吸引一条鱼）。接下来只需要<font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">execute as @a</font></font>分批处理即可。以下是一段很常用的、<strong>用于找到和自己某个分数相同的玩家的命令</strong>：<div class="blockcode"><div id="code_N8R"><ol><li>tag @s add executor<br>
+</li><li>execute as @a if score @s uid = @e[tag=executor,limit=1] uid run tag @s add player<br>
+</li><li>tag @s remove executor<br>
+</li><li># @p[tag=player] 即是与自身 uid 相同的玩家<br>
+</li><li>tag @a remove player</li></ol></div><em onclick="copycode($(&#39;code_N8R&#39;));">复制代码</em></div>有了这段命令，我们就可以让浮标碰到一条鱼时，找到自己的拥有者是哪位玩家，然后把鱼传送到该玩家身边并杀死。此时播放一个音效也是不错的，我选择的是 <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">minecraft:item.bucket.fill_fish</font></font> 这个音效。那么如何收回鱼竿呢？<font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">fishing_bobber</font></font> 作为一个特殊的实体，你只要<strong>把它杀死，玩家就会自动收回钓鱼竿，并且这种做法不会让掉鱼竿的耐久掉落</strong>。<br>
+<br>
+怎么让鱼死后有几率出现宝藏/垃圾？其实有两条解决思路。一是制作自己的战利品表，在杀死鱼前<strong>修改</strong>它的 <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif"><strong>DeathLootTable</strong></font></font> <strong>标签以修改它死亡掉落的物品</strong>。二是直接覆盖 <font style="background-color:White"><font face="Monaco,Consolas,&#39;Lucida Console&#39;,&#39;Courier New&#39;,serif">minecraft:entities/foo</font></font> 中对应的战利品表。这里我选择了第二种做法，因为我认为杀死鱼会掉宝藏/垃圾这种特性本身就很 cool。<br>
+<br>
+基本就讲这么多啦，对这个 datapack 有兴趣的我已经把它放在了<a href="https://github.com/SPGoding/datapack-better_fishing" target="_blank">GitHub</a>上，可以去看看~<br>
+<br>
+[groupid=546]Command Block Logic[/groupid]<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Оil&nbsp; &nbsp; <b>时间: </b>2018-7-13 23:20<br>
+鱼：你以为我是鱼？其实我是DIO哒！<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>ruhuasiyu&nbsp; &nbsp; <b>时间: </b>2018-7-13 23:21<br>
+还行，挺好玩的……<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>粘兽&nbsp; &nbsp; <b>时间: </b>2018-7-14 01:36<br>
+钩子有点着急了，鱼还没上来呢<img src="./【CBL_SPG】让钓鱼竿真的能够钓鱼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/Smile.png" smilieid="1444" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Animalworld&nbsp; &nbsp; <b>时间: </b>2018-7-14 01:45<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13059388&amp;ptid=805687" target="_blank"><font color="#999999">粘兽sama 发表于 2018-7-14 01:36</font></a></font><br>
+钩子有点着急了，鱼还没上来呢</blockquote></div><br>
+鱼...他进包里了<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SMFX阜星&nbsp; &nbsp; <b>时间: </b>2018-7-14 07:36<br>
+我觉得如果给新人看，他们大概会看不懂吧。。<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SMFX阜星&nbsp; &nbsp; <b>时间: </b>2018-7-14 07:55<br>
+<i class="pstatus"> 本帖最后由 SMFX阜星 于 2018-7-14 07:56 编辑 </i><br>
+<br>
+<strike>论cb玩家草稿般的教程，我自己写给自己的也是这样看不懂</strike><br>
+<strike>补充，负40金粒什么鬼</strike><br>
+<br>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>BlackCB.&nbsp; &nbsp; <b>时间: </b>2018-7-14 09:18<br>
+测试版那么多虫子，直接用它钓鱼不就好了<img src="./【CBL_SPG】让钓鱼竿真的能够钓鱼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/doge.png" smilieid="1448" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>BlackCB.&nbsp; &nbsp; <b>时间: </b>2018-7-14 09:20<br>
+emm<br>
+想象一下，用lz的钓鱼系统，<br>
+如果满池都是鱼，都在缓缓向鱼竿挪动，不会很诡异吗<img src="./【CBL_SPG】让钓鱼竿真的能够钓鱼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!_files/png" smilieid="1443" border="0" alt=""><hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>小星耀&nbsp; &nbsp; <b>时间: </b>2018-7-14 18:05<br>
+动一下鱼会跑吗qwq<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>⊙v⊙&nbsp; &nbsp; <b>时间: </b>2018-7-15 10:29<br>
+能钓海豚吗?<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-7-15 11:04<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13064613&amp;ptid=805687" target="_blank"><font color="#999999">⊙v⊙ 发表于 2018-7-15 14:29</font></a></font><br>
+能钓海豚吗?</blockquote></div><br>
+如果你想的话只要在 spgoding:better_fishing/tag_fishes (我到现在才突然意识到鱼没有复数，不管了) 里加上海豚就行<br>
+但是，海豚那么可爱，为什么要钓它<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-7-15 11:06<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13062256&amp;ptid=805687" target="_blank"><font color="#999999">小星耀 发表于 2018-7-14 22:05</font></a></font><br>
+动一下鱼会跑吗qwq</blockquote></div><br>
+似乎是个好主意…<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>13555555&nbsp; &nbsp; <b>时间: </b>2018-7-15 11:12<br>
+强势.这个很棒棒.<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>buhuichongfu&nbsp; &nbsp; <b>时间: </b>2018-7-15 12:15<br>
+聪明的鱼，因为聪明，所以学会了替身术。<br>
+水平超过了木叶村忍者，他们一般都换成木头，而鱼能换成木碗。<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-7-15 12:17<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13065168&amp;ptid=805687" target="_blank"><font color="#999999">buhuichongfu 发表于 2018-7-15 16:15</font></a></font><br>
+聪明的鱼，因为聪明，所以学会了替身术。<br>
+水平超过了木叶村忍者，他们一般都换成木头，而鱼能换成木碗。 ...</blockquote></div><br>
+其实我后续改成了鱼会在掉落自身的前提下，有几率掉别的东西【这样就能解释为鱼吃了水里奇怪的东西了<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>buhuichongfu&nbsp; &nbsp; <b>时间: </b>2018-7-15 12:20<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13065178&amp;ptid=805687" target="_blank"><font color="#999999">SPGoding 发表于 2018-7-15 12:17</font></a></font><br>
+其实我后续改成了鱼会在掉落自身的前提下，有几率掉别的东西【这样就能解释为鱼吃了水里奇怪的东西了 ...</blockquote></div><br>
+好不容易弄了个解释，又被楼主推翻了。<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>aa676863258aa&nbsp; &nbsp; <b>时间: </b>2018-7-15 20:20<br>
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>hjcdmmwy&nbsp; &nbsp; <b>时间: </b>2018-7-15 21:34<br>
+你这个插件之前有个类似的<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>13665374636&nbsp; &nbsp; <b>时间: </b>2018-7-17 01:53<br>
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>13665374636&nbsp; &nbsp; <b>时间: </b>2018-7-17 01:53<br>
+提示: <em>作者被禁止或删除 内容自动屏蔽</em>
+<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Argon_gas&nbsp; &nbsp; <b>时间: </b>2018-7-18 09:23<br>
+所以说鱼漂现在有实体名称了？<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-7-18 10:35<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13078508&amp;ptid=805687" target="_blank"><font color="#999999">Argon_gas 发表于 2018-7-18 13:23</font></a></font><br>
+所以说鱼漂现在有实体名称了？</blockquote></div><br>
+fishing_bobber<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>1502064645&nbsp; &nbsp; <b>时间: </b>2018-7-20 16:23<br>
+水一下 水一下水一下 水一下水一下 水一下水一下 水一下水一下 水一下<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>ColorPencil&nbsp; &nbsp; <b>时间: </b>2018-7-20 23:07<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13064788&amp;ptid=805687" target="_blank"><font color="#999999">SPGoding 发表于 2018-7-15 11:04</font></a></font><br>
+如果你想的话只要在 spgoding:better_fishing/tag_fishes (我到现在才突然意识到鱼没有复数，不管了) 里 ...</blockquote></div><br>
+顺便钓到海豚时激怒附近海豚<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>川又伽椰子&nbsp; &nbsp; <b>时间: </b>2018-7-21 10:57<br>
+还可以,感觉挺好的<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>-色狗&nbsp; &nbsp; <b>时间: </b>2018-7-22 09:03<br>
+挺好玩的样子.....<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Futrue&nbsp; &nbsp; <b>时间: </b>2018-7-22 14:41<br>
+大神,膜拜.<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>mengxiaoxue&nbsp; &nbsp; <b>时间: </b>2018-7-22 23:31<br>
+支持作者，希望作者加油，<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>徐钦猪&nbsp; &nbsp; <b>时间: </b>2018-7-26 10:47<br>
+表示楼主的智商，不是我能懂得。<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>1746080459&nbsp; &nbsp; <b>时间: </b>2018-7-27 15:21<br>
+你真的是很棒<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>Plants-Stars&nbsp; &nbsp; <b>时间: </b>2018-10-7 18:13<br>
+我下载了一个压缩包，但是不管怎么解压都用不了...<hr noshade="" size="2" width="100%" color="#808080">
+<b>作者: </b>SPGoding&nbsp; &nbsp; <b>时间: </b>2018-10-7 18:29<br>
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=13384876&amp;ptid=805687" target="_blank"><font color="#999999">Plant-star 发表于 2018-10-7 18:13</font></a></font><br>
+我下载了一个压缩包，但是不管怎么解压都用不了...</blockquote></div><br>
+放到地图存档下面的 datapacks 文件夹
+<br><br><br><br><hr noshade="" size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tbody><tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></tbody></table>
+
+
+<div class="xl-chrome-ext-bar" id="xl_chrome_ext_{4DB361DE-01F7-4376-B494-639E489D19ED}" style="display: none;">
+      <div class="xl-chrome-ext-bar__logo"></div>
+
+      <a id="xl_chrome_ext_download" href="javascript:;" class="xl-chrome-ext-bar__option">下载视频</a>
+      <a id="xl_chrome_ext_close" href="javascript:;" class="xl-chrome-ext-bar__close"></a>
+    </div></body></html>

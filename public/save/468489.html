@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §4 : 无限循环与while循环 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC00Njg0ODktMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §4 : 无限循环与while循环 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-7-14 10:01<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §4 : 无限循环与while循环<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-7-17 12:22 编辑 </i><br />
+<br />
+<div align="center"><font face="微软雅黑"><font size="6"><strong>循环语句</strong></font></font></div><div align="center"><font face="微软雅黑"><font size="1">下一页为 循环基础</font></font></div><div align="left">循环语句也是模块中的一个重要指令</div><div align="left">它用于不断执行某些指令，</div><div align="left">从而让指令不断输出。</div><br />
+<br />
+<div align="left">循环语句将会涉及到</div><div align="left">基础</div><ul><li><div align="left">与计分板关联</div><br />
+</ul><div align="left">无限循环与while循环</div><ul><li><div align="left">判断条件</div><li><div align="left">终止循环</div><br />
+</ul><div align="left">for循环</div><ul><li><div align="left">判断次数</div><li><div align="left">终止循环</div><br />
+</ul><div align="left">for循环模拟机械赋值</div><div align="left"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><strong>全索引链接</strong></a></font><br />
+<div align="right"><font size="5"><a href="http://www.mcbbs.net/thread-467902-1-1.html" target="_blank">上一篇</a>（循环基础 ）--<a href="http://www.mcbbs.net/thread-468491-1-1.html" target="_blank">下一篇</a>（for循环）</font></div><div align="right"><div align="left"></div></div><strong><font face="碳化硅大黑体"><font size="5">§4.2 无限循环和While循环</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 判断条件</font></font><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">4.1.0 用途</font></font></strong><br />
+<ul><li>While<br />
+</ul>While循环也就是<strong>条件循环</strong>。<br />
+它代表若符合条件就一直循环，可以<strong>被其他语句操作</strong>。<br />
+<br />
+<ul><li>无限循环<br />
+</ul>是While循环的一个分支，<br />
+若<strong>不被其他模块操作从而跳过循环则语句会永久循环下去</strong>。<br />
+<br />
+在模块中<strong>高频若不被打破也是一个无限循环</strong>。<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">4.1.1 判断条件</font></font></strong><br />
+<font face="微软雅黑"><font size="1">下一页为 结束循环</font></font><br />
+实现while循环只需要在循环体语句前面添加一个<strong>条件语句</strong>，<br />
+并连接高频。<br />
+<br />
+比如：<br />
+<font size="2"><font color="#800000">若符合条件f的a&gt;=1，</font></font><br />
+<font size="2"><font color="#800000">则循环执行虾米那两条指令：</font></font><br />
+<font size="2"><font color="#800000">a++;</font></font><br />
+<font size="2"><font color="#800000">say 1;</font></font><br />
+<br />
+那么可以这样的思路：<br />
+<font size="2"><font color="#800000"><strong>a&gt;=1 → a++; say1;</strong></font></font><br />
+<font size="2"><font color="#800000"><strong>↗</strong></font></font><br />
+<br />
+<br />
+所以得到以下指令：<br />
+<br />
+<img id="aimg_C8JER" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i3.tietuku.com/01a79c46a39333d0.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<br />
+<strong>依照顺序：</strong><br /><div class="blockcode"><div id="code_Nt0"><ol><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ scoreboard players add @e[name=f] a 1<br /><li>/execute @e[name=f,score_a_min=1] ~ ~ ~ /say 1</ol></div><em onclick="copycode($('code_Nt0'));">复制代码</em></div><br />
+<br />
+<font size="4"><strong>得到的效果如下：</strong></font><br />
+<br />
+<font size="4"><strong><img id="aimg_gvahh" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/b8182eefd7683d6f.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<font size="4"><strong><img id="aimg_Kw8y1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/e034e35ca5a6c378.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+</strong></font><br />
+<i>一旦符合条件a&gt;=1后，</i><br />
+<i><strong>不断输出</strong>：</i><br />
+<i>a++;</i><br />
+<i>say 1</i><br />
+<i>根本停不下来，</i><br />
+<br />
+由于<strong>没有其他模块没有控制循环的指令</strong>，<br />
+所以构成了无限循环。<br />
+a的计分板值会一直增加<strong>直到溢出</strong>为止。<br />
+<br />
+在模块的while循环中，所以指令<strong>最后的输出都是循环体</strong>。<br />
+<br />
+<br />
+<font size="4"><font color="#ff0000"><strong>标准格式：</strong></font></font><br />
+/execute 条件 输出1<br />
+/execute 条件 输出2<br />
+┊<br />
+/execute 条件 输出n<br />
+↗<br />
+<br />
+<br />
+<br /><br />
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<strong><font face="微软雅黑"><font size="4">4.1.2 终止循环</font></font></strong><br />
+终止循环在其他模块中，<br />
+而终止循环十分简单，只需要<strong>让条件不符合条件语句</strong>，<br />
+这样while循环得到的值是false，所以会停止：<br />
+<br />
+<img id="aimg_h01K1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" width="700" height="393" src="http://i3.tietuku.com/853780647c2f5528.png" onmouseover="img_onmouseoverfunc(this)" onclick="zoom(this)" style="cursor:pointer" border="0" alt="" /><br />
+<br />
+/scoreboard players reset @e[name=f] a<br />
+后，就能<strong>迅速停止循环</strong>。<br />
+（用聊天框输入指令模拟其他模块）<br />
+<br />
+</div><br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>懒虫哥&nbsp; &nbsp; <b>时间: </b>2015-7-14 10:07<br />
+指令方块渣在此<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>番茄茄&nbsp; &nbsp; <b>时间: </b>2015-7-14 10:25<br />
+突然发现这和编程没啥区别了<br />
+还有贰逼你签名的图挂了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>luke36&nbsp; &nbsp; <b>时间: </b>2015-7-14 10:34<br />
+指令方块太高端，玩不起啊<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>彪悍的新手&nbsp; &nbsp; <b>时间: </b>2015-7-14 23:31<br />
+有些人总喜欢把简单的事情复杂的感觉自己很厉害的样子实际上自己真的很厉害<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>874922205&nbsp; &nbsp; <b>时间: </b>2015-7-24 13:08<br />
+为什么不说说直道循环和当循环？
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

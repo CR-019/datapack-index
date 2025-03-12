@@ -1,0 +1,294 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 11.自定义生物刷怪笼 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05ODI5MC0xLTEuaHRtbD9hY3Rpb249cHJpbnRhYmxl', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 11.自定义生物刷怪笼 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 18:42<br />
+<b>标题: </b>【CBL|SYL】NBT教程 11.自定义生物刷怪笼<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:37 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+<font color="#ff00"><font size="5">看不到图的请移步到索引贴，那里提供了下载与在线观看地址</font></font><br />
+新版本，新气象，新版整合包：<a href="http://www.mcbbs.net/thread-98286-1-1.html" target="_blank">http://www.mcbbs.net/thread-98286-1-1.html</a><br />
+这篇是应某人要求而写的<br />
+这次教大家自定义生物刷怪笼<br />
+<img id="aimg_PT7r6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/QZ2Lkbm.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" />有请嘉宾上场！<br />
+<hr class="l" /><br />
+单个生物刷怪笼；<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+<img id="aimg_ZdoVO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/VGifUSe.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+打开生物NBT，复制最上面的ROOT标签（其实就是整个生物的标签）（生物的标签下一篇解释）<br />
+<img id="aimg_wgOy3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/0AMMkJP.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<font color="#8b0000">打开刷怪笼，粘帖ROOT进去，并且更名为SpawnData，然后修改EntityId（这里的图没截到），具体可对照附录的表，例如僵尸就是Zombie</font><br />
+<font color="#8b0000">当然了SpawnData可以自行调整</font><br />
+<font color="#8b0000">例如不需要固定位置刷新</font><br />
+<font color="#8b0000">可以把实体的Pos标签删除</font><br />
+<img id="aimg_xbTQ2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/dQRZc6J.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+可以看到刷怪笼变了<br />
+<img id="aimg_sNKJO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/hlmYqdf.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+杀掉原来的<br />
+<img id="aimg_M7FNe" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/RW2zrex.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+新的刷新了！<br />
+</td></table></div></div><br />
+<hr class="l" />多个生物刷怪笼：<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><img id="aimg_QYXfZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/rUi8bYV.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+新嘉宾！<br />
+<img id="aimg_QHZz2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/NU0hREq.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+弄到坑里面<br />
+<img id="aimg_EIGeq" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/hHXWKl0.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+打开SpawnPotenticals，这里记录了刷新生物的列表<br />
+复制一份僵尸的（tagcompound那个）<br />
+<img id="aimg_kbkBG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/6kBkVR4.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<font color="#8b0000">然后把苦力帕的ROOT弄进去，代替僵尸的Properties，然后Type改成对应的Creeper（PS weight 代表被刷新的几率，越大越高</font><br />
+<font color="#8b0000">怎么算还不知道</font><br />
+<font color="#8b0000">但我推测就是代表 该数值/总weight 数值的刷新几率吧……）</font><br />
+<img id="aimg_ra4ox" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/0esyccK.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<img id="aimg_lEu0r" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/44dxRCG.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+可以看到2边都刷新了<br />
+</td></table></div></div><br />
+<hr class="l" />附录：<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+实体ID对照表<br />
+<table cellspacing="0" class="t_table" style="width:98%" bgcolor="rgb(249, 249, 249)"><tr><td><div align="center">实体ID</div></td><td><div align="center">实体名称</div></td></tr><tr><td>Bat</td><td><font color="#0b0080">Bat</font></td></tr><tr><td>Blaze</td><td><font color="#0b0080">Blaze</font></td></tr><tr><td>CaveSpider</td><td><font color="#0b0080">Cave Spider</font></td></tr><tr><td>Chicken</td><td><font color="#0b0080">Chicken</font></td></tr><tr><td>Cow</td><td><font color="#0b0080">Cow</font></td></tr><tr><td>Creeper</td><td><font color="#0b0080">Creeper</font></td></tr><tr><td>EnderDragon</td><td><font color="#0b0080">Ender Dragon</font></td></tr><tr><td>Enderman</td><td><font color="#0b0080">Enderman</font></td></tr><tr><td>Ghast</td><td><font color="#0b0080">Ghast</font></td></tr><tr><td>Giant</td><td><font color="#0b0080">Giant</font></td></tr><tr><td>LavaSlime</td><td><font color="#0b0080">Magma Cube</font></td></tr><tr><td>MushroomCow</td><td><font color="#0b0080">Mooshroom</font></td></tr><tr><td>Ozelot</td><td><font color="#0b0080">Ocelot</font></td></tr><tr><td>Pig</td><td><font color="#0b0080">Pig</font></td></tr><tr><td>PigZombie</td><td><font color="#0b0080">Zombie Pigman</font></td></tr><tr><td>Sheep</td><td><font color="#0b0080">Sheep</font></td></tr><tr><td>Silverfish</td><td><font color="#0b0080">Silverfish</font></td></tr><tr><td>Skeleton</td><td><font color="#0b0080">Skeleton</font><br />
+<font color="#0b0080">Wither Skeleton</font></td></tr><tr><td>Slime</td><td><font color="#0b0080">Slime</font></td></tr><tr><td>SnowMan</td><td><font color="#0b0080">Snow Golem</font></td></tr><tr><td>Spider</td><td><font color="#0b0080">Spider</font></td></tr><tr><td>Squid</td><td><font color="#0b0080">Squid</font></td></tr><tr><td>Villager</td><td><font color="#0b0080">Villager</font></td></tr><tr><td>VillagerGolem</td><td><font color="#0b0080">Iron Golem</font></td></tr><tr><td>Witch</td><td><font color="#0b0080">Witch</font></td></tr><tr><td>WitherBoss</td><td><font color="#0b0080">Wither</font></td></tr><tr><td>Wolf</td><td><font color="#0b0080">Wolf</font></td></tr><tr><td>Zombie</td><td><font color="#0b0080">Zombie</font><br />
+<font color="#0b0080">Zombie Villager</font></td></tr></table><br />
+</td></table></div></div><hr class="l" />这章其实有点赶，而且其实应该先出实体标签分析的<br />
+所以各位仁兄，不急着用可以先不看吧……<br />
+等我星期六赶出实体标签分析吧！<br />
+<br />
+<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Aikawastep&nbsp; &nbsp; <b>时间: </b>2013-3-14 18:43<br />
+顶一个~=V=<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>QAQTAT&nbsp; &nbsp; <b>时间: </b>2013-3-14 18:44<br />
+NBT的教程又出现了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-14 18:45<br />
+Syl你好~五连了哟~ ~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1056235953&nbsp; &nbsp; <b>时间: </b>2013-3-14 18:49<br />
+终于出来了..<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Danny仔&nbsp; &nbsp; <b>时间: </b>2013-3-14 18:53<br />
+原來你還未棄坑<img src="static/image/smiley/rabbit/48.gif" smilieid="698" border="0" alt="" /><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 18:59<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">Danny仔 发表于 2013-3-14 18:53</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640045&amp;ptid=98290" target="_blank"><img id="aimg_M2ypM" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+原來你還未棄坑</blockquote></div><br />
+我什么时候说我弃坑了……<br />
+只不过是更新慢了点<br />
+一星期一篇而已<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 19:15<br />
+这样不让养成自己做NBT架构的习惯估计很多人只会照猫画虎。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 19:36<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 19:15</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640249&amp;ptid=98290" target="_blank"><img id="aimg_w4MnX" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+这样不让养成自己做NBT架构的习惯估计很多人只会照猫画虎。</blockquote></div><br />
+你也得明白<br />
+不是所有人都能像我们那样投入大量精力在研究这东西上面<br />
+有时候就算照猫画虎<br />
+也能提高地图素质吧<br />
+毕竟真的有需要的人会自己研究/私聊我<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 19:50<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-14 03:36</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640381&amp;ptid=98290" target="_blank"><img id="aimg_n88vt" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+你也得明白<br />
+不是所有人都能像我们那样投入大量精力在研究这东西上面<br />
+有时候就算照猫画虎</blockquote></div><br />
+嗯。<br />
+<br />
+<br />
+<br />
+<br />
+总之很反感，都是因为人家把什么都当做学科···<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 19:54<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 19:50</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640483&amp;ptid=98290" target="_blank"><img id="aimg_Y66w3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+嗯。</blockquote></div><br />
+嘿<br />
+我乐意啊……我不大在意的呵呵<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 19:59<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-14 03:54</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640537&amp;ptid=98290" target="_blank"><img id="aimg_sZUDj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+嘿<br />
+我乐意啊……我不大在意的呵呵</blockquote></div><br />
+人家就是废物········<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xueqian&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:08<br />
+额……生物头上那个标签在NBT里面是哪一项？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:27<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">xueqian 发表于 2013-3-14 20:08</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640651&amp;ptid=98290" target="_blank"><img id="aimg_FDPoX" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+额……生物头上那个标签在NBT里面是哪一项？</blockquote></div><br />
+新版本<br />
+下一章解说<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SugarCane_v1n5a&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:27<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 19:15</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640249&amp;ptid=98290" target="_blank"><img id="aimg_dAGkn" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+这样不让养成自己做NBT架构的习惯估计很多人只会照猫画虎。</blockquote></div><br />
+就如SYL所说，有时你想快点完成地图，<br />
+以NBT生手来说，比起每个NBT标签测试<br />
+这种方法更能找到所要资讯来快点完成<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:27<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 19:59</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640579&amp;ptid=98290" target="_blank"><img id="aimg_R4252" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+人家就是废物········</blockquote></div><br />
+<img src="static/image/smiley/rabbit/28.gif" smilieid="678" border="0" alt="" /><br />
+何出此言<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:36<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-14 04:27</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640798&amp;ptid=98290" target="_blank"><img id="aimg_hR7dS" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+何出此言</blockquote></div><br />
+因为就是。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:36<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">SugarCane_v1n5a 发表于 2013-3-14 04:27</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640794&amp;ptid=98290" target="_blank"><img id="aimg_apqXn" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+就如SYL所说，有时你想快点完成地图，<br />
+以NBT生手来说，比起每个NBT标签测试<br />
+这种方法更能找到所要资讯来 ...</blockquote></div><br />
+哈······然后到头来什么也没学到··<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:39<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 20:36</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640858&amp;ptid=98290" target="_blank"><img id="aimg_ho2Q4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哈······然后到头来什么也没学到··</blockquote></div><br />
+老实说<br />
+我这个教程重点确实不是打算教大家深入了解NBT<br />
+真是就只是侧重于实用部分<br />
+所以我相信接着的实体标签我估计attacktime这类在实际上没有太大影响的东西我会带过就算了<br />
+我也不奢望什么<br />
+我只希望能看到更多的制作者能从我这里带走点啥<br />
+做出更好的地图<br />
+thats all<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:41<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-14 04:39</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640884&amp;ptid=98290" target="_blank"><img id="aimg_g8vbU" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+老实说<br />
+我这个教程重点确实不是打算教大家深入了解NBT<br />
+真是就只是侧重于实用部分</blockquote></div><br />
+哈·············<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SugarCane_v1n5a&nbsp; &nbsp; <b>时间: </b>2013-3-14 20:51<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 20:41</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640895&amp;ptid=98290" target="_blank"><img id="aimg_SUX8s" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哈·············</blockquote></div><br />
+不然你有甚么方法能更易入手NBT=_=?<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 21:16<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">SugarCane_v1n5a 发表于 2013-3-14 04:51</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1640984&amp;ptid=98290" target="_blank"><img id="aimg_l83Nb" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+不然你有甚么方法能更易入手NBT=_=?</blockquote></div><br />
+人家为的不是能做到效果，而是能够自己理解。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SugarCane_v1n5a&nbsp; &nbsp; <b>时间: </b>2013-3-14 21:29<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 21:16</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1641262&amp;ptid=98290" target="_blank"><img id="aimg_NMA6u" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+人家为的不是能做到效果，而是能够自己理解。</blockquote></div><br />
+好像只懂NBT標籤是甚么意思<br />
+不是能入手NBT的方法<br />
+(像怎樣能修改那個標籤，要用甚么方法去改，出錯了要明白那個標籤出錯的問題之類）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 21:37<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">SugarCane_v1n5a 发表于 2013-3-14 21:29</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1641367&amp;ptid=98290" target="_blank"><img id="aimg_zveJt" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+好像只懂NBT標籤是甚么意思<br />
+不是能入手NBT的方法<br />
+(像怎樣能修改那個標籤，要用甚么方法去改，出錯了要明 ...</blockquote></div><br />
+怎么说呢<br />
+1句话总结<br />
+704仁兄认为应该从理论上出发去理解<br />
+我的教程是从实践和实用上出发（但实际上是有在文章篇幅中解释过每一个标签的用途的，但我自己也知道貌似系统性上来说好像差了点）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 21:41<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-14 05:37</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1641447&amp;ptid=98290" target="_blank"><img id="aimg_I47G2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+怎么说呢<br />
+1句话总结<br />
+704仁兄认为应该从理论上出发去理解</blockquote></div><br />
+人家才是错的才对·····<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-14 21:42<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 21:41</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1641484&amp;ptid=98290" target="_blank"><img id="aimg_cn66A" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+人家才是错的才对·····</blockquote></div><br />
+去去去<br />
+丧气话最讨厌了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>704009905&nbsp; &nbsp; <b>时间: </b>2013-3-14 21:49<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-14 05:42</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1641504&amp;ptid=98290" target="_blank"><img id="aimg_yLN8C" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+去去去<br />
+丧气话最讨厌了</blockquote></div><br />
+呵呵·········<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-3-15 00:20<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">704009905 发表于 2013-3-14 21:16</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1641262&amp;ptid=98290" target="_blank"><img id="aimg_WVhul" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+人家为的不是能做到效果，而是能够自己理解。</blockquote></div><br />
+世界上绝大多数的用户都是只要知道一件事物是怎么使用的就好——他们并不需要知道他们用的东西是怎样运作的。<br />
+肯研究固然是好事，但是总想以自己的标准来要求别人只会把潜在的受众拒之于千里之外。<br />
+爱钻研的人自然回去进行大胆尝试，所谓“师傅领进门，修行在自身”。楼主就很好地扮演了教学这一角色。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-3-15 00:28<br />
+大致的意思是刷出来的生物内容也是自定义的吧？而不是普通刷怪笼出白板随机生物。不过总觉的标题………有点歧义的感觉。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>SugarCane_v1n5a&nbsp; &nbsp; <b>时间: </b>2013-3-15 01:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-3-15 00:28</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1642179&amp;ptid=98290" target="_blank"><img id="aimg_JP2qd" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+大致的意思是刷出来的生物内容也是自定义的吧？而不是普通刷怪笼出白板随机生物。不过总觉的标题………有点 ...</blockquote></div><br />
+刷怪磚確實能刷出任何東西（看TMI中的火把／煙花刷怪磚就知道了）<br />
+至於生物，我想也只是改個生物ID就行了？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-15 16:55<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-3-15 00:28</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1642179&amp;ptid=98290" target="_blank"><img id="aimg_Ctbrp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+大致的意思是刷出来的生物内容也是自定义的吧？而不是普通刷怪笼出白板随机生物。不过总觉的标题………有点 ...</blockquote></div><br />
+是吗<br />
+那改成啥好<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-15 16:56<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">SugarCane_v1n5a 发表于 2013-3-15 01:00</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1642201&amp;ptid=98290" target="_blank"><img id="aimg_IIIzJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+刷怪磚確實能刷出任何東西（看TMI中的火把／煙花刷怪磚就知道了）<br />
+至於生物，我想也只是改個生物ID就行了 ...</blockquote></div><br />
+对<br />
+任何实体都可以，矿车什么的也不在话下<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yihc&nbsp; &nbsp; <b>时间: </b>2013-3-22 08:29<br />
+真心不错.加油&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>980929&nbsp; &nbsp; <b>时间: </b>2013-3-27 22:31<br />
+能解释一下刷怪笼上面的红色的项目到底是什么么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-1 21:23<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">980929 发表于 2013-3-27 22:31</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1737222&amp;ptid=98290" target="_blank"><img id="aimg_QHdgz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+能解释一下刷怪笼上面的红色的项目到底是什么么？</blockquote></div><br />
+哪一个？<br />
+名字是啥？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>980929&nbsp; &nbsp; <b>时间: </b>2013-4-3 16:32<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-4-1 21:23</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1774327&amp;ptid=98290" target="_blank"><img id="aimg_x1U8q" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哪一个？<br />
+名字是啥？</blockquote></div><br />
+Delay:<br />
+MaxNearbyEntities:<br />
+MaxSpawnDelay:<br />
+MinSpawnDelay:<br />
+RequiredPlayerRange<br />
+SpawnCount:<br />
+SpawnRange:<br />
+这些<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-3 17:14<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">980929 发表于 2013-4-3 16:32</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1783280&amp;ptid=98290" target="_blank"><img id="aimg_UmoN1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+Delay:<br />
+MaxNearbyEntities:<br />
+MaxSpawnDelay:</blockquote></div><br />
+请参阅物品刷怪笼那章<br />
+这些在教程里面，红字高亮了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ouqianwei&nbsp; &nbsp; <b>时间: </b>2013-7-6 16:05<br />
+求问如何设置刷出来的生物击杀后的掉落物~~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-6 16:36<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">ouqianwei 发表于 2013-7-6 16:05</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2478087&amp;ptid=98290" target="_blank"><img id="aimg_QXqiT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+求问如何设置刷出来的生物击杀后的掉落物~~~</blockquote></div><br />
+系统默认掉的没办法改<br />
+但如果想掉奇葩东西<br />
+请参考实体标签解析的那一章<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>809649987&nbsp; &nbsp; <b>时间: </b>2013-7-15 12:18<br />
+{:10_523:}{:10_523:}<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ouqianwei&nbsp; &nbsp; <b>时间: </b>2013-7-19 19:25<br />
+对了大神，能不能改刷怪蛋<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-7-19 21:05<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">ouqianwei 发表于 2013-7-19 19:25</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2606022&amp;ptid=98290" target="_blank"><img id="aimg_A5ZaT" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+对了大神，能不能改刷怪蛋</blockquote></div><br />
+目前不能<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>ouqianwei&nbsp; &nbsp; <b>时间: </b>2013-7-20 06:24<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-7-19 21:05</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2607235&amp;ptid=98290" target="_blank"><img id="aimg_bXJDQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+目前不能</blockquote></div><br />
+哦，谢了&nbsp; &nbsp;&nbsp; &nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>我是安德面&nbsp; &nbsp; <b>时间: </b>2013-8-22 21:24<br />
+求樓主出視頻<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>莫小洛&nbsp; &nbsp; <b>时间: </b>2013-8-31 12:50<br />
+能自定义蛋里刷出来的东西么？<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2403&nbsp; &nbsp; <b>时间: </b>2014-8-25 16:11<br />
+我编辑了一个boss后和他打，然后被打死了，等我回去看的时候那个boss就消失了，好像是被游戏删除掉了，求解，好几次了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>云小龙&nbsp; &nbsp; <b>时间: </b>2014-11-4 12:54<br />
+顶楼主。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>lzs1234&nbsp; &nbsp; <b>时间: </b>2014-12-22 22:15<br />
+豹猫的ID错了，后面的实体名称是对的，应该是ocelot啊
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

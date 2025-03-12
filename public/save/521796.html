@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>[CBL∫2b]指令方块进阶教程——模块 §3 : &quot;条件嵌套&quot;与输出 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC01MjE3OTYtMS0xLmh0bWw/YWN0aW9uPXByaW50YWJsZQ==', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : &quot;条件嵌套&quot;与输出 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-13 22:22<br />
+<b>标题: </b>[CBL∫2b]指令方块进阶教程——模块 §3 : &quot;条件嵌套&quot;与输出<br /><i class="pstatus"> 本帖最后由 贰逼 于 2015-11-14 18:26 编辑 </i><br />
+<br />
+<font size="5">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</font><strong><font size="5">#1.9</font></strong><strong><font size="5">&quot;条件嵌套&quot;与输出</font></strong><br />
+<strong>条件嵌套模式就是在1.9指令方块中的选项：Conditional</strong><br />
+<strong>在默认条件下不开启条件嵌套模式：Unconditional</strong><br />
+<br />
+来看一看Conditional是一个怎样的输出改变<br />
+<br />
+下面来枚举几种情况：<br />
+<ul><li><strong>此Conditonal指令方块的输出情况</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FD8FE_5645F19E0" target="_blank"><img id="aimg_Ek8W1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/D8FE_5645F19E0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FF96B_5645F19E0" target="_blank"><img id="aimg_sTUE3" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/F96B_5645F19E0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F6A4F_5645F19E0" target="_blank"><img id="aimg_K0gAO" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/6A4F_5645F19E0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FA8D9_5645F19E0" target="_blank"><img id="aimg_RZO38" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/A8D9_5645F19E0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FCB72_5645F19E0" target="_blank"><img id="aimg_IlvA0" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/CB72_5645F19E0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F92A7_5645F19F0" target="_blank"><img id="aimg_GL6qI" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/92A7_5645F19F0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FC24E_5645F19F0" target="_blank"><img id="aimg_xk04C" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/C24E_5645F19F0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+由此可以看出开启了Conditional模式的命令方块是否执行，<strong>取决于输入接口前的指令方块执行是否成功</strong><br />
+<br />
+<ul><li><strong>Conditional输出接口指令方块的输出情况</strong><br />
+</ul><strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FB88C_5645F19F0" target="_blank"><img id="aimg_pl7A9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/B88C_5645F19F0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F3A07_5645F19F0" target="_blank"><img id="aimg_lmiSo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/3A07_5645F19F0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2F5DF8_5645F19F0" target="_blank"><img id="aimg_wWDe9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/5DF8_5645F19F0.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+<strong><a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=https%3A%2F%2Flightpic.info%2Fimage%2Fdetail%2FB87F_5645F1A00" target="_blank"><img id="aimg_f7lwQ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="https://public.lightpic.info/image/B87F_5645F1A00.jpg" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></strong><br />
+由此可以总结得出：<br />
+<i>如果开启了Conditional模式的命令方块是否执行，取决于输入接口前的指令方块执行是否成功；</i><br />
+<i>如果没有开启则无影响，和串联模块的性质一样。</i><br />
+<br />
+<br />
+<strong>总结：</strong><br />
+<br /><div class="quote"><blockquote><font face="仿宋"><strong>1.开启了Conditional模式的命令方块是否执行，取决于输入接口前的指令方块执行是否成功；</strong></font><br />
+<font face="仿宋"><strong>2.没有开启Conditional模式的指令方块与串联模块中的指令方块保持相同性质（只要核心执行就一直执行）。</strong></font></blockquote></div><br />
+<i>所以所谓'条件嵌套'的'条件'就是：输入接口前的指令方块执行是否成功。</i><br />
+<br />
+<i>利用条件嵌套的功能，很多功能将会更简便的实现</i><br />
+<br />
+<br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank"><hr class="l" /></a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">模块</a><a href="http://www.mcbbs.net/thread-520145-1-1.html" target="_blank">1.9补丁总索引</a></font></font></div><br />
+<div align="right"><font face="黑体"><font size="5"><a href="http://www.mcbbs.net/thread-460476-1-1.html" target="_blank">模块总索引</a></font></font></div>[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>HuaiYang&nbsp; &nbsp; <b>时间: </b>2015-11-13 22:24<br />
+<a href="https://www.mcbbs.net/home.php?mod=space&amp;uid=160123" target="_blank">@贰逼</a> <br />
+<strike>首先：沙发坐稳</strike><br />
+话说我看的图片怎么挂了的说？<br />
+外图？<br />
+<br />
+嘛，感觉最近更新速度...<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>i板凳&nbsp; &nbsp; <b>时间: </b>2015-11-13 22:33<br />
+有点深奥啊<br />
+您有木有1.9指令方块的使用指南<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-11-14 12:52<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9350931&amp;ptid=521796" target="_blank"><font color="#999999">i板凳 发表于 2015-11-13 22:33</font></a></font><br />
+有点深奥啊<br />
+您有木有1.9指令方块的使用指南</blockquote></div><br />
+他在完善引索，没有太多深度是正常的……<br />
+<br />
+其实这一期我也已经自己研究出来了，不过还是有点用处<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-11-14 12:53<br />
+嘛，还有一个要求，就是这样一组必须在同一条直线上，不能有拐弯的地方<br />
+<br />
+这也是我自己研究出来的<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-14 16:02<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9353908&amp;ptid=521796" target="_blank"><font color="#999999">林扬骐 发表于 2015-11-14 12:53</font></a></font><br />
+嘛，还有一个要求，就是这样一组必须在同一条直线上，不能有拐弯的地方<br />
+<br />
+这也是我自己研究出来的 ...</blockquote></div><br />
+这个不需要解释了，再解释接口的时候已经很清楚了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>⭐✔️&nbsp; &nbsp; <b>时间: </b>2015-11-14 16:06<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9353908&amp;ptid=521796" target="_blank"><font color="#999999">林扬骐 发表于 2015-11-14 12:53</font></a></font><br />
+嘛，还有一个要求，就是这样一组必须在同一条直线上，不能有拐弯的地方<br />
+<br />
+这也是我自己研究出来的 ...</blockquote></div><br />
+再者希望能看看《对待指令的态度》<br />
+尽管在系列教程的chm文档中，但是希望还是能看看<br />
+对你很有帮助<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>林扬骐&nbsp; &nbsp; <b>时间: </b>2015-11-14 20:27<br />
+<div class="quote"><blockquote><font size="2"><a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=9355336&amp;ptid=521796" target="_blank"><font color="#999999">贰逼 发表于 2015-11-14 16:06</font></a></font><br />
+再者希望能看看《对待指令的态度》<br />
+尽管在系列教程的chm文档中，但是希望还是能看看<br />
+对你很有帮助 ...</blockquote></div><br />
+在哪里我怎么没看到……
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>

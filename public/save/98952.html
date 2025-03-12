@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>【CBL|SYL】NBT教程 12.实体标签解析 - Minecraft(我的世界)中文论坛 - Powered by Discuz!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body 	   {margin: 10px 80px;}
+body,table {font-size: FONTSIZE; font-family: FONT;}
+h1 { font-size: 24px; margin-bottom: 20px; color: #999; }
+</style>
+<script src="data/cache/common.js?h0k" type="text/javascript"></script>
+<script src="data/cache/forum_viewthread.js?h0k" type="text/javascript"></script>
+<script type="text/javascript">var STYLEID = '30', STATICURL = 'static/', IMGDIR = 'template/mcbbs/image', VERHASH = 'h0k', charset = 'UTF-8', discuz_uid = '2419486', cookiepre = 'ZxYQ_8cea_', cookiedomain = '.mcbbs.net', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread|tradeorder|nav|usergroups', creditnotice = '1|人气|点,2|金粒|粒,3|金锭|块,4|宝石|颗,5|下界之星|枚,6|贡献|份,7|爱心|心,8|钻石|颗', defaultstyle = './template/mcbbs/style/nether', REPORTURL = 'aHR0cHM6Ly93d3cubWNiYnMubmV0L3RocmVhZC05ODk1Mi0xLTEuaHRtbD9hY3Rpb249cHJpbnRhYmxl', SITEURL = 'https://www.mcbbs.net/', JSPATH = 'data/cache/';</script>
+</head>
+
+<body>
+<h1>Minecraft(我的世界)中文论坛</h1>
+<b>标题: </b>【CBL|SYL】NBT教程 12.实体标签解析 <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[打印本页]</a></b></span><br />
+<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script><hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-16 15:32<br />
+<b>标题: </b>【CBL|SYL】NBT教程 12.实体标签解析<br /><i class="pstatus"> 本帖最后由 sylqiuyifeng 于 2015-3-13 16:37 编辑 </i><br />
+<div class="quote"><blockquote>索引贴传送门：<a href="http://www.mcbbs.net/thread-78479-1-1.html" target="_blank">【CBL|SYL】NBT标签实战教程—索引贴</a></blockquote></div><br />
+<font color="#ff00"><font size="5">看不到图的请移步到索引贴，那里提供了下载与在线观看地址</font></font><br />
+这章就没封面图片了……<br />
+so……<br />
+但注意的是，我只会挑选一些实用的讲解。如想了解更多？<a href="https://www.mcbbs.net/plugin.php?id=link_redirect&target=http%3A%2F%2Fwww.minecraftwiki.net%2Fwiki%2FChunk_format" target="_blank">英文wiki</a>帮到你<br />
+<hr class="l" /><br />
+好的开始教程<br />
+标签讲解：<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+<img id="aimg_qgJz1" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/KgckhUl.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+pickuploot这个不多介绍了，在给怪物装备那篇介绍过了<br />
+<hr class="l" /><br />
+<img id="aimg_Vgx77" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/JwASOto.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+customnamev...这个是1.5的功能<br />
+代表是否（1/0）显示自定义名称<br />
+什么意思？<br />
+<img id="aimg_kiPNw" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/nUuVc5g.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+配合customname一起用<br />
+<img id="aimg_jzxTI" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/uOkclWZ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+就像这样<br />
+（这个标签也适用于容器哦。改变的是打开以后左上角的名称）<br />
+<hr class="l" /><br />
+<img id="aimg_sn1zp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/4Dfr3q7.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这个是僵尸的特别标签（特别标签一般不会出现，但可手动添加，我不讲解了……因为太多了！！如有需要可以PM我了解，或者自己翻查英文wiki），代表是否村民僵尸<br />
+<hr class="l" /><br />
+<img id="aimg_x55NG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/EnXzB72.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这个标签是一个很好玩的标签<br />
+代表是否无敌<br />
+<img id="aimg_EO55r" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/rHsH0Gc.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+开了就像这样，无法对他造成伤害<br />
+<hr class="l" /><br />
+<img id="aimg_vsUfo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/zDPI8tz.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+Fire标签代表着火时间<br />
+-1是不着火，这个标签是倒数的，以游戏刻作为单位，就是说20的话会燃烧1秒<br />
+<img id="aimg_ma57C" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/k7MyLsO.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<hr class="l" /><br />
+<img id="aimg_d6q6O" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/sLslpgQ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+Health，你查一查字典就知道了<br />
+是生命，如果你直接调成0……那么出来以后僵尸会一下子消失（没尸体哦！所以玩过那个X魂村的知道村民鬼影是啥回事了吧？）知道怎么弄一只血厚的boss了吧？<br />
+<hr class="l" /><br />
+<img id="aimg_KFZfA" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/rySUEDN.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这个系列的标签很有趣，代表掉落几率<br />
+什么意思？之前介绍过生物的Equipment标签了对吧？<br />
+这里就是对应相应部位的掉落几率<br />
+百分比换算小数就是了<br />
+<img id="aimg_TLg3S" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/DFkGG6W.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+但注意如果僵尸捡起了物品，掉落几率变成2，就是一定会掉落啦<br />
+<img id="aimg_Z1K3k" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/05noUfs.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+比如说2只捡起了钻石剑的僵尸，一只的手持掉落是0，一只是2<br />
+出来的结果就是这样<br />
+<hr class="l" /><br />
+<img id="aimg_Ln6ni" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/Oq8TPJN.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+Equipment系列之前也讲过了，不多解释<br />
+<img id="aimg_k7N7x" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/2KRlLHw.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+还能弄点好玩的，在腿部收入一个碎石<br />
+<img id="aimg_z4vvz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/aVCAT4g.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+改一下掉落几率<br />
+<img id="aimg_QCSXw" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/ZT1U382.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+杀掉以后把石头掉出来了<br />
+<hr class="l" /><br />
+<img id="aimg_SQAjN" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/ctOfawJ.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+Pos系列就是坐标，从上到下就是XYZ坐标<br />
+<img id="aimg_ZllBJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/KDahK34.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+向右改一下，就过去了<br />
+<hr class="l" /><br />
+<img id="aimg_CeCw4" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/PEWD7ur.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这里证明了其实生物标签适用于大多数实体，当然啦一部分是其他实体没有的<br />
+这里介绍motion，代表实体3轴速率<br />
+<img id="aimg_tVOgR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/6Bjay3m.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<img id="aimg_aAT4D" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/pXmAsrw.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+<hr class="l" /><br />
+<img id="aimg_IlesW" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/szjazCO.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+然后是riding（1.5有的功能），我骑着猪，然后编辑自己（/nbtedit me）<br />
+<img id="aimg_II5Iz" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/BQGdJsY.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+可以看到是猪的标签<br />
+但我试过在游戏里帮生物加上，没用？不知道是编辑器问题还是其他<br />
+不过不要紧，用MCE filter就能处理了<br />
+<hr class="l" /><br />
+<img id="aimg_Eiw46" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/lCvQMlW.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+最后是这个，药水效果<br />
+一个compound代表一个效果<br />
+格式方面请看之前的一篇“自定义药水”<br />
+有介绍<br />
+</td></table></div></div><br />
+<hr class="l" />福利<br />
+矿车显示方块：（1.5功能）<br />
+<div class="spoiler"><div class="spoilerheader"><input type="button" class="spoilerbutton" value="展开 / 收起隐藏文字" onClick="n = this.parentNode.parentNode.lastChild;if(n.style.display == 'none') {n.style.display = 'block';} else {n.style.display = 'none';} return false;"/></div><div class="spoilerbody" style="display: none;border-style:inset;padding-right:5px;border-color: #ccc; "><table><td><br />
+好的使用于任何类型矿车<br />
+<img id="aimg_i1eK9" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/2xECFMV.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+首先自己加上这个CustomDisplayTile的short，调为1<br />
+保存，再打开<br />
+<img id="aimg_dh7Oo" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/cfmhNbk.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+出现这几个了<br />
+DisplayTile代表显示的方块id<br />
+DisplayData代表该方块的损害值（id的冒号后面那个）<br />
+DisplayOffset是离开矿车的距离，0是贴着，16是刚好高于矿车<br />
+<img id="aimg_brJ4f" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/wXVyTGA.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+这里是120的效果<br />
+<img id="aimg_HGl14" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="http://i.imgur.com/yWjdkfH.png" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /><br />
+还可以是负数（这里是-120）<br />
+</td></table></div></div><br />
+<hr class="l" />好的应该也是填完这个大坑了<br />
+主要的NBT部分也写得差不多了（实体，刷怪笼什么的）<br />
+剩下的应该是附加内容了……<br />
+那么……还是得继续填坑啊呵呵……<br />
+有啥想知道的，不明白的欢迎PM<br />
+别问我Q了，我不上的呵呵<br />
+有兴趣深造的……英文wiki欢迎您……中文的还是别去了把不大完整……还有点脱节……<br />
+<br />
+<br />
+[groupid=546]Command Block Logic[/groupid]<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>shengjing1&nbsp; &nbsp; <b>时间: </b>2013-3-16 15:43<br />
+syl好~~~呵呵~~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Aikawastep&nbsp; &nbsp; <b>时间: </b>2013-3-16 15:44<br />
+顶一个~感谢制作~<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Aikawastep&nbsp; &nbsp; <b>时间: </b>2013-3-16 15:44<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">shengjing1 发表于 2013-3-16 15:43</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1653951&amp;ptid=98952" target="_blank"><img id="aimg_DeeNU" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+syl好~~~呵呵~~</blockquote></div><br />
+<img src="static/image/smiley/rabbit/35.gif" smilieid="685" border="0" alt="" />你要和我玩沙发大战吗<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Fcy_lity&nbsp; &nbsp; <b>时间: </b>2013-3-16 15:47<br />
+永远也看不懂的东西<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-16 15:52<br />
+syl~表示NBT就跟着你学了。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>shengjing1&nbsp; &nbsp; <b>时间: </b>2013-3-16 15:58<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">Aikawastep 发表于 2013-3-16 15:44</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1653961&amp;ptid=98952" target="_blank"><img id="aimg_C26oW" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+你要和我玩沙发大战吗</blockquote></div><br />
+我比你早注册一年，回帖数是你的五分之一。。。你觉得我会和你玩这个么。。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Aikawastep&nbsp; &nbsp; <b>时间: </b>2013-3-16 16:00<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">shengjing1 发表于 2013-3-16 15:58</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1654133&amp;ptid=98952" target="_blank"><img id="aimg_RWl14" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+我比你早注册一年，回帖数是你的五分之一。。。你觉得我会和你玩这个么。。</blockquote></div><br />
+<img src="static/image/smiley/rabbit/35.gif" smilieid="685" border="0" alt="" />说的也是呢....<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-16 16:29<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">shengjing1 发表于 2013-3-16 15:43</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1653951&amp;ptid=98952" target="_blank"><img id="aimg_odZFD" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+syl好~~~呵呵~~</blockquote></div><br />
+sy好呵呵……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-16 16:30<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">猫小沫 发表于 2013-3-16 15:52</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1654064&amp;ptid=98952" target="_blank"><img id="aimg_t08k6" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+syl~表示NBT就跟着你学了。。</blockquote></div><br />
+呵呵……<br />
+其实跟WIKI学更好……<br />
+虽然说WIKI好闷……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hyd19991005&nbsp; &nbsp; <b>时间: </b>2013-3-16 16:32<br />
+<i class="pstatus"> 本帖最后由 hyd19991005 于 2013-3-16 16:33 编辑 </i><br />
+<br />
+<img src="static/image/smiley/rabbit/50.gif" smilieid="700" border="0" alt="" />哇，终于讲解了，syl我爱你<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-16 16:34<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">hyd19991005 发表于 2013-3-16 16:32</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1654455&amp;ptid=98952" target="_blank"><img id="aimg_UGAAZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+哇，终于讲解了，syl我爱你</blockquote></div><br />
+救命啊……<br />
+基佬来啦……<br />
+（洒泪狂奔）<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>hyd19991005&nbsp; &nbsp; <b>时间: </b>2013-3-16 16:42<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-16 16:34</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1654478&amp;ptid=98952" target="_blank"><img id="aimg_YUAFG" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+救命啊……<br />
+基佬来啦……<br />
+（洒泪狂奔）</blockquote></div><br />
+囧...... 接下来打算研究啥呢<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>猫小沫&nbsp; &nbsp; <b>时间: </b>2013-3-16 18:22<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">sylqiuyifeng 发表于 2013-3-16 16:30</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1654440&amp;ptid=98952" target="_blank"><img id="aimg_C3ASj" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+呵呵……<br />
+其实跟WIKI学更好……<br />
+虽然说WIKI好闷……</blockquote></div><br />
+我懒得看英文……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xueqian&nbsp; &nbsp; <b>时间: </b>2013-3-17 14:05<br />
+英文wiki说掉落几率好像是0.05为单位的……吧……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xueqian&nbsp; &nbsp; <b>时间: </b>2013-3-17 14:14<br />
+好吧看完了E文wiki突然觉得什么都不用学了……会鸟语就是好＠(￣-￣)＠<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-17 14:18<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">xueqian 发表于 2013-3-17 14:14</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1665646&amp;ptid=98952" target="_blank"><img id="aimg_D161g" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+好吧看完了E文wiki突然觉得什么都不用学了……会鸟语就是好＠(￣-￣)＠</blockquote></div><br />
+呵呵呵……<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>jianghr&nbsp; &nbsp; <b>时间: </b>2013-3-18 21:04<br />
+给你最后两篇把索引传送门加上了。<br />
+这一篇虽然不是字典式（不过估计WIKI上有）但是也算一些常用的标签了。<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-3-18 21:22<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">jianghr 发表于 2013-3-18 21:04</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1676866&amp;ptid=98952" target="_blank"><img id="aimg_mtnpH" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+给你最后两篇把索引传送门加上了。<br />
+这一篇虽然不是字典式（不过估计WIKI上有）但是也算一些常用的标签了。</blockquote></div><br />
+额……<br />
+我居然忘记加传送门了呵呵……<br />
+不常用的我才不写呢……<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>Yihc&nbsp; &nbsp; <b>时间: </b>2013-3-22 08:13<br />
+果断收藏&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 不解释.太好了。我喜欢.<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>飞龙神王&nbsp; &nbsp; <b>时间: </b>2013-4-16 00:19<br />
+这么吧史莱姆变成小的史莱姆<br />
+<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-4-16 18:39<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">飞龙神王 发表于 2013-4-16 00:19</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1885791&amp;ptid=98952" target="_blank"><img id="aimg_DaOlR" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+这么吧史莱姆变成小的史莱姆</blockquote></div><br />
+史莱姆里面有个size标签<br />
+自己改数字就好了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>a1518336482&nbsp; &nbsp; <b>时间: </b>2013-6-4 21:34<br />
+图全挂了&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2276773650&nbsp; &nbsp; <b>时间: </b>2013-6-5 12:15<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">xueqian 发表于 2013-3-17 14:05</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=1665517&amp;ptid=98952" target="_blank"><img id="aimg_FzZnZ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+英文wiki说掉落几率好像是0.05为单位的……吧……</blockquote></div><br />
+定的等等等等等等等等等等等等等等等等等等等等等等等等等等<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2276773650&nbsp; &nbsp; <b>时间: </b>2013-6-5 12:15<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">2276773650 发表于 2013-6-5 12:15</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2232303&amp;ptid=98952" target="_blank"><img id="aimg_d44Dx" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+定的等等等等等等等等等等等等等等等等等等等等等等等等等等</blockquote></div><br />
+DINDIDNDDDDDDDDDDDDDDD<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>2276773650&nbsp; &nbsp; <b>时间: </b>2013-6-5 12:15<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">2276773650 发表于 2013-6-5 12:15</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2232306&amp;ptid=98952" target="_blank"><img id="aimg_dcxan" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+DINDIDNDDDDDDDDDDDDDDD</blockquote></div><br />
+DDDDDDDDDDDDDDDDDDDDDDDDDDDDD<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>xxfk&nbsp; &nbsp; <b>时间: </b>2013-6-7 19:26<br />
+NBT可以修改发射器里的数量无线么<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>sylqiuyifeng&nbsp; &nbsp; <b>时间: </b>2013-6-7 20:13<br />
+<div class="quote"><blockquote><font size="2"><font color="#999999">xxfk 发表于 2013-6-7 19:26</font> <a href="https://www.mcbbs.net/forum.php?mod=redirect&amp;goto=findpost&amp;pid=2245799&amp;ptid=98952" target="_blank"><img id="aimg_caDoB" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" src="static/image/common/back.gif" onmouseover="img_onmouseoverfunc(this)" onload="thumbImg(this)" border="0" alt="" /></a></font><br />
+NBT可以修改发射器里的数量无线么</blockquote></div><br />
+不可以<br />
+但可以改很多，目前最好的方法就是大箱子连漏斗接发射器了<br />
+最好用的就是物品刷怪笼配合漏斗就是了<hr noshade size="2" width="100%" color="#808080">
+<b>作者: </b>天蝎_心殇&nbsp; &nbsp; <b>时间: </b>2015-3-2 22:18<br />
+终于知道无敌村民的来历了
+<br /><br /><br /><br /><hr noshade size="2" width="100%" color="BORDERCOLOR">
+<table cellspacing="0" cellpadding="0" border="0" width="95%" align="center" style="font-size: SMFONTSIZE; font-family: SMFONT">
+<tr><td>欢迎光临 Minecraft(我的世界)中文论坛 (https://www.mcbbs.net/)</td>
+<td align="right">
+Powered by Discuz! X3.5</td></tr></table>
+
+</body>
+</html>
