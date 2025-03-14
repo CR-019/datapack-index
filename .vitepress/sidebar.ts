@@ -10,6 +10,13 @@ export const sidebar: DefaultTheme.Sidebar = [
     ]
   },
   {
+    text: '月刊《Feature》',
+    collapsed: false,
+    items: [
+      {text:'绝赞征稿中！',link:'/feature/_规则'},
+    ]
+  },
+  {
     text: '数据包体系结构',
     collapsed: false,
     items: [

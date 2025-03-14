@@ -147,3 +147,10 @@
   margin-left: 15px; /* 在图片和环绕文本之间留出一些空间 */
   max-width: 15%; /* 根据需要调整图片大小 */
 }
+
+/* 使图片浮动到右侧 */
+.img_feature img {
+  float: right;
+  margin-left: 15px; /* 在图片和环绕文本之间留出一些空间 */
+  max-width: 50%; /* 根据需要调整图片大小 */
+}

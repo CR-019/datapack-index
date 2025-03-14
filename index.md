@@ -16,10 +16,11 @@ hero:
       link: https://www.bilibili.com/video/BV1Aq6nY6EjN
 features:
   - icon:
-      src: /3.png
-    title: What's New
-    details: 新“书”速览
-    link: /index/_new
+      src: /ocean_clock.png
+    title: 《Feature》
+    details: 数据包短文月刊
+    linkText: 绝赞征稿中！
+    link: /feature/_规则
   - icon: 
       src: /sweetbarry_stew.png
     title: 工具速查
