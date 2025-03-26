@@ -17,7 +17,7 @@
     `Bugjump Studios!`,
     `数据包开发者：（夜半惊醒）不是，它这么做就是为了恶心我一下吗？`,
     `Mojang教你可数和不可数`,
-    `数据包版本现在为<del>15</del> <del>18</del> <del>26</del> <del>41</del> <del>48</del> <del>57</del> 61! `,
+    `数据包版本现在为<del>15</del> <del>18</del> <del>26</del> <del>41</del> <del>48</del> <del>57</del> <del>61</del> 71! `,
     `着色器！`,
     `物品组件！`,
     `神 金 包`,
