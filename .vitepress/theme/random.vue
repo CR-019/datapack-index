@@ -43,8 +43,8 @@
      `数据包是世界上最优雅、最精确、最强大的编程语言`,
      `香草泥`,
      `香草图书馆现在推出专属会员“香草泥”，成为香草泥，以获得观看文档权限`,
-     `你知道吗？mc刚刚更新了，并且加入了新的指令/sex,我试过了，是真的，你也快试试看吧！`,
-     `《feature》创刊号今日发布！<a href=https://www.bilibili.com/video/BV1GJ411x7h7/ target="_blank">点我查看</a>`
+     `你知道吗？mc刚刚更新了，并且加入了新的指令<a href=https://vanillalibrary.mcfpp.top/datapack-index/resources/是真的.html>/sex</a>,我试过了，是真的，你也快试试看吧！`,
+     `《feature》创刊号今日发布！<a href=https://www.bilibili.com/video/BV1GJ411x7h7/ target="_blank">点我查看</a>`,
     `*/`
   ];
   
