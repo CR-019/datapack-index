@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { sidebar } from './sidebar'
 import { mcfunction } from './highlight'
+import anchor from 'markdown-it-footnote' 
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -59,7 +60,11 @@ export default defineConfig({
 
     shikiSetup: async (shiki) => {
       await shiki.loadLanguage(mcfunction)
-    } 
+    }, 
+
+    config: (md) => {
+      md.use(anchor)
+    }
   }
 })
 

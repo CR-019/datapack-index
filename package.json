@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@types/node": "^22.14.1",
+    "markdown-it-footnote": "3.0.3",
     "vitepress": "^1.5.0"
   },
   "scripts": {
