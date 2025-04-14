@@ -5,7 +5,7 @@
 <FeaturedHead
     title = 原版家具的“终极答案”？——新一代家具框架《松果核》
     authorName = 兰那梛_nano
-    avatarUrl = "539486406ecb2233f259f96d4e49e28668144a01.jpg@128w_128h_1c_1s.webp"
+    avatarUrl = '539486406ecb2233f259f96d4e49e28668144a01.jpg@128w_128h_1c_1s.webp'
     :socialLinks="[
         { name: 'B站', url: 'https://space.bilibili.com/2907002' }
     ]"
