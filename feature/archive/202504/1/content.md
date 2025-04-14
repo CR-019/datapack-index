@@ -1,6 +1,17 @@
-# 数据包快速入门
->  by [伊桑桑桑桑桑](https://space.bilibili.com/397069113)  
->  [原文地址](http://underline.icu/mcfunction-guide/%E6%95%B0%E6%8D%AE%E5%8C%85%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/1/main.html?i=1)
+<script setup>
+    import FeaturedHead from '/resources/vue/FeaturedHead.vue'
+</script>
+
+<FeaturedHead
+    title = 数据包快速入门
+    authorName = 伊桑桑桑桑桑
+    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    :socialLinks="[
+        { name: 'B站', url: 'https://space.bilibili.com/397069113' }
+    ]"
+    resourceLink = 'http://underline.icu/mcfunction-guide/%E6%95%B0%E6%8D%AE%E5%8C%85%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/1/main.html'
+/>
+
 
 ## 提示
 
