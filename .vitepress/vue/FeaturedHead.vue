@@ -1,15 +1,19 @@
 <template>
     <div class="article-container">
         <!--头图-->
-        <div class="header-image-wrapper">
+        <div 
+            class="header-image-wrapper"
+            v-show="!hasError"
+        >
             <img
                 :src="cover"
                 alt="是封面"
                 class="header-image"
+                @error="hasError = true"
             >
             <div class="gradient-overlay"></div>
         </div>
-
+        <div v-show="hasError" class="spacer"></div>
         <!-- 顶部粗横线 -->
         <div class="featured-color-line">
             <div class="color-segment orange"></div>
@@ -34,7 +38,10 @@
         <div class="content-wrapper">
             <!-- 左侧作者信息 -->
             <div class="author-info">
-                <img :src="avatarUrl" :alt="authorName" class="avatar" />
+                <div class="avatar-wrapper">
+                    <img :src="avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError"/>
+                    <div v-if="avatarLoading" class="loading-indicator"></div>
+                </div>
                 <div class="author-details">
                     <h3 class="author-name">{{ authorName }}</h3>
                     <div class="social-links">
@@ -56,7 +63,16 @@
 </template>
 
 <script>
+
 export default {
+    data() {
+        return {
+            hasError: false, // 用于判断图片加载失败
+            avatarLoading: false, 
+            avatarError: false,
+            //avatarUrl: "https://via.placeholder.com/50",
+        };
+    },
     name: "FeatureHead",
     props: {
         title: {
@@ -67,9 +83,9 @@ export default {
             type: String,
             default: "是名字",
         },
-        avatarUrl: {
+        authorBiliID: {
             type: String,
-            default: "https://via.placeholder.com/50",
+            default: "",
         },
         socialLinks: {
             type: Array,
@@ -77,6 +93,10 @@ export default {
                 { name: "GitHub", url: "https://github.com" },
                 { name: "B站", url: "https://weibo.com" }
             ]
+        },
+        avatarUrl: {
+            type: String,
+            default: "https://via.placeholder.com/50",
         },
         abstractText: {
             type: String,
@@ -91,10 +111,41 @@ export default {
             default: ""
         }
     },
+    mounted(){
+        //this.fetchAvatar();
+    },
+    methods: {
+        async fetchAvatar(){
+            this.avatarLoading = true;
+            try{
+                const response = await fetch(`/api/bilibili/user/${this.authorBiliID}`);
+                const data = await response.json();
+                if(data?.face){
+                    this.avatarUrl = data.face + "@100w_100h.jpg";
+                }
+            }catch(error){
+                console.error("获取头像失败", error);
+                this.avatarError = true;
+            } finally {
+                this.avatarLoading = false;
+            }
+        },
+        handleAvatarError() {
+            this.avatarError = true;
+            this.avatarUrl = "https://via.placeholder.com/50"; // 设置默认头像
+        }
+    }
 };
 </script>
 
 <style scoped>
+.spacer {
+  flex: 1;
+  height: 80px; /* 与图片容器实际高度一致 */
+  min-height: 80px;
+  position: relative;
+}
+
 .header-container {
   max-width: 800px;
   margin: 0 auto;
@@ -103,7 +154,7 @@ export default {
 .header-image-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 37%; 
+  padding-top: 30%; 
   overflow: hidden;
   border-radius: 4px 4px 0 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -134,7 +185,7 @@ export default {
   left: 0;
   right: 0;
   height: 100%;
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%);
   transition: opacity 0.3s ease;
   pointer-events: none; 
 }
@@ -253,11 +304,35 @@ export default {
     gap: 30px;
 }
 
+.avatar-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
 .avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+
+.loading-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.6; }
 }
 
 .author-details {
