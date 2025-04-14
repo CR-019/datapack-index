@@ -66,17 +66,17 @@ export default defineConfig({
       md.use(anchor)
     }
   },
-  vite: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3001',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        }
-      }
-    }
-  }
+  //vite: {
+  //  server: {
+  //    proxy: {
+  //      '/api': {
+  //        target: 'http://localhost:3001',
+  //        changeOrigin: true,
+  //        rewrite: (path) => path.replace(/^\/api/, '')
+  //      }
+  //    }
+  //  }
+  //}
 })
 
 

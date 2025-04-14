@@ -8,10 +8,9 @@
     "vitepress": "^1.5.0"
   },
   "scripts": {
-    "docs:dev": "concurrently \"pnpm run proxy\" \"vitepress dev\"",
+    "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview",
-    "proxy": "node .vitepress/server/proxy.mjs"
+    "docs:preview": "vitepress preview"
   },
   "dependencies": {
     "@giscus/vue": "^3.1.1"

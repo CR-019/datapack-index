@@ -7,7 +7,7 @@
     authorName = 兰那梛_nano
     avatarUrl = '539486406ecb2233f259f96d4e49e28668144a01.jpg@128w_128h_1c_1s.webp'
     :socialLinks="[
-        { name: 'B站', url: 'https://space.bilibili.com/2907002' }
+        { name: 'Bilibili', url: 'https://space.bilibili.com/2907002' }
     ]"
     resourceLink = 'https://www.bilibili.com/opus/1044581242377338887'
     cover='covers.png'
