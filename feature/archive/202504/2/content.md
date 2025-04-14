@@ -14,7 +14,7 @@
 
 这里给出一个数据包**pack.mcmeta**文件的示例格式：
 
-```mcmeta
+```json
 {
     "pack": {
         "pack_format": 61,

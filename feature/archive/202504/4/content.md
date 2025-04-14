@@ -355,13 +355,13 @@ function nkcustomspawn:main/effective_chunk/right/main
 
 storag 数据存储结构 `nkcustomspawn:data`
 
-```NBT
+```nbt
 {
-	"input": {
-		"source": [[x1,y1,y2,1],[x2,y1,y2,1],[r1,t1,t2,0],[r2,t1,t2,1],...],
-		"interval":[[x-z区间],[r-z区间]],
+    "input": {
+        "source": [[x1,y1,y2,1],[x2,y1,y2,1],[r1,t1,t2,0],[r2,t1,t2,1],...],
+        "interval":[[x-z区间],[r-z区间]],
         "collinear": [(共线计数1),(共线计数2),...]
-	}
+    }
 }
 ```
 
