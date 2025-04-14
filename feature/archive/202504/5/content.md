@@ -1,6 +1,6 @@
-# Java版1.21.5-SNBT语法概览
-> by [luobojuo](https://space.bilibili.com/3461565177137515)
 
+
+# Java版1.21.5-SNBT语法概览
 
 先给出一段函数代码：
 
@@ -34,8 +34,10 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
   * 忽略大小写。
 
 示例：
-
-![image-20250327213612697](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213612697.png)
+下例中，`True`等效于`true`：
+```
+data modify storage generic:test temp set value True
+```
 
 ## Integer - 整数
 
@@ -56,18 +58,26 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
 前文第一条命令中末尾的`1b`是一个整数字面量，其代表的数据类型为字节型。
 
 示例：
-
-![image-20250327213643079](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213643079.png)
-
-![image-20250327213707511](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213707511.png)
-
-## ![image-20250327213748600](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213748600.png)
-
-![image-20250327213821832](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213821832.png)
-
-![image-20250327213841348](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213841348.png)
-
-![image-20250327213901008](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213901008.png)
+十六进制有符号整型：
+```
+data modify storage generic:test temp set value 0xF
+```
+二进制无符号字节型：
+```
+data modify storage generic:test temp set value 0b10000000ub
+```
+十进制有符号长整型：
+```
+data modify storage generic:test temp set value 12345456789L
+```
+下例并非表示十六进制有符号字节型，而是会被推导为十六进制有符号整型（`0xAB`中的`B`被视为十六进制数而非类型尾缀）：
+```
+data modify storage generic:test temp set value 0xAb
+```
+为了表示十六进制字节型，必须显式指定符号类别：
+```
+data modify storage generic:test temp set value 0xAsb
+```
 
 ## Float - 浮点数
 
@@ -88,10 +98,16 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
 - 整数形式：`[<数符>]<浮点数整数部分>[<浮点数指数部分>]<浮点数后缀>`
 
 示例：
+下例为浮点数的指数形式。未写尾缀，将被默认推导为双精度浮点数。故以下设置的数据为`100.0d`
 
-![image-20250327213939428](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213939428.png)
+```
+data modify storage generic:test temp set value 10E1
+```
 
-![image-20250327213953651](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213953651.png)
+单精度浮点数的部分尾数被省略，实际所获取到的SNBT为`123.12312f`：
+```
+data modify storage generic:test temp set value 123.123123f
+```
 
 ## String - 字符串
 
@@ -142,17 +158,34 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
 
 示例：
 
-![image-20250327214318160](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214318160.png)
+```
+tellraw @s hello
+```
 
-![image-20250327214044945](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214044945.png)
+```
+tellraw @s '你好'
+```
+未加引号将导致中文错误（不符合裸字符串规则）：
+```
+tellraw @s 你好
+```
 
-![image-20250327214057370](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214057370.png)
+一个关于物品描述的例子（这里`\u00a7`将被转义为格式字符`§`。`§a`即将后续字符渲染为绿色）：
+```
+give @s stone[lore=['\u00a7a你好']]
+```
 
-![image-20250327214140136](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214140136.png)
+使用`\n`来换行：
+```
+tellraw @s '\na\nb'
+```
 
-![image-20250327214218573](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214218573.png)
+输出命名Unicode字符：
+```
+tellraw @s '\N{Snowman}'
+```
 
-![image-20250327214252904](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214252904.png)
+
 
 ## Map - 映射表
 
@@ -169,11 +202,15 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
 
 示例：
 
-![image-20250327214343371](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214343371.png)
+纯文本型文本组件本身即为一个映射表：
+```
+tellraw @s {text:'hhh'}
+```
 
-![image-20250327214416964](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214416964.png)
-
-![image-20250327214541240](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214541240.png)
+构造自定义的映射，并存入命令存储：
+```
+data modify storage generic:test temp set value {"`(@_@)'":233}
+```
 
 
 
@@ -192,14 +229,30 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
   - `[ (<数组头标>;<数组繁项>)|(线性表繁项), ... ]`
 
 示例：
+一个常见的齐元素类型列表：
+```
+data modify storage generic:test temp set value [1,2,3]
+```
 
-![image-20250327214626742](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214626742.png)
+列表也允许元素异构和嵌套（如下）。但要注意，在低版本并不允许元素异构，即所有元素必须与第一个元素类型一致。
+```
+data modify storage generic:test temp set value [1,'a',[1, 2, 3]]
+```
 
-![image-20250327214816845](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214816845.png)
+可使用列表描述文本组件，首元素将被视为父组件，后续元素将继承其颜色。
+```
+tellraw @s [{text:'',color:'gold'}, '是"cber"，还是"datapackpacker"，也是"vanilla lover"。']
+```
 
-![image-20250327214900890](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214900890.png)
+数组只允许在其类型范围上限内采取不同的类型，下例中`0L`为长整型，超出`B`字节型上限。
+```
+data modify storage generic:test temp set value [B;1b,123,0L]
+```
 
-![image-20250327214913679](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214913679.png)
+下例是正确的写法，每个数组元素都未超过数组头所规定的字节型上限。
+```
+data modify storage generic:test temp set value [B;1b,123,0]
+```
 
 ## SNBT数据操作
 
@@ -217,7 +270,13 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
 * `uuid`：转换一个十六进制uuid字符串为一个UUID数组。
 
 示例：
+参数的推导规则与前文所介绍的SNBT字面量无异。`123`将被先推导为整型，然后再转换为布尔值：
 
-![image-20250327213016667](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327213016667.png)
+```
+data modify storage generic:test temp set value bool(123)
+```
 
-![image-20250327214959145](C:\Users\18428\AppData\Roaming\Typora\typora-user-images\image-20250327214959145.png)
+uuid转换操作内所输入的参数应为一个字符串，为了避免其被推导为数字，最好加上引号：
+```
+data modify storage generic:test temp set value uuid('1-2-3-4-5')
+```
