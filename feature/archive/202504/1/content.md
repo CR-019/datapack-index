@@ -1,17 +1,16 @@
 <script setup>
-    import FeaturedHead from '/.vitepress/vue/FeaturedHead.vue'
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
 </script>
 
-<FeaturedHead
+<FeatureHead
     title = 数据包快速入门
     authorName = 伊桑桑桑桑桑
     avatarUrl = '../../_authors/伊桑.webp'
     :socialLinks="[
-        { name: 'B站', url: 'https://space.bilibili.com/397069113' }
+        { name: 'BiliBili', url: 'https://space.bilibili.com/397069113' }
     ]"
     resourceLink = 'http://underline.icu/mcfunction-guide/%E6%95%B0%E6%8D%AE%E5%8C%85%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/1/main.html'
 />
-
 
 ## 提示
 
@@ -29,7 +28,7 @@
 
 安装好之后，打开你游戏存档中的datapacks文件夹，并在里面新建一个“测试数据包”文件夹，按如下结构创建文件和文件夹：
 
-```
+```txt
 测试数据包
     data（文件夹）
     pack.mcmeta
@@ -45,8 +44,6 @@
     }
 }
 ```
-
-
 
 
 <details>

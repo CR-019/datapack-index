@@ -1,8 +1,17 @@
-﻿# 数据包优化原则以及分析方式简述
-> by [Dahesor](https://space.bilibili.com/436796403)
+﻿<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
 
+<FeatureHead
+    title = 数据包优化原则以及分析方式简述
+    authorName = Dahesor
+    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/436796403' }
+    ]"
+    resourceLink = '数据包优化原则以及分析方式简述.pdf'
+/>
 
-> 摘要：本篇文章面对刚接触数据包不久的读者，将简单介绍何时应该考虑数据包优化，如何优化，主要优化目标和优化方式，以及用来判断需要优化部分的方法与工具。希望在阅读本文后读者能对数据包的运行消耗和基础优化原则有一些大概的理解。
 
 
 ## 什么是数据包优化？

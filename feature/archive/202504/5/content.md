@@ -1,5 +1,15 @@
-# Java版1.21.5-SNBT语法概览
-> by [luobojuo](https://space.bilibili.com/3461565177137515)
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
+
+<FeatureHead
+    title = Java版1.21.5-SNBT语法概览
+    authorName = luobojuo
+    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/3461565177137515' }
+    ]"
+/>
 
 
 先给出一段函数代码：
