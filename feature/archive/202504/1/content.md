@@ -1,5 +1,5 @@
 <script setup>
-    import FeaturedHead from '/resources/vue/FeaturedHead.vue'
+    import FeaturedHead from '/.vitepress/vue/FeaturedHead.vue'
 </script>
 
 <FeaturedHead
