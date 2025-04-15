@@ -5,7 +5,7 @@
 <FeaturedHead
     title = 数据包快速入门
     authorName = 伊桑桑桑桑桑
-    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    avatarUrl = '../../_authors/伊桑.webp'
     :socialLinks="[
         { name: 'B站', url: 'https://space.bilibili.com/397069113' }
     ]"
