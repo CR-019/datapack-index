@@ -5,7 +5,7 @@
 <FeatureHead
     title = NeKoCustomSpawn-demo
     authorName = 七柏
-    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    avatarUrl = '../../_authors/七柏.webp'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/405830542' }
     ]"

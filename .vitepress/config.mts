@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import { sidebar } from './sidebar'
 import { mcfunction } from './highlight'
 import anchor from 'markdown-it-footnote' 
+import { sidebar_feature , sidebar_202504 } from './sidebar_feature'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -37,7 +38,12 @@ export default defineConfig({
       }
     },
 
-    sidebar: sidebar,
+    sidebar: {
+      '/index/': sidebar,
+      '/resources/' : sidebar,
+      '/feature/archive/202504' : sidebar_202504,
+      '/feature/' : sidebar_feature 
+    },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/CR-019/datapack-index' },
