@@ -9,7 +9,7 @@
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/85292644' }
     ]"
-    cover='cover.png'
+    cover='../_assets/dust_7.png'
 />
 
 

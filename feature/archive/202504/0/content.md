@@ -11,7 +11,7 @@
         { name: 'Bilibili', url: 'https://space.bilibili.com/2907002' }
     ]"
     resourceLink = 'https://www.bilibili.com/opus/1044581242377338887'
-    cover='covers.png'
+    cover='../_assets/covers.png'
 />
 
 作为一名建筑装饰玩家，如果向你推荐一款家具模组，你会作何考虑？着眼于这款模组的美术风格、模型品质、内容数量？亦或是担忧这款模组的适用版本、模组兼容性、易用性？如果你是一名模组作者，又将如何在这些方向选择取舍？
