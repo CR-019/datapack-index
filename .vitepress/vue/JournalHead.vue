@@ -77,7 +77,7 @@ export default {
 /* 封面容器 */
 .cover-container {
     margin: 0 -2rem;
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
