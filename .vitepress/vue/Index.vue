@@ -180,7 +180,7 @@ export default {
 
 .has-background .content-wrapper {
   margin-top: 2.5rem;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .meta-section {
@@ -250,6 +250,7 @@ export default {
 .article-title a {
     color: inherit;
     text-decoration: none;
+    font-weight: 600;
 }
 
 .article-title a:hover {
@@ -284,26 +285,5 @@ export default {
 .article-abstract-wrapper::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 3px;
-}
-
-@media (max-width: 768px) {
-    .content-wrapper {
-        grid-template-columns: 1fr;
-    }
-
-    .meta-section {
-        border-right: 0;
-        padding-right: 0;
-        border-bottom: 1px solid var(--vp-c-divider);
-        padding-bottom: 1.5rem;
-    }
-
-    .vertical-divider {
-        display: none;
-    }
-
-    .content-wrapper {
-        gap: 1rem;
-    }
 }
 </style>
