@@ -1,3 +1,17 @@
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
+
+<FeatureHead
+    title = 根据玩家记分板分数进行排名
+    authorName = Nox_Obscura
+    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://b23.tv/IMmhdiM' }
+    ]"
+    resourceLink = 'https://b23.tv/gBF3viI'
+/>
+
 内容：根据玩家记分板分数进行排名
 
 特性：
@@ -6,6 +20,3 @@
 3：算是全网首发，发布前尚未找到相似内容【只有基岩版且为有实体的计算方法】
 
 视频链接：https://b23.tv/gBF3viI
-
-作者主页：https://b23.tv/IMmhdiM
-昵称：Nox_Obscura

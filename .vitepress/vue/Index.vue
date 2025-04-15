@@ -74,7 +74,7 @@ export default {
             type: Array,
             default: () => [
                 { name: "GitHub", url: "https://github.com" },
-                { name: "B站", url: "https://weibo.com" },
+                { name: "BiliBili", url: "https://weibo.com" },
             ],
         },
         background: {

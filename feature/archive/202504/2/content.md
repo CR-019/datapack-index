@@ -1,5 +1,15 @@
-# 如何合并多个版本的数据包？
-> by [Dreamy_Blaze](https://space.bilibili.com/1017007290)
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
+
+<FeatureHead
+    title = 如何合并多个版本的数据包？
+    authorName = Dreamy_Blaze
+    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/1017007290' }
+    ]"
+/>
 
 ## 数据包的强耦合
 

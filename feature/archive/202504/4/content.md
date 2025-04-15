@@ -1,13 +1,26 @@
-# NeKoCustomSpawn-demo
-> by [七柏](https://space.bilibili.com/405830542)
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
+
+<FeatureHead
+    title = NeKoCustomSpawn-demo
+    authorName = 七柏
+    avatarUrl = 'd8396af7c69c5736fc24cbd674b2873eb397fd34.jpg@128w_128h_1c_1s.webp'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/405830542' }
+    ]"
+/>
+
 > 参考视频: [[数据包]基于 spreadplayers 的伪自然生成](https://www.bilibili.com/video/BV1FGRSYnELb/).
-
-
-> 原版自定义生成.
 >
-> 本数据包为 NeKoWorldCraft 系列子包, 依赖于前置 NeKoToolKit 中的 BlockTags. 
->
-> 包体目前只完成了大概的生成流程, 文件调用关系还较为混乱.
+
+:::tip 注
+原版自定义生成.
+
+本数据包为 NeKoWorldCraft 系列子包, 依赖于前置 NeKoToolKit 中的 BlockTags. 
+
+包体目前只完成了大概的生成流程, 文件调用关系还较为混乱.
+:::
 
 ## 简介
 
@@ -37,10 +50,10 @@
 
 - **获取源数据**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/player.mcfunction</summary>
+:::details nkcustomspawn:main/effective_chunk/player.mcfunction
 
 *该函数负责统计以玩家为中心17\*17的有效刷怪区块*#
+
 ```mcfunction
 #获取 PlayerPos
 execute store result score #CustomSpawn.Pos_x .NEKOTEMP run data get entity @s Pos[0]
@@ -82,12 +95,12 @@ scoreboard players reset #CustomSpawn.Pos_x
 scoreboard players reset #CustomSpawn.Pos_z
 scoreboard players reset #CustomSpawn.Calculate
 ```
-</details>
+
+:::
 
 - **数据预处理(区间划分)**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/0.mcfunction</summary>
+:::details nkcustomspawn:main/effective_chunk/0.mcfunction
 
 ```mcfunction
 #调用冒泡排序对input data依据x由小到大排序
@@ -126,13 +139,13 @@ scoreboard players reset #CustomSpawn.Calculate_x1 .NEKOTEMP
 data remove storage nkcustomspawn:data input
 data remove storage nkcustomspawn:data EffectiveChunk
 ```
-</details>
+
+:::
 
 - **边界分类处理**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/main.mcfunction</summary>
-  
+::: details nkcustomspawn:main/effective_chunk/main.mcfunction
+
 ```mcfunction
 #---------------------------#
 #                  0                   #
@@ -171,12 +184,12 @@ execute if score #CustomSpawn.Calculate_temp .NEKOTEMP matches 0 run return fail
 #循环
 function nkcustomspawn:main/effective_chunk/main
 ```
-</details>
+
+:::
 
 - **共线边界处理(左)**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/left/collinear.mcfunction</summary>
+:::details nkcustomspawn:main/effective_chunk/left/collinear.mcfunction
 
 ```mcfunction
 #---------------------------#
@@ -193,12 +206,12 @@ scoreboard players add #CustomSpawn.Calculate_CollinearCount .NEKOTEMP 1
 #重置右边界
 scoreboard players reset #CustomSpawn.Calculate_x1 .NEKOTEMP
 ```
-</details>
+
+:::
 
 - **非共线处理**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/boundary.mcfunction</summary>
+:::details nkcustomspawn:main/effective_chunk/boundary.mcfunction
 
 ```mcfunction
 #---------------------------#
@@ -237,11 +250,12 @@ execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 1 run \
 #remove source[0]
 data remove storage nkcustomspawn:data input.source[0]
 ```
-</details>
+
+:::
+
 - **z 向长度运算**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/lengthz.mcfunction</summary>
+:::details nkcustomspawn:main/effective_chunk/lengthz.mcfunction
 
 ```mcfunction
 #---------------------------#
@@ -266,12 +280,11 @@ execute if score #CustomSpawn.Calculate_temp .NEKOTEMP matches 0 run return run 
 function nkcustomspawn:main/effective_chunk/left/lengthz
 ```
 
-</details>
+:::
 
 - **左边界非共线处理**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/left/noncollinear.mcfunction</summary>
+:::details nkcustomspawn:main/effective_chunk/left/noncollinear.mcfunction
 
 ```mcfunction
 #---------------------------#
@@ -291,12 +304,11 @@ scoreboard players set #CustomSpawn.Calculate_CollinearCount .NEKOTEMP 1
 scoreboard players reset #CustomSpawn.Calculate_lorr .NEKOTEMP
 ```
 
-</details>
+:::
 
 - **右边界处理**
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/right/0.mcfunction</summary>
+::: details nkcustomspawn:main/effective_chunk/right/0.mcfunction
 
 ```mcfunction
 #---------------------------#
@@ -331,10 +343,9 @@ scoreboard players reset #CustomSpawn.Calculate_temp2
 function nkcustomspawn:main/effective_chunk/right/main
 ```
 
-</details>
+:::
 
-<details>
-  <summary>nkcustomspawn:main/effective_chunk/right/main.mcfunction</summary>
+:::details nkcustomspawn:main/effective_chunk/right/main.mcfunction
 
 ```mcfunction
 #---------------------------#
@@ -349,7 +360,8 @@ execute if score #CustomSpawn.Calculate_temp .NEKOTEMP matches 0 run return run 
 #循环
 function nkcustomspawn:main/effective_chunk/right/main
 ```
-</details>
+
+:::
 
 **补充:** 
 
@@ -386,8 +398,9 @@ scoreboard
 
 关于自定义生物/实体的生成问题, 鉴于 spreadplayers 命令的优良性质(散布范围可自定义、不用在包内进行大规模数据运算), 包体基于该命令对自然生成进行模拟.
 
-> 但是 spreadplayers 也存在一定的缺点, 即不能将点位散布到水或熔岩中去, 这导致了本包只能于地面模拟生成.
-
+:::tip 注
+但是 spreadplayers 也存在一定的缺点, 即不能将点位散布到水或熔岩中去, 这导致了本包只能于地面模拟生成.
+:::
 在进行模拟生成前, 我们首先应获取对应实体生成上限, 通过反馈模块我们可以得到这一点
 
 在每个生成周期中, 我们应对以下事件进行处理
@@ -426,7 +439,9 @@ execute if score #CustomSpawn.Mob .NEKOTEMP < #CustomSPawn.MobCap .NEKOTEMP as @
 
 由于 Java 版本 spreadplayers 的 `maxHeight` 参数并不支持相对位置 `~` 的输入, 因此我们采用宏来规范生成高度.
 
-> 关于此处限制生成高度的目的是为了洞穴生成, 如果不限制高度的话生成点只能选取在地表.
+:::tip 注
+关于此处限制生成高度的目的是为了洞穴生成, 如果不限制高度的话生成点只能选取在地表.
+:::
 
 对 `maxHeight` 参数进行计算并传入宏
 
@@ -470,10 +485,11 @@ kill @e[type=minecraft:marker,tag=nkcustomspawn]
 
 生成游走
 
-> 这个函数貌似有一些逻辑上的bug, 但我没找到.
->
-> 具体是关于第30行的kill @s, 执行完后并不能完全清除标记用的marker, 若你注释掉上一段函数中的kill @e[type=minecraft:marker,tag=nkcustomspawn] 就可发现.
+:::tip 注
+这个函数貌似有一些逻辑上的bug, 但我没找到.
 
+具体是关于第30行的`kill @s`, 执行完后并不能完全清除标记用的marker, 若你注释掉上一段函数中的`kill @e[type=minecraft:marker,tag=nkcustomspawn]` 就可发现.
+:::
 ```mcfunction
 #游走次数减一
 scoreboard players remove #CustomSpawn.WanderingChance .NEKOTEMP 1
@@ -521,7 +537,9 @@ execute if entity @e[distance=..128,type=marker,tag=nkcustomspawn] \
 
 关于生成的处理
 
-> 本来是也想把水生和熔岩生成搞进来的, 但是写完才发现 spreadplayers 不能选取这两个方块作为目标点QAQ.
+:::tip 注
+本来是也想把水生和熔岩生成搞进来的, 但是写完才发现 spreadplayers 不能选取这两个方块作为目标点QAQ.
+:::
 
 ```mcfunction
 #地面
@@ -535,7 +553,9 @@ execute if predicate nkcustomspawn:general/ground run \
     function nkcustomspawn:main/spawn/sub/lava
 ```
 
-> 这个函数用来管理生成的实体, 利用随机数对表中实体进行随机抽取 (这里是例子所以只写了一个), 这里也可以写入特定实体的生成谓词, 用来限制生成.
+:::tip 注
+这个函数用来管理生成的实体, 利用随机数对表中实体进行随机抽取 (这里是例子所以只写了一个), 这里也可以写入特定实体的生成谓词, 用来限制生成.
+:::
 
 ```mcfunction
 #随机数生成
@@ -548,7 +568,9 @@ execute if score #CustomSpawn.Roll .NEKOTEMP matches 0 run return run \
     function nkcustomspawn:data/test1
 ```
 
-> 对生成的最后一步判定(密度判定, 即9*9区块内同类生物不能超过一个阈值, 若成功生成则对计分项SuccessSpawn进行标记)
+:::tip 注
+对生成的最后一步判定(密度判定, 即9*9区块内同类生物不能超过一个阈值, 若成功生成则对计分项SuccessSpawn进行标记)
+:::
 
 ```
 #密度判定

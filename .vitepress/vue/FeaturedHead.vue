@@ -19,7 +19,7 @@
             <div class="color-segment orange"></div>
             <div class="image-container">
                 <img src="/public/feature/command_block_front.png" class="base-image" alt="">
-                <img src="/public/feature/title.png" class="overlay-image" alt="">
+                <img src="/feature/cover/featured.png" class="overlay-image" alt="">
             </div>
             <div class="color-segment purple"></div>
         </div>
@@ -91,7 +91,7 @@ export default {
             type: Array,
             default: () => [
                 { name: "GitHub", url: "https://github.com" },
-                { name: "B站", url: "https://weibo.com" }
+                { name: "BiliBili", url: "https://weibo.com" }
             ]
         },
         avatarUrl: {
@@ -141,8 +141,7 @@ export default {
 <style scoped>
 .spacer {
   flex: 1;
-  height: 80px; /* 与图片容器实际高度一致 */
-  min-height: 80px;
+  height: 30px;
   position: relative;
 }
 
@@ -201,7 +200,7 @@ export default {
 }
 
 .color-segment {
-  flex: 1;
+  flex: 0 0 20%;
 }
 
 .orange {
@@ -221,18 +220,19 @@ export default {
 
 .base-image {
   position: absolute;
-  width: 37%;
+  width: 20%;
   height: auto;
   aspect-ratio: 1/1;
   object-fit: contain;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -90%) rotate(45deg);
+  transform: translate(-50%, -80%) rotate(45deg);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
 .overlay-image {
   position: absolute;
+  width: 70%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -75%);
