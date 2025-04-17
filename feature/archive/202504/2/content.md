@@ -5,7 +5,7 @@
 <FeatureHead
     title = 如何合并多个版本的数据包？
     authorName = Dreamy_Blaze
-    avatarUrl = '../../_authors/dreamy_blaze.webp'
+    avatarUrl = '../../_authors/dreamy_blaze.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/1017007290' }
     ]"

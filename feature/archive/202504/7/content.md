@@ -5,7 +5,7 @@
 <FeatureHead
     title = 根据记分板分数排名
     authorName = Nox_Obscura
-    avatarUrl = '../../_authors/nox_obscura.webp'
+    avatarUrl = '../../_authors/nox_obscura.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://b23.tv/IMmhdiM' }
     ]"

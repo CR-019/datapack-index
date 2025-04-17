@@ -5,7 +5,7 @@
 <FeatureHead
     title = 数据包优化原则以及分析方式简述
     authorName = Dahesor
-    avatarUrl = '../../_authors/dahesor.webp'
+    avatarUrl = '../../_authors/dahesor.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/436796403' }
     ]"

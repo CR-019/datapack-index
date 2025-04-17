@@ -5,7 +5,7 @@
 <FeatureHead
     title = 数据包快速入门
     authorName = 伊桑桑桑桑桑
-    avatarUrl = '../../_authors/伊桑.webp'
+    avatarUrl = '../../_authors/伊桑.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/397069113' }
     ]"
