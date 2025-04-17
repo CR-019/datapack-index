@@ -14,6 +14,7 @@ export const sidebar: DefaultTheme.Sidebar = [
       collapsed: false,
       items: [
         { text: '绝赞征稿中！', link: '/feature/_规则' },
+        { text: '2025.04期', link: '/feature/index/202504' },
       ]
     },
     {

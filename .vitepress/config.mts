@@ -60,6 +60,7 @@ export default defineConfig({
       ['link', { rel: 'icon', href: '/datapack-index/dream_catcher11.png' }]
   ],
   ignoreDeadLinks: true,
+  lastUpdated: false,
 
   markdown: {
     languages: [mcfunction],
