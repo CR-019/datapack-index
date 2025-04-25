@@ -134,6 +134,10 @@ export default {
     opacity: 0.6;
 }
 
+.dark .background-image {
+    filter: blur(2px) brightness(0.5);
+}
+
 .content-layer {
     position: relative;
     z-index: 1;
@@ -181,6 +185,11 @@ export default {
 .has-background .content-wrapper {
   margin-top: 2.5rem;
   background: rgba(255, 255, 255, 0.7);
+}
+
+.dark .content-wrapper {
+  margin-top: 2.5rem;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .meta-section {
@@ -285,5 +294,44 @@ export default {
 .article-abstract-wrapper::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+    .article-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 15px;
+    }
+
+    .meta-section {
+        flex: 0 0 auto;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .author-info {
+        justify-content: center;
+    }
+
+    .vertical-divider {
+        display: none;
+    }
+
+    .content-section {
+        text-align: center;
+    }
+
+    .article-title {
+        font-size: 1rem;
+    }
+
+    .article-abstract-wrapper {
+        max-height: none;
+    }
 }
 </style>
