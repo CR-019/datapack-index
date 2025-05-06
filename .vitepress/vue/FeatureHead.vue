@@ -270,6 +270,10 @@ export default {
     color: #333;
 }
 
+.dark .article-title {
+    color: #ccc;
+}
+
 .content-wrapper {
     display: flex;
     gap: 10px;
@@ -371,5 +375,81 @@ export default {
     color: #666;
     line-height: 1.6;
     font-size: 0.95rem;
+}
+
+
+@media (max-width: 768px) {
+  .header-image-wrapper {
+    padding-top: 50%; /* 调整为更适合手机端的宽高比 */
+  }
+
+  .article-container {
+    padding: 10px; /* 减少边距以适应小屏幕 */
+  }
+
+  .featured-color-line {
+    height: 6px; /* 缩小顶部横线高度 */
+  }
+
+  .image-container {
+    height: 80%; /* 调整高度以适应小屏幕 */
+  }
+
+  .base-image {
+    width: 15%; /* 缩小基础图片尺寸 */
+  }
+
+  .overlay-image {
+    width: 60%; /* 缩小覆盖图片尺寸 */
+  }
+
+  .article-title {
+    font-size: 1.2rem; /* 调整标题字体大小 */
+    margin: 20px 0; /* 减少标题的上下边距 */
+  }
+
+  .resource-link {
+    font-size: 0.8rem; /* 调整资源链接字体大小 */
+  }
+
+  .content-wrapper {
+    flex-direction: column; /* 改为纵向布局 */
+    gap: 15px; /* 增加间距 */
+  }
+
+  .author-info {
+    flex: 1; /* 占满宽度 */
+    gap: 15px; /* 减少间距 */
+  }
+
+  .avatar-wrapper {
+    width: 40px; /* 缩小头像尺寸 */
+    height: 40px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .author-name {
+    font-size: 0.9rem; /* 缩小作者名字字体 */
+  }
+
+  .social-links {
+    gap: 5px; /* 减少社交链接间距 */
+  }
+
+  .abstract {
+    padding-left: 0; /* 移除左边距 */
+  }
+
+  .abstract-title {
+    font-size: 1rem; /* 缩小摘要标题字体 */
+  }
+
+  .abstract-content {
+    font-size: 0.85rem; /* 缩小摘要内容字体 */
+  }
 }
 </style>

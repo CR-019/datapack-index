@@ -3,6 +3,7 @@ import { sidebar } from './sidebar'
 import { mcfunction } from './highlight'
 import anchor from 'markdown-it-footnote' 
 import { sidebar_feature , sidebar_202504 } from './sidebar_feature'
+import viteImagemin from 'vite-plugin-imagemin'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -73,17 +74,16 @@ export default defineConfig({
       md.use(anchor)
     }
   },
-  //vite: {
-  //  server: {
-  //    proxy: {
-  //      '/api': {
-  //        target: 'http://localhost:3001',
-  //        changeOrigin: true,
-  //        rewrite: (path) => path.replace(/^\/api/, '')
-  //      }
-  //    }
-  //  }
-  //}
+  vite: {
+    plugins: [
+      viteImagemin({
+        gifsicle: { optimizationLevel: 3 },
+        mozjpeg: { quality: 75 },
+        pngquant: { quality: [0.8, 0.9] },
+        svgo: { plugins: [{ removeViewBox: false }] },
+      }),
+    ],
+  },
 })
 
 
