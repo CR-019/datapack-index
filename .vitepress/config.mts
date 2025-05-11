@@ -1,7 +1,8 @@
 import { defineConfig } from 'vitepress'
 import { sidebar } from './sidebar'
 import { mcfunction } from './highlight'
-import anchor from 'markdown-it-footnote' 
+import { mcdoc } from './mcdoc/syntax'
+import anchor from 'markdown-it-footnote'
 import { sidebar_feature , sidebar_202504 } from './sidebar_feature'
 import viteImagemin from 'vite-plugin-imagemin'
 
@@ -43,7 +44,7 @@ export default defineConfig({
       '/index/': sidebar,
       '/resources/' : sidebar,
       '/feature/archive/202504' : sidebar_202504,
-      '/feature/' : sidebar_feature 
+      '/feature/' : sidebar_feature
     },
 
     socialLinks: [
@@ -63,17 +64,19 @@ export default defineConfig({
   ignoreDeadLinks: true,
   lastUpdated: false,
 
-  markdown: {
-    languages: [mcfunction],
+markdown: {
+  languages: [mcfunction, mcdoc],
+  math: true,
 
-    shikiSetup: async (shiki) => {
-      await shiki.loadLanguage(mcfunction)
-    }, 
-
-    config: (md) => {
-      md.use(anchor)
-    }
+  shikiSetup: async (shiki) => {
+    await shiki.loadLanguage(mcfunction)
+    await shiki.loadLanguage(mcdoc)
   },
+
+  config: (md) => {
+    md.use(anchor)
+  }
+},
   vite: {
     plugins: [
       viteImagemin({
