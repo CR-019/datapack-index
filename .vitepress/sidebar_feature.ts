@@ -70,7 +70,7 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
   {
     text: '封面文章',
     items: [
-      { text: '宵宫：烟花来咯！', link: '/feature/archive/202505/1/content' },
+      { text: '烟花来咯！', link: '/feature/archive/202505/1/content' },
     ]
   },
   {

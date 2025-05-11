@@ -18,8 +18,8 @@
         <div class="featured-color-line">
             <div class="color-segment orange"></div>
             <div class="image-container">
-                <img src="/feature/cover/command_block_front.png" class="base-image" alt="">
-                <img src="/feature/cover/featured.png" class="overlay-image" alt="">
+                <img src="/feature/cover/outline.png" class="base-image" alt="">
+                <img :src="spotlightSrc" class="overlay-image" alt="">
             </div>
             <div class="color-segment purple"></div>
         </div>
@@ -108,6 +108,15 @@ export default {
         cover: {
             type: String,
             default: ""
+        },
+        type: {
+            type: Number,
+            default: 0,
+        }
+    },
+    computed: {
+        spotlightSrc() {
+            return `/datapack-index/feature/cover/spotlight${this.type}.png`;
         }
     },
     mounted(){
@@ -219,13 +228,13 @@ export default {
 
 .base-image {
   position: absolute;
-  width: 20%;
+  width: 60%;
   height: auto;
   aspect-ratio: 1/1;
   object-fit: contain;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -80%) rotate(45deg);
+  transform: translate(-50%, -70%);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 

@@ -4,7 +4,7 @@
 </script>
 
 <FeaturedHead
-    title = 宵宫：烟花来咯！
+    title = 烟花来咯！
     authorName = SK
     avatarUrl = '../../_authors/sk.jpg'
     :socialLinks="[

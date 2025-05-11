@@ -1,4 +1,21 @@
-# 香草快讯 - Λojang Spotlight - 2025年5月
+
+
+<script setup>
+    import SpotlightHead from '/.vitepress/vue/SpotlightHead.vue'
+	import ColorLine from '/.vitepress/vue/ColorLine.vue'
+</script>
+
+<SpotlightHead
+    title = "香草快讯 - Λojang Spotlight - 2025年5月"
+    authorName = Alumopper
+    avatarUrl = '../../_authors/alumopper.jpg'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
+        { name: 'GitHub', url: 'https://github.com/Alumopper' }
+    ]"
+    cover='./head.jpg'
+	type=1
+/>
 
 这里是***香草***快讯，全Minecraft最***Vanilla***的技术性快照新闻，由本社记者*香草狐*为你报道最新快照消息~
 
@@ -7,6 +24,8 @@
 先说结论，本月更新功能性较好，破坏性偏小，优化性一般，总体属于**大杯**水平。
 
 本月更新中，Mojang为我们端上来了前瞻中提到过的路径点功能，同时对着色器中的Uniform变量进行了优化性更改。
+
+<ColorLine />
 
 > [!TIP]
 >
