@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 16 16"
+   xmlns="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <style
+       id="style1">
+            .cls-1 {
+                fill: #666666;
+            }
+        </style>
+  </defs>
+  <rect
+     width="16"
+     height="16"
+     id="rect1"
+     style="fill:#ffffff;" />
+  <polygon
+     class="cls-1"
+     points="15 1 0 1 0 0 16 0 15 1"
+     id="polygon2" />
+  <polygon
+     class="cls-1"
+     points="1 15 1 0 0 0 0 16 1 15"
+     id="polygon3" />
+  <polygon
+     class="cls-1"
+     points="1 15 16 15 16 16 0 16 1 15"
+     id="polygon4" />
+  <polygon
+     class="cls-1"
+     points="15 1 15 16 16 16 16 0 15 1"
+     id="polygon5" />
+</svg>

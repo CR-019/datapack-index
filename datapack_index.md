@@ -1,12 +1,12 @@
 > —— 你为什么写数据包？是有什么受虐体质吗？
-> 
+>
 > —— 是。
 
 
 # 原版模组体系结构
 
-[数据包 - Minecraft Wiki](https://zh.minecraft.wiki/w/%E6%95%B0%E6%8D%AE%E5%8C%85)[（Bwiki镜像）](https://wiki.biligame.com/mc/数据包)  
-[资源包 - Minecraft Wiki](https://zh.minecraft.wiki/w/%E8%B5%84%E6%BA%90%E5%8C%85)[（Bwiki镜像）](https://wiki.biligame.com/mc/资源包)  
+[数据包 - Minecraft Wiki](https://zh.minecraft.wiki/w/%E6%95%B0%E6%8D%AE%E5%8C%85)[（Bwiki镜像）](https://wiki.biligame.com/mc/数据包)
+[资源包 - Minecraft Wiki](https://zh.minecraft.wiki/w/%E8%B5%84%E6%BA%90%E5%8C%85)[（Bwiki镜像）](https://wiki.biligame.com/mc/资源包)
 [命令 - Minecraft Wiki](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4)[（Bwiki镜像）](https://wiki.biligame.com/mc/命令)
 
 [Minecraft 原版模组入门教程 ](https://zhangshenxing.github.io/VanillaModTutorial/) ~~(坛内)~~
@@ -35,13 +35,13 @@
     - [【教程】[1.15] execute 命令入门教程 ](/datapack-index/save/989501.html){target="_blank"}
     - [【CBL|SYL】【1.13】新版本execute嵌套的改变](/datapack-index/save/770198.html){target="_blank"}
     - [【Minecraft】“新”execute你会用吗？应当如何正确食用新语法？](https://www.bilibili.com/video/BV1B14y187Zy)
-    - (不推荐) [[1.13+]新版execute命令详解](/datapack-index/save/901364.html){target="_blank"} 
-    - (不推荐)[玩转1.13的新/execute](/datapack-index/save/770738.html){target="_blank"} 
+    - (不推荐) [[1.13+]新版execute命令详解](/datapack-index/save/901364.html){target="_blank"}
+    - (不推荐)[玩转1.13的新/execute](/datapack-index/save/770738.html){target="_blank"}
   - 修饰子命令：
     - 执行者 `as | on | summon`
       - 直接指定`as`
       - 设为相关实体`on`
-      - 生成新实体并指定为执行者`summon` 
+      - 生成新实体并指定为执行者`summon`
 
     - 朝向 `rotated | rotated as | facing | facing entity`
 
@@ -63,7 +63,7 @@
 
 
 - 命令逻辑
-  
+
   - 命令方块 (淘汰)
       [1.12 连锁命令方块(CCB)新机制研究](/datapack-index/save/687963.html){target="_blank"}
   - 数据包结构逻辑
@@ -76,12 +76,12 @@
   - [函数宏](https://zh.minecraft.wiki/w/Java%E7%89%88%E5%87%BD%E6%95%B0#%E5%AE%8F)
     - [minecraft 函数宏 特性和用法](https://www.bilibili.com/video/BV1Ji421m7XN/)
 - 数据操作
-  - [NBT](https://zh.minecraft.wiki/w/NBT%E6%A0%BC%E5%BC%8F)(数据储存/修改) 
-    - 古典教程 
+  - [NBT](https://zh.minecraft.wiki/w/NBT%E6%A0%BC%E5%BC%8F)(数据储存/修改)
+    - 古典教程
       - [【CBL|SYL】NBT标签实战教程—索引贴(基本完工) ](/datapack-index/save/78479.html){target="_blank"}
       - [~~2.2 NBT及结构 · 命令进阶 (oschina.io)~~](https://mc-command.oschina.io/command-tutorial/output/common-format/nbt/nbt.html){target="_blank"}（疑似无法访问）
-    - （不太）现代教程 
-      - [~~( X ) 我就不信不能用大白话讲清楚NBT~~](/datapack-index/save/1190947.html){target="_blank"} 
+    - （不太）现代教程
+      - [~~( X ) 我就不信不能用大白话讲清楚NBT~~](/datapack-index/save/1190947.html){target="_blank"}
       - [教程/NBT命令标签](https://zh.minecraft.wiki/w/教程/NBT命令标签)
       - [(十一)NBT通俗演义（雾）](https://www.bilibili.com/opus/947507675726348296)
     - ~~物品NBT~~ [物品组件](https://zh.minecraft.wiki/w/%E7%89%A9%E5%93%81%E5%A0%86%E5%8F%A0%E7%BB%84%E4%BB%B6)
@@ -204,7 +204,7 @@
       - 人物名称 `below`
       - 玩家名单 `list`
 
-    - 成书(值会被解析) 
+    - 成书(值会被解析)
       - {pages:["first page","second page",'["",JSON文本]']}
 
     - 书与笔(值不会被解析，为String)
@@ -223,22 +223,22 @@
 
 - 方块操作
 
-  - [结构方块](https://zh.minecraft.wiki/w/%E7%BB%93%E6%9E%84%E6%96%B9%E5%9D%97) 
+  - [结构方块](https://zh.minecraft.wiki/w/%E7%BB%93%E6%9E%84%E6%96%B9%E5%9D%97)
     - [【1.10新特性】结构方块从入门到放弃](/datapack-index/save/585095.html){target="_blank"}
     - [[1.14+] 组合结构的随机生成及修饰](/datapack-index/save/899638.html){target="_blank"}
     - [如何使用结构方块](/datapack-index/save/652937.html){target="_blank"}
     - [【新手向】建筑党也能愉快享用结构方块-图文并茂教会你使用结构方块](/datapack-index/save/801350.html){target="_blank"}
-  - 加载结构 
+  - 加载结构
       ```mcfunction
       execute at @p run setblock ~ ~ ~ structure_block{name:"woodland_mansion/1x1_a3",mode:"LOAD",powered:0}
-      execute at @p run setblock ~ ~-1 ~ redstone_block 
+      execute at @p run setblock ~ ~-1 ~ redstone_block
       ```
 
-  - 放置方块 [/setblock](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/setblock) 
+  - 放置方块 [/setblock](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/setblock)
     - [(十)简单又新手（雾）的方块指令/setblock](https://www.bilibili.com/opus/942368755971784728)
-  - 复制区域 [/clone](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/clone) 
+  - 复制区域 [/clone](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/clone)
     - [(十五)复制一片区域：复制命令/clone](https://www.bilibili.com/read/cv38861264/)
-  - 填充区域 [/fill](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/fill) 
+  - 填充区域 [/fill](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/fill)
     - [(十四) 最接近神的一次：填充命令/fill](https://www.bilibili.com/read/cv37972439/)
   - 修改生物群系 [/fillbiome](https://zh.minecraft.wiki/w/命令/fillbiome)
 
@@ -251,7 +251,7 @@
   - 给予物品 [/give](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/give)
 
   - 置入战利品表 [/loot](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/loot)
-    - [rua影盒](https://zhangshenxing.github.io/VanillaModTutorial/#%E4%BF%AE%E6%94%B9%E7%8E%A9%E5%AE%B6%E8%83%8C%E5%8C%85) 
+    - [rua影盒](https://zhangshenxing.github.io/VanillaModTutorial/#%E4%BF%AE%E6%94%B9%E7%8E%A9%E5%AE%B6%E8%83%8C%E5%8C%85)
     - [[1.14]如何使用loot replace](/datapack-index/save/874755.html){target="_blank"}
     - 内联战利品表/谓词/物品修饰器
 
@@ -259,7 +259,7 @@
 
   - 修改物品栈
     - 1.17 [/item](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/item)
-    - 1.16 [/replaceitem](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/replaceitem) 
+    - 1.16 [/replaceitem](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/replaceitem)
 
 - 实体操作
 
@@ -301,10 +301,10 @@
     - [(六) /tag指令，与进阶选择器参数](https://www.bilibili.com/opus/937149730721366018)
 
   - 其他
-    
-    - 经验 [/experience](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/experience) [/xp](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/xp) 
+
+    - 经验 [/experience](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/experience) [/xp](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/xp)
     - 旁观实体 [/spectate](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/spectate)
-      
+
 - 音效
 
   - 播放 [/playsound](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/playsound)
@@ -320,20 +320,20 @@
 - 世界操作
 
   - [游戏模式](https://zh.minecraft.wiki/w/%E6%B8%B8%E6%88%8F%E6%A8%A1%E5%BC%8F)
-    
+
     - 世界模式 [/defaultgamemode](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/defaultgamemode)
     - 玩家模式 [/gamemode](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/gamemode)
 
   - 游戏难度 [/difficulty](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/difficulty)
 
-  - 游戏规则 [/gamerule](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/gamerule) 
+  - 游戏规则 [/gamerule](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/gamerule)
 
-  - 结构位置 [/locate <structure|biome>](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/locate) 
+  - 结构位置 [/locate <structure|biome>](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/locate)
 
   - 世界种子 [/seed](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/seed)
 
-  - [出生点](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1182418&page=1#pid21460488) 
-    
+  - [出生点](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1182418&page=1#pid21460488)
+
     - 世界出生点 [/setworldspawn](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/setworldspawn)
     - 玩家出生点 [/spawnpoint](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/spawnpoint)
 
@@ -349,7 +349,7 @@
   - 游戏刻速率 [/tick](https://zh.minecraft.wiki/w/命令/tick)
 
 - 外部命令
-    
+
   | 命令                                                                 | 描述                                   |
   | -------------------------------------------------------------------- | -------------------------------------- |
   | [/datapack](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/datapack) | 控制加载的数据包。                     |
@@ -357,7 +357,7 @@
   | [/reload](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/reload)     | 从硬盘中重新加载战利品表、进度和函数。 |
 
 - 服务器操作
-    
+
   | 命令                                                                             | 描述                           | 语法                                                                                               |
   | -------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------- |
   | [/ban](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/ban)                       | 将玩家加入封禁列表。           | ban <*玩家名\|UUID*> [<*理由…*>]                                                                   |
@@ -377,7 +377,7 @@
   | [/stop](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/stop)                     | 关闭服务器。                   | stop                                                                                               |
   | [/transfer](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/transfer)             | 将玩家转移到另一个服务器上。   | transfer <*hostname*> [<*port*>] [<*players*>]                                                       |
   | [/whitelist](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/whitelist)           | 管理服务器白名单。             | whitelist add <*玩家*><br />whitelist remove <*玩家*><br />whitelist <list\|off\|on\|reload><br /> |
- 
+
 
 
 ### 数据结构
@@ -419,7 +419,7 @@
   - [标签 - Minecraft Wiki](https://zh.minecraft.wiki/w/标签)
   - [【UIN】数据包——标签分类](/datapack-index/save/775667.html){target="_blank"}
   - [Minecraft 原版模组入门教程-标签](https://zhangshenxing.github.io/VanillaModTutorial/#标签)
-  - [哪些命令中的哪些部分可以使用标签 ](/datapack-index/save/963143.html){target="_blank"} 
+  - [哪些命令中的哪些部分可以使用标签 ](/datapack-index/save/963143.html){target="_blank"}
   - [数据包标签的使用问题](/datapack-index/save/989540.html){target="_blank"}
 
 #### 配方
@@ -556,13 +556,13 @@
 #### 模型实践
 - [Minecraft 原版模组入门教程 - 模型](https://zhangshenxing.github.io/VanillaModTutorial/#%E6%A8%A1%E5%9E%8B)
 - 绕开mj模型大小限制的方法：[旋转拼接](/datapack-index/save/637959.html){target="_blank"}&nbsp;&nbsp;[1200米大刀](https://www.bilibili.com/video/av24626290/)&nbsp;&nbsp;[【魔改材质包】数体积专用-3轴标尺](https://www.bilibili.com/video/av39646162/)
- 
+
 - [物品栏和手部显示不同模型](https://github.com/ShockMicro/CorePerspectiveModels)
 - [【1.14】物品头部/背包/手持显示不同纹理/模型](/datapack-index/save/833056.html){target="_blank"}
 
 #### 着色器实践
 - [渲染玩家皮肤](https://github.com/JNNGL/vanilla-shaders/tree/main/fancy_player_models)
-- [BetterTitle 屏幕文字展示](https://github.com/Huoyuyuyu/BetterTitle)&nbsp;&nbsp;&nbsp;[(展示视频)](https://www.bilibili.com/video/BV1AcvyeyECH/) 
+- [BetterTitle 屏幕文字展示](https://github.com/Huoyuyuyu/BetterTitle)&nbsp;&nbsp;&nbsp;[(展示视频)](https://www.bilibili.com/video/BV1AcvyeyECH/)
 
 ### 调试
 #### 性能测试
@@ -590,7 +590,7 @@
 
 ## 有用的工具和参考
 
-以下为可供参考的综合教程链接和工具，其中可能包含上文中提到的教程和内容已整理入本文的教程。  
+以下为可供参考的综合教程链接和工具，其中可能包含上文中提到的教程和内容已整理入本文的教程。
 ### 工具
 适当挑选合适的工具使用即可。
 
@@ -615,7 +615,7 @@
 - [MCFPP - 可编译为数据包的编程语言](https://www.mcfpp.top/)(开发中)&nbsp;&nbsp;&nbsp;[(宣传视频)](https://www.bilibili.com/video/BV1Kz421m76G)&nbsp;&nbsp;&nbsp;[(Github仓库)](https://github.com/MinecraftFunctionPlusPlus/MCFPP)
 ### 参考
 - 零基础教程系列（其中有部分不完整，建议互补观看）
-  - [Datapacks数据包教学笔记 - 小泠君丶](https://space.bilibili.com/166572139/channel/collectiondetail?sid=6211) 
+  - [Datapacks数据包教学笔记 - 小泠君丶](https://space.bilibili.com/166572139/channel/collectiondetail?sid=6211)
   - [我的世界指令、数据包入门 - 创小业](https://space.bilibili.com/133430292/channel/collectiondetail?sid=8272)
   - [MC命令教程“真”从零开始 - Dahesor ](https://www.bilibili.com/read/readlist/rl833427)
   - [快速入门上手系列 - 大佬萌茶](https://space.bilibili.com/320500029/channel/collectiondetail?sid=3167326)

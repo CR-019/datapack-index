@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 16 16"
+   xmlns="http://www.w3.org/2000/svg">
+  <rect
+     width="16"
+     height="16"
+     id="rect1"
+     style="fill:#063f6a;" />
+  <rect
+     x="1"
+     y="1"
+     width="14"
+     height="14"
+     id="rect2"
+     style="fill:#1c7f93;" />
+  <path
+     d="M 5.180,12.738 V 2.981 H 6.820 V 11.367 H 11.190 L 11.013,12.738 Z"
+     id="text1"
+     style="fill:#ffffff;" />
+</svg>
