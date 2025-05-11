@@ -401,13 +401,13 @@ $$\theta=\arccos{\left[\left(\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}},\frac{1}{\sqr
 旋转轴垂直于旋转前后的向量，有
 $$\boldsymbol{u}=\left(\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}}\right)\times (0,1,0)=\left(-\frac{1}{\sqrt{3}},0,\frac{1}{\sqrt{3}}\right)$$
 将其单位化得$\left(-\cfrac{1}{\sqrt{2}},0,\cfrac{1}{\sqrt{2}}\right)$。如果使用轴角式，`left_rotation`的数据为：
-```
+```snbt
 left_rotation:{angle: 54.74f, axis: [-0.71f, 0.0f, 0.71f]}
 ```
 计算再次旋转四元数
 $$q=\left(\cos{\cfrac{\theta}{2}},u_{x}\sin{\cfrac{\theta}{2}},u_{y}\sin{\cfrac{\theta}{2}},u_{z}\sin{\cfrac{\theta}{2}}\right)\approx (0.89,-0.33,0,0.33)$$
 模型不需要进行初次旋转、缩放和平移，故$q_r=(1,0,0,0)$，$s=(1,1,1)$，$t=(0,0,0)$。分解形式的`transformation`字段为：
-```
+```snbt
 transformation:{right_rotation: [0.0f, 0.0f, 0.0f, 1.0f], scale: [1.0f, 1.0f, 1.0f], left_rotation: [-0.33f, 0.0f, 0.33f, 0.89f], translation: [1.0f, 1.0f, 1.0f]}
 ```
 生成这个展示实体所需的命令为：
@@ -416,21 +416,21 @@ summon block_display ~ ~ ~ {block_state:{Name:"minecraft:glass"},transformation:
 ```
 字段`left_rotation`的值已定义，旋转动画由插值完成，可由`right_rotation`定义，待确定的量依然是旋转角度$\theta$和旋转轴$\boldsymbol{u}$。显然旋转轴为方块模型的体对角线，这时体对角线与$y$轴平行，但变换依旧基于模型的局部坐标，因此轴向量为$(1,1,1)$，单位化为$\left(\cfrac{1}{\sqrt{3}},\cfrac{1}{\sqrt{3}},\cfrac{1}{\sqrt{3}}\right)$。制作插值动画时，可以设定四个固定的旋转角度：$0^{\circ}$、$90^{\circ}$、$180^{\circ}$、$270^{\circ}$，使得模型依此顺序循环变换，每次插值的时长为$4\div 4=1$秒$=20$gt。\
 以$\theta=90^{\circ}$为例，若使用轴角式，则`right_rotation`的数据为
-```
+```snbt
 right_rotation: {angle: 90, axis: [0.58f, 0.58f, 0.58f]}
 ```
 转换为四元数形式$q\approx (0.71,0.41,0.41,0.41)$，即
-```
+```snbt
 right_rotation:[0.41f,0.41f,0.41f,0.71f]
 ```
 同理$\theta=180^{\circ}$、$\theta=270^{\circ}$、$\theta=0^{\circ}$的数据分别为
-```
+```snbt
 right_rotation:[0.58f,0.58f,0.58f,0.0f]}
 ```
-```
+```snbt
 right_rotation:[0.41f,0.41f,0.41f,-0.71f]}
 ```
-```
+```snbt
 right_rotation:[0.0f,0.0f,0.0f,1.0f]}
 ```
 为将模型的旋转角度平滑过渡至$\theta=90^{\circ}$，插值动画的命令为

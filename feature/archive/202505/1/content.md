@@ -25,15 +25,15 @@
 首先，通过设置不同的物理属性和条件限制，可以做出不同的抛物线扩散效果\
 这样做将会生成数条抛物线，数量由参数`n`控制\
 参数`t`控制每条抛物线的存在时间
-```
+```mcfunction
 function sklibs:skfirework/fx/spread {
 　 config:{
 　　　yaw:[-50,-10],
 　　　pitch:[30, 80],
 　　　t: [20,60],
-　　　n:60,
-　　　v:0.5,
-　　　g:0.04,
+　　　n: 60,
+　　　v: 0.5,
+　　　g: 0.04,
 　　　tick_cmdv:[{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}]
 　　　cmdv:[]
 　 }
@@ -49,23 +49,23 @@ v=0.5 g=0.04 yaw∈[-50,-10] pitch∈[30,80]\
 ![烟花3](img/img_3.jpg)
 
 然后，让每一条抛物线在已存在时间减为0时生成firework
-```
+```mcfunction
 function sklibs:skfirework/fx/spread {
 　 config:{
 　　　yaw:[-50,-10],
 　　　pitch:[30, 80],
 　　　t: [20,60],
-　　　n:60,
-　　　v:0.5,
-　　　g:0.04,
-　　　tick_cmdv:[{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
-　　　cmdv:[{
-　　　　cmd:"function sklibs:skfirework/fx/firework",
+　　　n: 60,
+　　　v: 0.5,
+　　　g: 0.04,
+　　　tick_cmdv: [{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
+　　　cmdv: [{
+　　　　cmd: "function sklibs:skfirework/fx/firework",
 　　　　args:{
 　　　　　 config:{
-　　　　　　　shape:0,
-　　　　　　　colors:[{from:[I;13047173],to:[I;16761035]},{from:[I;16711680],to:[I;10824234]}],
-　　　　　　　n:1
+　　　　　　　shape: 0,
+　　　　　　　colors: [{from:[I;13047173],to:[I;16761035]},{from:[I;16711680],to:[I;10824234]}],
+　　　　　　　n: 1
 　　　　　 }
 　　　　}
 　　　}]
@@ -75,13 +75,13 @@ function sklibs:skfirework/fx/spread {
 
 可以观察到上述命令添加了如下的参数
 当抛物线已存在时间减为0时，将执行参数`cmdv`中的函数事件，调用`sklibs:skfirework/fx/firework`函数生成烟花，其中`args`是函数的参数
-```
+```snbt
 cmdv:[{
 　 cmd:"function sklibs:skfirework/fx/firework",
 　 args:{
 　　　config:{
 　　　　shape:0,
-　　　　colors:[{from:[I;13047173],to:[I;16761035]},{from:[I;16711680],to:[I;10824234]}],
+　　　　colors:[{from: [I;13047173],to: [I;16761035]},{from: [I;16711680],to: [I;10824234]}],
 　　　　n:1
 　　　}
 　 }
@@ -91,30 +91,30 @@ cmdv:[{
 ![烟花4](img/img_4.jpg)
 
 此时，我们的烟花会在命令执行瞬间爆炸，但是烟花应该上升一段距离才会爆炸，使用launch函数控制烟花的延时
-```
+```mcfunction
 function sklibs:skfirework/fx/launch {
-　 config:{
-　　　life:50,
-　　　cmdv:[
+　 config: {
+　　　life: 50,
+　　　cmdv: [
 　　　　{
-　　　　　 cmd:"function sklibs:skfirework/fx/spread",
-　　　　　 args:{
-　　　　　　　config:{
-　　　　　　　n:30,
-　　　　　　　　v:0.5,
-　　　　　　　　g:0.04,
-　　　　　　　　tick_cmdv:[{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
-　　　　　　　　cmdv:[
+　　　　　 cmd: "function sklibs:skfirework/fx/spread",
+　　　　　 args: {
+　　　　　　　config: {
+　　　　　　　  n: 30,
+　　　　　　　　v: 0.5,
+　　　　　　　　g: 0.04,
+　　　　　　　　tick_cmdv: [{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
+　　　　　　　　cmdv: [
 　　　　　　　　　 {
-　　　　　　　　　 cmd:"function sklibs:skfirework/fx/firework",
-　　　　　　　　　 args:{
-　　　　　　　　　　　config:{
-　　　　　　　　　　　　shape:0,
-　　　　　　　　　　　　colors:[
-　　　　　　　　　　　　　 {from:[I;13047173],to:[I;16761035]},
-　　　　　　　　　　　　　 {from:[I;16711680],to:[I;10824234]}
+　　　　　　　　　 cmd: "function sklibs:skfirework/fx/firework",
+　　　　　　　　　 args: {
+　　　　　　　　　　　config: {
+　　　　　　　　　　　　shape: 0,
+　　　　　　　　　　　　colors: [
+　　　　　　　　　　　　　 {from: [I;13047173],to: [I;16761035]},
+　　　　　　　　　　　　　 {from: [I;16711680],to: [I;10824234]}
 　　　　　　　　　　　　],
-　　　　　　　　　　　　n:1
+　　　　　　　　　　　　n: 1
 　　　　　　　　　　　}
 　　　　　　　　　 }
 　　　　　　　　}]
@@ -126,29 +126,29 @@ function sklibs:skfirework/fx/launch {
 ```
 示例：给烟花增加TNT爆炸效果和音效\
 ![烟花4](img/img_5.jpg)
-```
+```mcfunction
 function sklibs:skfirework/fx/launch {
 　 config:{
-　　　life:50,
-　　　cmdv:[
-　　　　{cmd:"playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
-　　　　{cmd:"summon tnt ~ ~ ~"},
-　　　　{cmd:"summon tnt ~ ~ ~"},
-　　　　{cmd:"summon tnt ~ ~ ~"},
-　　　　{cmd:"summon tnt ~ ~ ~"},
-　　　　{cmd:"function sklibs:skfirework/fx/spread",
-　　　　args:{config:{
-　　　　　 n:30,
-　　　　　 v:0.5,
-　　　　　 g:0.04,
-　　　　　 tick_cmdv:[{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
-　　　　　 cmdv:[
-　　　　　　　{cmd:"summon tnt ~ ~ ~"},
-　　　　　　　{cmd:"function sklibs:skfirework/fx/firework",
-　　　　　　　args:{config:{
-　　　　　　　shape:0,
-　　　　　　　colors:[{from:[I;13047173],to:[I;16761035]},{from:[I;16711680],to:[I;10824234]}],
-　　　　　　　n:1
+　　　life: 50,
+　　　cmdv: [
+　　　　{cmd: "playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
+　　　　{cmd: "summon tnt ~ ~ ~"},
+　　　　{cmd: "summon tnt ~ ~ ~"},
+　　　　{cmd: "summon tnt ~ ~ ~"},
+　　　　{cmd: "summon tnt ~ ~ ~"},
+　　　　{cmd: "function sklibs:skfirework/fx/spread",
+　　　　args: {config: {
+　　　　　 n: 30,
+　　　　　 v: .5,
+　　　　　 g: 0.04,
+　　　　　 tick_cmdv: [{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
+　　　　　 cmdv: [
+　　　　　　　{cmd: "summon tnt ~ ~ ~"},
+　　　　　　　{cmd: "function sklibs:skfirework/fx/firework",
+　　　　　　　args: {config:{
+　　　　　　　shape: 0,
+　　　　　　　colors: [{from:[I;13047173],to:[I;16761035]},{from:[I;16711680],to:[I;10824234]}],
+　　　　　　　n: 1
 　　　　　 }}}]
 　　　}}}]
 　 }
@@ -156,35 +156,35 @@ function sklibs:skfirework/fx/launch {
 ```
 
 示例：可以二次扩散的烟花
-```
+```mcfunction
 function sklibs:skfirework/fx/launch {
-　 config:{
-　　　life:30,
-　　　cmdv:[
-　　　　{cmd:"playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
-　　　　{cmd:"function sklibs:skfirework/fx/spread",
-　　　　args:{config:{
-　　　　　 t:[40,70],
-　　　　　 n:6,
-　　　　　 v:1,
-　　　　　 g:0.02,
-　　　　　 tick_cmdv:[{cmd:"particle dragon_breath ~ ~ ~ 0 0 0 0 1 force"}],
-　　　　　 cmdv:[
-　　　　　　　{cmd:"playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
-　　　　　　　{cmd:"summon tnt ~ ~ ~"},
-　　　　　　　{cmd:"function sklibs:skfirework/fx/spread",
-　　　　　　　args:{config:{
-　　　　　　　　n:30,
-　　　　　　　　v:0.5,
-　　　　　　　　g:0.01,
-　　　　　　　　tick_cmdv:[{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
-　　　　　　　　cmdv:[
-　　　　　　　　　 {cmd:"function sklibs:skfirework/fx/firework",
-　　　　　　　　　 args:{config:{
-　　　　　　　　　 shape:0,
+　 config: {
+　　　life: 30,
+　　　cmdv: [
+　　　　{cmd: "playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
+　　　　{cmd: "function sklibs:skfirework/fx/spread",
+　　　　args: {config: {
+　　　　　 t: [40,70],
+　　　　　 n: 6,
+　　　　　 v: 1,
+　　　　　 g: 0.02,
+　　　　　 tick_cmdv: [{cmd:"particle dragon_breath ~ ~ ~ 0 0 0 0 1 force"}],
+　　　　　 cmdv: [
+　　　　　　　{cmd: "playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
+　　　　　　　{cmd: "summon tnt ~ ~ ~"},
+　　　　　　　{cmd: "function sklibs:skfirework/fx/spread",
+　　　　　　　args: {config: {
+　　　　　　　　n: 30,
+　　　　　　　　v: 0.5,
+　　　　　　　　g: 0.01,
+　　　　　　　　tick_cmdv: [{cmd:"particle flame ~ ~ ~ 0 0 0 0 1 force"}],
+　　　　　　　　cmdv: [
+　　　　　　　　　 {cmd: "function sklibs:skfirework/fx/firework",
+　　　　　　　　　 args: {config: {
+　　　　　　　　　 shape: 0,
 　　　　　　　　　 twinkle: 1,
-　　　　　　　　　 colors:[{from:[I;13047173],to:[I;16761035]},{from:[I;16766720],to:[I;16777184]}],
-　　　　　　　　　 n:1
+　　　　　　　　　 colors: [{from:[I;13047173],to:[I;16761035]},{from:[I;16766720],to:[I;16777184]}],
+　　　　　　　　　 n: 1
 　　　　　　　　}}}]
 　　　　　 }}}]
 　　　}}}]
@@ -194,25 +194,25 @@ function sklibs:skfirework/fx/launch {
 
 示例：猪烟花（喜闻乐见\
 ![猪烟花](img/1.gif)
-```
+```mcfunction
 function sklibs:skfirework/fx/launch {
-　 config:{
-　　　life:30,
-　　　cmdv:[
-　　　　{cmd:"playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
-　　　　{cmd:"function sklibs:skfirework/fx/spread",
-　　　　args:{config:{
-　　　　　 n:30,
-　　　　　 v:0.5,
-　　　　　 g:0.01,
-　　　　　 tick_cmdv:[{cmd:"particle end_rod ~ ~ ~ 0 0 0 0 1 force"}],
-　　　　　 cmdv:[
-　　　　　　　{cmd:"summon pig ~ ~ ~ {CustomName:\"猪猪\",CustomNameVisible:true}"},
-　　　　　　　{cmd:"function sklibs:skfirework/fx/firework",
-　　　　　　　args:{config:{
-　　　　　　　shape:0,
-　　　　　　　colors:[{from:[I;13047173],to:[I;16761035]},{from:[I;16766720],to:[I;16777184]}],
-　　　　　　　n:1
+　 config: {
+　　　life: 30,
+　　　cmdv: [
+　　　　{cmd: "playsound minecraft:entity.firework_rocket.large_blast ambient @a ~ ~ ~ 1000"},
+　　　　{cmd: "function sklibs:skfirework/fx/spread",
+　　　　args: {config: {
+　　　　　 n: 30,
+　　　　　 v: 0.5,
+　　　　　 g: 0.01,
+　　　　　 tick_cmdv: [{cmd:"particle end_rod ~ ~ ~ 0 0 0 0 1 force"}],
+　　　　　 cmdv: [
+　　　　　　　{cmd: "summon pig ~ ~ ~ {CustomName:\"猪猪\",CustomNameVisible:true}"},
+　　　　　　　{cmd: "function sklibs:skfirework/fx/firework",
+　　　　　　　args: {config: {
+　　　　　　　shape: 0,
+　　　　　　　colors: [{from:[I;13047173],to:[I;16761035]},{from:[I;16766720],to:[I;16777184]}],
+　　　　　　　n: 1
 　　　　　 }}}]
 　　　}}}]
 　 }

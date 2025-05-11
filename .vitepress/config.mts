@@ -1,7 +1,8 @@
 import { defineConfig } from 'vitepress'
 import { sidebar } from './sidebar'
-import { mcfunction } from './highlight'
-import { mcdoc } from './mcdoc/syntax'
+import { mcfunction } from './highlights/mcfuntion'
+import { mcdoc } from './highlights/mcdoc/mcdoc'
+import { snbt } from './highlights/snbt'
 import anchor from 'markdown-it-footnote'
 import { sidebar_feature , sidebar_202504, sidebar_202505 } from './sidebar_feature'
 import viteImagemin from 'vite-plugin-imagemin'
@@ -66,7 +67,7 @@ export default defineConfig({
   lastUpdated: false,
 
 markdown: {
-  languages: [mcfunction, mcdoc],
+  languages: [mcfunction, mcdoc, snbt],
   math: true,
 
   shikiSetup: async (shiki) => {

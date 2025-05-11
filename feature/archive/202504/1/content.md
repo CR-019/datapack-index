@@ -107,7 +107,7 @@
 
 
 在“boom.mcfunction”中，输入以下内容：
-```
+```mcfunction
 summon tnt
 say 嘭！
 ```
@@ -180,13 +180,12 @@ say 嘭！
     pack.mcmeta
 ```
 2. 在“tick.json”中，输入以下内容（别忘了“abc:tick”表示“abc/function/tick.mcfunction”）：
-```
+```json
 {
     "values": [
         "abc:tick"
     ]
 }
-
 ```
 
 <details>
@@ -206,7 +205,7 @@ say 嘭！
 之后，我们就可以在“tick.mcfunction”中加入循环命令了。试一试让世界说“你好，我的世界！”
 
 在“tick.mcfunction”中，输入以下内容：
-```
+```mcfunction
 say 你好，我的世界！
 ```
 回到游戏，在聊天框输入命令`/reload`。
@@ -248,7 +247,7 @@ say 你好，我的世界！
     pack.mcmeta
 ```
 3. 在“load.json”中，输入以下内容：
-```
+```json
 {
     "values": [
         "abc:load"

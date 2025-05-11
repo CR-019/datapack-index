@@ -1,7 +1,7 @@
 # 技术性更新日志(精简版)
 
 > ⚠️本文正文部分翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
-> 
+>
 > 本文为精简版，仅列出对旧版本有破坏性的改动（即breaking）[参阅完整文档](/index/changelog.md)
 
 ## 前言
@@ -23,12 +23,12 @@
 - nbt：
     - 修改了TNT矿车的NBT：
       - **将`TNTFuse`重命名为`fuse`；**
-    - **`custom_model_data`组件更改为复合标签，`set_custom_model_data`修饰器同步更新；** 
+    - **`custom_model_data`组件更改为复合标签，`set_custom_model_data`修饰器同步更新；**
 - 数据包其他组分：
     - **移除了`#trim_templates`物品标签。**
     - **移除了`trim_material`注册表中的`item_model_index`字段；**
     - **`equippable`组件中的`model`字段现已重命名为`asset_id`。**
-    
+
 #### 资源包：
 - **<p style="font-size:28px">引入新格式以描述[物品模型](https://zh.minecraft.wiki/w/%E6%A8%A1%E5%9E%8B#%E7%89%A9%E5%93%81%E6%A8%A1%E5%9E%8B)；</p>**
 - **`toast/system`精灵图外观现在已更新至使用标准九宫格划分方式；**
@@ -40,20 +40,20 @@
 ### **1.21.2**
 #### 数据包：
 - 命令：
-  - **栓绳结，浮漂和闪电不再能通过`/ride`骑乘；** 
+  - **栓绳结，浮漂和闪电不再能通过`/ride`骑乘；**
   - **属性id不再有`generic.`，` player.`，`zombie.`前缀；**
 - nbt：
   - **重命名`fire_resistant`物品组件为`damage_resistant`，并加入`types`字段；**
-  - `potion_contents`物品组件加入`custom_name`字段； 
+  - `potion_contents`物品组件加入`custom_name`字段；
   - **将船和箱船的实体类型拆分为每种材质独立实体；**
   - **容器方块实体的`Lock`字段被重命名为`lock`，并支持物品谓词；**
 - 数据包组分：
   - 进度：
     - **重命名`killed_by_crossbow`判据为`killed_by_arrow`;**
-  - 附魔： 
+  - 附魔：
     - **重命名附魔类型`damage_item`为`change_item_damage`，并支持负值；**
   - 战利品表、谓词、物品修饰器：
-    - **移除战利品表`empty`;** 
+    - **移除战利品表`empty`;**
     - **移除了`minecraft:boat`实体子谓词；**
   - 配方：
     - **配方原料格式修改：**
@@ -61,12 +61,12 @@
       - **`{ "tag": "<tag id>" }` 修改为 `"#<tag id>"`**
       - **列表格式不再支持tag**
   - 世界生成：
-    - **移除了雕刻器类型carvers，现在可直接列出雕刻器**; 
+    - **移除了雕刻器类型carvers，现在可直接列出雕刻器**;
 
 
 #### 资源包：
 - 纹理：
-  - **所有与装备相关的纹理现移动到了`textures/entity/equipment`的子目录中。** 
+  - **所有与装备相关的纹理现移动到了`textures/entity/equipment`的子目录中。**
 - 着色器：
   - **`rendertype_entity_glint_direct`重命名为`rendertype_entity_glint`；**
   - **`rendertype_entity_translucent_cull`重命名为`rendertype_item_entity_translucent_cull`；**
@@ -116,7 +116,7 @@
   - 属性：
     - 重命名属性:
       - **generic.block_interaction_range** → **player.block_interaction_range**
-      - **generic.entity_interaction_range** → **player.entity_interaction_range** 
+      - **generic.entity_interaction_range** → **player.entity_interaction_range**
     - **移除属性：`horse.jump_strength`**
   - **命令最大长度现在为2000000（2百万）字符；**
 - 实体和NBT：
@@ -194,11 +194,11 @@
       - **nbt 字段重命名为 custom_data;**
     - **方块谓词修改**
       - **移除 tag 字段，blocks 字段现在支持标签;**
-    - **流体谓词`fluid` 重命名为 `fluids`** 
-    - 实体谓词`type`支持标签； 
+    - **流体谓词`fluid` 重命名为 `fluids`**
+    - 实体谓词`type`支持标签；
     - **位置谓词修改：**
       - **`biome` 重命名为 `biomes` ，并支持群系标签；**
-      - **`structure` 重命名为 `structures` ，并支持结构标签；** 
+      - **`structure` 重命名为 `structures` ，并支持结构标签；**
     - **修改物品谓词的`predicates`下的子谓词：**
       - **`durability` -> `damage` 子谓词;**
       - **`enchantments` -> `enchantments` 子谓词;**
@@ -212,7 +212,7 @@
     - **重命名`/attribute`命令的operation字段：**
       - **`add` → `add_value`**
       - **`multiply_base` → `add_multiplied_base`**
-      - **`multiply` → `add_multiplied_total`** 
+      - **`multiply` → `add_multiplied_total`**
     - 移除了 `set_contents` 物品修饰器函数中的 `type` 字段，并加入 `component` 字段；
     - 为`set_attributes`物品修饰器函数加入`replace`字段;
     - `set_lore`物品修饰器函数下`replace`字段重命名为`mode`;
@@ -264,34 +264,34 @@
   - **生物NBT的状态效果id由数字id改为命名空间id（字符串）**；
   - **许多状态效果相关的实体NBT键名从驼峰格式改为蛇形格式：**
     * **生物状态效果字段：**
-      * `Id` -> `id` 
-      * `Ambient` -> `ambient` 
-      * `Amplifier` -> `amplifier` 
-      * `Duration` -> `duration` 
-      * `ShowParticles` -> `show_particles` 
-      * `ShowIcon` -> `show_icon` 
-      * `HiddenEffect` -> `hidden_effect` 
-      * `FactorCalculationData` -> `factor_calculation_data` 
+      * `Id` -> `id`
+      * `Ambient` -> `ambient`
+      * `Amplifier` -> `amplifier`
+      * `Duration` -> `duration`
+      * `ShowParticles` -> `show_particles`
+      * `ShowIcon` -> `show_icon`
+      * `HiddenEffect` -> `hidden_effect`
+      * `FactorCalculationData` -> `factor_calculation_data`
     * **药水和药水箭：**
-      * `CustomPotionEffects` -> `custom_potion_effects` 
+      * `CustomPotionEffects` -> `custom_potion_effects`
     * **状态效果云和迷之炖菜：**
-      * `Effects` -> `effects` 
-      * `EffectId` -> `id` 
-      * `EffectDuration` -> `duration` 
+      * `Effects` -> `effects`
+      * `EffectId` -> `id`
+      * `EffectDuration` -> `duration`
     * **哞菇：**
-      * `EffectId` and `EffectDuration` -> `stew_effects` 
+      * `EffectId` and `EffectDuration` -> `stew_effects`
     * **生物状态效果：**
-    * `ActiveEffects` -> `active_effects` 
+    * `ActiveEffects` -> `active_effects`
     * **信标：**
-      * `Primary` -> `primary_effect` 
-      * `Secondary` -> `secondary_effect` 
+      * `Primary` -> `primary_effect`
+      * `Secondary` -> `secondary_effect`
 #### 资源包：
 - 纹理：
   - **文本编辑框现在是一张位于`widget/text_field`和`widget/text_field_highlighted`的九宫格切分的精灵图。**
   - **列表和编辑框的滚动条现在是一张位于`widget/scroller`的九宫格切分的精灵图。**
   - **`realms`命名空间的纹理被移入`minecraft`命名空间内；**
   - **所有含有多个部件贴图的GUI纹理现在都被拆分为单独的贴图，位于`textures/gui/sprites`目录下。**
-  - **`villager2.png`被重命名为`villager.png`** 
+  - **`villager2.png`被重命名为`villager.png`**
   - **辅助功能、语言和Realms新闻的按钮图标现在是单独的文件，不再各自附于按钮的纹理之上。**
 
 ### **1.20**
@@ -301,7 +301,7 @@
   - 进度：
     - **`placed_block`， `item_used_on_block`， 和 `allay_drop_item_on_block` 进度触发器下所有字段并入`location` 字段；现在该字段接受战利品表谓词。**
   - 战利品表、谓词、物品修饰器：
-    - **加入`all_of`条件，  `alternative` 条件重命名为 `any_of`** 
+    - **加入`all_of`条件，  `alternative` 条件重命名为 `any_of`**
   - 标签：
     - 方块标签`replaceable_plants` 拆分为`replaceable` 和 `replaceable_by_trees`
   - 世界生成：
@@ -350,12 +350,12 @@
   - **位置谓词字段 `feature`  重命名为 `structure`；**
 - 世界生成：
   - 移除地物 `ice_patch` ， `ice_patch` 并由地物 `disk` 代替；
-  - 树根放置器格式修改： 
+  - 树根放置器格式修改：
     - `y_offset` 重命名为 `trunk_offset_y`;
     - 字段 `max_root_width`， `max_root_length`， `random_skew_chance`， `can_grow_through`， `muddy_roots_in`， `muddy_roots_provider` 移入 `mangrove_root_placement` 对象下；
     - 加入字段 `above_root_placement` ;
   - 地物 `glow_lichen` 重命名为 `multiface_growth` ;
-  - `block_rot` 处理器的字段 `rottable_blocks`现在需要一个`#`前缀； 
+  - `block_rot` 处理器的字段 `rottable_blocks`现在需要一个`#`前缀；
   - 移除结构字段 `adapt_noise` ;
   - 移除密度函数 `slide`，由 `add`， `mul` ， `y_clamped_gradient` 代替；
   - 移除噪声设置字段 `noise.sampling`， `noise.top_slide`，  `noise.bottom_slide`，并移入密度函数;
@@ -391,13 +391,13 @@
 
 * NBT
   * 将刷怪笼的`SpawnPotentials`格式更改为：
-    ```
-    { 
-        weight: <int>, 
+    ```snbt
+    {
+        weight: <int>,
         data: {
-        	entity: {...}, 
-    		custom_spawn_rules: {...} 
-    	} 
+        	entity: {...},
+    		custom_spawn_rules: {...}
+    	}
     }
     ```
   * 将刷怪笼的`SpawnData`字段的内容移动到`SpawnData.entity`；

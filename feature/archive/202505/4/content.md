@@ -216,7 +216,6 @@ data get entity @s SelectedItem
     }
   ]
 }
-
 ```
 
 同样的示例还有很多，例如萌茶做的附魔兼容包:

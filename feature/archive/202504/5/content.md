@@ -45,7 +45,7 @@ SNBT字面量（Literal）是一段以特定规则组合而成的字符序列。
 
 示例：
 下例中，`True`等效于`true`：
-```
+```mcfunction
 data modify storage generic:test temp set value True
 ```
 
@@ -69,23 +69,23 @@ data modify storage generic:test temp set value True
 
 示例：
 十六进制有符号整型：
-```
+```mcfunction
 data modify storage generic:test temp set value 0xF
 ```
 二进制无符号字节型：
-```
+```mcfunction
 data modify storage generic:test temp set value 0b10000000ub
 ```
 十进制有符号长整型：
-```
+```mcfunction
 data modify storage generic:test temp set value 12345456789L
 ```
 下例并非表示十六进制有符号字节型，而是会被推导为十六进制有符号整型（`0xAB`中的`B`被视为十六进制数而非类型尾缀）：
-```
+```mcfunction
 data modify storage generic:test temp set value 0xAb
 ```
 为了表示十六进制字节型，必须显式指定符号类别：
-```
+```mcfunction
 data modify storage generic:test temp set value 0xAsb
 ```
 
@@ -110,12 +110,12 @@ data modify storage generic:test temp set value 0xAsb
 示例：
 下例为浮点数的指数形式。未写尾缀，将被默认推导为双精度浮点数。故以下设置的数据为`100.0d`
 
-```
+```mcfunction
 data modify storage generic:test temp set value 10E1
 ```
 
 单精度浮点数的部分尾数被省略，实际所获取到的SNBT为`123.12312f`：
-```
+```mcfunction
 data modify storage generic:test temp set value 123.123123f
 ```
 
@@ -168,30 +168,30 @@ data modify storage generic:test temp set value 123.123123f
 
 示例：
 
-```
+```mcfunction
 tellraw @s hello
 ```
 
-```
+```mcfunction
 tellraw @s '你好'
 ```
 未加引号将导致中文错误（不符合裸字符串规则）：
-```
+```mcfunction
 tellraw @s 你好
 ```
 
 一个关于物品描述的例子（这里`\u00a7`将被转义为格式字符`§`。`§a`即将后续字符渲染为绿色）：
-```
+```mcfunction
 give @s stone[lore=['\u00a7a你好']]
 ```
 
 使用`\n`来换行：
-```
+```mcfunction
 tellraw @s '\na\nb'
 ```
 
 输出命名Unicode字符：
-```
+```mcfunction
 tellraw @s '\N{Snowman}'
 ```
 
@@ -213,12 +213,12 @@ tellraw @s '\N{Snowman}'
 示例：
 
 纯文本型文本组件本身即为一个映射表：
-```
+```mcfunction
 tellraw @s {text:'hhh'}
 ```
 
 构造自定义的映射，并存入命令存储：
-```
+```mcfunction
 data modify storage generic:test temp set value {"`(@_@)'":233}
 ```
 
@@ -240,27 +240,27 @@ data modify storage generic:test temp set value {"`(@_@)'":233}
 
 示例：
 一个常见的齐元素类型列表：
-```
+```mcfunction
 data modify storage generic:test temp set value [1,2,3]
 ```
 
 列表也允许元素异构和嵌套（如下）。但要注意，在低版本并不允许元素异构，即所有元素必须与第一个元素类型一致。
-```
+```mcfunction
 data modify storage generic:test temp set value [1,'a',[1, 2, 3]]
 ```
 
 可使用列表描述文本组件，首元素将被视为父组件，后续元素将继承其颜色。
-```
+```mcfunction
 tellraw @s [{text:'',color:'gold'}, '是"cber"，还是"datapackpacker"，也是"vanilla lover"。']
 ```
 
 数组只允许在其类型范围上限内采取不同的类型，下例中`0L`为长整型，超出`B`字节型上限。
-```
+```mcfunction
 data modify storage generic:test temp set value [B;1b,123,0L]
 ```
 
 下例是正确的写法，每个数组元素都未超过数组头所规定的字节型上限。
-```
+```mcfunction
 data modify storage generic:test temp set value [B;1b,123,0]
 ```
 
@@ -282,11 +282,11 @@ data modify storage generic:test temp set value [B;1b,123,0]
 示例：
 参数的推导规则与前文所介绍的SNBT字面量无异。`123`将被先推导为整型，然后再转换为布尔值：
 
-```
+```mcfunction
 data modify storage generic:test temp set value bool(123)
 ```
 
 uuid转换操作内所输入的参数应为一个字符串，为了避免其被推导为数字，最好加上引号：
-```
+```mcfunction
 data modify storage generic:test temp set value uuid('1-2-3-4-5')
 ```

@@ -115,7 +115,7 @@ execute if data storage test:ram temp{id:"minecraft:glass"} run say 3
 3. 只要范围确定，总是限制范围
 
 MC中实体的存储是以区块为单位的。尽可能减少实体检索时所涉及的区块可以大幅度改善选择器的性能。因此当你需要选择的实体位置确定时，总是包含一个限制了范围的distance=来减少涉及的区块：
-```
+```mcfunction
 summon item ~ ~ ~ {Item:{id:"stone",count:1},Tags:["target"]}
 execute as @e[type=item,tag=target,distance=..1] run say 我是石头物品
 ```
@@ -178,7 +178,7 @@ say Features~!
 
 ### `/return`
 这条命令可以提前结束一个函数的运行。活用它不仅可以在结构上减少使用的行数，也可以节省不少性能！比如你需要根据一个分数的不同来执行不同的功能，那么可以这么写：
-```
+```mcfunction
 execute if score @s foo matches 1 run return run say 情况1
 execute if score @s foo matches 2 run return run say 情况2
 execute if score @s foo matches 3 run return run say 情况3
@@ -218,7 +218,7 @@ execute if score @s foo matches 3 run return run say 情况3
 
 我们单独拎出一行来看：
 
-```
+```mcfunction
 function dah.sch:z_private/tick(201/1) - 69.88%/0.46%
 ```
 

@@ -365,9 +365,9 @@ function nkcustomspawn:main/effective_chunk/right/main
 
 **补充:** 
 
-storag 数据存储结构 `nkcustomspawn:data`
+storage 数据存储结构 `nkcustomspawn:data`
 
-```nbt
+```snbt
 {
     "input": {
         "source": [[x1,y1,y2,1],[x2,y1,y2,1],[r1,t1,t2,0],[r2,t1,t2,1],...],
