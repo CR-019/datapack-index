@@ -216,42 +216,42 @@ function sklibs:skfirework/fx/launch {
 ## API函数
 `sklibs:skfirework/fx/launch`\
 烟花启动函数，用于制做烟花升空阶段\
-<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>config</strong>：根标签
-├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>life</strong>：升空时间tick
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>cmdv</strong>：升空时间延迟结束后执行的命令
-　 ├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个命令事件)
-　　　├─<img src="/refs/nbt_sprites/string.svg" width="16"/> <strong>cmd</strong>：需要执行的函数
-　　　├─<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>args</strong>：(可选)函数的参数
+<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>config</strong>：根标签\
+├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>life</strong>：升空时间tick\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>cmdv</strong>：升空时间延迟结束后执行的命令\
+　 ├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个命令事件)\
+　　　├─<img src="/refs/nbt_sprites/string.svg" width="16"/> <strong>cmd</strong>：需要执行的函数\
+　　　├─<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>args</strong>：(可选)函数的参数\
 
 `sklibs:skfirework/fx/spread`\
 烟花扩散函数\
-<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>config</strong>：根标签
-├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>n</strong>：数量
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>pitch</strong>：(可省缺，默认`[-180,180]`) 偏航角随机区间
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>yaw</strong>：(可省缺，默认`[-90,-20]`) 俯仰角随机区间
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>t</strong>：(可省缺，默认`[20,60]`) 延迟随机区间
-├─<img src="/refs/nbt_sprites/double.svg" width="16"/> <strong>v</strong>：(可省缺，默认`0.4d`) 初速度，单位 格/tick
-├─<img src="/refs/nbt_sprites/double.svg" width="16"/> <strong>g</strong>：(可省缺，默认`0.01d`) 重力加速度，单位 格/tick
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>cmdv</strong>：延迟结束后执行的命令
-　 ├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个命令事件)
-　　　├─<img src="/refs/nbt_sprites/string.svg" width="16"/> <strong>cmd</strong>：需要执行的函数
-　　　├─<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>args</strong>：(可省缺)函数的参数
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>tick_cmdv</strong>：(可省缺)延迟期间每刻执行的命令
-　 ├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个命令事件)
-　　　├─<img src="/refs/nbt_sprites/string.svg" width="16"/> <strong>cmd</strong>：需要执行的函数
-　　　├─<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>args</strong>：(可省缺)函数的参数
+<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>config</strong>：根标签\
+├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>n</strong>：数量\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>pitch</strong>：(可省缺，默认`[-180,180]`) 偏航角随机区间\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>yaw</strong>：(可省缺，默认`[-90,-20]`) 俯仰角随机区间\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>t</strong>：(可省缺，默认`[20,60]`) 延迟随机区间\
+├─<img src="/refs/nbt_sprites/double.svg" width="16"/> <strong>v</strong>：(可省缺，默认`0.4d`) 初速度，单位 格/tick\
+├─<img src="/refs/nbt_sprites/double.svg" width="16"/> <strong>g</strong>：(可省缺，默认`0.01d`) 重力加速度，单位 格/tick\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>cmdv</strong>：延迟结束后执行的命令\
+　 ├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个命令事件)\
+　　　├─<img src="/refs/nbt_sprites/string.svg" width="16"/> <strong>cmd</strong>：需要执行的函数\
+　　　├─<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>args</strong>：(可省缺)函数的参数\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>tick_cmdv</strong>：(可省缺)延迟期间每刻执行的命令\
+　 ├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个命令事件)\
+　　　├─<img src="/refs/nbt_sprites/string.svg" width="16"/> <strong>cmd</strong>：需要执行的函数\
+　　　├─<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>args</strong>：(可省缺)函数的参数\
 
 `sklibs:skfirework/fx/firework`\
 烟花生成函数，根据参数生成指定样式的原版烟花\
-<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>config</strong>：根标签
-├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>life</strong>：（可省缺，默认为`0`）烟花燃放延迟
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>colors</strong>：随机颜色
-├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个随机颜色项目)
-　 ├─<img src="/refs/nbt_sprites/int_array.svg" width="16"/> <strong>from</strong>：初始颜色值数组，数组中一个数字代表一个颜色
-　　　├─<img src="/refs/nbt_sprites/int_array.svg" width="16"/> <strong>to</strong>：渐变至颜色值数组，数组中一个数字代表一个颜色。这里的颜色值是十进制整数，例如红色(0xFF0000)的颜色值为16711680
-├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>shape</strong>：烟花形状(0:小球，1:大球，2:星状，3:苦力怕，4:爆发状)
-├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>trail</strong>：(可省缺,默认为0)是否显示踪迹
-├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>twinkle</strong>：(可省缺,默认为0)是否闪烁
-├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>n</strong>：烟花叠加数量
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>tags</strong>：(可省缺)给烟花添加的标签
+<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>config</strong>：根标签\
+├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>life</strong>：（可省缺，默认为`0`）烟花燃放延迟\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>colors</strong>：随机颜色\
+├─<img src="/refs/nbt_sprites/object.svg" width="16"/> (一个随机颜色项目)\
+　 ├─<img src="/refs/nbt_sprites/int_array.svg" width="16"/> <strong>from</strong>：初始颜色值数组，数组中一个数字代表一个颜色\
+　　　├─<img src="/refs/nbt_sprites/int_array.svg" width="16"/> <strong>to</strong>：渐变至颜色值数组，数组中一个数字代表一个颜色。这里的颜色值是十进制整数，例如红色(0xFF0000)的颜色值为16711680\
+├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>shape</strong>：烟花形状(0:小球，1:大球，2:星状，3:苦力怕，4:爆发状)\
+├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>trail</strong>：(可省缺,默认为0)是否显示踪迹\
+├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>twinkle</strong>：(可省缺,默认为0)是否闪烁\
+├─<img src="/refs/nbt_sprites/int.svg" width="16"/> <strong>n</strong>：烟花叠加数量\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>tags</strong>：(可省缺)给烟花添加的标签\
 　 ├─<img src="/refs/nbt_sprites/string.svg" width="16"/> (一个标签)
