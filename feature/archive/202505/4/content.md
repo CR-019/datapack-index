@@ -199,16 +199,21 @@ $$\boldsymbol{B}^\mathrm{T}\boldsymbol{B}=\boldsymbol{V\varSigma}\boldsymbol{U}^
 $$\boldsymbol{V}=\boldsymbol{B}^{-1}\boldsymbol{U\varSigma}$$
 这样可以不进行对角化计算而直接求出右奇异向量矩阵$\boldsymbol{V}$。\
 矩阵奇异值分解的结果具有几何意义，其中$\boldsymbol{U}$、$\boldsymbol{V}$是旋转变换矩阵，$\boldsymbol{\varSigma}$是缩放变换矩阵。任何变换都可以被分解成四个过程：初次旋转变换、缩放变换、再次旋转变换和平移变换。因此，用$\boldsymbol{V}$表示初次旋转变换，用$\boldsymbol{\varSigma}$表示缩放变换，用$\boldsymbol{U}$表示再次旋转变换，在此基础上再引入平移向量$\boldsymbol{T}$，则可以得到变换矩阵$\boldsymbol{A}$的分解形式，此时字段`transformation`是复合标签：
-```
-根标签.
-┖right_rotation: 模型进行缩放变换前的旋转变换，即初次旋转变换，与奇异值分解中的V相关。拥有两种可用数据形式：轴角式和四元数形式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
-  ┖初次旋转数据
-┖scale: 模型的缩放变换，与奇异值分解中的∑相关。使用三维向量。
-  ┖向量的一个分量
-┖left_rotation: 模型进行缩放变换后的旋转变换，即再次旋转变换，与奇异值分解中的U相关。同样有轴角式和用四元数形式两种表示方式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
-  ┖再次旋转数据
-┖translation: 模型的平移变换T。对应矩阵形式最后一列前三行元素。使用三维向量。
-```
+
+<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>transformation</strong>：根标签\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/><img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>right_rotation</strong>：模型进行缩放变换前的旋转变换，即初次旋转变换，与奇异值分解中的V相关。\
+│　 │　　　拥有两种可用数据形式：轴角式和四元数形式。\
+│　 │　　　编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。\
+│　 └─<img src="/refs/nbt_sprites/any.svg" width="16"/> (初次旋转数据)\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>scale</strong>：模型的缩放变换，与奇异值分解中的$∑$相关。使用三维向量。\
+│　 └─<img src="/refs/nbt_sprites/float.svg" width="16"/> (向量的一个分量)\
+├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/><img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>left_rotation</strong>：模型进行缩放变换后的旋转变换，即再次旋转变换，与奇异值分解中的U相关。\
+│　 │　　　同样有轴角式和用四元数形式两种表示方式。\
+│　 │　　　编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。\
+│　 └─<img src="/refs/nbt_sprites/any.svg" width="16"/> (再次旋转数据)\
+└─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>translation</strong>：模型的平移变换$T$。对应矩阵形式最后一列前三行元素。使用三维向量。\
+　 └─<img src="/refs/nbt_sprites/float.svg" width="16"/> (一个分量)
+
 对于`right_rotation`和`left_rotation`这两个字段，有轴角式和四元数形式两种数据形式表示旋转。下面分别介绍这两种数据形式：
 ### 轴角式
 轴角式旋转可以理解为：一个向量$\boldsymbol{v}$绕一个通过原点（即实体实际位置）的长度为1的轴$\boldsymbol{u}$旋转角度$\theta$得到向量$\boldsymbol{v}'$。此时有$\left\lVert\boldsymbol{u}\right\rVert=1$。\
@@ -240,19 +245,18 @@ $$\begin{align}
   &=(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}+(\boldsymbol{u}\times\boldsymbol{v})\sin{\theta}+[\boldsymbol{v}-\boldsymbol{v}_{\parallel}=\boldsymbol{v}-(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}]\cos{\theta}\nonumber\\
   &=(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}(1-\cos{\theta})+(\boldsymbol{u}\times\boldsymbol{v})\sin{\theta}+\boldsymbol{v}\cos{\theta}\nonumber
 \end{align}$$
-使用轴角式表示旋转时字段`right_rotation`和`left_rotation`为复合标签：
-````
-right_rotation或left_rotation
-┖angle: 绕轴旋转的角度，即θ角，采用角度制。
-  ┖axis: 含三个元素的有序数组，用于定义旋转轴向量uu。一般可以写成单位向量。
-    ┖向量的一个分量。
-````
+使用轴角式表示旋转时字段`right_rotation`和`left_rotation`为复合标签：\
+<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>left_rotation</strong>或 <img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>right_rotation</strong>\
+├─<img src="/refs/nbt_sprites/float.svg" width="16"/> <strong>angle</strong>：绕轴旋转的角度，即$θ$角，采用角度制。\
+└─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>axis</strong>：含三个元素的有序数组，用于定义旋转轴向量$uu$。一般可以写成单位向量。\
+ 　 └─<img src="/refs/nbt_sprites/float.svg" width="16"/> (向量的一个分量)
+
 ### 四元数形式
 使用四元数形式表示旋转时，字段`right_rotation`和`left_rotation`类型是列表，数据格式为：
-```
-right_rotation或left_rotation: 表示四元数的四个元素，顺序依次为x、y、z、w。
-  ┖四元数中的一个元素。
-```
+
+<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>left_rotation</strong>或 <img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>right_rotation</strong>：表示四元数的四个元素，顺序依次为x、y、z、w。\
+└─<img src="/refs/nbt_sprites/float.svg" width="16"/> (四元数中的一个元素)
+
 一切四元数都可以写成如下的形式：
 $$q=w+x\boldsymbol{i}+y\boldsymbol{j}+z\boldsymbol{k}$$
 其中$w$、$x$、$y$、$z\in\mathbb{R}$，称$x\boldsymbol{i}+y\boldsymbol{j}+z\boldsymbol{k}$为四元数$q$的虚部，$w$为实部。一般可以使用向量$q=(w,x,y,z)$来表示四元数，或者将$(x,y,z)$视作一个向量$\boldsymbol{v}$，用标量和向量的形式表示四元数$q=(w,\boldsymbol{v})$。四元数的模为$\left\lVert q\right\rVert=\sqrt{w^2+x^2+y^2+z^2}$，规定：当$\left\lVert q\right\rVert=1$时，该四元数为单位四元数。同时又有规定：当$w=0$时，可以称该四元数为纯四元数。\
