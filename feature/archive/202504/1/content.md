@@ -55,7 +55,7 @@
 > 2. 按住<kbd>Ctrl</kbd>+<kbd>Shit</kbd>+<kbd>X</kbd>，打开插件界面。
 > 3. 在左侧“EXTENSIONS: MARKETPLACE”正下方的搜索栏搜索“简体中文”，找到地球仪图标插件的“Install”按钮，再搜索“spyglass”，找到蓝色望远镜图标插件的“Install”按钮。
 > 4. 重启vscode，可以看到语言已经设置为中文，一切准备就绪。
-> 
+>
 > 创建数据包步骤如下：
 > 1. 在游戏页面点击“单人游戏”。
 > 2. **单击**选中你要创建数据包的存档。
@@ -75,7 +75,7 @@
 
 > ---
 > 步骤如下：
-> 
+>
 > 1. 在游戏页面点击“单人游戏”。
 > 2. **单击**选中你要创建数据包的存档。
 > 3. 点击下方的“编辑”。
@@ -139,9 +139,9 @@ say 嘭！
 
 > ---
 > “abc:boom”实际上读取的是“abc/function/boom.mcfunction”，但每次这么写会显得很长，很麻烦，于是就把中间的“/function/”换成“:”，去掉末尾的“.mcfunction”后缀名，写成“abc:boom”。
-> 
+>
 > 注意，这里只有“/function/”会被替换成冒号，更往后的斜杠不会变。比如“abc:boom/test”读取的是“abc/function/boom/test.mcfunction”
-> 
+>
 > ---
 
 </details>
@@ -193,12 +193,12 @@ say 嘭！
 <summary>“tick.json”为什么要放在“minecraft/tags/function”文件夹里？</summary>
 
 > ---
-> 
+>
 >  原版mc内部代码里就有一个自带的数据包，里面就有“minecraft/tags/function/tick.json”这个文件。
 >  你做的事就是用你自己数据包里的“minecraft/tags/function/tick.json”去覆盖原版自带的数据包里的“minecraft/tags/function/tick.json”。我们可以类比画材质包的时候，我想用自己画的草方块贴图去覆盖原版的草方块贴图，只要把文件夹和文件名做的和原版里的完全一样，就会自动覆盖。
->  
+>
 >  这里的“覆盖”实际上并不是完全覆盖原版的“tick.json”，而是合并你的“tick.json”和原版自带的数据包的“tick.json”，说“覆盖”只是方便理解。
-> 
+>
 > ---
 
 </details>
@@ -244,7 +244,7 @@ say 你好，我的世界！
             function
                 boom.mcfunction
                 load.mcfunction（新加的）
-                tick.mcfunction      
+                tick.mcfunction
     pack.mcmeta
 ```
 3. 在“load.json”中，输入以下内容：

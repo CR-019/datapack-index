@@ -3,7 +3,7 @@ import { sidebar } from './sidebar'
 import { mcfunction } from './highlight'
 import { mcdoc } from './mcdoc/syntax'
 import anchor from 'markdown-it-footnote'
-import { sidebar_feature , sidebar_202504 } from './sidebar_feature'
+import { sidebar_feature , sidebar_202504, sidebar_202505 } from './sidebar_feature'
 import viteImagemin from 'vite-plugin-imagemin'
 
 // https://vitepress.dev/reference/site-config
@@ -44,6 +44,7 @@ export default defineConfig({
       '/index/': sidebar,
       '/resources/' : sidebar,
       '/feature/archive/202504' : sidebar_202504,
+      '/feature/archive/202505' : sidebar_202505,
       '/feature/' : sidebar_feature
     },
 

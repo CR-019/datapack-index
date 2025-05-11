@@ -1,4 +1,19 @@
-# 宵宫：烟花来咯！
+<!-- markdownlint-disable MD033 MD041 -->
+<script setup>
+    import FeaturedHead from '/.vitepress/vue/FeaturedHead.vue'
+</script>
+
+<FeaturedHead
+    title = 宵宫：烟花来咯！
+    authorName = SK
+    avatarUrl = '../../_authors/sk.jpg'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/1546917549' },
+        { name: 'GitHub', url: 'https://github.com/ymqlgthbSakuraDream' }
+    ]"
+    resourceLink = 'https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250416.html'
+    cover='./img/head.jpg'
+/>
 
 今年的海灯节没有烟花，比较遗憾，于是计划在MC中做一个烟花数据包，结果拖到了四月份（
 

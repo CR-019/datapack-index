@@ -1,4 +1,4 @@
-# 香草快讯 - Λojang Spotlight
+# 香草快讯 - Λojang Spotlight - 2025年5月
 
 这里是***香草***快讯，全Minecraft最***Vanilla***的技术性快照新闻，由本社记者*香草狐*为你报道最新快照消息~
 

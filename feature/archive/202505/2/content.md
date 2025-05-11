@@ -1,224 +1,463 @@
-# 数据包和命令入门学习-初学者如何快速适应
-By Doom_Decapitator
-## 简介
-对于Java版本数据包和命令的初学者来说，遇到实体数据格式或者数据组件不会写等问题情况是非常常见的现象，本文旨在为初学者找到学习和运用命令与数据包的方式。
-## 通往智慧的宝库:Minecraft Wiki
-[Minecraft Wiki](https://zh.minecraft.wiki/)提供的是相对权威的命令与数据包文档参考，含详细语法、案例及更新，是核心学习资源。在遇到有关问题时候，第一个就要想到Minecraft Wiki作为解答谜题的钥匙。
+<!-- markdownlint-disable MD033 MD041 -->
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
 
-在QQ和贴吧水群**2小时**不如查Wiki**几分钟**，下面我来讲一个如何阅读Wiki，自己寻找答案的例子。
-一日小明提问：
+<FeatureHead
+    title = 对展示实体渲染变换的研究
+    authorName = 徐木弦
+    avatarUrl = '../../_authors/徐木弦.jpg'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/449298404' }
+    ]"
+    resourceLink = 'https://www.bilibili.com/video/BV1hC5YzAE5w'
+    cover='./img/head.png'
+/>
 
-**“如何给自己一把时运114514的锄头”**
+## 引言
+展示实体作为Minecraft的技术性实体之一，它们的作用主要体现在视觉方面。这些实体没有碰撞箱，没有任何自主行为，只能通过技术手段生成。在生成时如果不指定NBT，则不会显示任何内容。原版技术开发者可以用展示实体的常规字段展示一些普通的内容，如正常形状的方块、物品、文字，但如果仅用展示实体展示这些常规内容，未免有些单调。\
+展示实体的`transformation`字段是实体格式中较复杂的一个字段，它使用矩阵形式或分解形式来表示展示实体的渲染变换，从而制造一些特殊的效果。
 
-（实际上大多数版本时运到不了114514）
-
-他抄了**百度搜索**给的命令然后不生效，小明仍未获得有效锄头，陷入“**改参数-报错-再提问**”的死循环，折腾了1个小时还是不会写（稍微夸张了一点），小明决定按照群友的意见去查阅Minecraft Wiki，搜索相关内容，这才发现了群友给他指令不能够生效的原因。
-
-1.20.5之后**物品的NBT格式**被**物品堆叠组件**代替。通过实践小明在不同版本知晓了相应的附魔的写法。以上是一个关于适用wiki来学习的一个案例。不同版本格式多变，写法多变，wiki就是最权威的宝典。
-
-![魔咒NBT标签](image.png)
-
-**不同版本附魔写法参考**
- * **1.12-**:可支持类型为short
+## 矩阵形式
+使用矩阵形式时，字段`transformation`的数据类型为列表，列表内一共有16个元素，这些元素均为单精度浮点数。这个列表用于表示一个$4×4$的行主序仿射变换矩阵。为了以矩阵形式表示三维空间中点的变换，将原空间映射至仿射空间，对于三维空间内每一个点$(x_0,y_0,z_0)$，在其尾部添加一个$1$以在仿射空间内表示一个点，即$(x_0,y_0,z_0,1)$。令该点经过一定仿射变换$\boldsymbol{A}$后位于$(x',y',z',1)$，则写成矩阵乘法的形式：
+$$\left[\begin{matrix}
+  x'\\y'\\z'\\1
+\end{matrix}\right]=\left[\begin{matrix}
+  a_{11}&a_{12}&a_{13}&a_{14}\\
+  a_{21}&a_{22}&a_{23}&a_{24}\\
+  a_{31}&a_{32}&a_{33}&a_{34}\\
+  a_{41}&a_{42}&a_{43}&a_{44}\\
+\end{matrix}\right]\left[\begin{matrix}
+  x_0\\y_0\\z_0\\1
+\end{matrix}\right]$$
+基础变换形式有平移、旋转、缩放（镜像）、剪切，所有的变换均基于实体的实际坐标进行。
+### 平移
+设展示实体上任意一点$(x_0,y_0,z_0,1)$在$x$、$y$、$z$轴分别平移$a$、$b$、$c$后得到点$(x',y',z',1)$，则
+$$\left\{\begin{matrix*}[l]
+  x'&=&x_0&&&&&+&a\\
+  y'&=&&&y_0&&&+&b\\
+  z'&=&&&&&z_0&+&c\\
+  1&=&&&&&&&1
+\end{matrix*}\right.$$
+则平移矩阵$\boldsymbol{T}$为
+$$\boldsymbol{T}(a,b,c)=\left[\begin{matrix}
+  1&0&0&a\\
+  0&1&0&b\\
+  0&0&1&c\\
+  0&0&0&1
+\end{matrix}\right]$$
+### 旋转
+一共有三种旋转方式，即绕$x$轴、绕$y$轴和绕$z$轴旋转。以绕$x$轴旋转$\alpha$为例，假设实体上一点$A$和实体锚点$O$所成直线与$z$轴的夹角为$\varphi$，令$\overrightarrow{OA}$的模为$l$，则有
+$$\left\{\begin{array}{l}
+  x=x\\
+  y=l\cos{\varphi}\\
+  z=l\sin{\varphi}
+\end{array}\right.$$
+$\overrightarrow{OA}$绕$x$轴旋转$\alpha$得到$\overrightarrow{OA'}$，此时有
+$$\left\{\begin{array}{l}
+  x'=x\\
+  y'=l\cos(\varphi+\alpha)=l\cos\varphi\cos\alpha-l\sin\varphi\sin\alpha\\
+  z'=l\sin(\varphi+\alpha)=l\sin\varphi\cos\alpha+l\cos\varphi\sin\alpha
+\end{array}\right.$$
+于是有
+$$\left\{\begin{array}{l}
+  x'=x\\
+  y'=y\cos\alpha-z\sin\alpha\\
+  z'=y\sin\alpha+z\cos\alpha
+\end{array}\right.$$
+将其转换为仿射矩阵，得到
+$$\boldsymbol{R}_{x}(\alpha)=\left[\begin{matrix}
+  1&0&0&0\\
+  0&\cos{\alpha}&-\sin{\alpha}&0\\
+  0&\sin{\alpha}&\cos{\alpha}&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+同理，绕$y$轴旋转$\beta$的矩阵形式为
+$$\boldsymbol{R}_{y}(\beta)=\left[\begin{matrix}
+  \cos{\beta}&0&\sin{\beta}&0\\
+  0&1&0&0\\
+  -\sin{\beta}&0&\cos{\beta}&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+绕$z$轴旋转$\gamma$的矩阵形式为
+$$\boldsymbol{R}_{z}(\gamma)=\left[\begin{matrix}
+  \cos{\gamma}&-\sin{\gamma}&0&0\\
+  \sin{\gamma}&\cos{\gamma}&0&0\\
+  0&0&1&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+### 缩放
+设展示实体上任意一点$(x_0,y_0,z_0,1)$沿$x$、$y$、$z$轴分别缩放$m$、$n$、$p$倍后得到点$(x',y',z',1)$，则
+$$\left\{\begin{matrix*}[l]
+  x'&=&mx_0&&&&&&\\
+  y'&=&&&ny_0&&&&\\
+  z'&=&&&&&pz_0&&\\
+  1&=&&&&&&&1
+\end{matrix*}\right.$$
+则缩放矩阵$\boldsymbol{S}$为
+$$\boldsymbol{S}(m,n,p)=\left[\begin{matrix}
+  m&0&0&0\\
+  0&n&0&0\\
+  0&0&p&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+若$m=n=p$，则是均匀缩放；不然则是非均匀缩放。
+### 镜像
+对于缩放矩阵而言，特别地，若$m$、$n$、$p$三者中至少有一个为负数，都会进行镜像变换。负缩放因子使坐标系在对应轴上反转，表面法线方向改变，从而造成内凹渲染。\
+![镜像变换造成的内凹渲染](img/镜像变换造成的内凹渲染.png)\
+若展示实体上任意一点$(x_0,y_0,z_0,1)$沿$x$轴镜像，其他方向上不作变化，易得镜像矩阵
+$$\boldsymbol{M}_{x}(m)=\left[\begin{matrix}
+  m&0&0&0\\
+  0&1&0&0\\
+  0&0&1&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+其中$m<0$。同理可得沿$y$轴镜像、沿$z$轴镜像的矩阵$\boldsymbol{M}_{y}(n)$、$\boldsymbol{M}_{z}(p)$。在多个方向进行的镜像变换也很容易得出，例如在$x$轴、$y$轴、和$z$轴方向上同时应用镜像变换所需的矩阵（$m<0$，$n<0$，$p<0$）为
+$$\boldsymbol{M}_{x,y,z}(m,n,p)=\left[\begin{matrix}
+  m&0&0&0\\
+  0&n&0&0\\
+  0&0&p&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+### 剪切
+剪切变换将实体上所有点沿某一方向做一定移动，通过原点的直线上任意一点沿该方向移动的距离随直线与原点的距离线性变化，这使得图像变得倾斜。一种剪切变换发生在两个正交坐标轴组成的平面内，在其中一个方向上做剪切，在另一个方向上不做变换。三维坐标系中坐标轴两两正交一共有六对正交关系，因此初等剪切变换一共有六种。\
+![剪切变换](img/剪切变换.png)\
+如图，图像在一个方向发生剪切的过程中，实际上与另一个方向拥有一个剪切角度$\theta_{i,j}$，下标（$i,j$）代表在$i$方向内做剪切，并与$j$方向呈一定剪切角度。若图中横向为$x$轴，纵向为$y$轴，剪切角度记为$\theta_{x,y}$，显然有
+$$\left\{\begin{matrix*}[l]
+  x'&=&x_0+&y_{0}\tan{\theta_{x,y}}&&&&\\
+  y'&=&&y_0&&&&\\
+  z'&=&&&&z_0&&\\
+  1&=&&&&&&&1
+\end{matrix*}\right.$$
+则$x$轴方向上做剪切、并与$y$轴方向呈一定剪切角度所需矩阵$\boldsymbol{H}$为
+$$\boldsymbol{H}(\theta_{x,y})=\left[\begin{matrix}
+  1&\tan{\theta_{x,y}}&0&0\\
+  0&1&0&0\\
+  0&0&1&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+同理可推导得到其他六种剪切变换所需的矩阵。当剪切变换的方向为$x$轴时，元素$\tan{\theta_{i,j}}$一定位于矩阵的第一行，$y$轴则为第二行，$z$轴则为第三行；与变换方向呈剪切角度的方向为$x$轴时，元素$\tan{\theta_{i,j}}$一定位于第一列，$y$轴则为第二列，$z$轴则为第三列。例如，某个剪切变换在$z$轴方向进行，与$x$轴方向呈剪切角度，则$\tan{\theta_{z,x}}$位于第三行第一列。\
+以上描述的剪切矩阵均为仅在一个方向上做变换，并与另一个方向呈一定剪切角度的情况。若同时应用多个不同的剪切变换，使用上面的规律填入元素，则剪切矩阵可记为
+$$\boldsymbol{H}(\theta_{x,y},\theta_{x,z},\theta_{y,x},\theta_{y,z},\theta_{z,x},\theta_{z,y})=\left[\begin{matrix}
+  1&\tan{\theta_{x,y}}&\tan{\theta_{x,z}}&0\\
+  \tan{\theta_{y,x}}&1&\tan{\theta_{y,z}}&0\\
+  \tan{\theta_{z,x}}&\tan{\theta_{z,y}}&1&0\\
+  0&0&0&1
+\end{matrix}\right]$$
+若某个方向的剪切变换不使用，将矩阵中对应位置的$\tan{\theta_{i,j}}$写为$0$即可。
+### 组合变换
+一种变换可能无法满足要求，有时需要同时应用多种以表示复杂的变换。对于有限个仿射变换$\boldsymbol{A}_1$、$\boldsymbol{A}_2$、……$\boldsymbol{A}_n$，依次将它们作用于一点$\boldsymbol{x}$，则变换后得到的点$\boldsymbol{x'}$为
+$$\boldsymbol{x'}=\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1}\boldsymbol{x}$$
+注意矩阵的乘法遵循从右向左的运算规则，且不支持交换律，但是支持结合律，因此有
+$$\boldsymbol{x'}=(\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1})\boldsymbol{x}$$
+令$\boldsymbol{A}=\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1}$，则$\boldsymbol{x}=\boldsymbol{A}\boldsymbol{x'}$，其中$\boldsymbol{A}$为组合变换矩阵。组合变换中各种变换的次序非常重要，上一个变换可能会影响下一个变换的结果。\
+在标签`transformation`中使用的矩阵均为组合变换矩阵。
+### 应用实例
+修改一个方块展示实体的NBT数据，使之依次绕$y$轴旋转$30^{\circ}$、绕$x$轴旋转$45^{\circ}$、绕$z$轴旋转$90^{\circ}$。
+求出组合变换矩阵，注意按从右向左的顺序计算：
+$$\begin{align}
+  \boldsymbol{A}&=\boldsymbol{R}_{z}(90^{\circ})\boldsymbol{R}_{x}(45^{\circ})\boldsymbol{R}_{y}(30^{\circ})\nonumber\\
+  &=\left[\begin{matrix}\cos{90^{\circ}}&-\sin{90^{\circ}}&0&0\\\sin{90^{\circ}}&\cos{90^{\circ}}&0&0\\0&0&1&0\\0&0&0&1\end{matrix}\right]\left[\begin{matrix}1&0&0&0\\0&\cos{45^{\circ}}&-\sin{45^{\circ}}&0\\0&\sin{45^{\circ}}&\cos{45^{\circ}}&0\\0&0&0&1\end{matrix}\right]\left[\begin{matrix}\cos{30^{\circ}}&0&\sin{30^{\circ}}&0\\0&1&0&0\\-\sin{30^{\circ}}&0&\cos{30^{\circ}}&0\\0&0&0&1\end{matrix}\right]\nonumber\\
+  &=\left[\begin{matrix}-\cfrac{\sqrt{2}}{4}&-\cfrac{\sqrt{2}}{2}&\cfrac{\sqrt{6}}{4}&0\\\cfrac{\sqrt{3}}{2}&0&\cfrac{1}{2}&0\\-\cfrac{\sqrt{2}}{4}&\cfrac{\sqrt{2}}{2}&\cfrac{\sqrt{6}}{4}&0\\0&0&0&1\end{matrix}\right]\approx\left[\begin{matrix}-0.35&-0.71&0.61&0\\0.87&0&0.5&0\\-0.35&0.71&0.61&0\\0&0&0&1\end{matrix}\right]\nonumber
+\end{align}$$
+故命令应为
 ```mcfunction
-give @p minecraft:diamond_hoe 1 0 {ench:[{id:35,lvl:32767}]}
+data merge entity @e[type=block_display,limit=1] {transformation:[-0.35f,-0.71f,0.61f,0.0f,0.87f,0.0f,0.5f,0.0f,-0.35f,0.71f,0.61f,0.0f,0.0f,0.0f,0.0f,1.0f]}
 ```
- * **1.13-1.17.1**可支持类型为int(2147483647)
+
+## 分解形式
+对于这些$4\times 4$大小的仿射变换矩阵$\boldsymbol{A}$，其元素$a_{41}$、$a_{42}$、$a_{43}$总是为0，$a_{44}$总是为1，若不为1，则将整个矩阵按$\cfrac{1}{a_{44}}$的比例缩放，从而使$a_{44}$为1。可以将其分块写成如下的形式：
+$$\boldsymbol{A}=\left[\begin{array}{ccc|c}
+  a_{11}&a_{12}&a_{13}&a_{14}\\
+  a_{21}&a_{22}&a_{23}&a_{24}\\
+  a_{31}&a_{32}&a_{33}&a_{34}\\
+  \hline
+  a_{41}&a_{42}&a_{43}&a_{44}\\
+\end{array}\right]=\left[\begin{matrix}
+  \boldsymbol{B}_{3\times 3}&\boldsymbol{T}_{3\times 1}\\
+  \boldsymbol{O}_{1\times 3}&\boldsymbol{E}_{1\times 1}\\
+\end{matrix}\right]$$
+式中分块阵$\boldsymbol{B}$是左上角$3\times 3$区域，这个区域代表模型的线性变换，存储了包括旋转、缩放、镜像和剪切在内的所有线性变换数据，注意，这个分块阵不适用于平移变换，因为平移变换不是线性变换。而分块阵$\boldsymbol{T}$的三个元素仅被平移变换所使用。\
+分解形式的`transformation`字段是分块阵$\boldsymbol{B}$经奇异值分解后使用的数据。对于任意的3阶方阵$\boldsymbol{B}$，总存在3阶正交方阵$\boldsymbol{U}$和$\boldsymbol{V}$、3阶对角阵$\boldsymbol{\varSigma}$，有
+$$\boldsymbol{B}=\boldsymbol{U\varSigma}\boldsymbol{V}^\mathrm{T}$$
+式中：\
+$\boldsymbol{V}^\mathrm{T}$——矩阵$\boldsymbol{V}$的转置矩阵。\
+称$\boldsymbol{U}$为左奇异向量矩阵，$\boldsymbol{V}$为右奇异向量矩阵，对角阵$\boldsymbol{\varSigma}$中对角线上的三个元素被称为奇异值。下面介绍奇异值分解的计算方法。\
+对上式等号左右两边取转置矩阵，得
+$$\boldsymbol{B}^\mathrm{T}=\boldsymbol{V\varSigma}\boldsymbol{U}^\mathrm{T}$$
+由于方阵$\boldsymbol{U}$和$\boldsymbol{V}$是正交的，因此$\boldsymbol{V}^\mathrm{T}\boldsymbol{V}=\boldsymbol{E}$、$\boldsymbol{U}^\mathrm{T}\boldsymbol{U}=\boldsymbol{E}$。则有
+$$\boldsymbol{B}\boldsymbol{B}^\mathrm{T}=\boldsymbol{U\varSigma}\boldsymbol{V}^\mathrm{T}\boldsymbol{V\varSigma}\boldsymbol{U}^\mathrm{T}=\boldsymbol{U}\boldsymbol{\varSigma}^{2}\boldsymbol{U}^\mathrm{T}$$
+对上式进行变形：
+$$\boldsymbol{U}^\mathrm{T}(\boldsymbol{B}\boldsymbol{B}^\mathrm{T})\boldsymbol{U}=\boldsymbol{\varSigma}^{2}$$
+方阵$\boldsymbol{B}\boldsymbol{B}^\mathrm{T}$是一个实对称阵，显然上式描述的是将$\boldsymbol{B}\boldsymbol{B}^\mathrm{T}$相似对角化的过程，其中$\boldsymbol{\varSigma}=\left[\begin{matrix}\sigma_1&&\\&\sigma_2&\\&&\sigma_3\end{matrix}\right]$，使用的正交阵便为左奇异向量矩阵$\boldsymbol{U}$。如果记$\lambda_1$、$\lambda_2$、$\lambda_3$是$\boldsymbol{B}\boldsymbol{B}^\mathrm{T}$的三个特征值，这些特征值是非负的，读者可自行证明，于是有
+$$\boldsymbol{\varSigma}^{2}=\left[\begin{matrix}\lambda_1&&\\&\lambda_2&\\&&\lambda_3\end{matrix}\right]=\left[\begin{matrix}\sigma_1^2&&\\&\sigma_2^2&\\&&\sigma_3^2\end{matrix}\right]$$
+求出$\boldsymbol{B}\boldsymbol{B}^\mathrm{T}$的三个特征值即可求出对角阵$\boldsymbol{\varSigma}$。因此，$\boldsymbol{\varSigma}$和$\boldsymbol{U}$的求解步骤如下——\
+步骤一：\
+由特征方程$\left\lvert\lambda\boldsymbol{E}-\boldsymbol{B}\boldsymbol{B}^\mathrm{T}\right\rvert=0$求$\boldsymbol{B}\boldsymbol{B}^\mathrm{T}$的全部特征值$\lambda_i$，然后求出对角阵$\boldsymbol{\varSigma}=\mathrm{diag}(\sigma_1,\sigma_2,\sigma_3)=\mathrm{diag}(\sqrt{\lambda_1},\sqrt{\lambda_2},\sqrt{\lambda_3})$。\
+步骤二：\
+对于每个特征值$\lambda_i$，由方程组$(\lambda_{i}\boldsymbol{E}-\boldsymbol{B}\boldsymbol{B}^\mathrm{T})\boldsymbol{x}=\boldsymbol{0}$求对应的特征向量$\boldsymbol{\alpha_i}$。\
+步骤三：\
+如果求得的特征向量相互不正交，则对特征向量$\boldsymbol{\alpha_i}$进行正交化，记正交化后的向量为$\boldsymbol{\beta_i}$。\
+步骤四：\
+如果求得的向量$\boldsymbol{\beta_i}$没有单位化，则将其单位化为$\boldsymbol{\gamma_i}$，令$\boldsymbol{U}=\left[\gamma_1,\gamma_2,\gamma_3\right]$。计算完毕。\
+对于右奇异向量矩阵$\boldsymbol{V}$，有
+$$\boldsymbol{B}^\mathrm{T}\boldsymbol{B}=\boldsymbol{V\varSigma}\boldsymbol{U}^\mathrm{T}\boldsymbol{U\varSigma}\boldsymbol{V}^\mathrm{T}=\boldsymbol{V}\boldsymbol{\varSigma}^{2}\boldsymbol{V}^\mathrm{T}$$
+同理可求得右奇异向量矩阵，计算步骤与上述计算左奇异向量矩阵的步骤相同，其中$\boldsymbol{\varSigma}$和上文是同一个矩阵，可不必重复计算。若$\boldsymbol{B}$可逆，则
+$$\boldsymbol{V}=\boldsymbol{B}^{-1}\boldsymbol{U\varSigma}$$
+这样可以不进行对角化计算而直接求出右奇异向量矩阵$\boldsymbol{V}$。\
+矩阵奇异值分解的结果具有几何意义，其中$\boldsymbol{U}$、$\boldsymbol{V}$是旋转变换矩阵，$\boldsymbol{\varSigma}$是缩放变换矩阵。任何变换都可以被分解成四个过程：初次旋转变换、缩放变换、再次旋转变换和平移变换。因此，用$\boldsymbol{V}$表示初次旋转变换，用$\boldsymbol{\varSigma}$表示缩放变换，用$\boldsymbol{U}$表示再次旋转变换，在此基础上再引入平移向量$\boldsymbol{T}$，则可以得到变换矩阵$\boldsymbol{A}$的分解形式，此时字段`transformation`是复合标签：
+
+<div class="nbt-tree">
+  <span>
+    <span class="nbt-seg"></span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>transformation</strong>：根标签
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>right_rotation</strong>：模型进行缩放变换前的旋转变换，即初次旋转变换，
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 与奇异值分解中的V相关。拥有两种可用数据形式：轴角式和四元数形式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/any.svg" width="16" />
+    (初次旋转数据)
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>scale</strong>：模型的缩放变换，与奇异值分解中的∑相关。使用三维向量。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (向量的一个分量)
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>left_rotation</strong>：模型进行缩放变换后的旋转变换，即再次旋转变换，
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 与奇异值分解中的U相关。同样有轴角式和用四元数形式两种表示方式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/any.svg" width="16" />
+    (再次旋转数据)
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>translation</strong>：模型的平移变换 T。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 对应矩阵形式最后一列前三行元素。使用三维向量。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (一个分量)
+  </span>
+</div>
+
+对于`right_rotation`和`left_rotation`这两个字段，有轴角式和四元数形式两种数据形式表示旋转。下面分别介绍这两种数据形式：
+### 轴角式
+轴角式旋转可以理解为：一个向量$\boldsymbol{v}$绕一个通过原点（即实体实际位置）的长度为1的轴$\boldsymbol{u}$旋转角度$\theta$得到向量$\boldsymbol{v}'$。此时有$\left\lVert\boldsymbol{u}\right\rVert=1$。\
+![轴角式旋转示意图](img/轴角式旋转示意图.png)\
+为了便于分析，将向量$\boldsymbol{v}$分解成平行于轴$\boldsymbol{u}$的向量$\boldsymbol{v}_{\parallel}$和正交于轴$\boldsymbol{u}$的向量$\boldsymbol{v}_{\perp}$，于是有
+$$\boldsymbol{v}=\boldsymbol{v}_{\parallel}+\boldsymbol{v}_{\perp}$$
+![向量v的分解](img/向量v的分解.png)\
+将$\boldsymbol{v}_{\parallel}$用含有$\boldsymbol{v}$和$\boldsymbol{u}$的式子表达，即计算$\boldsymbol{v}$在$\boldsymbol{u}$上的投影：
+$$\boldsymbol{v}_{\parallel}=\left\lVert\boldsymbol{v}_{\parallel}\right\rVert\frac{\boldsymbol{u}}{\left\lVert\boldsymbol{u}\right\rVert}=\frac{(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}}{\left\lVert\boldsymbol{u}\right\rVert\left\lVert\boldsymbol{u}\right\rVert}=(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}$$
+于是可得到$\boldsymbol{v}_{\perp}$的表达式
+$$\boldsymbol{v}_{\perp}=\boldsymbol{v}-\boldsymbol{v}_{\parallel}=\boldsymbol{v}-(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}$$
+对于向量$\boldsymbol{v}'$，同样可以将其分解得到
+$$\boldsymbol{v}'=\boldsymbol{v}_{\parallel}'+\boldsymbol{v}_{\perp}'$$
+实际上，在向量$\boldsymbol{v}$的旋转过程中，向量$\boldsymbol{v}_{\parallel}$没有发生变化，即
+$$\boldsymbol{v}_{\parallel}'=\boldsymbol{v}_{\parallel}$$
+![向量v⊥的旋转](img/向量v⊥的旋转.png)\
+现在考察向量$\boldsymbol{v}_{\perp}$的旋转。不难发现，向量的旋转实际上是发生在圆周上的。此时正交于$\boldsymbol{u}$轴的平面内没有其他可用轴，为此构建同时正交于$\boldsymbol{u}$和$\boldsymbol{v}_{\perp}$的轴$\boldsymbol{w}$，有
+$$\boldsymbol{w}=\boldsymbol{u}\times\boldsymbol{v}_{\perp}$$
+由
+$$\left\lVert\boldsymbol{w}\right\rVert=\left\lVert\boldsymbol{u}\times\boldsymbol{v}_{\perp}\right\rVert=\left\lVert\boldsymbol{u}\right\rVert\cdot\left\lVert\boldsymbol{v}_{\perp}\right\rVert\cdot\sin{90^{\circ}}=\left\lVert\boldsymbol{v}_{\perp}\right\rVert$$
+知$\boldsymbol{w}$和$\boldsymbol{v}_{\perp}$的模是相等的，故将向量$\boldsymbol{v}_{\perp}'$可被分解为平行于$\boldsymbol{w}$的$\boldsymbol{v}_{\boldsymbol{w}}'$和平行于$\boldsymbol{v}_{\perp}$的$\boldsymbol{v}_{\boldsymbol{v}}'$，有
+$$\boldsymbol{v}_{\perp}'=\boldsymbol{v}_{\boldsymbol{w}}'+\boldsymbol{v}_{\boldsymbol{v}}'=\boldsymbol{w}\sin{\theta}+\boldsymbol{v}_{\perp}\cos{\theta}=(\boldsymbol{u}\times\boldsymbol{v}_{\perp})\sin{\theta}+\boldsymbol{v}_{\perp}\cos{\theta}$$
+所以得到
+$$\begin{align}
+  \boldsymbol{v}'&=\boldsymbol{v}_{\parallel}'+\boldsymbol{v}_{\perp}'\nonumber\\
+  &=\boldsymbol{v}_{\parallel}+(\boldsymbol{u}\times\boldsymbol{v}_{\perp})\sin{\theta}+\boldsymbol{v}_{\perp}\cos{\theta}\nonumber\\
+  &=\boldsymbol{v}_{\parallel}+[\boldsymbol{u}\times(\boldsymbol{v}-\boldsymbol{v}_{\parallel})]\sin{\theta}+\boldsymbol{v}_{\perp}\cos{\theta}\nonumber\\
+  &=\boldsymbol{v}_{\parallel}+(\boldsymbol{u}\times\boldsymbol{v})\sin{\theta}+\boldsymbol{v}_{\perp}\cos{\theta}\nonumber\\
+  &=(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}+(\boldsymbol{u}\times\boldsymbol{v})\sin{\theta}+[\boldsymbol{v}-\boldsymbol{v}_{\parallel}=\boldsymbol{v}-(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}]\cos{\theta}\nonumber\\
+  &=(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}(1-\cos{\theta})+(\boldsymbol{u}\times\boldsymbol{v})\sin{\theta}+\boldsymbol{v}\cos{\theta}\nonumber
+\end{align}$$
+使用轴角式表示旋转时字段`right_rotation`和`left_rotation`为复合标签：
+
+<div class="nbt-tree">
+  <span>
+    <span class="nbt-seg"></span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>left_rotation</strong> 或
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>right_rotation</strong>
+  </span>
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">├─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    <strong>angle</strong>：绕轴旋转的角度，即 θ 角，采用角度制。
+  </span>
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>axis</strong>：含三个元素的有序数组，用于定义旋转轴向量 uu。一般可以写成单位向量。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (向量的一个分量)
+  </span>
+</div>
+
+### 四元数形式
+使用四元数形式表示旋转时，字段`right_rotation`和`left_rotation`类型是列表，数据格式为：
+
+<div class="nbt-tree">
+  <span>
+    <span class="nbt-seg"></span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>left_rotation</strong> 或
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>right_rotation</strong>：表示四元数的四个元素，顺序依次为 x、y、z、w。
+  </span>
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (四元数中的一个元素)
+  </span>
+</div>
+
+
+一切四元数都可以写成如下的形式：
+$$q=w+x\boldsymbol{i}+y\boldsymbol{j}+z\boldsymbol{k}$$
+其中$w$、$x$、$y$、$z\in\mathbb{R}$，称$x\boldsymbol{i}+y\boldsymbol{j}+z\boldsymbol{k}$为四元数$q$的虚部，$w$为实部。一般可以使用向量$q=(w,x,y,z)$来表示四元数，或者将$(x,y,z)$视作一个向量$\boldsymbol{v}$，用标量和向量的形式表示四元数$q=(w,\boldsymbol{v})$。四元数的模为$\left\lVert q\right\rVert=\sqrt{w^2+x^2+y^2+z^2}$，规定：当$\left\lVert q\right\rVert=1$时，该四元数为单位四元数。同时又有规定：当$w=0$时，可以称该四元数为纯四元数。\
+对于轴角式中的旋转轴和向量，可以将其写成纯四元数的形式，如$u=(0,\boldsymbol{u})$、$v=(0,\boldsymbol{v})$。因此有：
+$$v=v_{\parallel}+v_{\perp}$$
+$$v'=v_{\parallel}'+v_{\perp}'$$
+$v_{\parallel}$的旋转可表示为
+$$v_{\parallel}'=v_{\parallel}$$
+如果将$(u\sin{\theta}+\cos{\theta})$视作一个四元数$q$，即$q=(\cos{\theta},\boldsymbol{u}\sin{\theta})$，则可得
+$$v_{\perp}'=qv_{\perp}$$
+注意到，上面的这个四元数q有如下性质：
+$$\left\lVert q\right\rVert=\sqrt{\cos^2{\theta}+\boldsymbol{u}\sin{\theta}\cdot\boldsymbol{u}\sin{\theta}}=\sqrt{\cos^2{\theta}+\left\lVert\boldsymbol{u}\right\rVert^{2}\sin^2{\theta}}=1$$
+这是一个单位四元数。一般应用于旋转变换的四元数都是单位四元数，\emphasize{非单位四元数会使得模型在旋转的同时进行缩放}。于是使用四元数形式表示的向量旋转为
+$$v'=v_{\parallel}'+v_{\perp}'=v_{\parallel}+qv_{\perp}$$
+令$q=p^2$，其中$p=\left(\cos{\cfrac{\theta}{2}},\boldsymbol{u}\sin{\cfrac{\theta}{2}}\right)$，则
+$$\begin{align}
+  v'&=v_{\parallel}+qv_{\perp}\nonumber\\
+  &=pp^{*}v_{\parallel}+p^{2}v_{\perp}\nonumber\\
+  &=pv_{\parallel}p^{*}+pv_{\perp}p^{*}\nonumber\\
+  &=p(v_{\parallel}+v_{\perp})p^{*}\nonumber\\
+  &=pvp^{*}\nonumber
+\end{align}$$
+式中：
+$p^{*}$——四元数$p$的共轭，若$p=(w,\boldsymbol{v})$，则$p^{*}=(w,-\boldsymbol{v})$。\
+于是得到了四元数形式表示的旋转公式：
+$$v'=qvq^{*}$$
+其中$q=\left(\cos{\cfrac{\theta}{2}},\boldsymbol{u}\sin{\cfrac{\theta}{2}}\right)$。这个四元数中各元素分别为$w=\cos{\cfrac{\theta}{2}}$，$x=u_{x}\sin{\cfrac{\theta}{2}}$，$y=u_{y}\sin{\cfrac{\theta}{2}}$，$z=u_{z}\sin{\cfrac{\theta}{2}}$\
+式中：\
+$\theta$——绕轴$\boldsymbol{u}$旋转的角度，方向为逆时针。\
+$u_{i}$——旋转轴$\boldsymbol{u}$在该坐标轴$i$上的分量。\
+对于一个渲染变换，设其初次旋转所用四元数为$q_r$，再次旋转所用四元数为$q_l$，令缩放数据$s=(s_x,s_y,s_z)$，平移数据$t=(t_x,t_y,t_z)$。对展示实体上任意一点$A(x_0,y_0,z_0)$构造四元数
+$$q_{0}=x_0\boldsymbol{i}+y_0\boldsymbol{j}+z_0\boldsymbol{k}=(0,\overrightarrow{OA})$$
+进行初次旋转，得到
+$$q_{1}=q_{r}q_{0}q_{r}^{*}$$
+随后应用缩放变换，得到
+$$q_{2}=s_{x}q_{1x}\boldsymbol{i}+s_{y}q_{1y}\boldsymbol{j}+s_{z}q_{1z}\boldsymbol{k}$$
+在初次旋转和放缩变换共同作用下，模型中各点的相对位置会发生改变。只有当初次旋转四元数$q_r=(1,\boldsymbol{0})$（不发生旋转）或缩放数据$s=(1,1,1)$（不进行缩放）时，模型才不会发生变形。模型在这之后会根据再次旋转变换确定最终的旋转角度，得到
+$$q_{3}=q_{l}q_{2}q_{l}^{*}$$
+最后应用平移变换，确定模型最终的位置，从而得到点$A$最终的位置：
+$$q=q_{3}+t$$
+### 应用实例
+用方块展示实体展示一个玻璃。要求：生成这个展示实体，使玻璃的体对角线与$y$轴平行。使这个展示实体绕体对角线旋转，旋转一周用时4秒。\
+模型中体对角线从$O(0,0,0)$到$A(1,1,1)$，现在需要使模型在不发生形变的前提下将$\overrightarrow{OA}$变换为与$(0,1,0)$（$y$轴方向向量）平行。现在可以直接确定再次旋转所用的四元数$q_l$，待确定的量有旋转角度$\theta$和旋转轴$\boldsymbol{u}$。\
+计算旋转角度：将$\overrightarrow{OA}$单位化，得到$\left(\cfrac{1}{\sqrt{3}},\cfrac{1}{\sqrt{3}},\cfrac{1}{\sqrt{3}}\right)$，因此
+$$\theta=\arccos{\left[\left(\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}}\right)\cdot(0,1,0)\right]}=\arccos{\frac{1}{\sqrt{3}}}\approx 54.74^{\circ}$$
+旋转轴垂直于旋转前后的向量，有
+$$\boldsymbol{u}=\left(\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}}\right)\times (0,1,0)=\left(-\frac{1}{\sqrt{3}},0,\frac{1}{\sqrt{3}}\right)$$
+将其单位化得$\left(-\cfrac{1}{\sqrt{2}},0,\cfrac{1}{\sqrt{2}}\right)$。如果使用轴角式，`left_rotation`的数据为：
+```
+left_rotation:{angle: 54.74f, axis: [-0.71f, 0.0f, 0.71f]}
+```
+计算再次旋转四元数
+$$q=\left(\cos{\cfrac{\theta}{2}},u_{x}\sin{\cfrac{\theta}{2}},u_{y}\sin{\cfrac{\theta}{2}},u_{z}\sin{\cfrac{\theta}{2}}\right)\approx (0.89,-0.33,0,0.33)$$
+模型不需要进行初次旋转、缩放和平移，故$q_r=(1,0,0,0)$，$s=(1,1,1)$，$t=(0,0,0)$。分解形式的`transformation`字段为：
+```
+transformation:{right_rotation: [0.0f, 0.0f, 0.0f, 1.0f], scale: [1.0f, 1.0f, 1.0f], left_rotation: [-0.33f, 0.0f, 0.33f, 0.89f], translation: [1.0f, 1.0f, 1.0f]}
+```
+生成这个展示实体所需的命令为：
 ```mcfunction
-give @s minecraft:diamond_hoe{Enchantments:[{id:"minecraft:fortune",lvl:114514}]}
+summon block_display ~ ~ ~ {block_state:{Name:"minecraft:glass"},transformation:{right_rotation:[0.0f,0.0f,0.0f,1.0f],scale:[1.0f,1.0f,1.0f],left_rotation:[-0.33f,0.0f,0.33f,0.89f],translation:[1.0f,1.0f,1.0f]}}
 ```
- * **1.17.1-1.20.5**可支持类型为32767(Short)但是会限制在0~255之间
+字段`left_rotation`的值已定义，旋转动画由插值完成，可由`right_rotation`定义，待确定的量依然是旋转角度$\theta$和旋转轴$\boldsymbol{u}$。显然旋转轴为方块模型的体对角线，这时体对角线与$y$轴平行，但变换依旧基于模型的局部坐标，因此轴向量为$(1,1,1)$，单位化为$\left(\cfrac{1}{\sqrt{3}},\cfrac{1}{\sqrt{3}},\cfrac{1}{\sqrt{3}}\right)$。制作插值动画时，可以设定四个固定的旋转角度：$0^{\circ}$、$90^{\circ}$、$180^{\circ}$、$270^{\circ}$，使得模型依此顺序循环变换，每次插值的时长为$4\div 4=1$秒$=20$gt。\
+以$\theta=90^{\circ}$为例，若使用轴角式，则`right_rotation`的数据为
+```
+right_rotation: {angle: 90, axis: [0.58f, 0.58f, 0.58f]}
+```
+转换为四元数形式$q\approx (0.71,0.41,0.41,0.41)$，即
+```
+right_rotation:[0.41f,0.41f,0.41f,0.71f]
+```
+同理$\theta=180^{\circ}$、$\theta=270^{\circ}$、$\theta=0^{\circ}$的数据分别为
+```
+right_rotation:[0.58f,0.58f,0.58f,0.0f]}
+```
+```
+right_rotation:[0.41f,0.41f,0.41f,-0.71f]}
+```
+```
+right_rotation:[0.0f,0.0f,0.0f,1.0f]}
+```
+为将模型的旋转角度平滑过渡至$\theta=90^{\circ}$，插值动画的命令为
 ```mcfunction
-give @s minecraft:diamond_hoe{Enchantments:[{id:"minecraft:fortune",lvl:32767}]}
+data merge entity @n[type=block_display] {transformation:{right_rotation:[0.41f,0.41f,0.41f,0.71f]},interpolation_duration:20}
 ```
-（实际解析为255）
- * **1.20.5+** 1 ≤ 值 ≤ 255
+该命令执行后，应用命令方块电路或函数计划使20gt后、定义的插值动画结束时模型的旋转角度开始平滑过渡至$\theta=180^{\circ}$：
 ```mcfunction
-give @s diamond_hoe[enchantments={levels:{fortune:255}}] 1
+data merge entity @n[type=block_display] {transformation:{right_rotation:[0.58f,0.58f,0.58f,0.0f]},interpolation_duration:20}
 ```
-对于数据包的学习Minecraft Wiki也给出了相关的指导和权威性内容-[数据包 - 中文 Minecraft Wiki](https://zh.minecraft.wiki/w/?curid=33058)，在[教程 - 中文 Minecraft Wiki](https://zh.minecraft.wiki/w/?curid=5792)中，设定了大量的已经由玩家们书写的教程，其中就包含了制作数据包的初始教程：[教程:制作数据包 - 中文 Minecraft Wiki](https://zh.minecraft.wiki/w/?curid=36294)和其他的教程案例。
-
-## 配置Datapack Helper Plus
-[教程:制作数据包#安装辅助插件](https://zh.minecraft.wiki/w/?curid=36294#%E5%AE%89%E8%A3%85%E8%BE%85%E5%8A%A9%E6%8F%92%E4%BB%B6)
-
-**D**atapack **H**elper **P**lus, **DHP**是每个数据包制作者避不开的一部分，详细可以参考[Datapack Helper Plus by Spyglass - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SPGoding.datapack-language-server)，其中命令补全和命令提示的功能对于数据包玩家来说是真正不可或缺的；DHP有可能会遇到加载问题，可以参考萌茶的DHP修复视频[解决我的世界数据包工具报错问题-Datapack Helper Plus
-](https://www.bilibili.com/video/BV1XM6UYAE4j)对于某些格式不清晰的玩家可以通过创造数据包文件，创建对应的文件捣鼓，不断调整；
-
-### 项目特点
- * **多语言支持**：DHP支持多种语言，包括德语、英语、法语、意大利语、日语和简体中文，满足全球开发者的需求。
- * **语义高亮**：提供命令参数的语义着色，增强代码的可读性和可维护性。
- * **自动补全**：智能补全功能覆盖简单命令到复杂NBT标签，大幅减少输入错误。
- * **代码片段**：内置多种代码片段，加速常用代码结构的编写。
- * **诊断与代码操作**：实时检测代码错误，并提供快速修复选项。
- * **格式化和代码折叠**：自动格式化代码，支持代码块的折叠，优化代码布局。
-
-## NBT Autocomplete等局内辅助工具
-[NBT Autocomplete - Minecraft Mod](https://modrinth.com/mod/nbt-autocomplete)
-
-NBT Autocomplete，简称nbtac，支持NBT补全功能，能帮助玩家在局内辅助补全NBT。当输入实体、方块、或物品的NBT标签时，游戏会显示可用标签及其类型的列表。示例：给予玩家一个**属性修饰符**为**在头部佩戴时增加<跳跃力度>1的数值**
-
-参考Wiki：[attribute_modifiers](https://zh.minecraft.wiki/w/?curid=113905#attribute_modifiers)
-
-![NBT Autocomplete](image-1.png)
-![NBT Autocomplete](image-2.png)
-![NBT Autocomplete](image-3.png)
-![NBT Autocomplete](image-4.png)
-
-可以看到自动帮玩家补全了NBT，简单高效，局内编辑大大缩短了时间。
-
-## 获取数据和修改数据：data命令
-data命令是Minecraft数据学习中不可缺失的一部分，相关教程：[MC命令教程"真"从零开始（十二）NBT数据读取与修改](https://www.bilibili.com/read/cv36068052/)。
-
-`data get`命令可以用于查看实体、方块或者物品的数据。一个刚刚开始学习Minecraft命令和数据包的玩家，或者有一定基础的但是想要深入了解数据操作的人，可能会尝试创建自定义物品、调整实体行为，或者制作更为复杂的数据包。但是当遇到数据类型没有正确应用的问题，就需要工具来获取和检查数据。
-
-对于新手玩家来说，`data get`命令可以帮助玩家透过现象看本质。让我们结合Wiki，以盔甲架为例子，如图是一个盔甲架:
-
-![盔甲架](image-5.png)
-
-乍一看是个悬浮的字，上书"1639"。然而这实际上是个实体，让我们`/data get entity`看一眼。注意/data get只能获取单一实体的数据，所以操作时选择器一定要做限制，比如要获取单一的最近的盔甲架：
+20gt后开始平滑过渡至$\theta=270^{\circ}$：
 ```mcfunction
-data get entity @e[type=minecraft:armor_stand,limit=1,sort=nearest]`
+data merge entity @n[type=block_display] {transformation:{right_rotation:[0.41f,0.41f,0.41f,-0.71f]},interpolation_duration:20}
 ```
-目标选择器在wiki专门的词条：[目标选择器](https://zh.minecraft.wiki/w/?curid=31547)
-
-![目标选择器](image-6.png)
-
-或者对于鼠标指针所指的实体可以直接Tab键位用实体特有的UUID指代。详细见[通用唯一识别码 - 中文 Minecraft Wiki](https://zh.minecraft.wiki/w/?curid=56543)。对于鼠标指针所所对准的物品也可以用`F3+I`的快捷键一键获取实体数据。
-
-![UUID](image-7.png)
-![UUID](image-8.png)
-
-接下来对这个名为“1639”的盔甲架做分，当然我们的分析实际上是离不开Minecraft Wiki的，参考[盔甲架](https://zh.minecraft.wiki/w/?curid=13139)。比如：
-
-* `CustomName`**指的是当前实体的自定义名称**;
-* `CustomNameVisible`**表示实体是否一直渲染名称，通俗来说就是玩家能否看见**;
-* `Invulnerable`**也是重要标签，决定实体是否能抵抗绝大多数伤害。如果为true，实体只会受到来自创造模式玩家的伤害和属于**`#bypasses_invulnerability`**标签的伤害**。
-
-表面上感觉不像一个实体，实际上`data get`使它原形毕露，我们对于实体数据的学习也可以从这个角度入手：我们可以照抄！但是这里必须提一句，一定要去弄懂SNBT，对应[SNBT格式 - 中文 Minecraft Wiki](https://zh.minecraft.wiki/w/?curid=145849)。在这里举个例子就是`OnGround:1b`中的`b`是布尔值，`1`代表`true`，`0`代表`false`。
-
-我们召唤一个盔甲架，以其中的几个标签作为例子：
-
-**在原地召唤一个无敌的名字为1639的，显示名字但是本体隐身的盔甲架。**
+20gt后开始平滑过渡至$\theta=0^{\circ}$：
 ```mcfunction
-summon minecraft:armor_stand ~ ~ ~ {Invulnerable:1b,CustomName:'{"text":"1639","bold":true,"italic":false,"color":"gold"}',CustomNameVisible:true,Invisible:1b}
+data merge entity @n[type=block_display] {transformation:{right_rotation:[0.0f,0.0f,0.0f,1.0f]},interpolation_duration:20}
 ```
-![例1](image-9.png)
-
-我们也可以通过data命令来修改盔甲架的实体数据，这里就展示data命令更为复杂的用法了，我们只修改简单的实体数据，举个例子：
-
-**合并修改CustomName标签，使得”1639”的名字变成暗红色**
+20gt后开始平滑过渡至$\theta=90^{\circ}$，形成循环。若在命令方块电路中执行命令，则可以制造一个周期为80gt的时钟电路，每个命令方块之间需要有20gt的延迟，至少需要使用5个中继器。若在函数中执行命令，则可以在目录`data\minecraft\function\animation`下创建`90.mcfunction`、`180.mcfunction`、`270.mcfunction`、`0.mcfunction`四个函数。例如，函数`90.mcfunction`的内容可以如下所示：
 ```mcfunction
-data merge entity @e[type=minecraft:armor_stand,sort=nearest,limit=1] {CustomName:'{"text":"1639","bold":true,"italic":false,"color":"dark_red"}'}
-```
-对于新手玩家来说，很多其他疑问同样可以用`data get`来实现，而且具有普适性；比如上文提到的附魔的问题，我们对手上的附魔物品进行数据获取，例如说我们手上有一个**抢夺III**的金合欢船：
-
-**获取主手物品的数据**
-```mcfunction
-data get entity @s SelectedItem
-```
-![手持物品组件](image-10.png)
-
-在该版本附魔的相关写法也就明晰了，转换到1.20.1还没有改动到物品堆叠组件（现并入数组组件），可以看到：
-
-![手持物品NBT](image-11.png)
-
-关于这部分的粗略讲解就先到这里。
-
-## 拆解原版.jar文件进行模仿
-新版 Minecraft（1.6+）已改用更模块化的文件结构（.minecraft/versions 文件夹）。我们找到对应版本的`.jar`文件进行解压(解压到其他地方，别原地)或者打开压缩包，依照路径\data\minecraft可以看到原版数据包的结构
-
-![原版数据包的结构](image-12.png)
-![原版数据包的结构](image-13.png)
-
-正好对应Minecraft wiki数据包介绍。我们就可以模仿原版的数据包格式和数据包内容来创作。比如说我们创造一个**精准采集II**；通过修改**原版命名空间**下`silk_touch.json`和`spawner.json`我们就粗浅得显示了可以挖刷怪笼的精准采集II，且附魔台不会附魔出**精准采集II**。这是拆解原版.jar文件来做数据包的一个示例：
-
-### Doom_CustomEnchantment/data/minecraft:silk_touch.json
-
-```json
-{
-  "anvil_cost": 8,
-  "description": {
-    "translate": "enchantment.minecraft.silk_touch"
-  },
-  "effects": {
-    "minecraft:block_experience": [
-      {
-        "effect": {
-          "type": "minecraft:set",
-          "value": 0.0
-        }
-      }
-    ]
-  },
-  "exclusive_set": "#minecraft:exclusive_set/mining",
-  "max_cost": {
-    "base": 65,
-    "per_level_above_first": -50
-  },
-  "max_level": 2,
-  "min_cost": {
-    "base": 15,
-    "per_level_above_first": 0
-  },
-  "slots": [
-    "mainhand"
-  ],
-  "supported_items": "#minecraft:enchantable/mining_loot",
-  "weight": 1
-}
-
+data merge entity @n[type=block_display] {transformation:{right_rotation:[0.41f,0.41f,0.41f,0.71f]},interpolation_duration:20}
+schedule function minecraft:animation/180 20t
 ```
 
-###  Doom_CustomEnchantment/data/minecraft/loot_table/blocks/spawer.json
-
-```json
-{
-  "type": "minecraft:block",
-  "random_sequence": "minecraft:blocks/spawner",
-  "pools": [
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "item",
-          "name": "spawner",
-          "conditions": [
-            {
-              "condition": "match_tool",
-              "predicate": {
-                "components": {
-                  "enchantments": {
-                    "silk_touch": 2
-                  }
-                }
-              }
-            },
-            {
-              "condition": "random_chance",
-              "chance": 0.25
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-
-```
-
-同样的示例还有很多，例如萌茶做的附魔兼容包:
-
-[附魔不冲突/附魔互相兼容 - MC百科|最大的Minecraft中文MOD百科](https://www.mcmod.cn/class/17763.html)。
-
-## 拆解数据包实例
-在各种Minecraft地图中存在着玩家制作的数据包，例如suso参与制作的**Ragecraft 4 UnderWorld**相适配的数据包，还有各大平台论坛与平台上（比如[**Planet MC**](https://www.planetminecraft.com/)，[**Modrinth**](https://modrinth.com/)）也存在着大量的数据包。在Minecraft Wiki的教程模块中也有很多案例，例如[教程：自定义结构生成](https://zh.minecraft.wiki/w/?curid=113843)。
-
-这些数据包是新手入门使用命令制作数据包的宝贵经验和参考。还有大量充当车轮子的数据包可以模仿，例如：[Bookshelf](https://github.com/Gunivers/Bookshelf/)，还有[Black Box Library](https://github.com/RockNRui/Black-Box-Library)。但是运用一定要**遵守开源协议**。
-
-这里还推荐[Cartographer 2.0](https://github.com/pearuhdox/Cartographer-2.0) “大包”，其中自定义附魔的部分可以参考学习。对于函数计算等学习可以参考[小豆数据库3.0](https://github.com/xiaodou8593/math3.0)。
-
-## 视频教学与香草图书馆
-数据包的学习离不开数据包视频教学，在b站有很多up有做视频教学，例如[萌茶](https://space.bilibili.com/320500029/upload/video)，[天豹星雲](https://space.bilibili.com/19856853)、[创小业](https://space.bilibili.com/133430292?spm_id_from=333.337.0.0)、[Dahesor](https://space.bilibili.com/436796403?spm_id_from=333.337.0.0)、[CR_019](https://search.bilibili.com/all?keyword=cr019&from_source=webtop_search&spm_id_from=333.1387&search_source=5)等；另外，[香草图书馆](https://cr-019.github.io/datapack-index/)中有大量的数据包学习教程，这里是数据包创作者的天堂。
-
-## 总结
-掌握数据包和命令需要经历"**模仿-理解-创造**"的螺旋式上升过程。建议从改造现有数据包开始（如修改村民交易表等等），逐步过渡到独立创作。当遇到报错时，善用游戏内提示（F3调试屏幕）和日志文件定位问题。每个错误都是理解数据包运作机制的宝贵机会，持续实践将帮助你建立起对数据结构的直觉认知。
+## 参考文献
+[1] [https://zh.minecraft.wiki/w/展示实体](https://zh.minecraft.wiki/w/?curid=101695)\
+[2] [https://krasjet.github.io/quaternion/quaternion.pdf](https://krasjet.github.io/quaternion/quaternion.pdf)\
+[3] [https://blog.csdn.net/YiYeZhiNian/article/details/106750302](https://blog.csdn.net/YiYeZhiNian/article/details/106750302)\
+[4] [https://zhuanlan.zhihu.com/p/45404840](https://zhuanlan.zhihu.com/p/45404840)\
+[5] [https://zhuanlan.zhihu.com/p/183973440](https://zhuanlan.zhihu.com/p/183973440)

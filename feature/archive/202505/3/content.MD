@@ -1,6 +1,17 @@
-# Spyglass(大憨批)进阶使用说明
+<!-- markdownlint-disable MD033 MD041 -->
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
 
-随着DHP Spyglass(大憨批)逐步更新，它也多了不少实用功能。比如调用其他数据包作为依赖库，编写mcdoc文件以获得对自定义NBT的补全支持，甚至是魔改其文件以支持模组的命令等等。本篇文章会简单地向读者介绍这些功能，希望读者可以借此大幅提升自己工作的便捷性与效率。
+<FeatureHead
+    title = Spyglass(大憨批)进阶使用说明
+    authorName = Dahesor
+    avatarUrl = '../../_authors/Dahesor.jpg'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/1017007290' },
+        { name: 'GitHub', url: 'https://github.com/Dahesor/' }
+    ]"
+/>
 
 ## 什么是Spyglass
 

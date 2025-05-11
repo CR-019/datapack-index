@@ -1,4 +1,18 @@
-# 原版血条！
+<!-- markdownlint-disable MD033 MD041 -->
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
+
+<FeatureHead
+    title = 原版血条！
+    authorName = SK
+    avatarUrl = '../../_authors/sk.jpg'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/1546917549' },
+        { name: 'GitHub', url: 'https://github.com/ymqlgthbSakuraDream' }
+    ]"
+    resourceLink = 'https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250504.html'
+/>
 
 ## 绪论
 
@@ -24,7 +38,8 @@
 ```mcfunction
 tellraw @a [{"text":"||||||||"}]
 ```
-![血条](img/img_3.jpg)\
+<center><img src="./img/img_3.jpg"/></center>
+
 然而我们并不希望血条中间带有空像素，可以在两两字符中间插入负空格解决
 这里使用了[NegetiveSpaceFont](https://github.com/AmberWat/NegativeSpaceFont)资源包，可以很方便的插入负空格。
 ```mcfunction
@@ -34,7 +49,8 @@ tellraw @a [\
     {"text":"|"},{"translate":"space.-1"}\
 ]\
 ```
-![血条](img/img_4.jpg)\
+<center><img src="./img/img_4.jpg"/></center>
+
 将血条文本写入语言文件，通过翻译键调用，每一行对应一个血量百分比，由于语言文件中不能写文本组件，则需要找到负空格`space.-1`对应的Unicode码位，并用转义字符`\uXXXX`表示，拆解NegetiveSpaceFont资源包的语言文件，发现了一些未知字符，这是因为这些字符已被解析过一次，使用十六进制文本转换器转换`space.-1`对应的未知字符，得到`daffdfff`，则它对应的转义字符应为`\udaff\udfff`。
 ```json
 {
@@ -73,7 +89,8 @@ tellraw @a [\
     {"translate":"skapi.healthbar.100"},{"text":"\n"}\
 ]
 ```
-![最终血条](img/img_5.png)\
+<center><img src="./img/img_5.png"/></center>
+
 血条叠加也很好实现
 ```mcfunction
 tellraw @a [\
@@ -81,7 +98,7 @@ tellraw @a [\
     {"translate":"skapi.healthbar.40","color":"green"}\
 ]
 ```
-![血条叠加](img/img_6.png)
+<center><img src="./img/img_6.png"/></center>
 
 ### 2.血条及血条缓动计算
 
@@ -253,7 +270,7 @@ return 0
 ### 7.安全初始化
 在一些特殊的情况下，比如游戏崩溃后重新进存档，有概率导致部分实体已被注册但是UUID列表中没有对应的UUID，进一步导致血条显示异常，此时需要在数据包载入时注销所有已注册的实体并清空UUID列表
 ```mcfunction
-load.mcfunction
+# load.mcfunction
 
 execute as @e[tag=skhealth] run function sklibs:health/load/_0
 data modify storage skapi.health uuids set value []
@@ -261,7 +278,7 @@ data modify storage skapi.health uuids set value []
 ...
 ```
 ```mcfunction
-load/_0.mcfunction
+# load/_0.mcfunction
 
 tag @s remove skhealth
 data remove entity @s CustomName
