@@ -1,7 +1,7 @@
 <template>
     <div class="article-container">
         <!--头图-->
-        <div 
+        <div
             class="header-image-wrapper"
             v-show="!hasError"
         >
@@ -18,7 +18,7 @@
         <div class="featured-color-line">
             <div class="color-segment orange"></div>
             <div class="image-container">
-                <img src="/public/feature/command_block_front.png" class="base-image" alt="">
+                <img src="/feature/cover/command_block_front.png" class="base-image" alt="">
                 <img src="/feature/cover/featured.png" class="overlay-image" alt="">
             </div>
             <div class="color-segment purple"></div>
@@ -68,7 +68,7 @@ export default {
     data() {
         return {
             hasError: false, // 用于判断图片加载失败
-            avatarLoading: false, 
+            avatarLoading: false,
             avatarError: false,
             //avatarUrl: "https://via.placeholder.com/50",
         };
@@ -153,7 +153,7 @@ export default {
 .header-image-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 30%; 
+  padding-top: 30%;
   overflow: hidden;
   border-radius: 4px 4px 0 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -186,7 +186,7 @@ export default {
   height: 100%;
   background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%);
   transition: opacity 0.3s ease;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .article-container {
