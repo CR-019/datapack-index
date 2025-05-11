@@ -200,19 +200,71 @@ $$\boldsymbol{V}=\boldsymbol{B}^{-1}\boldsymbol{U\varSigma}$$
 这样可以不进行对角化计算而直接求出右奇异向量矩阵$\boldsymbol{V}$。\
 矩阵奇异值分解的结果具有几何意义，其中$\boldsymbol{U}$、$\boldsymbol{V}$是旋转变换矩阵，$\boldsymbol{\varSigma}$是缩放变换矩阵。任何变换都可以被分解成四个过程：初次旋转变换、缩放变换、再次旋转变换和平移变换。因此，用$\boldsymbol{V}$表示初次旋转变换，用$\boldsymbol{\varSigma}$表示缩放变换，用$\boldsymbol{U}$表示再次旋转变换，在此基础上再引入平移向量$\boldsymbol{T}$，则可以得到变换矩阵$\boldsymbol{A}$的分解形式，此时字段`transformation`是复合标签：
 
-<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>transformation</strong>：根标签\
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/><img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>right_rotation</strong>：模型进行缩放变换前的旋转变换，即初次旋转变换，与奇异值分解中的V相关。\
-│　 │　　　拥有两种可用数据形式：轴角式和四元数形式。\
-│　 │　　　编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。\
-│　 └─<img src="/refs/nbt_sprites/any.svg" width="16"/> (初次旋转数据)\
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>scale</strong>：模型的缩放变换，与奇异值分解中的$∑$相关。使用三维向量。\
-│　 └─<img src="/refs/nbt_sprites/float.svg" width="16"/> (向量的一个分量)\
-├─<img src="/refs/nbt_sprites/homolist.svg" width="16"/><img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>left_rotation</strong>：模型进行缩放变换后的旋转变换，即再次旋转变换，与奇异值分解中的U相关。\
-│　 │　　　同样有轴角式和用四元数形式两种表示方式。\
-│　 │　　　编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。\
-│　 └─<img src="/refs/nbt_sprites/any.svg" width="16"/> (再次旋转数据)\
-└─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>translation</strong>：模型的平移变换$T$。对应矩阵形式最后一列前三行元素。使用三维向量。\
-　 └─<img src="/refs/nbt_sprites/float.svg" width="16"/> (一个分量)
+<div class="nbt-tree">
+  <span>
+    <span class="nbt-seg"></span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>transformation</strong>：根标签
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>right_rotation</strong>：模型进行缩放变换前的旋转变换，即初次旋转变换，
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 与奇异值分解中的V相关。拥有两种可用数据形式：轴角式和四元数形式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/any.svg" width="16" />
+    (初次旋转数据)
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>scale</strong>：模型的缩放变换，与奇异值分解中的∑相关。使用三维向量。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (向量的一个分量)
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>left_rotation</strong>：模型进行缩放变换后的旋转变换，即再次旋转变换，
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 与奇异值分解中的U相关。同样有轴角式和用四元数形式两种表示方式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">│</span> 编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/any.svg" width="16" />
+    (再次旋转数据)
+  </span>
+
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>translation</strong>：模型的平移变换 T。对应矩阵形式最后一列前三行元素。使用三维向量。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (一个分量)
+  </span>
+</div>
 
 对于`right_rotation`和`left_rotation`这两个字段，有轴角式和四元数形式两种数据形式表示旋转。下面分别介绍这两种数据形式：
 ### 轴角式
@@ -245,17 +297,51 @@ $$\begin{align}
   &=(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}+(\boldsymbol{u}\times\boldsymbol{v})\sin{\theta}+[\boldsymbol{v}-\boldsymbol{v}_{\parallel}=\boldsymbol{v}-(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}]\cos{\theta}\nonumber\\
   &=(\boldsymbol{u}\cdot\boldsymbol{v})\boldsymbol{u}(1-\cos{\theta})+(\boldsymbol{u}\times\boldsymbol{v})\sin{\theta}+\boldsymbol{v}\cos{\theta}\nonumber
 \end{align}$$
-使用轴角式表示旋转时字段`right_rotation`和`left_rotation`为复合标签：\
-<img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>left_rotation</strong>或 <img src="/refs/nbt_sprites/object.svg" width="16"/> <strong>right_rotation</strong>\
-├─<img src="/refs/nbt_sprites/float.svg" width="16"/> <strong>angle</strong>：绕轴旋转的角度，即$θ$角，采用角度制。\
-└─<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>axis</strong>：含三个元素的有序数组，用于定义旋转轴向量$uu$。一般可以写成单位向量。\
- 　 └─<img src="/refs/nbt_sprites/float.svg" width="16"/> (向量的一个分量)
+使用轴角式表示旋转时字段`right_rotation`和`left_rotation`为复合标签：
+
+<div class="nbt-tree">
+  <span>
+    <span class="nbt-seg"></span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>left_rotation</strong> 或
+    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
+    <strong>right_rotation</strong>
+  </span>
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">├─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    <strong>angle</strong>：绕轴旋转的角度，即 θ 角，采用角度制。
+  </span>
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>axis</strong>：含三个元素的有序数组，用于定义旋转轴向量 uu。一般可以写成单位向量。
+  </span>
+  <span class="nbt-indent-2">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (向量的一个分量)
+  </span>
+</div>
 
 ### 四元数形式
 使用四元数形式表示旋转时，字段`right_rotation`和`left_rotation`类型是列表，数据格式为：
 
-<img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>left_rotation</strong>或 <img src="/refs/nbt_sprites/homolist.svg" width="16"/> <strong>right_rotation</strong>：表示四元数的四个元素，顺序依次为x、y、z、w。\
-└─<img src="/refs/nbt_sprites/float.svg" width="16"/> (四元数中的一个元素)
+<div class="nbt-tree">
+  <span>
+    <span class="nbt-seg"></span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>left_rotation</strong> 或
+    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <strong>right_rotation</strong>：表示四元数的四个元素，顺序依次为 x、y、z、w。
+  </span>
+  <span class="nbt-indent-1">
+    <span class="nbt-seg">└─</span>
+    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    (四元数中的一个元素)
+  </span>
+</div>
+
 
 一切四元数都可以写成如下的形式：
 $$q=w+x\boldsymbol{i}+y\boldsymbol{j}+z\boldsymbol{k}$$

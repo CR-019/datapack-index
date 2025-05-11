@@ -154,3 +154,28 @@
   margin-left: 15px; /* 在图片和环绕文本之间留出一些空间 */
   max-width: 50%; /* 根据需要调整图片大小 */
 }
+
+/* NBT树状图 */
+.nbt-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+.nbt-tree > span {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.nbt-seg {
+  font-family: monospace;
+}
+.nbt-icon {
+  vertical-align: middle;
+}
+/* NBT树状图缩进 */
+.nbt-indent-1 { margin-left: 2em; }
+.nbt-indent-2 { margin-left: 4em; }
+.nbt-indent-3 { margin-left: 6em; }
+.nbt-indent-4 { margin-left: 8em; }
+.nbt-indent-5 { margin-left: 10em; }
+.nbt-indent-6 { margin-left: 12em; }
