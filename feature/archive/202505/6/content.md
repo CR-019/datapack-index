@@ -11,6 +11,7 @@
         { name: 'BiliBili', url: 'https://space.bilibili.com/286192403' }
     ]"
     cover = './head.png'
+    resourceLink = 'https://wwdj.lanzout.com/b00mpggbvi'
 />
 
 ## 简介
@@ -55,5 +56,5 @@ tag [玩家id] remove __init__
 
 ## 地图下载：
 
-[地图本体](https://www.example.com/world)\
-[资源包](https:www.example.com/resourcepack)
+https://wwdj.lanzout.com/b00mpggbvi
+密码:saoyou
