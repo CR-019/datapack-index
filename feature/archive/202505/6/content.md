@@ -10,7 +10,7 @@
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/286192403' }
     ]"
-    cover = './head.png'
+    cover = './img/head.png'
     resourceLink = 'https://wwdj.lanzout.com/b00mpggbvi'
 />
 
@@ -31,6 +31,18 @@
 如果您在游玩途中遇到任何问题，或是对地图有任何建议，请务必向作者提供反馈！
 
 **⚠️角色：化石尚未完成，请勿选择**
+
+## 截图
+
+![](./img/1.png)
+
+![](./img/2.png)
+
+![](./img/3.png)
+
+![](./img/4.png)
+
+![](./img/5.png)
 
 ## 地图须知
 
@@ -54,7 +66,7 @@ tag [玩家id] remove __init__
 当然在一年半的摸索中，我逐渐学习高质量地图，并借鉴其他地图并进行好的修改，使地图保持一个相对能玩的程度。\
 也非常感谢香草图书馆能给我这一次机会去展示自我。感谢你们的付出与努力！`(编者注：加油！)`
 
-## 地图下载：
+## 地图下载
 
-https://wwdj.lanzout.com/b00mpggbvi
+https://wwdj.lanzout.com/b00mpggbvi \
 密码:saoyou
