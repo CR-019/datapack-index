@@ -86,6 +86,7 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
       { text: 'Spyglass(大憨批)进阶使用说明', link: '/feature/archive/202505/3/content' },
       { text: '数据包和命令入门学习-初学者如何快速适应', link: '/feature/archive/202505/4/content' },
       { text: '原版血条！', link: '/feature/archive/202505/5/content' },
+      { text: 'Digging Underground', link: '/feature/archive/202505/6/content' },
     ]
   },
   {
