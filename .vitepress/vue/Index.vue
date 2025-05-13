@@ -154,6 +154,7 @@ export default {
 .color-line {
     display: flex;
     height: 5px;
+    width:100%;
 }
 
 .color-line::before,

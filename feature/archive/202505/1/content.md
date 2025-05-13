@@ -12,7 +12,7 @@
         { name: 'GitHub', url: 'https://github.com/ymqlgthbSakuraDream' }
     ]"
     resourceLink = 'https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250416.html'
-    cover='./img/head.jpg'
+    cover='../_assets/1.jpg'
 />
 
 今年的海灯节没有烟花，比较遗憾，于是计划在MC中做一个烟花数据包，结果拖到了四月份（

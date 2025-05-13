@@ -26,6 +26,7 @@
     <div class="color-line thin">
         <div></div>
     </div>
+    <div class="bottom-spacer"></div>
 </template>
 
 <script>
@@ -62,6 +63,7 @@ export default {
 
 .color-line {
     height: 2px;
+    width: 100%;
     display: flex;
 }
 
@@ -100,6 +102,10 @@ export default {
 
 .cover-image:hover {
     transform: scale(1.02);
+}
+
+.bottom-spacer {
+  height: 30px;
 }
 
 /* 信息栏 */

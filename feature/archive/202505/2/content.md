@@ -11,7 +11,7 @@
         { name: 'BiliBili', url: 'https://space.bilibili.com/449298404' }
     ]"
     resourceLink = 'https://www.bilibili.com/video/BV1hC5YzAE5w'
-    cover='./img/head.png'
+    cover='../_assets/2.png'
 />
 
 ## 引言

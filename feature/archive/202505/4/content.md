@@ -4,7 +4,7 @@
 </script>
 
 <FeatureHead
-    title = 对展示实体渲染变换的研究
+    title = 数据包和命令入门学习-初学者如何快速适应
     authorName = Doom_Decapitator
     avatarUrl = '../../_authors/doom_decapitator.png'
     :socialLinks="[
