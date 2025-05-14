@@ -52,6 +52,8 @@ Spyglass（即Datapack Helper Plus，DHP或大憨批，以下简称`Spyglass`）
 	"env": {
 		"dependencies": [
 			"file:///C:/path/.minecraft/saves/WorldName/datapacks/library.zip",
+			"@vanilla-datapack",
+			"@vanilla-resourcepack",
 			"@vanilla-mcdoc"
 		],
 		"gameVersion": "1.21.5"
@@ -60,7 +62,7 @@ Spyglass（即Datapack Helper Plus，DHP或大憨批，以下简称`Spyglass`）
 ```
 只需要把指向目标库的路径写进`dependencies`，Spyglass就会读取这个包内的所有函数，进度，战利品表，计分板，Storage，队伍……等任何你能想到的东西，并把它们喂给当前环境。也就是说你将可以在当前数据包内获得所有库里提供的内容的补全，纠错，等等，甚至还可以Ctrl+点击链接跳转去看看每个文件里写了啥，就像是这个库被塞到了当前数据包里一样。
 
-顺带一提，下面的`@vanilla-mcdoc`是默认的数据，包括所有的原版标签，战利品表，物品，实体，巴拉巴拉……
+顺带一提，下面的`@vanilla-XXX`是默认的数据，包括所有的原版标签，战利品表，物品，实体，巴拉巴拉……一定要保留。
 
 再顺带提示，上面的路径是Windows的，Linux一般就是没有盘符，类似`file:///path/to/libs.zip`。
 
@@ -78,6 +80,8 @@ Spyglass（即Datapack Helper Plus，DHP或大憨批，以下简称`Spyglass`）
 		"dependencies": [
 			"file:///C:/path/.minecraft/saves/WorldName/datapacks/library.zip",
 			"file:///C:/path/.minecraft/resourcepacks/my_pack/",
+			"@vanilla-datapack",
+			"@vanilla-resourcepack",
 			"@vanilla-mcdoc"
 		],
 		"gameVersion": "1.21.5"
