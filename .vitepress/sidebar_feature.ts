@@ -32,13 +32,13 @@ export const sidebar_202504: DefaultTheme.Sidebar = [
     ]
   },
   {
-    text: '封面文章',
+    text: '封面文章 Featured',
     items: [
       { text: '原版家具的“终极答案”？——新一代家具框架《松果核》', link: '/feature/archive/202504/0/content' },
     ]
   },
   {
-    text: '内容索引',
+    text: '洞见 Insights',
     items: [
       { text: '数据包快速入门', link: '/feature/archive/202504/1/content' },
       { text: '如何合并多个版本的数据包？', link: '/feature/archive/202504/2/content' },
@@ -68,24 +68,29 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
     ]
   },
   {
-    text: '封面文章',
+    text: '封面文章 Featured',
     items: [
       { text: '烟花来咯！', link: '/feature/archive/202505/1/content' },
     ]
   },
   {
-    text: 'Λojang Spotlight',
+    text: '香草快讯 Λojang Spotlight',
     items: [
       { text: '香草快讯 - 2025年5月', link: '/feature/archive/202505/spotlight/content' },
     ]
   },
   {
-    text: '内容索引',
+    text: '洞见 Insights',
     items: [
       { text: '对展示实体渲染变换的研究', link: '/feature/archive/202505/2/content' },
       { text: 'Spyglass(大憨批)进阶使用说明', link: '/feature/archive/202505/3/content' },
       { text: '数据包和命令入门学习-初学者如何快速适应', link: '/feature/archive/202505/4/content' },
       { text: '原版血条！', link: '/feature/archive/202505/5/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
       { text: 'Digging Underground', link: '/feature/archive/202505/6/content' },
     ]
   },
