@@ -6,7 +6,7 @@
 <FeatureHead
     title = 数据包和命令入门学习-初学者如何快速适应
     authorName = Doom_Decapitator
-    avatarUrl = '../../_authors/doom_decapitator.png'
+    avatarUrl = '../../_authors/d_d.png'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/40077963' }
     ]"
