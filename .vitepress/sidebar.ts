@@ -13,7 +13,8 @@ export const sidebar: DefaultTheme.Sidebar = [
       text: '月刊《Feature》',
       collapsed: false,
       items: [
-        { text: '绝赞征稿中！', link: '/feature/_规则' },
+        { text: '🏠绝赞征稿中！', link: '/feature/_规则' },
+        { text: '🌟2025.05期', link: '/feature/index/202505' },
         { text: '2025.04期', link: '/feature/index/202504' },
       ]
     },

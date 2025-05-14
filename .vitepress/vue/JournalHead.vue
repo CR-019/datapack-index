@@ -3,7 +3,10 @@
 
         <!-- 封面大图 -->
         <div class="cover-container">
-            <img :src="cover" alt="本期封面" class="cover-image">
+            <a v-if="coverLink" :href="coverLink" class="cover-link">
+                <img :src="cover" alt="本期封面" class="cover-image" />
+            </a>
+            <img v-else :src="cover" alt="本期封面" class="cover-image" />
         </div>
 
         <!-- 信息栏 -->
@@ -11,10 +14,10 @@
 
             <div class="info-left">
                 <p class="editors">本期编辑：{{ editors.join('、') }}</p>
-                <p class="credits">特别鸣谢：{{ credits.join('、') }}</p>
+                <p v-if="credits" :class="credits">特别鸣谢：{{ credits.join('、') }}</p>
             </div>
             <div class="info-right">
-                <a href="../archive/202504/preface" class="launch-link">创刊寄语</a>
+                <a v-if="launchLink" :href="launchLink.link" class="launch-link">{{ launchLink.text }}</a>
             </div>
         </div>
     </section>
@@ -23,6 +26,7 @@
     <div class="color-line thin">
         <div></div>
     </div>
+    <div class="bottom-spacer"></div>
 </template>
 
 <script>
@@ -33,13 +37,20 @@ export default {
             type: String,
             required: true
         },
+        coverLink: {
+            type: String
+        },
         editors: {
             type: Array,
             default: () => ['编辑A', '编辑B']
         },
         credits: {
             type: Array,
-            default: () => ['设计团队', '技术支持']
+            default: null
+        },
+        launchLink: {
+            type: Object,
+            default: null
         }
     }
 }
@@ -52,6 +63,7 @@ export default {
 
 .color-line {
     height: 2px;
+    width: 100%;
     display: flex;
 }
 
@@ -92,6 +104,10 @@ export default {
     transform: scale(1.02);
 }
 
+.bottom-spacer {
+  height: 30px;
+}
+
 /* 信息栏 */
 .info-bar {
     display: flex;
@@ -127,5 +143,6 @@ export default {
     margin: 0;
     color: var(--vp-c-text-2);
     font-size: 0.95rem;
+    white-space: nowrap;
 }
 </style>

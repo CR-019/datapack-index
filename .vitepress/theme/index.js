@@ -4,6 +4,7 @@ import DefaultTheme from 'vitepress/theme'
 import ExtraFeatures from './ExtraFeatures.vue'
 import './style.css'
 import Giscus from '@giscus/vue'
+import 'katex/dist/katex.min.css'
 
 /** @type {import('vitepress').Theme} */
 export default {

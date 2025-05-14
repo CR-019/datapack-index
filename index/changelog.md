@@ -26,7 +26,7 @@
 #### 数据包：
 - 命令：
     - `/attribute`指令新增`reset`子命令：`attribute <target> <attribute> base reset`;
-    - 在`/jfr`指令中加入了新事件:`StructureGeneration`。 
+    - 在`/jfr`指令中加入了新事件:`StructureGeneration`。
     - **`trial`粒子加入必选字段`duration`;**
     - 加入了`pale_oak_leaves`粒子类型；
 - nbt：
@@ -38,10 +38,10 @@
     - 修改了TNT矿车的NBT：
       - **将`TNTFuse`重命名为`fuse`；**
       - 添加可选字段`explosion_speed_factor`，表示矿车的附加爆炸威力；
-    - 具有`block_entity_data`组件的方块物品现在只会在`id`与被放置的方块实体一致时设置方块实体数据； 
+    - 具有`block_entity_data`组件的方块物品现在只会在`id`与被放置的方块实体一致时设置方块实体数据；
     - 加入收纳袋使用动画`bundle`;
-    - **`custom_model_data`组件更改为复合标签，`set_custom_model_data`修饰器同步更新；** 
-    - 文本组件格式加入可选字段`shadow_color`，用于描述文字阴影颜色，可以为十进制颜色代码或RGBA浮点数组； 
+    - **`custom_model_data`组件更改为复合标签，`set_custom_model_data`修饰器同步更新；**
+    - 文本组件格式加入可选字段`shadow_color`，用于描述文字阴影颜色，可以为十进制颜色代码或RGBA浮点数组；
 - 数据包其他组分：
     - **移除了`#trim_templates`物品标签。**
     - 加入了一系列标签，标记蜜蜂授粉的方块和敌对生物更愿意拾取的物品；
@@ -50,8 +50,8 @@
     - 环境效果`effects`现还可包含以下内容：
       - `music`：该生物群系中可以播放的音乐，为一个加权列表。如列表为空，表示不播放音乐；
       - `music_volume`：该生物群系中音乐的音量。在进入该生物群系时，音量会平滑过渡；
-    - 为`simple_block`类型地物加入了可选字段`schedule_tick`，为`true`时，此方块将会请求计划刻； 
-    
+    - 为`simple_block`类型地物加入了可选字段`schedule_tick`，为`true`时，此方块将会请求计划刻；
+
 #### 资源包：
 - **<p style="font-size:28px">引入新格式以描述[物品模型](https://zh.minecraft.wiki/w/%E6%A8%A1%E5%9E%8B#%E7%89%A9%E5%93%81%E6%A8%A1%E5%9E%8B)；</p>**
 - **`toast/system`精灵图外观现在已更新至使用标准九宫格划分方式；**
@@ -62,68 +62,68 @@
 ### **1.21.2**
 #### 数据包：
 - 命令：
-  - 加入了`/rotate`命令； 
-  - **栓绳结，浮漂和闪电不再能通过`/ride`骑乘；** 
-  - `/loot`指令现在会在尝试生成无对应战利品表的方块掉落物时报错。 
+  - 加入了`/rotate`命令；
+  - **栓绳结，浮漂和闪电不再能通过`/ride`骑乘；**
+  - `/loot`指令现在会在尝试生成无对应战利品表的方块掉落物时报错。
   - 加入游戏规则`disablePlayerMovementCheck`，`minecartMaxSpeed`；
-  - 加入了`block_crumble`和`trail`粒子； 
+  - 加入了`block_crumble`和`trail`粒子；
   - 粒子类型`trail`，`dust`，`dust_color_transition`的颜色参数现在支持颜色代码和颜色浮点数组；
   - **属性id不再有`generic.`，` player.`，`zombie.`前缀；**
-  - 加入属性`tempt_range`; 
+  - 加入属性`tempt_range`;
 - nbt：
   - 新增物品组件：`death_protection`，`item_model`，`equippable`，`glider`，`tooltip_style`，`consumable`，`use_remainder`，`use_cooldown`，`enchantable`，`repairable`
   - 修改物品组件`food`;移除部分字段并交由`consumable`控制；\
   - `instrument` 组件加入字段 `description`；
   - **重命名`fire_resistant`物品组件为`damage_resistant`，并加入`types`字段；**
-  - `potion_contents`物品组件加入`custom_name`字段； 
+  - `potion_contents`物品组件加入`custom_name`字段；
   - **将船和箱船的实体类型拆分为每种材质独立实体；**
   - **容器方块实体的`Lock`字段被重命名为`lock`，并支持物品谓词；**
-  - 实体X轴旋转角度现在必须在-90到90之间； 
+  - 实体X轴旋转角度现在必须在-90到90之间；
   - 聊天组件中的无效`selector`模式现在将导致命令解析失败，而不再解析为空字符串。
-  - TNT和TNT矿车实体加入了可选字段`explosion_power`； 
+  - TNT和TNT矿车实体加入了可选字段`explosion_power`；
 - 数据包组分：
   - 进度：
     - **重命名`killed_by_crossbow`判据为`killed_by_arrow`;**
-  - 附魔： 
+  - 附魔：
     - **重命名附魔类型`damage_item`为`change_item_damage`，并支持负值；**
   - 战利品表、谓词、物品修饰器：
-    - **移除战利品表`empty`;** 
+    - **移除战利品表`empty`;**
     - 一些物品可由战利品表控制：
       - 鸡下蛋产生的物品现在由`gameplay/chicken_lay`控制；
       - 犰狳掉落的鳞甲由`gameplay/armadillo_shed`控制；
       - 村民给村庄英雄的礼物由`gameplay/hero_of_the_village/unemployed_gift`和`gameplay/hero_of_the_village/baby_gift`控制；
       - 羊毛修剪时掉落物可由`shearing/sheep`控制；
-      - 哞菇修剪掉落物由`shearing/mooshroom`控制； 
+      - 哞菇修剪掉落物由`shearing/mooshroom`控制；
     - **移除了`minecraft:boat`实体子谓词；**
     - 加入实体子谓词`salmon`，`sheep`;
-    - 加入玩家子谓词`input`，用于检测键位输入； 
-    - 工具谓词（用于`match_tool`等谓词）现在还可用于`archaeology`，`vault`，`shearing`战利品表类型； 
+    - 加入玩家子谓词`input`，用于检测键位输入；
+    - 工具谓词（用于`match_tool`等谓词）现在还可用于`archaeology`，`vault`，`shearing`战利品表类型；
   - 配方：
-    - 加入了`crafting_transmute`配方类型，替换`crafting_special_shulkerboxcoloring`;    
+    - 加入了`crafting_transmute`配方类型，替换`crafting_special_shulkerboxcoloring`;
     - **配方原料格式修改：**
       - **`{ "item": "<item id>" }` 修改为 `"<item id>"`**
       - **`{ "tag": "<tag id>" }` 修改为 `"#<tag id>"`**
       - **列表格式不再支持tag**
-    - `smithing_transform` 和 `smithing_trim` 配方类型下的 `template`， `base`， `addition` 字段现在为可选； 
+    - `smithing_transform` 和 `smithing_trim` 配方类型下的 `template`， `base`， `addition` 字段现在为可选；
   - 标签：
     - 新增物品标签：`gaze_disguise_equipment`，`map_invisibility_equipment`，`duplicates_allays`，`panda_eats_from_ground`，`brewing_fuel`，`piglin_safe_armor`，`repairs_leather_armor`， `repairs_iron_armor`， `repairs_chain_armor`， `repairs_gold_armor`， `repairs_diamond_armor`， `repairs_netherite_armor`， `repairs_turtle_helmet`， `repairs_wolf_armor`，`furnace_minecart_fuel`，`villager_picks_up`；
     - 新增实体标签：`boat`；
-    - 新增方块标签：`bats_spawnable_on`； 
-  - 山羊角乐器现在由数据驱动； 
-  - 加入 `ender_pearl` 和 `mace_smash` 伤害类型;  
+    - 新增方块标签：`bats_spawnable_on`；
+  - 山羊角乐器现在由数据驱动；
+  - 加入 `ender_pearl` 和 `mace_smash` 伤害类型;
   - 世界生成：
-    - **移除了雕刻器类型carvers，现在可直接列出雕刻器**; 
+    - **移除了雕刻器类型carvers，现在可直接列出雕刻器**;
 
 
 #### 资源包：
 - 纹理：
-  - 高亮槽位的纹理现在能通过替换精灵图自定义; 
-  - **所有与装备相关的纹理现移动到了`textures/entity/equipment`的子目录中。** 
-  - 提示框的背景与边框分别由`tooltip/background`和`tooltip/frame`精灵图控制。 
+  - 高亮槽位的纹理现在能通过替换精灵图自定义;
+  - **所有与装备相关的纹理现移动到了`textures/entity/equipment`的子目录中。**
+  - 提示框的背景与边框分别由`tooltip/background`和`tooltip/frame`精灵图控制。
 - 模型：
-  - 加入装备模型； 
+  - 加入装备模型；
   - 物品覆写条件`broken`现在在所有物品模型中都可用了;
-  - 加入模型字段`light_emission` ，强制设为指定光照等级； 
+  - 加入模型字段`light_emission` ，强制设为指定光照等级；
 - 着色器：
   - 加入核心着色器`rendertype_armor_translucent`，用于狼铠渲染；
   - **`rendertype_entity_glint_direct`重命名为`rendertype_entity_glint`；**
@@ -179,7 +179,7 @@
   - 附魔：
     - 附魔现在由数据驱动；
       - 自然出现的附魔由附魔提供器控制；
-      - 排除的附魔由标签控制； 
+      - 排除的附魔由标签控制；
   - 画现在由数据驱动；
   - 加入了伤害类型`campfire`，`burn_from_stepping`；
   - 世界生成：加入方块谓词`unobstructed`
@@ -195,14 +195,14 @@
     - `/loot`，`/item`，`/execute if predicate`等命令现在支持内联战利品表、谓词、物品修饰器。
   - 粒子：
     - **`/particle`指令格式修改，太多了懒得列，[去wiki看吧](https://zh.minecraft.wiki/w/Java%E7%89%881.20.5-pre1#%E5%B8%B8%E8%A7%84_2)**
-    - 加入粒子类型 `infested`， `item_cobweb`， `small_gust`， `raid_omen`， `trial_omen`， `trial_spawner_detection_ominous`，  `ominous_spawning`，`vault_connection`; 
+    - 加入粒子类型 `infested`， `item_cobweb`， `small_gust`， `raid_omen`， `trial_omen`， `trial_spawner_detection_ominous`，  `ominous_spawning`，`vault_connection`;
     - **拆分粒子`gust_emitter`为`gust_emitter_large` 和`gust_emitter_small`**
     - 移除粒子类型`gust_dust`;
   - 属性：
     - 加入属性：`generic.gravity`，`generic.jump_strength`，`generic.safe_fall_distance`，`generic.fall_damage_multiplier`，`player.block_break_speed`，`generic.block_interaction_range`，`generic.entity_interaction_range`，`generic.scale`，`generic.step_height`;
     - 重命名属性:
       - **generic.block_interaction_range** → **player.block_interaction_range**
-      - **generic.entity_interaction_range** → **player.entity_interaction_range** 
+      - **generic.entity_interaction_range** → **player.entity_interaction_range**
     - **移除属性：`horse.jump_strength`**
   - `/place jigsaw`指令允许最大深度至20；
   - 加入`/transfer`指令;
@@ -294,7 +294,7 @@
       - **完整的战利品表，格式与独立文件的战利品表相同。**
     - 熊猫打喷嚏掉落物现在由`gameplay/panda_sneeze`战利品表控制；
   - 谓词：
-    - 加入物品子谓词 `container` ， `bundle_contents` ， `firework_explosion` ， `fireworks` ， `writable_book_content` ， `written_book_content` ， `attribute_modifiers` ， `trim` ， `max_stack_size` ， `max_damage` ， `fire_resistant` ， `rarity` ， `tool` ， `hide_tooltip`; 
+    - 加入物品子谓词 `container` ， `bundle_contents` ， `firework_explosion` ， `fireworks` ， `writable_book_content` ， `written_book_content` ， `attribute_modifiers` ， `trim` ， `max_stack_size` ， `max_damage` ， `fire_resistant` ， `rarity` ， `tool` ， `hide_tooltip`;
     - 加入实体子谓词 `raider`，`wolf`
     - 在 `equipment`实体子谓词下加入了`body`字段；
     - 实体子谓词加入`slot`字段；
@@ -304,11 +304,11 @@
       - **nbt 字段重命名为 custom_data;**
     - **方块谓词修改**
       - **移除 tag 字段，blocks 字段现在支持标签;**
-    - **流体谓词`fluid` 重命名为 `fluids`** 
-    - 实体谓词`type`支持标签； 
+    - **流体谓词`fluid` 重命名为 `fluids`**
+    - 实体谓词`type`支持标签；
     - **位置谓词修改：**
       - **`biome` 重命名为 `biomes` ，并支持群系标签；**
-      - **`structure` 重命名为 `structures` ，并支持结构标签；** 
+      - **`structure` 重命名为 `structures` ，并支持结构标签；**
     - 修改谓词 `cat`，`frog`，`painting`的`variant`字段格式；
     - 扩展了[物品谓词格式](https://zh.minecraft.wiki/w/24w12a#%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F)；
     - **修改物品谓词的`predicates`下的子谓词：**
@@ -327,7 +327,7 @@
     - **重命名`/attribute`命令的operation字段：**
       - **`add` → `add_value`**
       - **`multiply_base` → `add_multiplied_base`**
-      - **`multiply` → `add_multiplied_total`** 
+      - **`multiply` → `add_multiplied_total`**
     - 移除了 `set_contents` 物品修饰器函数中的 `type` 字段，并加入 `component` 字段；
     - 为`set_attributes`物品修饰器函数加入`replace`字段;
     - `set_lore`物品修饰器函数下`replace`字段重命名为`mode`;
@@ -432,38 +432,38 @@
   - **生物NBT的状态效果id由数字id改为命名空间id（字符串）**；
   - **许多状态效果相关的实体NBT键名从驼峰格式改为蛇形格式：**
     * **生物状态效果字段：**
-      * `Id` -> `id` 
-      * `Ambient` -> `ambient` 
-      * `Amplifier` -> `amplifier` 
-      * `Duration` -> `duration` 
-      * `ShowParticles` -> `show_particles` 
-      * `ShowIcon` -> `show_icon` 
-      * `HiddenEffect` -> `hidden_effect` 
-      * `FactorCalculationData` -> `factor_calculation_data` 
+      * `Id` -> `id`
+      * `Ambient` -> `ambient`
+      * `Amplifier` -> `amplifier`
+      * `Duration` -> `duration`
+      * `ShowParticles` -> `show_particles`
+      * `ShowIcon` -> `show_icon`
+      * `HiddenEffect` -> `hidden_effect`
+      * `FactorCalculationData` -> `factor_calculation_data`
     * **药水和药水箭：**
-      * `CustomPotionEffects` -> `custom_potion_effects` 
+      * `CustomPotionEffects` -> `custom_potion_effects`
     * **状态效果云和迷之炖菜：**
-      * `Effects` -> `effects` 
-      * `EffectId` -> `id` 
-      * `EffectDuration` -> `duration` 
+      * `Effects` -> `effects`
+      * `EffectId` -> `id`
+      * `EffectDuration` -> `duration`
     * **哞菇：**
-      * `EffectId` and `EffectDuration` -> `stew_effects` 
+      * `EffectId` and `EffectDuration` -> `stew_effects`
     * **生物状态效果：**
-    * `ActiveEffects` -> `active_effects` 
+    * `ActiveEffects` -> `active_effects`
     * **信标：**
-      * `Primary` -> `primary_effect` 
-      * `Secondary` -> `secondary_effect` 
+      * `Primary` -> `primary_effect`
+      * `Secondary` -> `secondary_effect`
   - 展示实体现在会在更新后的第一个刻开始更新客户端的位置和旋转。
     - 此前，更新是在相同的刻中应用的，导致运动不平稳。
     - 新的行为类似于生物。
-    - 在服务器中，位置和旋转仍是立即更新的。 
-  - 屏障方块现在可以含水，但是只能由创造模式玩家加入水； 
+    - 在服务器中，位置和旋转仍是立即更新的。
+  - 屏障方块现在可以含水，但是只能由创造模式玩家加入水；
 - 数据包组分：
   - 战利品表、物品修饰器、谓词：
     - `all_of` 谓词和 `sequence` 物品修饰器函数可被声明为内联无类型数组；
     - 加入物品修饰器函数`sequence` ;
   - 标签：
-    - 加入方块标签`concrete_powder` ， `camel_sand_step_sound_blocks` 
+    - 加入方块标签`concrete_powder` ， `camel_sand_step_sound_blocks`
     - 加入实体类型标签`non_controlling_rider`
     - 加入伤害标签`always_kills_armor_stands`，`no_knockback`;
   - 世界生成：
@@ -483,7 +483,7 @@
   - GUI纹理图集现在可以通过`.mcmeta`文件中的`gui`部分自定义变换行为。
     - 目前该部分仅包括`scaling`字段，其有3种类型，可通过type参数指定：`stretch`（拉伸，默认值）、`tile`（平铺）和`nine_slice`（九宫格切分）。
     - `tile`和`nine_slice`需要提供额外参数才能正常显示。
-    - 收纳袋悬浮提示框的背景纹理现在即采用`nine_slice`方式处理。 
+    - 收纳袋悬浮提示框的背景纹理现在即采用`nine_slice`方式处理。
   - **辅助功能、语言和Realms新闻的按钮图标现在是单独的文件，不再各自附于按钮的纹理之上。**
 - 模型：
   - 盔甲纹饰添加 `decal` 字段；
@@ -510,9 +510,9 @@
   - 配方：
     - `smithing_trim`和`smithing_transform`类型的配方，其`template`、`​base`和`addition`字段现在支持以数组形式列出多种原材料。这些字段允许空数组，意为将此槽位留空。
   - 伤害类型：
-    - 加入伤害类型 `outside_border` 和 `generic_kill`. 
+    - 加入伤害类型 `outside_border` 和 `generic_kill`.
   - 标签：
-    - 加入物品标签`villager_plantable_seeds`； 
+    - 加入物品标签`villager_plantable_seeds`；
     - 加入方块标签`maintains_farmland`，`enchantment_power_provider`， `enchantment_power_transmitter`，`sword_efficient` ；
     - 方块标签`replaceable_plants` 拆分为`replaceable` 和 `replaceable_by_trees`
   - 世界生成：
@@ -625,7 +625,7 @@
   - 拼图结构加入可选字段`start_jigsaw_name`；
   - 地形雕刻器 加入字段 `replaceable` ；
   - 移除地物 `ice_patch` ， `ice_patch` 并由地物 `disk` 代替；
-  - 树根放置器格式修改： 
+  - 树根放置器格式修改：
     - `y_offset` 重命名为 `trunk_offset_y`;
     - 字段 `max_root_width`， `max_root_length`， `random_skew_chance`， `can_grow_through`， `muddy_roots_in`， `muddy_roots_provider` 移入 `mangrove_root_placement` 对象下；
     - 加入字段 `above_root_placement` ;
@@ -634,7 +634,7 @@
   - 加入树干放置器 `upwards_branching_trunk_placer`；
   - 加入地物 `surface_disk`;
   - 地物 `glow_lichen` 重命名为 `multiface_growth` ;
-  - `block_rot` 处理器的字段 `rottable_blocks`现在需要一个`#`前缀； 
+  - `block_rot` 处理器的字段 `rottable_blocks`现在需要一个`#`前缀；
   - 移除结构字段 `adapt_noise` ;
   - 加入结构字段 `terrain_adaptation`;
   - 地物 `sculk_patch` 加入字段 `extra_rare_growths`;
@@ -711,13 +711,13 @@
 
   * 将刷怪笼的`SpawnPotentials`格式更改为：
 
-    ```
-    { 
-        weight: <int>, 
+    ```snbt
+    {
+        weight: <int>,
         data: {
-        	entity: {...}, 
-    		custom_spawn_rules: {...} 
-    	} 
+        	entity: {...},
+    		custom_spawn_rules: {...}
+    	}
     }
     ```
 
@@ -797,7 +797,7 @@
   * 加入整数提供器`clamped_normal`，`weighted_list`；
   * 在世界生成步骤`UNDERGROUND_DECORATION`和`VEGETAL_DECORATION`增加了`FLUID_SPRINGS`；
   * **移除了地表生成器；**
-  * 现在温度和湿度不会随着y轴变化； 
+  * 现在温度和湿度不会随着y轴变化；
   * 基岩层的生成现在受世界种子的控制；
   * **移除了方块放置器；**
   * 加入了方块状态提供器`dual_noise_2d_provider`，`noise_2d_cutoff_provider`，`noise_2d_provider`
@@ -957,7 +957,7 @@
 #### 数据包：
 
 - 命令：
-  - 加入指令`/locatebiome` 
+  - 加入指令`/locatebiome`
   - 加入指令 `/attribute`;
   - 加入粒子类型 `ash`, `crimson_spore`, `soul_fire_flame`, `warped_spore`,`dripping_obsidian_tear`, `falling_obsidian_tear`, `landing_obsidian_tear`,`soul`；
   - **属性命名由驼峰命名改为下划线命名；**
@@ -968,7 +968,7 @@
   - 指南针物品现在拥有NBT字段 `LodestonePos`, `LodestoneDimensions`, `LoadstoneTracked`；
   - 带有`NoAI`标签的潜影贝生成时可以带有旋转角度；
   - 文本组件：
-    - 文本组件`hoverEvent`加入字段 `contents` 
+    - 文本组件`hoverEvent`加入字段 `contents`
     - 文本组件 `color` 组件现在可以带前缀#来使用RGB颜色；
     - 加入文本组件 `font`;
 - 数据包组分：
@@ -977,7 +977,7 @@
     - **移除进度触发器 `safely_harvest_honey` ；**
     - **进度内容`location`, `slept_in_bed`, `hero_of_the_village`, `voluntary_exile` 字段被放入`location` 字段下；**
     - 进度触发器下的所有实体谓词现在都可以为战利品表谓词列表；
-    - 为除`impossible`外的所有进度触发器加入条件 `player`; 
+    - 为除`impossible`外的所有进度触发器加入条件 `player`;
   - 战利品表、谓词：
     - 实体谓词加入参数 `fishing_hook`；
     - 实体谓词下加入 `vehicle`, `targeted_entity` 实体谓词字段；
@@ -991,7 +991,7 @@
     - **加入实验性玩法“自定义世界”；**
     - 现在数据包可定义维度和维度类型；
     - 拼图方块加入nbt字段`joint`
-    - 拼图方块现在有朝向方块状态； 
+    - 拼图方块现在有朝向方块状态；
     - 结构方块可保存的最大方块范围由32x32x32扩大为48x48x48;
 - 其他：
   - 数据包加载优化：

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 16 16"
+   xmlns="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <style
+       id="style1">.cls-1{fill:#7c0309}</style>
+  </defs>
+  <path
+     style="fill:#c34943;"
+     d="M 16,0 16,16 0,16 Z"
+     id="path1" />
+  <path
+     style="fill:#539349;"
+     d="M 16,0 0,16 0,0 Z"
+     id="path2" />
+  <path
+     class="cls-1"
+     id="polygon4"
+     d="M1 15h15v1H0l1-1z" />
+  <path
+     class="cls-1"
+     id="polygon5"
+     d="M15 1v15h1V0l-1 1z" />
+  <path
+     class="cls-1"
+     id="polygon2"
+     style="fill:#166323"
+     d="m16 0-1 1H0V0z" />
+  <path
+     class="cls-1"
+     id="polygon3"
+     style="fill:#166323"
+     d="m0 16 1-1V0H0z" />
+  <path
+     d="M5.578 2.82v6.526H4.31V2.82H2.045V1.797h5.853L7.766 2.82z"
+     id="text1"
+     style="fill:#fff;" />
+  <path
+     d="M10.413 8.084v2.402h2.84v.962h-2.84v3.222H9.144V7.121h4.644l-.142.963z"
+     id="text2"
+     style="fill:#fff;" />
+</svg>
