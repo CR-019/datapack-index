@@ -54,14 +54,14 @@ export default defineConfig({
       { icon: 'bilibili', link: 'https://space.bilibili.com/85292644' },
       { icon:'afdian' ,link:'https://afdian.com/a/CR_019'}
     ],
-    logo:'/dream_catcher11.png',
+    logo:'/icons/dream_catcher8.png',
     footer:{
       copyright:"Copyright©2025 CR_019",
       message:"<a href=\"https://mcicp.com\" title=\"MCICP备2024000012号\" target=\"_blank\">MCICP备2024000012号</a> | Powered by Vitepress and Github Pages"
     }
   },
   head: [
-      ['link', { rel: 'icon', href: '/datapack-index/dream_catcher11.png' }]
+      ['link', { rel: 'icon', href: '/datapack-index/icons/dream_catcher8.png' }]
   ],
   ignoreDeadLinks: true,
   lastUpdated: false,

@@ -6,7 +6,7 @@ hero:
   name: "香草图书馆"
   tagline: 原版模组开发资源索引站
   image:
-    src: /bg5.png
+    src: /icons/bg6.png
   actions:
     - theme: brand
       text: 进入文档
@@ -16,18 +16,18 @@ hero:
       link: https://www.bilibili.com/video/BV1Aq6nY6EjN
 features:
   - icon:
-      src: /ocean_clock.png
+      src: /icons/ocean_clock.png
     title: 《Feature》
     details: 数据包短文月刊
-    linkText: 绝赞征稿中！
-    link: /feature/_规则
+    linkText: 最新一期已发布！
+    link: /feature/index/202505
   - icon:
-      src: /sweetbarry_stew.png
+      src: /icons/sweetbarry_stew.png
     title: 工具速查
     details: 能方便数据包开发的工具索引
     link: /index/工具
   - icon:
-      src: /vt.png
+      src: /icons/vt.png
     title: 系列教程
     details: 从零基础到稍微进阶的各种教程
     linkText: 零基础新手戳这里

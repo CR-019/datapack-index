@@ -6,7 +6,7 @@
 <FeatureHead
     title = Spyglass(大憨批)进阶使用说明
     authorName = Dahesor
-    avatarUrl = '../../_authors/Dahesor.jpg'
+    avatarUrl = '../../_authors/dahesor.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/1017007290' },
         { name: 'GitHub', url: 'https://github.com/Dahesor/' }
