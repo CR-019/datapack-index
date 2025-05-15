@@ -42,7 +42,7 @@ export const sidebar_202504: DefaultTheme.Sidebar = [
     items: [
       { text: '数据包快速入门', link: '/feature/archive/202504/1/content' },
       { text: '如何合并多个版本的数据包？', link: '/feature/archive/202504/2/content' },
-      { text: '数据包优化原则以及分析方式简述', link: '/feature/archive/202504/3/content' },
+      { text: '数据包优化原则以及分析方式简述', link: '/feature/archive/202504/3/content_' },
       { text: 'NeKoCustomSpawn-demo', link: '/feature/archive/202504/4/content' },
       { text: 'Java版1.21.5-SNBT语法概览', link: '/feature/archive/202504/5/content' },
       { text: '拾尘（七）-使用复合物品模型映射更简便的制作状态栏', link: '/feature/archive/202504/6/content' },
