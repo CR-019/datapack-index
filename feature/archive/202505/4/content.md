@@ -10,7 +10,6 @@
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/40077963' }
     ]"
-    cover='./img/head.png'
 />
 
 ## 简介

@@ -153,6 +153,16 @@
   float: right;
   margin-left: 15px; /* 在图片和环绕文本之间留出一些空间 */
   max-width: 50%; /* 根据需要调整图片大小 */
+  position: relative;
+  top: -60px; 
+}
+
+.custom-h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: inherit;
 }
 
 /* NBT树状图 */

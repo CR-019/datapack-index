@@ -2,8 +2,9 @@ import { DefaultTheme } from "vitepress";
 export const sidebar_feature: DefaultTheme.Sidebar = [
   {
     text: '月刊《Feature》',
+    link: '/feature/_index',
     items: [
-      { text: '绝赞征稿中！', link: '/feature/_规则' },
+      { text: '绝赞征稿中！', link: '/feature/_index' },
     ]
   },
   {
@@ -42,7 +43,7 @@ export const sidebar_202504: DefaultTheme.Sidebar = [
     items: [
       { text: '数据包快速入门', link: '/feature/archive/202504/1/content' },
       { text: '如何合并多个版本的数据包？', link: '/feature/archive/202504/2/content' },
-      { text: '数据包优化原则以及分析方式简述', link: '/feature/archive/202504/3/content_' },
+      { text: '数据包优化原则以及分析方式简述', link: '/feature/archive/202504/3/content' },
       { text: 'NeKoCustomSpawn-demo', link: '/feature/archive/202504/4/content' },
       { text: 'Java版1.21.5-SNBT语法概览', link: '/feature/archive/202504/5/content' },
       { text: '拾尘（七）-使用复合物品模型映射更简便的制作状态栏', link: '/feature/archive/202504/6/content' },
@@ -51,7 +52,7 @@ export const sidebar_202504: DefaultTheme.Sidebar = [
   },
   {
     items: [
-      { text: '《Features》主页', link: '/feature/_规则' },
+      { text: '《Features》主页', link: '/feature/_index' },
       { text: '月刊条款', link: '/feature/_条款' },
       { text: '返回主站', link: '/index/绪论' }
     ]
@@ -83,7 +84,7 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
     text: '洞见 Insights',
     items: [
       { text: '对展示实体渲染变换的研究', link: '/feature/archive/202505/2/content' },
-      { text: 'Spyglass(大憨批)进阶使用说明', link: '/feature/archive/202505/3/content' },
+      { text: 'Spyglass(大憨批)进阶使用说明', link: '/feature/archive/202505/3/content_' },
       { text: '数据包和命令入门学习-初学者如何快速适应', link: '/feature/archive/202505/4/content' },
       { text: '原版血条！', link: '/feature/archive/202505/5/content' },
     ]
@@ -96,7 +97,7 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
   },
   {
     items: [
-      { text: '《Features》主页', link: '/feature/_规则' },
+      { text: '《Features》主页', link: '/feature/_index' },
       { text: '月刊条款', link: '/feature/_条款' },
       { text: '返回主站', link: '/index/绪论' }
     ]

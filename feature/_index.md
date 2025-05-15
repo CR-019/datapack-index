@@ -1,3 +1,15 @@
+---
+outline: false
+aside: false
+prev: false
+next: false
+---
+
+<script setup>
+	import ColorLine from '/.vitepress/vue/ColorLine.vue'
+  import JournalIndex from '/.vitepress/vue/JournalIndex.vue'
+</script>
+
 # 《Feature》
 <p class="img_feature">
   <img src="/feature/title.png" alt="描述图片的文字">
@@ -5,7 +17,8 @@
 
 > 香草图书馆旗下数据包期刊（不是
 
-## 关于《Feature》
+<h2 class="custom-h2">关于《Feature》</h2>
+<ColorLine />
 《Feature》是由香草图书馆团队主办的，面向原版模组（数据包+资源包）开发的短文收集与展示的平台，用于开发者之间的交流，每月更新。
 
 > 因为大教程内容多，时间长，希望开放一个投稿窗口接受短文投稿，审核后每月作为网页的周刊发布到图书馆内。
@@ -13,12 +26,24 @@
 > 短文成型快，~~周刊~~相对讨论空间更自由，不失为一种圈内交流的好方法）
 > ——[issue#5](https://github.com/CR-019/datapack-index/issues/5)
 
-## 往期《Feature》
+<h2 class="custom-h2">阅读《Feature》</h2> 
+<ColorLine />
 
-🌟[2025.05](/feature/index/202505.md) **最新！**\
-　 [2025.04](/feature/index/202504.md)
+### 🌟最新
+<JournalIndex
+    cover="./cover/202505/202505.png"
+    :coverLink="'./index/202505'"
+/>
 
-## 向《Feature投稿》
+---
+### 往期
+<JournalIndex
+    cover="./cover/202504/202504.png"
+    :coverLink="'./index/202504'"
+/>
+
+<h2 class="custom-h2">向《Feature投稿》</h2> 
+<ColorLine />
 
 ### 我们希望得到的投稿类型
 

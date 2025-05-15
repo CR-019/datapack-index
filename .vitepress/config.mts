@@ -18,7 +18,7 @@ export default defineConfig({
     outline:[2,6],
     nav: [
       { text: '文档', link: '/index/绪论' },
-      { text: '《Feature》', link: '/feature/_规则' },
+      { text: '《Feature》', link: '/feature/_index' },
       { text: 'Wiki', link: 'https://zh.minecraft.wiki/' }
     ],
     search: {

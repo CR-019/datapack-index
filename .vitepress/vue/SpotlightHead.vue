@@ -1,19 +1,11 @@
 <template>
     <div class="article-container">
-        <!--头图-->
-        <div
-            class="header-image-wrapper"
-            v-show="!hasError"
-        >
-            <img
-                :src="cover"
-                alt="是封面"
-                class="header-image"
-                @error="hasError = true"
-            >
+       <!--头图，仅当cover不是false时显示-->
+       <div v-if="cover !== false" class="header-image-wrapper">
+            <img :src="cover" alt="是封面" class="header-image">
             <div class="gradient-overlay"></div>
         </div>
-        <div v-show="hasError" class="spacer"></div>
+        <div v-else class="spacer"></div>
         <!-- 顶部粗横线 -->
         <div class="featured-color-line">
             <div class="color-segment orange"></div>
@@ -106,8 +98,8 @@ export default {
             type: String
         },
         cover: {
-            type: String,
-            default: ""
+            type: [String,Boolean],
+            default: false
         },
         type: {
             type: Number,
