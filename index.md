@@ -36,13 +36,13 @@ features:
 ---
 <script setup>
 import RandomParagraph from './.vitepress/vue/random.vue'
-import colorLine from './.vitepress/vue/colorLine.vue'
+import colorLine from './.vitepress/vue/ColorLine.vue'
 import { useData } from 'vitepress'
 const { isDark } = useData()
 const { frontmatter } = useData()
 </script>
 
-<colorLine :height="4"/>
+<ColorLine :height="4"/>
 
 > <RandomParagraph />
 
@@ -52,7 +52,7 @@ const { frontmatter } = useData()
 <div class="spacer"></div>
 
 ## 🍀欢迎
-<colorLine />
+<ColorLine />
 欢迎来到香草图书馆。  
 “香草”，即 `Vanilla` 。本站点是原版模组相关资源的索引站点，力求为Minecraft Java版的原版模组（即数据包+资源包）开发，提供尽量全面的资源索引。
 本站原名“原版模组体系结构”，由同名文章修改增补而来。
@@ -60,7 +60,7 @@ const { frontmatter } = useData()
 读者可根据自身喜好和需要，从本站给出的链接中选择合适的资源学习和使用。
 
 ## 📚资源相关
-<colorLine />
+<ColorLine />
 
 ### MCBBS资源
 由于MCBBS关站，许多其中的资源丢失了。
@@ -82,7 +82,7 @@ const { frontmatter } = useData()
 - 当然，我们依然推荐作者在本地保留存档。
 
 ## ☎️联系我们
-<colorLine />
+<ColorLine />
 📧**意见箱**（新增链接条目/文档修改建议）：
 [Github issues](https://github.com/CR-019/datapack-index/issues)
 
@@ -111,7 +111,7 @@ const { frontmatter } = useData()
 
 
 ## 水吧
-<colorLine />
+<ColorLine />
 <p class="float-right-image">
   <img src="/103.png" alt="描述图片的文字">
 </p>
