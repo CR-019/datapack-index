@@ -157,12 +157,8 @@
   top: -60px; 
 }
 
-.custom-h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  color: inherit;
+.h2-no-border :is(h2) {
+  border-top: none; /* 移除上方的分隔线 */
 }
 
 /* NBT树状图 */

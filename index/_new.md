@@ -5,9 +5,10 @@ lastUpdated: true
 # 最近更新
 
 ### 《Feature》
-- [2025.04](/feature/index/202504.md)
+- [2025.05](/feature/index/202505.md)
 
 ### 文章/视频
+- [[水]用展示实体与材质来制作像素特效](https://www.bilibili.com/video/BV1k6EiziERr/)
 - [【命令教程】如何使用展示实体？~没人说玩Minecraft还要学数学啊~](https://www.bilibili.com/video/BV1hC5YzAE5w)
 - [这位客官，您的Deepseek风味铜格栅炒饭好了【复刻计划·番外篇】](https://www.bilibili.com/video/BV1eBP4eiE4G)
 - [一个视频搞懂Json, titleraw, tellraw语法](https://www.bilibili.com/video/BV14RFeePEJp/)

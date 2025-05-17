@@ -3,6 +3,7 @@ outline: false
 aside: false
 prev: false
 next: false
+pageClass: h2-no-border
 ---
 
 <script setup>
@@ -17,7 +18,7 @@ next: false
 
 > 香草图书馆旗下数据包期刊（不是
 
-<h2 class="custom-h2">关于《Feature》</h2>
+## 关于《Feature》
 <ColorLine />
 《Feature》是由香草图书馆团队主办的，面向原版模组（数据包+资源包）开发的短文收集与展示的平台，用于开发者之间的交流，每月更新。
 
@@ -26,7 +27,7 @@ next: false
 > 短文成型快，~~周刊~~相对讨论空间更自由，不失为一种圈内交流的好方法）
 > ——[issue#5](https://github.com/CR-019/datapack-index/issues/5)
 
-<h2 class="custom-h2">阅读《Feature》</h2> 
+## 阅读《Feature》
 <ColorLine />
 
 ### 🌟最新
@@ -42,7 +43,7 @@ next: false
     :coverLink="'./index/202504'"
 />
 
-<h2 class="custom-h2">向《Feature投稿》</h2> 
+## 向《Feature投稿》 
 <ColorLine />
 
 ### 我们希望得到的投稿类型

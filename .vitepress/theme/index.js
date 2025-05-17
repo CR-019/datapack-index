@@ -1,7 +1,6 @@
 // https://vitepress.dev/guide/custom-theme
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import ExtraFeatures from './ExtraFeatures.vue'
 import './style.css'
 import Giscus from '@giscus/vue'
 import 'katex/dist/katex.min.css'
@@ -17,6 +16,5 @@ export default {
   enhanceApp({ app, router, siteData }) {
     // 注册全局组件
     app.component('GiscusComment', Giscus)
-    app.component('ExtraFeatures', ExtraFeatures)
   }
 }

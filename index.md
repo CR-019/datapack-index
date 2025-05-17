@@ -1,6 +1,7 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+pageClass: h2-no-border
 
 hero:
   name: "香草图书馆"
@@ -34,24 +35,31 @@ features:
     link: /index/参考
 ---
 <script setup>
-import RandomParagraph from './.vitepress/theme/random.vue'
+import RandomParagraph from './.vitepress/vue/random.vue'
+import colorLine from './.vitepress/vue/colorLine.vue'
 import { useData } from 'vitepress'
 const { isDark } = useData()
 const { frontmatter } = useData()
 </script>
 
-
+<colorLine :height="4"/>
 > <RandomParagraph />
 
 
+
+
+<div class="spacer"></div>
+
 ## 🍀欢迎
-欢迎来到香草图书馆。
+<colorLine />
+欢迎来到香草图书馆。  
 “香草”，即 `Vanilla` 。本站点是原版模组相关资源的索引站点，力求为Minecraft Java版的原版模组（即数据包+资源包）开发，提供尽量全面的资源索引。
 本站原名“原版模组体系结构”，由同名文章修改增补而来。
 我们的愿景是收集尽可能多尽可能全面的教程资源，如同图书馆一样，包罗万象。
 读者可根据自身喜好和需要，从本站给出的链接中选择合适的资源学习和使用。
 
 ## 📚资源相关
+<colorLine />
 
 ### MCBBS资源
 由于MCBBS关站，许多其中的资源丢失了。
@@ -73,6 +81,7 @@ const { frontmatter } = useData()
 - 当然，我们依然推荐作者在本地保留存档。
 
 ## ☎️联系我们
+<colorLine />
 📧**意见箱**（新增链接条目/文档修改建议）：
 [Github issues](https://github.com/CR-019/datapack-index/issues)
 
@@ -101,13 +110,14 @@ const { frontmatter } = useData()
 
 
 ## 水吧
+<colorLine />
 <p class="float-right-image">
   <img src="/103.png" alt="描述图片的文字">
 </p>
 
 
 香草图书馆的水吧开业啦！
-由[Giscus](https://giscus.app/zh-CN)驱动，现在本站正式支持评论功能。
-逛累了，不妨去水吧转转吧。
-请问您要来点Java吗？
+由[Giscus](https://giscus.app/zh-CN)驱动，现在本站正式支持评论功能。  
+逛累了，不妨去水吧转转吧。  
+请问您要来点Java吗？  
 [前往水吧->](/index/水吧.md)
