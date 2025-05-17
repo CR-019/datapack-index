@@ -36,7 +36,7 @@ features:
 ---
 <script setup>
 import RandomParagraph from './.vitepress/vue/random.vue'
-import colorLine from './.vitepress/vue/ColorLine.vue'
+import ColorLine from '/.vitepress/vue/ColorLine.vue'
 import { useData } from 'vitepress'
 const { isDark } = useData()
 const { frontmatter } = useData()
