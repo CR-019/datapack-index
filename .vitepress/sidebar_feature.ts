@@ -18,6 +18,7 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
   {
     items: [
       { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
       { text: '返回主站', link: '/index/绪论' }
     ]
   },
