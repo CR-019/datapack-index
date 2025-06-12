@@ -1,0 +1,131 @@
+{
+    "name": "GeneralArrowData",
+    "type": [],
+    "description": "箭矢",
+    "children": [
+        {
+            "name": "crit",
+            "type": [
+                13
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "damage",
+            "type": [
+                6
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "inBlockState",
+            "type": [
+                13
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "inGround",
+            "type": [
+                13
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "item",
+            "type": [
+                13
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "life",
+            "type": [
+                2
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "pickup",
+            "type": [
+                1
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "pierceLevel",
+            "type": [
+                1
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "shake",
+            "type": [
+                1
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "soundEvent",
+            "type": [
+                8
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "weapon",
+            "type": [
+                13
+            ],
+            "description": "",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        }
+    ],
+    "templateName": "",
+    "extends": [],
+    "nullable": false
+}

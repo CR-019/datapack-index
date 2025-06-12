@@ -1,4 +1,5 @@
 export class NBT {
+    public namespace = ''
     public name = '';
     public type: NBTType[] = [];
     public description = '';
@@ -12,6 +13,22 @@ export class NBT {
     public templateName = '';  
     public extends: Set<string> = new Set();
     public nullable = false
+    public gap = 0; // 用于计算NBT的偏移量
+    public segs: string[] = []
+    public isTemplate = false
+    public isRoot = false;
+
+    public static baseType = [
+        'byte', 'short', 'int', 'long', 'float', 'double', 'ByteArray', 'string',
+        'list', 'compound', 'IntArray', 'LongArray', 'bool'
+    ]
+
+    public static newInfo(str: string): NBT {
+        const info = new NBT()
+        info.type = [NBTType.Info];
+        info.name = str;
+        return info;
+    }
 
     public static typeFromString(type: string): NBTType {
         switch (type) {
@@ -27,12 +44,64 @@ export class NBT {
             case 'string': return NBTType.String;
             case 'list': return NBTType.List;
             case 'compound': return NBTType.Compound;
+            case 'bool': return NBTType.Boolean;
             default: return NBTType.Other;
         }
     }
 
+    getIcon(): string[] {
+        var icon: string[] = [];
+        this.type.forEach(t => {
+            switch (t) {
+                case NBTType.Byte:
+                    icon.push('./refs/nbt_sprites/byte.svg');
+                    break;
+                case NBTType.Short:
+                    icon.push('./refs/nbt_sprites/short.svg');
+                    break;
+                case NBTType.Int:
+                    icon.push('./refs/nbt_sprites/int.svg');
+                    break;
+                case NBTType.Long:
+                    icon.push('./refs/nbt_sprites/long.svg');
+                    break;
+                case NBTType.Float:
+                    icon.push('./refs/nbt_sprites/float.svg');
+                    break;
+                case NBTType.Double:
+                    icon.push('./refs/nbt_sprites/double.svg');
+                    break;
+                case NBTType.ByteArray:
+                    icon.push('./refs/nbt_sprites/byte_array.svg');
+                    break;
+                case NBTType.String:
+                    icon.push('./refs/nbt_sprites/string.svg');
+                    break;
+                case NBTType.List:
+                    icon.push('./refs/nbt_sprites/homolist.svg');
+                    break;
+                case NBTType.Compound:
+                    icon.push('./refs/nbt_sprites/object.svg');
+                    break;
+                case NBTType.IntArray:
+                    icon.push('./refs/nbt_sprites/int_array.svg');
+                    break;
+                case NBTType.LongArray:
+                    icon.push('./refs/nbt_sprites/long_array.svg');
+                    break;
+                case NBTType.Boolean:
+                    icon.push('./refs/nbt_sprites/bool.svg');
+                    break;
+                default:
+                    icon.push('./refs/nbt_sprites/any.svg');
+                    break;
+            }
+        })
+        return icon;
+    }
+
     // 序列化方法
-    toJSON() {
+    toJSON(): any {
         return {
             name: this.name,
             type: this.type,
@@ -57,6 +126,7 @@ export class NBT {
         nbt.extends = new Set(data.extends || []);
         nbt.nullable = Boolean(data.nullable);
         
+        nbt.isTemplate = true
         return nbt;
     }
 }
@@ -75,5 +145,7 @@ export enum NBTType {
     Compound = 10,
     IntArray = 11,
     LongArray = 12,
-    Other = 13
+    Other = 13,
+    Boolean = 14,
+    Info = 15,
 }

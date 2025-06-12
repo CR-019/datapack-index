@@ -1,0 +1,26 @@
+@MCFPPEntity
+data GeneralArrowData{
+    crit as bool;
+
+    damage as double;
+
+    inBlockState as BlockState;
+
+    inGround as bool;
+
+    item as ItemData;
+
+    life as short;
+
+    pickup as byte;
+
+    @Name<"PierceLevel">
+    pierceLevel as byte;
+
+    shake as byte;
+
+    @Name<"SoundEvent">
+    soundEvent as string;
+
+    weapon as ItemData;
+}

@@ -4,15 +4,21 @@
     "katex": "^0.16.22",
     "markdown-it-footnote": "3.0.3",
     "markdown-it-mathjax3": "^4.3.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "vitepress": "^1.5.0"
   },
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "antlr4ts": "antlr4ts -visitor .vitepress/antlr/*.g4"
   },
   "dependencies": {
     "@giscus/vue": "^3.1.1",
+    "antlr4ts": "0.5.0-alpha.4",
+    "antlr4ts-cli": "0.5.0-alpha.4",
     "vite-plugin-imagemin": "^0.6.1"
   }
 }

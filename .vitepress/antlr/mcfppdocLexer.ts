@@ -1,0 +1,170 @@
+// Generated from .vitepress\antlr\mcfppdoc.g4 by ANTLR 4.9.0-SNAPSHOT
+
+
+import { ATN } from "antlr4ts/atn/ATN";
+import { ATNDeserializer } from "antlr4ts/atn/ATNDeserializer";
+import { CharStream } from "antlr4ts/CharStream";
+import { Lexer } from "antlr4ts/Lexer";
+import { LexerATNSimulator } from "antlr4ts/atn/LexerATNSimulator";
+import { NotNull } from "antlr4ts/Decorators";
+import { Override } from "antlr4ts/Decorators";
+import { RuleContext } from "antlr4ts/RuleContext";
+import { Vocabulary } from "antlr4ts/Vocabulary";
+import { VocabularyImpl } from "antlr4ts/VocabularyImpl";
+
+import * as Utils from "antlr4ts/misc/Utils";
+
+
+export class mcfppdocLexer extends Lexer {
+	public static readonly NAME = 1;
+	public static readonly NEWLINE = 2;
+	public static readonly SPACE = 3;
+	public static readonly TEXT_CONTENT = 4;
+	public static readonly AT = 5;
+	public static readonly STAR = 6;
+	public static readonly SLASH = 7;
+	public static readonly MCFPPDOC_START = 8;
+	public static readonly MCFPPDOC_END = 9;
+	public static readonly INLINE_TAG_START = 10;
+	public static readonly BRACE_OPEN = 11;
+	public static readonly BRACE_CLOSE = 12;
+
+	// tslint:disable:no-trailing-whitespace
+	public static readonly channelNames: string[] = [
+		"DEFAULT_TOKEN_CHANNEL", "HIDDEN",
+	];
+
+	// tslint:disable:no-trailing-whitespace
+	public static readonly modeNames: string[] = [
+		"DEFAULT_MODE",
+	];
+
+	public static readonly ruleNames: string[] = [
+		"NAME", "NEWLINE", "SPACE", "TEXT_CONTENT", "AT", "STAR", "SLASH", "MCFPPDOC_START", 
+		"MCFPPDOC_END", "INLINE_TAG_START", "BRACE_OPEN", "BRACE_CLOSE",
+	];
+
+	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
+		undefined, undefined, undefined, undefined, undefined, "'@'", "'*'", "'/'", 
+		undefined, undefined, "'{@'", "'{'", "'}'",
+	];
+	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
+		undefined, "NAME", "NEWLINE", "SPACE", "TEXT_CONTENT", "AT", "STAR", "SLASH", 
+		"MCFPPDOC_START", "MCFPPDOC_END", "INLINE_TAG_START", "BRACE_OPEN", "BRACE_CLOSE",
+	];
+	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(mcfppdocLexer._LITERAL_NAMES, mcfppdocLexer._SYMBOLIC_NAMES, []);
+
+	// @Override
+	// @NotNull
+	public get vocabulary(): Vocabulary {
+		return mcfppdocLexer.VOCABULARY;
+	}
+	// tslint:enable:no-trailing-whitespace
+
+
+	constructor(input: CharStream) {
+		super(input);
+		this._interp = new LexerATNSimulator(mcfppdocLexer._ATN, this);
+	}
+
+	// @Override
+	public get grammarFileName(): string { return "mcfppdoc.g4"; }
+
+	// @Override
+	public get ruleNames(): string[] { return mcfppdocLexer.ruleNames; }
+
+	// @Override
+	public get serializedATN(): string { return mcfppdocLexer._serializedATN; }
+
+	// @Override
+	public get channelNames(): string[] { return mcfppdocLexer.channelNames; }
+
+	// @Override
+	public get modeNames(): string[] { return mcfppdocLexer.modeNames; }
+
+	// @Override
+	public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
+		switch (ruleIndex) {
+		case 1:
+			return this.NEWLINE_sempred(_localctx, predIndex);
+		}
+		return true;
+	}
+	private NEWLINE_sempred(_localctx: RuleContext, predIndex: number): boolean {
+		switch (predIndex) {
+		case 0:
+			return _input.LA(1) != '/';
+
+		case 1:
+			return _input.LA(1) != '/';
+
+		case 2:
+			return _input.LA(1) != '/';
+		}
+		return true;
+	}
+
+	public static readonly _serializedATN: string =
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x02\x0Ex\b\x01\x04" +
+		"\x02\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04" +
+		"\x07\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r" +
+		"\x03\x02\x06\x02\x1D\n\x02\r\x02\x0E\x02\x1E\x03\x03\x03\x03\x05\x03#" +
+		"\n\x03\x03\x03\x03\x03\x03\x03\x06\x03(\n\x03\r\x03\x0E\x03)\x05\x03," +
+		"\n\x03\x03\x03\x03\x03\x03\x03\x03\x03\x05\x032\n\x03\x03\x03\x03\x03" +
+		"\x03\x03\x06\x037\n\x03\r\x03\x0E\x038\x05\x03;\n\x03\x03\x03\x03\x03" +
+		"\x05\x03?\n\x03\x03\x03\x03\x03\x03\x03\x06\x03D\n\x03\r\x03\x0E\x03E" +
+		"\x05\x03H\n\x03\x05\x03J\n\x03\x03\x04\x06\x04M\n\x04\r\x04\x0E\x04N\x03" +
+		"\x05\x06\x05R\n\x05\r\x05\x0E\x05S\x03\x06\x03\x06\x03\x07\x03\x07\x03" +
+		"\b\x03\b\x03\t\x03\t\x03\t\x03\t\x03\t\x07\ta\n\t\f\t\x0E\td\v\t\x03\n" +
+		"\x05\ng\n\n\x03\n\x07\nj\n\n\f\n\x0E\nm\v\n\x03\n\x03\n\x03\n\x03\v\x03" +
+		"\v\x03\v\x03\f\x03\f\x03\r\x03\r\x02\x02\x02\x0E\x03\x02\x03\x05\x02\x04" +
+		"\x07\x02\x05\t\x02\x06\v\x02\x07\r\x02\b\x0F\x02\t\x11\x02\n\x13\x02\v" +
+		"\x15\x02\f\x17\x02\r\x19\x02\x0E\x03\x02\x05\x04\x02C\\c|\x04\x02\v\v" +
+		"\"\"\n\x02\v\f\x0F\x0F\"\",,11B\\c}\x7F\x7F\x02\x88\x02\x03\x03\x02\x02" +
+		"\x02\x02\x05\x03\x02\x02\x02\x02\x07\x03\x02\x02\x02\x02\t\x03\x02\x02" +
+		"\x02\x02\v\x03\x02\x02\x02\x02\r\x03\x02\x02\x02\x02\x0F\x03\x02\x02\x02" +
+		"\x02\x11\x03\x02\x02\x02\x02\x13\x03\x02\x02\x02\x02\x15\x03\x02\x02\x02" +
+		"\x02\x17\x03\x02\x02\x02\x02\x19\x03\x02\x02\x02\x03\x1C\x03\x02\x02\x02" +
+		"\x05I\x03\x02\x02\x02\x07L\x03\x02\x02\x02\tQ\x03\x02\x02\x02\vU\x03\x02" +
+		"\x02\x02\rW\x03\x02\x02\x02\x0FY\x03\x02\x02\x02\x11[\x03\x02\x02\x02" +
+		"\x13f\x03\x02\x02\x02\x15q\x03\x02\x02\x02\x17t\x03\x02\x02\x02\x19v\x03" +
+		"\x02\x02\x02\x1B\x1D\t\x02\x02\x02\x1C\x1B\x03\x02\x02\x02\x1D\x1E\x03" +
+		"\x02\x02\x02\x1E\x1C\x03\x02\x02\x02\x1E\x1F\x03\x02\x02\x02\x1F\x04\x03" +
+		"\x02\x02\x02 +\x07\f\x02\x02!#\x05\x07\x04\x02\"!\x03\x02\x02\x02\"#\x03" +
+		"\x02\x02\x02#\'\x03\x02\x02\x02$%\x05\r\x07\x02%&\x06\x03\x02\x02&(\x03" +
+		"\x02\x02\x02\'$\x03\x02\x02\x02()\x03\x02\x02\x02)\'\x03\x02\x02\x02)" +
+		"*\x03\x02\x02\x02*,\x03\x02\x02\x02+\"\x03\x02\x02\x02+,\x03\x02\x02\x02" +
+		",J\x03\x02\x02\x02-.\x07\x0F\x02\x02./\x07\f\x02\x02/:\x03\x02\x02\x02" +
+		"02\x05\x07\x04\x0210\x03\x02\x02\x0212\x03\x02\x02\x0226\x03\x02\x02\x02" +
+		"34\x05\r\x07\x0245\x06\x03\x03\x0257\x03\x02\x02\x0263\x03\x02\x02\x02" +
+		"78\x03\x02\x02\x0286\x03\x02\x02\x0289\x03\x02\x02\x029;\x03\x02\x02\x02" +
+		":1\x03\x02\x02\x02:;\x03\x02\x02\x02;J\x03\x02\x02\x02<G\x07\x0F\x02\x02" +
+		"=?\x05\x07\x04\x02>=\x03\x02\x02\x02>?\x03\x02\x02\x02?C\x03\x02\x02\x02" +
+		"@A\x05\r\x07\x02AB\x06\x03\x04\x02BD\x03\x02\x02\x02C@\x03\x02\x02\x02" +
+		"DE\x03\x02\x02\x02EC\x03\x02\x02\x02EF\x03\x02\x02\x02FH\x03\x02\x02\x02" +
+		"G>\x03\x02\x02\x02GH\x03\x02\x02\x02HJ\x03\x02\x02\x02I \x03\x02\x02\x02" +
+		"I-\x03\x02\x02\x02I<\x03\x02\x02\x02J\x06\x03\x02\x02\x02KM\t\x03\x02" +
+		"\x02LK\x03\x02\x02\x02MN\x03\x02\x02\x02NL\x03\x02\x02\x02NO\x03\x02\x02" +
+		"\x02O\b\x03\x02\x02\x02PR\n\x04\x02\x02QP\x03\x02\x02\x02RS\x03\x02\x02" +
+		"\x02SQ\x03\x02\x02\x02ST\x03\x02\x02\x02T\n\x03\x02\x02\x02UV\x07B\x02" +
+		"\x02V\f\x03\x02\x02\x02WX\x07,\x02\x02X\x0E\x03\x02\x02\x02YZ\x071\x02" +
+		"\x02Z\x10\x03\x02\x02\x02[\\\x071\x02\x02\\]\x07,\x02\x02]^\x07,\x02\x02" +
+		"^b\x03\x02\x02\x02_a\x05\r\x07\x02`_\x03\x02\x02\x02ad\x03\x02\x02\x02" +
+		"b`\x03\x02\x02\x02bc\x03\x02\x02\x02c\x12\x03\x02\x02\x02db\x03\x02\x02" +
+		"\x02eg\x05\x07\x04\x02fe\x03\x02\x02\x02fg\x03\x02\x02\x02gk\x03\x02\x02" +
+		"\x02hj\x05\r\x07\x02ih\x03\x02\x02\x02jm\x03\x02\x02\x02ki\x03\x02\x02" +
+		"\x02kl\x03\x02\x02\x02ln\x03\x02\x02\x02mk\x03\x02\x02\x02no\x07,\x02" +
+		"\x02op\x071\x02\x02p\x14\x03\x02\x02\x02qr\x07}\x02\x02rs\x07B\x02\x02" +
+		"s\x16\x03\x02\x02\x02tu\x07}\x02\x02u\x18\x03\x02\x02\x02vw\x07\x7F\x02" +
+		"\x02w\x1A\x03\x02\x02\x02\x13\x02\x1E\")+18:>EGINSbfk\x02";
+	public static __ATN: ATN;
+	public static get _ATN(): ATN {
+		if (!mcfppdocLexer.__ATN) {
+			mcfppdocLexer.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(mcfppdocLexer._serializedATN));
+		}
+
+		return mcfppdocLexer.__ATN;
+	}
+
+}
+
