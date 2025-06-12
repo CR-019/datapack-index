@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="teen">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/public/teen/搬箱子.zip!/" />
+      <root url="jar://$PROJECT_DIR$/public/teen/data.zip!/" />
+      <root url="jar://$PROJECT_DIR$/public/teen/[1.17] 随机数生成  战利品表引用记分板.zip!/" />
+      <root url="jar://$PROJECT_DIR$/public/teen/【1.14-1.16.1】用彩色字给物品命名 _ 获取玩家头颅.zip!/" />
+      <root url="jar://$PROJECT_DIR$/public/teen/搬箱子re.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

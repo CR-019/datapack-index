@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Redstone-Base">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/public/spg/Redstone-Base.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
