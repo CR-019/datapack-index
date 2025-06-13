@@ -14,7 +14,7 @@
                 <img :src="icon"  alt="Icon"/>
             </span>
             <span v-if="!icons.length">
-                <img src="./refs/nbt_sprites/any.svg" alt="NBT Icon" />
+                <img src="/refs/nbt_sprites/any.svg" alt="NBT Icon" />
             </span>
             <strong>{{ nbt.name }}</strong>：
             <span class="fold-button" v-if="isTemplate && nbt.isRoot" @click="isFolded = !isFolded">
