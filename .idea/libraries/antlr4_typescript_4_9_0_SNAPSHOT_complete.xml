@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="antlr4-typescript-4.9.0-SNAPSHOT-complete">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/antlr4ts-cli/target/antlr4-typescript-4.9.0-SNAPSHOT-complete.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
