@@ -79,6 +79,7 @@ export default {
                 this.nbt = {
                     name: 'Error',
                     description: `Failed to compile NBT data: ${error.message}`,
+                    getIcon: () => [],
                     children: [],
                     gap: 0,
                 };
