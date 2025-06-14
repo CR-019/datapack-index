@@ -17,7 +17,7 @@ const NBTTemplateNode = defineAsyncComponent(() => import('./NBTTemplateNode.vue
                 <img :src="icon" alt="Icon" />
             </span>
             <span v-if="!icons.length">
-                <img src="./refs/nbt_sprites/any.svg" alt="NBT Icon" />
+                <img src="/refs/nbt_sprites/any.svg" alt="NBT Icon" />
             </span>
             <strong>{{ nbt.name }}</strong>
             <span v-if="nbt.description !== '' ">：</span>
