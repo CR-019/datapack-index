@@ -1,4 +1,16 @@
-# 使用对话框制作2D小游戏
+<script setup>
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
+</script>
+
+<FeatureHead
+    title = 使用对话框制作2D小游戏
+    authorName = CR_019
+    avatarUrl = '../../_authors/cr_019.jpg'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/85292644' }
+    ]"
+    cover='../_assets/dust_8.png'
+/>
 
 ## 引言
 在25w20a中，mojang引入了对话框的定义，允许玩家自定义类似暂停界面的对话框。因此我就想到，是否可以用对话框做2D小游戏，类似推箱子一类的，并且进行了一些实践。下面是我的研究成果。

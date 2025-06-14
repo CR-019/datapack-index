@@ -1,495 +1,204 @@
-<!-- markdownlint-disable MD033 MD041 -->
 <script setup>
-    import FeaturedHead from '/.vitepress/vue/FeaturedHead.vue';
-    import NBTTree from '/.vitepress/vue/NBTTree.vue';
-    import {config} from '/.vitepress/MCFPPNBTParser.ts';
-
-    config.namespace = "floating_ui"
+    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
 </script>
 
-<FeaturedHead
-    title = '适用于Minecraft的前端框架——Floating UI'
-    authorName = Alumopper
-    avatarUrl = '../../_authors/alumopper.jpg'
+<FeatureHead
+    title = '对 Minecraft 图标资产库资源包的可行性尝试'
+    authorName = Sheep-realms
+    avatarUrl = '../../_authors/sheep-realms.jpg'
     :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
-        { name: 'GitHub', url: 'https://github.com/Alumopper' }
+        { name: 'BiliBili', url: 'https://space.bilibili.com/43881503' },
+		{ name: 'GitHub', url: 'https://github.com/sheep-realms' }
     ]"
-    resourceLink = 'https://github.com/Alumopper/Floating-UI'
-    cover='../_assets/0.png'
+    resourceLink = 'https://github.com/sheep-realms/Matrica-Design-Icons'
 />
 
-展示实体是在1.19.4正式引入的特性，可以用来展示方块物品文字什么的，某种意义其作为UI开发的潜力基本上是可以和容器GUI媲美，甚至说在灵活性可以超越容器UI。事实上，也有很多数据包或者地图实现了用展示实体制作的UI，但是，令人意外的是，直至目前，都没有支持动态解析的展示实体UI库出现。于是，Floating UI就诞生了~
 
-这个UI库一开始是隶属于一个更大型的项目，其名字*Floating*也是来源于这个项目。但是呢，最后我把它解耦出来，独立作为了一个项目，就叫做Floating UI啦。
+不知道您有没有想过，各大网站、APP 中各种精美的图标都是哪里来的？一些大公司通常会自己按需设计一套图标资产库，毕竟自己设计的东西才是最适合自己的。而独立开发者、小型项目则会使用公共图标资产库。
 
-Floating UI允许开发者使用SNBT格式定义并渲染UI，并提供了事件系统用于读取用户的点击等输入操作。同时，还支持开发者定义自定义用户控件，以及自动布局，简化了UI的绘制。
+市面上有大量这样的图标资产库可供使用，对于开发者来说，想要使用这些图标资产库，只需将其导入到自己的项目里即可使用。这些图标通常是单色的，开发者可以随意为其填充需要的颜色。
 
-::: tip 前置库提示
+不过，图标库里的图标通常多达上千甚至上万个，如何在其中找到需要的图标呢？为了解决这个问题，图标库通常会提供一个查询工具，帮助用户快速找到所需的图标。
 
-Floating UI使用了[小豆的数学库](https://github.com/xiaodou8593/math2.0)和[小豆的事件队列](https://github.com/xiaodou8593/timelist)，使用小豆的数学库进行精准的浮点计算和交点计算，使用小豆的事件队列托管事件的定时触发效果。
+![Material Design Icons 的一个图标库查询网页](image/0-1.png)
 
-:::
+有一天，笔者突然想到了一个点子：我们可不可以设计一套可在 Minecraft 中使用的图标资产库？为此，笔者在各大资源网站简单搜索了一下，没有找到类似产品。既然也许没有人这么做过，那我们就来自己做一个吧！
 
-## 基本使用
 
-::: warning 提示
+## 实现方案
 
-在使用Floating UI之前，请手动调用`function floating_ui:load`对浮空UI库进行初始化！
+从 Minecraft Java 版 1.16 快照 20w17a 开始，文本组件支持指定字体，这使得创作一个图标资产库并制作成一个易用的资源包变得更加便捷。创作者可以将图标以文本的形式插入到任何有文本的地方。
 
-:::
+但这么做必然需要替换一些字符，有哪些字符可供我们替换呢？
 
-如果要创建一个UI，最简单的方式是使用`floating_ui:.player_new_ui`函数。这个函数将会读取预先输入好的布局数据，在执行者前方生成一个面向玩家的UI界面。
+首先不能替换那些我们有可能会用到的字符，无论它是生僻字还是稀奇古怪的火星文，我们要尽可能不破坏人类有可能使用的字符。虽然一般使用默认字体不会有什么问题，但别忘了 Minecraft 有着一项无障碍功能 —— 讲述人。讲述人会将被用作图标的字符读出，这显然不合适。
 
-```mcfunction
-# 写入UI布局数据
-data modify floating_ui:input data set value {\
-    "type":"panel",\
-    "size":[5f,5f],\
-    "child":[\
-        {\
-            "type":"button",\
-            "y":0.3,\
-            "size":[2.5f,2.5f],\
-            "item":{"id":"apple"}\
-        }\
-    ]\
-}
+笔者首先想到了 Unicode 扩展平面的私人使用区（A区），也就是 `E0000` 至 `EFFFF`。但很快就遇到了一个问题，Minecraft 不支持以类似于 `\u{e0000}` 格式的转义符表示基本平面以外的字符，而是要将其转换为两个码元。虽然转换过程不算复杂，但笔者认为没必要给自己找不必要的麻烦。
 
-# 显示UI
-function floating_ui:.player_new_ui
-```
+好在 Unicode 基本多文种平面内还有一个私用区，也就是 `E000` 至 `F8FF`。虽然少了点，但我们可以定义多个字体，所以不需要太担心容量的问题。
 
-::: tip 提示
+> 事实上，市面上的很多图标库都会将使用字体替换私用区字符作为其中一种导入方案。您也许会在某次网络不通畅时，看到过网页上本应显示图标的位置出现了一个方框或是乱码。
 
-如果你是用数据包中的函数运行的，可以使用`\`换行写布局数据以提高布局数据的可读性。
+于是，通过创建一个字体定义 JSON 和一个 16 × 16 的字符图标矩阵图，我们就能完成图标与文字的映射：
 
-:::
+::: details 字体定义 JSON
 
-在调用这个函数以后，在`_`记分板的`return`记分项中会存放这个UI的根实体的唯一数字UID，可以在调用后将它保存下来以供后续操作。但是——，这个值会在每次调用的时候被覆盖，所以一定要及时保存哦。
-
-如果要关闭一个UI，有两种方法。第一种是直接调用`function floating_ui:.player_dispose_ui`函数，它将会关闭执行者玩家拥有的所有UI。
-
-或者，如果你想要清除某一个UI，之前保存下来的UID就有作用啦。假设要清除掉UID为0的UI，可以这样做：
-
-```mcfunction
-execute as @e[tag=floating_ui_root] \
-    if score @s floating_ui.uid matches 0 \
-    run function floating_ui:_dispose_ui
-```
-
-`floating_ui:.player_new_ui`创建的UI只能被创建它的玩家（执行此函数的玩家）交互。如果你要创建一个所有玩家都能交互的UI，可以使用`floating_ui:.world_new_ui`。但是要注意哦，这样创建的UI只能通过UID选中来删除，所以一定要记得保存好它的UID。
-
-## 数据结构
-
-### 控件
-
-Floating UI**布局数据**是由**UI控件数据**组成的。
-
-所有控件最基础的类是`basecontrol`，包含了一切控件会有的基本属性。此类为抽象类，不能实例化。
-
-<NBTTree code='
-@Desc<"所有非文本组件UI控件的基类">
-data basecontrol {
-    @Desc<"控件的类型"> type as string;
-    @Desc<"x坐标。原点是正中央"> x as double;
-    @Desc<"y坐标。原点是正中央"> y as double;
-    @Desc<"z坐标。原点是正中央"> z as double;
-    @Desc<"控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]"> rotation as list<any>;
-    @Desc<"控件的标签"> tag as list<string>;
-    @Desc<"控件的动画效果"> anims as list<Animation>;
-    @Desc<"控件的唯一字符串名，用于保存UUID"> name as string;
-    @Desc<"一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行"> move_in as string;
-    @Desc<"一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行"> move_out as string;
-}
-'/>
-
-`control`是大部分控件的父类，包含了基本的属性。此类为抽象类，不能实例化。在`control`以及后续所有的数据格式中，和UI坐标相关的数据都默认为以一个方块为单位长度。
-
-<NBTTree code='
-@Desc<"所有非文本组件UI控件的基类">
-data control: BaseControl {
-    @Desc<"对应物品展示实体的`item_display`"> display as string;
-    @Desc<"物品展示实体将要展示的物品"> item as Item;
-}
-'/>
-
-在创建控件以后，还可以访问到的额外数据有：
-
-<NBTTree code='
-@Desc<"所有非文本组件UI控件的基类">
-data control{
-    @Desc<"这个控件可能的所有子控件的UUID数组列表。"> x as list<any>;
-}
-'/>
-
-`textcontrol`是文本控件的父类，包含了一些基本的属性。由于文本展示实体难以储存自定义信息，因此textcontrol分为两个marker和文本展示实体两个实体组成，其中marker用于储存信息，同时也是UI界面节点的组成部分。可以通过marker访问到对应的文本展示实体。
-
-<NBTTree code='
-@Desc<"所有文本组件UI控件的基类">
-data textcontrol: BaseControl{
-    @Desc<"字体的大小。仅用于输入"> fontsize as float;
-}
-'/>
-
-在创建文本控件以后，还可以访问到的额外数据有：
-
-<NBTTree code='
-@Desc<"所有文本组件UI控件的基类">
-data textcontrol {
-    @Desc<"这个控件的父控件的UUID"> parent as UUID;
-    @Desc<"这个控件所对应的文本展示实体的UUID"> displayEntity as UUID;
-}
-'/>
-
-这两种基类控件都是**抽象的**，即不能直接创建并显示出来。下面的控件类型则都是可以被实例化的。
-
-`panel`是一个简单的容器控件，可以在其中放置其他的子空间。
-
-<NBTTree code='
-data panel: Control {
-    @Desc<"子控件"> child as list<BaseControl>;
-}
-'/>
-
-`button`是一个基础的按钮控件，可以被点击并触发点击事件。
-
-<NBTTree code='
-data button: Control {
-    @Desc<"事件。使用鼠标左键点击了此按钮时触发"> left_click as string;
-    @Desc<"事件。使用鼠标右键点击了此按钮时触发"> right_click as string;
-    @Desc<"按钮的内容，是一个控件。如果指定，则忽略`item`，而将按钮展示为指定的控件。"> content as BaseControl;
-}
-'/>
-
-`textblock`是一个基础的文本控件，可以展示指定的文本
-
-<NBTTree code='
-data textblock: TextControl {
-    @Name<"text">
-    @Desc<"要展示的字符串。如果为列表则代表多行文本"> tex as (string | list<string>);
-    @Desc<"文本对齐方式，有`left`，`right`，`center`三种。默认为`left`"> align as string;
-}
-'/>
-
-`list`是一个可以展示滚动一系列控件的容器控件。通过鼠标滚轮可以滚动展示其中的控件。
-
-<NBTTree code='
-@Name<"list">
-data l: Control {
-    @Desc<"子控件"> child as list<BaseControl>;
-}
-'/>
-
-`sprite`和`control`几乎没有新的控件数据，可以用于展示一个物品，通过修改材质可以用它展示一些图片。
-
-`stackpanel`是一个能自动布局的容器，可以以指定的布局方式自动排列内部的控件。
-
-<NBTTree code='
-data stackpanel: Control {
-    @Desc<"控件的布局方式。有right, left, center三种取值"> align as string;
-    @Desc<"子控件"> child as list<BaseControl>;
-    @Desc<"（TODO）子控件之间的间距"> gap as int;
-}
-'/>
-
-### 事件
-
-Floating UI的事件机制相当简单，在数据格式中标注了是事件的地方，你都可以写一个函数的命名空间ID或者函数标签上去，这样就可以在需要的时候执行指定的函数了。
-
-例如，我们可以这样为一个按钮添加点击事件：
-
-```json
+``` json
 {
-    "type":"button",
-    "left_click":"example:event/click"
-}
-```
-
-当我们点击按钮的时候，就会执行`example:event/click`函数中的内容。
-
-在函数中，函数的执行者是事件所在的控件，而不是玩家。如果要访问玩家，可以使用`floating_ui_owner`标签。
-
-### 动画
-
-既然是UI库，当然少不了动画的支持啦！借助Minecraft展示实体的插值功能，Floating UI提供了一些基本的动画功能。动画通常会在事件触发的时候执行。动画的数据格式如下所示：
-
-<NBTTree code='
-data animation {
-    @Desc<"动画的目标键值对"> value as list<data {
-        @Desc<"动画要修改的UI控件实体的NBT键"> key as string;
-        @Desc<"动画要修改的NBT目标值"> value as any;
-    }>;
-    @Desc<"动画持续时间"> time as float;
-    @Desc<"事件。动画开始的时候触发。"> start as string;
-    @Desc<"事件。动画结束的时候触发。"> end as string;
-}
-'/>
-
-例如，要让一个`panel`在鼠标进入的时候变大，可以这样写：
-
-```json
-{
-    "type":"panel",
-    "anim":{
-        "move_in":{
-            "value":[
-                {
-                    "key":"transformation.scale[]",
-                    "value":3f
-                }
-            ],
-            "time":3,
-            "start":"example:event/anim/start",
-            "end":"example:event/anim/end"
-        }
-    }
-}
-```
-
-不过，和其他的事件不一样的是，动画中的两个事件`start`和`end`不能用于触发动画哦。
-
-### 控件模板
-
-通常来说，一个好用的UI库一定不能缺少自定义控件，或者用户控件，或者模板，Floating UI当然也不例外。通过控件模板，可以把多个控件打包在一起，这样就不用重复编写相同的代码了。Floating UI中控件模板的定义和使用都非常的简单。
-
-<NBTTree code='
-data template {
-    @Desc<"模板打包的控件"> content as BaseControl;
-    @Desc<"一系列键值对，定义了模板中的参数。键名代表了参数名，而键值则表示从content出发的NBT相对路径"> params as compound;
-}
-'/>
-
-将这个NBT数据传入`floating_ui:data custom.<模板名>`来注册这个模板，随后，就可以直接在`type`字段里面使用这个模板名了，并传入参数了。
-
-下面是一个例子：
-
-```mcfunction
-data modify storage floating_ui:data custom.test set value {\
-    "content": {\
-        "type": "panel",\
-        "name": "test",\
-        "size": [5f, 5f],\
-        "child": [\
-            {\
-                "type": "textblock",\
-                "text": "default"\
-            }\
-        ]\
-    },\
-    "params": {\
-        "text": "child[0].text"\
-    }\
-}
-
-data modify storage floating_ui:input data set value {\
-    "type": "test",\
-    "params":[\
-        {"key":"text", "value":"Hello FloatingUI"}\
-    ],\
-}
-```
-
-## 漂浮的API（Floating UI API）
-
-### 控件的访问
-
-对控件的访问有两种方式，一种是使用一对一的name列表访问，一种是使用tag访问多个控件。
-
-#### name
-
-要使用name列表访问一个控件，需要在布局数据中添加对应的name属性。
-
-```json
-{
-    "type":"panel",
-    "size":[5f,5f],
-    "child":[
+    "providers": [
         {
-            "name":"apple_button",
-            "type":"button",
-            "y":-1,
-            "size":[1.2f,1.2f],
-            "item":{
-                "id":"apple"
-            }
-        }
-    ]
-}
-```
-
-之后，可以在选中根实体的时候，访问`data.names.<name>`这个nbt来获取对应控件的uuid。欸，如果有多个控件有相同的`name`怎么办呢，那自然是后来的覆盖前面的，只会访问到最后一个控件。
-
-#### tag
-
-当然，也可以设置`tag`属性，为控件添加一个标签，实现对多个控件的访问。
-
-```json
-{
-    "type":"panel",
-    "size":[5f,5f],
-    "child":[
-        {
-            "tag":"fruit_button",
-            "type":"button",
-            "y":-1,
-            "size":[1.2f,1.2f],
-            "item":{
-                "id":"apple"
+            "type": "space",
+            "advances": {
+                " ": 4
             }
         },
         {
-            "tag":"fruit_button",
-            "type":"button",
-            "y":1,
-            "size":[1.2f,1.2f],
-            "item":{
-                "id":"carrot"
-            }
+            "type": "bitmap",
+            "file": "minecraft:font/test.png",
+			"height": 8,
+            "ascent": 7,
+            "chars": [
+				"\ue000\ue001\ue002\ue003\ue004\ue005\ue006\ue007\ue008\ue009\ue00a\ue00b\ue00c\ue00d\ue00e\ue00f",
+				"\ue010\ue011\ue012\ue013\ue014\ue015\ue016\ue017\ue018\ue019\ue01a\ue01b\ue01c\ue01d\ue01e\ue01f",
+				"\ue020\ue021\ue022\ue023\ue024\ue025\ue026\ue027\ue028\ue029\ue02a\ue02b\ue02c\ue02d\ue02e\ue02f",
+				"\ue030\ue031\ue032\ue033\ue034\ue035\ue036\ue037\ue038\ue039\ue03a\ue03b\ue03c\ue03d\ue03e\ue03f",
+				"\ue040\ue041\ue042\ue043\ue044\ue045\ue046\ue047\ue048\ue049\ue04a\ue04b\ue04c\ue04d\ue04e\ue04f",
+				"\ue050\ue051\ue052\ue053\ue054\ue055\ue056\ue057\ue058\ue059\ue05a\ue05b\ue05c\ue05d\ue05e\ue05f",
+				"\ue060\ue061\ue062\ue063\ue064\ue065\ue066\ue067\ue068\ue069\ue06a\ue06b\ue06c\ue06d\ue06e\ue06f",
+				"\ue070\ue071\ue072\ue073\ue074\ue075\ue076\ue077\ue078\ue079\ue07a\ue07b\ue07c\ue07d\ue07e\ue07f",
+				"\ue080\ue081\ue082\ue083\ue084\ue085\ue086\ue087\ue088\ue089\ue08a\ue08b\ue08c\ue08d\ue08e\ue08f",
+				"\ue090\ue091\ue092\ue093\ue094\ue095\ue096\ue097\ue098\ue099\ue09a\ue09b\ue09c\ue09d\ue09e\ue09f",
+				"\ue0a0\ue0a1\ue0a2\ue0a3\ue0a4\ue0a5\ue0a6\ue0a7\ue0a8\ue0a9\ue0aa\ue0ab\ue0ac\ue0ad\ue0ae\ue0af",
+				"\ue0b0\ue0b1\ue0b2\ue0b3\ue0b4\ue0b5\ue0b6\ue0b7\ue0b8\ue0b9\ue0ba\ue0bb\ue0bc\ue0bd\ue0be\ue0bf",
+				"\ue0c0\ue0c1\ue0c2\ue0c3\ue0c4\ue0c5\ue0c6\ue0c7\ue0c8\ue0c9\ue0ca\ue0cb\ue0cc\ue0cd\ue0ce\ue0cf",
+				"\ue0d0\ue0d1\ue0d2\ue0d3\ue0d4\ue0d5\ue0d6\ue0d7\ue0d8\ue0d9\ue0da\ue0db\ue0dc\ue0dd\ue0de\ue0df",
+				"\ue0e0\ue0e1\ue0e2\ue0e3\ue0e4\ue0e5\ue0e6\ue0e7\ue0e8\ue0e9\ue0ea\ue0eb\ue0ec\ue0ed\ue0ee\ue0ef",
+				"\ue0f0\ue0f1\ue0f2\ue0f3\ue0f4\ue0f5\ue0f6\ue0f7\ue0f8\ue0f9\ue0fa\ue0fb\ue0fc\ue0fd\ue0fe\ue0ff"
+            ]
         }
     ]
 }
 ```
 
-之后，我们就可以使用目标选择器的tag选项来选中我们需要的控件了。
+顺带一提，这里添加了空格宽度的定义只是为了方便在两个图标之间添加空隙。
 
-```mcfunction
-execute as @e[tag=fruit_button] run ...
-```
+::: 
 
-### 漂浮的函数
+当然 16 × 16 的矩阵只是一个习惯，只要您愿意，把所有图标都塞一张图里也不是不行，但不建议这么做。
 
-Floating UI提供了一些便于调用的函数。以下函数全部略去`floating_ui`命名空间。标记为**非公开**的API可能会发生破坏性变动。
+至此，资源包部分的实现方案已确定可行。
 
-#### `.player_new_ui`
 
-按照floating_ui:input data中的布局数据，生成属于命令执行者的新UI。
+## 选择参考
 
-直接调用。
+笔者选用了 Material Design Icons 作为参考，主要是应为个人爱好。不过，将这款图标库转换成像素图标确实是一个不错的选择，原因如下：
 
-#### `.player_dispose_ui`
+- Material Design（译为质感设计、材质设计、材料设计）是一款经过十多年时间迭代的设计语言，其质量受到了广泛认可。
+- Material Design 有现成的设计指南可供参考。
+- Material Design 提供多种图标线条粗细版本，对于像素化来说非常有利。
+- Material Design 拒绝设计立体图标，这能大大降低像素化的难度。
 
-销毁这个玩家拥有的全部UI
+如果我们要从头设计一款图标库，意味着我们要从零开始创作一套设计语言。程序员有一句话：“不要重复造轮子！”
 
-直接调用
+综上所述，使用 Material Design Icons 作为参考是一个不错的选择。
 
-#### `_new_ui`（非公开）
+于是在为这款资源包命名的时候，笔者融合了 Material 和 Minecraft 两个单词，命名为 Matrica Design Icons。
 
-按照floating_ui:input data中的布局数据，生成属于\[tag=floating_ui_owner\]玩家的UI。
 
-需要`execute summon item_display run function this`进行调用
+## 绘制图标
 
-#### `_dispose_ui`
+现在，我们终于要开始画图标了！但是等一下，我们要画多大的图标呢？
 
-删除作为函数执行者的这个UI。
 
-需要`execute as UI实体 run function this`进行调用
+### 确定图标尺寸与基线位置
 
-#### `.player_tree`
+笔者首先想到了 16 × 16 —— 这毕竟是 Minecraft 绝大多数方块和物品所采用的尺寸，其表达力已经足够。
 
-输出这个玩家的UI的结构。
+然后要确定基线位置。等等，什么是基线？
 
-直接调用。
+好吧，我们立马补习一堂字体设计课。
 
-#### `util/_tree`（非公开）
+![文字基线示意图](image/3-1.png)
 
-在聊天栏输出作为函数执行者的UI的结构。
+简单来说，大多英文字母都会 “站” 在基线上，而有一部分英文字母会有一个下沉部（如 g j p q y）。
 
-需要`execute as UI实体 run function this`进行调用
+在 Minecraft 中，英文字符的高度是 8（不论有多少像素），基线的位置从上往下计算是 7。我们沿用了这项设置。
 
-## 使用XML<Badge type="warning" text="开发中特性" />
+![图标与汉字展示](image/3-2.png)
 
-觉得写NBT太麻烦了嘛？没关系，Floating UI的数据包中内置了mcdoc，可以实现自动补全。但是在命令中的换行还是很麻烦。怎么办呢，或许还可以使用json。Floating UI的数据包中也包含了一系列的json schema，只要写好json，复制过去，然后按住鼠标中键，就可以批量在末尾添加跨行符`\`啦。
+一般情况下，汉字也会 “站” 在基线上。但是 Minecraft 除外！这会导致一个问题：图标在汉字中看起来刚刚好，但在西文中看起来略有偏移。
 
-还是觉得麻烦嘛，没关系，我们还有终极武器——XML。
+![图标与西文展示](image/3-3.png)
 
-咱们直接上例子：
+实际上在基线位置支持浮点数之前，这已经是最佳位置，尝试其他位置只会偏移地更厉害。
 
-:::details
-```xml
-<?xml version="1.0" encoding="UTF-8" ?>
-<?xml version="1.0" encoding="UTF-8" ?>
-<UI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schema.xml">
-    <Window>
-        <Panel width="6" height="6">
-            <Panel.Item tex="11451000"/>
-            <Panel width="5" height="2.1" y="-2">
-                <Panel.Item tex="11451000"/>
-                <Panel.Anim>
-                    <Animation trigger="new"/>
-                </Panel.Anim>
-                <Sprite name="bg1" x="-2.5" width="0" height="2.1">
-                    <Sprite.Item tex="11451002" id="yellow_stained_glass_pane"/>
-                    <Sprite.Anim>
-                        <Animation trigger="new" time="3" end="floating:ui/1/anim/new_next">
-                            <Property key="transformation.translation[0]" value="0"/>
-                            <Property key="transformation.translation[1]" value="5"/>
-                        </Animation>
-                    </Sprite.Anim>
-                </Sprite>
-                <Sprite name="bg2" x="-2.5" width="0" height="2.1">
-                    <Sprite.Anim>
-                        <Animation trigger="new" time="3" delay="3">
-                            <Property key="transformation.translation[0]" value="-0.1"/>
-                            <Property key="transformation.translation[1]" value="4.8"/>
-                        </Animation>
-                    </Sprite.Anim>
-                </Sprite>
-                <TextButton y="0.7" x="1">选择1</TextButton>
-                <TextButton x="1">选择2</TextButton>
-                <TextButton y="-0.7" x="1">选择2</TextButton>
-            </Panel>
-            <Sprite name="character" x="-4" z="0.002">
-                <Sprite.Item id="paper" tex="11450001"/>
-                <Sprite.Anim>
-                    <Animation trigger="new" time="3">
-                        <Property key="transformation.translation[0]" value="-3"/>
-                    </Animation>
-                </Sprite.Anim>
-            </Sprite>
-            <TextBlock name="character_name" fontsize="3" align="center" y="-1" x="-1.5" z="0.002">霜叶</TextBlock>
-        </Panel>
-    </Window>
 
-    <Template id="TextButton" params="value">
-        <Button width="3" height="0.7">
-            <Button.Anim>
-                <Animation trigger="new"/>
-            </Button.Anim>
-            <TextBlock fontsize="1" align="center">{value}</TextBlock>
-        </Button>
-    </Template>
-</UI>
-```
+### 设计规则
 
-:::
+为了让图标的视觉表现统一，我们还需要确定一些规则。
 
-在Floating UI XML中，根节点为`UI`以及一个`Window`，在`Window`中编写Floating UI。除了`Windows`里面的东西，其他的都可以直接复制。而`UI`下面还有一个`Template`节点，就是用来定义模板的啦。
 
-从NBT转到XML是很简单的。对于简单的属性值（比如说字符串、数字之类的）记住这样的形式就好：`<控件类型 属性=值></控件类型>`，而对于类型为复合标签的属性值，比如说`item`，在控件标签里面写`<控件类型.属性ID 键=值></控件类型>`。在上面的例子中，基本上已经把所有的格式都说明白啦，可以自己对照着看。
+#### 边界限制
 
-:::tips
-对于XML形式的模板来说，有一个特殊的语法糖，也就是名字为`value`的属性。它对应了使用模板时候，直接写在插槽里面的值。
+为了让图标的视觉尺寸统一，笔者将最外围一圈像素设定为边界。主体元素不应越过此边界，装饰元素则可以越过。
 
-例如，在上面的例子中有模板：
+![图标边界示意图](image/3-4.png)
 
-```xml
-<Template id="TextButton" params="value">
-    <Button width="3" height="0.7">
-        <Button.Anim>
-            <Animation trigger="new"/>
-        </Button.Anim>
-        <TextBlock fontsize="1" align="center">{value}</TextBlock>
-    </Button>
-</Template>
-```
 
-其中的params定义了`value`属性，在模板中处于`TextBlock`的文本位置，所以它会替换掉`TextBlock`中的文本。而使用的时候：
+#### 舍弃不可读的细节
 
-```xml
-<TextButton y="0.7" x="1">选择1</TextButton>
-```
+像素化会导致很多细节丢失，不要为了抠细节而牺牲可读性。当一个不与其他部件相连的部件因被遮盖而只剩下 2 ~ 3 个像素时就要小心了，它也许并不好看。而只剩 1 个像素时，不用犹豫，直接舍弃。
 
-此时文本`选择1`将会默认作为`value`的值传入模板，而不用再写`value="选择1"`
+![图标可读性对比图](image/3-5.png)
 
-:::
+
+#### 本土化
+
+显然，为了在各个领域通用而设计的图标不一定能满足 Minecraft 中的使用需求。因此，我们应当融入一些 Minecraft 元素，进行一些本土化修改。
+
+![一些本土化的图标](image/3-6.png)
+
+现在，我们已经绘制了一些图标，可问题也随之而来：如何更方便地查找这些图标？
+
+
+## 制作图标查找工具
+
+非常好，这已经不是美术设计领域了，我们似乎进入了一个未曾设想的领域。
+
+不过好在，这对于笔者来说并不是什么难事，在花了一点时间，修复了少许 BUG、一些 BUG、很多 BUG、和一吨 BUG 以后，我们做出来了这款图标查找工具。
+
+![图标查找工具](image/4-1.png)
+
+好吧，要是再细讲下去，这篇文章对咱们的目标受众来说可能将会是一篇魔法教学文章，我们摘几个重点来讲。
+
+简单来说，我们往资源包内塞了一个网页，用户在浏览器中打开这个网页即可查询图标。当然我们也准备了在线网页，只不过在线网页只提供最新版本的查询。
+
+用户点击其中列出的图标，即可了解该图标的详细信息，复制文本组件和命令。
+
+![图标详情页面](image/4-2.png)
+
+如上图所示，使用这个图标需要指定 `matrica:card` 字体，使用 `\ue059` 字符。
+
+当然，这个工具是不能自己识别资源包里有哪些图标的，图标信息需要人工录入。
+
+至此，我们完成了这个资源包的全部基础功能建设。
+
+
+## 资源包打包
+
+与别的资源包不同的是，这款资源包需要特殊的打包方式。毕竟不是每个人都会用到资源包里的网页，需要向普通玩家和创作者分别提供不同的版本。
+
+由于资源包使用 GitHub 托管，我们可以使用 GitHub 的工作流进行自动化打包。制作为普通玩家提供的资源包时，把网页和别的乱七八糟的东西全部拿走，回归资源包应有的模样。此外还可以搞点花样，比如为不同版本提供不同的资源包图标。
+
+此外，GitHub 还能提供静态网页托管服务，因此资源包内的图标查找工具还可以在线使用。
+
+
+## 后记
+
+目前，这款资源包仍在填充新内容，可用的图标并不多。可以预见距离正式版的发布仍有很长一段时间，甚至不一定能完成。不过，这仍是一个有趣的尝试，探索了制作图标资产库资源包的可能性。
+
+
+## 外部链接
+
+- [Matrica Design Icons 资源包的 GitHub 仓库](https://github.com/sheep-realms/Matrica-Design-Icons)
+- [Material Design Icons](https://pictogrammers.com/library/mdi/)
