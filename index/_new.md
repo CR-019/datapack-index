@@ -2,12 +2,26 @@
 lastUpdated: true
 ---
 
+<script setup>
+import { useData } from 'vitepress'
+import ColorLine from '/.vitepress/vue/ColorLine.vue'
+const { isDark } = useData()
+</script>
+
 # 最近更新
+<ColorLine :height="4"/>
+
+> [!TIP]
+> 本页为近期收录进图书馆的条目。供回到图书馆翻阅的读者快速浏览新增内容。
+  
+
+
 
 ### 《Feature》
-- [2025.05](/feature/index/202505.md)
+- [2025.06](/feature/index/202506.md)
 
 ### 文章/视频
+- [【Minecraft】走进数据包worldgen，一个视频带你串联我的世界自定义世界生成，密度函数表面规则无痛入门到入土](https://www.bilibili.com/video/BV1YbTLzPEaU/)
 - [[水]用展示实体与材质来制作像素特效](https://www.bilibili.com/video/BV1k6EiziERr/)
 - [【命令教程】如何使用展示实体？~没人说玩Minecraft还要学数学啊~](https://www.bilibili.com/video/BV1hC5YzAE5w)
 - [这位客官，您的Deepseek风味铜格栅炒饭好了【复刻计划·番外篇】](https://www.bilibili.com/video/BV1eBP4eiE4G)
