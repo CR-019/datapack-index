@@ -57,7 +57,7 @@ export const sidebar_202504: DefaultTheme.Sidebar = [
   },
   {
     items: [
-      { text: '《Features》主页', link: '/feature/_index' },
+      { text: '《Feature》主页', link: '/feature/_index' },
       { text: '月刊条款', link: '/feature/_条款' },
       { text: '格式指导', link: '/feature/_格式指导' },
       { text: '返回主站', link: '/index/绪论' }
@@ -104,7 +104,7 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
   },
   {
     items: [
-      { text: '《Features》主页', link: '/feature/_index' },
+      { text: '《Feature》主页', link: '/feature/_index' },
       { text: '月刊条款', link: '/feature/_条款' },
       { text: '格式指导', link: '/feature/_格式指导' },
       { text: '返回主站', link: '/index/绪论' }
@@ -144,7 +144,7 @@ export const sidebar_202506: DefaultTheme.Sidebar = [
   },
   {
     items: [
-      { text: '《Features》主页', link: '/feature/_index' },
+      { text: '《Feature》主页', link: '/feature/_index' },
       { text: '月刊条款', link: '/feature/_条款' },
       { text: '格式指导', link: '/feature/_格式指导' },
       { text: '返回主站', link: '/index/绪论' }
