@@ -16,7 +16,7 @@
         { name: 'GitHub', url: 'https://github.com/Alumopper' }
     ]"
     resourceLink = 'https://github.com/Alumopper/Floating-UI'
-    cover='../_assets/1.jpg'
+    cover='../_assets/0.png'
 />
 
 展示实体是在1.19.4正式引入的特性，可以用来展示方块物品文字什么的，某种意义其作为UI开发的潜力基本上是可以和容器GUI媲美，甚至说在灵活性可以超越容器UI。事实上，也有很多数据包或者地图实现了用展示实体制作的UI，但是，令人意外的是，直至目前，都没有支持动态解析的展示实体UI库出现。于是，Floating UI就诞生了~
