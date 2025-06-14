@@ -12,7 +12,7 @@
         { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
         { name: 'GitHub', url: 'https://github.com/Alumopper' }
     ]"
-    cover='../_assets/spotlight.jpg'
+    cover='../_assets/spotlight.png'
     type=0
 />
 
