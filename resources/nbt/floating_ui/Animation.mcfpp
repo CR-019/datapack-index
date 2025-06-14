@@ -1,0 +1,10 @@
+@Desc<"动画">
+data Animation {
+    @Desc<"动画的目标键值对"> value as list<data {
+        @Desc<"动画要修改的UI控件实体的NBT键"> key as string;
+        @Desc<"动画要修改的NBT目标值"> value as any;
+    }>;
+    @Desc<"动画持续时间"> time as float;
+    @Desc<"事件。动画开始的时候触发。"> start as string;
+    @Desc<"事件。动画结束的时候触发。"> end as string;
+}

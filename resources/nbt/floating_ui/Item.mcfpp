@@ -1,0 +1,14 @@
+@Desc<"物品">
+data Item {
+    @Desc<"物品的id。如果命名空间为`minecraft`可省略。若此项省略则默认为`glass_pane`">
+    id as string;
+    @Desc<"物品的id。若省略则默认为`1b`。基本没用喵">
+    count as byte;
+    @Desc<"（已弃用）物品的CustomModelData">
+    tex as compound;
+    @Name<"data">
+    @Desc<"一个复合标签，对应原版物品格式中的`components.minecraft:custom_data`">
+    dat as compound;
+    @Desc<"一个物品组件">
+    components as compound;
+}

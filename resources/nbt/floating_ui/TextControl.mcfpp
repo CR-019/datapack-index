@@ -1,0 +1,4 @@
+@Desc<"文本控件">
+data TextControl: BaseControl {
+    @Desc<"字体的大小。仅用于输入"> fontsize as float;
+}

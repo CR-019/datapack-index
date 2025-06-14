@@ -17,35 +17,35 @@ import {CharStream, CharStreams, CommonTokenStream, ParserRuleContext} from 'ant
 import {NBT, NBTType} from './NBTStructure';
 import {Interval} from 'antlr4ts/misc/Interval';
 import * as fs from 'fs'
+import path from 'path';
 
 interface Annotation {
     name: string;
-    values: Map<string, string>;
     operation(NBT: NBT): void;
 }
 
 class NameAnnotation implements Annotation {
     name: string = "Name";
-    values: Map<string, string> = new Map();
+    value: string
     constructor(value: string) {
-        this.values.set("name", value);
+        this.value = value;
     }
-    operation(nbt: NBT): void {
-        nbt.name = this.values.get("name")!!;
+    operation(nbt: NBT): void { 
+        nbt.name = this.value;
     }
 }
 
 class DescriptionAnnotation implements Annotation {
     name: string = "Desc";
 
-    values: Map<string, string> = new Map();
+    value: string
     
     constructor(value: string) {
-        this.values.set("description", value);
+        this.value =  value;
     }
     
     operation(nbt: NBT): void {
-        nbt.description = this.values.get("description")!!;
+        nbt.description = this.value;
     }
 }
 
@@ -64,12 +64,12 @@ class MCFPPNBTParser extends AbstractParseTreeVisitor<any> implements mcfppParse
         return 0
     }
 
-    async visitCompilationUnit(ctx: CompilationUnitContext): Promise<any>{
+    visitCompilationUnit(ctx: CompilationUnitContext): any{
         const result: NBT[] = [];
         for(const typeDecl of ctx.typeDeclaration()){
             const templateDecl = typeDecl.declarations().templateDeclaration();
             if (templateDecl) {
-                result.push(await this.visitTemplateDeclaration(templateDecl))
+                result.push(this.visitTemplateDeclaration(templateDecl))
             }else {
                 const anno = typeDecl.declarations().annotation();
                 if (anno) {
@@ -95,37 +95,50 @@ class MCFPPNBTParser extends AbstractParseTreeVisitor<any> implements mcfppParse
                 values.push(val)
             }
         });
-        var anno : Annotation | null = null;
+        let anno : Annotation | null = null;
         switch (name) {
             case "Name":
+                if(values.length != 1){
+                    error("@Name注解有且只能有一个参数", ctx)
+                }
                 anno = new NameAnnotation(values[0]);
+                break;
             case "Desc":
+                if(values.length != 1){
+                    error("@Desc注解有且只能有一个参数", ctx)
+                }
                 anno = new DescriptionAnnotation(values[0]);
+                break;
         }
         if(anno){
             this.annotations.push(anno);
+        }else {
+            console.warn("无效的注解: " + name)
         }
     }
 
-    async visitTemplateDeclaration(ctx: TemplateDeclarationContext): Promise<any> {
-        var currNBT = new NBT();
+    visitTemplateDeclaration(ctx: TemplateDeclarationContext): any {
+        const currNBT = new NBT();
         currNBT.name = ctx.classWithoutNamespace().text;
-        ctx.className().forEach(className => {
-            const qwq = className.text;
-            if(!currNBT.extends.has(className.text)){
-                currNBT.extends.add(qwq)
+        for (const className of ctx.className()) {
+            let qwq = className.text;
+            if(!qwq.includes(":")){
+                qwq = this.namespace + ":" + qwq
             }
-        })
+            if(!currNBT.extends.includes(className.text)){
+                currNBT.extends.push(qwq)
+            }
+        }
         this.annotations.forEach(anno => {
             anno.operation(currNBT);
         })
         this.annotations = []; // 清空注解列表
         for(const member of ctx.templateBody()?.templateMemberDeclaration() || []){
-            var qwq = member.templateMember().templateFieldDeclaration()
+            const qwq = member.templateMember().templateFieldDeclaration();
             if(qwq){
-                currNBT.children.push(await this.visitTemplateFieldDeclaration(qwq))
+                currNBT.children.push(this.visitTemplateFieldDeclaration(qwq))
             }else {
-                var pwp = member.templateMember().annotation()
+                const pwp = member.templateMember().annotation();
                 if(pwp){
                     this.visitAnnotation(pwp);
                 }
@@ -133,36 +146,20 @@ class MCFPPNBTParser extends AbstractParseTreeVisitor<any> implements mcfppParse
         }
         currNBT.type = [NBTType.Compound]
         currNBT.isRoot = true
+        currNBT.namespace = this.namespace
         return currNBT
     }
 
-    async visitTemplateFieldDeclaration(ctx: TemplateFieldDeclarationContext): Promise<any> {
+    visitTemplateFieldDeclaration(ctx: TemplateFieldDeclarationContext): any {
         const qwq = new NBT();
         qwq.name = ctx.Identifier().text;
         if(!ctx.templateType()){
             error("NBT type is not set", ctx)
             return;
         }
-        const pwp = await this.visitTemplateType(ctx.templateType()!);
-        const type: NBTType[] = []
-        var anonymousTemplate: NBT | null = null
-        for(const element of pwp[0]){
-            if(element instanceof NBT){
-                type.push(NBTType.Compound)
-                anonymousTemplate = element
-            }else {
-                type.push(element)
-            }
-        }
-        if(anonymousTemplate){
-            qwq.extends = anonymousTemplate.extends;
-            qwq.children = anonymousTemplate.children;
-            qwq.templateName = anonymousTemplate.description
-            qwq.isTemplate = anonymousTemplate.isTemplate;
-            qwq.isRoot = anonymousTemplate.isRoot;
-        }
-        qwq.type = pwp[0]
-        qwq.nullable = pwp[1]
+        const re = this.visitTemplateType(ctx.templateType()!)
+        qwq.type = re[0]
+        qwq.nullable = re[1]
         this.annotations.forEach(anno => {
             anno.operation(qwq);
         })
@@ -170,66 +167,67 @@ class MCFPPNBTParser extends AbstractParseTreeVisitor<any> implements mcfppParse
         return qwq
     }
 
-    async visitTemplateType(ctx: TemplateTypeContext): Promise<any> {
+    visitTemplateType(ctx: TemplateTypeContext): any {
         if(ctx.singleTemplateFieldType()){
-            return await this.visitSingleTemplateFieldType(ctx.singleTemplateFieldType()!)
+            return this.visitSingleTemplateFieldType(ctx.singleTemplateFieldType()!)
         }else {
-            return await this.visitUnionTemplateFieldType(ctx.unionTemplateFieldType()!)
+            return this.visitUnionTemplateFieldType(ctx.unionTemplateFieldType()!)
         }
     }
 
-    async visitSingleTemplateFieldType(ctx: SingleTemplateFieldTypeContext): Promise<any> {
-        return [[await this.visitTypeWithoutExcl(ctx.type().typeWithoutExcl())], ctx.QUEST() != null]
+    visitSingleTemplateFieldType(ctx: SingleTemplateFieldTypeContext): any {
+        const t = this.visitTypeWithoutExcl(ctx.type().typeWithoutExcl())
+        return [t, ctx.QUEST() != null]
     }
 
-    async visitUnionTemplateFieldType(ctx: UnionTemplateFieldTypeContext): Promise<any> {
-        const types: any[]= [];
+    visitUnionTemplateFieldType(ctx: UnionTemplateFieldTypeContext): any {
+        let types: any[] = [];
         for(const type of ctx.type()){
-            types.push(await this.visitTypeWithoutExcl(type.typeWithoutExcl()))
+            types = types.concat(this.visitTypeWithoutExcl(type.typeWithoutExcl()))
         }
         return [types, ctx.QUEST() != null]
     }
 
-    async visitTypeWithoutExcl(ctx: TypeWithoutExclContext): Promise<any> {
+    visitTypeWithoutExcl(ctx: TypeWithoutExclContext): any {
         const qwq = ctx.anonymousTemplateType()
         if(qwq){
-            return await this.visitAnonymousTemplateType(qwq)
+            return [this.visitAnonymousTemplateType(qwq)]
         }else{
             if(ctx.LIST()){
-                //TODO
-                return NBT.typeFromString(ctx.text)
-            }else if(NBT.baseType.includes(ctx.text)){
+                const t = this.visitTypeWithoutExcl(ctx.type()!.typeWithoutExcl())
+                if(t.length === 1 && (typeof t[0] == 'string' || t[0] instanceof NBT)){
+                    return [NBTType.List, null, t[0]]
+                }
+                return [NBTType.List]
+            }else if(NBT.baseType.hasOwnProperty(ctx.text)){
                 return NBT.typeFromString(ctx.text)
             }else {
                 //搜索json文件进行反序列化
-                const namespaceID = ctx.text.split(":", 2)
-                const path = namespaceID[0].replace(".", "/")
-                const file = namespaceID[1]
-                const response = await fetch(`./resources/nbt-json/${path}/${file}.json`)
-                const jsonData = await response.json()
-                let n = NBT.fromJSON(jsonData)
-                n.isRoot = true
-                return n
+                if(!ctx.text.includes(":")){
+                    return [this.namespace + ":" + ctx.text]
+                }else {
+                    return [ctx.text]
+                }
             }
         }
     }
 
-    async visitAnonymousTemplateType(ctx: AnonymousTemplateTypeContext): Promise<any>{
-        var currNBT = new NBT();
-        ctx.className().forEach(className => {
+    visitAnonymousTemplateType(ctx: AnonymousTemplateTypeContext): any{
+        const currNBT = new NBT();
+        for (const className of ctx.className()) {
             const qwq = className.text;
-            if(!currNBT.extends.has(className.text)){
-                currNBT.extends.add(qwq)
+            if(!currNBT.extends.includes(className.text)){
+                currNBT.extends.push(qwq)
             }
-        })
-        var annos = this.annotations
+        }
+        const annos = this.annotations;
         this.annotations = []
         for(const member of ctx.templateBody()?.templateMemberDeclaration() || []){
-            var qwq = member.templateMember().templateFieldDeclaration()
+            const qwq = member.templateMember().templateFieldDeclaration();
             if(qwq){
-                currNBT.children.push(await this.visitTemplateFieldDeclaration(qwq))
+                currNBT.children.push(this.visitTemplateFieldDeclaration(qwq))
             }else {
-                var pwp = member.templateMember().annotation()
+                const pwp = member.templateMember().annotation();
                 if(pwp){
                     this.visitAnnotation(pwp);
                 }
@@ -240,15 +238,15 @@ class MCFPPNBTParser extends AbstractParseTreeVisitor<any> implements mcfppParse
         return currNBT
     }
 
+
 }
 
 function error(msg: string, ctx: ParserRuleContext){
-        console.error(
-            "Error while compiling: " + msg
+        throw new Error(
+            "MCFPP编译错误\n" + msg
                     +  "\n" + getLineInfo(ctx)
         )
 }
-
 
 function getLineInfo(ctx: ParserRuleContext): string {
     let lineText: string;
@@ -310,14 +308,14 @@ function max(a: number, b: number): number {
 
 /**
  * 编译一个mcfpp字符串
- * @param path 相对于resources\nbt的路径
+ * @param code
+ * @param namespace
  */
 async function compile(code: string, namespace: string): Promise<NBT[]> {
     //编译
     const tokens = new CommonTokenStream(new mcfppLexer(CharStreams.fromString(code)));
     const parser = new mcfppParser(tokens);
-    const nbts: NBT[] = await new MCFPPNBTParser(namespace).visitCompilationUnit(parser.compilationUnit());
-    return nbts;
+    return new MCFPPNBTParser(namespace).visitCompilationUnit(parser.compilationUnit());
 }
 
 async function sha256(str: string): Promise<string> {
@@ -325,8 +323,7 @@ async function sha256(str: string): Promise<string> {
     const data = encoder.encode(str);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 async function checkCache(code: string): Promise<NBT | null> {
@@ -334,29 +331,49 @@ async function checkCache(code: string): Promise<NBT | null> {
     const cacheFilePath = `resources/nbt-json/cache/${hashValue}.json`;
     if (fs.existsSync(cacheFilePath)) {
         const jsonString = fs.readFileSync(cacheFilePath, 'utf-8');
-        const nbt = NBT.fromJSON(JSON.parse(jsonString));
+        const nbt = await NBT.fromJSON(JSON.parse(jsonString));
         nbt.namespace = "";
         return nbt;
     }
     return null;
 }
 
-export function compileFiles(){
+export async function compileFiles(){
     //读取resources\nbt下的所有mcfpp代码文件
-    const files = fs.readdirSync('resources/nbt');
-    files.forEach(file => {
-        if(file.endsWith(".mcfpp")){
+    const files = fs.readdirSync('resources/nbt', {recursive: true, encoding: 'utf-8'});
+    for (const file of files) {
+        // 确保是字符串类型后再调用字符串方法
+        if (typeof file === 'string' && file.endsWith(".mcfpp")) {
             console.log("Compiling " + file);
-            const code = fs.readFileSync('resources/nbt/' + file, 'utf-8');
-            //获取命名空间
-            const index = file.lastIndexOf("/");
-            const namespace = file.substring(0, index).replace("/", ".");
+
+            // 使用 path.join 更安全地拼接路径
+            const filePath = path.join('resources', 'nbt', file);
+            const code = fs.readFileSync(filePath, 'utf-8');
+
+            // 获取命名空间
+            const index = file.lastIndexOf(path.sep);
+            const namespace = index !== -1
+                ? file.substring(0, index).replace(path.sep, ".")
+                : '';
+
             compile(code, namespace).then(result => result.forEach((nbt) => {
-                const jsonString = JSON.stringify(nbt.toJSON())
-                fs.writeFileSync('resources/nbt-json/' + nbt.namespace.replace(".", "/") + "/" + nbt.name + '.json', jsonString)
+                const jsonString = JSON.stringify(nbt.toJSON(), null , 4);
+                const outputPath = path.join(
+                    'resources','nbt-json',
+                    nbt.namespace.replace(".", path.sep),
+                    `${nbt.name}.json`
+                );
+                // 确保目录存在
+                fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+                console.log("Output: " + outputPath)
+                fs.writeFileSync(outputPath, jsonString);
             }));
         }
-    })
+    }
+}
+
+export const config = {
+    namespace: ""
 }
 
 export async function compileString(code: string): Promise<NBT>{
@@ -365,13 +382,17 @@ export async function compileString(code: string): Promise<NBT>{
     //if(cachedNBT != null){
     //    return cachedNBT;
     //}
-    var nbts = await compile(code, "")
+    const nbts= await compile(code, config.namespace);
     if(nbts.length != 1){
-            throw new Error("Expected exactly one NBT, but got " + nbts.length);
+        throw new Error("只接受一个NBT模板作为输入, 但是定义了" + nbts.length + "个");
     }
     //将编译结果写入缓存
     //const hashValue = await sha256(code);
     //const cacheFilePath = `resources/nbt-json/cache/${hashValue}.json`;
     //fs.writeFileSync(cacheFilePath, JSON.stringify(nbt[0].toJSON()));
-    return nbts[0];
+    if(nbts[0]){
+        return nbts[0]
+    }else {
+        throw new Error("编译NBT失败：" + code)
+    }
 }

@@ -1,0 +1,124 @@
+{
+    "name": "BaseControl",
+    "type": [
+        10
+    ],
+    "description": "基础控件",
+    "children": [
+        {
+            "name": "type",
+            "type": [
+                9
+            ],
+            "description": "控件的类型",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "x",
+            "type": [
+                6
+            ],
+            "description": "x坐标。原点是正中央",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "y",
+            "type": [
+                6
+            ],
+            "description": "y坐标。原点是正中央",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "z",
+            "type": [
+                6
+            ],
+            "description": "z坐标。原点是正中央",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "rotation",
+            "type": [
+                9
+            ],
+            "description": "控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "tag",
+            "type": [
+                9
+            ],
+            "description": "控件的标签",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "anims",
+            "type": [
+                9,
+                null,
+                "floating_ui:Animation"
+            ],
+            "description": "控件的动画效果",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": [
+                8
+            ],
+            "description": "控件的唯一字符串名，用于保存UUID",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "move_in",
+            "type": [
+                8
+            ],
+            "description": "一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "move_out",
+            "type": [
+                8
+            ],
+            "description": "一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        }
+    ],
+    "templateName": "",
+    "extends": [],
+    "nullable": false
+}

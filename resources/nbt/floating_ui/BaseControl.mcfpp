@@ -1,0 +1,13 @@
+@Desc<"基础控件">
+data BaseControl {
+    @Desc<"控件的类型"> type as string;
+    @Desc<"x坐标。原点是正中央"> x as double;
+    @Desc<"y坐标。原点是正中央"> y as double;
+    @Desc<"z坐标。原点是正中央"> z as double;
+    @Desc<"控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]"> rotation as list<any>;
+    @Desc<"控件的标签"> tag as list<string>;
+    @Desc<"控件的动画效果"> anims as list<Animation>;
+    @Desc<"控件的唯一字符串名，用于保存UUID"> name as string;
+    @Desc<"一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行"> move_in as string;
+    @Desc<"一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行"> move_out as string;
+}

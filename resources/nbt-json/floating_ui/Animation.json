@@ -1,0 +1,91 @@
+{
+    "name": "Animation",
+    "type": [
+        10
+    ],
+    "description": "动画",
+    "children": [
+        {
+            "name": "value",
+            "type": [
+                9,
+                null,
+                {
+                    "name": "",
+                    "type": [
+                        10
+                    ],
+                    "description": "",
+                    "children": [
+                        {
+                            "name": "key",
+                            "type": [
+                                8
+                            ],
+                            "description": "动画要修改的UI控件实体的NBT键",
+                            "children": [],
+                            "templateName": "",
+                            "extends": [],
+                            "nullable": false
+                        },
+                        {
+                            "name": "value",
+                            "type": [
+                                13
+                            ],
+                            "description": "动画要修改的NBT目标值",
+                            "children": [],
+                            "templateName": "",
+                            "extends": [],
+                            "nullable": false
+                        }
+                    ],
+                    "templateName": "",
+                    "extends": [],
+                    "nullable": false
+                }
+            ],
+            "description": "动画的目标键值对",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "time",
+            "type": [
+                5
+            ],
+            "description": "动画持续时间",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "start",
+            "type": [
+                8
+            ],
+            "description": "事件。动画开始的时候触发。",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "end",
+            "type": [
+                8
+            ],
+            "description": "事件。动画结束的时候触发。",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        }
+    ],
+    "templateName": "",
+    "extends": [],
+    "nullable": false
+}

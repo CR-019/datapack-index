@@ -161,27 +161,123 @@
   border-top: none; /* 移除上方的分隔线 */
 }
 
-/* NBT树状图 */
+.bilibili-video-container {
+  position: relative;
+  width: 80%;
+  max-width: 1200px; /* 可选：设置最大宽度 */
+  margin: 0 auto; /* 居中 */
+  padding-top: 45%; /* 16:9比例计算 (9/16=0.5625) */
+}
+
+.bilibili-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px; /* 可选：圆角 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 可选：阴影 */
+}
+
+/**
+ * Component: NBTTree
+ * -------------------------------------------------------------------------- */
+.nbt-template {
+  background-color: #daf3ff;
+}
+
+.nbt-node-icons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nbt-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin: 0.3em -0.1em 0 0;
+}
+
+.nbt-icon img {
+  width: 100%;
+  height: 100%;
+}
+
 .nbt-tree {
   display: flex;
   flex-direction: column;
   gap: 0.2em;
 }
-.nbt-tree > span {
+
+.nbt-tree>span {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.4em;
 }
+
 .nbt-seg {
   font-family: monospace;
 }
-.nbt-icon {
-  vertical-align: middle;
+
+.fold-button {
+  color: rgb(10, 69, 152);
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 1em;
+  user-select: none;
+  /* 标准属性 */
+  -webkit-user-select: none;
+  /* Safari/Chrome */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+ */
 }
-/* NBT树状图缩进 */
-.nbt-indent-1 { margin-left: 2em; }
-.nbt-indent-2 { margin-left: 4em; }
-.nbt-indent-3 { margin-left: 6em; }
-.nbt-indent-4 { margin-left: 8em; }
-.nbt-indent-5 { margin-left: 10em; }
-.nbt-indent-6 { margin-left: 12em; }
+
+.expandable-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.expandable-content.expanded {
+  max-height: 9000px;
+  /* 设置为大于内容实际高度的值 */
+}
+
+.error-alert {
+  width: 90%;
+  border: 1px solid #f26e64;
+  /* 红色边框 */
+  border-radius: 4px;
+  background-color: #ffebee;
+  /* 淡红色背景 */
+  font-family: Arial, sans-serif;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.error-header {
+  color: #d32f2f;
+  /* 深红色文字 */
+  padding: 16px 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.error-content {
+  padding: 0px 16px 16px 16px;
+  color: #d32f2f;
+  /* 深红色文字 */
+  text-align: left;
+  /* 居中显示错误信息 */
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.error-content pre {
+  white-space: pre-wrap;
+  /* 保留换行和空白，并自动换行 */
+  word-break: break-word;
+  /* 超长单词也断行 */
+}

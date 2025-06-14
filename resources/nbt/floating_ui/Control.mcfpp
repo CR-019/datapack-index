@@ -1,0 +1,5 @@
+@Desc<"控件">
+data Control: BaseControl {
+    @Desc<"对应物品展示实体的`item_display`"> display as string;
+    @Desc<"物品展示实体将要展示的物品"> item as Item;
+}

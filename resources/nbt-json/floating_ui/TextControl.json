@@ -1,0 +1,25 @@
+{
+    "name": "TextControl",
+    "type": [
+        10
+    ],
+    "description": "文本控件",
+    "children": [
+        {
+            "name": "fontsize",
+            "type": [
+                5
+            ],
+            "description": "字体的大小。仅用于输入",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        }
+    ],
+    "templateName": "",
+    "extends": [
+        "floating_ui:BaseControl"
+    ],
+    "nullable": false
+}

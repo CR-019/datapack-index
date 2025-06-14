@@ -1,0 +1,36 @@
+{
+    "name": "Control",
+    "type": [
+        10
+    ],
+    "description": "控件",
+    "children": [
+        {
+            "name": "display",
+            "type": [
+                8
+            ],
+            "description": "对应物品展示实体的`item_display`",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        },
+        {
+            "name": "item",
+            "type": [
+                "floating_ui:Item"
+            ],
+            "description": "物品展示实体将要展示的物品",
+            "children": [],
+            "templateName": "",
+            "extends": [],
+            "nullable": false
+        }
+    ],
+    "templateName": "",
+    "extends": [
+        "floating_ui:BaseControl"
+    ],
+    "nullable": false
+}
