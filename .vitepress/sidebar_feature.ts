@@ -8,7 +8,11 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     ]
   },
   {
-    text: '🌟2025.5月刊',
+    text: '🌟2025.6月刊',
+    link: '/feature/index/202506'
+  },
+  {
+    text: '2025.5月刊',
     link: '/feature/index/202505'
   },
     {
@@ -53,8 +57,9 @@ export const sidebar_202504: DefaultTheme.Sidebar = [
   },
   {
     items: [
-      { text: '《Features》主页', link: '/feature/_index' },
+      { text: '《Feature》主页', link: '/feature/_index' },
       { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
       { text: '返回主站', link: '/index/绪论' }
     ]
   }
@@ -67,6 +72,7 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202505' },
       { text: '上一刊', link: '/feature/index/202504' },
+      { text: '下一刊', link: '/feature/index/202506' },
     ]
   },
   {
@@ -98,8 +104,49 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
   },
   {
     items: [
-      { text: '《Features》主页', link: '/feature/_index' },
+      { text: '《Feature》主页', link: '/feature/_index' },
       { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202506: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2025.06',
+    items: [
+      { text: '目录', link: '/feature/index/202506' },
+      { text: '上一刊', link: '/feature/index/202505' },
+    ]
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '适用于Minecraft的前端框架——Floating UI', link: '/feature/archive/202506/0/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Mojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2025年6月', link: '/feature/archive/202506/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '对 Minecraft 图标资产库资源包的可行性尝试', link: '/feature/archive/202506/1/content' },
+      { text: '高版本如何更好的编辑自定义物品交互属性(触发器详解)', link: '/feature/archive/202506/2/content' },
+      { text: '从0开始制作哈基米音乐唱片数据包', link: '/feature/archive/202506/3/content' },
+      { text: '数据包の究极存值原理——什么是SNBT', link: '/feature/archive/202506/4/content' },
+      { text: '拾尘（八）-使用对话框制作2D小游戏', link: '/feature/archive/202506/5/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
       { text: '返回主站', link: '/index/绪论' }
     ]
   }

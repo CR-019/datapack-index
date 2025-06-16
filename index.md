@@ -17,22 +17,37 @@ hero:
       link: https://www.bilibili.com/video/BV1Aq6nY6EjN
 features:
   - icon:
-      src: /icons/ocean_clock.png
+      src: /icons/sweetbarry_stew.png
+    title: 图书馆上新
+    details: 查看最近收录的资源
+    link: /index/_new
+  - icon:
+      src: /icons/echo_prism.png
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202505
-  - icon:
-      src: /icons/sweetbarry_stew.png
-    title: 工具速查
-    details: 能方便数据包开发的工具索引
-    link: /index/工具
+    link: /feature/index/202506
   - icon:
       src: /icons/vt.png
     title: 系列教程
     details: 从零基础到稍微进阶的各种教程
     linkText: 零基础新手戳这里
     link: /index/参考
+  - icon:
+      src: /icons/ocean_clock.png
+    title: 报刊亭
+    details: 浏览往期《Feature》
+    link: /feature/_index
+  - icon:
+      src: /icons/totem_of_recovery.png
+    title: 工具速查
+    details: 能方便数据包开发的工具索引
+    link: /index/工具
+  - icon:
+      src: /icons/green_apple.png
+    title: 数据包实践
+    details: 实践和实例教程
+    link: /index/数据包实践
 ---
 <script setup>
 import { useData } from 'vitepress'
@@ -83,20 +98,6 @@ const { frontmatter } = useData()
 <ColorLine />
 📧**意见箱**（新增链接条目/文档修改建议）：
 [Github issues](https://github.com/CR-019/datapack-index/issues)
-
-原版模组开发交流：
-- QQ群（可视入群问题难度和群内氛围选择，态度友好一点www）：
-  - 虚灵工坊对外交流群：905027526
-  - 下划线：924021652
-  - TML交流群：1039407846
-  - 萌茶的技术交流群：924039206
-  - CBL交流群（公名十砍）：686180154
-- （Github讨论平台）https://github.com/CR-019/datapack-index/discussions
-- Discord频道（需要魔法上网）
-  - [Minecraft Command频道](https://discord.gg/QAFXFtZ)（命令交流）
-  - [黑洞计划](https://discord.gg/XwTrR9RFyu)（地图分享）
-  - [Minecraft Config](https://discord.gg/yy25NH55vp) （讨论自定义维度和地形生成）
-  - [Shaders Lab](https://discord.gg/RpzWN9S) （着色器交流）
 
 📖图书管理员 @CR_019:
 - QQ:1703467028

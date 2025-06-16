@@ -9,6 +9,7 @@ import {
     sidebar_feature,
     sidebar_202504,
     sidebar_202505,
+    sidebar_202506,
 } from "./sidebar_feature";
 import viteImagemin from "vite-plugin-imagemin";
 
@@ -51,6 +52,7 @@ export default defineConfig({
             "/resources/": sidebar,
             "/feature/archive/202504": sidebar_202504,
             "/feature/archive/202505": sidebar_202505,
+            "/feature/archive/202506": sidebar_202506,
             "/feature/": sidebar_feature,
         },
 
