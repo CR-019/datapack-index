@@ -10,13 +10,13 @@
             <span class="nbt-seg" v-for="(seg, index) in segs" :style="{
                 'margin-right': index < segs.length - 1 ? '1em' : '0',
                 'margin-left': seg === '=' ? '-2em' : '0',
-                'color': seg === '__' ? (isTemplate ? '#daf3ff' : 'white') : (seg === '=' ? 'white' : 'black')
+                'color': seg === '__' ? (isTemplate ? 'white': '#daf3ff') : (seg === '=' ? 'white' : 'black')
             }">{{ seg }}</span>
             <span v-for="(icon, index) in icons" :key="index" class="nbt-icon">
                 <img :src="icon" alt="Icon" />
             </span>
             <span v-if="!icons.length">
-                <img src="/refs/nbt_sprites/any.svg" alt="NBT Icon" />
+                <img src="/nbt_sprites/any.svg" alt="NBT Icon" />
             </span>
             <strong>{{ nbt.name }}</strong>
             <span v-if="nbt.description !== '' ">：</span>

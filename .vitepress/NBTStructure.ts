@@ -59,7 +59,7 @@ export class NBT {
         const extendsNBT: NBT[] = []
         //是对继承的内容实例化
         for(let ex of exs){
-            const qwq = (await this.fromName(ex))!
+            const qwq = (await NBT.fromName(this.getNamespaceID(ex)))!
             qwq.templateName = qwq.description
             for(let uwu of await this.instantiateExtends(qwq.extends)){
                 extendsNBT.push(uwu)
@@ -83,7 +83,7 @@ export class NBT {
                     if(t instanceof NBT){
                         qwq = t
                     }else{
-                        qwq = (await this.fromName(t as string))!
+                        qwq = (await NBT.fromName(this.getNamespaceID(t as string)))!
                     }
                     const n = new NBT();
                     n.type = [NBTType.Compound]
@@ -103,7 +103,7 @@ export class NBT {
                     child.isRoot = t.isRoot
                 }else if(typeof t == 'string'){
                     types.push(NBTType.Compound)
-                    const n = (await this.fromName(t))!
+                    const n = (await NBT.fromName(this.getNamespaceID(t)))!
                     child.extends = n.extends
                     child.children = n.children
                     child.templateName = n.description
@@ -119,76 +119,84 @@ export class NBT {
 
     getIcon(): string[] {
         const icon: string[] = [];
-        this.type.forEach(t => {
+        for (const t of this.type) {
             switch (t) {
                 case NBTType.Byte:
-                    icon.push('/datapack-index/refs/nbt_sprites/byte.svg');
+                    icon.push('/datapack-index/nbt_sprites/byte.svg');
                     break;
                 case NBTType.Short:
-                    icon.push('/datapack-index/refs/nbt_sprites/short.svg');
+                    icon.push('/datapack-index/nbt_sprites/short.svg');
                     break;
                 case NBTType.Int:
-                    icon.push('/datapack-index/refs/nbt_sprites/int.svg');
+                    icon.push('/datapack-index/nbt_sprites/int.svg');
                     break;
                 case NBTType.Long:
-                    icon.push('/datapack-index/refs/nbt_sprites/long.svg');
+                    icon.push('/datapack-index/nbt_sprites/long.svg');
                     break;
                 case NBTType.Float:
-                    icon.push('/datapack-index/refs/nbt_sprites/float.svg');
+                    icon.push('/datapack-index/nbt_sprites/float.svg');
                     break;
                 case NBTType.Double:
-                    icon.push('/datapack-index/refs/nbt_sprites/double.svg');
+                    icon.push('/datapack-index/nbt_sprites/double.svg');
                     break;
                 case NBTType.ByteArray:
-                    icon.push('/datapack-index/refs/nbt_sprites/byte_array.svg');
+                    icon.push('/datapack-index/nbt_sprites/byte_array.svg');
                     break;
                 case NBTType.String:
-                    icon.push('/datapack-index/refs/nbt_sprites/string.svg');
+                    icon.push('/datapack-index/nbt_sprites/string.svg');
                     break;
                 case NBTType.List:
-                    icon.push('/datapack-index/refs/nbt_sprites/homolist.svg');
+                    icon.push('/datapack-index/nbt_sprites/homolist.svg');
                     break;
                 case NBTType.Compound:
-                    icon.push('/datapack-index/refs/nbt_sprites/object.svg');
+                    icon.push('/datapack-index/nbt_sprites/object.svg');
                     break;
                 case NBTType.IntArray:
-                    icon.push('/datapack-index/refs/nbt_sprites/int_array.svg');
+                    icon.push('/datapack-index/nbt_sprites/int_array.svg');
                     break;
                 case NBTType.LongArray:
-                    icon.push('/datapack-index/refs/nbt_sprites/long_array.svg');
+                    icon.push('/datapack-index/nbt_sprites/long_array.svg');
                     break;
                 case NBTType.Boolean:
-                    icon.push('/datapack-index/refs/nbt_sprites/bool.svg');
+                    icon.push('/datapack-index/nbt_sprites/bool.svg');
                     break;
                 default:
-                    icon.push('/datapack-index/refs/nbt_sprites/any.svg');
+                    icon.push('/datapack-index/nbt_sprites/any.svg');
                     break;
             }
-        })
+        }
         return icon;
     }
 
-    private cache = new Map<string, NBT>()
-    async fromName(name: string): Promise<NBT|null>{
-        if(this.cache.has(name)){
-            return this.cache.get(name)!.copy()!
-        }
+    private getNamespaceID(name: string): string{
         //搜索json文件进行反序列化
         let qwq = name;
         if(!qwq.includes(":")){
             qwq = this.namespace + ":" + qwq
         }
-        const namespaceID = qwq.split(":", 2)
+        return qwq;
+    }
+
+    public static addCache(name: string, nbt: NBT){
+        NBT.cache.set(name, nbt)
+    }
+
+    private static cache = new Map<string, NBT>()
+    static async fromName(name: string): Promise<NBT|null>{
+        if(NBT.cache.has(name)){
+            return NBT.cache.get(name)!.copy()!
+        }
+        const namespaceID = name.split(":", 2)
         const path = namespaceID[0].replace(".", "/")
         const file = namespaceID[1]
+        let url: string = null
         try{
-            let url: string
             // @ts-ignore
             if(typeof globalThis.window !== undefined){
                 // @ts-ignore
-                url = new URL(`/datapack-index/resources/nbt-json/${path}/${file}.json`, globalThis.window.location.href).href;
+                url = new URL(`/datapack-index/nbt-json/${path}/${file}.json`, globalThis.window.location.href).href;
             }else{
-                url = `./resources/nbt-json/${path}/${file}.json`
+                url = `../public/nbt-json/${path}/${file}.json`
             }
             const response = await fetch(url);
             const jsonData = await response.json();
@@ -197,14 +205,6 @@ export class NBT {
             this.cache.set(name, n)
             return n.copy()
         }catch(err){
-            let url: string
-            // @ts-ignore
-            if(globalThis.window?.location?.href){
-                // @ts-ignore
-                url = new URL(`/datapack-index/resources/nbt-json/${path}/${file}.json`, globalThis.window.location.href).href;
-            }else{
-                url = `./resources/nbt-json/${path}/${file}.json`
-            }
             console.error(err)
             NBT.error(
                 "无效的类型: " + name +

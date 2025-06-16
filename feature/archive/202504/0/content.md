@@ -1,7 +1,5 @@
 <!-- markdownlint-disable MD033 MD041 -->
-<script setup>
-    import FeaturedHead from '/.vitepress/vue/FeaturedHead.vue'
-</script>
+
 
 <FeaturedHead
     title = 原版家具的“终极答案”？——新一代家具框架《松果核》

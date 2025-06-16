@@ -328,7 +328,7 @@ async function sha256(str: string): Promise<string> {
 
 async function checkCache(code: string): Promise<NBT | null> {
     const hashValue = await sha256(code);
-    const cacheFilePath = `resources/nbt-json/cache/${hashValue}.json`;
+    const cacheFilePath = `/nbt-json/cache/${hashValue}.json`;
     if (fs.existsSync(cacheFilePath)) {
         const jsonString = fs.readFileSync(cacheFilePath, 'utf-8');
         const nbt = await NBT.fromJSON(JSON.parse(jsonString));
@@ -388,11 +388,18 @@ export async function compileString(code: string): Promise<NBT>{
     }
     //将编译结果写入缓存
     //const hashValue = await sha256(code);
-    //const cacheFilePath = `resources/nbt-json/cache/${hashValue}.json`;
+    //const cacheFilePath = `/nbt-json/cache/${hashValue}.json`;
     //fs.writeFileSync(cacheFilePath, JSON.stringify(nbt[0].toJSON()));
     if(nbts[0]){
         return nbts[0]
     }else {
         throw new Error("编译NBT失败：" + code)
     }
+}
+
+export async function compileToCache(id: string, code: string): Promise<NBT>{
+    let nbt = await compileString(code);
+    nbt.isTemplate = true
+    NBT.addCache(id, nbt)
+    return nbt
 }

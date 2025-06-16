@@ -1,7 +1,3 @@
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
-
 <FeatureHead
     title = 高版本如何更好的编辑自定义物品交互属性(触发器详解)
     authorName = 七柏

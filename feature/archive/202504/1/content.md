@@ -1,6 +1,4 @@
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
+
 
 <FeatureHead
     title = 数据包快速入门

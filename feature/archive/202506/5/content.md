@@ -1,6 +1,4 @@
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
+
 
 <FeatureHead
     title = 使用对话框制作2D小游戏

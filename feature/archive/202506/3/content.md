@@ -1,7 +1,3 @@
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
-
 <FeatureHead
     title = '从0开始制作哈基米音乐唱片数据包'
     authorName = 水上的星星

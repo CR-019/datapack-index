@@ -1,6 +1,4 @@
-﻿<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
+﻿
 
 <FeatureHead
     title = 数据包优化原则以及分析方式简述

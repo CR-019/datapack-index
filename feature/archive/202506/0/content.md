@@ -1,7 +1,5 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <script setup>
-    import FeaturedHead from '/.vitepress/vue/FeaturedHead.vue';
-    import NBTTree from '/.vitepress/vue/NBTTree.vue';
     import {config} from '/.vitepress/MCFPPNBTParser.ts';
 
     config.namespace = "floating_ui"

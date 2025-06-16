@@ -4,10 +4,6 @@
 
 ---
 
-<script setup>
-    import NBTTree from '/.vitepress/vue/NBTTree.vue'
-</script>
-
 <NBTTree code='
 @Desc<"这是一个测试数据结构">
 data Test: minecraft:Item {

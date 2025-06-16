@@ -7,8 +7,6 @@ pageClass: h2-no-border
 ---
 
 <script setup>
-	import ColorLine from '/.vitepress/vue/ColorLine.vue'
-  import JournalIndex from '/.vitepress/vue/JournalIndex.vue'
 </script>
 
 # 《Feature》

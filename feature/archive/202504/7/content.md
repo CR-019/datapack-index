@@ -1,6 +1,4 @@
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
+
 
 <FeatureHead
     title = 根据记分板分数排名

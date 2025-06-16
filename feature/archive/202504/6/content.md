@@ -1,6 +1,4 @@
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
+
 
 <FeatureHead
     title = 使用复合物品模型映射更简便的制作状态栏

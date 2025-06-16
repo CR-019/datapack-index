@@ -1,7 +1,5 @@
 <!-- markdownlint-disable MD033 MD041 -->
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
+
 
 <FeatureHead
     title = 原版血条！

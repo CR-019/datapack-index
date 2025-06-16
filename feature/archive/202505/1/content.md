@@ -1,6 +1,28 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <script setup>
-    import FeaturedHead from '/.vitepress/vue/FeaturedHead.vue'
+  import {compileToCache} from "/.vitepress/MCFPPNBTParser";
+
+  compileToCache('sklibs:command',`
+@Desc<"函数对象">
+data CommandObj {
+    @Desc<"需要执行的函数"> cmd as string;
+    @Desc<"函数参数"> args as compound;
+}
+`);
+
+  compileToCache('sklibs:color',`
+@Desc<"随机颜色项目">
+data Color {
+    @Desc<"初始十进制颜色HEX代码值数组，数组中一个数字代表一个颜色"> @Name<"from"> fro as list<int>;
+    @Desc<"渐变至十进制颜色HEX代码值数组，数组中一个数字代表一个颜色"> to as list<int>;
+    @Desc<"烟花形状(0:小球，1:大球，2:星状，3:苦力怕，4:爆发状)"> shape as int;
+    @Desc<"是否显示踪迹"> trail as int;
+    @Desc<"是否闪烁"> colors as int;
+    @Desc<"烟花叠加数量"> colors as int;
+    @Desc<"给烟花添加的字符串标签"> tags as list<string>;
+}
+  `)
+
 </script>
 
 <FeaturedHead
@@ -229,188 +251,40 @@ function sklibs:skfirework/fx/launch {
 （关于前置包，目前处于开发状态，基本完成后会写文章介绍）
 
 ## API函数
-`sklibs:skfirework/fx/launch`\
+
+`sklibs:skfirework/fx/launch`
 烟花启动函数，用于制做烟花升空阶段
-<div class="nbt-tree">
-  <span>
-    <span class="nbt-seg"></span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>config</strong>：根标签
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int.svg" width="16" />
-    <strong>life</strong>：升空时间tick
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>cmdv</strong>：升空时间延迟结束后执行的命令
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    (一个命令事件)
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/string.svg" width="16" />
-    <strong>cmd</strong>：需要执行的函数
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>args</strong>：(可选)函数的参数
-  </span>
-</div>
+
+<NBTTree code='
+@Desc<"函数参数">
+data config {
+    @Desc<"升空时间（tick）"> life as int;
+    @Desc<"升空时间延迟结束后执行的命令"> cmdv as list<sklibs:command>;
+}'
+/>
 
 `sklibs:skfirework/fx/spread`\
 烟花扩散函数
-<div class="nbt-tree">
-  <span>
-    <span class="nbt-seg"></span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>config</strong>：根标签
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int.svg" width="16" />
-    <strong>n</strong>：数量
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>pitch</strong>：(可省缺，默认[-180,180]) 偏航角随机区间
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>yaw</strong>：(可省缺，默认[-90,-20]) 俯仰角随机区间
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>t</strong>：(可省缺，默认[20,60]) 延迟随机区间
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/double.svg" width="16" />
-    <strong>v</strong>：(可省缺，默认0.4d) 初速度，单位 格/tick
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/double.svg" width="16" />
-    <strong>g</strong>：(可省缺，默认0.01d) 重力加速度，单位 格/tick
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>cmdv</strong>：延迟结束后执行的命令
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    (一个命令事件)
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/string.svg" width="16" />
-    <strong>cmd</strong>：需要执行的函数
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>args</strong>：(可省缺)函数的参数
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>tick_cmdv</strong>：(可省缺)延迟期间每刻执行的命令
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    (一个命令事件)
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/string.svg" width="16" />
-    <strong>cmd</strong>：需要执行的函数
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>args</strong>：(可省缺)函数的参数
-  </span>
-</div>
+<NBTTree code='
+@Desc<"函数参数">
+data config {
+    @Desc<"数量"> n as int;
+    @Desc<"偏航角随机区间，默认[-180, 180]"> yaw as list<int>;
+    @Desc<"俯仰角随机区间，默认[-90, -20]"> pitch as list<int>;
+    @Desc<"延迟随机区间，默认[20,60]"> t as list<int>;
+    @Desc<"初速度（格/tick），默认 0.4d"> v as double;
+    @Desc<"重力加速度（格/tick），默认 0.01d"> g as double;
+    @Desc<"延迟结束后执行的命令"> cmdv as list<sklibs:command>;
+    @Desc<"延迟期间每刻执行的命令"> tick_cmdv as list<sklibs:command>;
+}
+'/>
 
 `sklibs:skfirework/fx/firework`\
 烟花生成函数，根据参数生成指定样式的原版烟花
-<div class="nbt-tree">
-  <span>
-    <span class="nbt-seg"></span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>config</strong>：根标签
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int.svg" width="16" />
-    <strong>life</strong>：（可省缺，默认为0）烟花燃放延迟
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>colors</strong>：随机颜色
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    (一个随机颜色项目)
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int_array.svg" width="16" />
-    <strong>from</strong>：初始颜色值数组，数组中一个数字代表一个颜色
-  </span>
-  <span class="nbt-indent-3">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int_array.svg" width="16" />
-    <strong>to</strong>：渐变至颜色值数组，数组中一个数字代表一个颜色
-  </span>
-  <div style="margin-left: 8em;">
-    这里的颜色值是十进制整数，例如红色(0xFF0000)的颜色值为16711680
-  </div>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int.svg" width="16" />
-    <strong>shape</strong>：烟花形状(0:小球，1:大球，2:星状，3:苦力怕，4:爆发状)
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int.svg" width="16" />
-    <strong>trail</strong>：(可省缺,默认为0)是否显示踪迹
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int.svg" width="16" />
-    <strong>twinkle</strong>：(可省缺,默认为0)是否闪烁
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/int.svg" width="16" />
-    <strong>n</strong>：烟花叠加数量
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>tags</strong>：(可省缺)给烟花添加的标签
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/string.svg" width="16" />
-    (一个标签)
-  </span>
-</div>
-
-
-
+<NBTTree code='
+@Desc<"函数参数">
+data config {
+    @Desc<"烟花燃放延迟（默认为0）"> life as int;
+    @Desc<"随机颜色"> colors as list<sklibs:color>;
+}
+'/>

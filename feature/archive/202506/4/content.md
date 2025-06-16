@@ -1,7 +1,3 @@
-<script setup>
-    import FeatureHead from '/.vitepress/vue/FeatureHead.vue'
-</script>
-
 <FeatureHead
     title = '数据包の究极存值原理——什么是SNBT'
     authorName = xiaou0
