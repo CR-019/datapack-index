@@ -1,6 +1,5 @@
 <!-- markdownlint-disable MD033 MD041 -->
 
-
 <FeatureHead
     title = 对展示实体渲染变换的研究
     authorName = 徐木弦
@@ -13,12 +12,16 @@
 />
 
 ## 引言
+
 展示实体作为Minecraft的技术性实体之一，它们的作用主要体现在视觉方面。这些实体没有碰撞箱，没有任何自主行为，只能通过技术手段生成。在生成时如果不指定NBT，则不会显示任何内容。原版技术开发者可以用展示实体的常规字段展示一些普通的内容，如正常形状的方块、物品、文字，但如果仅用展示实体展示这些常规内容，未免有些单调。\
 展示实体的`transformation`字段是实体格式中较复杂的一个字段，它使用矩阵形式或分解形式来表示展示实体的渲染变换，从而制造一些特殊的效果。
 
 ## 矩阵形式
+
 使用矩阵形式时，字段`transformation`的数据类型为列表，列表内一共有16个元素，这些元素均为单精度浮点数。这个列表用于表示一个$4×4$的行主序仿射变换矩阵。为了以矩阵形式表示三维空间中点的变换，将原空间映射至仿射空间，对于三维空间内每一个点$(x_0,y_0,z_0)$，在其尾部添加一个$1$以在仿射空间内表示一个点，即$(x_0,y_0,z_0,1)$。令该点经过一定仿射变换$\boldsymbol{A}$后位于$(x',y',z',1)$，则写成矩阵乘法的形式：
-$$\left[\begin{matrix}
+
+$$
+\left[\begin{matrix}
   x'\\y'\\z'\\1
 \end{matrix}\right]=\left[\begin{matrix}
   a_{11}&a_{12}&a_{13}&a_{14}\\
@@ -27,145 +30,227 @@ $$\left[\begin{matrix}
   a_{41}&a_{42}&a_{43}&a_{44}\\
 \end{matrix}\right]\left[\begin{matrix}
   x_0\\y_0\\z_0\\1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 基础变换形式有平移、旋转、缩放（镜像）、剪切，所有的变换均基于实体的实际坐标进行。
+
 ### 平移
+
 设展示实体上任意一点$(x_0,y_0,z_0,1)$在$x$、$y$、$z$轴分别平移$a$、$b$、$c$后得到点$(x',y',z',1)$，则
+
 $$\left\{\begin{matrix*}[l]
   x'&=&x_0&&&&&+&a\\
   y'&=&&&y_0&&&+&b\\
   z'&=&&&&&z_0&+&c\\
   1&=&&&&&&&1
 \end{matrix*}\right.$$
+
 则平移矩阵$\boldsymbol{T}$为
+
 $$\boldsymbol{T}(a,b,c)=\left[\begin{matrix}
   1&0&0&a\\
   0&1&0&b\\
   0&0&1&c\\
   0&0&0&1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 ### 旋转
+
 一共有三种旋转方式，即绕$x$轴、绕$y$轴和绕$z$轴旋转。以绕$x$轴旋转$\alpha$为例，假设实体上一点$A$和实体锚点$O$所成直线与$z$轴的夹角为$\varphi$，令$\overrightarrow{OA}$的模为$l$，则有
+
 $$\left\{\begin{array}{l}
   x=x\\
   y=l\cos{\varphi}\\
   z=l\sin{\varphi}
-\end{array}\right.$$
+\end{array}\right.
+$$
+
 $\overrightarrow{OA}$绕$x$轴旋转$\alpha$得到$\overrightarrow{OA'}$，此时有
+
 $$\left\{\begin{array}{l}
   x'=x\\
   y'=l\cos(\varphi+\alpha)=l\cos\varphi\cos\alpha-l\sin\varphi\sin\alpha\\
   z'=l\sin(\varphi+\alpha)=l\sin\varphi\cos\alpha+l\cos\varphi\sin\alpha
-\end{array}\right.$$
+\end{array}\right.
+$$
+
 于是有
+
 $$\left\{\begin{array}{l}
   x'=x\\
   y'=y\cos\alpha-z\sin\alpha\\
   z'=y\sin\alpha+z\cos\alpha
-\end{array}\right.$$
+\end{array}\right.
+$$
+
 将其转换为仿射矩阵，得到
+
 $$\boldsymbol{R}_{x}(\alpha)=\left[\begin{matrix}
-  1&0&0&0\\
-  0&\cos{\alpha}&-\sin{\alpha}&0\\
-  0&\sin{\alpha}&\cos{\alpha}&0\\
-  0&0&0&1
-\end{matrix}\right]$$
+1&0&0&0\\
+0&\cos{\alpha}&-\sin{\alpha}&0\\
+0&\sin{\alpha}&\cos{\alpha}&0\\
+0&0&0&1
+\end{matrix}\right]
+$$
+
 同理，绕$y$轴旋转$\beta$的矩阵形式为
+
 $$\boldsymbol{R}_{y}(\beta)=\left[\begin{matrix}
   \cos{\beta}&0&\sin{\beta}&0\\
   0&1&0&0\\
   -\sin{\beta}&0&\cos{\beta}&0\\
   0&0&0&1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 绕$z$轴旋转$\gamma$的矩阵形式为
+
 $$\boldsymbol{R}_{z}(\gamma)=\left[\begin{matrix}
   \cos{\gamma}&-\sin{\gamma}&0&0\\
   \sin{\gamma}&\cos{\gamma}&0&0\\
   0&0&1&0\\
   0&0&0&1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 ### 缩放
+
 设展示实体上任意一点$(x_0,y_0,z_0,1)$沿$x$、$y$、$z$轴分别缩放$m$、$n$、$p$倍后得到点$(x',y',z',1)$，则
+
 $$\left\{\begin{matrix*}[l]
   x'&=&mx_0&&&&&&\\
   y'&=&&&ny_0&&&&\\
   z'&=&&&&&pz_0&&\\
   1&=&&&&&&&1
-\end{matrix*}\right.$$
+\end{matrix*}\right.
+$$
+
 则缩放矩阵$\boldsymbol{S}$为
+
 $$\boldsymbol{S}(m,n,p)=\left[\begin{matrix}
   m&0&0&0\\
   0&n&0&0\\
   0&0&p&0\\
   0&0&0&1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 若$m=n=p$，则是均匀缩放；不然则是非均匀缩放。
+
 ### 镜像
+
 对于缩放矩阵而言，特别地，若$m$、$n$、$p$三者中至少有一个为负数，都会进行镜像变换。负缩放因子使坐标系在对应轴上反转，表面法线方向改变，从而造成内凹渲染。\
+
 ![镜像变换造成的内凹渲染](img/镜像变换造成的内凹渲染.png)\
+
 若展示实体上任意一点$(x_0,y_0,z_0,1)$沿$x$轴镜像，其他方向上不作变化，易得镜像矩阵
-$$\boldsymbol{M}_{x}(m)=\left[\begin{matrix}
+
+$$
+\boldsymbol{M}_{x}(m)=\left[\begin{matrix}
   m&0&0&0\\
   0&1&0&0\\
   0&0&1&0\\
   0&0&0&1
-\end{matrix}\right]$$
-其中$m<0$。同理可得沿$y$轴镜像、沿$z$轴镜像的矩阵$\boldsymbol{M}_{y}(n)$、$\boldsymbol{M}_{z}(p)$。在多个方向进行的镜像变换也很容易得出，例如在$x$轴、$y$轴、和$z$轴方向上同时应用镜像变换所需的矩阵（$m<0$，$n<0$，$p<0$）为
-$$\boldsymbol{M}_{x,y,z}(m,n,p)=\left[\begin{matrix}
+\end{matrix}\right]
+$$
+
+其中$m<0$。同理可得沿$y$轴镜像、沿$z$轴镜像的矩阵$\boldsymbol{M}_{y}(n)$、$\boldsymbol{M}_{z}(p)$。在多个方向进行的镜像变换也
+很容易得出，例如在$x$轴、$y$轴、和$z$轴方向上同时应用镜像变换所需的矩阵（$m<0$，$n<0$，$p<0$）为
+
+$$
+\boldsymbol{M}_{x,y,z}(m,n,p)=\left[\begin{matrix}
   m&0&0&0\\
   0&n&0&0\\
   0&0&p&0\\
   0&0&0&1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 ### 剪切
-剪切变换将实体上所有点沿某一方向做一定移动，通过原点的直线上任意一点沿该方向移动的距离随直线与原点的距离线性变化，这使得图像变得倾斜。一种剪切变换发生在两个正交坐标轴组成的平面内，在其中一个方向上做剪切，在另一个方向上不做变换。三维坐标系中坐标轴两两正交一共有六对正交关系，因此初等剪切变换一共有六种。\
-![剪切变换](img/剪切变换.png)\
+
+剪切变换将实体上所有点沿某一方向做一定移动，通过原点的直线上任意一点沿该方向移动的距离随直线与原点的距离线性变化，这使得图像变得倾斜。一种剪切变换发生在两个正交坐标轴组成的平面内，在其中一个方向上做剪切，在另一个方向上不做变换。三维坐标系中坐标轴两两正交一共有六对正交关系，因此初等剪切变换一共有六种。
+
+![剪切变换](img/剪切变换.png)
+
 如图，图像在一个方向发生剪切的过程中，实际上与另一个方向拥有一个剪切角度$\theta_{i,j}$，下标（$i,j$）代表在$i$方向内做剪切，并与$j$方向呈一定剪切角度。若图中横向为$x$轴，纵向为$y$轴，剪切角度记为$\theta_{x,y}$，显然有
+
 $$\left\{\begin{matrix*}[l]
   x'&=&x_0+&y_{0}\tan{\theta_{x,y}}&&&&\\
   y'&=&&y_0&&&&\\
   z'&=&&&&z_0&&\\
   1&=&&&&&&&1
-\end{matrix*}\right.$$
+\end{matrix*}\right.
+$$
+
 则$x$轴方向上做剪切、并与$y$轴方向呈一定剪切角度所需矩阵$\boldsymbol{H}$为
-$$\boldsymbol{H}(\theta_{x,y})=\left[\begin{matrix}
+
+$$
+\boldsymbol{H}(\theta_{x,y})=\left[\begin{matrix}
   1&\tan{\theta_{x,y}}&0&0\\
   0&1&0&0\\
   0&0&1&0\\
   0&0&0&1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 同理可推导得到其他六种剪切变换所需的矩阵。当剪切变换的方向为$x$轴时，元素$\tan{\theta_{i,j}}$一定位于矩阵的第一行，$y$轴则为第二行，$z$轴则为第三行；与变换方向呈剪切角度的方向为$x$轴时，元素$\tan{\theta_{i,j}}$一定位于第一列，$y$轴则为第二列，$z$轴则为第三列。例如，某个剪切变换在$z$轴方向进行，与$x$轴方向呈剪切角度，则$\tan{\theta_{z,x}}$位于第三行第一列。\
 以上描述的剪切矩阵均为仅在一个方向上做变换，并与另一个方向呈一定剪切角度的情况。若同时应用多个不同的剪切变换，使用上面的规律填入元素，则剪切矩阵可记为
-$$\boldsymbol{H}(\theta_{x,y},\theta_{x,z},\theta_{y,x},\theta_{y,z},\theta_{z,x},\theta_{z,y})=\left[\begin{matrix}
+
+$$
+\boldsymbol{H}(\theta_{x,y},\theta_{x,z},\theta_{y,x},\theta_{y,z},\theta_{z,x},\theta_{z,y})=\left[\begin{matrix}
   1&\tan{\theta_{x,y}}&\tan{\theta_{x,z}}&0\\
   \tan{\theta_{y,x}}&1&\tan{\theta_{y,z}}&0\\
   \tan{\theta_{z,x}}&\tan{\theta_{z,y}}&1&0\\
   0&0&0&1
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 若某个方向的剪切变换不使用，将矩阵中对应位置的$\tan{\theta_{i,j}}$写为$0$即可。
+
 ### 组合变换
+
 一种变换可能无法满足要求，有时需要同时应用多种以表示复杂的变换。对于有限个仿射变换$\boldsymbol{A}_1$、$\boldsymbol{A}_2$、……$\boldsymbol{A}_n$，依次将它们作用于一点$\boldsymbol{x}$，则变换后得到的点$\boldsymbol{x'}$为
-$$\boldsymbol{x'}=\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1}\boldsymbol{x}$$
+
+$$
+\boldsymbol{x'}=\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1}\boldsymbol{x}
+$$
+
 注意矩阵的乘法遵循从右向左的运算规则，且不支持交换律，但是支持结合律，因此有
-$$\boldsymbol{x'}=(\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1})\boldsymbol{x}$$
-令$\boldsymbol{A}=\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1}$，则$\boldsymbol{x}=\boldsymbol{A}\boldsymbol{x'}$，其中$\boldsymbol{A}$为组合变换矩阵。组合变换中各种变换的次序非常重要，上一个变换可能会影响下一个变换的结果。\
+$$
+\boldsymbol{x'}=(\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1})\boldsymbol{x}
+$$
+
+令$\boldsymbol{A}=\boldsymbol{A}_{n}\boldsymbol{A}_{n-1}\cdots\boldsymbol{A}_{2}\boldsymbol{A}_{1}$，则$\boldsymbol{x}=\boldsymbol{A}\boldsymbol{x'}$，其中$\boldsymbol{A}$为组合变换矩阵。组合变换中各种变换的次序非常重要，上一个变换可能会影响下一个变换的结果。
+
 在标签`transformation`中使用的矩阵均为组合变换矩阵。
+
 ### 应用实例
+
 修改一个方块展示实体的NBT数据，使之依次绕$y$轴旋转$30^{\circ}$、绕$x$轴旋转$45^{\circ}$、绕$z$轴旋转$90^{\circ}$。
 求出组合变换矩阵，注意按从右向左的顺序计算：
-$$\begin{align}
+
+$$
+\begin{align}
   \boldsymbol{A}&=\boldsymbol{R}_{z}(90^{\circ})\boldsymbol{R}_{x}(45^{\circ})\boldsymbol{R}_{y}(30^{\circ})\nonumber\\
   &=\left[\begin{matrix}\cos{90^{\circ}}&-\sin{90^{\circ}}&0&0\\\sin{90^{\circ}}&\cos{90^{\circ}}&0&0\\0&0&1&0\\0&0&0&1\end{matrix}\right]\left[\begin{matrix}1&0&0&0\\0&\cos{45^{\circ}}&-\sin{45^{\circ}}&0\\0&\sin{45^{\circ}}&\cos{45^{\circ}}&0\\0&0&0&1\end{matrix}\right]\left[\begin{matrix}\cos{30^{\circ}}&0&\sin{30^{\circ}}&0\\0&1&0&0\\-\sin{30^{\circ}}&0&\cos{30^{\circ}}&0\\0&0&0&1\end{matrix}\right]\nonumber\\
   &=\left[\begin{matrix}-\cfrac{\sqrt{2}}{4}&-\cfrac{\sqrt{2}}{2}&\cfrac{\sqrt{6}}{4}&0\\\cfrac{\sqrt{3}}{2}&0&\cfrac{1}{2}&0\\-\cfrac{\sqrt{2}}{4}&\cfrac{\sqrt{2}}{2}&\cfrac{\sqrt{6}}{4}&0\\0&0&0&1\end{matrix}\right]\approx\left[\begin{matrix}-0.35&-0.71&0.61&0\\0.87&0&0.5&0\\-0.35&0.71&0.61&0\\0&0&0&1\end{matrix}\right]\nonumber
-\end{align}$$
+\end{align}
+$$
+
 故命令应为
+
 ```mcfunction
 data merge entity @e[type=block_display,limit=1] {transformation:[-0.35f,-0.71f,0.61f,0.0f,0.87f,0.0f,0.5f,0.0f,-0.35f,0.71f,0.61f,0.0f,0.0f,0.0f,0.0f,1.0f]}
 ```
 
 ## 分解形式
+
 对于这些$4\times 4$大小的仿射变换矩阵$\boldsymbol{A}$，其元素$a_{41}$、$a_{42}$、$a_{43}$总是为0，$a_{44}$总是为1，若不为1，则将整个矩阵按$\cfrac{1}{a_{44}}$的比例缩放，从而使$a_{44}$为1。可以将其分块写成如下的形式：
-$$\boldsymbol{A}=\left[\begin{array}{ccc|c}
+
+$$
+\boldsymbol{A}=\left[\begin{array}{ccc|c}
   a_{11}&a_{12}&a_{13}&a_{14}\\
   a_{21}&a_{22}&a_{23}&a_{24}\\
   a_{31}&a_{32}&a_{33}&a_{34}\\
@@ -174,10 +259,16 @@ $$\boldsymbol{A}=\left[\begin{array}{ccc|c}
 \end{array}\right]=\left[\begin{matrix}
   \boldsymbol{B}_{3\times 3}&\boldsymbol{T}_{3\times 1}\\
   \boldsymbol{O}_{1\times 3}&\boldsymbol{E}_{1\times 1}\\
-\end{matrix}\right]$$
+\end{matrix}\right]
+$$
+
 式中分块阵$\boldsymbol{B}$是左上角$3\times 3$区域，这个区域代表模型的线性变换，存储了包括旋转、缩放、镜像和剪切在内的所有线性变换数据，注意，这个分块阵不适用于平移变换，因为平移变换不是线性变换。而分块阵$\boldsymbol{T}$的三个元素仅被平移变换所使用。\
 分解形式的`transformation`字段是分块阵$\boldsymbol{B}$经奇异值分解后使用的数据。对于任意的3阶方阵$\boldsymbol{B}$，总存在3阶正交方阵$\boldsymbol{U}$和$\boldsymbol{V}$、3阶对角阵$\boldsymbol{\varSigma}$，有
-$$\boldsymbol{B}=\boldsymbol{U\varSigma}\boldsymbol{V}^\mathrm{T}$$
+
+$$
+\boldsymbol{B}=\boldsymbol{U\varSigma}\boldsymbol{V}^\mathrm{T}
+$$
+
 式中：\
 $\boldsymbol{V}^\mathrm{T}$——矩阵$\boldsymbol{V}$的转置矩阵。\
 称$\boldsymbol{U}$为左奇异向量矩阵，$\boldsymbol{V}$为右奇异向量矩阵，对角阵$\boldsymbol{\varSigma}$中对角线上的三个元素被称为奇异值。下面介绍奇异值分解的计算方法。\
@@ -205,77 +296,24 @@ $$\boldsymbol{V}=\boldsymbol{B}^{-1}\boldsymbol{U\varSigma}$$
 这样可以不进行对角化计算而直接求出右奇异向量矩阵$\boldsymbol{V}$。\
 矩阵奇异值分解的结果具有几何意义，其中$\boldsymbol{U}$、$\boldsymbol{V}$是旋转变换矩阵，$\boldsymbol{\varSigma}$是缩放变换矩阵。任何变换都可以被分解成四个过程：初次旋转变换、缩放变换、再次旋转变换和平移变换。因此，用$\boldsymbol{V}$表示初次旋转变换，用$\boldsymbol{\varSigma}$表示缩放变换，用$\boldsymbol{U}$表示再次旋转变换，在此基础上再引入平移向量$\boldsymbol{T}$，则可以得到变换矩阵$\boldsymbol{A}$的分解形式，此时字段`transformation`是复合标签：
 
-<div class="nbt-tree">
-  <span>
-    <span class="nbt-seg"></span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>transformation</strong>：根标签
-  </span>
-
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>right_rotation</strong>：模型进行缩放变换前的旋转变换，即初次旋转变换，
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">│</span> 与奇异值分解中的V相关。拥有两种可用数据形式：轴角式和四元数形式。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">│</span> 编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/any.svg" width="16" />
-    (初次旋转数据)
-  </span>
-
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>scale</strong>：模型的缩放变换，与奇异值分解中的∑相关。使用三维向量。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
-    (向量的一个分量)
-  </span>
-
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>left_rotation</strong>：模型进行缩放变换后的旋转变换，即再次旋转变换，
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">│</span> 与奇异值分解中的U相关。同样有轴角式和用四元数形式两种表示方式。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">│</span> 编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/any.svg" width="16" />
-    (再次旋转数据)
-  </span>
-
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>translation</strong>：模型的平移变换 T。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">│</span> 对应矩阵形式最后一列前三行元素。使用三维向量。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
-    (一个分量)
-  </span>
-</div>
+<NBTTree code='
+@Desc<"根标签">
+data transformation {
+  @Desc<"模型进行缩放变换前的旋转变换，即初次旋转变换。与奇异值分解中的V相关。拥有两种可用数据形式：轴角式和四元数形式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。"> 
+  right_rotation as (compound | list<compound>);
+  @Desc<"模型的缩放变换，与奇异值分解中的∑相关。使用三维向量。"> 
+  scale as list<float>;
+  @Desc<"模型进行缩放变换后的旋转变换，即再次旋转变换，与奇异值分解中的U相关。同样有轴角式和用四元数形式两种表示方式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。"> 
+  left_rotation as (compound | list<compound>);
+  @Desc<"模型的平移变换 T。对应矩阵形式最后一列前三行元素。使用三维向量。"> 
+  translation as list<float>;
+}
+'/>
 
 对于`right_rotation`和`left_rotation`这两个字段，有轴角式和四元数形式两种数据形式表示旋转。下面分别介绍这两种数据形式：
+
 ### 轴角式
+
 轴角式旋转可以理解为：一个向量$\boldsymbol{v}$绕一个通过原点（即实体实际位置）的长度为1的轴$\boldsymbol{u}$旋转角度$\theta$得到向量$\boldsymbol{v}'$。此时有$\left\lVert\boldsymbol{u}\right\rVert=1$。\
 ![轴角式旋转示意图](img/轴角式旋转示意图.png)\
 为了便于分析，将向量$\boldsymbol{v}$分解成平行于轴$\boldsymbol{u}$的向量$\boldsymbol{v}_{\parallel}$和正交于轴$\boldsymbol{u}$的向量$\boldsymbol{v}_{\perp}$，于是有
@@ -307,30 +345,15 @@ $$\begin{align}
 \end{align}$$
 使用轴角式表示旋转时字段`right_rotation`和`left_rotation`为复合标签：
 
-<div class="nbt-tree">
-  <span>
-    <span class="nbt-seg"></span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>left_rotation</strong> 或
-    <img class="nbt-icon" src="/refs/nbt_sprites/object.svg" width="16" />
-    <strong>right_rotation</strong>
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">├─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
-    <strong>angle</strong>：绕轴旋转的角度，即 θ 角，采用角度制。
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
-    <strong>axis</strong>：含三个元素的有序数组，用于定义旋转轴向量 uu。一般可以写成单位向量。
-  </span>
-  <span class="nbt-indent-2">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
-    (向量的一个分量)
-  </span>
-</div>
+<NBTTree code='
+@Desc<"left_rotation 或 right_rotation">
+data xxx_rotation {
+  @Desc<"绕轴旋转的角度，即 θ 角，采用角度制。"> 
+  angle as float;
+  @Desc<"含三个元素的有序数组，用于定义旋转轴向量 uu。一般可以写成单位向量。"> 
+  axis as list<float>;
+}
+'/>
 
 ### 四元数形式
 使用四元数形式表示旋转时，字段`right_rotation`和`left_rotation`类型是列表，数据格式为：
@@ -338,14 +361,14 @@ $$\begin{align}
 <div class="nbt-tree">
   <span>
     <span class="nbt-seg"></span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <img class="nbt-icon" src="/nbt_sprites/homolist.svg" width="16" />
     <strong>left_rotation</strong> 或
-    <img class="nbt-icon" src="/refs/nbt_sprites/homolist.svg" width="16" />
+    <img class="nbt-icon" src="/nbt_sprites/homolist.svg" width="16" />
     <strong>right_rotation</strong>：表示四元数的四个元素，顺序依次为 x、y、z、w。
   </span>
   <span class="nbt-indent-1">
     <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/refs/nbt_sprites/float.svg" width="16" />
+    <img class="nbt-icon" src="/nbt_sprites/float.svg" width="16" />
     (四元数中的一个元素)
   </span>
 </div>

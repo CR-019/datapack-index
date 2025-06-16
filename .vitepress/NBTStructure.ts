@@ -1,6 +1,3 @@
-import * as stream from "stream";
-
-
 export enum NBTType {
     End = 0,
     Byte = 1,
@@ -189,7 +186,7 @@ export class NBT {
         const namespaceID = name.split(":", 2)
         const path = namespaceID[0].replace(".", "/")
         const file = namespaceID[1]
-        let url: string = null
+        let url: string | null = null
         try{
             // @ts-ignore
             if(typeof globalThis.window !== undefined){

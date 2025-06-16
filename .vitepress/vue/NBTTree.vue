@@ -76,10 +76,6 @@ export default {
         code: {
             type: String,
             default: null
-        },
-        import: {
-            type: Array,
-            default: []
         }
     },
     data() {
