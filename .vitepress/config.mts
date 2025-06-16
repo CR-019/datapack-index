@@ -4,14 +4,13 @@ import { mcfunction } from "./highlights/mcfuntion";
 import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
 import anchor from "markdown-it-footnote";
-import {nodePolyfills} from 'vite-plugin-node-polyfills';
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 import {
     sidebar_feature,
     sidebar_202504,
     sidebar_202505,
     sidebar_202506,
 } from "./sidebar_feature";
-import viteImagemin from "vite-plugin-imagemin";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -89,15 +88,9 @@ export default defineConfig({
     },
     vite: {
         plugins: [
-            viteImagemin({
-                gifsicle: { optimizationLevel: 3 },
-                mozjpeg: { quality: 75 },
-                pngquant: { quality: [0.8, 0.9] },
-                svgo: { plugins: [{ removeViewBox: false }] },
-            }),
             nodePolyfills({
-                include: ['util']
+                include: ["util"],
             })
         ],
-    }
+    },
 });
