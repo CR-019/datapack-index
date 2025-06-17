@@ -422,4 +422,4 @@ $loot replace entity @s weapon.mainhand loot cit:$(id)
 
 ---
 ## 附录
-[附加实例地图](/feature/archive/202506/2/附加实例地图.zip)
+[附加实例地图](/feature/archive/202506/_assets/附加实例地图.zip)
