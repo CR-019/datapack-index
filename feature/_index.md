@@ -6,9 +6,6 @@ next: false
 pageClass: h2-no-border
 ---
 
-<script setup>
-</script>
-
 # 《Feature》
 <p class="img_feature">
   <img src="/feature/title.png" alt="描述图片的文字">
