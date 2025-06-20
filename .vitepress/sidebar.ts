@@ -46,7 +46,7 @@ export const sidebar: DefaultTheme.Sidebar = [
         items: [
           { text: '战利品表', link: '/index/数据包2-数据结构/#战利品表' },
           { text: '谓词', link: '/index/数据包2-数据结构/#谓词' },
-          { text: '物品修饰器', link: '/index/数据结构/#物品修饰器' },
+          { text: '物品修饰器', link: '/index/数据包2-数据结构/#物品修饰器' },
           { text: '进度', link: '/index/数据包2-数据结构/#进度' },
           { text: '附魔', link: '/index/数据包2-数据结构/#附魔' },
           { text: '标签', link: '/index/数据包2-数据结构/#标签' },
