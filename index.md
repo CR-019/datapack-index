@@ -51,6 +51,7 @@ features:
 ---
 <script setup>
 import { useData } from 'vitepress'
+import RandomParagraph from '/.vitepress/vue/random.vue'
 const { isDark } = useData()
 const { frontmatter } = useData()
 </script>
