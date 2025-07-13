@@ -11,6 +11,7 @@ import {
     sidebar_202505,
     sidebar_202506,
 } from "./sidebar_feature";
+import { MermaidPlugin, MermaidMarkdown } from "vitepress-plugin-mermaid";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -84,13 +85,21 @@ export default defineConfig({
 
         config: (md) => {
             md.use(anchor);
+            md.use(MermaidMarkdown)
         },
     },
     vite: {
         plugins: [
             nodePolyfills({
                 include: ["util"],
-            })
+            }),
+            MermaidPlugin()
         ],
+        optimizeDeps: {
+            include: ['mermaid'],
+        },
+        ssr: {
+            noExternal: ['mermaid'],
+        },
     },
-});
+})
