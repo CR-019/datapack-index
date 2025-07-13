@@ -14,7 +14,7 @@ hero:
       link: /index/绪论
     - theme: alt
       text: 支持一下宣传视频！
-      link: https://www.bilibili.com/video/BV1Aq6nY6EjN
+      link: https://www.bilibili.com/video/BV1JuNyzXEsP
 features:
   - icon:
       src: /icons/sweetbarry_stew.png
@@ -51,6 +51,7 @@ features:
 ---
 <script setup>
 import { useData } from 'vitepress'
+import RandomParagraph from '/.vitepress/vue/random.vue'
 const { isDark } = useData()
 const { frontmatter } = useData()
 </script>
