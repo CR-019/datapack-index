@@ -1,4 +1,4 @@
-<FeatureHead
+<FeaturedHead
     title = '更好的剧情对话'
     authorName = icuqALT10
     avatarUrl = '../../_authors/icuqalt10.jpg'
