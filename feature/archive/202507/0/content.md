@@ -11,9 +11,10 @@
 />
 
 进来了啥都别说，先一起喊：  
-<font size=6>Ciallo～ (∠・ω< )⌒★</font>
 
-欢迎来到我们的MC**旮旯给木(Galgame)**项目，本项目旨在通过简单的方式创建类似Galgame的对话框  
+<p style="font-size: 36px;"> Ciallo～ (∠・ω< )⌒★</p>
+
+欢迎来到我们的MC **旮旯给木(Galgame)** 项目，本项目旨在通过简单的方式创建类似Galgame的对话框  
   
 - 运作方式：原版游戏，**[数据包](https://zh.minecraft.wiki/w/%E6%95%B0%E6%8D%AE%E5%8C%85)**
 - 支持版本：**>=1.21.5**

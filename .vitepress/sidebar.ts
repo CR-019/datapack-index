@@ -14,9 +14,10 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       { text: '🏠绝赞征稿中！', link: '/feature/_index' },
-      { text: '🌟2025.06期', link: '/feature/index/202506' },
+      { text: '🌟2025.07期', link: '/feature/index/202507' },
       {
         text: '往期', collapsed: true, items: [
+          { text: '2025.06期', link: '/feature/index/202506' },
           { text: '2025.05期', link: '/feature/index/202505' },
           { text: '2025.04期', link: '/feature/index/202504' },
         ]
