@@ -27,13 +27,20 @@ pageClass: h2-no-border
 
 ### 🌟最新
 <JournalIndex
-    cover="./cover/202506/202506.png"
-    :coverLink="'./index/202506'"
+    cover="./cover/202507/202507.png"
+    :coverLink="'./index/202507'"
 />
 
 <ColorLine />
 
 ### 往期
+<JournalIndex
+    cover="./cover/202506/202506.png"
+    :coverLink="'./index/202506'"
+/>
+
+---
+
 <JournalIndex
     cover="./cover/202505/202505.png"
     :coverLink="'./index/202505'"

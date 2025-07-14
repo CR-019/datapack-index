@@ -10,6 +10,7 @@ import {
     sidebar_202504,
     sidebar_202505,
     sidebar_202506,
+    sidebar_202507,
 } from "./sidebar_feature";
 import { MermaidPlugin, MermaidMarkdown } from "vitepress-plugin-mermaid";
 
@@ -53,6 +54,7 @@ export default defineConfig({
             "/feature/archive/202504": sidebar_202504,
             "/feature/archive/202505": sidebar_202505,
             "/feature/archive/202506": sidebar_202506,
+            "/feature/archive/202507": sidebar_202507,
             "/feature/": sidebar_feature,
         },
 
