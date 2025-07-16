@@ -12,7 +12,7 @@ import {
     sidebar_202506,
     sidebar_202507,
 } from "./sidebar_feature";
-import { MermaidPlugin, MermaidMarkdown } from "vitepress-plugin-mermaid";
+
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -67,7 +67,7 @@ export default defineConfig({
         footer: {
             copyright: "Copyright©2025 CR_019",
             message:
-                '<a href="https://mcicp.com" title="MCICP备2024000012号" target="_blank">MCICP备2024000012号</a> | Powered by Vitepress and Github Pages',
+                'Powered by Vitepress and Github Pages',
         },
     },
     head: [
@@ -87,21 +87,13 @@ export default defineConfig({
 
         config: (md) => {
             md.use(anchor);
-            md.use(MermaidMarkdown)
         },
     },
     vite: {
         plugins: [
             nodePolyfills({
                 include: ["util"],
-            }),
-            MermaidPlugin()
-        ],
-        optimizeDeps: {
-            include: ['mermaid'],
-        },
-        ssr: {
-            noExternal: ['mermaid'],
-        },
+            })
+        ]
     },
 })
