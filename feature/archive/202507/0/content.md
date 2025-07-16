@@ -6,7 +6,7 @@
         { name: 'BiliBili', url: 'https://space.bilibili.com/1546917549' },
         { name: 'GitHub', url: 'https://github.com/ymqlgthbSakuraDream' }
     ]"
-    resourceLink = 'https://pan.baidu.com/s/1NGMibBc4pVHl096fb7otuQ?pwd=0721'
+    resourceLink = 'https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250705.html'
     cover='../_assets/0.png'
 />
 
