@@ -25,6 +25,7 @@
     "cytoscape-cose-bilkent": "^4.1.0",
     "dayjs": "^1.11.13",
     "debug": "^4.4.1",
+    "vitepress-plugin-mermaid": "^2.0.17",
     "vue": "^3.5.16"
   }
 }
