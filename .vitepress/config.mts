@@ -12,11 +12,11 @@ import {
     sidebar_202506,
     sidebar_202507,
 } from "./sidebar_feature";
-import { withMermaid } from "vitepress-plugin-mermaid";
+
 
 
 // https://vitepress.dev/reference/site-config
-export default withMermaid({
+export default defineConfig({
     title: "香草图书馆",
     base: "/datapack-index/",
     description: "Powered by VitePress",
