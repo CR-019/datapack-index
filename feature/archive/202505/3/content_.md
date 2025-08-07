@@ -197,7 +197,7 @@ struct myStruct{
 }
 ```
 
-想要引用其他文件中生命的内容，使用`use`，使用两个双引号`::`来进入文件夹或模块。你可以引用自己其他自定义文件中的内容，也可以引用`vanilla-mcdoc`中的内容。比如，想要引用我mcdoc文件夹下的`utils.mcdoc`中的`enum(string) ItemNames`，就要写`use::mcdoc::utils::ItemNames`。
+想要引用其他文件中声明的内容，使用`use`，使用两个双引号`::`来进入文件夹或模块。你可以引用自己其他自定义文件中的内容，也可以引用`vanilla-mcdoc`中的内容。比如，想要引用我mcdoc文件夹下的`utils.mcdoc`中的`enum(string) ItemNames`，就要写`use::mcdoc::utils::ItemNames`。
 
 你可以使用vscode打开`vanilla-mcdoc`。在安装了Mcdoc Syntax Highlighting插件的情况下，把光标放进一个模块中，上方应该会显示该模块的路径。
 
