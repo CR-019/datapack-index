@@ -13,8 +13,6 @@ import {
     sidebar_202507,
 } from "./sidebar_feature";
 
-
-
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     title: "香草图书馆",
