@@ -5,7 +5,7 @@
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/526612694' }
     ]"
-    cover='../_assets/clang-mc.png'
+    cover='../_assets/7.png'
 />
 
 ## 摘要

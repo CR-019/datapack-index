@@ -6,7 +6,7 @@
         { name: 'BiliBili', url: 'https://space.bilibili.com/544435182' }
     ]"
     resourceLink = 'https://github.com/NessunoNessun0/TRPG_Plus'
-    cover='../_assets/patrick.png'
+    cover='../_assets/3.png'
 />
 
 ## 现在就开始你的数据包创作之旅！

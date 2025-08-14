@@ -6,7 +6,7 @@
         { name: 'BiliBili', url: 'https://space.bilibili.com/600039129' },
         { name: 'GitHub', url: 'https://github.com/hao145245' }
     ]"
-    cover = 'icon.png'
+    cover = '../_assets/6.png'
 />
 
 > 8月6日在wiki发现的，B站，planetminecraft和modrinth搜了下发现没有人做过，于是记录一下。
