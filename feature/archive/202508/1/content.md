@@ -1,5 +1,5 @@
 <FeatureHead
-    title = '着色器01 Minecraft中的着色器'
+    title = '着色器基础教程01：Minecraft中的着色器'
     authorName = 轩宇1725
     avatarUrl = '../../_authors/轩宇1725.webp'
     :socialLinks="[

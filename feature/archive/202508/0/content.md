@@ -4,6 +4,7 @@
     avatarUrl = '../../_authors/酒石酸菌.webp'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/4435845' }
+        { name: 'Github', url: 'https://github.com/TartaricAcid' }
     ]"
 />
 
@@ -38,7 +39,7 @@ Minecraft 作为一款沙盒游戏，其高度自由的玩法一直是玩家们�
 
 ![img](./1.png)
 
-为了更好地理解结构集的作用，我们以一个有趣的例子来演示：将原版村庄改造成非常城市化的村庄。
+为了更好地理解结构集的作用，我们以一个有趣的例子来演示：**将原版村庄改造成非常城市化的村庄。**
 
 ```json
 {
