@@ -3,7 +3,7 @@
     authorName = 酒石酸菌
     avatarUrl = '../../_authors/酒石酸菌.webp'
     :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/4435845' }
+        { name: 'BiliBili', url: 'https://space.bilibili.com/4435845' },
         { name: 'Github', url: 'https://github.com/TartaricAcid' }
     ]"
 />
