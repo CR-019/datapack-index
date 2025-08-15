@@ -39,3 +39,12 @@ $$
 本文旨在抛砖引玉。提供一个当需要复杂信息输入时，在生存中（特别是没管理员权限时）也能使用的方案。比起聊天栏输入trigger指令的方案更简便（特别是变量复杂的时候）和沉浸式。希望各位大神日后能做出更通用，更简洁，完成度更高的方案。
 
 本数据包已在GitHub开源供大家学习交流，文本提到的功能在roll命名空间下。
+
+::: warning 编辑注
+如果想要体验本数据包的该功能，可以使用下列指令：  
+
+```mcfunction
+give @s minecraft:bone_meal[minecraft:consumable={consume_seconds:1},minecraft:custom_data={roll:{type:"free"}}]
+```
+其中type可以是`free`,`brp`或`fate`。将骨粉按照规则重命名，然后右键将其消耗即可查看效果。
+:::
