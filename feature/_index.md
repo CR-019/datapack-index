@@ -40,7 +40,7 @@ pageClass: h2-no-border
     :coverLink="'./index/202507'"
 />
 
-<ColorLine />
+---
 
 <JournalIndex
     cover="./cover/202506/202506.png"
