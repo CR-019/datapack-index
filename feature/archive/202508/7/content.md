@@ -1,7 +1,7 @@
 <FeatureHead
     title = 'clang-mc：面向 Minecraft 数据包的虚拟 CPU 和汇编开发框架'
     authorName = xia__mc
-    avatarUrl = '../../_authors/xia__mc.webp'
+    avatarUrl = '../../_authors/xia__mc.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/526612694' }
     ]"

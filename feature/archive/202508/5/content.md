@@ -1,7 +1,7 @@
 <FeatureHead
     title = '基于铁砧重命名物品的自定义指令'
     authorName = 没有人_没有人_
-    avatarUrl = '../../_authors/没有人.webp'
+    avatarUrl = '../../_authors/没有人.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/348994579' }
     ]"

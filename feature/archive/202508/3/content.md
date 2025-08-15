@@ -1,7 +1,7 @@
 <FeatureHead
     title = 'Patrick的数据包开发新手导航'
     authorName = Patrick
-    avatarUrl = '../../_authors/Patrick.webp'
+    avatarUrl = '../../_authors/Patrick.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/544435182' }
     ]"
@@ -627,7 +627,7 @@ effects字段最为重要。它定义的是魔咒的行为。
 * 不要局限于原版就有的获取魔咒的方式，自己可以设计一些特别的方式。
 :::
 
-对于魔咒，我有一个作品可以供你参考，请见[附件一](附件一.zip)（数据包）和[附件二](附件二.zip)（资源包）
+对于魔咒，我有一个作品可以供你参考，请见[附件一](/feature/archive/202508/_assets/附件一.zip)（数据包）和[附件二](/feature/archive/202508/_assets/附件二.zip)（资源包）
 
 #### 10、自定义世界生成
 
@@ -699,7 +699,7 @@ effects字段最为重要。它定义的是魔咒的行为。
 
 :::
 
-对于拼图结构，我也有一个作品供你参考。请见[附件三](附件三.zip)。你可以使用命令`/locate structure patricks_structure:pillager_camp`来寻找这个结构。
+对于拼图结构，我也有一个作品供你参考。请见[附件三](/feature/archive/202508/_assets/附件三.zip)。你可以使用命令`/locate structure patricks_structure:pillager_camp`来寻找这个结构。
 
 ##### 不断调试
 

@@ -1,7 +1,7 @@
 <FeaturedHead
     title = 'Minecraft 自定义结构生成指南'
     authorName = 酒石酸菌
-    avatarUrl = '../../_authors/酒石酸菌.webp'
+    avatarUrl = '../../_authors/酒石酸菌.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/4435845' },
         { name: 'Github', url: 'https://github.com/TartaricAcid' }

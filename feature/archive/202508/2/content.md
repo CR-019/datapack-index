@@ -1,7 +1,7 @@
 <FeaturedHead
     title = '基于keybind_down和着色器的原版按键显示 '
     authorName = 火昱Flame
-    avatarUrl = '../../_authors/火昱Flame.webp'
+    avatarUrl = '../../_authors/火昱Flame.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/1036717393' }
     ]"

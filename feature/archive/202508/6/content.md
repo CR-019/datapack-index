@@ -1,7 +1,7 @@
 <FeatureHead
     title = '[1. 14. 4+] TPS检测'
     authorName = hao145245
-    avatarUrl = '../../_authors/hao145245.webp'
+    avatarUrl = '../../_authors/hao145245.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/600039129' },
         { name: 'GitHub', url: 'https://github.com/hao145245' }
