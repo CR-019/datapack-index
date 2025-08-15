@@ -11,8 +11,8 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '最新',
     items: [
       {
-        text: '🌟2025.7月刊',
-        link: '/feature/index/202507'
+        text: '🌟2025.8月刊',
+        link: '/feature/index/202508'
       },
     ]
   },
@@ -20,6 +20,10 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '往期',
     collapsed:false,
     items: [
+      {
+        text: '2025.7月刊',
+        link: '/feature/index/202507'
+      },
       {
         text: '2025.6月刊',
         link: '/feature/index/202506'
@@ -174,6 +178,7 @@ export const sidebar_202507: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202507' },
       { text: '上一刊', link: '/feature/index/202506' },
+      { text: '下一刊', link: '/feature/index/202508' },
     ]
   },
   {
@@ -204,6 +209,57 @@ export const sidebar_202507: DefaultTheme.Sidebar = [
       { text: '一种基于展示实体的法阵', link: '/feature/archive/202507/5/content' },
       { text: 'Minecraft资源包/数据包构建工具', link: '/feature/archive/202507/6/content' }
       
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202508: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2025.08',
+    items: [
+      { text: '目录', link: '/feature/index/202508' },
+      { text: '上一刊', link: '/feature/index/202507' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202508/ifc/content'
+  },
+  {
+    text: '专题 Featured',
+    items: [
+      { text: 'Minecraft 自定义结构生成指南', link: '/feature/archive/202508/0/content' },
+      { text: '着色器基础教程01：Minecraft中的着色器', link: '/feature/archive/202508/1/content' },
+      { text: '基于keybind_down和着色器的原版按键显示', link: '/feature/archive/202508/2/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Λojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2025年8月', link: '/feature/archive/202508/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: 'Patrick的数据包开发新手导航', link: '/feature/archive/202508/3/content' },
+      { text: '实例·新快照把玩之潜影盒显示与物品展示与复合输入', link: '/feature/archive/202508/4/content' },
+      { text: '基于铁砧重命名物品的自定义指令', link: '/feature/archive/202508/5/content' },
+      { text: '[1. 14. 4+] TPS检测', link: '/feature/archive/202508/6/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: 'clang-mc：面向 Minecraft 数据包的虚拟 CPU 和汇编开发框架', link: '/feature/archive/202508/7/content' },
     ]
   },
   {

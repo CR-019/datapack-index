@@ -1,4 +1,4 @@
-<FeatureHead
+<FeaturedHead
     title = 'Minecraft 自定义结构生成指南'
     authorName = 酒石酸菌
     avatarUrl = '../../_authors/酒石酸菌.webp'
@@ -6,6 +6,7 @@
         { name: 'BiliBili', url: 'https://space.bilibili.com/4435845' },
         { name: 'Github', url: 'https://github.com/TartaricAcid' }
     ]"
+    cover='../_assets/0.png'
 />
 
 ## 导读
@@ -16,7 +17,7 @@ Minecraft 作为一款沙盒游戏，其高度自由的玩法一直是玩家们�
 
 本教程适用于所有数据包、模组、插件作者。无论你使用的是原版 Minecraft、Forge、NeoForge、Fabric、Spigot 还是 PaperMC 平台，自定义结构的实现方式几乎都是一致的。
 
-本文以 NeoForge 1.21.1 环境为例进行详细讲解，同时涵盖的技术内容理论上适用于 1.20 及以上的所有版本。考虑到本教程主要面向入门用户，我们将重点关注实用性和可操作性，对于一些过于复杂的参数细节不会深入探讨。如果后续有需要，我们会另行推出专门的高级解析篇章。
+**本文以 NeoForge 1.21.1 环境为例进行详细讲解**，同时涵盖的技术内容理论上适用于 1.20 及以上的所有版本。考虑到本教程主要面向入门用户，我们将重点关注实用性和可操作性，对于一些过于复杂的参数细节不会深入探讨。如果后续有需要，我们会另行推出专门的高级解析篇章。
 
 ## 理解结构集（Structure Set）
 

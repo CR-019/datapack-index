@@ -11,6 +11,7 @@ import {
     sidebar_202505,
     sidebar_202506,
     sidebar_202507,
+    sidebar_202508,
 } from "./sidebar_feature";
 
 // https://vitepress.dev/reference/site-config
@@ -54,6 +55,7 @@ export default defineConfig({
             "/feature/archive/202505": sidebar_202505,
             "/feature/archive/202506": sidebar_202506,
             "/feature/archive/202507": sidebar_202507,
+            "/feature/archive/202508": sidebar_202508,
             "/feature/": sidebar_feature,
         },
 
