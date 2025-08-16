@@ -1,6 +1,6 @@
 <FeatureHead
     title = '实例·新快照把玩之潜影盒显示与物品展示与复合输入'
-    authorName = 雨弓Rainbow_
+    authorName = Rainbow_
     avatarUrl = '../../_authors/Rainbow_.png'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/11313906' }

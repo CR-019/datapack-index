@@ -5,6 +5,7 @@
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/1036717393' }
     ]"
+    resourceLink = 'https://github.com/Huoyuyuyu/KeyDisplay'
 />
 
 ## 简介
