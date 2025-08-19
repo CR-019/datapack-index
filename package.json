@@ -20,6 +20,7 @@
     "@giscus/vue": "^3.1.1",
     "antlr4ts": "0.5.0-alpha.4",
     "antlr4ts-cli": "0.5.0-alpha.4",
+    "badge-maker": "^5.0.2",
     "cytoscape": "^3.32.1",
     "cytoscape-cose-bilkent": "^4.1.0",
     "dayjs": "^1.11.13",

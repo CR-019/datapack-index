@@ -216,7 +216,6 @@ export default {
 }
 
 .dark .content-wrapper {
-  margin-top: 2.5rem;
   background: rgba(0, 0, 0, 0.3);
 }
 
