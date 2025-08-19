@@ -71,13 +71,6 @@ export default {
         isExternalLink(url) {
             // 如果没有URL，则不是外部链接
             if (!url) return false;
-            
-            // 创建一个a标签来解析URL
-            const linkElement = document.createElement('a');
-            linkElement.href = url;
-            
-            // 检查主机名是否与当前页面相同
-            return linkElement.host !== window.location.host;
         }
     }
 }
