@@ -3,7 +3,13 @@
 
         <!-- 封面大图 -->
         <div class="cover-container">
-            <a v-if="coverLink" :href="coverLink" class="cover-link">
+            <a 
+                v-if="coverLink" 
+                :href="coverLink" 
+                class="cover-link"
+                :target="isExternalLink(coverLink) ? '_blank' : '_self'"
+                :rel="isExternalLink(coverLink) ? 'noopener noreferrer' : undefined"
+            >
                 <img :src="cover" alt="本期封面" class="cover-image" />
             </a>
             <img v-else :src="cover" alt="本期封面" class="cover-image" />
@@ -14,10 +20,18 @@
 
             <div class="info-left">
                 <p class="editors">本期编辑：{{ editors.join('、') }}</p>
-                <p v-if="credits" :class="credits">特别鸣谢：{{ credits.join('、') }}</p>
+                <p v-if="credits" class="credits">特别鸣谢：{{ credits.join('、') }}</p>
             </div>
             <div class="info-right">
-                <a v-if="launchLink" :href="launchLink.link" class="launch-link">{{ launchLink.text }}</a>
+                <a 
+                    v-if="launchLink" 
+                    :href="launchLink.link" 
+                    class="launch-link"
+                    :target="isExternalLink(launchLink.link) ? '_blank' : '_self'"
+                    :rel="isExternalLink(launchLink.link) ? 'noopener noreferrer' : undefined"
+                >
+                    {{ launchLink.text }}
+                </a>
             </div>
         </div>
     </section>
@@ -30,7 +44,6 @@
 </template>
 
 <script>
-
 export default {
     props: {
         cover: {
@@ -51,6 +64,20 @@ export default {
         launchLink: {
             type: Object,
             default: null
+        }
+    },
+    methods: {
+        // 判断链接是否为外部链接
+        isExternalLink(url) {
+            // 如果没有URL，则不是外部链接
+            if (!url) return false;
+            
+            // 创建一个a标签来解析URL
+            const linkElement = document.createElement('a');
+            linkElement.href = url;
+            
+            // 检查主机名是否与当前页面相同
+            return linkElement.host !== window.location.host;
         }
     }
 }
@@ -120,8 +147,8 @@ export default {
 .info-right {
     flex: 0 0 70%;
     text-align: right;
+    transform: translateX(-20px); 
 }
-
 .info-left {
     flex: 1;
     text-align: left;
@@ -146,3 +173,6 @@ export default {
     white-space: nowrap;
 }
 </style>
+
+
+

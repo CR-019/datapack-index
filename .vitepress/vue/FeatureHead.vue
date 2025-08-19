@@ -25,11 +25,35 @@
             <!-- 左侧作者信息 -->
             <div class="author-info">
                 <div class="avatar-wrapper">
-                    <img :src="avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError" />
+                    <!-- 修改：为头像添加链接 -->
+                    <a 
+                        v-if="firstSocialLink" 
+                        :href="firstSocialLink.url" 
+                        class="avatar-link"
+                        target="_blank"
+                    >
+                        <img :src="avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError" />
+                    </a>
+                    <img 
+                        v-else 
+                        :src="avatarUrl" 
+                        :alt="authorName" 
+                        class="avatar" 
+                        @error="handleAvatarError"
+                    />
                     <div v-if="avatarLoading" class="loading-indicator"></div>
                 </div>
                 <div class="author-details">
-                    <h3 class="author-name">{{ authorName }}</h3>
+                    <!-- 修改：为作者名添加链接 -->
+                    <a 
+                        v-if="firstSocialLink" 
+                        :href="firstSocialLink.url" 
+                        class="author-name-link"
+                        target="_blank"
+                    >
+                        <h3 class="author-name">{{ authorName }}</h3>
+                    </a>
+                    <h3 v-else class="author-name">{{ authorName }}</h3>
                     <div class="social-links">
                         <a v-for="(link, index) in socialLinks" :key="index" :href="link.url" class="link"
                             target="_blank">
@@ -98,6 +122,14 @@ export default {
     },
     mounted() {
         //this.fetchAvatar();
+    },
+    computed: {
+        // 新增：获取第一个社交链接
+        firstSocialLink() {
+            return this.socialLinks && this.socialLinks.length > 0 
+                ? this.socialLinks[0] 
+                : null;
+        }
     },
     methods: {
         async fetchAvatar() {
@@ -292,6 +324,12 @@ export default {
     height: 50px;
 }
 
+/* 新增：头像链接样式 */
+.avatar-link {
+    display: block;
+    width: fit-content;
+}
+
 .avatar {
     width: 50px;
     height: 50px;
@@ -299,36 +337,10 @@ export default {
     object-fit: cover;
 }
 
-
-.loading-indicator {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        opacity: 0.6;
-    }
-
-    50% {
-        opacity: 0.3;
-    }
-
-    100% {
-        opacity: 0.6;
-    }
-}
-
-.author-details {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+/* 新增：作者名链接样式 */
+.author-name-link {
+    color:#333;
+    text-decoration: none;
 }
 
 .author-name {
@@ -453,3 +465,6 @@ export default {
   }
 }
 </style>
+
+
+

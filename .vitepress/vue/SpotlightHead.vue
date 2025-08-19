@@ -31,11 +31,35 @@
             <!-- 左侧作者信息 -->
             <div class="author-info">
                 <div class="avatar-wrapper">
-                    <img :src="avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError"/>
+                    <!-- 修改：为头像添加链接 -->
+                    <a 
+                        v-if="firstSocialLink" 
+                        :href="firstSocialLink.url" 
+                        class="avatar-link"
+                        target="_blank"
+                    >
+                        <img :src="avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError" />
+                    </a>
+                    <img 
+                        v-else 
+                        :src="avatarUrl" 
+                        :alt="authorName" 
+                        class="avatar" 
+                        @error="handleAvatarError"
+                    />
                     <div v-if="avatarLoading" class="loading-indicator"></div>
                 </div>
                 <div class="author-details">
-                    <h3 class="author-name">{{ authorName }}</h3>
+                    <!-- 修改：为作者名添加链接 -->
+                    <a 
+                        v-if="firstSocialLink" 
+                        :href="firstSocialLink.url" 
+                        class="author-name-link"
+                        target="_blank"
+                    >
+                        <h3 class="author-name">{{ authorName }}</h3>
+                    </a>
+                    <h3 v-else class="author-name">{{ authorName }}</h3>
                     <div class="social-links">
                         <a v-for="(link, index) in socialLinks" :key="index" :href="link.url" class="link"
                             target="_blank">
@@ -113,6 +137,14 @@ export default {
     },
     mounted(){
         //this.fetchAvatar();
+    },
+    computed: {
+        // 新增：获取第一个社交链接
+        firstSocialLink() {
+            return this.socialLinks && this.socialLinks.length > 0 
+                ? this.socialLinks[0] 
+                : null;
+        }
     },
     methods: {
         async fetchAvatar(){
@@ -314,6 +346,11 @@ export default {
   height: 50px;
 }
 
+.avatar-link {
+    display: block;
+    width: fit-content;
+}
+
 .avatar {
     width: 50px;
     height: 50px;
@@ -350,6 +387,11 @@ export default {
     font-size: 1rem;
     font-style: italic;
     font-weight: 500;
+}
+
+.author-name-link {
+    color:#333;
+    text-decoration: none;
 }
 
 .social-links {

@@ -16,9 +16,30 @@
                 <!-- 左侧元信息 -->
                 <div class="meta-section">
                     <div class="author-info">
-                        <img :src="avatarUrl" :alt="authorName" class="avatar" />
+                        <!-- 修改：为头像添加链接 -->
+                        <a 
+                            v-if="firstSocialLink" 
+                            :href="firstSocialLink.url" 
+                            class="avatar-link"
+                            target="_blank"
+                        >
+                            <img :src="avatarUrl" :alt="authorName" class="avatar" />
+                        </a>
+                        <img 
+                            v-else 
+                            :src="avatarUrl" 
+                            :alt="authorName" 
+                            class="avatar" 
+                        />
                         <div class="author-details">
-                            <h3 class="author-name">{{ authorName }}</h3>
+                            <a 
+                                v-if="firstSocialLink" 
+                                :href="firstSocialLink.url" 
+                                class="author-name-link"
+                                target="_blank"
+                            >
+                                <h3 class="author-name">{{ authorName }}</h3>
+                            </a>
                         </div>
                     </div>
 
@@ -74,7 +95,7 @@ export default {
             type: Array,
             default: () => [
                 { name: "GitHub", url: "https://github.com" },
-                { name: "BiliBili", url: "https://weibo.com" },
+                { name: "BiliBili", url: "https://bilibili.com" },
             ],
         },
         background: {
@@ -96,6 +117,12 @@ export default {
                 ? { position: "relative", overflow: "hidden" }
                 : {};
         },
+        // 新增：获取第一个社交链接
+        firstSocialLink() {
+            return this.socialLinks && this.socialLinks.length > 0 
+                ? this.socialLinks[0] 
+                : null;
+        }
     },
     methods: {
         handleBgError() {
@@ -205,6 +232,12 @@ export default {
     margin-bottom: 1.5rem;
 }
 
+/* 新增：头像链接样式 */
+.avatar-link {
+    display: block;
+    width: fit-content;
+}
+
 .avatar {
     width: 48px;
     height: 48px;
@@ -215,6 +248,11 @@ export default {
 
 .author-details {
     line-height: 1.4;
+}
+
+/* 新增：作者名链接样式 */
+.author-name-link {
+    text-decoration: none;
 }
 
 .author-name {
@@ -336,3 +374,6 @@ export default {
     }
 }
 </style>
+
+
+
