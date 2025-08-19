@@ -343,6 +343,11 @@ export default {
     text-decoration: none;
 }
 
+.dark .author-name-link {
+    color:#ccc;
+    text-decoration: none;
+}
+
 .author-name {
     margin: 0;
     font-size: 1rem;

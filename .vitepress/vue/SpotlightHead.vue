@@ -394,6 +394,11 @@ export default {
     text-decoration: none;
 }
 
+.dark .author-name-link {
+    color:#ccc;
+    text-decoration: none;
+}
+
 .social-links {
     display: flex;
     gap: 10px;
