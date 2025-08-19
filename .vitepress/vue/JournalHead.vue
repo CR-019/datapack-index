@@ -67,10 +67,15 @@ export default {
         }
     },
     methods: {
-        // 判断链接是否为外部链接
+        // 判断链接是否为外部链接（SSR兼容）
         isExternalLink(url) {
             // 如果没有URL，则不是外部链接
             if (!url) return false;
+            
+            // 使用简单的规则判断：
+            // 1. 包含完整协议（http:// 或 https://）的是外部链接
+            // 2. 相对路径（/path 或 ./path 或 ../path）是内部链接
+            return /^https?:\/\//.test(url);
         }
     }
 }
