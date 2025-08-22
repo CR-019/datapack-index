@@ -57,7 +57,13 @@
     `Mojang：我重命名了1,000个键名！`,
     `Mojang：不是我喜欢的键名，直接重命名`,
     `数据包作者只是检测了一下物品数据，就被Mojang活活打断了兼容性`,
-    `Mojang只是重命名了一堆键名，就被数据包作者活活打断了双腿`
+    `Mojang只是重命名了一堆键名，就被数据包作者活活打断了双腿`,
+    `datapack update latest
+    你有没有听见数据包作者的悲鸣？`,
+    `rename alls all
+    你有没有感受到数据包在分崩离析？`,
+    `execute as Mojang run code Minecraft
+    你不曾注意重命名得逞者在狞笑。`
   ];
   
   // 用于存储选中的段落
