@@ -19,7 +19,7 @@ title: '自然工艺 - 高版本自定义模型框架'
       }
     ]"
     resourceLink = https://github.com/Bybycyann/NatureCraft
-    cover='../_assets/1.jpg'
+    cover='../_assets/2.png'
 />
 
 > by - 七柏, Nox_Obscura

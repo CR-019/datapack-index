@@ -11,7 +11,7 @@ title: '简单、轻量、优雅——dc装饰模型支持库'
         { name: 'GitHub', url: 'https://github.com/CR-019' }
     ]"
     resourceLink = https://www.mcmod.cn/class/14646.html
-    cover='../_assets/0.jpg'
+    cover='../_assets/0.png'
 />
 
 
@@ -154,9 +154,8 @@ data modify storage dc:index keylist append value "<name>"
 ```
 
 ### 事件(Event)
-目前支持基础事件：旋转，平移，坐，破坏等。
-大部分的参数均可缺省，此时应用默认值
-若参数属性为optional，则为可选，缺省时应用空值。
+目前支持基础事件：旋转，平移，坐，破坏等。  
+大部分的参数均可缺省，此时应用默认值。  
 
 #### 破坏（destruct）
 销毁模型。

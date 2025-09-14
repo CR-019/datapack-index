@@ -14,11 +14,13 @@ const { isDark } = useData()
 > [!TIP]
 > 本页为近期收录进图书馆的条目。供回到图书馆翻阅的读者快速浏览新增内容。
   
-
+::: danger 本页面即将弃用
+维护最近更新页面较为消耗精力。该职能日后将由新一期的《Feature》封二承担。本页面将择日删除。
+:::
 
 
 ### 《Feature》
-- [2025.08](/feature/index/202508.md)
+- [2025.09](/feature/index/202509.md)
 
 ### 文章/视频
 - [【Minecraft】走进数据包worldgen，一个视频带你串联我的世界自定义世界生成，密度函数表面规则无痛入门到入土](https://www.bilibili.com/video/BV1YbTLzPEaU/)

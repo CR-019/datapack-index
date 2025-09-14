@@ -19,7 +19,7 @@ title: '像写诗一样制作可交互模型'
 
 
 本项目名为**SK Model Workspace(模型工作空间)**，旨在通过简单的方式，创建可交互，可复用的模型。同时具有丰富的接口和较强的可拓展性  
-~~由于作者一直在咕咕咕，导致该项目有很多坑没有填~~，如果你正在**[香草图书馆](https://cr-019.github.io/datapack-index/)**浏览本页面，可以**[点这里](https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250808.html)**访问该文章的原始页面，文章将在原始页面继续保持更新，之后会添加更多有用的功能  
+~~由于作者一直在咕咕咕，导致该项目有很多坑没有填~~，如果你正在 **[香草图书馆](https://cr-019.github.io/datapack-index/)** 浏览本页面，可以 **[点这里](https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250808.html)** 访问该文章的原始页面，文章将在原始页面继续保持更新，之后会添加更多有用的功能  
 之后我也会制作一些基于该数据包的原版家具，~~（然而我并不会建模，所以做的不怎么好）~~
   
  - 运作方式：原版游戏,**[数据包](https://zh.minecraft.wiki/w/%E6%95%B0%E6%8D%AE%E5%8C%85)**

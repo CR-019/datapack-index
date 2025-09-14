@@ -11,19 +11,29 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '最新',
     items: [
       {
-        text: '🌟2025.8月刊',
+        text: '🌟2025.9月刊',
+        link: '/feature/index/202509'
+      },
+    ]
+  },
+  {
+    text: '',
+    items: [
+      {
+        text: '2025.8月刊',
         link: '/feature/index/202508'
+      },
+      {
+        text: '2025.7月刊',
+        link: '/feature/index/202507'
       },
     ]
   },
   {
     text: '往期',
-    collapsed:false,
+    collapsed: true,
     items: [
-      {
-        text: '2025.7月刊',
-        link: '/feature/index/202507'
-      },
+      
       {
         text: '2025.6月刊',
         link: '/feature/index/202506'
@@ -200,7 +210,7 @@ export const sidebar_202507: DefaultTheme.Sidebar = [
       { text: 'minecraft指令烹饪指南：凉拌实体选择器', link: '/feature/archive/202507/2/content' },
       { text: '《大别墅》与对话框杂谈', link: '/feature/archive/202507/3/content' },
       { text: '动态自定义物品使用冷却', link: '/feature/archive/202507/4/content' },
-      
+
     ]
   },
   {
@@ -208,7 +218,7 @@ export const sidebar_202507: DefaultTheme.Sidebar = [
     items: [
       { text: '一种基于展示实体的法阵', link: '/feature/archive/202507/5/content' },
       { text: 'Minecraft资源包/数据包构建工具', link: '/feature/archive/202507/6/content' }
-      
+
     ]
   },
   {
@@ -227,6 +237,7 @@ export const sidebar_202508: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202508' },
       { text: '上一刊', link: '/feature/index/202507' },
+      { text: '下一刊', link: '/feature/index/202509' },
     ]
   },
   {
@@ -260,6 +271,52 @@ export const sidebar_202508: DefaultTheme.Sidebar = [
     text: '巧匠 Masterpieces',
     items: [
       { text: 'clang-mc：面向 Minecraft 数据包的虚拟 CPU 和汇编开发框架', link: '/feature/archive/202508/7/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202509: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2025.09',
+    items: [
+      { text: '目录', link: '/feature/index/202509' },
+      { text: '上一刊', link: '/feature/index/202508' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202509/ifc/content'
+  },
+  {
+    text: '专题 Featured',
+    items: [
+      { text: '简单、轻量、优雅——dc装饰模型支持库', link: '/feature/archive/202509/0/content' },
+      { text: '像写诗一样制作可交互模型', link: '/feature/archive/202509/1/content' },
+      { text: '自然工艺 - 高版本自定义模型框架', link: '/feature/archive/202509/2/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Λojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2025年9月', link: '/feature/archive/202509/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '着色器02 核心着色器的工作流程（上）', link: '/feature/archive/202509/3/content' },
+      { text: '虚空数据核心『寻回犬』模块的开发分享', link: '/feature/archive/202509/4/content' },
+      { text: '聊天栏卷轴式用户界面：历史背景与代码实现', link: '/feature/archive/202509/5/content' },
+      { text: '命令中的实体锚点和执行锚点', link: '/feature/archive/202509/6/content' },
+      { text: '数据包向资源包着色器传入参数', link: '/feature/archive/202509/7/content' },
     ]
   },
   {
