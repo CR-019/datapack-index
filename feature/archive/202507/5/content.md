@@ -1,3 +1,7 @@
+---
+title: '一种基于展示实体的法阵'
+---
+
 <FeatureHead
     title = '一种基于展示实体的法阵'
     authorName = SKSAMA

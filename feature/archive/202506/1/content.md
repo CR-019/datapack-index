@@ -1,3 +1,7 @@
+---
+title: '对 Minecraft 图标资产库资源包的可行性尝试'
+---
+
 <FeatureHead
     title = '对 Minecraft 图标资产库资源包的可行性尝试'
     authorName = Sheep-realms

@@ -1,4 +1,6 @@
-
+---
+title: 'NeKoCustomSpawn-demo'
+---
 
 <FeatureHead
     title = NeKoCustomSpawn-demo

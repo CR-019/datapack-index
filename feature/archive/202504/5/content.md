@@ -1,4 +1,6 @@
-
+---
+title: 'Java版1.21.5-SNBT语法概览'
+---
 
 <FeatureHead
     title = Java版1.21.5-SNBT语法概览

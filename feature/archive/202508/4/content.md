@@ -1,3 +1,7 @@
+---
+title: '实例·新快照把玩之潜影盒显示与物品展示与复合输入'
+---
+
 <FeatureHead
     title = '实例·新快照把玩之潜影盒显示与物品展示与复合输入'
     authorName = Rainbow_

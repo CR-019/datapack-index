@@ -1,4 +1,6 @@
-
+---
+title: '根据记分板分数排名'
+---
 
 <FeatureHead
     title = 根据记分板分数排名

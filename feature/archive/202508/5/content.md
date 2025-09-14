@@ -1,3 +1,7 @@
+---
+title: '基于铁砧重命名物品的自定义指令'
+---
+
 <FeatureHead
     title = '基于铁砧重命名物品的自定义指令'
     authorName = 没有人_没有人_

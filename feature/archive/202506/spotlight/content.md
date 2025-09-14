@@ -1,3 +1,7 @@
+---
+title: '香草快讯 - Mojang Spotlight - 2025年6月'
+---
+
 <script setup>
     import SpotlightHead from '/.vitepress/vue/SpotlightHead.vue'
     import ColorLine from '/.vitepress/vue/ColorLine.vue'

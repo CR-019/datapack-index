@@ -1,3 +1,7 @@
+---
+title: 'clang-mc：面向 Minecraft 数据包的虚拟 CPU 和汇编开发框架'
+---
+
 <FeatureHead
     title = 'clang-mc：面向 Minecraft 数据包的虚拟 CPU 和汇编开发框架'
     authorName = xia__mc

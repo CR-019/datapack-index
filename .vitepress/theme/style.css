@@ -282,3 +282,87 @@
   word-break: break-word;
   /* 超长单词也断行 */
 }
+
+.nbttree {
+  line-height:1.6em;
+  margin-bottom: 1.6em;
+}
+
+.nbttree span{
+  line-height:1.6em;
+}
+
+.nbttree img {
+    float: left; 
+    margin: 3px;
+    width: 18px;
+}
+
+
+.nbttree ul {
+  list-style: none;
+  padding: 0px 0px 0px 10px;
+  margin-top: 0.8em;
+  line-height: 1.6; /* 控制行高一致 */
+  box-sizing: border-box;
+}
+
+.nbttree li {
+  position: relative;
+  padding-left: 20px; /* 为连接符和缩进留空间 */
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
+/* 绘制连接线：从当前 li 顶部到底部的竖线 */
+.nbttree li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -0.8em;
+  bottom: -0.8em;
+  border-left: 1px solid #000;
+  box-sizing: border-box;
+}
+
+.nbttree li:last-child::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -0.8em;
+  height: 1.5em;
+  border-left: 1px solid #000;
+  box-sizing: border-box;
+}
+
+/* 连接符：├─ 或 └─ */
+.nbttree li::before {
+  content: '──';
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 40px;
+  height: 1.6em; /* 与 line-height 对应 */
+  line-height: 1.6em;
+  text-align: center;
+  background-color: inherit;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+
+
+
+/* 确保文本换行后也能缩进对齐 */
+.nbttree li > span {
+  display: inline-block;
+  word-break: break-word;
+  /* 使用负 text-indent 控制首行对齐连接符 */
+  text-indent: -20px;
+  padding-left: 20px;
+  /* 保证换行后其他行正常缩进 */
+  margin-left: 0;
+  box-sizing: border-box;
+}

@@ -1,3 +1,7 @@
+---
+title: '动态自定义物品使用冷却'
+---
+
 <FeatureHead
     title = '动态自定义物品使用冷却'
     authorName = icuqALT10

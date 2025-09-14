@@ -1,3 +1,7 @@
+---
+title: 'Minecraft 自定义结构生成指南'
+---
+
 <FeaturedHead
     title = 'Minecraft 自定义结构生成指南'
     authorName = 酒石酸菌

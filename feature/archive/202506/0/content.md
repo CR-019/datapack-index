@@ -1,3 +1,7 @@
+---
+title: '适用于Minecraft的前端框架——Floating UI'
+---
+
 <!-- markdownlint-disable MD033 MD041 -->
 <script setup>
     import {config} from '/.vitepress/MCFPPNBTParser.ts';

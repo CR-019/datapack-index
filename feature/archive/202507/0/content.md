@@ -1,3 +1,7 @@
+---
+title: '以防你不知道我可以在MC里玩千恋万花'
+---
+
 <FeaturedHead
     title = '以防你不知道我可以在MC里玩千恋万花'
     authorName = SKSAMA

@@ -1,3 +1,7 @@
+---
+title: '香草快讯 - Λojang Spotlight - 2025年8月'
+---
+
 <SpotlightHead
     title = "香草快讯 - Λojang Spotlight - 2025年8月"
     authorName = Alumopper

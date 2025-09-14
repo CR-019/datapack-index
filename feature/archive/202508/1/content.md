@@ -1,3 +1,7 @@
+---
+title: '着色器基础教程01：Minecraft中的着色器'
+---
+
 <FeaturedHead
     title = '着色器基础教程01：Minecraft中的着色器'
     authorName = 轩宇1725

@@ -1,3 +1,7 @@
+---
+title: 'Minecraft资源包/数据包构建工具'
+---
+
 <FeatureHead
     title = 'Minecraft资源包/数据包构建工具'
     authorName = 古镇天Gugle

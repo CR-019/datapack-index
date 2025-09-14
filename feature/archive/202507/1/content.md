@@ -1,3 +1,7 @@
+---
+title: '更好的剧情对话'
+---
+
 <FeaturedHead
     title = '更好的剧情对话'
     authorName = icuqALT10

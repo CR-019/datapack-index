@@ -15,6 +15,7 @@ import SpotlightHead from '../vue/SpotlightHead.vue'
 import RandomParagraph from '../vue/random.vue'
 import ColorLine from '../vue/ColorLine.vue'
 import NBTDefine from '../vue/NBTDefine.vue'
+import Node from '../vue/Node.vue'
 
 
 import 'katex/dist/katex.min.css'
@@ -40,5 +41,6 @@ export default {
     app.component('SpotlightHead', SpotlightHead)
     app.component('random', RandomParagraph)
     app.component('ColorLine', ColorLine)
+    app.component('node', Node)
   }
 }

@@ -1,3 +1,6 @@
+---
+title: '烟花来咯！'
+---
 <!-- markdownlint-disable MD033 MD041 -->
 <script setup>
   import {compileToCache} from "/.vitepress/MCFPPNBTParser";
