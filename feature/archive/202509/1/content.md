@@ -44,9 +44,9 @@ title: '像写诗一样制作可交互模型'
 
 <br/><br/>
 
-# 概述
+## 概述
 
-## 什么是“可交互模型”呢
+### 什么是“可交互模型”呢
 
 玩家对模型进行一定操作，模型对操作进行反馈，具备这种特征的模型可以称作“可交互模型”，比方说有一个椅子，玩家左键点击即可将其破坏，右键点击可以坐到上面。其中“左键点击”和“右键点击”即为操作，“破坏”和“坐”即为反馈，此时，这个椅子就是一个“可交互模型”
 
@@ -58,7 +58,7 @@ title: '像写诗一样制作可交互模型'
  - [NyaaWorks - 家具系统](https://github.com/Acappellia/NyaaWorks/blob/main/Readme.md)
  - [一键生成能自定义交互反馈的按钮](https://www.bilibili.com/video/BV1nx4y1279F)
 
-## 该如何实现呢
+### 该如何实现呢
 
 在**SK Model Workspace**中，每一个可交互模型都由一个Marker，一个或多个展示实体与交互实体组成，其中交互实体用于接收玩家的操作，然后Marker将作为执行者执行事先设定好的事件，最终展示实体给予一定反馈
 
@@ -73,9 +73,9 @@ title: '像写诗一样制作可交互模型'
 此外，**SK Model Workspace**还支持给模型配置方块，模型本身是没有碰撞体积的。可以配置屏障方块来给模型添加碰撞体积。也可以配置光源方块，让模型发光。
 同时为了不影响世界中已经存在的方块，在模型被创建时，会检查目标位置的方块是否为空气，如果是，配置好的方块才会被放置
 
-# 模型类
+## 模型类
 
-## 模型类格式
+### 模型类格式
 
 在**SK Model Workspace**中，模型是以**类**的形式定义的
 
@@ -116,7 +116,7 @@ data modify storage skmws reg.class.<类名> set value <模型数据>
 
 
 
-## 元素格式
+### 元素格式
 
 我们将一个模型中的展示实体与交互实体统称为这个模型的元素，每一个元素都有一个在本模型类中唯一的元素ID
 
@@ -135,11 +135,11 @@ data modify storage skmws reg.class.<类名> set value <模型数据>
    + <node type="list" name="rotation"/> (可选)该元素的相对旋转角
 </div>
 
-## 模型类的动态配置
+### 模型类的动态配置
 
 模型的动态配置数据存储在<img src="/nbt_sprites/object.svg" style="display:inline;margin:0px;width:18px;"/>**properties**中，什么是动态配置呢？模型在使用过程中可能存在存取一些变量的需求，这些变量就是动态配置，动态配置可以在模型被实例化后更改并立即生效，例如操作权限<img src="/nbt_sprites/int.svg" style="display:inline;margin:0px;width:18px;"/>**permission**，也是可以在模型被实例化后更改的，本数据包的一些内置功能也依靠动态配置实现
 
-## 模型类的继承
+### 模型类的继承
 
 **模型类**跟java中的**类**比较相似，同样支持多层继承，继承可以提升代码的复用性和扩展性  
   
@@ -156,7 +156,7 @@ data modify storage skmws reg.class.<类名> set value <模型数据>
 
 此外，父类中的数据可能是残缺的，必须经过子类的补充才可以被实例化，为了避免这种父类被误实例化而造成未知错误，可以添加<img src="/nbt_sprites/bool.svg" style="display:inline;margin:0px;width:18px;"/>**abstract: 1b**字段将该类声明为抽象类，抽象类不可被实例化
 
-## 实例化模型类
+### 实例化模型类
 
 什么是“实例化”呢，实例化确实是一个很抽象的概念，不过在这里你可以简单理解为把创建好的模型类摆出来，可以想象一下，你拿着一个方块对着地面点击右键，方块就被放在了地面上，这可以被认为是一种实例化  
   
@@ -198,9 +198,9 @@ function skmws:_private/_player_detect
 **(execute) as** 将作为该模型的拥有者 
 
 
-# 条件列表
+## 条件列表
 
-## 概述
+### 概述
 
 条件列表位于模型类中的interaction元素的<img src="/nbt_sprites/object.svg" style="display:inline;margin:0px;width:18px;"/>**criteria**标签中，这个标签里的<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**leftclick**和<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**rightclick**就是条件列表，比方说当玩家左键点击了这个交互实体，则会执行<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**leftclick**标签中的条件列表  
   
@@ -213,7 +213,7 @@ function skmws:_private/_player_detect
 
 
 
-## 条件列表格式
+### 条件列表格式
 
 <div class="nbttree">
 
@@ -226,9 +226,9 @@ function skmws:_private/_player_detect
 
 </div>
 
-# 事件列表
+## 事件列表
 
-## 概述
+### 概述
 
 模型被交互后执行的操作均由事件列表实现，当一个事件列表被执行时，会依次执行该列表中所有的事件，事件列表可以定义在以下几个地方
 
@@ -237,7 +237,7 @@ function skmws:_private/_player_detect
  - 存储 **storage skmws reg.events.<事件列表ID>** 标签中，此时定义的事件列表为全局事件列表，可以被所有模型类访问，本包的一些内置功能是使用全局事件列表实现的，**详见：[模块](#8)**
   
 
-## 事件列表格式
+### 事件列表格式
 
 
 
@@ -253,7 +253,7 @@ function skmws:_private/_player_detect
 
 </div>
 
-### # 破坏
+#### # 破坏
 
  当 **type:"remove"** 时，移除该模型，同时触发on_remove私有事件列表
 
@@ -270,7 +270,7 @@ function skmws:_private/_player_detect
 
 </div>
 
-### # 冷却
+#### # 冷却
 
  当 **type:"cooldown"** 时，设置交互冷却时间，在该时间段内模型不接受任何操作  
 <div class="nbttree">
@@ -278,7 +278,7 @@ function skmws:_private/_player_detect
  + <node type="int" name="time"/> 冷却时间
 </div>
 
-### # 坐
+#### # 坐
 
  当 **type:"sit"** 时，让执行交互操作的玩家坐在该模型上
 <div class="nbttree">
@@ -286,7 +286,7 @@ function skmws:_private/_player_detect
  + <node type="string" name="id"/> 元素ID，指定让玩家坐到哪个元素上
 </div>
 
-### # 调用事件列表
+#### # 调用事件列表
 
  当 **type:"call"** 时，调用另一事件列表
 <div class="nbttree">
@@ -296,7 +296,7 @@ function skmws:_private/_player_detect
     + <node type="bool" name="global"/> (可选)指明调用的事件列表是否为公共事件列表
 </div>
 
-### # 动画
+#### # 动画
 
  当 **type:"anim"** 时，播放动画
 <div class="nbttree">
@@ -312,7 +312,7 @@ function skmws:_private/_player_detect
  当 **type:"stopanim"** 时，停止正在播放的循环动画
 
 
-### # 执行命令
+#### # 执行命令
 
  当 **type:"cmd"** 时，执行指定命令
 <div class="nbttree">
@@ -331,7 +331,7 @@ function skmws:_private/_player_detect
     + <node type="string" name="key"/> (可选)一个NBT路径，从模型的动态配置中取用值作为要执行的命令的参数
 </div>
 
-### # 修改元素数据
+#### # 修改元素数据
 
  当 **type:"merge"** 时，合并数据至指定元素
 <div class="nbttree">
@@ -348,7 +348,7 @@ function skmws:_private/_player_detect
   + <node type="any" name="value"/> 值
 </div>
 
-### # 元素增删
+#### # 元素增删
 
  当 **type:"element_append"** 时，添加元素
 <div class="nbttree">
@@ -363,7 +363,7 @@ function skmws:_private/_player_detect
   + <node type="string" name="id"/> 元素ID
 </div>
 
-### # 方块增删
+#### # 方块增删
 
  当 **type:"block_append"** 时，添加方块
 <div class="nbttree">
@@ -378,7 +378,7 @@ function skmws:_private/_player_detect
   + <node type="list" name="position"/> 要被移除的方块的位置
 </div>
 
-### # 移动模型
+#### # 移动模型
 
  当 **type:"move"** 时，移动整个模型，包括所有的方块和元素  
 需要指定<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**position**，或者同时指定<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**facing**和<img src="/nbt_sprites/int.svg" style="display:inline;margin:0px;width:18px;"/>**px**
@@ -390,7 +390,7 @@ function skmws:_private/_player_detect
     + <node type="int" name="px"/> (可选)沿该朝向移动的像素点数
 </div>
 
-### # 修改模型动态配置
+#### # 修改模型动态配置
 
  当 **type:"properties"** 时，编辑该模型的动态配置
 <div class="nbttree">
@@ -399,7 +399,7 @@ function skmws:_private/_player_detect
   + <node type="any" name="value"/> 值
 </div>
 
-### # 播放声音
+#### # 播放声音
 
  当 **type:"playsound"** 时，播放声音
 <div class="nbttree">
@@ -408,7 +408,7 @@ function skmws:_private/_player_detect
 </div>
 
 
-## 事件的函数形式
+### 事件的函数形式
 
 此外这些事件还有其对应的函数，调用这些函数所达到的效果与在事件列表中执行事件相同  
 可以在 **type:"cmd"** 事件执行的命令中使用这些函数，不能在其他的上下文中使用  
@@ -420,9 +420,9 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 
 
-# 动画
+## 动画
 
-## 概述
+### 概述
 
 展示实体的**transformation**字段可以进行插值，我们可以利用这个特性制作简单的动画  
 
@@ -433,7 +433,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 
 
-## 动画格式
+### 动画格式
 
 <div class="nbttree">
 
@@ -447,9 +447,9 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 关于本节内容的教程详见 **[教程：动画](#9.3)**
 
-# 权限控制
+## 权限控制
 
-## 概述
+### 概述
 
 每一个实例化后的模型都有自己的操作权限，权限信息定义在模型类的动态配置<img src="/nbt_sprites/int.svg" style="display:inline;margin:0px;width:18px;"/>**permission**中  
   
@@ -465,7 +465,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
  - 拥有者即为模型的创建者，谁实例化了这个模型，谁就是这个模型的拥有者
  - 带有**skmws.debug**标签的玩家可以无视权限直接对模型进行操作
 
-## 好友系统
+### 好友系统
 
  这是权限控制系统的一个分支，各个玩家的好友数据存储在**storage skmws friends**中，目前只能通过命令操作
 
@@ -484,13 +484,13 @@ function skmws:event/<事件类型> {<除type以外的参数>}
  
 
 
-# 模块
+## 模块
 
-## 概述
+### 概述
 
 本包将一些常用的功能封装成了全局事件列表，我们将这些全局事件列表称为模块，模块可以在任何模型类中调用，简化了重复的操作。使用这些模块时，需要在模型类的动态配置中添加一些字段，具体内容见下文
 
-## 全局事件：模型状态切换
+### 全局事件：模型状态切换
 
 有的时候创建的模型会有很多状态，例如门可以分为“打开”和“关闭”两种状态，蛋糕可以按食用程度分为8种不同的状态。为了简化对模型状态的处理，可以调用**toggle_state**全局事件列表让模型切换到下一个状态，然后自动调用该模型的私有事件列表**on_state_<当前的状态>** ，以完成对模型更细致的处理  
   
@@ -508,7 +508,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 关于本节内容的教程详见 **[实战：更丝滑的门](#9.6)** 
 
-## 全局事件：推动模型
+### 全局事件：推动模型
 
 该模块被调用时可以让模型沿玩家面向的方向移动一格，如果模型的目标位置处有方块阻挡则不移动  
   
@@ -525,7 +525,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 关于本节内容的教程详见 **[教程：推动模型](#9.4)**
 
-## 全局事件：染色与清洗
+### 全局事件：染色与清洗
 
 众多周知mojang给很多物品和方块都加入了16种可供选择的颜色，本数据包也提供了类似的功能  
   
@@ -600,11 +600,11 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 关于本节内容的教程详见 **[教程：染色](#9.5)**
 
 
-# 案例教程
+## 案例教程
 
 
 
-## 例程：简单装饰模型
+### 例程：简单装饰模型
 
 先从最简单的开始，简单装饰模型主要的功能是装饰，所以不需要太复杂的效果，我们需要实现的内容有这些
 
@@ -706,7 +706,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 
 
-## 教程：动画
+### 教程：动画
 
 使用**SK Model Workspace**的动画系统，可以完成一些简单的模型动画  
 
@@ -908,7 +908,7 @@ events:{
 
 
 
-## 教程：推动模型
+### 教程：推动模型
 
 来看一个例子，现在需要制作一个可以被玩家推动的TNT
 
@@ -1085,7 +1085,7 @@ criteria:{
 
 
 
-## 教程：染色
+### 教程：染色
 
 染色是一个很常用的功能，接下来我们通过一个简单的例子带你了解这个功能  
 
@@ -1258,7 +1258,7 @@ properties:{
 
 
 
-## 实战：更丝滑的门
+### 实战：更丝滑的门
 
 原版MC的门没有开关门动画，现在来制作一个带有开关门动画的门
 

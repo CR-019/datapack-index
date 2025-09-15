@@ -26,11 +26,13 @@ title: '自然工艺 - 高版本自定义模型框架'
 >
 > 仓库地址 : [[NatureCraft: Minecraft-Java原版自定义模型支持库](https://github.com/Bybycyann/NatureCraft)]
 >
+> NatureCraft 交流群 : [602217514](https://qm.qq.com/q/qD7TOv3LAO)
+>
 > 自 1.16 版本以来进行的多次更新, 极大程度拓展了高版本数据包的操作空间。 以此为基础, 编写了一个高版本自定义交互模型支持框架, 以便玩家添加各式各样的模型来丰富游戏体验。
 
 ## 简介
 
-NatureCraft 是面向高版本 (1.21.5+) 的自定义交互模型框架。该数据包为二次开发, 充分吸收前一代总结的经验, 参考学习了 [NyaaWorks](https://www.bilibili.com/video/BV12ohXeYE2h/?spm_id_from=333.1387.upload.video_card.click), [DecorationCreatorKit](https://www.bilibili.com/video/BV1HKY9z9Ek2/?spm_id_from=333.337.search-card.all.click&vd_source=e6aa16d84e02732db78254e12f59c578) 等一众知名框架包, 结合一些更丰富的内容, 历时两周左右~~编写完成~~(还没有完全完成)。
+NatureCraft 是面向高版本 (1.21.5+) 的自定义交互模型框架。该数据包为二次开发, 充分吸收前一代总结的经验, 参考学习了 [NyaaWorks](https://www.bilibili.com/video/BV12ohXeYE2h/?spm_id_from=333.1387.upload.video_card.click), [Decoration Creator Kit](https://www.bilibili.com/video/BV1HKY9z9Ek2) 等一众知名框架包, 结合一些更丰富的内容, 历时两周左右~~编写完成~~(还没有完全完成)。
 
 ## NatureCraft 相较于其它框架有什么特点?
 
@@ -38,7 +40,7 @@ NatureCraft 是面向高版本 (1.21.5+) 的自定义交互模型框架。该数
 
 ### A. 独立化模型包制作
 
-为了尽可能实现**模型包之间及模型包与框架包的独立性**, 我们`提供了一种基于 [命令存储 (Storage)](https://zh.minecraft.wiki/w/命令存储存储格式?variant=zh-cn) 的模型数据存储方式。玩家可以通过向不同命名空间的命令存储中注册模型来实现**模型包的独立化存储与分发**。
+为了尽可能实现**模型包之间及模型包与框架包的独立性**, 我们提供了一种基于 [命令存储 (Storage)](https://zh.minecraft.wiki/w/命令存储存储格式?variant=zh-cn) 的模型数据存储方式。玩家可以通过向不同命名空间的命令存储中注册模型来实现**模型包的独立化存储与分发**。
 
 当玩家想要基于 NatureCraft 来创作自己的模型包时, 需要关注三个部分 :
 
@@ -48,9 +50,9 @@ NatureCraft 是面向高版本 (1.21.5+) 的自定义交互模型框架。该数
 
 - 管理事件的数据包.
 
-其中资源包的功能不必多说, 在 NatureCraft 框架下, 数据包仅负责提供一些自定义事件, 命令存储文件大家相对而言会比较陌生, [命令存储 ](https://zh.minecraft.wiki/w/命令存储存储格式?variant=zh-cn)是 1.15 版本加入的一种数据存储文件, 在 NatureCraft 中, 数据包会将该文件内容视为模型 "注册表" 来读取, 以对模型调用与模型事件提供支持。
+其中资源包的功能不必多说, 在 NatureCraft 框架下, 数据包仅负责提供一些自定义事件, 命令存储文件大家相对而言会比较陌生, [命令存储](https://zh.minecraft.wiki/w/命令存储存储格式?variant=zh-cn)是 1.15 版本加入的一种数据存储文件, 在 NatureCraft 中, 数据包会将该文件内容视为模型 "注册表" 来读取, 以对模型调用与模型事件提供支持。
 
-在**区分命名空间**的情况下, 资源包与数据包本身都支持独立分发与夸存档调用, 模型数据也是支持的, 玩家只需要将存档下 `data/command_storage_<命名空间>.dat` 的文件拷贝下来即可直接夸存档使用。
+在**区分命名空间**的情况下, 资源包与数据包本身都支持独立分发与跨存档调用, 模型数据也是支持的, 玩家只需要将存档下 `data/command_storage_<命名空间>.dat` 的文件拷贝下来即可直接跨存档使用。
 
 > 当然这种方式也有缺陷, 在修改特定模型数据时会异常麻烦, 建议玩家在数据包中留档注册函数方便维护和管理模型。
 
@@ -66,7 +68,7 @@ NatureCraft 是面向高版本 (1.21.5+) 的自定义交互模型框架。该数
 <div class="nbttree">
 
 <node type="compound" name="ModelData"/>
-- <node type="string" name="type"/>模型类型, 默认为`none`(默认), 其他可选值 : `hang`(悬挂), `link`(连接), `predicate`(谓词)。
+- <node type="string" name="type"/>模型类型, 默认为`none`, 其他可选值 : `hang`(悬挂), `link`(连接), `predicate`(谓词)。
 - <node type="list" name="states"/>与方块状态类似的, 用于定义不同情况下采用的模型映射规则。<br> &emsp;&emsp; **type** 为 `hang` 时: 
   - <node type="compound" name=""/>一个状态映射。
     - <node type="compound" name="model"/>递归标签。包含模型, 光照, 碰撞箱与交互箱属性与事件。
@@ -77,9 +79,9 @@ NatureCraft 是面向高版本 (1.21.5+) 的自定义交互模型框架。该数
     - <node type="compound" name="model"/>递归标签。包含模型, 光照, 碰撞箱与交互箱属性与事件。
       - <node type="any" name="<模型属性标签>"/>一个模型属性。
     - <node type="compound" name="condition"/> 一个条件。
-      - <node type="list" name="code"/> 一个10位布尔型数组, 用来描述临近10个位置满足的条件状态。
+      - <node type="list" name="code"/> 一个10位状态数组, 用来描述临近10个位置满足的条件状态。
       - <node type="string" name="tag"/> 要检查的位置上的模型标签。
-    **type** 为 `predicate` 时:  
+      **type** 为 `predicate` 时:  
   - <node type="compound" name=""/>一个状态映射。
     - <node type="compound" name="model"/>递归标签。包含模型, 光照, 碰撞箱与交互箱属性与事件。
       - <node type="any" name="<模型属性标签>"/>一个模型属性。
@@ -156,6 +158,7 @@ NatureCraft 提供了模型交互箱、碰撞箱、光照的支持
 NatureCraft 使用命令存储作为模型数据存储媒介, 按照下图格式定义
 
 <div class="nbttree">
+<node type="compound" name="ModelData"/>
 
 + <node type="compound" name="<模型ID>"/>
   + <node type="compound" name="template" required=true /> 模型调用的模板属性。解析为 `<命令存储> template.路径`。
@@ -229,7 +232,8 @@ NatureCraft 使用命令存储作为模型数据存储媒介, 按照下图格式
       + <node type="compound" name="clock"/> 时钟事件传递的参数组。
       + <node type="compound" name="left_click"/> 左键事件传递的参数组。
       + <node type="compound" name="right_click"/> 右键事件传递的参数组。
-          
+        
+
 </div>
 
 在函数文件中输入
@@ -317,9 +321,9 @@ data modify storage <命名空间ID> model.<nbt路径> set value {\
 
 > NatureCraft 尚未正式完成, 目前仅提供少数基础性事件。
 
-**naturecraft base/group/break1** : 按原模型掉落的破坏。接受一个`(string)sound`参数
+**naturecraft base/group/break1** : 按原模型掉落的破坏事件。接受一个`(string)sound`参数
 
-**naturecraft base/loot_spawn** : 按特定战利品表生成战利品。接受一个`(string)loot_tbale`参数(支持内联形式)
+**naturecraft base/loot_spawn** : 按指定的战利品表生成战利品。接受一个`(string)loot_tbale`参数(支持内联形式)
 
 **naturecraft base/sound** : 声音事件。接受一个`(string)sound`参数
 
@@ -550,8 +554,9 @@ function naturecraft:give {name:"naturecraft:0","nbt":"amethyst",model:"naturecr
 
 <div style="text-align:center">
 <img src=".\4.png" alt="4.png" style="zoom:50%;" />
-<p style="color: gray;">调用随机事件的橡树盆栽(左)结果的橡树盆栽(右)</p>
+<p style="color: gray;">调用随机事件的橡树盆栽(左)与成熟的橡树盆栽(右)</p>
 </div>
+
 
 ::: details 注册函数
 ```mcfunction
@@ -1690,4 +1695,4 @@ function naturecraft:give {name:"naturecraft:0","nbt":"stripped_oak_table",model
 
 ## 关于 NatureCraft
 
-如果对 NatureCraft 感兴趣的玩家, 可以通过 (QQ)602217514 与我们交流。
+如果对 NatureCraft 感兴趣的玩家, 可以通过 (QQ)[602217514](https://qm.qq.com/q/qD7TOv3LAO) 与我们交流。
