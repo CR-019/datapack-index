@@ -42,6 +42,7 @@ pageClass: h2-no-border
     :coverLink="'./index/202508'"
 />
 
+---
 
 <JournalIndex
     cover="./cover/202507/202507.png"
@@ -49,6 +50,9 @@ pageClass: h2-no-border
 />
 
 ---
+
+<details>
+<summary>更早</summary>
 
 <JournalIndex
     cover="./cover/202506/202506.png"
@@ -68,6 +72,8 @@ pageClass: h2-no-border
     cover="./cover/202504/202504.png"
     :coverLink="'./index/202504'"
 />
+
+</details> 
 
 ## 向《Feature》 投稿
 <ColorLine />
