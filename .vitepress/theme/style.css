@@ -337,6 +337,10 @@
   box-sizing: border-box;
 }
 
+.dark .nbttree li::after{
+  border-left: 1px solid #fff;
+}
+
 /* 连接符：├─ 或 └─ */
 .nbttree li::before {
   content: '──';
@@ -351,9 +355,6 @@
   z-index: 1;
   box-sizing: border-box;
 }
-
-
-
 
 /* 确保文本换行后也能缩进对齐 */
 .nbttree li > span {
