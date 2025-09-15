@@ -53,4 +53,4 @@
   * `enableCommandBlocks`：是否启用命令方块
   * `spawnMonsters`：是否生成敌对生物
   * `spawnerBlocksEnabled`：是否启用刷怪笼
-* 将`enableCommandBlocks`游戏规则重命名为`commandBlocksEnabled`，以匹配基岩版
+* 💥将`enableCommandBlocks`游戏规则重命名为`commandBlocksEnabled`，以匹配基岩版
