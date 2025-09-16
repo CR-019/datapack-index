@@ -4,6 +4,11 @@
 
 ---
 
+最近收录：
+- [bookshelf中文文档](https://docs.mcbookshelf.dev/zh-cn/master/)
+
+---
+
 ↓暂时弃用的狐狐版nbt树
 
 <NBTTree code='
