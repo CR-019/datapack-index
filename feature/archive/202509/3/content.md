@@ -12,9 +12,10 @@ title: '着色器02 核心着色器的工作流程（上）'
     cover='../_assets/3.png'
 />
 
+
 ## 回顾：顶点着色器的工作
 
-*来自上一节的渲染管线小结*
+*来自上一节的渲染管线小节*
 
 $\Huge\text{“}$ 加载到游戏内的各种事物将会将自己的顶点属性发送给特定的着色器对象，由`.vsh`顶点着色器来处理这些顶点。
 
@@ -233,37 +234,37 @@ _注：也可以从另外一个视角来理解Minecraft着色器中的MVP，即�
 
 下面是帮助理解两种运算方式的例子：
 
-$$ \begin{aligned} Ax = \begin{bmatrix} 1 & 1 & 4 \\ 5 & 1 & 4 \\ 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 3 \\ 2 \end{bmatrix} &= 1 \cdot \begin{bmatrix} 1 \\ 5 \\ 1 \end{bmatrix} + 3 \cdot \begin{bmatrix} 1 \\ 1 \\ 9 \end{bmatrix} + 2 \cdot \begin{bmatrix} 4 \\ 4 \\ 1 \end{bmatrix} &&= \begin{bmatrix} 12 \\ 16 \\ 30 \end{bmatrix} \\ &= \begin{bmatrix} (1,1,4)\cdot(1,3,2) \\ (5,1,4)\cdot(1,3,2) \\ (1,9,1)\cdot(1,3,2) \end{bmatrix} &&= \begin{bmatrix} 12 \\ 16 \\ 30 \end{bmatrix} \end{aligned}$$
+$ \begin{aligned} Ax = \begin{bmatrix} 1 & 1 & 4 \\ 5 & 1 & 4 \\ 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 3 \\ 2 \end{bmatrix} &= 1 \cdot \begin{bmatrix} 1 \\ 5 \\ 1 \end{bmatrix} + 3 \cdot \begin{bmatrix} 1 \\ 1 \\ 9 \end{bmatrix} + 2 \cdot \begin{bmatrix} 4 \\ 4 \\ 1 \end{bmatrix} &&= \begin{bmatrix} 12 \\ 16 \\ 30 \end{bmatrix} \\ &= \begin{bmatrix} (1,1,4)\cdot(1,3,2) \\ (5,1,4)\cdot(1,3,2) \\ (1,9,1)\cdot(1,3,2) \end{bmatrix} &&= \begin{bmatrix} 12 \\ 16 \\ 30 \end{bmatrix} \end{aligned}$
 
 当然，矩阵变换还有一个直观的几何理解，即空间基向量的变换，这个视角在图形学中尤其有用。
 
-#### 矩阵变换的基变换观点
+### 矩阵变换的基变换观点
 
 观察这样一个矩阵变换过程
 
-$$ A \cdot \vec v $$
+$ A \cdot \vec v $
 
 我们知道，任何一个向量都可以表示为这个空间中的一组基的线性组合，即
 
-$$ \vec v = a \hat i + b \hat j + c \hat k$$
+$ \vec v = a \hat i + b \hat j + c \hat k$
 
 由于矩阵变换具有线性性，原本的变换等价于
 
-$$ A \cdot \left(a \hat i + b \hat j + c \hat k \right) = a\left(A \cdot \hat i \right) + b\left(A \cdot \hat j \right) + c\left(A \cdot \hat k \right)$$
+$ A \cdot \left(a \hat i + b \hat j + c \hat k \right) = a\left(A \cdot \hat i \right) + b\left(A \cdot \hat j \right) + c\left(A \cdot \hat k \right)$
 
 即新的向量等价于矩阵对各个基向量变换后的线性组合，特别地，为了便于理解，我们将基向量设为标准正交基
 
-$$ \hat \imath = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \hat \jmath = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \hat k = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$$
+$ \hat \imath = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \hat \jmath = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}, \hat k = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$
 
 那么这些向量被变换后变成了什么呢？
 
 不妨设
 
-$$ A = \begin{bmatrix} a & d & g \\ b & e & h \\ c & f & l \end{bmatrix} $
+$ A = \begin{bmatrix} a & d & g \\ b & e & h \\ c & f & l \end{bmatrix} $
 
 那么
 
-$$ A \hat i = \begin{bmatrix} a \\ b \\ c \end{bmatrix}, A \hat j = \begin{bmatrix} d \\ e \\ f \end{bmatrix}, A \hat k = \begin{bmatrix} g \\ h \\ l \end{bmatrix}$$
+$ A \hat i = \begin{bmatrix} a \\ b \\ c \end{bmatrix}, A \hat j = \begin{bmatrix} d \\ e \\ f \end{bmatrix}, A \hat k = \begin{bmatrix} g \\ h \\ l \end{bmatrix}$
 
 Amazing啊！**新的基向量居然就是矩阵的各列！**
 
@@ -273,13 +274,9 @@ Amazing啊！**新的基向量居然就是矩阵的各列！**
 
 ### 齐次坐标
 
-前面叙述了矩阵变换的运算过程，稍加留意会发现，矩阵变换是无法处理 **平移变换** 的（任何矩阵都只能将原点 $(0, 0, 0)$ 变换到相同的原点位置，显然无法执行平移操作）。为了在三维空间内平移，我们定义了四个分量的齐次坐标 $(x, y, z, w)$ ，它表示的实际位置是 
-$$ \displaystyle (\frac{x}{w}, \frac{y}{w}, \frac{z}{w})$$ 
-这样就可以实现下面的平移过程：
+前面叙述了矩阵变换的运算过程，稍加留意会发现，矩阵变换是无法处理 **平移变换** 的（任何矩阵都只能将原点 $(0, 0, 0)$ 变换到相同的原点位置，显然无法执行平移操作）。为了在三维空间内平移，我们定义了四个分量的齐次坐标 $(x, y, z, w)$ ，它表示的实际位置是 $\displaystyle (\frac{x}{w}, \frac{y}{w}, \frac{z}{w})$。这样就可以实现下面的平移过程：
 
-$$
-\begin{bmatrix} 1 & 0 & 0 & t_x \\ 0 & 1 & 0 & t_y \\ 0 & 0 & 1 & t_z \\ 0 & 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix} = \begin{bmatrix} x + t_x \\ y + t_y \\ z + t_z \\ 1 \end{bmatrix}
-$$
+$\begin{bmatrix} 1 & 0 & 0 & t_x \\ 0 & 1 & 0 & t_y \\ 0 & 0 & 1 & t_z \\ 0 & 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix} = \begin{bmatrix} x + t_x \\ y + t_y \\ z + t_z \\ 1 \end{bmatrix}$
 
 同时我们也约定，仅表示方向的向量w为0，表示点的向量w为1，这样就使得点受平移变换影响，而表示方向的向量不受影响。
 
@@ -301,39 +298,39 @@ $$
 
 在Minecraft中，初始角度是x轴向左，y轴向上，z轴指向屏幕里的，而我们的顶点所在的坐标系是x轴向右，y轴向上，而z轴指向屏幕外的。这意味着我们需要构造一个初始旋转矩阵（实际上对应坐标系偏航180°，但我们定这个角度为玩家的偏航0°）
 
-$$ I_0 = \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1\end{bmatrix}$$
+$ I_0 = \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1\end{bmatrix}$
 
 那么在此基础上，玩家的偏航角为 $\theta$ 时，对应的是玩家向右偏航 $\theta$ ,世界向左旋转（相当于y轴朝向纸面外，顺时针旋转），应该有y不变，而x和z方向上的标准正交基被旋转到了
 
-$$ A_1 \cdot \hat \imath = A_1 \cdot \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} \cos \theta \\ 0 \\ -\sin \theta \end{bmatrix}$$
+$ A_1 \cdot \hat \imath = A_1 \cdot \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} \cos \theta \\ 0 \\ -\sin \theta \end{bmatrix}$
 
-$$ A_1 \cdot \hat \jmath = A_1 \cdot \begin{bmatrix} 0 \\ 1 \\ 0
- \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$$
+$ A_1 \cdot \hat \jmath = A_1 \cdot \begin{bmatrix} 0 \\ 1 \\ 0
+ \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$
 
-$$ A_1 \cdot \hat k = A_1 \cdot \begin{bmatrix} 0 \\ 0 \\ 1
- \end{bmatrix} = \begin{bmatrix} \sin \theta \\ 0 \\ \cos \theta \end{bmatrix}$$
+$ A_1 \cdot \hat k = A_1 \cdot \begin{bmatrix} 0 \\ 0 \\ 1
+ \end{bmatrix} = \begin{bmatrix} \sin \theta \\ 0 \\ \cos \theta \end{bmatrix}$
 
 ![alt text](519bb1aa0d5f9e921543c40d29605959.png)
 
 无论是设出A的每一项解方程，还是用基变换的观点看，我们都可以得到偏航矩阵A。我们这里将新的基依次填入矩阵的每一列
 
-$$ A_1 = \begin{bmatrix} \cos \theta & 0 & \sin \theta \\ 0 & 1 & 0 \\ -\sin \theta & 0 & \cos \theta \end{bmatrix}$$
+$ A_1 = \begin{bmatrix} \cos \theta & 0 & \sin \theta \\ 0 & 1 & 0 \\ -\sin \theta & 0 & \cos \theta \end{bmatrix}$
 
 不过前文说过，Minecraft中的玩家旋转角度与坐标系的旋转角度有180°的偏移，所以我们需要让$I_0$左乘$A_1$。而且我们这里处理的实际上是四个分量的齐次坐标，所以我们将其扩充为4x4的矩阵
 
-$$ I_0 \cdot A_1 = \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1\end{bmatrix} \begin{bmatrix} \cos \theta & 0 & \sin \theta \\ 0 & 1 & 0 \\ -\sin \theta & 0 & \cos \theta \end{bmatrix} = \begin{bmatrix} -\cos \theta & 0 & -\sin \theta \\ 0 & 1 & 0 \\ \sin \theta & 0 & -\cos \theta \end{bmatrix} $$
+$ I_0 \cdot A_1 = \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1\end{bmatrix} \begin{bmatrix} \cos \theta & 0 & \sin \theta \\ 0 & 1 & 0 \\ -\sin \theta & 0 & \cos \theta \end{bmatrix} = \begin{bmatrix} -\cos \theta & 0 & -\sin \theta \\ 0 & 1 & 0 \\ \sin \theta & 0 & -\cos \theta \end{bmatrix} $
 
-$$ A = \begin{bmatrix} -\cos \theta & 0 & -\sin \theta & 0 \\ 0 & 1 & 0 & 0 \\ \sin \theta & 0 & -\cos \theta  & 0 \\ 0 & 0  & 0  & 1\end{bmatrix}$$
+$ A = \begin{bmatrix} -\cos \theta & 0 & -\sin \theta & 0 \\ 0 & 1 & 0 & 0 \\ \sin \theta & 0 & -\cos \theta  & 0 \\ 0 & 0  & 0  & 1\end{bmatrix}$
 
 Minecraft中，玩家的俯仰角为 $\phi$ 时，视角向下俯仰 $\phi$ ，世界向上旋转（相当于x轴朝向纸面外，逆时针旋转），应该有x不变，y轴和z轴上的基向量被旋转到新的为止。同理，我们可以推出俯仰角对应的旋转矩阵
 
 ![alt text](338738a3d957f47d8b84adf3b1703933.png)
 
-$$ B = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos \phi & -\sin \phi & 0 \\ 0 & \sin \phi & \cos \phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix}$$
+$ B = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos \phi & -\sin \phi & 0 \\ 0 & \sin \phi & \cos \phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix}$
 
 最终我们得到
 
-$$\text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & -\sin\theta & 0 \\ -\sin\theta\sin\phi & \cos\phi & -\cos\theta\sin\phi & 0 \\ \sin\theta\cos\phi & \sin\phi & \cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
+$\text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & -\sin\theta & 0 \\ -\sin\theta\sin\phi & \cos\phi & -\cos\theta\sin\phi & 0 \\ \sin\theta\cos\phi & \sin\phi & \cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $
 
 验证：当 $\theta,\phi=0$ 时 `ModelViewMat` 的左上角3x3区域确实与$I_0$一致
 
@@ -378,18 +375,20 @@ Minecraft世界中的三维物体在二维屏幕上的表示方法是把它投�
 
 结合前面提到过的平移变换的知识，要将中点移到原点，那么就需要让三维空间坐标系中的每个点坐标减去中点的坐标。
 
-$$T = \begin{bmatrix} 1 & 0 & 0 & -\frac{r+l}{2} \\ 0 & 1 & 0 & -\frac{t+b}{2} \\ 0 & 0 & 1 & -\frac{n+f}{2} \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+$T = \begin{bmatrix} 1 & 0 & 0 & -\frac{r+l}{2} \\ 0 & 1 & 0 & -\frac{t+b}{2} \\ 0 & 0 & 1 & -\frac{f+n}{2} \\ 0 & 0 & 0 & 1 \end{bmatrix}$
 
  * 2. 将区域的大小缩放至[-1,1]^3，这个变换记为 $S$
 
-我们先计算当前区域的大小，这一步需要特别注意视图空间的坐标轴方向，用大的坐标值减去小的。于是我们可以得到当前区域的x宽度为 $(r-l)$，y高度为 $(t-b)$，z深度为 $(n-f)$。而目标区域的每条棱长都是2（从-1到1）。我们可以轻易地得到缩放变换的矩阵。
+我们先计算当前区域的大小，这一步需要特别注意视图空间的坐标轴方向，用大的坐标值减去小的。于是我们可以得到当前区域的x宽度为 $(r-l)$，y高度为 $(t-b)$，z深度为 $(f-n)$。而目标区域的每条棱长都是2（从-1到1）。我们可以轻易地得到缩放变换的矩阵。
 
-$$S = \begin{bmatrix} \frac{2}{r-l} & 0 & 0 & 0 \\ 0 & \frac{2}{t-b} & 0 & 0 \\ 0 & 0 & \frac{2}{n-f} & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+> 注：近平面所在位置为 $z = -n$ ，远平面所在位置为 $z = -f$，而 $(-n) - (-f) = f - n$，所以这里依然是用大的坐标减去小的。
+
+$S = \begin{bmatrix} \frac{2}{r-l} & 0 & 0 & 0 \\ 0 & \frac{2}{t-b} & 0 & 0 \\ 0 & 0 & \frac{2}{f-n} & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$
 
 
  * 3. 计算两个变换的复合变换
  
-$$ M_{Ortho} = S \cdot T = \begin{bmatrix} \frac{2}{r-l} & 0 & 0 & -\frac{r+l}{r-l} \\ 0 & \frac{2}{t-b} & 0 & -\frac{t+b}{t-b} \\ 0 & 0 & \frac{2}{n-f} & -\frac{n+f}{n-f} \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+ $ M_{Ortho} = S \cdot T = \begin{bmatrix} \frac{2}{r-l} & 0 & 0 & -\frac{r+l}{r-l} \\ 0 & \frac{2}{t-b} & 0 & -\frac{t+b}{t-b} \\ 0 & 0 & \frac{2}{n-f} & -\frac{f+n}{f-n} \\ 0 & 0 & 0 & 1 \end{bmatrix}$
 
 #### 透视投影
 
@@ -428,7 +427,7 @@ $M_{Persp \to Ortho}\begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix} = \begin{bmat
 
 若设 $M_{Persp \to Ortho}$ 是一个4x4的矩阵，我们其实已经可以填出它的部分内容。
 
-$$M_{Persp \to Ortho} = \begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ ? & ? & ? & ? \\ 0 & 0 & 1 & 0 \end{bmatrix} $$
+$M_{Persp \to Ortho} = \begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ ? & ? & ? & ? \\ 0 & 0 & 1 & 0 \end{bmatrix} $
 
 这时候就需要用到我们刚刚约定的两个性质了
 
@@ -436,64 +435,64 @@ $$M_{Persp \to Ortho} = \begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ ? & ?
 
 我们代入近平面上的任意点 $(x,y,n,1)$，它们总是会被映射到相同的位置，即：
 
-$$\begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ ? & ? & ? & ? \\ 0 & 0 & 1 & 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} = \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} \to 乘以n以保证格式相同 \to \begin{bmatrix} nx \\ ny \\ n^2 \\ n \end{bmatrix}$$
+$\begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ ? & ? & ? & ? \\ 0 & 0 & 1 & 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} = \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} \to 乘以n以保证格式相同 \to \begin{bmatrix} nx \\ ny \\ n^2 \\ n \end{bmatrix}$
 
 观察结果的第三个分量，它是由矩阵的第三行与向量点乘得到的
 
-$$\begin{bmatrix} ? & ? & ? & ? \end{bmatrix} \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} = n^2$$
+$\begin{bmatrix} ? & ? & ? & ? \end{bmatrix} \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} = n^2$
 
 显然，结果与x、y无关，所以我们知道前两个未知数一定是 $0$，不妨设后两个数为 $A、B$，即
 
-$$M_{Persp \to Ortho} = \begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & A & B \\ 0 & 0 & 1 & 0 \end{bmatrix}$$
+$M_{Persp \to Ortho} = \begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & A & B \\ 0 & 0 & 1 & 0 \end{bmatrix}$
 
 而且我们有
 
-$$\begin{bmatrix} 0 & 0 & A & B \end{bmatrix} \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} = n^2 \implies nA + B = n^2 $$
+$\begin{bmatrix} 0 & 0 & A & B \end{bmatrix} \begin{bmatrix} x \\ y \\ n \\ 1 \end{bmatrix} = n^2 \implies nA + B = n^2 $
 
  * 2. 远平面上的所有的点z坐标不变
  
 我们代入远平面上的中点，它的z轴会被映射到f，即原本的值。
 
-$$\begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & A & B \\ 0 & 0 & 1 & 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ f \\ 1 \end{bmatrix} = \begin{bmatrix} \frac{n}{f}x \\ \frac{n}{f}y \\ f \\ 1 \end{bmatrix} \to 乘以f以保证格式相同 \to \begin{bmatrix} nx \\ ny \\ f^2 \\ f \end{bmatrix}$$
+$\begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & A & B \\ 0 & 0 & 1 & 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ f \\ 1 \end{bmatrix} = \begin{bmatrix} \frac{n}{f}x \\ \frac{n}{f}y \\ f \\ 1 \end{bmatrix} \to 乘以f以保证格式相同 \to \begin{bmatrix} nx \\ ny \\ f^2 \\ f \end{bmatrix}$
 
 观察结果的第三个分量，它是由矩阵的第三行与向量点乘得到的
 
-$$\begin{bmatrix} 0 & 0 & A & B \end{bmatrix} \begin{bmatrix} x \\ y \\ f \\ 1 \end{bmatrix} = f^2 \implies fA + B = f^2$$
+$\begin{bmatrix} 0 & 0 & A & B \end{bmatrix} \begin{bmatrix} x \\ y \\ f \\ 1 \end{bmatrix} = f^2 \implies fA + B = f^2$
 
 现在我们有
 
-$$\begin{cases}
+$\begin{cases}
 nA + B = n^2 \\
 fA + B = f^2 
-\end{cases}$$
+\end{cases}$
 
 可以解得
 
-$$\begin{cases}
+$\begin{cases}
 A = n + f \\
 B = -nf
-\end{cases}$$
+\end{cases}$
 
 于是我们得到
 
-$$M_{Persp \to Ortho} = \begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & n + f & -nf \\ 0 & 0 & 1 & 0 \end{bmatrix}$$
+$M_{Persp \to Ortho} = \begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & n + f & -nf \\ 0 & 0 & 1 & 0 \end{bmatrix}$
 
 最终，我们得到
 
-$$\begin{aligned} \text{ProjMat} &= M_{Ortho} \cdot M_{Persp \to Ortho} \\ &= \Large \begin{bmatrix} \frac{2}{r-l} & 0 & 0 & -\frac{r+l}{r-l} \\ 0 & \frac{2}{t-b} & 0 & -\frac{t+b}{t-b} \\ 0 & 0 & \frac{2}{n-f} & -\frac{n+f}{n-f} \\ 0 & 0 & 0 & 1 \end{bmatrix}\begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & n + f & -nf \\ 0 & 0 & 1 & 0 \end{bmatrix} \\ &= \Large \begin{bmatrix} \frac{2n}{r-l} & 0 & \frac{l+r}{l-r} & 0 \\ 0 & \frac{2n}{t-b} & \frac{b+t}{b-t} & 0 \\ 0 & 0 & \frac{n+f}{n-f} & \frac{2nf}{f-n} \\ 0 & 0 & 1 & 0 \end{bmatrix} \end{aligned}$$
+$\begin{aligned} \text{ProjMat} &= M_{Ortho} \cdot M_{Persp \to Ortho} \\ &= \Large \begin{bmatrix} \frac{2}{r-l} & 0 & 0 & -\frac{r+l}{r-l} \\ 0 & \frac{2}{t-b} & 0 & -\frac{t+b}{t-b} \\ 0 & 0 & \frac{2}{n-f} & -\frac{f+n}{f-n} \\ 0 & 0 & 0 & 1 \end{bmatrix}\begin{bmatrix} n & 0 & 0 & 0 \\ 0 & n & 0 & 0  \\ 0 & 0 & n + f & -nf \\ 0 & 0 & 1 & 0 \end{bmatrix} \\ &= \Large \begin{bmatrix} \frac{2n}{r-l} & 0 & \frac{l+r}{l-r} & 0 \\ 0 & \frac{2n}{t-b} & \frac{b+t}{b-t} & 0 \\ 0 & 0 & \frac{n+f}{n-f} & \frac{2nf}{n-f} \\ 0 & 0 & -1 & 0 \end{bmatrix} \end{aligned}$
 
 除了l、r、t、b、n、f描述参数，更多的时候我们是用 **FOV（视场角）** 和 **Aspect（宽高比）** 、n、f描述的。转换关系如下：
 
-$$\begin{cases}
+$\begin{cases}
 t = \tan(\frac{\text{FOV}}{2})\times n\\
 b=-t\\
 r = t \times \text{Aspect}\\
 l = -r
-\end{cases}$$
+\end{cases}$
 
 若用FOV、Aspect、n、f描述，则
 
-$$ \text{ProjMat} = \Large\begin{bmatrix} \frac{1}{\tan{\frac{\text{FOV}}{2}\times \text{Aspect}}} & 0 & 0 & 0 \\ 0 & \frac{1}{\tan{\frac{\text{FOX}}{2}}} & 0 & 0 \\ 0 & 0 & \frac{n+f}{n-f} & \frac{2nf}{f-n} \\ 0 & 0 & 1 & 0 \end{bmatrix}$$
+$ \text{ProjMat} = \Large\begin{bmatrix} \frac{1}{\tan{\frac{\text{FOV}}{2}\times \text{Aspect}}} & 0 & 0 & 0 \\ 0 & \frac{1}{\tan{\frac{\text{FOX}}{2}}} & 0 & 0 \\ 0 & 0 & \frac{n+f}{n-f} & \frac{2nf}{n-f} \\ 0 & 0 & -1 & 0 \end{bmatrix}$
 
 回到着色器，从上面的推导中可知，我们可以从 `ProjMat` 中获取视场角、宽高比、近平面和远平面信息，从而对着色器流程进行控制。
 
@@ -503,8 +502,8 @@ $$ \text{ProjMat} = \Large\begin{bmatrix} \frac{1}{\tan{\frac{\text{FOV}}{2}\tim
 mat4 ProjMat = mat4(
     1/(tan(FOV/2)*Aspect)  ,        0      ,       0      , 0,
                 0          , 1/(tan(FOV/2)),       0      , 0,
-                0          ,        0      ,  (n+f)/(n-f) , 1,
-                0          ,        0      , (2*n*f)/(f-n), 0,
+                0          ,        0      ,  (n+f)/(n-f) , -1,
+                0          ,        0      , (2*n*f)/(n-f), 0,
 );
 ```
 
@@ -545,17 +544,17 @@ mat4 ProjMat = mat4(
 
 如果直接按行主序构造偏航矩阵 $M_\text{Yaw}$ 和俯仰矩阵 $M_\text{Pitch}$，并用于MVP变换。（从右往左计算）
 
-$$M_\text{Pitch} \cdot M_\text{Yaw} \cdot P$$
+$M_\text{Pitch} \cdot M_\text{Yaw} \cdot P$
 
 在行主序的视角下这并无问题，但在GLSL的列主序观点下，这个运算实际上是线性代数中的：
 
-$$M_\text{Pitch}^T \cdot M_\text{Yaw}^T \cdot P$$
+$M_\text{Pitch}^T \cdot M_\text{Yaw}^T \cdot P$
 
 这里的符号 $M^T$ 表示 **转置（Transpose）**，即交换行和列。特别地，我们的旋转矩阵刚好是 **正交矩阵（Orthogonal Matrix）**，即各列相互正交的矩阵，它有一个性质是：正交矩阵的转置等于它的逆。
 
 意味着我们刚刚执行的运算实际上是：
 
-$$M_\text{Pitch}^{-1} \cdot M_\text{Yaw}^{-1} \cdot P$$
+$M_\text{Pitch}^{-1} \cdot M_\text{Yaw}^{-1} \cdot P$
 
 依然是先偏航，后俯仰，但每次转动的方向相反。这在视觉上不会造成多大的错误，若不检查旋转方向，可能误以为结果符合预期。
 
@@ -563,11 +562,11 @@ $$M_\text{Pitch}^{-1} \cdot M_\text{Yaw}^{-1} \cdot P$$
 
 我们在列主序下计算 $M_\text{view} = M_\text{Pitch} \cdot M_\text{Yaw}$，并替换掉代码里的变换。实际上运行的是什么呢？
 
-$$M_\text{view}^T \cdot P = (M_\text{Pitch} \cdot M_\text{Yaw})^T \cdot P$$
+$M_\text{view}^T \cdot P = (M_\text{Pitch} \cdot M_\text{Yaw})^T \cdot P$
 
 根据转置的定义，$(A \cdot B)^T = B^T \cdot A^T$，那么我们的计算就变成了
 
-$$M_\text{Yaw}^T \cdot M_\text{Pitch}^T \cdot P = M_\text{Yaw}^{-1} \cdot M_\text{Pitch}^{-1} \cdot P $$
+$M_\text{Yaw}^T \cdot M_\text{Pitch}^T \cdot P = M_\text{Yaw}^{-1} \cdot M_\text{Pitch}^{-1} \cdot P $
 
 这就变成了先俯仰，后偏航，而且两次旋转方向也是反的。
 

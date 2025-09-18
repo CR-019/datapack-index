@@ -7,7 +7,7 @@ hero:
   name: "香草图书馆"
   tagline: 原版模组开发资源索引站
   image:
-    src: /icons/bg6.png
+    src: /icons/bg7.png
   actions:
     - theme: brand
       text: 进入文档

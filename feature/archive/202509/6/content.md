@@ -77,6 +77,6 @@ execute anchored eyes run rotate facing entity @n[type=villager] eyes
 ````
 
 ## 参考文献
-[1] https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4%E4%B8%8A%E4%B8%8B%E6%96%87
-[2] https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/rotate
-[3] https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/execute
+- [1] https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4%E4%B8%8A%E4%B8%8B%E6%96%87
+- [2] https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/rotate
+- [3] https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/execute
