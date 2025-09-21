@@ -2,10 +2,21 @@
 
 香草图书馆御用沙盒及涂鸦墙
 
+
+---
+
+<script setup>
+import LivePreview from '/.vitepress/vue/LivePreview.vue'
+</script>
+
+<LivePreview />
+
+
 ---
 
 最近收录：
 - [bookshelf中文文档](https://docs.mcbookshelf.dev/zh-cn/master/)
+- [IconifyCraft - ICON 字体资源包生成器](https://iconifycraft.vercel.app/)
 
 ---
 

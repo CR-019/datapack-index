@@ -94,6 +94,26 @@ export default defineConfig({
         },
     },
     vite: {
+        css: {
+            // 提取 CSS 到单独文件
+            // 这会为所有 CSS 生成文件，但我们只关心基础样式
+            // 你可能需要进一步配置 Rollup 选项来精确控制
+        },
+        build: {
+            rollupOptions: {
+                output: {
+                    assetFileNames: (assetInfo) => {
+                        if (assetInfo.name.endsWith('.css')) {
+                            // 尝试将主要的站点样式命名为 base.css
+                            // 注意：Vitepress 的 CSS 文件名可能包含 hash
+                            // 你可能需要检查构建输出或使用更复杂的逻辑
+                            return 'assets/base.[ext]'; // 尝试强制命名为 base.css
+                        }
+                        return 'assets/[name].[hash].[ext]';
+                    },
+                },
+            },
+        },
         plugins: [
             nodePolyfills({
                 include: ["util"],

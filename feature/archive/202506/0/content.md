@@ -106,6 +106,40 @@ data basecontrol {
 }
 '/>
 
+---
+
+<div class="nbttree">
+
+<node type="compound" name="basecontrol" />所有非文本组件UI控件的基类
+- <node type="string" name="type" />控件的类型
+- <node type="double" name="x" />x坐标。原点是正中央
+- <node type="double" name="y" />y坐标。原点是正中央
+- <node type="double" name="z" />z坐标。原点是正中央
+- <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为`[0f,1f,0f,0f]`
+- <node type="homolist" name="tag" />控件的标签
+- <node type="homolist" name="anims" />
+  - <node type="compound" name="（列表元素）" colon=false />
+    <details><summary>动画共通标签</summary>
+
+    - <node type="homolist" name="value" />动画的目标键值对
+      - <node type="compound" name="（列表元素）" colon=false />
+        <details><summary>共通标签</summary>
+
+        - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+        - <node type="any" name="value" />动画要修改的NBT目标值
+        </details>
+
+    - <node type="float" name="time" />动画持续时间
+    - <node type="string" name="start" />事件。动画开始的时候触发。
+    - <node type="string" name="end" />事件。动画结束的时候触发。
+    </details>
+- <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+- <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+- <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+</div>
+
+
 `control`是大部分控件的父类，包含了基本的属性。此类为抽象类，不能实例化。在`control`以及后续所有的数据格式中，和UI坐标相关的数据都默认为以一个方块为单位长度。
 
 <NBTTree code='
@@ -115,6 +149,53 @@ data control: BaseControl {
     @Desc<"物品展示实体将要展示的物品"> item as Item;
 }
 '/>
+
+<div class="nbttree">
+
+<node type="compound" name="control" />所有非文本组件UI控件的基类
+<details><summary>基础控件共通标签</summary>
+
+- <node type="string" name="type" />控件的类型
+- <node type="double" name="x" />x坐标。原点是正中央
+- <node type="double" name="y" />y坐标。原点是正中央
+- <node type="double" name="z" />z坐标。原点是正中央
+- <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为`[0f,1f,0f,0f]`
+- <node type="homolist" name="tag" />控件的标签
+- <node type="homolist" name="anims" />
+  - <node type="compound" name="（列表元素）" colon=false />
+  <details><summary>动画共通标签</summary>
+
+    - <node type="homolist" name="value" />动画的目标键值对
+      - <node type="compound" name="（列表元素）" colon=false />
+        <details><summary>共通标签</summary>
+
+        - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+        - <node type="any" name="value" />动画要修改的NBT目标值
+        </details>
+
+    - <node type="float" name="time" />动画持续时间
+    - <node type="string" name="start" />事件。动画开始的时候触发。
+    - <node type="string" name="end" />事件。动画结束的时候触发。
+   </details>
+- <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+- <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+- <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+</details>
+
+- <node type="string" name="display" />对应物品展示实体的`item_display`
+- <node type="compound" name="item" />物品展示实体将要展示的物品
+    <details><summary>物品共通标签</summary>
+    
+    - <node type="string" name="id" />物品的id。如果命名空间为`minecraft`可省略。若此项省略则默认为`glass_pane`
+    - <node type="byte" name="count" />物品的id。若省略则默认为`1b`。基本没用喵
+    - <node type="compound" name="tex" />（已弃用）物品的CustomModelData
+    - <node type="compound" name="data" />一个复合标签，对应原版物品格式中的`components.minecraft:custom_data`
+    - <node type="compound" name="components" />一个物品组件
+
+    </details>
+
+</div>
+
 
 在创建控件以后，还可以访问到的额外数据有：
 

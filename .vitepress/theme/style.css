@@ -306,6 +306,10 @@
 
 .nbttree span{
   line-height:1.6em;
+  display: inline-block;
+  /* 使用负 text-indent 控制首行对齐连接符 */
+  text-indent: -20px;
+  padding-left: 20px;
 }
 
 .nbttree img {
@@ -374,12 +378,70 @@
 
 /* 确保文本换行后也能缩进对齐 */
 .nbttree li > span {
-  display: inline-block;
+  
   word-break: break-word;
-  /* 使用负 text-indent 控制首行对齐连接符 */
-  text-indent: -20px;
-  padding-left: 20px;
+  
   /* 保证换行后其他行正常缩进 */
   margin-left: 0;
   box-sizing: border-box;
+}
+
+/* 基础样式 */
+.nbttree details {
+  padding: 0px 0px 0px 0px;
+  position: relative;
+  width:100%;
+  top:-16px;
+  background-color: #DAF3FF;
+  border-radius: 0px;
+  margin-bottom: -16px;
+}
+
+
+.dark .nbttree details {
+    background-color: #333c40;
+}
+
+/* summary 标签样式 */
+.nbttree details > summary {
+  padding: 0px 0px 0px 32px;
+  font-weight: bold;
+  cursor: pointer;
+  list-style: none; /* 移除默认的三角标记 */
+  display: flex;
+  align-items: center;
+  user-select: none;
+  margin-bottom: 0px;
+}
+
+/* 为 summary 添加自定义的展开/收起指示器 */
+.nbttree details > summary::marker {
+  display: none; /* 隐藏默认 marker */
+}
+.nbttree details > summary::after {
+  content: "  [展开]";
+  font-weight:normal;
+  margin-left: 5px;
+  color: #0066cc; /* 默认链接颜色，可根据需要调整 */
+  /* 如果需要更精确地匹配链接颜色，可以考虑不设置 color，或者使用 inherit */
+  /* color: inherit; */
+}
+
+.dark .nbttree details > summary::after {
+  color: #DAF3FF;
+}
+
+/* 展开状态下的 details */
+.nbttree details[open] > summary::after {
+  content: "  [收起]";
+}
+
+/* 展开内容的样式 */
+.nbttree details[open] > :not(summary) {
+  margin-top: 10px;
+}
+
+/* 处理nbt树空开的一行 */
+.nbttree details > ul > li:first-child::after {
+  top: -2.2em;
 }
