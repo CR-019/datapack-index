@@ -5,13 +5,6 @@
 
 ---
 
-<script setup>
-import LivePreview from '/.vitepress/vue/LivePreview.vue'
-</script>
-
-<LivePreview />
-
-
 ---
 
 最近收录：

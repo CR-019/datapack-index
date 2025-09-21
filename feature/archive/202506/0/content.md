@@ -90,24 +90,6 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
 
 所有控件最基础的类是`basecontrol`，包含了一切控件会有的基本属性。此类为抽象类，不能实例化。
 
-<NBTTree code='
-@Desc<"所有非文本组件UI控件的基类">
-data basecontrol {
-    @Desc<"控件的类型"> type as string;
-    @Desc<"x坐标。原点是正中央"> x as double;
-    @Desc<"y坐标。原点是正中央"> y as double;
-    @Desc<"z坐标。原点是正中央"> z as double;
-    @Desc<"控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]"> rotation as list<any>;
-    @Desc<"控件的标签"> tag as list<string>;
-    @Desc<"控件的动画效果"> anims as list<Animation>;
-    @Desc<"控件的唯一字符串名，用于保存UUID"> name as string;
-    @Desc<"一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行"> move_in as string;
-    @Desc<"一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行"> move_out as string;
-}
-'/>
-
----
-
 <div class="nbttree">
 
 <node type="compound" name="basecontrol" />所有非文本组件UI控件的基类
@@ -141,14 +123,6 @@ data basecontrol {
 
 
 `control`是大部分控件的父类，包含了基本的属性。此类为抽象类，不能实例化。在`control`以及后续所有的数据格式中，和UI坐标相关的数据都默认为以一个方块为单位长度。
-
-<NBTTree code='
-@Desc<"所有非文本组件UI控件的基类">
-data control: BaseControl {
-    @Desc<"对应物品展示实体的`item_display`"> display as string;
-    @Desc<"物品展示实体将要展示的物品"> item as Item;
-}
-'/>
 
 <div class="nbttree">
 
