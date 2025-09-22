@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://archives.mcbbs.co/read.php?tid=1275778 -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于字体资源包强制使用等宽字符的问题 - MCBBS帖子存档 - MCBBS纪念版</title>
+	  <link rel="stylesheet" crossorigin="" href="./1275778_files/main-nxpbw22u.css">
+  <link rel="stylesheet" crossorigin="" href="./1275778_files/desktop-B09wr-jj.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 100%;
+            margin: 10px 50px;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+        .meta {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .meta .author, .meta .timestamp {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .post-content {
+            margin-top: 20px;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        .replies {
+            margin-top: 40px;
+        }
+        .replies h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .reply {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .reply-user {
+            font-weight: bold;
+        }
+        .reply-content {
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .reply-timestamp {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 10px;
+        }
+        img {
+            max-width:100%;
+        }
+        .typeoption th {
+            width: 20%;
+        }
+        th,td {
+            border-bottom: 1px solid #000;
+        }
+    </style>
+</head>
+<body id="nv_forum" class="pg_index">
+
+    <div id="body_fixed_bg"></div>
+
+    <div id="append_parent"></div>
+    <div id="ajaxwaitid"></div>
+    <div id="toptb" class="cl">
+        <div class="new_wp wp">
+            <div class="z light">
+                <a href="https://www.mcbbs.co/">MCBBS纪念版</a>
+                <a href="https://mcbbs.rip/">BBSPK晋级赛</a>
+            </div>
+        </div>
+    </div>
+    <div class="mc_map_wp" style="min-height: 1034px;">
+        <div class="new_wp" style="padding: 28px 0 26px 0;">
+            <h2 style="padding:5px 20px 25px;float: left;"> <a href="https://archives.mcbbs.co/" title="MCBBS帖子存档"><img src="./1275778_files/logo-DkEodi4Z.png" alt="MCBBS帖子存档" class="boardlogo" id="boardlogo" border="0" height="95px"><small></small></a>
+                <div class="tilt">
+                    <style>
+                        #status {
+                            color: #FFFF00;
+                            font-size: 2em;
+                            font-family: 'Unifont';
+                            text-shadow: 3px 3px #3F3F00;
+                            padding: 40px;
+                            position: absolute;
+                            top: -10px;
+                            left: 180px;
+                            white-space: nowrap;
+                        }
+
+                        .pop {
+                            animation: pop 0.5s infinite;
+                            -webkit-animation: pop 0.5s infinite;
+                        }
+
+                        @keyframes pop {
+                            from {
+                                transform: scale(0.95)
+                            }
+
+                            50% {
+                                transform: scale(1)
+                            }
+
+                            to {
+                                transform: scale(0.95)
+                            }
+                        }
+
+                        @-webkit-keyframes pop {
+                            from {
+                                -webkit-transform: scale(0.95)
+                            }
+
+                            50% {
+                                -webkit-transform: scale(1)
+                            }
+
+                            to {
+                                -webkit-transform: scale(0.95)
+                            }
+                        }
+
+                        .tilt {
+                            -ms-transform: rotate(-25deg);
+                            -webkit-transform: rotate(-25deg);
+                            transform: rotate(-25deg);
+                        }
+
+                        @font-face {
+                            font-family: 'Unifont';
+                            src: url('template\mcbbs_v2\common\Unifont.eot');
+                            font-weight: normal;
+                            font-style: normal;
+                        }
+
+                        @font-face {
+                            font-family: 'Unifont';
+                            src: local(''), local('Unifont'),
+                                url("template\mcbbs_v2\common\Unifont.woff") format("woff") url("template\mcbbs_v2\common\Unifont.woff2") format("woff2") url('template\mcbbs_v2\common\Unifont.ttf') format('truetype'),
+                                url('template\mcbbs_v2\common\Unifont.svg#Unifont') format('svg');
+                            font-weight: normal;
+                            font-style: normal;
+                            font-display: swap;
+                        }
+
+                        .title_font {
+                            font-family: 'Unifont';
+                        }
+                    </style>
+                </div>
+        </h2></div>
+        <style>
+            #hitocenters {
+                width: 90%;
+                margin: 0px auto;
+                text-align: center;
+                padding-bottom: 10px;
+            }
+
+            #hitokoto a {
+                color: #000000;
+                font-size: 17px;
+                transition: text-shadow 0.5s;
+                -webkit-transition: text-shadow 0.5s;
+                -moz-transition: text-shadow 0.5s;
+                font-weight: normal;
+                font-family: 微软雅黑, "Microsoft Yahei", 黑体, SimHei;
+            }
+
+            #hitokoto a:hover {
+                color: #000000;
+                text-shadow: #999999 0px 0px 15px;
+                text-decoration: none;
+            }
+
+            a{
+                color:darkblue;
+            }
+        </style>
+
+        <style type="text/css">
+            .new_wp {
+                margin: 0 auto;
+                width: 1130px;
+            }
+
+            .xi2,
+            .xi2 a,
+            .xi3 a {
+                color: #369;
+            }
+
+            #an li {
+                float: right;
+                clear: both;
+                width: 210px;
+                position: relative;
+                text-align: left;
+                word-break: break-all;
+                word-wrap: break-word;
+                white-space: normal;
+                padding: 5px 10px 5px 0;
+                height: 30px;
+                line-height: 15px;
+            }
+
+            #an li span {
+                float: left;
+                width: 210px;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+
+            #an li span a {
+                display: inline;
+            }
+
+            .xi2,
+            .xi2 a,
+            .xi3 a {
+                color: #369;
+            }
+
+            #pt .z a,
+            #pt .z em,
+            #pt .z span {
+                float: left;
+                height: 29px;
+            }
+
+            #anc,
+            #an li {
+                height: 50px;
+                overflow: hidden;
+            }
+
+            .pgb a {
+                -webkit-transition: none;
+                transition: none;
+                padding-left: 0px;
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAAAkCAYAAADB7MdlAAACzUlEQVRoge2az2sTURDHd5ulVYnVw3qqB7GKCBosthfBHxRFPIhnLy140Jsn8Y/w6MFDD4Inb4J4qFQJRFAoBiKaQxVTjE0JtduSTVKT3ewPT503gTfsTl1Pzuf0zWb3vW+HGeZltmYcx8YuP6uv1Ye/YOD7oL3eb62eunrHTFpn8ckS6NPLD7Lx1huADtwddb2l9Pr8c623kSwM/C9IsBhY1BdHJwuZbBAFqvSisA/6w8vHUFYXbt1PLEnM6JkZtaZ1mOUH/8Hjgw3QB4It0N6jm+DNefgKvElmMZBgMTDrXxYh5XDp4fLBxJHqJnEcJm9g5vTroGfLpSJoXJI/5gvgDZdePva0a46FXdA54h5MaI5pr+NnKwvKm2QWAwkWg6Fu2Kh9Zj2c5vDp9Xugz1+cZRvcxa9+BL2dxluKw6ffVj7Pzl1PXFMyi4EEi4FlGIb2QEh1RuvgCdYG+PCJ2el00jwO3nA3xODO+D4/x/Jmo8Mnprul9yaZxUCCxcAyDEObirgzDne9MtK8kcseAG+4G2I2UNc75r4DnWbkwkUyi4EEi8HQoZQ7lnGdOmjuyKXjuqy9rHPX9NeJ+/ONZdDUyIWi5bS11yWzGEiwGJCT0tDXl0m33QK9UlGdcfrybGJ650YPscxRHOnXtNd7jgP6+wvVPafuKm9viDU3902iT6vaeySzGEiwGJBlmAb8zrFcKqLDbVFzN13a/wJkzagsKG824Q2XdpNYUzKLgQSLgRUGgfYL3PUw+XH1nm7miv6gSNFcqyffhIg8vTfc9TD7bRt04d4N1l7NFX0HxEhmMZBgMbCCgRpx4LHMr/U10ANPvXafOH4yk40btW+gqd+SQV+V4cgndZxcrSpv0bYaE9mXTmXibbP0FbS8vt8jEiwGJj5YVt4+hQ/U5JN6AcElzRgH/zPbxLPbsC81+aReQHChxjiSWQwkWAz+AAUPH730aI2DAAAAAElFTkSuQmCC);
+                background-position: 0 50%;
+                background-color: #FBF2DB;
+                border: none;
+                width: 25px;
+                font-size: 0px;
+            }
+
+            #ct .pgs.mbm {
+                border-bottom: none !important;
+                margin: 0px 10px 0px 0px !important;
+            }
+
+            #pgt.mbm {
+                padding-top: 0px;
+                padding-bottom: 10px;
+                border-bottom: none !important;
+            }
+        </style>
+
+        <style>
+            #app {
+                margin-left: 7%;
+                margin-right: 8%;
+                min-height: 47rem;
+            }
+        </style>
+
+        <div class="mc_map_border_top"></div>
+        <div class="mc_map_border_left">
+            <div class="mc_map_border_right">
+<div class="container">
+    <h1>关于字体资源包强制使用等宽字符的问题</h1>
+    <div style="border-bottom: 5px solid #d9b684; margin-bottom: 20px;"></div>
+    <div class="post-container">
+        <div class="meta">
+            <div class="author-info">
+                <img src="./1275778_files/FpcIZ7q54AQxlLr.png" height="50" width="50" alt="Author Avatar" class="author-avatar"> <!-- 固定头像 URL -->
+                <span class="author">作者: <a href="https://archives.mcbbs.co/user_query.php?uid=2153967&amp;nickname=">SHEEP_REALMS</a></span>
+            </div>
+            <div>
+                <span class="timestamp">时间: 2021-11-10 10:43:02</span>&nbsp;&nbsp;
+                <span class="class">版块: 原版问答</span>
+            </div>
+        </div>
+        <div class="post-content">
+            <p>因为各方面的资料太乱所以直接掏出金粒摆烂<br>
+字体贴图 ascii.png （512<em>512，放大四倍） 中从字符 ! 到字符 ~ 均为等宽字符，具体表现为：<br>
+字符高度不变：7（</em>4）；字符宽度均为：5（*4）；字符基线不变；下沉深度不变；在保持等宽的前提下，字符已居中，整体靠左；其余字符不做更改。<br>
+大致情况如下图：<br>
+<img alt="data/myattachment/forum/202111/11/024008cznwjbntuuj8zt99.png" src="./1275778_files/024008cznwjbntuuj8zt99.png"><br>
+由于Minecraft字体会自动吃掉空白区域，所以必须想个办法维持宽度。<br>
+我记得以前在哪里看过保留空白区域的方法，但我现在找不到了。  </p>        </div>
+    </div>
+
+    <div class="replies">
+        <h2>回复:</h2>
+            </div>
+</div>
+
+<style>
+.user{
+    color:black;
+}
+
+.post-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.author, .timestamp, .class {
+    font-size: 1.6em;
+    color: #555;
+}
+
+.author a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.author a:hover {
+    text-decoration: underline;
+}
+
+
+.replies {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.reply-container {
+    display: flex;
+    margin-bottom: 20px; /* Space between replies */
+}
+
+.reply-user {
+    width: 100px; /* Fixed width for user info and avatar */
+    padding: 10px;
+    border-right: 2px solid #ddd; /* Divider line */
+    text-align: center;
+}
+
+.reply-user .avatar {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.reply-content {
+    flex: 1; /* Take up remaining space */
+    padding: 10px;
+}
+
+.reply-text {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px #0000001a;
+    font-size: 1.1em;
+}
+
+.reply-timestamp {
+    font-size: 0.9em;
+    color: #666;
+}
+</style>
+
+</div>
+        </div>
+        <style>
+            .mc_map_border_foot {
+                float: left;
+                width: 1130px;
+                height: 59px;
+                background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABGkAAAA7CAYAAADIHddEAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkZCNTM5MEI3MTc4MDExRTc4M0E1REYwN0MyOUJCMTA4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkZCNTM5MEI4MTc4MDExRTc4M0E1REYwN0MyOUJCMTA4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkI1MzkwQjUxNzgwMTFFNzgzQTVERjA3QzI5QkIxMDgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RkI1MzkwQjYxNzgwMTFFNzgzQTVERjA3QzI5QkIxMDgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4nJGMOAAADNklEQVR42uzdsWpTURjA8XulQyBCQwfJYHVwsUsliPgs4hvo7itI3Tv0CXyCPkQpJdilIjhoHYJDiWAgYvAKBUFyznC4N0k/9PdbCh9Jb8rt9OfcL/Xd7aqploz6veVRtTfcqdqazubJ7PD0pAIAAADo6suHs2R2fv4ume3vPyp63fHBUTIbZFpJqYvJVTIbZ1rJLbcSAAAA4OaJNAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAWxt4iLb/dvJ7OWTp8ns8PTEHQEAAAA25vjgKJnlOkZVLdb+WZykAQAAAAhApAEAAAAIQKQBAAAACECkAQAAAAigeHHwxeQqme0Nd1pf2DJhAAAAYJNeP3+RzPJLgtvL9ZNSTtIAAAAABCDSAAAAAAQg0gAAAAAEED7S/Jz/cJcAAACATn4tFuE/Y900TTLcHdTJcNTvJa8rXRzclO8nTnybffefBAAAAHTWZUlwXZVFntzi4PFsnswup029PPO4EwAAAEAAIg0AAABAACINAAAAQAAiDQAAAEAAW13enFuGU7pMuFTJUp/S5T0AAADAv6npljhayXWRLpykAQAAAAhApAEAAAAIQKQBAAAACECkAQAAAAggu1XnctrUy7PdQd0sz0b9XvLem1jUAwAAALBOpb1jPJsns1xnyXGSBgAAACAAkQYAAAAgAJEGAAAAIACRBgAAACCAumma1m8uXSZc6uHwTrs/olq4kwAAAPAfa/tFRu8nX1tfs8uS4BwnaQAAAAACEGkAAAAAAhBpAAAAAAIQaQAAAAAC6LQ4+G+vHt+//vn24+eiX9hlwTAAAADAuuQWAuc8e3Dveknwm7NPK7mukzQAAAAAAazsJM0fua/lznGSBgAAAIio9CRNl6/bznGSBgAAACAAkQYAAAAggJU/7lSq9LEoAAAAgE1a9WNMpZykAQAAAAhApAEAAAAIQKQBAAAACECkAQAAAAjgtwADAALdf4aSW6GMAAAAAElFTkSuQmCC) center center no-repeat;
+                background-size: 1130px 59px;
+            }
+
+            #ft {
+                padding: 10px 0 20px;
+                line-height: 1.8;
+                color: #fff;
+                border: none;
+                font-size: 14px;
+            }
+
+            #ft a {
+                color: #fff;
+                font-size: 14px;
+            }
+		#mc_map_border_right {
+            position: relative; /* 确保其子元素可以相对定位 */
+        }
+        #top-button {
+            display: none; /* 初始隐藏按钮 */
+            position: fixed;
+            bottom: 20px;
+            right: 10%;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        #top-button:hover {
+            background-color: #111;
+        }
+        </style>
+        <div class="mc_map_border_foot"></div>
+    </div>
+    
+    <div style="width:100%;margin-top:-20px;background:url(&#39;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKTWlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVN3WJP3Fj7f92UPVkLY8LGXbIEAIiOsCMgQWaIQkgBhhBASQMWFiApWFBURnEhVxILVCkidiOKgKLhnQYqIWotVXDjuH9yntX167+3t+9f7vOec5/zOec8PgBESJpHmomoAOVKFPDrYH49PSMTJvYACFUjgBCAQ5svCZwXFAADwA3l4fnSwP/wBr28AAgBw1S4kEsfh/4O6UCZXACCRAOAiEucLAZBSAMguVMgUAMgYALBTs2QKAJQAAGx5fEIiAKoNAOz0ST4FANipk9wXANiiHKkIAI0BAJkoRyQCQLsAYFWBUiwCwMIAoKxAIi4EwK4BgFm2MkcCgL0FAHaOWJAPQGAAgJlCLMwAIDgCAEMeE80DIEwDoDDSv+CpX3CFuEgBAMDLlc2XS9IzFLiV0Bp38vDg4iHiwmyxQmEXKRBmCeQinJebIxNI5wNMzgwAABr50cH+OD+Q5+bk4eZm52zv9MWi/mvwbyI+IfHf/ryMAgQAEE7P79pf5eXWA3DHAbB1v2upWwDaVgBo3/ldM9sJoFoK0Hr5i3k4/EAenqFQyDwdHAoLC+0lYqG9MOOLPv8z4W/gi372/EAe/tt68ABxmkCZrcCjg/1xYW52rlKO58sEQjFu9+cj/seFf/2OKdHiNLFcLBWK8ViJuFAiTcd5uVKRRCHJleIS6X8y8R+W/QmTdw0ArIZPwE62B7XLbMB+7gECiw5Y0nYAQH7zLYwaC5EAEGc0Mnn3AACTv/mPQCsBAM2XpOMAALzoGFyolBdMxggAAESggSqwQQcMwRSswA6cwR28wBcCYQZEQAwkwDwQQgbkgBwKoRiWQRlUwDrYBLWwAxqgEZrhELTBMTgN5+ASXIHrcBcGYBiewhi8hgkEQcgIE2EhOogRYo7YIs4IF5mOBCJhSDSSgKQg6YgUUSLFyHKkAqlCapFdSCPyLXIUOY1cQPqQ28ggMor8irxHMZSBslED1AJ1QLmoHxqKxqBz0XQ0D12AlqJr0Rq0Hj2AtqKn0UvodXQAfYqOY4DRMQ5mjNlhXIyHRWCJWBomxxZj5Vg1Vo81Yx1YN3YVG8CeYe8IJAKLgBPsCF6EEMJsgpCQR1hMWEOoJewjtBK6CFcJg4Qxwicik6hPtCV6EvnEeGI6sZBYRqwm7iEeIZ4lXicOE1+TSCQOyZLkTgohJZAySQtJa0jbSC2kU6Q+0hBpnEwm65Btyd7kCLKArCCXkbeQD5BPkvvJw+S3FDrFiOJMCaIkUqSUEko1ZT/lBKWfMkKZoKpRzame1AiqiDqfWkltoHZQL1OHqRM0dZolzZsWQ8ukLaPV0JppZ2n3aC/pdLoJ3YMeRZfQl9Jr6Afp5+mD9HcMDYYNg8dIYigZaxl7GacYtxkvmUymBdOXmchUMNcyG5lnmA+Yb1VYKvYqfBWRyhKVOpVWlX6V56pUVXNVP9V5qgtUq1UPq15WfaZGVbNQ46kJ1Bar1akdVbupNq7OUndSj1DPUV+jvl/9gvpjDbKGhUaghkijVGO3xhmNIRbGMmXxWELWclYD6yxrmE1iW7L57Ex2Bfsbdi97TFNDc6pmrGaRZp3mcc0BDsax4PA52ZxKziHODc57LQMtPy2x1mqtZq1+rTfaetq+2mLtcu0W7eva73VwnUCdLJ31Om0693UJuja6UbqFutt1z+o+02PreekJ9cr1Dund0Uf1bfSj9Rfq79bv0R83MDQINpAZbDE4Y/DMkGPoa5hpuNHwhOGoEctoupHEaKPRSaMnuCbuh2fjNXgXPmasbxxirDTeZdxrPGFiaTLbpMSkxeS+Kc2Ua5pmutG003TMzMgs3KzYrMnsjjnVnGueYb7ZvNv8jYWlRZzFSos2i8eW2pZ8ywWWTZb3rJhWPlZ5VvVW16xJ1lzrLOtt1ldsUBtXmwybOpvLtqitm63Edptt3xTiFI8p0in1U27aMez87ArsmuwG7Tn2YfYl9m32zx3MHBId1jt0O3xydHXMdmxwvOuk4TTDqcSpw+lXZxtnoXOd8zUXpkuQyxKXdpcXU22niqdun3rLleUa7rrStdP1o5u7m9yt2W3U3cw9xX2r+00umxvJXcM970H08PdY4nHM452nm6fC85DnL152Xlle+70eT7OcJp7WMG3I28Rb4L3Le2A6Pj1l+s7pAz7GPgKfep+Hvqa+It89viN+1n6Zfgf8nvs7+sv9j/i/4XnyFvFOBWABwQHlAb2BGoGzA2sDHwSZBKUHNQWNBbsGLww+FUIMCQ1ZH3KTb8AX8hv5YzPcZyya0RXKCJ0VWhv6MMwmTB7WEY6GzwjfEH5vpvlM6cy2CIjgR2yIuB9pGZkX+X0UKSoyqi7qUbRTdHF09yzWrORZ+2e9jvGPqYy5O9tqtnJ2Z6xqbFJsY+ybuIC4qriBeIf4RfGXEnQTJAntieTE2MQ9ieNzAudsmjOc5JpUlnRjruXcorkX5unOy553PFk1WZB8OIWYEpeyP+WDIEJQLxhP5aduTR0T8oSbhU9FvqKNolGxt7hKPJLmnVaV9jjdO31D+miGT0Z1xjMJT1IreZEZkrkj801WRNberM/ZcdktOZSclJyjUg1plrQr1zC3KLdPZisrkw3keeZtyhuTh8r35CP5c/PbFWyFTNGjtFKuUA4WTC+oK3hbGFt4uEi9SFrUM99m/ur5IwuCFny9kLBQuLCz2Lh4WfHgIr9FuxYji1MXdy4xXVK6ZHhp8NJ9y2jLspb9UOJYUlXyannc8o5Sg9KlpUMrglc0lamUycturvRauWMVYZVkVe9ql9VbVn8qF5VfrHCsqK74sEa45uJXTl/VfPV5bdra3kq3yu3rSOuk626s91m/r0q9akHV0IbwDa0b8Y3lG19tSt50oXpq9Y7NtM3KzQM1YTXtW8y2rNvyoTaj9nqdf13LVv2tq7e+2Sba1r/dd3vzDoMdFTve75TsvLUreFdrvUV99W7S7oLdjxpiG7q/5n7duEd3T8Wej3ulewf2Re/ranRvbNyvv7+yCW1SNo0eSDpw5ZuAb9qb7Zp3tXBaKg7CQeXBJ9+mfHvjUOihzsPcw83fmX+39QjrSHkr0jq/dawto22gPaG97+iMo50dXh1Hvrf/fu8x42N1xzWPV56gnSg98fnkgpPjp2Snnp1OPz3Umdx590z8mWtdUV29Z0PPnj8XdO5Mt1/3yfPe549d8Lxw9CL3Ytslt0utPa49R35w/eFIr1tv62X3y+1XPK509E3rO9Hv03/6asDVc9f41y5dn3m978bsG7duJt0cuCW69fh29u0XdwruTNxdeo94r/y+2v3qB/oP6n+0/rFlwG3g+GDAYM/DWQ/vDgmHnv6U/9OH4dJHzEfVI0YjjY+dHx8bDRq98mTOk+GnsqcTz8p+Vv9563Or59/94vtLz1j82PAL+YvPv655qfNy76uprzrHI8cfvM55PfGm/K3O233vuO+638e9H5ko/ED+UPPR+mPHp9BP9z7nfP78L/eE8/sl0p8zAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAADuSURBVHjazJcxFsMwCENzGk+ZYPT9z+VOzntVnypom8LAkITYP0LB9mFmy8zWeZ5vY+fNOZ9ijLHGGNd1dryjDQCbAIMNyPI3IM6z3+sDsBNxYHYfJ0Zp2Yfh/T4ALAEBVb4yHzVhGwBlNhXKxGjOegAmTVRaViL2HubVA6A0+4G7L3d/GYjlq9+PlqAcICs5C9WwWIn7AKhlNtpqs9EHICt59vdDE6d3RLcDoJSqxTLzMalZ6eoBmIQoZdR80byrEZUDfGpCVZqfnwtuB4g2DgWMplSl6APw7eZSmTJ8NPs7QHSZzW5EwstxNcBjAN7VStewqIt0AAAAAElFTkSuQmCC&#39;) 0 0 repeat;padding-top:50px;">
+        <div id="ft" class="wp cl">
+            <div class="z" style="margin-left:40px; width:400px;">
+                <span id="hitokoto">Man, what can I say? MCBBS archive back! -- Bobe Kryant</span><br>
+                <span id="csi_siteseal_tag" oncontextmenu="if (!window.__cfRLUnblockHandlers) return false; return false;" data-cf-modified-a394bd7c22217de85af7eb51-="">
+                    <a id="csi_siteseal_profile_link">
+                        <img decoding="async" alt="en_dark_typeB_130x66.png" id="csi_siteseal_image" width="130" height="66" src="./1275778_files/read.php" style="display: none">
+                    </a>
+                </span>
+            </div>
+            <div id="flk" class="y">
+                <p>
+                    <a href="https://www.mcbbs.co/archiver/">Archiver</a><span class="pipe">|</span><a href="https://www.mcbbs.co/forum.php?mod=misc&amp;action=showdarkroom">小黑屋</a><span class="pipe">|</span> <strong><a href="https://www.mcbbs.co/" target="_blank">MCBBS纪念版 - 旧贴存档</a></strong>
+                    <span class="pipe">|</span>
+                    <a href="https://www.mcbbs.co/privacy_policy.html" target="_blank">隐私政策</a> |
+                    <a href="https://archives.mcbbs.co/index_mobile.html">手机版</a>
+                </p>
+                <p>"<a href="https://www.minecraft.net/" target="_blank">Minecraft</a>"以及"我的世界"为美国微软公司的商标 本站与微软公司没有从属关系
+                </p>
+                <p>© 2010-2024 <a href="https://archives.mcbbs.co/" target="_blank">MCBBS帖子存档</a> 版权没有 本站内原创内容版权属于其原创作者，除作者或版规特别声明外未经许可不得转载</p>
+            </div>
+        </div>
+    </div>
+    <!-- 返回顶部按钮 -->
+    <button id="top-button" title="返回顶部" style="display: none;">返回顶部</button>
+
+    <script src="./1275778_files/hm.js"></script><script>
+        // 获取按钮
+        var topButton = document.getElementById("top-button");
+
+        // 当用户滚动到一定高度时，显示按钮
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                topButton.style.display = "block";
+            } else {
+                topButton.style.display = "none";
+            }
+        }
+
+        // 当用户点击按钮时，返回顶部
+        topButton.addEventListener('click', function() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        });
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?58b7e5678cd14f9ac50aba5dbe5957af";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+</body></html>

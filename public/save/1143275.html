@@ -1,0 +1,3422 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://archives.mcbbs.co/read.php?tid=1143275 -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据包结构 、 各种存储或判断方式的性能测试、以及游戏更新顺序的测试 - MCBBS帖子存档 - MCBBS纪念版</title>
+	  <link rel="stylesheet" crossorigin="" href="./1143275_files/main-nxpbw22u.css">
+  <link rel="stylesheet" crossorigin="" href="./1143275_files/desktop-B09wr-jj.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 100%;
+            margin: 10px 50px;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+        .meta {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .meta .author, .meta .timestamp {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .post-content {
+            margin-top: 20px;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        .replies {
+            margin-top: 40px;
+        }
+        .replies h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .reply {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .reply-user {
+            font-weight: bold;
+        }
+        .reply-content {
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .reply-timestamp {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 10px;
+        }
+        img {
+            max-width:100%;
+        }
+        .typeoption th {
+            width: 20%;
+        }
+        th,td {
+            border-bottom: 1px solid #000;
+        }
+    </style>
+</head>
+<body id="nv_forum" class="pg_index">
+
+    <div id="body_fixed_bg"></div>
+
+    <div id="append_parent"></div>
+    <div id="ajaxwaitid"></div>
+    <div id="toptb" class="cl">
+        <div class="new_wp wp">
+            <div class="z light">
+                <a href="https://www.mcbbs.co/">MCBBS纪念版</a>
+                <a href="https://mcbbs.rip/">BBSPK晋级赛</a>
+            </div>
+        </div>
+    </div>
+    <div class="mc_map_wp" style="min-height: 1034px;">
+        <div class="new_wp" style="padding: 28px 0 26px 0;">
+            <h2 style="padding:5px 20px 25px;float: left;"> <a href="https://archives.mcbbs.co/" title="MCBBS帖子存档"><img src="./1143275_files/logo-DkEodi4Z.png" alt="MCBBS帖子存档" class="boardlogo" id="boardlogo" border="0" height="95px"><small></small></a>
+                <div class="tilt">
+                    <style>
+                        #status {
+                            color: #FFFF00;
+                            font-size: 2em;
+                            font-family: 'Unifont';
+                            text-shadow: 3px 3px #3F3F00;
+                            padding: 40px;
+                            position: absolute;
+                            top: -10px;
+                            left: 180px;
+                            white-space: nowrap;
+                        }
+
+                        .pop {
+                            animation: pop 0.5s infinite;
+                            -webkit-animation: pop 0.5s infinite;
+                        }
+
+                        @keyframes pop {
+                            from {
+                                transform: scale(0.95)
+                            }
+
+                            50% {
+                                transform: scale(1)
+                            }
+
+                            to {
+                                transform: scale(0.95)
+                            }
+                        }
+
+                        @-webkit-keyframes pop {
+                            from {
+                                -webkit-transform: scale(0.95)
+                            }
+
+                            50% {
+                                -webkit-transform: scale(1)
+                            }
+
+                            to {
+                                -webkit-transform: scale(0.95)
+                            }
+                        }
+
+                        .tilt {
+                            -ms-transform: rotate(-25deg);
+                            -webkit-transform: rotate(-25deg);
+                            transform: rotate(-25deg);
+                        }
+
+                        @font-face {
+                            font-family: 'Unifont';
+                            src: url('template\mcbbs_v2\common\Unifont.eot');
+                            font-weight: normal;
+                            font-style: normal;
+                        }
+
+                        @font-face {
+                            font-family: 'Unifont';
+                            src: local(''), local('Unifont'),
+                                url("template\mcbbs_v2\common\Unifont.woff") format("woff") url("template\mcbbs_v2\common\Unifont.woff2") format("woff2") url('template\mcbbs_v2\common\Unifont.ttf') format('truetype'),
+                                url('template\mcbbs_v2\common\Unifont.svg#Unifont') format('svg');
+                            font-weight: normal;
+                            font-style: normal;
+                            font-display: swap;
+                        }
+
+                        .title_font {
+                            font-family: 'Unifont';
+                        }
+                    </style>
+                </div>
+        </h2></div>
+        <style>
+            #hitocenters {
+                width: 90%;
+                margin: 0px auto;
+                text-align: center;
+                padding-bottom: 10px;
+            }
+
+            #hitokoto a {
+                color: #000000;
+                font-size: 17px;
+                transition: text-shadow 0.5s;
+                -webkit-transition: text-shadow 0.5s;
+                -moz-transition: text-shadow 0.5s;
+                font-weight: normal;
+                font-family: 微软雅黑, "Microsoft Yahei", 黑体, SimHei;
+            }
+
+            #hitokoto a:hover {
+                color: #000000;
+                text-shadow: #999999 0px 0px 15px;
+                text-decoration: none;
+            }
+
+            a{
+                color:darkblue;
+            }
+        </style>
+
+        <style type="text/css">
+            .new_wp {
+                margin: 0 auto;
+                width: 1130px;
+            }
+
+            .xi2,
+            .xi2 a,
+            .xi3 a {
+                color: #369;
+            }
+
+            #an li {
+                float: right;
+                clear: both;
+                width: 210px;
+                position: relative;
+                text-align: left;
+                word-break: break-all;
+                word-wrap: break-word;
+                white-space: normal;
+                padding: 5px 10px 5px 0;
+                height: 30px;
+                line-height: 15px;
+            }
+
+            #an li span {
+                float: left;
+                width: 210px;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+
+            #an li span a {
+                display: inline;
+            }
+
+            .xi2,
+            .xi2 a,
+            .xi3 a {
+                color: #369;
+            }
+
+            #pt .z a,
+            #pt .z em,
+            #pt .z span {
+                float: left;
+                height: 29px;
+            }
+
+            #anc,
+            #an li {
+                height: 50px;
+                overflow: hidden;
+            }
+
+            .pgb a {
+                -webkit-transition: none;
+                transition: none;
+                padding-left: 0px;
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAAAkCAYAAADB7MdlAAACzUlEQVRoge2az2sTURDHd5ulVYnVw3qqB7GKCBosthfBHxRFPIhnLy140Jsn8Y/w6MFDD4Inb4J4qFQJRFAoBiKaQxVTjE0JtduSTVKT3ewPT503gTfsTl1Pzuf0zWb3vW+HGeZltmYcx8YuP6uv1Ye/YOD7oL3eb62eunrHTFpn8ckS6NPLD7Lx1huADtwddb2l9Pr8c623kSwM/C9IsBhY1BdHJwuZbBAFqvSisA/6w8vHUFYXbt1PLEnM6JkZtaZ1mOUH/8Hjgw3QB4It0N6jm+DNefgKvElmMZBgMTDrXxYh5XDp4fLBxJHqJnEcJm9g5vTroGfLpSJoXJI/5gvgDZdePva0a46FXdA54h5MaI5pr+NnKwvKm2QWAwkWg6Fu2Kh9Zj2c5vDp9Xugz1+cZRvcxa9+BL2dxluKw6ffVj7Pzl1PXFMyi4EEi4FlGIb2QEh1RuvgCdYG+PCJ2el00jwO3nA3xODO+D4/x/Jmo8Mnprul9yaZxUCCxcAyDEObirgzDne9MtK8kcseAG+4G2I2UNc75r4DnWbkwkUyi4EEi8HQoZQ7lnGdOmjuyKXjuqy9rHPX9NeJ+/ONZdDUyIWi5bS11yWzGEiwGJCT0tDXl0m33QK9UlGdcfrybGJ650YPscxRHOnXtNd7jgP6+wvVPafuKm9viDU3902iT6vaeySzGEiwGJBlmAb8zrFcKqLDbVFzN13a/wJkzagsKG824Q2XdpNYUzKLgQSLgRUGgfYL3PUw+XH1nm7miv6gSNFcqyffhIg8vTfc9TD7bRt04d4N1l7NFX0HxEhmMZBgMbCCgRpx4LHMr/U10ANPvXafOH4yk40btW+gqd+SQV+V4cgndZxcrSpv0bYaE9mXTmXibbP0FbS8vt8jEiwGJj5YVt4+hQ/U5JN6AcElzRgH/zPbxLPbsC81+aReQHChxjiSWQwkWAz+AAUPH730aI2DAAAAAElFTkSuQmCC);
+                background-position: 0 50%;
+                background-color: #FBF2DB;
+                border: none;
+                width: 25px;
+                font-size: 0px;
+            }
+
+            #ct .pgs.mbm {
+                border-bottom: none !important;
+                margin: 0px 10px 0px 0px !important;
+            }
+
+            #pgt.mbm {
+                padding-top: 0px;
+                padding-bottom: 10px;
+                border-bottom: none !important;
+            }
+        </style>
+
+        <style>
+            #app {
+                margin-left: 7%;
+                margin-right: 8%;
+                min-height: 47rem;
+            }
+        </style>
+
+        <div class="mc_map_border_top"></div>
+        <div class="mc_map_border_left">
+            <div class="mc_map_border_right">
+<div class="container">
+    <h1>数据包结构 、 各种存储或判断方式的性能测试、以及游戏更新顺序的测试</h1>
+    <div style="border-bottom: 5px solid #d9b684; margin-bottom: 20px;"></div>
+    <div class="post-container">
+        <div class="meta">
+            <div class="author-info">
+                <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="50" width="50" alt="Author Avatar" class="author-avatar"> <!-- 固定头像 URL -->
+                <span class="author">作者: <a href="https://archives.mcbbs.co/user_query.php?uid=740479&amp;nickname=">△＠←</a></span>
+            </div>
+            <div>
+                <span class="timestamp">时间: 2020-12-14 06:55:17</span>&nbsp;&nbsp;
+                <span class="class">版块: 游戏技巧</span>
+            </div>
+        </div>
+        <div class="post-content">
+            <div>
+ <i class="pstatus">
+  本帖最后由 △＠← 于 2022-4-14 11:07 编辑
+ </i>
+ <br>
+ <div align="center">
+  <font size="6">
+   数据包结构 、 各种存储或判断方式的性能测试、以及游戏更新顺序的测试
+  </font>
+  <br>
+ </div>
+ <div align="center">
+  <div align="left">
+   <div align="center">
+    <font face="Tahoma, sans-serif">
+     <font color="#000000">
+      <font style="font-size:24px">
+       <strong>
+        本帖还有很多不完善的地方
+       </strong>
+      </font>
+     </font>
+    </font>
+   </div>
+  </div>
+  <div align="left">
+   <div align="center">
+    <font face="Tahoma, sans-serif">
+     <font color="#000000">
+      <font style="font-size:24px">
+       <strong>
+        欢迎提供移除、修改和补充的意见
+       </strong>
+      </font>
+     </font>
+    </font>
+   </div>
+  </div>
+  <div align="left">
+   <div align="center">
+    <font face="Tahoma, sans-serif">
+     <font color="#000000">
+      <font style="font-size:24px">
+       <strong>
+        本帖有许多零碎的东西，持续不定期更新
+       </strong>
+      </font>
+     </font>
+    </font>
+   </div>
+   <div align="center">
+    <div align="center">
+     <font face="Tahoma, sans-serif">
+      “
+     </font>
+     写写分别的特性和性能比较
+    </div>
+    <div align="center">
+     并写写在计算中的利用方式和一些技巧
+    </div>
+    <div align="center">
+     最重要的是给出你的
+     <font face="Tahoma, sans-serif">
+      data
+     </font>
+     规范
+     <font face="Tahoma, sans-serif">
+      ”
+     </font>
+    </div>
+    <div align="center">
+     <font face="Tahoma, sans-serif">
+      ——Xiao2
+     </font>
+    </div>
+   </div>
+   <div align="center">
+    <div align="left">
+     <strong>
+      <font color="#000000">
+       <font face="Tahoma, sans-serif">
+        <font style="font-size:18pt">
+         #
+        </font>
+       </font>
+       <font style="font-size:18pt">
+        写帖起因
+       </font>
+      </font>
+     </strong>
+    </div>
+    <div align="left">
+     我之前的数据包用
+     <font face="Tahoma, sans-serif">
+      data
+     </font>
+     用得挺少，函数之间传参也挺少的
+    </div>
+    <div align="left">
+     在搞第五版数据包的时候，打算模仿类的样子来写，然后第四版的
+     <font face="Tahoma, sans-serif">
+      basic
+     </font>
+     分成了底层和基本库两个数据包，底层用来处理各种不那么优雅的东西，然后基本库就可以写得更优雅一点了
+    </div>
+    <div align="left">
+     即使我在开始编写的时候心中有了大致的规范，但实际编写的过程中，随着函数的增多，数据包越来越乱，越来越不优雅，我意识到我可能需要把这些规范更加清楚地整理一下
+    </div>
+    <div align="left">
+     而且在写各种函数的时候由于函数允许的输入输出变多了很多，想兼顾效率和使用体验以及编辑体验以及可拓展性，，，，计分板和
+     <font face="Tahoma, sans-serif">
+      data(storage,entity,block)
+     </font>
+     的存储和使用各有优劣，搞的我头都大了，加上
+     <font face="Tahoma, sans-serif">
+      @Xiao2
+     </font>
+     的建议，就写了这个帖子（并进行了一些测试）
+    </div>
+    <div align="left">
+     然后测试越来越多。。。。
+    </div>
+   </div>
+  </div>
+ </div>
+ <br>
+ <div align="left">
+  <hr class="l">
+ </div>
+ <div align="left">
+  <font face="Tahoma, sans-serif">
+  </font>
+ </div>
+ <div align="left">
+  <strong>
+   <font color="#000000">
+    <font face="Tahoma, sans-serif">
+     <font style="font-size:18pt">
+      #
+     </font>
+    </font>
+    <font style="font-size:18pt">
+     点击目录翻页
+    </font>
+    <font face="Tahoma, sans-serif">
+     <font style="font-size:18pt">
+      !!
+     </font>
+    </font>
+   </font>
+  </strong>
+ </div>
+ <div align="left">
+  <font face="Tahoma, sans-serif">
+   <br>
+  </font>
+  <br>
+ </div>
+ <br>
+ <details open="">
+  <summary>
+   2021.12 数据，可能有更多内容
+  </summary>
+  <br>
+  数据包结构 、 各种存储或判断方式的性能测试、以及游戏更新顺序的测试
+  <br>
+  <font color="#000000">
+   <strong>
+    本帖还有很多不完善的地方
+   </strong>
+  </font>
+  <font color="#000000">
+   <strong>
+    欢迎提供移除、修改和补充的意见
+   </strong>
+  </font>
+  <font color="#000000">
+   <strong>
+    本帖有许多零碎的东西，持续不定期更新
+   </strong>
+  </font>
+  “写写分别的特性和性能比较并写写在计算中的利用方式和一些技巧最重要的是给出你的data规范”——Xiao2
+  <strong>
+   <font color="#000000">
+    #写帖起因
+   </font>
+  </strong>
+  我之前的数据包用data用得挺少，函数之间传参也挺少的在搞第五版数据包的时候，打算模仿类的样子来写，然后第四版的basic分成了底层和基本库两个数据包，底层用来处理各种不那么优雅的东西，然后基本库就可以写得更优雅一点了即使我在开始编写的时候心中有了大致的规范，但实际编写的过程中，随着函数的增多，数据包越来越乱，越来越不优雅，我意识到我可能需要把这些规范更加清楚地整理一下而且在写各种函数的时候由于函数允许的输入输出变多了很多，想兼顾效率和使用体验以及编辑体验以及可拓展性，，，，计分板和data(storage,entity,block)的存储和使用各有优劣，搞的我头都大了，加上@Xiao2的建议，就写了这个帖子（并进行了一些测试）然后测试越来越多。。。。
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #点击目录翻页!!
+   </font>
+  </strong>
+  <br>
+  <br>
+  <br>
+  <br>
+  <strong>
+   <font color="#000000">
+    #函数结构
+   </font>
+  </strong>
+  可以去这里看一下(
+  <a data-change="true" data-url-old="https://www.mcbbs.net/thread-691100-1-1.html" href="https://archives.mcbbs.co/post/691100">
+   函数命令系统
+  </a>
+  )
+  <hr class="l">
+  <font color="#2e8b57">
+   <strong>
+    ##mcf调用-if结构
+   </strong>
+  </font>
+  MC中的if结构只能通过调用mcf来减少重复判断可以采用execute if xx 结构来进行判断可以先采用execute store 存储特定命令的返回值后再进行判断来达到更广的判别范围建议用计分板作为if控制的条件
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###且(&amp;amp;&amp;amp;)与或(||)
+   </font>
+  </strong>
+  execute 命令自带且的逻辑，只需要叠加上去就行想要实现或的逻辑的话，需要放多个并排的execute if，并且保证两个条件没有交集以防被执行两次，或者用!((!a)&amp;amp;&amp;amp;(!b))也行用后者大概是这样not_found=0exe unless scb==a unless scb==brun not_found=1exe if not_found==0 run func…
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###并排使用executeif
+   </font>
+  </strong>
+  注意并排使用if的时候，if的条件在执行的函数内不应该被改变，否则可能会出现意料之外的效果建议并排使用if的时候新建一个关于if的临时计分板作为控制，而不是直接使用条件并排实现或大概是这样scb_ = scbexe if scb_== a run func..exe unless scb_ == a if scb_ ==b run func
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###if else结构
+   </font>
+  </strong>
+  If else的执行原则就是从第一个条件判断开始，一路往下进行判断，遇到符合的条件就执行并且不再判断后面的代码块，如果没有符合的条件，则执行else下的代码块为了达到效果需要创立另一个计分板用mcf写大概是这样temp = conditionfind = 0not_de =0#一般条件exe if find ==0 if temp == a runfunc Aexe if find ==0 if temp == a runfind =1#且exe if find ==0 if temp == b iftemp == c run func Bexe if find ==0 if temp == b if temp== c run find =1#或exe if find ==0 unless temp == dunless temp ==e run not_de =1exe if find ==0 if not_de ==0run func Cexe if find ==0 if not_de ==0run find =1exe if find ==0 run func ELSE
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###断言方式的利用形式
+   </font>
+  </strong>
+  <br>
+  <a data-change="true" data-url-old="https://www.mcbbs.net/thread-914817-1-1.html" href="https://archives.mcbbs.co/post/914817">
+   参见
+  </a>
+  <br>
+  断言提供丰富的逻辑结构，包括
+  <ul>
+   <li>
+    “或”minecraft:alternative
+   </li>
+   <li>
+    “且【非(非A或非B)=A且B】”
+   </li>
+   <li>
+    “非”minecraft:inverted
+    <br>
+   </li>
+  </ul>
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##mcf调用-循环结构
+   </font>
+  </strong>
+  MC的所有循环结构只能通过在mcf末尾
+  <strong>
+   有条件
+  </strong>
+  地调用自己来达到，这是一种递归(自己调用自己) 建议所有这样的函数都在前面加上loop以方便识别比如这是一个死循环，不管以什么方式触发，一旦运行就无限递归然后循环到每tick命令上限
+  <br>
+  <font color="#ff8c00">
+   loop_a.mcf
+  </font>
+  a += 1func a
+  <br>
+  这是一个正常点的循环，运行loop_a，b会运行100次然后结束，并输出100，所有运算都是1tick内完成的，并且中途不会运行其它任何其它mcf或进行任何其它计算(废话)
+  <br>
+  <font color="#ff8c00">
+   loop_a.mcf
+  </font>
+  scb=0max=100func bsay scb
+  <br>
+  <font color="#ff8c00">
+   b.mcf
+  </font>
+  scb += 1if scb &amp;lt;max run func b
+  <br>
+  改一下就变成了有点用处的函数，运行loop_a就能计算1加到100的值，并输出5050
+  <br>
+  <font color="#ff8c00">
+   loop_a.mcf
+  </font>
+  scb=0max=100value=0func bsay value
+  <br>
+  <font color="#ff8c00">
+   b.mcf
+  </font>
+  scb += 1value += scbif scb &amp;lt;max run func b
+  <br>
+  <br>
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###列表递归
+   </font>
+  </strong>
+  MC允许通过&amp;lt;路径&amp;gt;[num]来读取列表内的元素，但num却不能接受来自计分板或data的参数，因此在数据包中通常选择第0位读取，加上递归的方式来遍历列表
+  <br>
+  #检测列表list中uid为&amp;lt;scb&amp;gt;的项，并输出对应的name
+  <font color="#ff8c00">
+   a.mcf
+  </font>
+  check = &amp;lt;scb&amp;gt;data temp_list =data listexe if data temp_list[0] runfunc loop_say_name
+  <br>
+  <font color="#ff8c00">
+   loop_say_name.mcf
+  </font>
+  uid = data temp_list[0].uidexe if uid == check run say datatemp_list[0].namedata remove temp_list[0]exe if data temp_list[0] runfunc loop_say_name
+  <br>
+  列表的方法也能用在数组上，两者在使用的时候差不多
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##循环体
+   </font>
+  </strong>
+  这是@Xiao2提出的一个概念，基本逻辑是把单tick内的循环拆分到多tick内分步执行，通常附带一个参数作为循环上限，也可以不附带参数，这样需要被调用函数主动结束循环像一个临时触发，持续一段时间的tick启动计分板key可以在任意函数的任意地方开启和关闭，甚至可以暂停一段时间然后继续运行循环体的一个重要特性是没有用到任何的递归，无循环上限的循环体和无条件的schedule循环差不多例子#当运行a的时候让玩家向前冲刺一段距离(无视方块)
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【a.mcf(手动触发)】:
+      <br>
+     </li>
+     <li>
+      #开启循环体
+      <br>
+     </li>
+     <li>
+      key=1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【b.mcf(tick run)】:
+      <br>
+     </li>
+     <li>
+      #循环体
+      <br>
+     </li>
+     <li>
+      if key ==1 run time += 1
+      <br>
+     </li>
+     <li>
+      if key ==1 run func dash
+      <br>
+     </li>
+     <li>
+      if time == 20 run key =0
+      <br>
+     </li>
+     <li>
+      if time == 20 run time =0
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【dash.mcf】:
+      <br>
+     </li>
+     <li>
+      #实际运行函数
+      <br>
+     </li>
+     <li>
+      tp @s ^ ^ ^1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <br>
+  #复杂一点的冲刺(输入时间速度，简单区分方块，用到了递归)
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【a.mcf(手动触发)】:
+      <br>
+     </li>
+     <li>
+      time=&lt;设定时间&gt;，单位t(0.05s)
+      <br>
+     </li>
+     <li>
+      speed=&lt;设定速度&gt;，单位m/s
+      <br>
+     </li>
+     <li>
+      #开启循环体
+      <br>
+     </li>
+     <li>
+      key=1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【b.mcf(tick run)】:
+      <br>
+     </li>
+     <li>
+      #循环体变式,时间不定
+      <br>
+     </li>
+     <li>
+      if key ==1 run time -= 1
+      <br>
+     </li>
+     <li>
+      if key ==1 run func b_cyc
+      <br>
+     </li>
+     <li>
+      if time == 0 run key =0
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【b_cyc.mcf】:
+      <br>
+     </li>
+     <li>
+      #实际运行函数
+      <br>
+     </li>
+     <li>
+      dash_temp = speed
+      <br>
+     </li>
+     <li>
+      if dash_temp &gt;0 at @s positioned ^ ^ ^0.05 run func dash
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【dash.mcf】
+      <br>
+     </li>
+     <li>
+      if block ~ ~ ~ #solid run func stop_dash
+      <br>
+     </li>
+     <li>
+      dash_temp -= 1
+      <br>
+     </li>
+     <li>
+      if dash_temp ==0 run tp @s ~ ~ ~
+      <br>
+     </li>
+     <li>
+      if dash_temp &gt;0 positioned ^ ^ ^0.05 run func dash
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【stop_dash.mcf】
+      <br>
+     </li>
+     <li>
+      dash_temp =0
+      <br>
+     </li>
+     <li>
+      key=0
+     </li>
+    </ol>
+   </div>
+  </div>
+  #计算x加到y，默认y&amp;gt;x，相差越大计算时间越久(没啥用的东西)
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【a.mcf(手动触发)】:
+      <br>
+     </li>
+     <li>
+      int1=x
+      <br>
+     </li>
+     <li>
+      int2=y
+      <br>
+     </li>
+     <li>
+      value = 0
+      <br>
+     </li>
+     <li>
+      #开启循环体
+      <br>
+     </li>
+     <li>
+      key=1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【b.mcf(tick run)】:
+      <br>
+     </li>
+     <li>
+      #循环体变式,无法自动结束
+      <br>
+     </li>
+     <li>
+      if key ==1 run func b_cyc
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【b_cyc.mcf】:
+      <br>
+     </li>
+     <li>
+      value +=int1
+      <br>
+     </li>
+     <li>
+      int1 += 1
+      <br>
+     </li>
+     <li>
+      if int1 &gt; int2 run key=0
+      <br>
+     </li>
+     <li>
+      if int1 &gt; int2 run say value
+     </li>
+    </ol>
+   </div>
+  </div>
+  #砍树连锁(有很多省略，把注释取消掉就加上了循环上限)
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【tick.mcf(tick run)】:
+      <br>
+     </li>
+     <li>
+      #limit=&lt;设定的上限&gt;
+      <br>
+     </li>
+     <li>
+      if @e[tag=cut_start,tag=cut] run key=1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【b.mcf(tick run)】:
+      <br>
+     </li>
+     <li>
+      #if key==1 run limit -= 1
+      <br>
+     </li>
+     <li>
+      if key==1 run func b_cyc
+      <br>
+     </li>
+     <li>
+      #if limit ==0 run key=0
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【b_cyc.mcf】:
+      <br>
+     </li>
+     <li>
+      at @e[tag=cut] run setblock ~ ~ ~ air destory
+      <br>
+     </li>
+     <li>
+      at @e[tag=cut] run func new_cut
+      <br>
+     </li>
+     <li>
+      unless @e[tag=cut] run key=0
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【new_cut.mcf】:
+      <br>
+     </li>
+     <li>
+      if block ~ ~1 ~ log positioned ~ ~1 ~ run func set_cut
+      <br>
+     </li>
+     <li>
+      if block ~ ~1 ~1 log positioned ~ ~1 ~1 run func set_cut
+      <br>
+     </li>
+     <li>
+      ....
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【set_cut.mcf】:
+      <br>
+     </li>
+     <li>
+      summon AEC ~ ~ ~ {Tags:["cut"],Duration:2}
+     </li>
+    </ol>
+   </div>
+  </div>
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##schedule循环
+   </font>
+  </strong>
+  这大概是广为人知的一个循环方式(大概)，函数通过schedule调用自己可以产生tick循环的效果，并且可以根据需要随时开启和终结，或者设置条件让其自己终结，产生类似循环体的效果无条件的schedule循环可以代替tick，只要从load开始就行，唯一的不同是schedule是在所有tick执行后再执行的建议无条件循环的schedule循环的mcf前面加上keep
+  <br>
+  #这是一个普通的schedule循环，作用是一直say hi
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【keep_say_hi.mcf】
+      <br>
+     </li>
+     <li>
+      say hi
+      <br>
+     </li>
+     <li>
+      schedule func keep_say_hi
+     </li>
+    </ol>
+   </div>
+  </div>
+  <br>
+  如果我要开始say hi，那么运行func keep_say_hi就能一直say hi了如果我要结束say hi，那么运行schedule clear keep_say_hi就能结束say hi了&nbsp; &nbsp;#玩家向前冲刺一段距离(无视方块)
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【dash.mcf】
+      <br>
+     </li>
+     <li>
+      exe at @s run tp @s ^ ^ ^1
+      <br>
+     </li>
+     <li>
+      time +=1
+      <br>
+     </li>
+     <li>
+      exe if time == 20 run time =0
+      <br>
+     </li>
+     <li>
+      exe unless time == 0 runschedule func dash
+     </li>
+    </ol>
+   </div>
+  </div>
+  <br>
+  #砍树连锁(有很多省略)
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【tick.mcf(tick run)】:
+      <br>
+     </li>
+     <li>
+      limit=&lt;设定的上限&gt;
+      <br>
+     </li>
+     <li>
+      if @e[tag=cut_start,tag=cut] run func cut
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【cut.mcf】:
+      <br>
+     </li>
+     <li>
+      at @e[tag=cut] run setblock ~ ~ ~ air destory
+      <br>
+     </li>
+     <li>
+      limit -= 1
+      <br>
+     </li>
+     <li>
+      exe if limit &gt; 0 at @e[tag=cut] run func new_cut
+      <br>
+     </li>
+     <li>
+      exe if limit &gt; 0 if @e[tag=cut] run schedule func cut
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【new_cut.mcf】:
+      <br>
+     </li>
+     <li>
+      if block ~ ~1 ~ log positioned ~ ~1 ~ run func set_cut
+      <br>
+     </li>
+     <li>
+      if block ~ ~1 ~1 log positioned ~ ~1 ~1 run func set_cut
+      <br>
+     </li>
+     <li>
+      ....
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【set_cut.mcf】:
+      <br>
+     </li>
+     <li>
+      summon AEC ~ ~ ~ {Tags:["cut"],Duration:2}
+     </li>
+    </ol>
+   </div>
+  </div>
+  <br>
+  这个比上面的循环体更为简洁
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##函数:向下套娃以及_def0
+   </font>
+  </strong>
+  在简写里面已经说过了函数的定义，函数能创建同名的文件夹与自己并列，然后这个文件夹就也是自己的一部分这里可以进行套娃，来进行大量函数的有效整理，比如可以创建一个_def0函数来定义所有需要的触发器建议调用自己同名文件夹下一级所有mcf的函数前方加上一个下划线(_)，并且在后方加上分别层级的数字例如
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【__main/func_tag/Minecraft/tick.mcf】
+      <br>
+     </li>
+     <li>
+      exe as @a run func player/tick
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【player/_def0.mcf】
+      <br>
+     </li>
+     <li>
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【player/_def0/sneak.mcf】
+      <br>
+     </li>
+     <li>
+      sneak = 0
+      <br>
+     </li>
+     <li>
+      exe if @s[predicate=s3_lib:sneaking]run sneak = 1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【player/_def0/r_click.mcf】
+      <br>
+     </li>
+     <li>
+      r_click = @s carrot_on_a_stick
+      <br>
+     </li>
+     <li>
+      @s carrot_on_a_stick = 0
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【player/_def0/trigger1.mcf】
+      <br>
+     </li>
+     <li>
+      trigger1 = @s trigger1
+      <br>
+     </li>
+     <li>
+      @s trigger1 = 0
+      <br>
+     </li>
+     <li>
+      enable @s trigger1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【player/_def0/_def1.mcf】
+      <br>
+     </li>
+     <li>
+      func player/_def0/_def1/super_shot
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【player/_def0/_def1/super_shot.mcf】
+      <br>
+     </li>
+     <li>
+      super_shot == 0
+      <br>
+     </li>
+     <li>
+      exe if sneak ==1 if r_click == 1run super_shot = 1
+     </li>
+    </ol>
+   </div>
+  </div>
+  <div class="blockcode">
+   <div>
+    <p>
+     代码:
+    </p>
+    <ol>
+     <li>
+      =【player/tick.mcf】
+      <br>
+     </li>
+     <li>
+      func player/_def0
+      <br>
+     </li>
+     <li>
+      exe if super_shot ==1 run func &lt;super_shot&gt;
+      <br>
+     </li>
+     <li>
+      exe if trigger1 ==1 run func &lt;trigger1&gt;
+     </li>
+    </ol>
+   </div>
+  </div>
+  这样，我们用一个_def0就能定义所有基本或者高级的触发器，随后只要判断简单的计分板触发对应的函数就行了
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ## 函数:向上套娃以及继承
+   </font>
+  </strong>
+  <font color="#000000">
+   复制粘贴可以在最广泛的方面达到继承的效果，但是会增大数据包以及维护的量
+  </font>
+  <font color="#000000">
+   如果结构允许的话
+  </font>
+  <font color="#000000">
+   先写好一个模板然后通过直接调用函数来继承是最好的（可以参考我的棋盘数据包，，）
+  </font>
+  <font color="#000000">
+   关于函数标签，如果你没打算做前置，就不需要使用，所以这方面我的棋盘数据包滥用了函数标签呜呜呜。。。
+  </font>
+  <font color="#000000">
+   <br>
+  </font>
+  <font color="#000000">
+   旧贴(别看，别看，我说了别看)
+  </font>
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###指导总纲：
+   </font>
+  </strong>
+  面向对象思想(参考链接:
+  <a href="https://baike.baidu.com/item/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/2262089">
+   百度百科
+  </a>
+  <a href="https://www.zhihu.com/question/31021366/answer/761614647">
+   知乎
+  </a>
+  <a href="https://www.jianshu.com/p/7a5b0043b035">
+   简书
+  </a>
+  ) 本文主要提供数据包的结构以及规范的建议这些东西和本文没什么关系，但是讲得的真的不错(除了百度百科)
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###类与对象
+   </font>
+  </strong>
+  这里的模块对应的就是类，函数对应的就是类的方法&nbsp; &nbsp; 子模块放在父模块的文件夹下，&nbsp; &nbsp; MC的数据包并不完全支持继承(你要完全不考虑效率当我没说)，这里对继承进行了一点点尝试
+  <font color="red">
+   以下结构可以进行一定意义的继承，但并不完全适用于
+  </font>
+  <font color="red">
+   MC
+  </font>
+  <font color="red">
+   ，请斟酌使用
+  </font>
+  <font color="red">
+   <br>
+  </font>
+  <strong>
+   <font color="#9acd32">
+    ### __import函数
+   </font>
+  </strong>
+  模块下可以有一个__import函数，用来进行模块的继承，以及模块内函数的调用&nbsp; &nbsp; 如何理解见上面的指导总纲，每一个模块的__import函数都被所有子模块的__import函数调用，同时调用父模块的__import(如果有父模块)，并且根据func_uid调用本模块的所有函数
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###多重继承
+   </font>
+  </strong>
+  __import的结构允许多重继承&nbsp; &nbsp; 仅继承一个模块的模块放进父模块的文件夹下与父模块的其它函数并列&nbsp; &nbsp; 继承多个模块的模块作为根模块放到functions下第一级&nbsp; &nbsp; 同时__init由load调用而不是父模块的__init&nbsp; &nbsp; 多重继承的func_uid通常会有冲突，需要在__import内自行决定是都调用，还是按情况进行选择&nbsp; &nbsp; 使用的临时变量可以命名为scb ##&amp;lt;@s&amp;gt;.__import func_uid或者storage temp{“&amp;lt;@s&amp;gt;.__import”:”func_name”}
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###func_uid与函数
+   </font>
+  </strong>
+  __import判断调用哪一个函数的计分板规定为scb ##import func_uid，每次使用的时候都要重新设定&nbsp; func_uid对应哪一个函数名可以有以下3种方法，第一种和第二种不冲突
+  <font color="#ff00ff">
+   #函数名
+  </font>
+  将函数命名为&amp;lt;func_uid&amp;gt;_&amp;lt;func_name&amp;gt;
+  <ul>
+   <li>
+    优点: 编辑时可以直观方便地看出函数对应哪一个func_uid，玩家运行/function时也能迅速分辨可执行的函数
+   </li>
+   <li>
+    缺点: 难看，而且会让人犹豫要不要把路径替换为和函数名一致的难看，函数名和func_uid要做到严格对应得自己去再建一个函数表
+    <br>
+   </li>
+  </ul>
+  <font color="#ff00ff">
+   #函数表
+  </font>
+  可以准备一个函数表，在其中标明所有函数名对应的func_uid，函数表可以以注释的形式打到main的__init里
+  <ul>
+   <li>
+    好处: 可以严格对应
+   </li>
+   <li>
+    缺点: 编辑的时候不能直观地找到函数对应的func_uid，而且改对应关系的时候问题更大
+    <br>
+   </li>
+  </ul>
+  <font color="#ff00ff">
+   #我不用计分板啦！
+  </font>
+  放弃计分板，使用storage temp {import:”&amp;lt;func_name&amp;gt;”}来代替func_uid，
+  <ul>
+   <li>
+    优点: 没有上面的所有缺点
+   </li>
+   <li>
+    缺点: 找函数的效率会变成原来的一半左右，对小的函数影响尤为明显
+    <br>
+   </li>
+  </ul>
+  每一个func_uid在特定的__import下运行唯一的函数(就是上面说的对应的函数运行完后必须清除func_uid)
+  <font color="#9acd32">
+   <strong>
+    <br>
+   </strong>
+  </font>
+  <font color="#9acd32">
+   <strong>
+    ###多态
+   </strong>
+  </font>
+  重写可以在__import内上一级__import的调用之前检测对应的函数号，并在之后清除计分板的值&nbsp; &nbsp; 重载同理，不过在新的函数内要if调用旧的函数，达到添加新的输入参数类型的目的&nbsp; &nbsp; 如果要筛选一般的参数的话，可以见下#数据类型判断与筛选，但碰上更复杂的就不行了，建议附带一个额外的参数来选择函数模式，启用或禁用一&nbsp; &nbsp; 部分的代码块&nbsp; &nbsp; 因此__import内[重写或重载函数的调用必须在[父函数的__import的调用之前
+  <br>
+  <br>
+  <br>
+  <br>
+  <strong>
+   #数据包结构
+  </strong>
+  前置教程(不是)
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #观看前可以参考
+   </font>
+  </strong>
+  <ul>
+   <li>
+    了解数据包的结构，
+    <a href="https://minecraft-zh.gamepedia.com/%E6%95%B0%E6%8D%AE%E5%8C%85">
+     这里是wiki
+    </a>
+   </li>
+   <li>
+    execute的全部基础使用方法，可以跳转
+    <a data-change="true" data-url-old="https://www.mcbbs.net/thread-989501-1-1.html" href="https://archives.mcbbs.co/post/989501">
+     这里
+    </a>
+   </li>
+   <li>
+    data的全部基础使用方法，可跳转
+    <a data-change="true" data-url-old="https://www.mcbbs.net/thread-993805-1-1.html" href="https://archives.mcbbs.co/post/993805">
+     这里
+    </a>
+   </li>
+   <li>
+    scb的全部基础使用方法，嗯，，我估计你们应该都会
+    <a data-change="true" data-url-old="https://www.mcbbs.net/thread-274969-1-1.html" href="https://archives.mcbbs.co/post/274969">
+     这里有一份古老的详细教程
+    </a>
+   </li>
+   <li>
+    去
+    <a data-change="true" data-url-old="https://www.mcbbs.net/thread-784662-1-1.html" href="https://archives.mcbbs.co/post/784662">
+     入门教程
+    </a>
+    入门一下(这个入门教程一点也不入门，更适合当字典来翻)
+   </li>
+   <li>
+    一些
+    <a data-change="true" data-url-old="https://www.mcbbs.net/thread-967252-1-1.html" href="https://archives.mcbbs.co/post/967252">
+     数据模块
+    </a>
+   </li>
+   <li>
+    总结的
+    <a data-change="true" data-url-old="https://www.mcbbs.net/thread-988232-1-1.html" href="https://archives.mcbbs.co/post/988232">
+     命令变动
+    </a>
+    <br>
+   </li>
+  </ul>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #这里是简写
+   </font>
+  </strong>
+  <ul>
+   <li>
+    mcf = mcfunction
+   </li>
+   <li>
+    scb = scoreboard
+   </li>
+   <li>
+    AEC = area effect cloud
+   </li>
+   <li>
+    模块 – 指同一级文件夹内没有同名mcf的文件夹，同时人为规定不允许mcf出现在functions下第1级，也就是functions下所有文件夹都是模块，规定functions下的模块也叫做根模块
+   </li>
+   <li>
+    函数 – 所有可以独立完成特定任务的mcf统称函数，函数可以创建同级同名文件夹作为自己的一部分，其中只能放置所有的仅被自己直接或间接调用的mcf
+   </li>
+   <li>
+    运行环境 – 包括execute as,at(positioned, rotated, facing...), in等;
+   </li>
+   <li>
+    函数参数 – 指函数的输入参数，这里指来自于计分板和data的参数
+   </li>
+   <li>
+    __xx – 前面加两个下划线表示这是系统调用相关的东西
+   </li>
+   <li>
+    触发器 – 当满足一定条件时运行mcf的结构，主体必须存在于(某种意义上)无条件tick运行的mcf中
+    <br>
+   </li>
+  </ul>
+  <hr class="l">
+  <br>
+  废话一堆
+  <br>
+  <strong>
+   <font color="#000000">
+    #必要性以及原因
+   </font>
+  </strong>
+  <br>
+  <br>
+  <br>
+  <ul>
+   <li>
+    嗯，，，，
+   </li>
+   <li>
+    一个数据包之中，真正起作用的只有一部分函数，
+   </li>
+   <li>
+    而相当的内容则用于控制这些函数什么时候，在哪里，以什么形式什么顺序触发（如何将函数从tick\load\advancement调用到目标函数）
+   </li>
+   <li>
+    这些触发器编写起来往往占据了很多时间，而不能让数据包作者把自己的精力单纯地放在功能的设计与实现，
+   </li>
+   <li>
+    而是放在功能怎么触发，文件放哪里，变量名怎么取这种问题上（变量名冲突以及难记以及有长度限制的问题，建议MoJang出一个function内临时变量）
+    <br>
+   </li>
+  </ul>
+  <ul>
+   <li>
+    加上MC长长的不易读取的命令更是加剧了难度
+   </li>
+   <li>
+    文件夹一乱，维护更是成为了相当令人头疼的事情（所以文件夹结构也是个重点）
+   </li>
+   <li>
+    各个数据包的触发器不一，会导致很多东西比如视线检测和各种判据重复运行，（触发器统一）
+   </li>
+   <li>
+    容易占据很多不必要的性能，或者干脆导致这些触发器成为了尽量避免的东西
+   </li>
+   <li>
+    这些显然是我们不愿意看到的
+   </li>
+   <li>
+    如果这些东西能够标准化，那么能解决以上几乎所有问题
+    <br>
+   </li>
+  </ul>
+  <br>
+  <ul>
+   <li>
+    在一切开始之前，我们需要一个放置mcf文件的地方
+   </li>
+   <li>
+    所有的一切从文件夹结构开始
+    <br>
+   </li>
+  </ul>
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #文件夹结构的矛盾
+   </font>
+  </strong>
+  <strong>
+   <font color="#000000">
+    <br>
+   </font>
+  </strong>
+  <ul>
+   <li>
+    文件夹结构的分类大致可以有两种方法，以执行顺序为基准和以执行主体为基准[spoiler]
+   </li>
+   <li>
+    以执行顺序为基准大概是直接把tick.mcf和load.mcf放在最下面，然后上方放一个tick文件夹，一个load文件夹就可以完工了，再简单点甚至不需要tick和load文件夹
+   </li>
+   <li>
+    所有其它的东西都按照顺序触发，甚至可以编个号
+   </li>
+   <li>
+    以执行主体为基准大概是根目录下一堆文件夹而见不到mcf，每个文件夹内是差不多的结构，tick.mcf和load.mcf平均分布在每个文件夹内，而每个文件夹之间调用甚少
+    <br>
+   </li>
+  </ul>
+  <ul>
+   <li>
+    前者更适合集中处理，而后者更适合模块化处理（当然不意味着就这两种方法，这只是两种完全不同的思路）
+   </li>
+   <li>
+    对于触发器而言，毫无疑问需要集中式处理才能提高效率
+   </li>
+   <li>
+    而当组件数量增多的时候，只有模块化处理才能使数据包变得可维护和易于拓展
+    <br>
+   </li>
+  </ul>
+  <br>
+  <ul>
+   <li>
+    单纯做小数据包的话前者就够用了，甚至是最好的方案，
+   </li>
+   <li>
+    但数据包大起来的时候就不得不采取混合甚至完全后者的方式来布置文件夹结构
+   </li>
+   <li>
+    这样要么会让数据包变得结构混乱反而难以维护，要么会产生大量毫无意义的消耗，两者都是难以接受的
+   </li>
+   <li>
+    这是我做数据包的时候相当矛盾的地方
+    <br>
+   </li>
+  </ul>
+  <br>
+  <br>
+  <br>
+  (2021/7/25)
+  <br>
+  <ul>
+   <li>
+    直接采用后者啊，为啥以执行主体为基准里面就必须得是一样的了
+   </li>
+   <li>
+    顺序为基准也是一种主体来着，
+   </li>
+   <li>
+    命其高频部分为主函数部分
+   </li>
+   <li>
+    触发器是触发器部分，包括初始化
+   </li>
+   <li>
+    待玩家调用的部分
+   </li>
+   <li>
+    前置部分(
+   </li>
+   <li>
+    功能部分
+   </li>
+   <li>
+    剩下的都是其它函数部分
+    <br>
+   </li>
+  </ul>
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #解决方案
+   </font>
+  </strong>
+  旧贴
+  <br>
+  <ul>
+   <li>
+    毫无疑问，我们需要一个基础模块，而且这个基础模块应当是对修改封闭，对拓展开放的（面向对象警告）
+    <br>
+   </li>
+  </ul>
+  <br>
+  (发帖的时候)
+  <br>
+  <br>
+  <br>
+  <ul>
+   <li>
+    基础模块另开一个数据包的想法已经有了，但我这时候还是有想要在模块化的数据包内控制运行顺序的心思，所以整了一个系统模块
+    <br>
+   </li>
+  </ul>
+  <br>
+  (指发帖后过了好多天的，对于今天而言的，前几天)
+  <br>
+  <ul>
+   <li>
+    这个东东是不是每个数据包内都开一个一模一样的命名空间，然后选择性地删去不需要的mcf比较好，而不是作为独立的数据包而存在？
+   </li>
+   <li>
+    由于MC的数据包合并功能这些功能并不会重复触发，json也能合并
+   </li>
+   <li>
+    这样就能够提供触发器的同时不破坏模块化的整体结构，而且还能控制不同功能的开启来减少功能的浪费，我就能往基础模块里塞爆了（）
+    <br>
+   </li>
+  </ul>
+  <br>
+  (今天2020/12/20)
+  <br>
+  <br>
+  <br>
+  <ul>
+   <li>
+    这样就塞了一段时间，但后来又想啊，删mcf来控制开启还是太不人性化欸，加计分板来控制维护太麻烦，storage控制又挺浪费性能，
+   </li>
+   <li>
+    既然函数标签能导出，那么也用函数标签来导入，用其控制模块功能的开启好了，只要都统一塞#tick或者#load下就不会有重复触发
+   </li>
+   <li>
+    这样基础模块就经历了&nbsp; &nbsp; 模块化的性能浪费-&amp;gt;集中化的编辑麻烦-&amp;gt;再度模块化&nbsp; &nbsp; 的这样一个过程，现在正在写数据包的结构大概是近似前几天那一种的结构，但估计又得重构
+   </li>
+   <li>
+    由于已经不想要在不同模块间控制执行顺序（在基础模块里上就行了），所以我认为系统模块也没有必要了，tick和load，或者其它触发器留在每个需要的模块内
+    <br>
+   </li>
+  </ul>
+  <br>
+  <br>
+  <br>
+  (2021/7/25)
+  <br>
+  <br>
+  <br>
+  <ul>
+   <li>
+    能有人用数据包就不错了，考虑个屁的通用性
+   </li>
+   <li>
+    所以一切以优化数据包编写体验为优先才对，这样才能促进作品的产出
+   </li>
+   <li>
+    小豆的数据包震撼我妈
+    <br>
+   </li>
+  </ul>
+  <br>
+  <br>
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #最大化效率
+   </font>
+  </strong>
+  旧贴
+  <strong>
+   <font color="#000000">
+    <br>
+   </font>
+  </strong>
+  理想的情况应该是数据包作者根据自己的数据包需要的功能选择需要启用的触发器，
+  <br>
+  数据包制作者可以根据需求定义和组合触发器然后所有的触发器经过加载后转变为计分板的被检测形式通过检测计分板来触发函数
+  <br>
+  就算同时安装了这个前置的其它数据包，基本模块定义的触发器的检测不会执行第二遍
+  <br>
+  如果命名够规范的话也能做到一部分的自定义触发器检测不会执行第二遍
+  <br>
+  若想尽可能缩减消耗的话，尽可能少用选择器才是对的而主函数部分是选择器泛滥的区域，，显然大家不可能都用同一个主函数模块但可以在自己的数据包内采用主函数模块例如有了一个as @a run xx ，其他的as @a 就不用写了，全部都放进这个函数吧(能用function就不要大规模穷举，除非看着更舒服能用计分板就尽可能使用计分板用nbt时尽可能减少路径层数，尤其是大规模穷举或递归时，可以直接加双引号把路径括起来变成一层路径(划掉)，但只要不是这种情况，还是以方便理解为优先
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #最大化编辑维护体验
+   </font>
+  </strong>
+  旧贴
+  <br>
+  理想的情况应该是数据包制作者能比较方便地创建和管理自定义的触发器并且所有的函数都由定义的触发器直接或间接地触发所有文件模块化，并能迅速明白这是干什么用，怎么用的把tick/refresh这样的，load这样的，平等地看成触发器模块中被调用的与主动调用的函数能被明显区分，建一两个文件夹也好，统一为tick、load也好主动与被动取决于该函数是否打算被其它模块，或者是玩家调用主动与被动
+  <br>
+  相对于模块而言，主动函数就是tick，load以及仅被其调用的一系列本模块函数，相当于运行主体，被动则是属于该模块却被自身或其它模块调用的函数相对于玩家而言，主动函数与被动函数的意义差不多相反，用于被玩家调用的功能函数反而是主动函数，模块自动运行的函数反而是被动函数这里采用相对于模块的视角如果采用系统模块的方式，应该把所有的主动函数都放进系统模块内，系统模块内将会成为一个庞大的编辑区域，此时的系统模块和其它编程语言的main别无二致留下系统模块可以更精准地控制数据包内函数的运行顺序，Xiao2更倾向于留下main模块重点是保持一个贯穿始终的布置规则这里有几个简单的规则1.data/&amp;lt;自己的命名空间&amp;gt;/functions/&amp;lt;数据包空间&amp;gt;/...如果这样的话，s3.chessboard就是data/s3/functions/chessboard/tick.mcfunction对应s3:chessboard/tick这样的好处是自己的不同数据包放在一起的时候翻文件夹会快乐一些2.对于函数&amp;lt;path&amp;gt;/a调用的函数，如果仅它自身调用这个函数，那么就&amp;lt;path&amp;gt;/a/&amp;lt;待调用函数&amp;gt;，这样会使函数调用关系显得一目了然如果&amp;lt;path&amp;gt;/a调用的是一系列相似的函数，则可以直接建一列文件夹,运行&amp;lt;文件夹i&amp;gt;/run3.如果有一堆模块，那么请把调用模块的函数放在显眼一点的地方，这样好在修改模块的时候修改对应的调用例如模块A,B,C有触发函数a,b,c,d那么新建一个空模块0与ABC并列，里面在同样位置放置函数a,b,c,d，但在里面调用ABC的a,b,c,d这是函数标签的替代，如果你是做前置的话当我没说4.计分板可以理解为数据类型，你可以设置int,bool,byte,tmp,float,result等计分板，而用假名区分它们放心大胆用不带命名空间的假名，只要不和自己冲突，写得舒服就行，硬要加命名空间可以加在计分项上面对于临时变量，建议采用不容易重复的函数路径名的一部分作为假名或路径，这样可以在降低记忆负担的同时减少bug但如果非常确信从创建到使用结束中间都没有其它函数插入的话，放心大胆地用类似# tmp,x tmp这种临时变量吧5.对于nbt路径，则可以用命名空间理解为数据类型，我经常采用temp辨别方式取决于它们的更新周期,temp是每tick随时有可能更新的东西，而init只在load时会出现变化，sys用来存储设置和状态一类的东西,也有可能随时变化6.状态这一概念是模块的属性，存在于模块的调用入口处，通过状态决定调用哪一个函数或者采用什么方案例如主函数可以有一个状态&amp;quot;stop&amp;quot;，存在于主函数的tick函数，若为1则不调用后续的函数()可以采用计分板sys.stop state,也可以存在storage sys stop内使用这个东西可以把根据条件-&amp;gt;调用不同函数变成根据条件-&amp;gt;调整状态-&amp;gt;调用同一个函数-&amp;gt;根据状态调用不同函数这样，，有利有弊吧顺便玩家的潜行，疾跑，坐标，这一类也可以作为状态来理解可以存在玩家的计分板或者个人nbt空间里也可以存在player.xx state里，，毕竟是单tick内数据包才用得到的东西，在as@a的主函数里统一获取和使用就行了
+  <br>
+  <br>
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#000000">
+    #调试与控制
+   </font>
+  </strong>
+  理想的情况应该是能随时暂停模块或数据包的运行而保持func的可调用所以用主函数的stop状态就行了只是进度要禁的话会麻烦一点点，但一般不禁也没关系吧，，
+  <br>
+  <strong>
+   #命名与注释
+  </strong>
+  <hr class="l">
+  <font color="#2e8b57">
+   <strong>
+    旧贴
+   </strong>
+  </font>
+  <strong>
+   <font color="#2e8b57">
+    ##路径与&amp;lt;@s&amp;gt;
+   </font>
+  </strong>
+  为了最大限度地避免重名，数据包使用的计分板和storage空间可以按照路径命名，以可以同时在文件夹，计分板以及storage内使用为标准例如s3_lib/functions/data/set_pointer.mcfunction的计分板名可以设置为s3_lib.data.set_pointer.success [计分板名，storage下的输出存储可以设置为storage data s3_lib.data.set_pointer{success:1b}路径的缩写规定为&amp;lt;@s&amp;gt;，例如上面的storage路径在注释里可以写成scb &amp;lt;@s&amp;gt;. successstorage data &amp;lt;@s&amp;gt;.success
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##临时变量
+   </font>
+  </strong>
+  data可以存在storage temp “&amp;lt;@s&amp;gt;”.变量名里，注意这里为了节省性能加上了引号以减少存储的级数，关于storage命名空间的使用见下(#data storage命名空间的使用)scb可以存在scb ##&amp;lt;@s&amp;gt;.变量名[类型]里，注意这里用了两个#，这设定作为临时变量的特有标志
+  <br>
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##函数开头注释
+   </font>
+  </strong>
+  函数的开头(系统函数除外)最好都标明输入、输出、运行环境以及函数的作用，没有可以留空可以在模块的__init内重新标明这个模块的路径为一个清爽点的样子(&amp;lt;@s&amp;gt; = xxx)，不过注意重名
+  <font color="black">
+   (
+  </font>
+  <font color="black">
+   由于写命名空间这样的东西很不爽所以在确定不会重名的情况下建议省略
+  </font>
+  <font color="black">
+   )(
+  </font>
+  <font color="black">
+   划掉
+  </font>
+  <font color="black">
+   )
+  </font>
+  <br>
+  见
+  <strong>
+   #最大化编辑维护体验
+   <br>
+  </strong>
+  函数开头注释的话，第一行写这个函数干嘛的，第二行起写输入和输出用人能看得懂的语言写就行，注意输入包括执行位置和执行者，上一级不明的话可以写一下是哪个函数调用的它，以便查bug时方便些(前置函数就算了)主要的函数上写就行了
+  <br>
+  <font color="black">
+   <br>
+  </font>
+  <br>
+  <br>
+  <strong>
+   #
+  </strong>
+  <strong>
+   data storage命名空间的使用规范建议
+  </strong>
+  <hr class="l">
+  见
+  <strong>
+   #最大化编辑维护体验:5.
+  </strong>
+  <strong>
+   ##temp
+  </strong>
+  <br>
+  <ul>
+   <li>
+    每tick清空的命名空间，由于并不能确定数据包每tick的运行顺序，所以这里面存储任何值都得是临时性的
+   </li>
+   <li>
+    存储函数的临时变量，以及函数参数(输入)
+    <br>
+   </li>
+  </ul>
+  <strong>
+   ##data
+  </strong>
+  <br>
+  <ul>
+   <li>
+    这个命名空间下的值被定义为就算全部删光都不会对数据包的运行造成任何影响的值，比较适合存储命令的返回值
+   </li>
+   <li>
+    存储函数的返回值
+    <br>
+   </li>
+  </ul>
+  <strong>
+   ##init
+  </strong>
+  <br>
+  <ul>
+   <li>
+    在数据包加载时就应该确定并且在后续运行中不会再更改的值
+   </li>
+   <li>
+    大部分初始化的值
+    <br>
+   </li>
+  </ul>
+  <strong>
+   ##sys
+  </strong>
+  <br>
+  <ul>
+   <li>
+    系统运行所依靠的参数，如果init中存在同路径的值，优先级应该高于init
+   </li>
+   <li>
+    用来存储各种设置，以及其它重要的数据
+    <br>
+   </li>
+  </ul>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <strong>
+   #data和scb的数据储存和利用
+  </strong>
+  首先比较一下两种方式
+  <strong>
+   <font color="#2e8b57">
+    ##支持类型
+   </font>
+  </strong>
+  <ul>
+   <li>
+    data block/entity 带物品tag:全部
+   </li>
+   <li>
+    data storage: 全部
+   </li>
+   <li>
+    scb:仅支持整数存储
+    <br>
+   </li>
+  </ul>
+  <strong>
+   <font color="#2e8b57">
+    ##编辑体验
+   </font>
+  </strong>
+  <ul>
+   <li>
+    data能一次对大量的数据进行查询，复制，删除
+   </li>
+   <li>
+    scb 一次只能对一个数据进行查询，复制，删除，运算
+    <br>
+   </li>
+  </ul>
+  <strong>
+   <font color="#2e8b57">
+    ##性能
+   </font>
+  </strong>
+  <strong>
+   <font color="#9acd32">
+    ###先说结果
+   </font>
+  </strong>
+  <font color="#ff0000">
+   scb
+  </font>
+  <font color="#a0522d">
+   &amp;gt;
+  </font>
+  <font color="#ff0000">
+   data storage
+  </font>
+  <font color="#a0522d">
+   &amp;gt;
+  </font>
+  <font color="#ff0000">
+   data block
+  </font>
+  <font color="#a0522d">
+   &amp;gt;
+  </font>
+  <font color="#ff0000">
+   data entity
+  </font>
+  其中data storage的级数越多越卡，有索引也会更卡entity的@e比@s更卡
+  <strong>
+   <font color="#9acd32">
+    ###以下为测试
+   </font>
+  </strong>
+  先上图所有的测试都是以这个格式测试的
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZBXs1.png" data-tg-img="https://t.me/mcbbsimg/1881" height="397" loading="lazy" src="./1143275_files/1881" style="max-width: 100%;" width="554">
+  </div>
+  <br>
+  以下是拿着不同的物品对应运行的函数，所有的存取量都是一样的(上图的21x100次)
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZBqz9.png" data-tg-img="https://t.me/mcbbsimg/1875" loading="lazy" src="./1143275_files/1875" style="max-width: 100%;">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZBbRJ.png" data-tg-img="https://t.me/mcbbsimg/1869" height="86" loading="lazy" src="./1143275_files/1869" style="max-width: 100%;" width="554">
+  </div>
+  <br>
+  我将从后面的格子滚动到前面的格子准备的工作为世界为虚空超平坦世界同时存在的实体数量为331，通过命令方块反复召唤药水云达到，这里不写了/summon minecraft:armor_stand ~~ ~{Tags:[&amp;quot;test&amp;quot;]}/data modifyentity4c19e715-29b4-40f5-9cdf-37c6f7a0ba20 HandItems[0] set from entitysch233SelectedItem/setblock 0 3 0minecraft:jukebox/data modify block 0 3 0RecordItem setfrom entity sch233 SelectedItem/data modify storageminecraft:move1 moveset from entity sch233 {}load运行scoreboard players set #0 s3.Int0……………………………………………………scoreboard players set #19s3.Int 19data modify storage test 0 setvalue 0……………………………………………………data modify storage test 19 setvalue 19data modify storage testa.b.c.d.e.f.g.h.0set value 0……………………………………………………data modify storage testa.b.c.d.e.f.g.h.19set value 19data modify storagemove1move.Inventory[{Slot:0b}].tag.0 set value 0……………………………………………………data modify storagemove1move.Inventory[{Slot:0b}].tag.19 set value 19data modify block 0 3 0RecordItem.tag.0set from storage test 0……………………………………………………data modify block 0 3 0RecordItem.tag.19set from storage test 19execute as @e[type=armor_stand,tag=test]runfunction s3_math:main/func_tag/minecraft/load/_ss3_math:main/func_tag/minecraft/load/_s:data modify entity @sHandItems[0].tag.0set from storage test 0…data modify entity @sHandItems[0].tag.19set from storage test 19函数第一行分别以下图片,后续格式和上面的示例一样带@e的data存取
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZDuFS.png" data-tg-img="https://t.me/mcbbsimg/1871" loading="lazy" src="./1143275_files/1871" style="max-width: 100%;">
+  </div>
+  <br>
+  @s data存取
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZDmo8.png" data-tg-img="https://t.me/mcbbsimg/1870" loading="lazy" src="./1143275_files/1870" style="max-width: 100%;">
+  </div>
+  <br>
+  方块data存取
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZD1Qs.png" data-tg-img="https://t.me/mcbbsimg/1868" loading="lazy" src="./1143275_files/1868" style="max-width: 100%;">
+  </div>
+  <br>
+  带索引的storage data存取
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZDx6s.png" data-tg-img="https://t.me/mcbbsimg/1872" loading="lazy" src="./1143275_files/1872" style="max-width: 100%;">
+  </div>
+  <br>
+  多级storage data存取
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZDQzj.png" data-tg-img="https://t.me/mcbbsimg/1874" loading="lazy" src="./1143275_files/1874" style="max-width: 100%;">
+  </div>
+  <br>
+  根目录storage data存取
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZDKJg.png" data-tg-img="https://t.me/mcbbsimg/1873" loading="lazy" src="./1143275_files/1873" style="max-width: 100%;">
+  </div>
+  <br>
+  计分板存取
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZDMWQ.png" data-tg-img="https://t.me/mcbbsimg/1867" loading="lazy" src="./1143275_files/1867" style="max-width: 100%;">
+  </div>
+  <br>
+  <br>
+  <br>
+  <strong>
+   <font color="#9acd32">
+    ###性能变化
+   </font>
+  </strong>
+  前3个没有明显的区别0,1,2,3不运行，计分板运行，data根目录运行，data多级运行，多级运行的时候开始出现黄线了
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZ01hQ.png" data-tg-img="https://t.me/mcbbsimg/1876" loading="lazy" src="./1143275_files/1876" style="max-width: 100%;">
+  </div>
+  <br>
+  3，4，5的区别data多级运行，data索引运行，方块data运行,索引运行的时候开始出现橙色的线，方块data运行的时候开始出现红线方块运行的消耗大概是多级运行的2倍
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZ0UBV.png" data-tg-img="https://t.me/mcbbsimg/1877" height="145" loading="lazy" src="./1143275_files/1877" style="max-width: 100%;" width="554">
+  </div>
+  <br>
+  4,5,6,7的区别，可以看到非常的夸张啊data索引运行，方块data运行，实体@s运行，实体@e运行实体@s运行开始全是红线，是方块运行的两倍，@e运行直接超了一倍多的上限
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZ0Bh4.png" data-tg-img="https://t.me/mcbbsimg/1880" height="663" loading="lazy" src="./1143275_files/1880" style="max-width: 100%;" width="554">
+  </div>
+  <br>
+  由于前3个看不出性能，因此将存取量x10后再次测试不运行，计分板运行，data根目录运行，data多级运行，根目录运行消耗大概是scb的2倍，多级运行大概是根目录运行的2倍
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZ0r9J.png" data-tg-img="https://t.me/mcbbsimg/1878" loading="lazy" src="./1143275_files/1878" style="max-width: 100%;">
+  </div>
+  <br>
+  把检索改为[0]后的测试(10倍强度)，反而比多级测试占用还少，毕竟只有5级(其中一级是[0])，而多级有9级注意这个时候比根目录消耗大不了多少，看起来[0]和普通索引差不多的样子
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ru2R5d.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ru2R5d.png" style="max-width: 100%;">
+  </div>
+  <br>
+  我们把[0]改为move.Inventory2[0][0][0][0][0][0][0]试试
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/rufpEF.png" height="113" loading="lazy" src="https://s3.ax1x.com/2020/12/14/rufpEF.png" style="max-width: 100%;" width="1254">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruWxBT.png" height="237" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruWxBT.png" style="max-width: 100%;" width="407">
+  </div>
+  <br>
+  [0]的引用和直接的引用消耗是一样的好家伙，消耗表出来了(20tps=40消耗，拿尺子量的，图之间的比例差的有点大，取了近似，仅供参考)scb:1.1data{1级}:3.6data{5级}:5data{9级}:8.4data{5级其中一级索引}:10block:17.4@s数据存取:40
+  <br>
+  @e数据存取:113
+  <br>
+  <br>
+  <br>
+  @e在不进行对实体的数据存储且全世界实体数量不多的时候性能消耗十分低
+  <br>
+  data的存储能力很强(支持各种类型)，有清晰的存储结构，找东西很方便，能进行较为方便的读取和编辑操作但是卡，即使是根目录的data读取，消耗的时间也是scb的两倍以上，不建议在tick中常调用data的数据(比data更卡的是实体，卡顿随着数量增长而且固定有一定的层级)scb性能很好，目测性能不受名字长度影响，而且可以进行各种数字计算(data不行)，结构简单而且有长度限制，假名设定后很难找到，仅支持整数存储建议直接把data当成硬盘操作，scb当成内存操作，每次load都把data转化为计分板(划掉)建议直接把data当成堆操作，scb当成栈操作，除了引用很麻烦之外一切都好(划掉)
+  <br>
+  <strong>
+   #nbt与predicate的性能区别
+  </strong>
+  做这个完全是出于@Jokey_钥匙 的请求的，这里可以看见predicate比nbt到底快了多少倍，，为了比较的公平性，我们所有的predicate判断都采用泥土采用的循环次数和上一节一样，并且统一采用@s
+  <br>
+  这里把两种nbt判断都用上了并且为了得到更纯粹的性能比较，直接复制粘贴了2100个第一张图是按照与上面一样的方式测试的
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ru49p9.png" height="151" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ru49p9.png" style="max-width: 100%;" width="1231">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ru4M6I.png" height="871" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ru4M6I.png" style="max-width: 100%;" width="1069">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruI3FS.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruI3FS.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruI8Jg.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruI8Jg.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruIlo8.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruIlo8.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <br>
+  <br>
+  右边就和上一节的@s的结果差不多，而用predicate简直和data storage没几级一样(还是比计分板慢的)
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ru4ClR.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ru4ClR.png" style="max-width: 100%;">
+  </div>
+  更为纯粹的性能比较
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruIULq.png" height="337" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruIULq.png" style="max-width: 100%;" width="967">
+  </div>
+  <strong>
+   #计分板极限
+  </strong>
+  众所周知计分板的极限是2147483647也就是int的上限，但在这个极限附近进行运算会怎么样呢经过测试，运算结果如下2147483647 += 1&nbsp; &nbsp; 结果-2147483648-2147483648 -= 1&nbsp; &nbsp; 结果21474836472147483647 *= 2&nbsp; &nbsp; 结果 -2-2147483648 *= 2&nbsp; &nbsp; 结果0-2147483648 += -2147483647 结果1-2147483647 *= 2 结果2-2147483648 *= -1&nbsp; &nbsp;结果-2147483648很显然计分板的运算是按照
+  <strong>
+   补码
+  </strong>
+  (
+  <a href="https://baike.baidu.com/item/%E8%A1%A5%E7%A0%81/6854613">
+   百度百科
+  </a>
+  )进行的，运算方法不知道的可以自己去看
+  <hr class="l">
+  <font color="#2e8b57">
+   <strong>
+    ##
+   </strong>
+  </font>
+  <strong>
+   <font color="#2e8b57">
+    这里谈一谈我的理解
+   </font>
+  </strong>
+  （
+  <font color="#ff0000">
+   警告：以下的图和补码的实际运算方式没有任何关系，仅为我个人理解！
+  </font>
+  ）
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/12/rZ0wAU.png" data-tg-img="https://t.me/mcbbsimg/1879" loading="lazy" src="./1143275_files/1879" style="max-width: 100%;">
+  </div>
+  <br>
+  采用补码的优势是所有的减法都可以转化成加法在结果不溢出-2147483648~2147483647的情况下在0~2147483647内，加法可以看作是两个补码直接相加在-2147483648~-1内，加法也可以看作两个补码直接相加两个数分别在两边时，加法还是可以看作是两个补码直接相加多余的1会溢出一位而舍掉，得到的结果是正确的
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##int当成unsignedint
+   </font>
+  </strong>
+  可以看到补码从-2147483648~-1，去掉符号位与0~2147483647是一样的事实上绕一圈回来和unsigned int的存储是一致的这意味着，int完全可以当成unsignedint来使用，加法方面不成问题
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##改变符号位
+   </font>
+  </strong>
+  如果把任意scb加上-2147483648(也就是仅改变符号位) ，0和±2147483648的意义会对调，负数对调后的值就是负数-(-2147483648)的值，正数对调后的值就是正数-(2147483648)的值-2147483648---------负数---------0----------正数--------------2147483648通过这种办法可以得到到底溢出了2147483647或者-2147483648多少值
+  <br>
+  <br>
+  <br>
+  <strong>
+   #数据类型判断与筛选
+  </strong>
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##废话
+   </font>
+  </strong>
+  我在第五版数据包设计的可以让玩家用一条命令输入多个函数参数并运行的东东，可以确定的有as,at,positioned,rotated,return(tellraw返回值)的对象以及任意数量的参数，甚至能一条命令运行多个函数，只要你聊天栏装得下但是做这个的过程中遇到了问题：怎么判断玩家输入参数是不是符合函数运行需求的呢?要知道玩家的输入是最无法预料的，而且你也不会知道自己的函数在各种乱七八糟的输入下会有什么反应，因此判断并筛选数据类型势在必行我经过反复尝试和各种灵光一闪，最终找到了以下的判断和筛选方法
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##data允许的所有类型
+   </font>
+  </strong>
+  参考
+  <a data-change="true" data-url-old="https://www.mcbbs.net/thread-993805-1-1.html" href="https://archives.mcbbs.co/post/993805">
+   这里
+  </a>
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##{}和[]类的类型
+   </font>
+  </strong>
+  使用
+  <ul>
+   <li>
+    execute store success xxx run data get xx{}
+   </li>
+   <li>
+    execute store success xxx run data get xx[]
+    <br>
+   </li>
+  </ul>
+  可以判断
+  <hr class="l">
+  <br>
+  <strong>
+   <font color="#2e8b57">
+    ##所有数字和字符串
+   </font>
+  </strong>
+  <br>
+  可以利用数组下所有元素必须类型一致的特性
+  <br>
+  先给每种元素创立一个数组
+  <br>
+  data merge storage type set value{byte:[1b],int:[1],short:[1s],long:[1L],float:[1.0f],double:[1.0d],str:[&amp;quot;1&amp;quot;]}
+  <br>
+  然后要判断的时候复制对应的类型的数组到storagetemp，
+  <br>
+  再store successxx run data modify xx.&amp;lt;type&amp;gt; append from 你要判断的值
+  <br>
+  就行了
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##两种字符串的判别
+   </font>
+  </strong>
+  指&amp;quot;&amp;quot;型和'{&amp;quot;text&amp;quot;:&amp;quot;&amp;quot;}'型的字符串的判别，我在这里简称为str和str+它们同时存在于一个数组中是不会报错的
+  <strong>
+   那我们就只能通过方块或实体来判定了
+  </strong>
+  更改告示牌的内容为storage内容的显示
+  <strong>
+   不加上
+  </strong>
+  interpret，str会正确显示而str+不会，
+  <br>
+  它们在告示牌上存储的内容都改变了，
+  <br>
+  str的形式会转变为str+的形式，
+  <br>
+  str+则会在里面加一堆反斜杠，
+  <br>
+  用data复制回去都会返回成功所以不能用于辨别
+  <br>
+  <br>
+  <br>
+  更改告示牌的内容为storage内容的显示
+  <strong>
+   加上
+  </strong>
+  interpret，str+会正确显示而str不会，str的的在告示牌上的存储为空，用data复制回去会返回成功，str+在告示牌上的存储不变，用data复制回去会返回错误所以可以采用第二种方法来进行判别，届时比对是否发生了改变即可 以上方法在以str+作为存储方式的实体和方块上应该都有效
+  <br>
+  <br>
+  <br>
+  <br>
+  <strong>
+   #游戏更新顺序
+   <br>
+  </strong>
+  <hr class="l">
+  <font color="#2e8b57">
+   <strong>
+    ##load
+   </strong>
+  </font>
+  众所周知在load的时候是检测不到玩家的，那么在世界开始加载到玩家进入这段时间到底运行了几次tick或schedule呢
+  <br>
+  采用添加数据进data的方式，我们可以看看加载顺序是什么样子的
+  <br>
+  <br>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/rQ8PHK.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/rQ8PHK.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/rQ8CB6.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/rQ8CB6.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/rQ89nx.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/rQ89nx.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/rQ8Sj1.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/rQ8Sj1.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/rQJc0x.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/rQJc0x.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <br>
+  <br>
+  tick,load
+  <br>
+  tick_schedule,load_schedule,tick
+  <br>
+  load_schedule,tick_schedule,tick
+  <br>
+  load_schedule,tick_schedule,玩家进入(,tick...)
+  <br>
+  <br>
+  <br>
+  看起来gametick是在tick后schedule前刷新的，，
+  <strong>
+   <font color="#2e8b57">
+    ##tick
+   </font>
+  </strong>
+  <strong>
+   <font color="#2e8b57">
+    ##直接上图
+   </font>
+  </strong>
+  打算测试的触发方式有tick，advancements，循环型命令方块(RCB)，schedule，以及玩家触发的指令所有的指令都是以玩家的计分板不是233为前提条件运行的直接运行，能够得到大概的运行顺序
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/rudHMj.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/rudHMj.png" style="max-width: 100%;">
+  </div>
+  <br>
+  改一改输出，让它们能输出玩家的坐标
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruwZFK.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruwZFK.png" style="max-width: 100%;">
+  </div>
+  <br>
+  然后飞到万米高空掉下
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/rudTzQ.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/rudTzQ.png" style="max-width: 100%;">
+  </div>
+  <br>
+  tick得到y=9530.198schedule得到y=9530.198RCB得到y=9530.198advance 得到y=9530.198玩家执行命令现在我们基本上可以确定顺序了，玩家执行命令和游戏更新的顺序不清楚似乎并没有啥影响
+  <strong>
+   ？
+  </strong>
+  我觉得可以测出来再改进一下
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruwW6J.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruwW6J.png" style="max-width: 100%;">
+  </div>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/14/ruwHfO.png" loading="lazy" src="https://s3.ax1x.com/2020/12/14/ruwHfO.png" style="max-width: 100%;">
+  </div>
+  然后我测试了一下丢物品
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/ruTVKA.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/ruTVKA.png" style="max-width: 100%;">
+  </div>
+  <br>
+  发射器丢物品
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/ruTnVP.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/ruTnVP.png" style="max-width: 100%;">
+  </div>
+  <br>
+  <strong>
+   结果:
+  </strong>
+  <strong>
+   tick-&amp;gt;schedule-&amp;gt;发射器
+  </strong>
+  <strong>
+   丢东西出现Age
+  </strong>
+  <strong>
+   -&amp;gt;RCB-&amp;gt;advancement-&amp;gt;
+  </strong>
+  <strong>
+   (玩家命令-&amp;gt;玩家坐标更新)(实体Age更新-&amp;gt;玩家丢出的物品出现Age)
+  </strong>
+  <strong>
+   然后又测了一个，测试的方式是按钮加中继器配合两个命令方块改计分板控制开启检测并输出到data，懒得截图了，把结果放出来吧
+  </strong>
+  <div class="img">
+   <img data-change="true" data-old-url="https://s3.ax1x.com/2020/12/15/rQtKzQ.png" loading="lazy" src="https://s3.ax1x.com/2020/12/15/rQtKzQ.png" style="max-width: 100%;">
+  </div>
+  <br>
+  【gametick更新】schedule更新【发射器更新，红石中继器导致的命令方块更新】rcb更新【玩家按按钮导致的命令方块更新】advance更新玩家命令执行【药水云Age更新，玩家坐标更新，玩家丢物品更新】tick更新【下一个gametick更新...】
+  <br>
+  <strong>
+   #杂项
+   <br>
+  </strong>
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##性能与体验
+   </font>
+  </strong>
+  所有tick触发的函数的运行以性能为优先，尽可能使用计分板传参(见下的#data和scb的数据储存和利用)；玩家主动触发的函数一切以使用体验为优先，如果data方便就data来(因为玩家主动触发的通常不会太影响性能)，给玩家调整参数和值的东西以data为优先(因为方便找和查看)，必要的话可以搞专门的函数来显示和操作
+  <hr class="l">
+  <strong>
+   <font color="#2e8b57">
+    ##marker设置
+   </font>
+  </strong>
+  所有类型的marker，不管是药水云盔甲架物品展示框还是为了处理数据包放置的其它什么实体都好，统一加上Marker的tag以防止在kill的时候误杀
+  <br>
+  <br>
+  <br>
+  <br>
+  <strong>
+   #
+  </strong>
+  <strong>
+   各种存储或判断方式的性能测试
+  </strong>
+  <strong>
+   <br>
+  </strong>
+  <hr class="l">
+  <br>
+  <br>
+  <br>
+ </details>
+</div>
+        </div>
+    </div>
+
+    <div class="replies">
+        <h2>回复:</h2>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=702915&amp;nickname=">
+                        Jokey_钥匙                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=702915&amp;nickname=">
+                            Jokey_钥匙                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <font size="6">
+  数据包结构 、 各种存储或判断方式的性能测试、以及游戏更新顺序的测试
+ </font>
+ <br>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2020-12-14 13:10:57                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2337994&amp;nickname=">
+                        (=°ω°)丿                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2337994&amp;nickname=">
+                            (=°ω°)丿                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <div align="left">
+  <div align="center">
+   <font face="Tahoma, sans-serif">
+    <font color="#000000">
+     <font style="font-size:24px">
+      <strong>
+       本帖还有很多不完善的地方
+      </strong>
+     </font>
+    </font>
+   </font>
+  </div>
+ </div>
+ <div align="left">
+  <div align="center">
+   <font face="Tahoma, sans-serif">
+    <font color="#000000">
+     <font style="font-size:24px">
+      <strong>
+       欢迎提供移除、修改和补充的意见
+      </strong>
+     </font>
+    </font>
+   </font>
+  </div>
+ </div>
+ <div align="left">
+  <div align="center">
+   <font face="Tahoma, sans-serif">
+    <font color="#000000">
+     <font style="font-size:24px">
+      <strong>
+       本帖有许多零碎的东西，持续不定期更新
+      </strong>
+     </font>
+    </font>
+   </font>
+  </div>
+  <div align="center">
+   <div align="center">
+    <font face="Tahoma, sans-serif">
+     “
+    </font>
+    写写分别的特性和性能比较
+   </div>
+   <div align="center">
+    并写写在计算中的利用方式和一些技巧
+   </div>
+   <div align="center">
+    最重要的是给出你的
+    <font face="Tahoma, sans-serif">
+     data
+    </font>
+    规范
+    <font face="Tahoma, sans-serif">
+     ”
+    </font>
+   </div>
+   <div align="center">
+    <font face="Tahoma, sans-serif">
+     ——Xiao2
+    </font>
+   </div>
+  </div>
+  <div align="center">
+   <div align="left">
+    <strong>
+     <font color="#000000">
+      <font face="Tahoma, sans-serif">
+       <font style="font-size:18pt">
+        #
+       </font>
+      </font>
+      <font style="font-size:18pt">
+       写帖起因
+      </font>
+     </font>
+    </strong>
+   </div>
+   <div align="left">
+    我之前的数据包用
+    <font face="Tahoma, sans-serif">
+     data
+    </font>
+    用得挺少，函数之间传参也挺少的
+   </div>
+   <div align="left">
+    在搞第五版数据包的时候，打算模仿类的样子来写，然后第四版的
+    <font face="Tahoma, sans-serif">
+     basic
+    </font>
+    分成了底层和基本库两个数据包，底层用来处理各种不那么优雅的东西，然后基本库就可以写得更优雅一点了
+   </div>
+   <div align="left">
+    即使我在开始编写的时候心中有了大致的规范，但实际编写的过程中，随着函数的增多，数据包越来越乱，越来越不优雅，我意识到我可能需要把这些规范更加清楚地整理一下
+   </div>
+   <div align="left">
+    而且在写各种函数的时候由于函数允许的输入输出变多了很多，想兼顾效率和使用体验以及编辑体验以及可拓展性，，，，计分板和
+    <font face="Tahoma, sans-serif">
+     data(storage,entity,block)
+    </font>
+    的存储和使用各有优劣，搞的我头都大了，加上
+    <font face="Tahoma, sans-serif">
+     @Xiao2
+    </font>
+    的建议，就写了这个帖子（并进行了一些测试）
+   </div>
+   <div align="left">
+    然后测试越来越多。。。。
+   </div>
+  </div>
+ </div>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2020-12-19 14:29:52                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=3744204&amp;nickname=">
+                        加藤惠吖                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=3744204&amp;nickname=">
+                            加藤惠吖                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ <div align="center">
+  <font face="Tahoma, sans-serif">
+   <font color="#000000">
+    <font style="font-size:24px">
+     <strong>
+      本帖还有很多不完善的地方
+     </strong>
+    </font>
+   </font>
+  </font>
+ </div>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2020-12-20 02:18:35                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4130380&amp;nickname=">
+                        cctv6666                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4130380&amp;nickname=">
+                            cctv6666                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <font face="Tahoma, sans-serif">
+  <font color="#000000">
+   <font style="font-size:24px">
+    <strong>
+     本帖还有很多不完善的地方
+    </strong>
+   </font>
+  </font>
+ </font>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2021-07-14 22:15:27                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=740479&amp;nickname=">
+                        △＠←                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=740479&amp;nickname=">
+                            △＠←                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ <div align="center">
+  <font face="Tahoma, sans-serif">
+   <font color="#000000">
+    <font style="font-size:24px">
+     <strong>
+      欢迎提供移除、修改和补充的意见
+     </strong>
+    </font>
+   </font>
+  </font>
+ </div>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2021-07-15 03:31:05                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2644722&amp;nickname=">
+                        HIM传奇                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2644722&amp;nickname=">
+                            HIM传奇                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <font face="Tahoma, sans-serif">
+  <font color="#000000">
+   <font style="font-size:24px">
+    <strong>
+     欢迎提供移除、修改和补充的意见
+    </strong>
+   </font>
+  </font>
+ </font>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2021-11-25 10:50:09                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4569641&amp;nickname=">
+                        jiuanya                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4569641&amp;nickname=">
+                            jiuanya                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ <div align="center">
+  <font face="Tahoma, sans-serif">
+   <font color="#000000">
+    <font style="font-size:24px">
+     <strong>
+      本帖有许多零碎的东西，持续不定期更新
+     </strong>
+    </font>
+   </font>
+  </font>
+ </div>
+ <div align="center">
+  <div align="center">
+   <font face="Tahoma, sans-serif">
+    “
+   </font>
+   写写分别的特性和性能比较
+  </div>
+  <div align="center">
+   并写写在计算中的利用方式和一些技巧
+  </div>
+  <div align="center">
+   最重要的是给出你的
+   <font face="Tahoma, sans-serif">
+    data
+   </font>
+   规范
+   <font face="Tahoma, sans-serif">
+    ”
+   </font>
+  </div>
+  <div align="center">
+   <font face="Tahoma, sans-serif">
+    ——Xiao2
+   </font>
+  </div>
+ </div>
+ <div align="center">
+  <div align="left">
+   <strong>
+    <font color="#000000">
+     <font face="Tahoma, sans-serif">
+      <font style="font-size:18pt">
+       #
+      </font>
+     </font>
+     <font style="font-size:18pt">
+      写帖起因
+     </font>
+    </font>
+   </strong>
+  </div>
+  <div align="left">
+   我之前的数据包用
+   <font face="Tahoma, sans-serif">
+    data
+   </font>
+   用得挺少，函数之间传参也挺少的
+  </div>
+  <div align="left">
+   在搞第五版数据包的时候，打算模仿类的样子来写，然后第四版的
+   <font face="Tahoma, sans-serif">
+    basic
+   </font>
+   分成了底层和基本库两个数据包，底层用来处理各种不那么优雅的东西，然后基本库就可以写得更优雅一点了
+  </div>
+  <div align="left">
+   即使我在开始编写的时候心中有了大致的规范，但实际编写的过程中，随着函数的增多，数据包越来越乱，越来越不优雅，我意识到我可能需要把这些规范更加清楚地整理一下
+  </div>
+  <div align="left">
+   而且在写各种函数的时候由于函数允许的输入输出变多了很多，想兼顾效率和使用体验以及编辑体验以及可拓展性，，，，计分板和
+   <font face="Tahoma, sans-serif">
+    data(storage,entity,block)
+   </font>
+   的存储和使用各有优劣，搞的我头都大了，加上
+   <font face="Tahoma, sans-serif">
+    @Xiao2
+   </font>
+   的建议，就写了这个帖子（并进行了一些测试）
+  </div>
+  <div align="left">
+   然后测试越来越多。。。。
+  </div>
+ </div>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2021-12-04 23:15:29                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4081761&amp;nickname=">
+                        神乐丢丢                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4081761&amp;nickname=">
+                            神乐丢丢                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <font face="Tahoma, sans-serif">
+  <font color="#000000">
+   <font style="font-size:24px">
+    <strong>
+     本帖有许多零碎的东西，持续不定期更新
+    </strong>
+   </font>
+  </font>
+ </font>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2021-12-08 13:08:29                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2241510&amp;nickname=">
+                        Dream·轩°                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2241510&amp;nickname=">
+                            Dream·轩°                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <div align="center">
+  <font face="Tahoma, sans-serif">
+   “
+  </font>
+  写写分别的特性和性能比较
+ </div>
+ <div align="center">
+  并写写在计算中的利用方式和一些技巧
+ </div>
+ <div align="center">
+  最重要的是给出你的
+  <font face="Tahoma, sans-serif">
+   data
+  </font>
+  规范
+  <font face="Tahoma, sans-serif">
+   ”
+  </font>
+ </div>
+ <div align="center">
+  <font face="Tahoma, sans-serif">
+   ——Xiao2
+  </font>
+ </div>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2021-12-08 17:37:56                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2806216&amp;nickname=">
+                        白纸君123                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2806216&amp;nickname=">
+                            白纸君123                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <font face="Tahoma, sans-serif">
+  “
+ </font>
+ 写写分别的特性和性能比较
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-02-09 03:15:16                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=3159095&amp;nickname=">
+                        心伤丶泪                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=3159095&amp;nickname=">
+                            心伤丶泪                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ 并写写在计算中的利用方式和一些技巧
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-02-13 05:04:20                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=1139173&amp;nickname=">
+                        luludde                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=1139173&amp;nickname=">
+                            luludde                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ 最重要的是给出你的
+ <font face="Tahoma, sans-serif">
+  data
+ </font>
+ 规范
+ <font face="Tahoma, sans-serif">
+  ”
+ </font>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-02-13 09:21:10                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4679112&amp;nickname=">
+                        雾帆梵                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4679112&amp;nickname=">
+                            雾帆梵                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <font face="Tahoma, sans-serif">
+  ——Xiao2
+ </font>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-03-15 10:06:26                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=1371386&amp;nickname=">
+                        x_sonner                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=1371386&amp;nickname=">
+                            x_sonner                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="center">
+ <div align="left">
+  <strong>
+   <font color="#000000">
+    <font face="Tahoma, sans-serif">
+     <font style="font-size:18pt">
+      #
+     </font>
+    </font>
+    <font style="font-size:18pt">
+     写帖起因
+    </font>
+   </font>
+  </strong>
+ </div>
+ <div align="left">
+  我之前的数据包用
+  <font face="Tahoma, sans-serif">
+   data
+  </font>
+  用得挺少，函数之间传参也挺少的
+ </div>
+ <div align="left">
+  在搞第五版数据包的时候，打算模仿类的样子来写，然后第四版的
+  <font face="Tahoma, sans-serif">
+   basic
+  </font>
+  分成了底层和基本库两个数据包，底层用来处理各种不那么优雅的东西，然后基本库就可以写得更优雅一点了
+ </div>
+ <div align="left">
+  即使我在开始编写的时候心中有了大致的规范，但实际编写的过程中，随着函数的增多，数据包越来越乱，越来越不优雅，我意识到我可能需要把这些规范更加清楚地整理一下
+ </div>
+ <div align="left">
+  而且在写各种函数的时候由于函数允许的输入输出变多了很多，想兼顾效率和使用体验以及编辑体验以及可拓展性，，，，计分板和
+  <font face="Tahoma, sans-serif">
+   data(storage,entity,block)
+  </font>
+  的存储和使用各有优劣，搞的我头都大了，加上
+  <font face="Tahoma, sans-serif">
+   @Xiao2
+  </font>
+  的建议，就写了这个帖子（并进行了一些测试）
+ </div>
+ <div align="left">
+  然后测试越来越多。。。。
+ </div>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-03-17 10:06:47                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4306665&amp;nickname=">
+                        WX-孤念                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4306665&amp;nickname=">
+                            WX-孤念                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ <strong>
+  <font color="#000000">
+   <font face="Tahoma, sans-serif">
+    <font style="font-size:18pt">
+     #
+    </font>
+   </font>
+   <font style="font-size:18pt">
+    写帖起因
+   </font>
+  </font>
+ </strong>
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-03-24 06:31:24                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2696026&amp;nickname=">
+                        1287454619                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2696026&amp;nickname=">
+                            1287454619                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ 我之前的数据包用
+ <font face="Tahoma, sans-serif">
+  data
+ </font>
+ 用得挺少，函数之间传参也挺少的
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-04-16 17:14:25                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2663122&amp;nickname=">
+                        Dahesor                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2663122&amp;nickname=">
+                            Dahesor                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ 在搞第五版数据包的时候，打算模仿类的样子来写，然后第四版的
+ <font face="Tahoma, sans-serif">
+  basic
+ </font>
+ 分成了底层和基本库两个数据包，底层用来处理各种不那么优雅的东西，然后基本库就可以写得更优雅一点了
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-04-21 03:50:45                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4128775&amp;nickname=">
+                        罗兰络兰洛                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4128775&amp;nickname=">
+                            罗兰络兰洛                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ 即使我在开始编写的时候心中有了大致的规范，但实际编写的过程中，随着函数的增多，数据包越来越乱，越来越不优雅，我意识到我可能需要把这些规范更加清楚地整理一下
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-04-21 07:17:57                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2884722&amp;nickname=">
+                        噬火Fs                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=2884722&amp;nickname=">
+                            噬火Fs                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ 而且在写各种函数的时候由于函数允许的输入输出变多了很多，想兼顾效率和使用体验以及编辑体验以及可拓展性，，，，计分板和
+ <font face="Tahoma, sans-serif">
+  data(storage,entity,block)
+ </font>
+ 的存储和使用各有优劣，搞的我头都大了，加上
+ <font face="Tahoma, sans-serif">
+  @Xiao2
+ </font>
+ 的建议，就写了这个帖子（并进行了一些测试）
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-06-18 14:23:48                    </p>
+                </div>
+            </div>
+                    <div class="reply-container">
+                <div class="reply-user">
+                    <img src="./1143275_files/FpcIZ7q54AQxlLr.png" height="80" width="80" alt="Avatar" class="avatar"> <!-- 固定头像 URL --><br>
+                    <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4257728&amp;nickname=">
+                        花化时烟雨                    </a>
+                </div>
+                <div class="reply-content">
+                    <p class="reply-user">
+                        <a class="user" href="https://archives.mcbbs.co/user_query.php?uid=4257728&amp;nickname=">
+                            花化时烟雨                        </a>
+                    </p>
+                    <div class="reply-text">
+                        <div align="left">
+ 然后测试越来越多。。。。
+</div>
+                    </div>
+                    <p class="reply-timestamp">
+                        2022-06-19 07:47:05                    </p>
+                </div>
+            </div>
+            </div>
+</div>
+
+<style>
+.user{
+    color:black;
+}
+
+.post-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.author, .timestamp, .class {
+    font-size: 1.6em;
+    color: #555;
+}
+
+.author a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.author a:hover {
+    text-decoration: underline;
+}
+
+
+.replies {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.reply-container {
+    display: flex;
+    margin-bottom: 20px; /* Space between replies */
+}
+
+.reply-user {
+    width: 100px; /* Fixed width for user info and avatar */
+    padding: 10px;
+    border-right: 2px solid #ddd; /* Divider line */
+    text-align: center;
+}
+
+.reply-user .avatar {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.reply-content {
+    flex: 1; /* Take up remaining space */
+    padding: 10px;
+}
+
+.reply-text {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px #0000001a;
+    font-size: 1.1em;
+}
+
+.reply-timestamp {
+    font-size: 0.9em;
+    color: #666;
+}
+</style>
+
+</div>
+        </div>
+        <style>
+            .mc_map_border_foot {
+                float: left;
+                width: 1130px;
+                height: 59px;
+                background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABGkAAAA7CAYAAADIHddEAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkZCNTM5MEI3MTc4MDExRTc4M0E1REYwN0MyOUJCMTA4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkZCNTM5MEI4MTc4MDExRTc4M0E1REYwN0MyOUJCMTA4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkI1MzkwQjUxNzgwMTFFNzgzQTVERjA3QzI5QkIxMDgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RkI1MzkwQjYxNzgwMTFFNzgzQTVERjA3QzI5QkIxMDgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4nJGMOAAADNklEQVR42uzdsWpTURjA8XulQyBCQwfJYHVwsUsliPgs4hvo7itI3Tv0CXyCPkQpJdilIjhoHYJDiWAgYvAKBUFyznC4N0k/9PdbCh9Jb8rt9OfcL/Xd7aqploz6veVRtTfcqdqazubJ7PD0pAIAAADo6suHs2R2fv4ume3vPyp63fHBUTIbZFpJqYvJVTIbZ1rJLbcSAAAA4OaJNAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAYg0AAAAAAGINAAAAAABiDQAAAAAAWxt4iLb/dvJ7OWTp8ns8PTEHQEAAAA25vjgKJnlOkZVLdb+WZykAQAAAAhApAEAAAAIQKQBAAAACECkAQAAAAigeHHwxeQqme0Nd1pf2DJhAAAAYJNeP3+RzPJLgtvL9ZNSTtIAAAAABCDSAAAAAAQg0gAAAAAEED7S/Jz/cJcAAACATn4tFuE/Y900TTLcHdTJcNTvJa8rXRzclO8nTnybffefBAAAAHTWZUlwXZVFntzi4PFsnswup029PPO4EwAAAEAAIg0AAABAACINAAAAQAAiDQAAAEAAW13enFuGU7pMuFTJUp/S5T0AAADAv6npljhayXWRLpykAQAAAAhApAEAAAAIQKQBAAAACECkAQAAAAggu1XnctrUy7PdQd0sz0b9XvLem1jUAwAAALBOpb1jPJsns1xnyXGSBgAAACAAkQYAAAAgAJEGAAAAIACRBgAAACCAumma1m8uXSZc6uHwTrs/olq4kwAAAPAfa/tFRu8nX1tfs8uS4BwnaQAAAAACEGkAAAAAAhBpAAAAAAIQaQAAAAAC6LQ4+G+vHt+//vn24+eiX9hlwTAAAADAuuQWAuc8e3Dveknwm7NPK7mukzQAAAAAAazsJM0fua/lznGSBgAAAIio9CRNl6/bznGSBgAAACAAkQYAAAAggJU/7lSq9LEoAAAAgE1a9WNMpZykAQAAAAhApAEAAAAIQKQBAAAACECkAQAAAAjgtwADAALdf4aSW6GMAAAAAElFTkSuQmCC) center center no-repeat;
+                background-size: 1130px 59px;
+            }
+
+            #ft {
+                padding: 10px 0 20px;
+                line-height: 1.8;
+                color: #fff;
+                border: none;
+                font-size: 14px;
+            }
+
+            #ft a {
+                color: #fff;
+                font-size: 14px;
+            }
+		#mc_map_border_right {
+            position: relative; /* 确保其子元素可以相对定位 */
+        }
+        #top-button {
+            display: none; /* 初始隐藏按钮 */
+            position: fixed;
+            bottom: 20px;
+            right: 10%;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        #top-button:hover {
+            background-color: #111;
+        }
+        </style>
+        <div class="mc_map_border_foot"></div>
+    </div>
+    
+    <div style="width:100%;margin-top:-20px;background:url(&#39;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKTWlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVN3WJP3Fj7f92UPVkLY8LGXbIEAIiOsCMgQWaIQkgBhhBASQMWFiApWFBURnEhVxILVCkidiOKgKLhnQYqIWotVXDjuH9yntX167+3t+9f7vOec5/zOec8PgBESJpHmomoAOVKFPDrYH49PSMTJvYACFUjgBCAQ5svCZwXFAADwA3l4fnSwP/wBr28AAgBw1S4kEsfh/4O6UCZXACCRAOAiEucLAZBSAMguVMgUAMgYALBTs2QKAJQAAGx5fEIiAKoNAOz0ST4FANipk9wXANiiHKkIAI0BAJkoRyQCQLsAYFWBUiwCwMIAoKxAIi4EwK4BgFm2MkcCgL0FAHaOWJAPQGAAgJlCLMwAIDgCAEMeE80DIEwDoDDSv+CpX3CFuEgBAMDLlc2XS9IzFLiV0Bp38vDg4iHiwmyxQmEXKRBmCeQinJebIxNI5wNMzgwAABr50cH+OD+Q5+bk4eZm52zv9MWi/mvwbyI+IfHf/ryMAgQAEE7P79pf5eXWA3DHAbB1v2upWwDaVgBo3/ldM9sJoFoK0Hr5i3k4/EAenqFQyDwdHAoLC+0lYqG9MOOLPv8z4W/gi372/EAe/tt68ABxmkCZrcCjg/1xYW52rlKO58sEQjFu9+cj/seFf/2OKdHiNLFcLBWK8ViJuFAiTcd5uVKRRCHJleIS6X8y8R+W/QmTdw0ArIZPwE62B7XLbMB+7gECiw5Y0nYAQH7zLYwaC5EAEGc0Mnn3AACTv/mPQCsBAM2XpOMAALzoGFyolBdMxggAAESggSqwQQcMwRSswA6cwR28wBcCYQZEQAwkwDwQQgbkgBwKoRiWQRlUwDrYBLWwAxqgEZrhELTBMTgN5+ASXIHrcBcGYBiewhi8hgkEQcgIE2EhOogRYo7YIs4IF5mOBCJhSDSSgKQg6YgUUSLFyHKkAqlCapFdSCPyLXIUOY1cQPqQ28ggMor8irxHMZSBslED1AJ1QLmoHxqKxqBz0XQ0D12AlqJr0Rq0Hj2AtqKn0UvodXQAfYqOY4DRMQ5mjNlhXIyHRWCJWBomxxZj5Vg1Vo81Yx1YN3YVG8CeYe8IJAKLgBPsCF6EEMJsgpCQR1hMWEOoJewjtBK6CFcJg4Qxwicik6hPtCV6EvnEeGI6sZBYRqwm7iEeIZ4lXicOE1+TSCQOyZLkTgohJZAySQtJa0jbSC2kU6Q+0hBpnEwm65Btyd7kCLKArCCXkbeQD5BPkvvJw+S3FDrFiOJMCaIkUqSUEko1ZT/lBKWfMkKZoKpRzame1AiqiDqfWkltoHZQL1OHqRM0dZolzZsWQ8ukLaPV0JppZ2n3aC/pdLoJ3YMeRZfQl9Jr6Afp5+mD9HcMDYYNg8dIYigZaxl7GacYtxkvmUymBdOXmchUMNcyG5lnmA+Yb1VYKvYqfBWRyhKVOpVWlX6V56pUVXNVP9V5qgtUq1UPq15WfaZGVbNQ46kJ1Bar1akdVbupNq7OUndSj1DPUV+jvl/9gvpjDbKGhUaghkijVGO3xhmNIRbGMmXxWELWclYD6yxrmE1iW7L57Ex2Bfsbdi97TFNDc6pmrGaRZp3mcc0BDsax4PA52ZxKziHODc57LQMtPy2x1mqtZq1+rTfaetq+2mLtcu0W7eva73VwnUCdLJ31Om0693UJuja6UbqFutt1z+o+02PreekJ9cr1Dund0Uf1bfSj9Rfq79bv0R83MDQINpAZbDE4Y/DMkGPoa5hpuNHwhOGoEctoupHEaKPRSaMnuCbuh2fjNXgXPmasbxxirDTeZdxrPGFiaTLbpMSkxeS+Kc2Ua5pmutG003TMzMgs3KzYrMnsjjnVnGueYb7ZvNv8jYWlRZzFSos2i8eW2pZ8ywWWTZb3rJhWPlZ5VvVW16xJ1lzrLOtt1ldsUBtXmwybOpvLtqitm63Edptt3xTiFI8p0in1U27aMez87ArsmuwG7Tn2YfYl9m32zx3MHBId1jt0O3xydHXMdmxwvOuk4TTDqcSpw+lXZxtnoXOd8zUXpkuQyxKXdpcXU22niqdun3rLleUa7rrStdP1o5u7m9yt2W3U3cw9xX2r+00umxvJXcM970H08PdY4nHM452nm6fC85DnL152Xlle+70eT7OcJp7WMG3I28Rb4L3Le2A6Pj1l+s7pAz7GPgKfep+Hvqa+It89viN+1n6Zfgf8nvs7+sv9j/i/4XnyFvFOBWABwQHlAb2BGoGzA2sDHwSZBKUHNQWNBbsGLww+FUIMCQ1ZH3KTb8AX8hv5YzPcZyya0RXKCJ0VWhv6MMwmTB7WEY6GzwjfEH5vpvlM6cy2CIjgR2yIuB9pGZkX+X0UKSoyqi7qUbRTdHF09yzWrORZ+2e9jvGPqYy5O9tqtnJ2Z6xqbFJsY+ybuIC4qriBeIf4RfGXEnQTJAntieTE2MQ9ieNzAudsmjOc5JpUlnRjruXcorkX5unOy553PFk1WZB8OIWYEpeyP+WDIEJQLxhP5aduTR0T8oSbhU9FvqKNolGxt7hKPJLmnVaV9jjdO31D+miGT0Z1xjMJT1IreZEZkrkj801WRNberM/ZcdktOZSclJyjUg1plrQr1zC3KLdPZisrkw3keeZtyhuTh8r35CP5c/PbFWyFTNGjtFKuUA4WTC+oK3hbGFt4uEi9SFrUM99m/ur5IwuCFny9kLBQuLCz2Lh4WfHgIr9FuxYji1MXdy4xXVK6ZHhp8NJ9y2jLspb9UOJYUlXyannc8o5Sg9KlpUMrglc0lamUycturvRauWMVYZVkVe9ql9VbVn8qF5VfrHCsqK74sEa45uJXTl/VfPV5bdra3kq3yu3rSOuk626s91m/r0q9akHV0IbwDa0b8Y3lG19tSt50oXpq9Y7NtM3KzQM1YTXtW8y2rNvyoTaj9nqdf13LVv2tq7e+2Sba1r/dd3vzDoMdFTve75TsvLUreFdrvUV99W7S7oLdjxpiG7q/5n7duEd3T8Wej3ulewf2Re/ranRvbNyvv7+yCW1SNo0eSDpw5ZuAb9qb7Zp3tXBaKg7CQeXBJ9+mfHvjUOihzsPcw83fmX+39QjrSHkr0jq/dawto22gPaG97+iMo50dXh1Hvrf/fu8x42N1xzWPV56gnSg98fnkgpPjp2Snnp1OPz3Umdx590z8mWtdUV29Z0PPnj8XdO5Mt1/3yfPe549d8Lxw9CL3Ytslt0utPa49R35w/eFIr1tv62X3y+1XPK509E3rO9Hv03/6asDVc9f41y5dn3m978bsG7duJt0cuCW69fh29u0XdwruTNxdeo94r/y+2v3qB/oP6n+0/rFlwG3g+GDAYM/DWQ/vDgmHnv6U/9OH4dJHzEfVI0YjjY+dHx8bDRq98mTOk+GnsqcTz8p+Vv9563Or59/94vtLz1j82PAL+YvPv655qfNy76uprzrHI8cfvM55PfGm/K3O233vuO+638e9H5ko/ED+UPPR+mPHp9BP9z7nfP78L/eE8/sl0p8zAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAADuSURBVHjazJcxFsMwCENzGk+ZYPT9z+VOzntVnypom8LAkITYP0LB9mFmy8zWeZ5vY+fNOZ9ijLHGGNd1dryjDQCbAIMNyPI3IM6z3+sDsBNxYHYfJ0Zp2Yfh/T4ALAEBVb4yHzVhGwBlNhXKxGjOegAmTVRaViL2HubVA6A0+4G7L3d/GYjlq9+PlqAcICs5C9WwWIn7AKhlNtpqs9EHICt59vdDE6d3RLcDoJSqxTLzMalZ6eoBmIQoZdR80byrEZUDfGpCVZqfnwtuB4g2DgWMplSl6APw7eZSmTJ8NPs7QHSZzW5EwstxNcBjAN7VStewqIt0AAAAAElFTkSuQmCC&#39;) 0 0 repeat;padding-top:50px;">
+        <div id="ft" class="wp cl">
+            <div class="z" style="margin-left:40px; width:400px;">
+                <span id="hitokoto">Man, what can I say? MCBBS archive back! -- Bobe Kryant</span><br>
+                <span id="csi_siteseal_tag" oncontextmenu="if (!window.__cfRLUnblockHandlers) return false; return false;" data-cf-modified-a394bd7c22217de85af7eb51-="">
+                    <a id="csi_siteseal_profile_link">
+                        <img decoding="async" alt="en_dark_typeB_130x66.png" id="csi_siteseal_image" width="130" height="66" src="./1143275_files/read.php" style="display: none">
+                    </a>
+                </span>
+            </div>
+            <div id="flk" class="y">
+                <p>
+                    <a href="https://www.mcbbs.co/archiver/">Archiver</a><span class="pipe">|</span><a href="https://www.mcbbs.co/forum.php?mod=misc&amp;action=showdarkroom">小黑屋</a><span class="pipe">|</span> <strong><a href="https://www.mcbbs.co/" target="_blank">MCBBS纪念版 - 旧贴存档</a></strong>
+                    <span class="pipe">|</span>
+                    <a href="https://www.mcbbs.co/privacy_policy.html" target="_blank">隐私政策</a> |
+                    <a href="https://archives.mcbbs.co/index_mobile.html">手机版</a>
+                </p>
+                <p>"<a href="https://www.minecraft.net/" target="_blank">Minecraft</a>"以及"我的世界"为美国微软公司的商标 本站与微软公司没有从属关系
+                </p>
+                <p>© 2010-2024 <a href="https://archives.mcbbs.co/" target="_blank">MCBBS帖子存档</a> 版权没有 本站内原创内容版权属于其原创作者，除作者或版规特别声明外未经许可不得转载</p>
+            </div>
+        </div>
+    </div>
+    <!-- 返回顶部按钮 -->
+    <button id="top-button" title="返回顶部" style="display: block;">返回顶部</button>
+
+    <script src="./1143275_files/hm.js"></script><script>
+        // 获取按钮
+        var topButton = document.getElementById("top-button");
+
+        // 当用户滚动到一定高度时，显示按钮
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                topButton.style.display = "block";
+            } else {
+                topButton.style.display = "none";
+            }
+        }
+
+        // 当用户点击按钮时，返回顶部
+        topButton.addEventListener('click', function() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        });
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?58b7e5678cd14f9ac50aba5dbe5957af";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+</body></html>
