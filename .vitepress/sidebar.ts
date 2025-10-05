@@ -115,6 +115,7 @@ export const sidebar: DefaultTheme.Sidebar = [
       { text: '附录4：杂项', link: '/index/附录4' },
       { text: '附录5：《拾尘》系列原版模组图文教程', link: '/index/附录5' },
       { text: '附录6：失效索引链接整理', link: '/index/附录6' },
+      { text: '附录7：轩宇1725的着色器入门教程', link: '/index/附录7' },
       { text: '技术性更新日志', link: '/index/changelog' }
     ]
   },

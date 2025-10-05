@@ -7,7 +7,12 @@ title: '适用于Minecraft的前端框架——Floating UI'
     import {config} from '/.vitepress/MCFPPNBTParser.ts';
 
     config.namespace = "floating_ui"
+
 </script>
+
+
+
+
 
 <FeaturedHead
     title = '适用于Minecraft的前端框架——Floating UI'
@@ -92,7 +97,7 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
 
 <div class="nbttree">
 
-<node type="compound" name="basecontrol" />所有非文本组件UI控件的基类
+<node type="compound" name="basecontrol" />所有控件的基类
 - <node type="string" name="type" />控件的类型
 - <node type="double" name="x" />x坐标。原点是正中央
 - <node type="double" name="y" />y坐标。原点是正中央
@@ -137,7 +142,7 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
 - <node type="homolist" name="tag" />控件的标签
 - <node type="homolist" name="anims" />
   - <node type="compound" name="（列表元素）" colon=false />
-  <details><summary>动画共通标签</summary>
+    <details><summary>动画共通标签</summary>
 
     - <node type="homolist" name="value" />动画的目标键值对
       - <node type="compound" name="（列表元素）" colon=false />
@@ -150,7 +155,7 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
     - <node type="float" name="time" />动画持续时间
     - <node type="string" name="start" />事件。动画开始的时候触发。
     - <node type="string" name="end" />事件。动画结束的时候触发。
-   </details>
+    </details>
 - <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
 - <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
 - <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
@@ -173,21 +178,21 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
 
 在创建控件以后，还可以访问到的额外数据有：
 
-<NBTTree code='
-@Desc<"所有非文本组件UI控件的基类">
-data control{
-    @Desc<"这个控件可能的所有子控件的UUID数组列表。"> x as list<any>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="control" />所有非文本组件UI控件的基类
+- <node type="homolist" name="x" />这个控件可能的所有子控件的UUID数组列表。
+
+</div>
 
 `textcontrol`是文本控件的父类，包含了一些基本的属性。由于文本展示实体难以储存自定义信息，因此textcontrol分为两个marker和文本展示实体两个实体组成，其中marker用于储存信息，同时也是UI界面节点的组成部分。可以通过marker访问到对应的文本展示实体。
 
-<NBTTree code='
-@Desc<"所有文本组件UI控件的基类">
-data textcontrol: BaseControl{
-    @Desc<"字体的大小。仅用于输入"> fontsize as float;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="textcontrol" />所有非文本组件UI控件的基类
+
+
+</div>
 
 在创建文本控件以后，还可以访问到的额外数据有：
 

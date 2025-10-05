@@ -321,8 +321,9 @@
 
 .nbttree ul {
   list-style: none;
-  padding: 0px 0px 0px 10px;
-  margin-top: 0.8em;
+  padding: 0px 0px 0px 0.7em;
+  margin-top: 0.4em;
+  margin-bottom: 0.8em;
   line-height: 1.6; /* 控制行高一致 */
   box-sizing: border-box;
 }
@@ -337,22 +338,10 @@
 
 
 /* 绘制连接线：从当前 li 顶部到底部的竖线 */
-.nbttree li:not(:last-child)::after {
+.nbttree li::after{
   content: '';
   position: absolute;
   left: 0;
-  top: -0.8em;
-  bottom: -0.8em;
-  border-left: 1px solid #000;
-  box-sizing: border-box;
-}
-
-.nbttree li:last-child::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: -0.8em;
-  height: 1.5em;
   border-left: 1px solid #000;
   box-sizing: border-box;
 }
@@ -360,6 +349,17 @@
 .dark .nbttree li::after{
   border-left: 1px solid #fff;
 }
+
+.nbttree li:not(:last-child)::after {
+  top: -0.8em;
+  bottom: -0.8em;
+}
+
+.nbttree li:last-child::after {
+  top: -0.8em;
+  height: 1.5em;
+}
+
 
 /* 连接符：├─ 或 └─ */
 .nbttree li::before {
@@ -378,7 +378,6 @@
 
 /* 确保文本换行后也能缩进对齐 */
 .nbttree li > span {
-  
   word-break: break-word;
   
   /* 保证换行后其他行正常缩进 */
@@ -391,10 +390,10 @@
   padding: 0px 0px 0px 0px;
   position: relative;
   width:100%;
-  top:-16px;
+  top:0px;
   background-color: #DAF3FF;
   border-radius: 0px;
-  margin-bottom: -16px;
+  margin-bottom: 0px;
 }
 
 
@@ -404,7 +403,8 @@
 
 /* summary 标签样式 */
 .nbttree details > summary {
-  padding: 0px 0px 0px 32px;
+  padding: 4px 0px 0px 32px;
+  margin-top:0px;
   font-weight: bold;
   cursor: pointer;
   list-style: none; /* 移除默认的三角标记 */
@@ -438,10 +438,52 @@
 
 /* 展开内容的样式 */
 .nbttree details[open] > :not(summary) {
-  margin-top: 10px;
+  margin-top: 4px;
+}
+
+/* 连接线 */
+.nbttree details::after{
+  content: '';
+  position: absolute;
+  left: 0.7em;
+  top: 0em;
+  height: 1.8em;
+  border-left: 1px solid #000;
+  box-sizing: border-box;
+}
+
+.nbttree details + details::after{
+  content: '';
+  position: absolute;
+  left: 10pxem;
+  top: -1em;
+  height: 2.8em;
+  border-left: 1px solid #000;
+  box-sizing: border-box;
+}
+
+
+.nbttree details:not([open]):last-child::after{
+  top: 0em;
+  height: 1.8em;
+  border-left: 1px dashed #000;
+}
+
+.dark .nbttree details::after{
+  border-left: 1px solid #fff;
 }
 
 /* 处理nbt树空开的一行 */
-.nbttree details > ul > li:first-child::after {
+.nbttree details + ul > li:first-child::after {
   top: -2.2em;
+  bottom: -0.8em;
 }
+
+.nbttree details > ul > li:first-child::after {
+  top: -1.6em;
+}
+
+.nbttree ul + details > ul > li:first-child::after {
+  top: -1.6em;
+}
+

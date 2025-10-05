@@ -18,7 +18,12 @@ import NBTDefine from '../vue/NBTDefine.vue'
 import Node from '../vue/Node.vue'
 
 
+
 import 'katex/dist/katex.min.css'
+import { reactive, watch } from 'vue'
+
+
+const globalDataStore = reactive({})
 
 export default {
   extends: DefaultTheme,
