@@ -64,7 +64,8 @@
     `Also try <a href=http://underline.icu/ target="_blank">Underline</a>!`,
     `你知道吗：如果《Feature》发布时视频还未做好，点击封面会链接到CR_019的动态页面`,
     `关注<a href=https://space.bilibili.com/85292644 target="_blank">CR_019</a>喵，关注<a href=https://space.bilibili.com/85292644 target="_blank">CR_019</a>谢谢喵！`,
-    `关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>喵，关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>谢谢喵！`
+    `关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>喵，关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>谢谢喵！`,
+    `Expected a list, a list, a list, a list, a list, a list, a list, a list, a list, or a list.`
   ];
   
   // 用于存储选中的段落
