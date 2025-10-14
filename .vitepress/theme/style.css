@@ -157,6 +157,16 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+
+.vp-doc pre, .vp-doc code {
+  white-space: pre-wrap !important;   /* 允许换行，保留空格 */
+  word-break: break-word;             /* 允许长单词断行 */
+  word-wrap: break-word;              /* 同上，兼容性更好 */
+  overflow-x: auto;                   /* 可选：保留横向滚动作为 fallback */
+}
+
+
+
 /* 使图片浮动到右侧 */
 .float-right-image img {
   float: right;
@@ -323,7 +333,7 @@
   list-style: none;
   padding: 0px 0px 0px 0.7em;
   margin-top: 0.4em;
-  margin-bottom: 0.8em;
+  margin-bottom: 0em;
   line-height: 1.6; /* 控制行高一致 */
   box-sizing: border-box;
 }
@@ -479,9 +489,6 @@
   bottom: -0.8em;
 }
 
-.nbttree details > ul > li:first-child::after {
-  top: -1.6em;
-}
 
 .nbttree ul + details > ul > li:first-child::after {
   top: -1.6em;

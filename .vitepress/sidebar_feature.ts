@@ -11,8 +11,8 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '最新',
     items: [
       {
-        text: '🌟2025.9月刊',
-        link: '/feature/index/202509'
+        text: '🌟2025.10',
+        link: '/feature/index/202510'
       },
     ]
   },
@@ -20,12 +20,12 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '',
     items: [
       {
-        text: '2025.8月刊',
-        link: '/feature/index/202508'
+        text: '2025.9',
+        link: '/feature/index/202509'
       },
       {
-        text: '2025.7月刊',
-        link: '/feature/index/202507'
+        text: '2025.8',
+        link: '/feature/index/202508'
       },
     ]
   },
@@ -33,17 +33,20 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '往期',
     collapsed: true,
     items: [
-      
       {
-        text: '2025.6月刊',
+        text: '2025.7',
+        link: '/feature/index/202507'
+      },
+      {
+        text: '2025.6',
         link: '/feature/index/202506'
       },
       {
-        text: '2025.5月刊',
+        text: '2025.5',
         link: '/feature/index/202505'
       },
       {
-        text: '2025.4月刊',
+        text: '2025.4',
         link: '/feature/index/202504'
       },
     ]
@@ -289,6 +292,7 @@ export const sidebar_202509: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202509' },
       { text: '上一刊', link: '/feature/index/202508' },
+      { text: '下一刊', link: '/feature/index/202510' },
     ]
   },
   {
@@ -317,6 +321,58 @@ export const sidebar_202509: DefaultTheme.Sidebar = [
       { text: '聊天栏卷轴式用户界面：历史背景与代码实现', link: '/feature/archive/202509/5/content' },
       { text: '命令中的实体锚点和执行锚点', link: '/feature/archive/202509/6/content' },
       { text: '数据包向资源包着色器传入参数', link: '/feature/archive/202509/7/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202510: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2025.10',
+    items: [
+      { text: '目录', link: '/feature/index/202510' },
+      { text: '上一刊', link: '/feature/index/202509' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202510/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '《MOT 无人机实例教程》摘要', link: '/feature/archive/202510/0/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Mojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2025年10月', link: '/feature/archive/202510/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '基于展示实体的一些巧思', link: '/feature/archive/202510/1/content' },
+      { text: '在MC的UI中实现数据绑定', link: '/feature/archive/202510/2/content' },
+      { text: '核心着色器的工作流程（中）：从顶点到片元', link: '/feature/archive/202510/3/content' },
+      { text: '坐标系与坐标参数相关的基础理论', link: '/feature/archive/202510/4/content' },
+      { text: '从 /stopwatch 开始: 与时间检测有关的一些胡思乱想', link: '/feature/archive/202510/5/content' },
+      { text: '杂谈 · 关于「像素画」的一些研究', link: '/feature/archive/202510/6/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '文本动画资源库', link: '/feature/archive/202510/7/content' },
+      { text: '迄今为止最搭配矛的魔咒！', link: '/feature/archive/202510/8/content' },
     ]
   },
   {

@@ -8,8 +8,6 @@
 ---
 
 最近收录：
-- [bookshelf中文文档](https://docs.mcbookshelf.dev/zh-cn/master/)
-- [IconifyCraft - ICON 字体资源包生成器](https://iconifycraft.vercel.app/)
 
 ---
 

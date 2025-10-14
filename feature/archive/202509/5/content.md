@@ -7,7 +7,8 @@ title: '聊天栏卷轴式用户界面：历史背景与代码实现'
     authorName = 皮革剑
     avatarUrl = '../../_authors/皮革剑.jpg'
     :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/2127740148' }
+        { name: 'BiliBili', url: 'https://space.bilibili.com/2127740148' },
+        { name: 'Github', url: 'https://github.com/LeatherSword/' }
     ]"
     cover='../_assets/5.png'
 />
