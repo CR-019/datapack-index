@@ -5,7 +5,7 @@ import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
 import anchor from "markdown-it-footnote";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
-import viteImagemin from 'vite-plugin-imagemin';
+
 import {
     sidebar_feature,
     sidebar_202504,
@@ -119,14 +119,7 @@ export default defineConfig({
         plugins: [
             nodePolyfills({
                 include: ["util"],
-            }),
-            viteImagemin({
-                gifsicle: { optimizationLevel: 3 },
-                optipng: { optimizationLevel: 7 },
-                mozjpeg: { quality: 80 },
-                pngquant: { quality: [0.6, 0.8] },
-                svgo: { plugins: [{ name: 'removeViewBox' }] },
-            }),
+            })
         ]
     },
 })
