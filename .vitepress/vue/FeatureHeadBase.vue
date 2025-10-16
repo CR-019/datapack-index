@@ -452,7 +452,7 @@ export default {
 }
 
 .author-name-link:hover {
-  color:var(--vp-c-brand-3);
+  color:#0550ae;
 }
 
 .dark .author-name-link {
@@ -461,7 +461,7 @@ export default {
 }
 
 .dark .author-name-link:hover {
-  color:var(--vp-c-brand-3);
+  color:#0550ae;
 }
 
 .author-name {

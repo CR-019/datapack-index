@@ -306,7 +306,7 @@ export default {
 }
 
 .author-link:hover .author-name{
-  color:var(--vp-c-brand-3);
+  color:#0550ae;
 }
 
 .avatar {
