@@ -20,7 +20,7 @@ features:
       src: /icons/sweetbarry_stew.png
     title: 图书馆上新
     details: 查看最近收录的资源
-    link: /index/_new
+    link: /feature/archive/202510/ifc/content
   - icon:
       src: /icons/echo_prism.png
     title: 《Feature》

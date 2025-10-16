@@ -305,12 +305,8 @@ export default {
   transition: background-color 0.2s ease; /* 背景过渡效果 */
 }
 
-.author-link:hover {
-  background-color: rgba(0, 0, 0, 0.05); /* 悬停时背景色 */
-}
-
-.dark .author-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.author-link:hover .author-name{
+  color:var(--vp-c-brand-3);
 }
 
 .avatar {

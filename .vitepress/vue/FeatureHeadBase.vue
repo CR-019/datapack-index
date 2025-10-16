@@ -451,9 +451,17 @@ export default {
   text-decoration: none;
 }
 
+.author-name-link:hover {
+  color:var(--vp-c-brand-3);
+}
+
 .dark .author-name-link {
   color: #ccc;
   text-decoration: none;
+}
+
+.dark .author-name-link:hover {
+  color:var(--vp-c-brand-3);
 }
 
 .author-name {
