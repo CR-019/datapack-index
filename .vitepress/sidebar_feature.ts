@@ -11,14 +11,18 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '最新',
     items: [
       {
-        text: '🌟2025.10',
-        link: '/feature/index/202510'
+        text: '🌟2025.11',
+        link: '/feature/index/202511'
       },
     ]
   },
   {
     text: '',
     items: [
+      {
+        text: '2025.10',
+        link: '/feature/index/202510'
+      },
       {
         text: '2025.9',
         link: '/feature/index/202509'
@@ -339,6 +343,7 @@ export const sidebar_202510: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202510' },
       { text: '上一刊', link: '/feature/index/202509' },
+      { text: '下一刊', link: '/feature/index/202511' },
     ]
   },
   {
@@ -373,6 +378,41 @@ export const sidebar_202510: DefaultTheme.Sidebar = [
     items: [
       { text: '文本动画资源库', link: '/feature/archive/202510/7/content' },
       { text: '迄今为止最搭配矛的魔咒！', link: '/feature/archive/202510/8/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202511: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2025.11',
+    items: [
+      { text: '目录', link: '/feature/index/202511' },
+      { text: '上一刊', link: '/feature/index/202510' },
+    ]
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '使用数据包制作编译器或解释器：以C语言子集C-Minus为例', link: '/feature/archive/202511/1/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '核心着色器的工作流程（下）', link: '/feature/archive/202511/2/content' },
+      { text: '队列在数据包中的使用', link: '/feature/archive/202511/3/content' },
+      { text: '基于按位操作及多进制编码的对话框多输入控件设计', link: '/feature/archive/202511/4/content' },
+      { text: '一种particle指令下的粒子定向发射方法与简单实例', link: '/feature/archive/202511/5/content' },
+      { text: '如何通过模型映射制作装弹动画？', link: '/feature/archive/202511/6/content' },
+
     ]
   },
   {
