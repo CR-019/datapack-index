@@ -51,13 +51,9 @@ export default {
 
     const initZoom = () => {
       // 只选择带有 data-md-img 的图片（即来自 Markdown 语法的）
-      const images = document.querySelectorAll('img[data-md-img]')
-      if (images.length) {
-        mediumZoom(images, {
-          background: 'var(--vp-c-bg)',
-          margin: 40
-        })
-      }
+      mediumZoom('img[data-md-img]', {
+        background: 'var(--vp-c-bg)'
+      })
     }
 
     initZoom()
