@@ -49,24 +49,36 @@ export default {
     app.component('ColorLine', ColorLine)
     app.component('node', Node)
 
-    const initZoom = () => {
-      // 只选择带有 data-md-img 的图片（即来自 Markdown 语法的）
-      mediumZoom('img[data-md-img]', {
-        background: 'var(--vp-c-bg)'
+    // 只在浏览器环境中执行 zoom 初始化
+    if (typeof window !== 'undefined') {
+      // 动态导入 medium-zoom（避免 SSR 报错）
+      import('medium-zoom').then(({ default: mediumZoom }) => {
+        const initZoom = () => {
+          // 仅对 Markdown 生成的图片（带 data-md-img）启用 zoom
+          const images = document.querySelectorAll('img[data-md-img]')
+          if (images.length) {
+            mediumZoom(images, {
+              background: 'var(--vp-c-bg)',
+              margin: 40
+            })
+          }
+        }
+
+        // 初次加载
+        initZoom()
+
+        // 路由切换后重新绑定
+        router.onAfterRouteChanged = () => {
+          // 清理旧实例（可选）
+          try {
+            const zoom = mediumZoom()
+            zoom.detach?.()
+          } catch (e) {
+            // ignore
+          }
+          setTimeout(initZoom, 100)
+        }
       })
-    }
-
-    initZoom()
-
-    router.onAfterRouteChanged = () => {
-      // 清理旧实例
-      try {
-        const zoom = mediumZoom()
-        zoom.detach?.()
-      } catch (e) {
-        // ignore
-      }
-      setTimeout(initZoom, 100)
     }
   }
 }
