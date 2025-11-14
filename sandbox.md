@@ -8,7 +8,7 @@
 ---
 
 最近收录：
-- [SlopeCraft - 地图画生成器](https://github.com/SlopeCraft/SlopeCraft)
+
 ---
 
 ↓暂时弃用的狐狐版nbt树

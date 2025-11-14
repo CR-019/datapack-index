@@ -3,7 +3,7 @@
       <!-- 封面大图 -->
       <div class="cover-container">
         <a v-if="coverLink" :href="coverLink" class="cover-link">
-          <img :src="cover" alt="本期封面" class="cover-image" />
+          <img :src="cover" alt="本期封面" class="cover-image"/>
         </a>
         <img v-else :src="cover" alt="本期封面" class="cover-image" />
       </div>

@@ -399,9 +399,19 @@ export const sidebar_202511: DefaultTheme.Sidebar = [
     ]
   },
   {
+    text: '封二',
+    link: '/feature/archive/202511/ifc/content'
+  },
+  {
     text: '精选 Featured',
     items: [
       { text: '使用数据包制作编译器或解释器：以C语言子集C-Minus为例', link: '/feature/archive/202511/1/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Mojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2025年11月', link: '/feature/archive/202511/spotlight/content' },
     ]
   },
   {

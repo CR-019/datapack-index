@@ -2,7 +2,7 @@
 title: '使用数据包制作编译器或解释器: 以C语言子集C-Minus为例'
 ---
 
-<FeatureHead
+<FeaturedHead
     title = '使用数据包制作编译器或解释器: 以C语言子集C-Minus为例'
     authorName = 皮革剑
     avatarUrl = '../../_authors/皮革剑.jpg'
@@ -11,6 +11,7 @@ title: '使用数据包制作编译器或解释器: 以C语言子集C-Minus为�
         { name: 'Github', url: 'https://github.com/LeatherSword/' }
     ]"
     resourceLink = 'https://www.planetminecraft.com/data-pack/in-game-c-minus-compiler-pack-programming-language/'
+    cover='../_assets/1.png'
 />
 
 ## 摘要
@@ -479,29 +480,21 @@ C系列语言的代码有作用域的区分，C-Minus要求我们实现这一特
 当然，我们也不会从一开始就全部在这个存储项中工作，而是会分成多层级的临时存储项:
 <div class="nbttree">
 
-<node type="compound" name="now-declaration"/> 正在进行中的变量声明的临时存储位置，格式同上。函数参数的声明以及if/while结构也会短暂使用该存储位。若识别为函数定义则该声明会被移动至 now-function 中。
-
-<node type="compound" name="now-function"/> 正在进行中的函数定义的临时存储位置。格式同上。C系语言不支持嵌套函数，因此该项不使用列表。完成定义后该函数会被移动至 variable 中。
-
-<node type="list" name="now-block"/> 仅用于代码块，存储代码块的一些过程信息，以便在识别结束时确定跳转位置。
-
-- <node type="compound" name=""/> 其中的一项。
-  - <node type="int" name="0"/> 该项用于while代码块，存储循环开始位置。代码块结束后会附加前往循环开始位置的跳转。
-  - <node type="int" name="1"/> 该项用于if和while代码块，存储判定位置。代码块结束后会将跳转行数附加到该项记录的行数处。
-  - <node type="bool" name="chain"/> 代码块内部是否有局部变量定义，这决定了代码块中是否需要新建作用域层级（新建作用域操作在局部变量定义的位置完成）。函数始终会由其调用的上一层新建作用域。
-
-<node type="list" name="now-variable"/> 正在定义的代码块的变量。由于嵌套代码块的存在，此处实现为列表（栈）。确定变量的作用域层级时以从后往前遍历该列表寻找变量定义。完成定义后该列表将被丢弃。
-
-- <node type="list" name=""/> 一个代码块的局部变量列表，格式同上。
-
-<node type="list" name="now-expression"/> 正在进行移进-归约分析的表达式。由于括号的存在，也实现为列表（栈）。理论上，当一个表达式到达其结尾位置时，该列表中应当只有1个元素。
-
-- <node type="compound" name="_"/> 表达式其中的一个元素。向内套一层以便进行一些匹配。运算符会自动与上一个元素合并。
-  - <node type="int" name=""/><node type="string" name="_"/> 变量的计分板名称。
-  - <node type="string" name=""/><node type="int" name="__"/> 变量的作用域偏移值。设为字符串"global"代表全局作用域，设为"temp"代表临时变量。
-  - <node type="byte" name="v"/> 运算符。
-
-<node type="list" name="now-codeline"/> 现在正在生成的中间代码行临时存储于此。该项为优化目的添加，也可不带此项，但有部分代码会更加繁琐。
+- <node type="compound" name="now-declaration"/> 正在进行中的变量声明的临时存储位置，格式同上。函数参数的声明以及if/while结构也会短暂使用该存储位。若识别为函数定义则该声明会被移动至 now-function 中。
+- <node type="compound" name="now-function"/> 正在进行中的函数定义的临时存储位置。格式同上。C系语言不支持嵌套函数，因此该项不使用列表。完成定义后该函数会被移动至 variable 中。
+- <node type="list" name="now-block"/> 仅用于代码块，存储代码块的一些过程信息，以便在识别结束时确定跳转位置。
+  - <node type="compound" name=""/> 其中的一项。
+    - <node type="int" name="0"/> 该项用于while代码块，存储循环开始位置。代码块结束后会附加前往循环开始位置的跳转。
+    - <node type="int" name="1"/> 该项用于if和while代码块，存储判定位置。代码块结束后会将跳转行数附加到该项记录的行数处。
+    - <node type="bool" name="chain"/> 代码块内部是否有局部变量定义，这决定了代码块中是否需要新建作用域层级（新建作用域操作在局部变量定义的位置完成）。函数始终会由其调用的上一层新建作用域。
+- <node type="list" name="now-variable"/> 正在定义的代码块的变量。由于嵌套代码块的存在，此处实现为列表（栈）。确定变量的作用域层级时以从后往前遍历该列表寻找变量定义。完成定义后该列表将被丢弃。
+  - <node type="list" name=""/> 一个代码块的局部变量列表，格式同上。
+- <node type="list" name="now-expression"/> 正在进行移进-归约分析的表达式。由于括号的存在，也实现为列表（栈）。理论上，当一个表达式到达其结尾位置时，该列表中应当只有1个元素。
+  - <node type="compound" name="_"/> 表达式其中的一个元素。向内套一层以便进行一些匹配。运算符会自动与上一个元素合并。
+    - <node type="int" name=""/><node type="string" name="_"/> 变量的计分板名称。
+    - <node type="string" name=""/><node type="int" name="__"/> 变量的作用域偏移值。设为字符串"global"代表全局作用域，设为"temp"代表临时变量。
+    - <node type="byte" name="v"/> 运算符。
+- <node type="list" name="now-codeline"/> 现在正在生成的中间代码行临时存储于此。该项为优化目的添加，也可不带此项，但有部分代码会更加繁琐。
 
 </div>
 

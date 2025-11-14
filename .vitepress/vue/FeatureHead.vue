@@ -37,10 +37,7 @@ export default {
     },
     socialLinks: {
       type: Array,
-      default: () => [
-        { name: "GitHub", url: "https://github.com" },
-        { name: "BiliBili", url: "https://weibo.com" }
-      ]
+      default: () => []
     },
     // 注意：avatarUrl 现在变成了一个 prop，但可以通过事件更新
     avatarUrl: {

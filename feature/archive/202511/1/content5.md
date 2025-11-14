@@ -1,3 +1,9 @@
+---
+next:
+    text: '返回原文'
+    link: '/feature/archive/202511/1/content'
+---
+
 # [使用数据包制作编译器或解释器: 以C语言子集C-Minus为例](./content.md)
 
 ## 五、代码运行

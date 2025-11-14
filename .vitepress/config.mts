@@ -95,6 +95,17 @@ export default defineConfig({
 
         config: (md) => {
             md.use(anchor);
+            // 获取默认的 image renderer
+            const defaultRender = md.renderer.rules.image
+
+            // 重写 image 渲染规则
+            md.renderer.rules.image = (tokens, idx, options, env, self) => {
+                const token = tokens[idx]
+                // 给所有由 Markdown 语法生成的 img 添加 data-md-img 属性
+                token.attrSet('data-md-img', '')
+                // 调用默认渲染逻辑
+                return defaultRender?.(tokens, idx, options, env, self) || ''
+            }
         },
     },
     vite: {

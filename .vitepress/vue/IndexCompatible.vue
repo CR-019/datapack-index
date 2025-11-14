@@ -128,8 +128,6 @@ export default {
     socialLinks: {
       type: Array,
       default: () => [
-        { name: "GitHub", url: "https://github.com" },
-        { name: "BiliBili", url: "https://weibo.com" },
       ],
     },
     // 新增：额外作者列表

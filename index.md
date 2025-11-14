@@ -20,13 +20,13 @@ features:
       src: /icons/sweetbarry_stew.png
     title: 图书馆上新
     details: 查看最近收录的资源
-    link: /feature/archive/202510/ifc/content
+    link: /feature/archive/202511/ifc/content
   - icon:
       src: /icons/echo_prism.png
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202510
+    link: /feature/index/202511
   - icon:
       src: /icons/vt.png
     title: 系列教程

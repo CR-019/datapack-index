@@ -93,10 +93,7 @@ export default {
         },
         socialLinks: {
             type: Array,
-            default: () => [
-                { name: "GitHub", url: "https://github.com" },
-                { name: "BiliBili", url: "https://bilibili.com" },
-            ],
+            default: () => [],
         },
         background: {
             type: String,

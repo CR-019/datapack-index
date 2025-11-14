@@ -170,10 +170,10 @@ title: '香草快讯 - Mojang Spotlight - 2025年10月'
 
 以上就是本月更新的大致内容啦，具体详细请查看Wiki，点击下方链接即可进入。值得一提的是，本月*Feature*发布的时候正好是星期二，也就是快照更新的日子，让我们看看Mojang又会更新什么呢？
 
-1.21.9-pre1：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre1>
-1.21.9-pre2：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre2>
-1.21.9-pre3：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre3>
-1.21.9-pre4：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre4>
-1.21.9-rc1：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-rc1>
-1.21.10：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.10>
-25w41a：<https://zh.minecraft.wiki/w/25w41a>
+- 1.21.9-pre1：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre1>  
+- 1.21.9-pre2：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre2>  
+- 1.21.9-pre3：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre3>  
+- 1.21.9-pre4：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-pre4>  
+- 1.21.9-rc1：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.9-rc1>  
+- 1.21.10：<https://zh.minecraft.wiki/w/Java%E7%89%881.21.10>  
+- 25w41a：<https://zh.minecraft.wiki/w/25w41a>

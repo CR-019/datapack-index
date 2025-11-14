@@ -16,6 +16,7 @@ import RandomParagraph from '../vue/random.vue'
 import ColorLine from '../vue/ColorLine.vue'
 import NBTDefine from '../vue/NBTDefine.vue'
 import Node from '../vue/Node.vue'
+import mediumZoom from 'medium-zoom'
 
 
 
@@ -47,5 +48,29 @@ export default {
     app.component('random', RandomParagraph)
     app.component('ColorLine', ColorLine)
     app.component('node', Node)
+
+    const initZoom = () => {
+      // 只选择带有 data-md-img 的图片（即来自 Markdown 语法的）
+      const images = document.querySelectorAll('img[data-md-img]')
+      if (images.length) {
+        mediumZoom(images, {
+          background: 'var(--vp-c-bg)',
+          margin: 40
+        })
+      }
+    }
+
+    initZoom()
+
+    router.onAfterRouteChanged = () => {
+      // 清理旧实例
+      try {
+        const zoom = mediumZoom()
+        zoom.detach?.()
+      } catch (e) {
+        // ignore
+      }
+      setTimeout(initZoom, 100)
+    }
   }
 }
