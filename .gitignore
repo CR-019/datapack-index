@@ -6,3 +6,4 @@ cache
 .cache
 .temp
 *.local
+**/.vscode/**
