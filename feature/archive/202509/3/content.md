@@ -329,7 +329,7 @@ $$ B = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos \phi & -\sin \phi & 0 \\ 0 & \s
 
 最终我们得到
 
-$$ \text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & -\sin\theta & 0 \\ -\sin\theta\sin\phi & \cos\phi & -\cos\theta\sin\phi & 0 \\ \sin\theta\cos\phi & \sin\phi & \cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
+$$ \text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & -\sin\theta & 0 \\ -\sin\theta\sin\phi & \cos\phi & -\cos\theta\sin\phi & 0 \\ \sin\theta\cos\phi & \sin\phi & -\cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
 
 验证：当 $\theta,\phi=0$ 时 `ModelViewMat` 的左上角3x3区域确实与$I_0$一致
 
@@ -339,7 +339,7 @@ $$ \text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & -\sin\the
 mat4 ModelViewMat = mat4(
     -cos(yaw), -sin(yaw)*sin(pitch), sin(yaw)*cos(pitch),   0,
         0    ,       cos(pitch)    ,       sin(pitch)   ,   0,
-    -sin(yaw), -cos(yaw)*sin(pitch), cos(yaw)*cos(pitch),   0,
+    -sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),   0,
         0    ,          0          ,         0          ,   1,
 );
 ```
@@ -491,7 +491,7 @@ l = -r
 
 若用FOV、Aspect、n、f描述，则
 
-$$ \text{ProjMat} = \Large\begin{bmatrix} \frac{1}{\tan{\frac{\text{FOV}}{2}\times \text{Aspect}}} & 0 & 0 & 0 \\ 0 & \frac{1}{\tan{\frac{\text{FOX}}{2}}} & 0 & 0 \\ 0 & 0 & \frac{n+f}{n-f} & \frac{2nf}{n-f} \\ 0 & 0 & -1 & 0 \end{bmatrix} $$
+$$ \text{ProjMat} = \Large\begin{bmatrix} \frac{1}{\tan{\frac{\text{FOV}}{2}\times \text{Aspect}}} & 0 & 0 & 0 \\ 0 & \frac{1}{\tan{\frac{\text{FOV}}{2}}} & 0 & 0 \\ 0 & 0 & \frac{n+f}{n-f} & \frac{2nf}{n-f} \\ 0 & 0 & -1 & 0 \end{bmatrix} $$
 
 回到着色器，从上面的推导中可知，我们可以从 `ProjMat` 中获取视场角、宽高比、近平面和远平面信息，从而对着色器流程进行控制。
 
