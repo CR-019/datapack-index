@@ -66,7 +66,8 @@
     `关注<a href=https://space.bilibili.com/85292644 target="_blank">CR_019</a>喵，关注<a href=https://space.bilibili.com/85292644 target="_blank">CR_019</a>谢谢喵！`,
     `关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>喵，关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>谢谢喵！`,
     `Expected a list, a list, a list, a list, a list, a list, a list, a list, a list, or a list.`,
-    `Performance: 😅`
+    `Performance: 😅`,
+    `冷知识：数据包里有@e不会让电脑爆炸`
   ];
   
   // 用于存储选中的段落
