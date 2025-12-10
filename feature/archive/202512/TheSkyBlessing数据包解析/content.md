@@ -9,7 +9,7 @@ title: 'TheSkyBlessing数据包解析'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/TODO' },
     ]"
-    cover='18b92d0c-50de-4329-95cb-083241f90f1a.png'  
+    cover = '../_assets/tsb.png'
     resourceLink = 'https://github.com/ProjectTSB/TheSkyBlessing'
 />
 

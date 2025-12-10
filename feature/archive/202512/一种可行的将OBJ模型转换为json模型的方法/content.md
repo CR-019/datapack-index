@@ -9,7 +9,6 @@ title: '一种可行的将OBJ模型转换为json模型的方法'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/104432208' }
     ]"
-    cover='../_assets/2.png'
 />
 
 > 关键词

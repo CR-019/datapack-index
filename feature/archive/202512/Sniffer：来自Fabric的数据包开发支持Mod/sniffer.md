@@ -7,7 +7,7 @@
         { name: 'GitHub', url: 'https://github.com/Alumopper' }
     ]"
     resourceLink = 'https://github.com/mcbookshelf/sniffer'
-    cover='911f22c9710946624cc42a4fc3436ace.png'
+    cover = '../_assets/sniffer.png'
 />
 
 数据包开发者使用最多的命令是什么？`scoreboard`？ `execute`？`data`？还是`function`？什么叫做使用最多的是`say`和`tellraw`？

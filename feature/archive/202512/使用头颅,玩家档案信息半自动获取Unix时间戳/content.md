@@ -10,11 +10,8 @@ title: '使用头颅/玩家档案信息半自动获取Unix时间戳'
         { name: 'BiliBili', url: 'https://space.bilibili.com/2127740148' },
         { name: 'Github', url: 'https://github.com/LeatherSword/' }
     ]"
+    cover = '../_assets/time.png'
 />
-
-摘要: 本文介绍了一种使用头颅等玩家档案信息实现半自动获取Unix时间戳的方法，并提供了完整的实现方案。
-
-![alt text](2025-11-02_16.41.15.png)
 
 ## 前言
 书接10月刊本人文章。巨佬 @七柏 在某一天提到说他听说过一个“十分古老的”时间获取方案——使用头颅数据获取Unix时间戳。
