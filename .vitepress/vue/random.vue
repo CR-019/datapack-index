@@ -67,7 +67,11 @@
     `关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>喵，关注<a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>谢谢喵！`,
     `Expected a list, a list, a list, a list, a list, a list, a list, a list, a list, or a list.`,
     `Performance: 😅`,
-    `冷知识：数据包里有@e不会让电脑爆炸`
+    `冷知识：数据包里有@e不会让电脑爆炸`,
+    `当前选中的数据包出现错误，导致世界无法加载。
+    你可以尝试仅加载原版数据包（“安全模式”）或回到标题屏幕手动修复该问题`,
+    `无法在安全模式下加载世界。
+    这个存档包含无效或损坏的数据。`
   ];
   
   // 用于存储选中的段落

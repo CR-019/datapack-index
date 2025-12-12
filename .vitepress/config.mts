@@ -71,7 +71,7 @@ export default defineConfig({
             { icon: "bilibili", link: "https://space.bilibili.com/85292644" },
             { icon: "afdian", link: "https://afdian.com/a/CR_019" },
         ],
-        logo: "/icons/dream_catcher9.png",
+        logo: "/icons/dream_catcher10.png",
         footer: {
             copyright: "Copyright©2025 CR_019",
             message:
@@ -79,7 +79,7 @@ export default defineConfig({
         },
     },
     head: [
-        ["link", { rel: "icon", href: "/datapack-index/icons/dream_catcher9.png" }],
+        ["link", { rel: "icon", href: "/datapack-index/icons/dream_catcher10.png" }],
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,

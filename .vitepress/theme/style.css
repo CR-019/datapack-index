@@ -94,32 +94,50 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #fde4d0,
-    #ffa45c 60%
+    #160086,
+    #775cff 60%
   );
   --vp-home-hero-image-size: cover;
   --vp-home-hero-image-background-image: radial-gradient(
     circle at center,
     rgba(0,0,0,0) 30%,
-    #ffa45c 70%
+    #775cff 70%
   );
   --vp-home-hero-image-filter: blur(44px);
 }
 
+:root.dark {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    #fde4d0,
+    #775cff 60%
+  );
+  --vp-home-hero-image-size: cover;
+  --vp-home-hero-image-background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.1) 30%,
+    #775cff 70%
+  );
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+
+
 .VPButton.medium.brand {
-  background-color: #ffa45c; /* 例如：改为红色 */
+  background-color: #775cff; /* 例如：改为红色 */
   color: white;
-  border-color: #ffa45c;
+  border-color: #775cff;
 }
 
 .VPButton.medium.brand:hover {
-  background-color: #ec8a39;
+  background-color: #4b2ddf;
   color: white;
-  border-color: #ec8a39;
+  border-color: #4b2ddf;
 }
 
 .VPLink.link.no-icon.VPFeature:hover{
-  border-color: #ffa45c;
+  border-color: #775cff;
 }
 
 

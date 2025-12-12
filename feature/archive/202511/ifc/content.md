@@ -23,7 +23,7 @@ const { isDark } = useData()
 :::
 
 - [SlopeCraft - 地图画生成器](https://github.com/SlopeCraft/SlopeCraft)
-- [南京大学MC社团官网](https://nmo.net.cn/)
+- [南京大学MC社团官网](https://www.nmo.net.cn/)
 - [Minecraft实体运动研究与应用](http://lovexyn0827.space/mcdocs/docs/Minecraft%E5%AE%9E%E4%BD%93%E8%BF%90%E5%8A%A8%E7%A0%94%E7%A9%B6%E4%B8%8E%E5%BA%94%E7%94%A8/0-Minecraft%E5%AE%9E%E4%BD%93%E8%BF%90%E5%8A%A8%E7%9B%B8%E5%85%B3%E7%A0%94%E7%A9%B6%E4%B8%8E%E5%BA%94%E7%94%A8.html)
 
 

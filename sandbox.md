@@ -8,7 +8,7 @@
 ---
 
 最近收录：
-
+[香草笔记](https://docs.qq.com/aio/DV0xYeXVWaFJxQ3pI)
 ---
 
 ↓暂时弃用的狐狐版nbt树
