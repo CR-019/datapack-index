@@ -1,19 +1,7 @@
----
-title: '基于世界生成结构集完成的无限自由度的无限建筑结构'
----
-
-<FeatureHead
-    title = '基于世界生成结构集完成的无限自由度的无限建筑结构'
-    authorName = TODO
-    avatarUrl = '../../_authors/TODO.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/TODO' }
-    ]"
-/>
-
+# 基于世界生成结构集完成的无限自由度的无限建筑结构
 ## 大抵是一点前置知识
 
-[狐狐烤的结构生成的基础教程](https://www.bilibili.com/video/BV1DUtkzoEwh/)
+[狐狐烤的结构生成的基础教程](https://www.bilibili.com/video/BV1DUtkzoEwh/?spm_id_from=333.337.search-card.all.click&vd_source=5b4d28c9da915c1aebfdedf0be74077f)
 
 ## 引言
 地形是我的世界必不可少的一个构成部分，但是仅仅用噪声的值并不能总是雕琢出我们想要的环境。特别是当你想要定制每一个地点的时候。这个时候，我的世界自带的拼图方块便浮现在了我们眼前。但如果是想要做到真正无限、无缝、无瑕地做到整个世界都是结构的拼接，这就需要一些特殊的手段
@@ -74,6 +62,13 @@ title: '基于世界生成结构集完成的无限自由度的无限建筑结构
 ![生成成功图片3](https://img.cdn1.vip/i/69382d4e7f673_1765289294.webp)
 ![生成成功图片4](https://img.cdn1.vip/i/69382d5355d31_1765289299.webp)
 极限不止于此，不单是这些结构可以随机抽取，模板池也可以随机抽取，通过在内部再次嵌套结构更是可以做到无限的自由度
+## 实践演示
+利用此原理制造了真无限城的地板和天花板，完美拼凑在了一起
+![无限城1](https://img.cdn1.vip/i/693bf53221957_1765537074.webp)
+![无限城2](https://img.cdn1.vip/i/693bf532f0359_1765537074.webp)
+![无限城3](https://img.cdn1.vip/i/693bf524eabc8_1765537060.webp)
+~其实因为建筑水平也不是那么完美~
+[无限城展示视频链接](https://www.bilibili.com/video/BV1AKm5BYE94/?spm_id_from=333.1387.homepage.video_card.click&vd_source=5b4d28c9da915c1aebfdedf0be74077f)
 ## 总结
 综上，通过结构集与拼图方块，达成的无限结构在ctm等项目中有着非常大的发挥空间，我也会通过这个理论继续完善我的整合包。
 ## 参考文献
