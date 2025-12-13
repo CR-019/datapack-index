@@ -78,7 +78,7 @@ export const sidebar: DefaultTheme.Sidebar = [
       { text: '着色器', link: '/index/资源包体系结构/#着色器' }
     ]
   },
-  { text: '技术性更新日志（精简版）', link: '/index/changelog_breaking' },
+  { text: '破坏性技术更新日志', link: '/index/changelog_breaking' },
   {
     text: '原版模组实践',
     collapsed: false,

@@ -1,13 +1,12 @@
-# 技术性更新日志(精简版)
+# 破坏性技术更新日志
 
-> ⚠️本文正文部分翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
+> ⚠️本文部分正文内容翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
 >
-> 本文为精简版，仅列出对旧版本有破坏性的改动（即breaking）[参阅完整文档](/index/changelog.md)
 
 ## 前言
-由于最近数个版本对技术侧的改动较多，对数据包兼容性的影响较大，可能会出现一个教程或资源只能在特定版本使用的情况，对于还不熟悉这些数据包特性的开发者来说可能会有些困惑。因此在此列出会导致旧版特性不兼容的破坏性更新。
+本条目列出所有原版Minecraft各版本更新时所有的破坏性改动，也就是那些如果不加处理会导致数据包或资源包在升级版本后无法正常运行的更新。
 
-读者可借此参阅教程在你的目标版本的可用性。
+请注意大部分条目经过简化，目的仅为提醒读者这项变更的存在。请查阅Wiki以获取详细说明。
 
 改动日志以正式版本为分类条目，降序排列。
 
@@ -16,11 +15,188 @@
 
 ## 正文
 
+### **1.21.11**
+#### 数据包：
+- 命令
+  - **/wordboard的时间参数现在默认使用游戏刻作为单位。**
+  - **现在世界边界由游戏刻而不是现实时间控制。**
+  - **所有的游戏规则现在使用命名空间ID。所有的原ID被重命名为snake_case。部分游戏规则的含义发生反转。部分游戏规则的值域现在有额外限制。请[查阅Wiki](https://zh.minecraft.wiki/w/?curid=19184#%E6%B8%B8%E6%88%8F%E8%A7%84%E5%88%99%E5%88%97%E8%A1%A8)。**
+- NBT
+  - **移除了`AngerTime`，以`anger_end_time`取代，表示生物从哪刻起不再愤怒。**
+  - **`AngryAT`重命名为`angry_at`。**
+- 数据组件
+  - **`consumable`组件的`animation`字段中，原有的`spear`动画重命名为`trident`。加入了新的`spear`动画。**
+  - **`intangible_projectile`组件现在有工具栏提示。**
+- 标签
+  - **重命名物品标签`#enchantable/sword` → `#enchantable/sweeping`。**
+  - **以下生物群系标签被新的环境属性取代，故移除：**
+    - `#snow_golem_melts`，`#increased_fire_burnout`，`#plays_underwater_music`，`#has_closer_water_fog`。
+- 物品修饰器
+  - **将`modifier`替换为`on_pass`和`on_fail`两个字段，分别在测试成功和失败时执行。**
+- 世界生成
+  - **维度类型和生物群系中的以下字段被移动到新的环境属性选项中：**
+    - `ultrawarm`，`bed_works`，`respawn_anchor_works`，`cloud_height`，`piglin_safe`，`has_raids`，`natural`，`fog_color`，`water_fog_color`，`sky_color`，`particle`，`ambient_sound`，`music`，`music_volume`。
+  - **维度类型的`effects`被移除，由`skybox`和`cardinal_light`取代。**
+  - **维度类型的`fixed_time`被重置为`has_fixed_time`，新字段为布尔值，默认为`false`。基于时间的效果现在由环境属性指定。**
+- 杂项
+  - **测试环境定义格式中，`game_rules`的`bool_rule`和`int_rule`字段已被`rules`取代。**
+
+#### 资源包：
+- 模型和纹理：
+  - **静止的水和熔岩的纹理现在硬编码为`minecraft:block/water_still`和`minecraft:block/lava_still`**
+  - **新增了`items`纹理集，包含所有物品的纹理。同一个物品模型所使用的纹理必须全都来自于`items`或全都来自于`blocks`。**
+- 着色器：
+  - **加入了`ChunkSection`，被`terrain.vsh`使用，替代了`DynamicTransforms`。**
+
+### **1.21.9**
+#### 数据包：
+- 世界
+  - **出生点区块不再被强加载。**
+  - **移除了`spawnChunkRadius`游戏规则，因为不再有出生点区块的概念。**
+  - **每个世界的世界边界现在各自独立。**
+  - **飞行中的末影珍珠以及活跃的传送门现在会加载区块。**
+- 命令
+  - **`/test pos [<var>]`现在搜索半径由200格更改为250格。`/test clearall [<radius>]`的默认值更改为250格。**
+  - **`/summon`在和平难度下尝试召唤无法在和平难度生成的敌对生物会执行失败。**
+  - **`/setworldspawn`和`/spawnpoint`的`<angle>`参数被替换为可选参数`<rotation>`，可以在设置玩家重生时面朝的垂直角度**。
+  - **`/setworldspawn`现在不止可以在主世界中执行。服务端会在世界出生点执行命令，即使出生点不在主世界。**
+- 文本组件
+  - **现在尝试使用`run_command`执行`/say`、`​/me`、`​/msg`、`​/tell`、`​/w`、`​/teammsg`和`​/tm`这类署名命令会弹出提示窗，允许玩家复制命令手动执行。**
+- 数据组件
+  - **`block_attacks`组件，受到为0的伤害现在不会触发抵挡行为，不会进入冷却，也不会因抵挡而受到击退。**
+  - **`profile`组件现在有静态和动态两种行为：**
+    - **静态**：当此组件具有`properties`、同时具有`name`和`id`字段亦或上述两字段均无时。
+      - 将会永久按照生成时的档案。展示的皮肤会在组件创建时冻结。
+    - **动态**：`name`和`id`字段只有其一时。
+      - 将会动态解析为最近的数据。会展示目标当前的皮肤。
+    - **旧版世界中的头颅会优先转换为动态形式。**
+- NBT
+  - **玩家的`respawn`中的`angle`重命名为`yaw`。**
+#### 资源包：
+  - 着色器：
+    - **移除了`core/blit_screen.vsh`、`​post/blit.vsh`、`​post/blur.vsh`、`​post/invert.vsh`、`​post/sobel.vsh`和`​post/screenquad.vsh`，并由`core/screenquad.vsh`替代。**
+    - **移除了`core/position_color_lightmap.vsh/fsh`和`core/position_color_tex_lightmap.vsh/fsh`。**
+    - **用于后处理效果、亮度图生成和全屏位块传输的顶点着色器不再传递`Position`属性，而须通过`gl_VertexID`分配顶点坐标。**
+    - **修改了`core/terrain.vsh`中函数`minecraft_sample_lightmap`中UV计算的部分。**
+    - **所有着色器的版本已经从`150`提升至`330`**
+#### pack.mcmeta
+- **现在版本号包含一个主要版本号和一个次要版本号。**
+- **弃用了`supported_formats`。**
+- **加入了必选字段`min_format`和`max_format`规定支持的版本。**
+  - 格式为`[主版本号，次版本号]`。若只填入一个整数则等价于`[主版本号, 0]`。
+- **`pack_format`现在是可选的。**
+
+### **1.21.6**
+#### 数据包：
+- 文本组件
+  - **现在使用`run_command`执行命令时，若执行的命令需要1级或更高的权限，将会展示弹窗提示玩家二次确认**。
+- NBT
+  - **药水效果云的`Particle`被重命名为`custom_particle`。使用`entity_effect`和`tinted_leaves`粒子时，颜色不再从药水中继承。**
+- 标签
+  - **重命名以下方块标签：**
+    - `#plays_ambient_desert_block_sounds` → `#triggers_ambient_desert_sand_block_sounds`
+- 数据组件
+  - **`painting/variant`组件不再接受内联。**
+#### 资源包：
+- 纹理
+  - **移除了`mob_effects`纹理集。其中的纹理移动至`gui`纹理集中。**
+- 模型
+  - **现在在物品模型映射中，若物品在GUI中的大小大过一个格子，需要添加`"oversized_in_gui": true`，否在会在格子边缘被裁断。**
+- 声音：
+  - **重命名`block.sand.wind`为`block.dry_grass.ambient`**。
+- 着色器
+  - **所有的内置uniform都改为统一变量块而不再是松散的。后处理着色器现在接受统一变量块。**
+- 杂项
+  - **玩家头颅物品模型不再从`profile`数据组件中读取纹理。加入了新的player_head模型类别以渲染`profile`的纹理。**
+
+### **1.21.5**
+#### 数据包：
+- SNBT格式：
+  - 整数现在可以以`0`开始。
+  - 不再允许使用科学计数法（如`1e1000`）表示数字。
+- NBT：
+  - **`ArmorItems`，`HandItems`，和`body_armor_item`被合并为了`equipment`，包含所有槽位的物品。**
+  - **`ArmorDropChances`，`HandDropChances`，以及`body_armor_drop_chance`被合并为了`drop_chances`。**
+    - 这是一个复合标签，内含各个槽位的掉落概率。
+  - **`Pos`，`Motion`，和`Rotation`列表现在必须有正确数量的元素。**
+  - **重命名`FallDistance`为`fall_distance`且类型更改为`double`。**
+  - **矿车类实体的`CustomDisplayTile`被移除。`DisplayState`总是可以设置展示的方块。`DisplayOffset`不再需要有自定义的展示方块才能生效。**
+  - **物品展示框，荧光物品展示框，和栓绳结的`TileX`，`TileY`，和`TileZ`被合并为`block_pos`。**
+  - **恼鬼的`LifeTicks`重命名为`life_ticks`，`BoundX`，`BoundY`，和`BoundZ`被合并为`bound_pos`。**
+  - **海龟的`HasEgg`重命名为`has_egg`，`HomePosX`，`HomePosY`，和`HomePosZ`被合并为`home_pos`，`TravelPos<X|Y|Z>`被移除。**
+  - **海豚的`TreasurePosX`，`TreasurePosY`，和`TreasurePosZ`被移除。**
+  - **幻翼的`Size`重命名为`size`，`AX`，`AY`，和`AZ`被合并为`anchor_pos`。**
+  - **多个实体的`SleepingX`，`SleepingY`，和`SleepingZ`被合并为`sleeping_pos`。**
+  - **玩家实体NBT**：
+    - `enteredNetherPosition`重命名为`entered_nether_pos`，且现在为3个`double`组成的列表。
+    - `SpawnX`，`SpawnY`，`SpawnZ`，`SpawnAngle`，`SpawnDimension`，和`SpawnForced`标签合并为`respawn`。
+- 命令
+  - **`/setblock`和`/fill`命令现在不会更改方块实体数据，除非特别地使用`{...}`指定。**
+    - 想要清空方块实体的数据，必须指明`{}`。
+    - 只要在命令执行前后有方块的状态或数据变更，就视为执行成功。
+- 标签
+  - 重命名以下方块标签：
+    - `#dead_bush_may_place_on` → `#dry_vegetation_may_place_on`
+- 文本组件
+  - **文本组件现在在所有命令中使用SNBT格式。在JSON文件中使用JSON格式。**
+  - **`hoverEvent`和`clickEvent`，以及它们的子项被重命名。**
+- 谓词
+  - **实体谓词新增了`components`用于匹配实体组件。下列`type_specific`实体子谓词已被移除并挪入`components`中**：
+    - `axolotl`, `fox`, `mooshroom`, `rabbit`, `horse`, `llama`, `villager`, `parrot`, `salmon`, `tropical_fish`, `painting`, `cat`, `frog`, `wolf`, `pig`, 以及`sheep`的`color`项。
+- 数据组件
+  - **重命名`weapon`组件的`damage_per_attack`为`item_damage_per_attack`**。
+  - **`hide_additional_tooltip`和`hide_tooltip`组件被移除。多个组件中的`show_in_tooltip`项也被移除。现在统一由新组件`tooltip_display`管理。**
+- 配方
+  - **`smithing_trim`配方类型的`base`，`template`，和`addition`现在是必选的。**
+  - **`crafting_transmute`配方类型的`base`现在是必选的。**
+- 进度
+  - **`background`现在使用命名空间ID而不再使用带`.png`路径的绝对路径。**
+- 世界生成
+  - **`patch_pumpkin`和`patch_sugar_cane`的生成顺序被调换。**
+- 杂项
+  - **槽位`horse.saddle`重命名为`saddle`且任何生物都拥有**。
+  - **盔甲纹饰定义不再有`item`。现在这由配方决定。**
+  - **`tinted_leaves`粒子现在需要`color`提供颜色。**
+  - **猪变种定义格式的`texture`重命名为`assets_id`。**
+  - **狼变种定义格式`angry_texture`， `tame_texture，` `wild_texture`合并为`assets`。**
+  - **各生物变种格式的`biome`重命名为`spawn_conditions`，且可以根据更多条件决定生成。**
+  - **实体`potion`独立为`splash_potion`和`lingering_potion`两个实体。**
+
+#### 资源包：
+- 纹理：
+- **以下纹理的命名空间ID变更**：
+    - `entity/pig/pig_saddle.png` → `entity/equipment/pig_saddle/saddle.png`
+    - `entity/strider/strider_saddle.png` → `entity/equipment/strider_saddle/saddle.png`
+    - `.../cow` → `.../temperate_cow`
+    - `.../pig` → `.../temperate_pig`
+    - `entity/chicken.png` → `entity/chicken/temperate_chicken.png`
+  - **以下纹理的大小变化**：
+    - `temperate_cow`
+    - `temperate_pig`
+    - `red_mooshroom`
+    - `brown_mooshroom`
+  - **以下纹理被从原本的纹理文件中分离为单独的文件**：
+    - `entity/camel/camel.png` → `entity/equipment/camel_saddle/saddle.png`
+    - `entity/horse/horse_<variant>.png` → `entity/equipment/horse_saddle/saddle.png`
+    - `entity/horse/donkey.png` → `entity/equipment/donkey_saddle/saddle.png`
+    - `entity/horse/mule.png` → `entity/equipment/mule_saddle/saddle.png`
+    - `entity/horse/horse_skeleton.png` → `entity/equipment/skeleton_horse_saddle/saddle.png`
+    - `entity/horse/horse_zombie.png` → `entity/equipment/zombie_horse_saddle/saddle.png`
+- 模型
+  - **牛和蘑菇牛的模型多了个鼻子。**
+- 声音
+  - **移除了`entity.wolf.howl`。**
+  - **原本的狼的音效被移动到了classic文件夹下**。
+- 着色器
+  - **核心和后处理着色器不再使用任何JSON文件定义。**
+  - **删除了着色器中的`program`，以`vertex_shader`和`fragment_shader`替代。`<namespace>:<path>`会被解析为`assets/<namespace>/shaders/<path>.<vsh|fsh>`**
+  - **在每个`uniform`，`type`现在是必选的。接受任意的`int`，`ivec3`，`float`，`vec2`，`vec3`，`vec4`，和`matrix4`。**
+
 ### **1.21.4**
 #### 数据包：
 - 命令：
     - **`trial`粒子加入必选字段`duration`;**
-- nbt：
+- NBT：
     - 修改了TNT矿车的NBT：
       - **将`TNTFuse`重命名为`fuse`；**
     - **`custom_model_data`组件更改为复合标签，`set_custom_model_data`修饰器同步更新；**
@@ -42,7 +218,7 @@
 - 命令：
   - **栓绳结，浮漂和闪电不再能通过`/ride`骑乘；**
   - **属性id不再有`generic.`，` player.`，`zombie.`前缀；**
-- nbt：
+- NBT：
   - **重命名`fire_resistant`物品组件为`damage_resistant`，并加入`types`字段；**
   - `potion_contents`物品组件加入`custom_name`字段；
   - **将船和箱船的实体类型拆分为每种材质独立实体；**
@@ -81,7 +257,7 @@
 ### **1.21**
 
 #### 数据包：
-- nbt:
+- NBT:
   - **移除了箭类实体的 `ShotFromCrossbow` 字段**
 - 数据包组分：
   - 战利品表、谓词、物品修饰器：
@@ -111,7 +287,7 @@
 #### 数据包：
 - 命令：
   - 粒子：
-    - **`/particle`指令格式修改，太多了懒得列，[去wiki看吧](https://zh.minecraft.wiki/w/Java%E7%89%881.20.5-pre1#%E5%B8%B8%E8%A7%84_2)**
+    - **`/particle`指令格式大幅修改，[详见Wiki](https://zh.minecraft.wiki/w/Java%E7%89%881.20.5-pre1#%E5%B8%B8%E8%A7%84_2)**
     - **拆分粒子`gust_emitter`为`gust_emitter_large` 和`gust_emitter_small`**
   - 属性：
     - 重命名属性:
@@ -451,7 +627,7 @@
 * 其他
   * 制作者名单现在是json格式储存而不是txt；
 
-## **1.16.2**
+### **1.16.2**
 
 #### 数据包：
 - 世界生成：
