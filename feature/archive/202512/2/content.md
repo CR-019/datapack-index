@@ -6,6 +6,7 @@ title: 基于世界生成结构集完成的无限自由度的无限建筑结构
     title = '基于世界生成结构集完成的无限自由度的无限建筑结构'
     authorName = 晓风Matuvent_
     avatarUrl = '../../_authors/晓风Matuvent_.jpg'
+    cover = '../_assets/2.webp'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/194411952' }
     ]"

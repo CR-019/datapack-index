@@ -6,6 +6,7 @@ title: '自定义魔咒的综合应用'
     title='自定义魔咒的综合应用'
     authorName='七柏'
     avatarUrl='../../_authors/七柏.jpg'
+    cover = '../_assets/3.png'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/405830542' }
     ]"
