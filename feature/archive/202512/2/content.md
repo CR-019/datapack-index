@@ -1,4 +1,16 @@
-# 基于世界生成结构集完成的无限自由度的无限建筑结构
+---
+title: 基于世界生成结构集完成的无限自由度的无限建筑结构
+---
+
+<FeatureHead
+    title = '基于世界生成结构集完成的无限自由度的无限建筑结构'
+    authorName = 晓风Matuvent_
+    avatarUrl = '../../_authors/晓风Matuvent_.jpg'
+    :socialLinks="[
+        { name: 'BiliBili', url: 'https://space.bilibili.com/194411952' }
+    ]"
+/>
+
 ## 大抵是一点前置知识
 
 [狐狐烤的结构生成的基础教程](https://www.bilibili.com/video/BV1DUtkzoEwh/?spm_id_from=333.337.search-card.all.click&vd_source=5b4d28c9da915c1aebfdedf0be74077f)

@@ -2,7 +2,7 @@
 title: 'TheSkyBlessing数据包解析'
 ---
 
-<FeatureHead
+<FeaturedHead
     title = 'TheSkyBlessing数据包解析'
     authorName = 伶
     avatarUrl = '../../_authors/伶.jpg'
