@@ -1,6 +1,6 @@
 # 破坏性技术更新日志
 
-> ⚠️本文正文的部分翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
+> ⚠️本文部分正文内容翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
 >
 
 ## 前言
@@ -15,8 +15,48 @@
 
 ## 正文
 
+### **1.21.9**
+#### 数据包：
+- 世界
+  - **出生点区块不再被强加载。**
+  - **移除了`spawnChunkRadius`游戏规则，因为不再有出生点区块的概念。**
+  - **每个世界的世界边界现在各自独立。**
+  - **飞行中的末影珍珠以及活跃的传送门现在会加载区块。**
+- 命令
+  - **`/test pos [<var>]`现在搜索半径由200格更改为250格。`/test clearall [<radius>]`的默认值更改为250格。**
+  - **`/summon`在和平难度下尝试召唤无法在和平难度生成的敌对生物会执行失败。**
+  - **`/setworldspawn`和`/spawnpoint`的`<angle>`参数被替换为可选参数`<rotation>`，可以在设置玩家重生时面朝的垂直角度**。
+  - **`/setworldspawn`现在不止可以在主世界中执行。服务端会在世界出生点执行命令，即使出生点不在主世界。**
+- 文本组件
+  - **现在尝试使用`run_command`执行`/say`、`​/me`、`​/msg`、`​/tell`、`​/w`、`​/teammsg`和`​/tm`这类署名命令会弹出提示窗，允许玩家复制命令手动执行。**
+- 数据组件
+  - **`block_attacks`组件，受到为0的伤害现在不会触发抵挡行为，不会进入冷却，也不会因抵挡而受到击退。**
+  - **`profile`组件现在有静态和动态两种行为：**
+    - **静态**：当此组件具有`properties`、同时具有`name`和`id`字段亦或上述两字段均无时。
+      - 将会永久按照生成时的档案。展示的皮肤会在组件创建时冻结。
+    - **动态**：`name`和`id`字段只有其一时。
+      - 将会动态解析为最近的数据。会展示目标当前的皮肤。
+    - **旧版世界中的头颅会优先转换为动态形式。**
+- NBT
+  - **玩家的`respawn`中的`angle`重命名为`yaw`。**
+#### 资源包：
+  - 着色器：
+    - **移除了`core/blit_screen.vsh`、`​post/blit.vsh`、`​post/blur.vsh`、`​post/invert.vsh`、`​post/sobel.vsh`和`​post/screenquad.vsh`，并由`core/screenquad.vsh`替代。**
+    - **移除了`core/position_color_lightmap.vsh/fsh`和`core/position_color_tex_lightmap.vsh/fsh`。**
+    - **用于后处理效果、亮度图生成和全屏位块传输的顶点着色器不再传递`Position`属性，而须通过`gl_VertexID`分配顶点坐标。**
+    - **修改了`core/terrain.vsh`中函数`minecraft_sample_lightmap`中UV计算的部分。**
+    - **所有着色器的版本已经从`150`提升至`330`**
+#### pack.mcmeta
+- **现在版本号包含一个主要版本号和一个次要版本号。**
+- **弃用了`supported_formats`。**
+- **加入了必选字段`min_format`和`max_format`规定支持的版本。**
+  - 格式为`[主版本号，次版本号]`。若只填入一个整数则等价于`[主版本号, 0]`。
+- **`pack_format`现在是可选的。**
+
 ### **1.21.6**
 #### 数据包：
+- 文本组件
+  - **现在使用`run_command`执行命令时，若执行的命令需要1级或更高的权限，将会展示弹窗提示玩家二次确认**。
 - NBT
   - **药水效果云的`Particle`被重命名为`custom_particle`。使用`entity_effect`和`tinted_leaves`粒子时，颜色不再从药水中继承。**
 - 标签
