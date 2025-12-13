@@ -15,6 +15,39 @@
 
 ## 正文
 
+### **1.21.11**
+#### 数据包：
+- 命令
+  - **/wordboard的时间参数现在默认使用游戏刻作为单位。**
+  - **现在世界边界由游戏刻而不是现实时间控制。**
+  - **所有的游戏规则现在使用命名空间ID。所有的原ID被重命名为snake_case。部分游戏规则的含义发生反转。部分游戏规则的值域现在有额外限制。请[查阅Wiki](https://zh.minecraft.wiki/w/?curid=19184#%E6%B8%B8%E6%88%8F%E8%A7%84%E5%88%99%E5%88%97%E8%A1%A8)。**
+- NBT
+  - **移除了`AngerTime`，以`anger_end_time`取代，表示生物从哪刻起不再愤怒。**
+  - **`AngryAT`重命名为`angry_at`。**
+- 数据组件
+  - **`consumable`组件的`animation`字段中，原有的`spear`动画重命名为`trident`。加入了新的`spear`动画。**
+  - **`intangible_projectile`组件现在有工具栏提示。**
+- 标签
+  - **重命名物品标签`#enchantable/sword` → `#enchantable/sweeping`。**
+  - **以下生物群系标签被新的环境属性取代，故移除：**
+    - `#snow_golem_melts`，`#increased_fire_burnout`，`#plays_underwater_music`，`#has_closer_water_fog`。
+- 物品修饰器
+  - **将`modifier`替换为`on_pass`和`on_fail`两个字段，分别在测试成功和失败时执行。**
+- 世界生成
+  - **维度类型和生物群系中的以下字段被移动到新的环境属性选项中：**
+    - `ultrawarm`，`bed_works`，`respawn_anchor_works`，`cloud_height`，`piglin_safe`，`has_raids`，`natural`，`fog_color`，`water_fog_color`，`sky_color`，`particle`，`ambient_sound`，`music`，`music_volume`。
+  - **维度类型的`effects`被移除，由`skybox`和`cardinal_light`取代。**
+  - **维度类型的`fixed_time`被重置为`has_fixed_time`，新字段为布尔值，默认为`false`。基于时间的效果现在由环境属性指定。**
+- 杂项
+  - **测试环境定义格式中，`game_rules`的`bool_rule`和`int_rule`字段已被`rules`取代。**
+
+#### 资源包：
+- 模型和纹理：
+  - **静止的水和熔岩的纹理现在硬编码为`minecraft:block/water_still`和`minecraft:block/lava_still`**
+  - **新增了`items`纹理集，包含所有物品的纹理。同一个物品模型所使用的纹理必须全都来自于`items`或全都来自于`blocks`。**
+- 着色器：
+  - **加入了`ChunkSection`，被`terrain.vsh`使用，替代了`DynamicTransforms`。**
+
 ### **1.21.9**
 #### 数据包：
 - 世界
