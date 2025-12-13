@@ -17,11 +17,6 @@ hero:
       link: https://www.bilibili.com/video/BV1JuNyzXEsP
 features:
   - icon:
-      src: /icons/sweetbarry_stew.png
-    title: 图书馆上新
-    details: 查看最近收录的资源
-    link: /feature/archive/202511/ifc/content
-  - icon:
       src: /icons/echo_prism.png
     title: 《Feature》
     details: 数据包短文月刊
@@ -34,20 +29,25 @@ features:
     linkText: 零基础新手戳这里
     link: /index/参考
   - icon:
+      src: /icons/totem_of_recovery.png
+    title: 工具箱
+    details: 能方便数据包开发的工具索引
+    link: /index/工具
+  - icon:
       src: /icons/ocean_clock.png
     title: 报刊亭
     details: 浏览往期《Feature》
     link: /feature/_index
   - icon:
-      src: /icons/totem_of_recovery.png
-    title: 工具速查
-    details: 能方便数据包开发的工具索引
-    link: /index/工具
-  - icon:
       src: /icons/green_apple.png
     title: 数据包实践
     details: 实践和实例教程
     link: /index/数据包实践
+  - icon:
+      src: /icons/sweetbarry_stew.png
+    title: 更新改动速查
+    details: 看看更新你的数据包后什么东西会坏掉
+    link: /index/changelog_breaking
 ---
 <script setup>
 import { useData } from 'vitepress'

@@ -1,5 +1,9 @@
+---
+title: '香草快讯 - Λojang Spotlight - 2025年12月'
+---
+
 <SpotlightHead
-    title = "香草快讯 - Mojang Spotlight - 2025年12月"
+    title = "香草快讯 - Λojang Spotlight - 2025年12月"
     authorName = Alumopper
     avatarUrl = '../../_authors/alumopper.jpg'
     :socialLinks="[
@@ -7,7 +11,7 @@
         { name: 'GitHub', url: 'https://github.com/Alumopper' }
     ]"
     cover='../_assets/spotlight.png'
-    type=0
+    type=1
 />
 
 这里是***香草***快讯，全Minecraft最***Vanilla***的技术性快照新闻，由本社记者*香草狐*为你报道最新快照消息~
@@ -16,7 +20,7 @@
 
 由于主体内容已经在十一月更新完毕，本月更新没有添加太多新内容，大部分属于小修小补。
 
-先说结论，本月更新内容量少，破坏性较小，总体属于**中杯**水平。
+先说结论，本月更新内容量少，破坏性较小，总体属于**大杯下**水平。
 
 <ColorLine />
 

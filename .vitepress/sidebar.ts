@@ -6,7 +6,7 @@ export const sidebar: DefaultTheme.Sidebar = [
     items: [
       { text: '前言', link: '/index/前言' },
       { text: '绪论', link: '/index/绪论' },
-      { text: '最近更新', link: '/index/_new' }
+      { text: '最近更新', link: '/feature/archive/202512/ifc/content' }
     ]
   },
   {
@@ -14,11 +14,11 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       { text: '🏠绝赞征稿中！', link: '/feature/_index' },
-      { text: '🌟2025.11', link: '/feature/index/202511' },
+      { text: '🌟2025.12', link: '/feature/index/202512' },
       {
         text: '',  items: [
+          { text: '2025.11', link: '/feature/index/202511' },
           { text: '2025.10', link: '/feature/index/202510' },
-          { text: '2025.09', link: '/feature/index/202509' },
         ]
       }
     ]
@@ -50,7 +50,11 @@ export const sidebar: DefaultTheme.Sidebar = [
           { text: '进度', link: '/index/数据包2-数据结构/#进度' },
           { text: '附魔', link: '/index/数据包2-数据结构/#附魔' },
           { text: '标签', link: '/index/数据包2-数据结构/#标签' },
-          { text: '配方', link: '/index/数据包2-数据结构/#配方' }
+          { text: '配方', link: '/index/数据包2-数据结构/#配方' },
+          { text: '对话框', link: '/index/数据包2-数据结构/#对话框' },
+          { text: '伤害类型', link: '/index/数据包2-数据结构/#伤害类型' },
+          { text: '变种', link: '/index/数据包2-数据结构/#变种' },
+          { text: '测试', link: '/index/数据包2-数据结构/#测试' }
         ]
       },
       {
@@ -58,9 +62,11 @@ export const sidebar: DefaultTheme.Sidebar = [
         link: '/index/数据包3-世界生成',
         collapsed: true,
         items: [
+          { text: '自定义世界生成', link: '/index/数据包3-世界生成/#自定义世界生成' },
           { text: '结构', link: '/index/数据包3-世界生成/#结构' },
           { text: '维度和维度类型', link: '/index/数据包3-世界生成/#维度和维度类型' },
-          { text: '自定义世界生成', link: '/index/数据包3-世界生成/#自定义世界生成' }
+          { text: '环境属性与时间线', link: '/index/数据包3-世界生成/#环境属性与时间线' },
+          { text: '拼图方块', link: '/index/数据包3-世界生成/#拼图方块' },
         ]
       },
       { text: '数据包常用技术性实体', link: '/index/数据包4-技术性实体' }

@@ -1,7 +1,10 @@
 # 破坏性技术更新日志
 
-> ⚠️本文部分正文内容翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
->
+:::danger 又名“升级你的数据包后什么东西会坏掉”
+:::
+
+::: warning ⚠️本文部分正文内容翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
+:::
 
 ## 前言
 本条目列出所有原版Minecraft各版本更新时所有的破坏性改动，也就是那些如果不加处理会导致数据包或资源包在升级版本后无法正常运行的更新。

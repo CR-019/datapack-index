@@ -8,6 +8,9 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 import {
     sidebar_feature,
+} from "./sidebar_feature";
+
+import {
     sidebar_202504,
     sidebar_202505,
     sidebar_202506,
@@ -16,7 +19,8 @@ import {
     sidebar_202509,
     sidebar_202510,
     sidebar_202511,
-} from "./sidebar_feature";
+    sidebar_202512,
+} from "./sidebar_feature2025"
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -63,6 +67,7 @@ export default defineConfig({
             "/feature/archive/202509": sidebar_202509,
             "/feature/archive/202510": sidebar_202510,
             "/feature/archive/202511": sidebar_202511,
+            "/feature/archive/202512": sidebar_202512,
             "/feature/": sidebar_feature,
         },
 
