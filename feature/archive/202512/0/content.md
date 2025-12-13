@@ -4,16 +4,16 @@ title: 'TheSkyBlessing数据包解析'
 
 <FeatureHead
     title = 'TheSkyBlessing数据包解析'
-    authorName = TODO
-    avatarUrl = '../../_authors/TODO.jpg'
+    authorName = 伶
+    avatarUrl = '../../_authors/伶.jpg'
     :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/TODO' },
+        { name: 'BiliBili', url: 'https://space.bilibili.com/194411952' },
     ]"
-    cover = '../_assets/tsb.png'
+    cover = '../_assets/0.png'
     resourceLink = 'https://github.com/ProjectTSB/TheSkyBlessing'
 />
 
-# 前言
+## 前言
 
 TheSkyBlessing（常见译名天空之祝，下面简称 TSB）是一个由日本团队主导的地图项目，基于原版数据包和资源包开发，地图内为类空岛生存挑战，地图中共有 90 个不同主题的空岛可以探索，玩家的目标是解放所有空岛，有明确的主线和攻略进度，期间需要挑战数百种不同的怪物，十余场 BOSS 战，最重要的上千种神器可以获取。玩家既可以选择物理或魔法流派，也可以选择火/水/雷/冰以及神明祝福提供的被动形成搭配策略，对于拥有不同抗性的敌人，也需要考虑切换策略，后期整体策略性也随玩家可获得的内容增长
 
@@ -21,11 +21,11 @@ TheSkyBlessing（常见译名天空之祝，下面简称 TSB）是一个由日�
 
 虽然 TSB 团队已将数据包主体放在 github 上开源并且 wiki 已经提供了不少指导，但由于日语翻译困难以及仍然涉及第三方作品，本篇重点会放在如何复刻以及用在自己地图中的思路上。由于内容多，以及有些实现过程可能封装了太多层，口头解释难免不清楚，故一些分析缺失或数据包基础的部分不再赘述，有学习兴趣的读者推荐自行下载，国内网站上也已有汉化版
 
-# tick 函数——常用模块内容
+## tick 函数——常用模块内容
 
 在数据包最顶层的 load 和 tick 函数中有一些常用的内容单独列出如下，这些全局相关的数据在之后也会提到
 
-## 世界计时
+### 世界计时
 
 /time query gametime 命令可以获取世界存档打开的时间，将其存储可以为每一 tick 的操作提供唯一的标识符
 
@@ -33,13 +33,13 @@ TheSkyBlessing（常见译名天空之祝，下面简称 TSB）是一个由日�
 execute store result storage global Time int 1 run time query gametime
 ```
 
-## 多人游戏检测
+### 多人游戏检测
 
 ```mcfunction
 execute store result score $PlayerCount Global if entity @a
 ```
 
-## 间隔计时器
+### 间隔计时器
 
 适用于不需要每 tick 执行的函数，如每秒才执行一次，这里是每 4t 执行一次（0.2s）
 
@@ -49,7 +49,7 @@ scoreboard players operation $4tInterval Global %= $4 Const
 execute if score $4tInterval Global matches 0 run function core:tick/4_interval
 ```
 
-## 玩家事件
+### 玩家事件
 
 全局 tick 函数的下一层即是玩家的 tick 函数，一些常用的玩家事件列举如下
 
@@ -76,7 +76,7 @@ execute if entity @s[scores={RejoinEvent=1..}] run function core:handler/rejoin
 execute if entity @s[scores={RespawnEvent=1}] run function core:handler/respawn
 ```
 
-# load 函数——数据迁移字段和生产环境区分
+## load 函数——数据迁移字段和生产环境区分
 
 数据包顶层的 load 函数分为两部分——load 主函数和 load_once 函数，其中创建计分板等初始化操作实际在 load_once 函数中完成。load 主函数有以下片段
 
@@ -107,7 +107,7 @@ data modify storage global ExpectedDatapackCount set value 22
 
 补充一下前置知识，“development”和“production”是计算机应用开发中的两个术语，分别表示生产（仍处于开发中的状态）和发布（开发结束交给用户使用的状态）。玩家在论坛上下载的一定是发布版，load 函数中 IsProduction 这个变量一定是 true，而地图制作者开发数据包的过程中这个值则是 false，上线前才将其改为 true
 
-## 实现解析
+### 实现解析
 
 这部分内容主要是用于地图在发布后的数据迁移，即玩家可以在保留数据的同时更新地图（一般是替换数据包或 level.dat 文件）。目前最新的地图版本是 1.0.2，假使我在地图版本是 1.0.0 的时候下载下来游玩，这个数据包第一次加载流程列举如下：
 
@@ -130,9 +130,9 @@ execute if data storage global {GameVersion:"v1.0.0"} run function core:migratio
 
 整体而言，在 load 函数中添加这些内容都是服务于玩家能随后续更新继续游玩的需求，整体有为碟醋包盘饺子的味道，但如果地图后续没有破坏性更新或需要频繁修 bug，这么处理也不失为一种选择
 
-# 自定义 UI——使用 font 制作物品栏物品冷却条
+## 自定义 UI——使用 font 制作物品栏物品冷却条
 
-## 实现效果
+### 实现效果
 
 ![2025-11-07_15.21.25.png](4f33452a-c28d-4a32-9043-79618ec15e4f.png)
 
@@ -154,7 +154,7 @@ execute if data storage global {GameVersion:"v1.0.0"} run function core:migratio
 - 右侧玩家效果状态
   -- 顾名思义显示玩家所处的效果状态，但这里指的不是原版的各种药水状态，这里的特殊状态都是地图素材中自定义的内容，正面效果和负面效果分开两行，比如这里手持新月护符而获得了一个周期获得额外生命值的“新月”效果，带有“+”号代表正面效果，不同的自定义特殊效果有各自不同图标。这部分涉及资产库的内容留到以后介绍
 
-## 实现解析
+### 实现解析
 
 首先明确的是，实现自定义 ui 的关键一定是一段在 tick 函数中执行的 title 命令。从玩家使用一个物品使其进入冷却状态开始来分析 tick 函数到底做了什么，整体步骤如下
 
@@ -239,7 +239,7 @@ $data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].Message.MiniBa
 ]
 ```
 
-## 复刻效果
+### 复刻效果
 
 去掉上面宏函数所需的参数即可直接运行，引入资源包中必要的 space 字体，最终 ui 显示的定位效果如下
 
@@ -297,9 +297,9 @@ title @s actionbar [ \
 
 到这一步为止，使用资源包 font 字体实现显示进度条图标就已经完成了，由于这一步用到了宏，所以回到最开始前两步只需解决获取进度条对应物品的冷却时间百分比和转换为宏参数即可，但 TSB 中计算冷却时间由于涉及到资产库介绍太过繁琐，自定义 UI 的部分先到此为止
 
-# 将经验指示器改造为法力值指示器
+## 将经验指示器改造为法力值指示器
 
-## 实现效果
+### 实现效果
 
 ![2025-11-08_15.33.56.png](51074880-3c4a-458a-a2bd-dbc52f3269da.png)
 
@@ -309,7 +309,7 @@ title @s actionbar [ \
 
 这里我的最大法力值为 428（MP 值，后面仍然用法力值的说法），可以看到在等级位置显示成当前的数值，并且经验条能够随法力值百分比变化
 
-## 实现解析
+### 实现解析
 
 同样明确，为了手动控制经验条同时规避原版经验球机制的干扰，一定是由一个在 tick 函数中执行 xp 命令的函数来完成。实现这个功能的主要函数有两个，player_manager:mp/viewer/check_xpbar 函数随玩家 tick 执行，其主要内容如下
 
@@ -324,7 +324,7 @@ title @s actionbar [ \
 
 百分比计算和比较这部分内容使用计分板很容易就能完成，设置等级使用/xp 命令也可以直接完成，问题在于如何实现控制经验值条和百分比相符，这就来到了这个系统中最巧妙的部分了。adjust_xpbar 函数的命令如下
 
-```
+```mcfunction
 xp set @s 40 levels
 xp set @s 0 points
 scoreboard players operation $NowMP Temporary = @s MP
@@ -387,7 +387,7 @@ scoreboard players reset $NowMP Temporary
    1. 当前的比例值乘以初始精度值 2^20
    2. 算法执行，每一步通过 add 为玩家添加等级，最终等级为初始的当前法力值转换的整数
 
-## 复刻效果
+### 复刻效果
 
 check_xpbar 函数如下，和上面相比，这里对获取玩家经验条百分比的部分作了简化
 
@@ -487,7 +487,7 @@ scoreboard players reset $NowMP Temporary
 }
 ```
 
-# OhMyDat 和数据接口——使用缓存进行优化的方法
+## OhMyDat 和数据接口——使用缓存进行优化的方法
 
 前面的案例全都跳过了数据计算相关的部分，是因为 TSB 在计算前还设计了一层接口层，所有数据都必须通过接口层获取，这些内容都在主包的 api 目录中，这里先介绍玩家数据相关的接口以补全前面两个案例中缺失的计算部分
 
@@ -533,7 +533,7 @@ OhMyDat 的大致原理是<b>使用一个时间复杂度为 O(1)的算法将实�
 
 假设在同一 tick 中我需要获取两次玩家的 XpP，通过调用 data_get 的接口，第一次获取时缓存就会更新为最新时间，之后再读取也不再触发更新，两次读取缓存中的数据都是最新的，只要调用接口获取数据之后就只会从缓存中读取，所以无论获取什么属性，同一 tick 中只会获取玩家数据一次。其中 OhMyDat 的使用简化了为实体区分存储空间的流程，所以这种数据接口模式同样适用于多人游戏和自定义的其他实体，对性能控制是非常不错的启发
 
-### 附录
+## 附录
 
 space 空格字体（资源包 minecraft/font 目录下）
 

@@ -7,7 +7,7 @@
         { name: 'GitHub', url: 'https://github.com/Alumopper' }
     ]"
     resourceLink = 'https://github.com/mcbookshelf/sniffer'
-    cover = '../_assets/sniffer.png'
+    cover = '../_assets/6.png'
 />
 
 数据包开发者使用最多的命令是什么？`scoreboard`？ `execute`？`data`？还是`function`？什么叫做使用最多的是`say`和`tellraw`？
@@ -213,7 +213,7 @@ function test:test
 
 ## 未来特性
 
-:::note 未发布的特性
+:::tip 未发布的特性
 这些特性已经被推送，但尚未被主分支合并，或者仍然再开发中
 :::
 
@@ -222,6 +222,13 @@ function test:test
 Sniffer的VSCode插件支持在VSCode调试栏的表达式计算界面中，输入一个和`assert`和`log`中表达式格式一样的表达式，并返回一个计算结果。在调试逐步执行的过程中，这个值会被即时计算实时更新。简便起见，在VSCode中输入的表达式可以不包含首尾的括号。
 
 ![alt text](01bdf286a45e2888f08a7ca43aa56948.png)
+
+### 注解
+
+使用`#@`开头的注释行会被解读为注解。注解可以标记一个函数文件或者一行命令，例如标记一个函数为load函数，表示在热重载更新这个函数的时候需要重新执行一次。目前已有/计划的注解有：
+
+* `#@load`：标记此函数文件需要在热重载执行的时候重新执行一次。
+* `#@throw <type>`：捕获下方一行命令执行过程中可能会遇到的异常，例如目标选择器未选中实体，计分板未定义等。
 
 <ColorLine/>
 

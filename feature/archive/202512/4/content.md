@@ -10,7 +10,7 @@ title: '使用头颅/玩家档案信息半自动获取Unix时间戳'
         { name: 'BiliBili', url: 'https://space.bilibili.com/2127740148' },
         { name: 'Github', url: 'https://github.com/LeatherSword/' }
     ]"
-    cover = '../_assets/time.png'
+    cover = '../_assets/4.png'
 />
 
 ## 前言

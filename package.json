@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/markdown-it-footnote": "^3.0.4",
     "@types/node": "^22.14.1",
     "katex": "^0.16.22",
     "markdown-it-footnote": "3.0.3",
