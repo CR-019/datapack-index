@@ -35,7 +35,7 @@
   - **以下生物群系标签被新的环境属性取代，故移除：**
     - `#snow_golem_melts`，`#increased_fire_burnout`，`#plays_underwater_music`，`#has_closer_water_fog`。
 - 物品修饰器
-  - **将`modifier`替换为`on_pass`和`on_fail`两个字段，分别在测试成功和失败时执行。**
+  - **`filter`修饰器中，将`modifier`替换为`on_pass`和`on_fail`两个字段，分别在测试成功和失败时执行。**
 - 世界生成
   - **维度类型和生物群系中的以下字段被移动到新的环境属性选项中：**
     - `ultrawarm`，`bed_works`，`respawn_anchor_works`，`cloud_height`，`piglin_safe`，`has_raids`，`natural`，`fog_color`，`water_fog_color`，`sky_color`，`particle`，`ambient_sound`，`music`，`music_volume`。
