@@ -301,7 +301,7 @@ $$f: \mathbb{R}^3 \rightarrow \boldsymbol{P}\boldsymbol{R}\boldsymbol{P}^{-1}\bo
 
 其中 $\boldsymbol{P}$ 表示将旋转中心移到原点的平移矩阵，$\boldsymbol{R}$ 表示绕原点旋转的矩阵，每个轴旋转的顺序是 $X \rightarrow Y \rightarrow Z$，$\boldsymbol{T}$ 表示平移矩阵，$\boldsymbol{S}$ 表示缩放矩阵。
 
-对于我们得到的矩形顶点，我们先计算出最小点 $\boldsymbol{v}_{min}$，其与相邻顶点构成的向量 $$\boldsymbol{d}_x = \boldsymbol{v}_1 - \boldsymbol{v}_{min}, \quad \boldsymbol{d}_y = \boldsymbol{v}_2 - \boldsymbol{v}_{min}$
+对于我们得到的矩形顶点，我们先计算出最小点 $\boldsymbol{v}_{min}$，其与相邻顶点构成的向量 $\boldsymbol{d}_x = \boldsymbol{v}_1 - \boldsymbol{v}_{min}, \quad \boldsymbol{d}_y = \boldsymbol{v}_2 - \boldsymbol{v}_{min}$
 
 即可得到体素的位置和尺寸：
 
