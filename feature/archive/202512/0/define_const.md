@@ -1,3 +1,4 @@
+```mcfunction
 scoreboard players set $-10000 Const -10000
 scoreboard players set $-100 Const -100
 scoreboard players set $-99 Const -99
@@ -469,3 +470,4 @@ scoreboard players set $2147483647 Const 2147483647
 scoreboard players set $120 Const 120
 scoreboard players set $130 Const 130
 scoreboard players set $135 Const 135
+```
