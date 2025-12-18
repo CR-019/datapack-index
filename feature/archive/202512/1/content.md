@@ -11,7 +11,7 @@ title: '一种可行的将OBJ模型转换为json模型的方法'
     ]"
     :extraAuthors="[
       {
-            authorName: '飞鸟不肥qwq',
+            authorName: 'flybridOuO',
             socialLinks: [
                 { name: 'BiliBili', url: 'https://space.bilibili.com/543919025' }
             ],
