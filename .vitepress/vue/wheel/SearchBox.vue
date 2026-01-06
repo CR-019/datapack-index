@@ -92,7 +92,6 @@ export default {
       const len = Math.min(5, this.suggestions.length);
       if (!len) return;
 
-      console.log(e.key);
       if (e.key === "ArrowDown") {
         e.preventDefault();
         this.suggestionIndex = (this.suggestionIndex + 1) % len;
@@ -101,7 +100,7 @@ export default {
         e.preventDefault();
         this.suggestionIndex = (this.suggestionIndex - 1 + len) % len;
         this.scrollSuggestionIntoView();
-      } else if (e.key === "Enter") {
+      } else if (e.key === "Enter" || e.key === "Tab") {
         if (this.suggestionIndex >= 0 && this.suggestionIndex < len) {
           e.preventDefault();
           const s = this.suggestions[this.suggestionIndex];
@@ -153,7 +152,11 @@ export default {
       this.index = new FlexSearch.Document({
         document: {
           id: "id",
-          index: ["tokens", "name", "description"],
+          index: [{
+            field: "tokens",
+            tokenize: "full",
+            resolution: 9,
+          }],
           store: [
             "name",
             "description",
@@ -161,8 +164,10 @@ export default {
             "path",
             "cover",
             "gameversion",
+            "author"
           ],
-        },
+          tag:  ["tags", "gameversion"]
+        }
       });
       this.data = data;
       for (const d of data) {
@@ -180,6 +185,7 @@ export default {
           pageSize: 40,
         });
         this.results = result.items;
+        console.log(result);
       }
     },
 
@@ -350,7 +356,7 @@ function paginate(items, page = 1, pageSize = 20) {
 function processSearchResults(
   raw,
   docs,
-  storeFields = ["name", "description", "tags", "path", "cover", "gameversion"],
+  storeFields = ["name", "description", "tags", "path", "cover", "gameversion", "author"],
   options = {}
 ) {
   const {

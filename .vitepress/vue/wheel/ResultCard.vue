@@ -4,8 +4,8 @@
             <div class="rc-header">
                 <h3 class="rc-name">{{ item.name }}</h3>
                 <div class="rc-divider" aria-hidden></div>
-                <span class="rc-author" v-if="item.author.length = 1">{{ item.author[0].name }}</span>
-                <span class="rc-author" v-if="item.author.length > 1">{{ item.author[0].name }} ...</span>
+                <span class="rc-author" v-if="item.author && (item.author.length == 1)">{{ item.author[0].name }}</span>
+                <span class="rc-author" v-if="item.author && (item.author.length > 1)">{{ item.author[0].name }} ...</span>
             </div>
             <p class="rc-desc">{{ item.description }}</p>
         </div>
@@ -36,6 +36,7 @@ export default {
         return { coverLoaded: false, coverSrc: "" };
     },
     mounted() {
+        console.log(this.item);
         this.tryLoadCover(this.item && this.item.cover);
     },
     watch: {
