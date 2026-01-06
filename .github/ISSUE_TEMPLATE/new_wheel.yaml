@@ -1,79 +1,77 @@
 name: 提交新前置
 description: 向香草前置馆提交一个新的前置介绍，无论这个前置是否是你写的。提交即视为同意[提交规则与免责声明](https://github.com/CR-019/datapack-index/blob/main/CONTRIBUTING.md)。
-labels: [new_wheel]
-assignees: [Alumopper]
-type: submission
+labels: new_wheel
 body:
-  - type: input
-    id: name
-    attributes:
-      labels: 前置名称
-    validations:
-      required: true
-  - type: input
-    id: version
-    attributes:
-      labels: 版本
-      placeholder: 1.0.0
-    validations:
-      required: true
-  - type: input
-    id: author
-    attributes:
-      labels: 作者
-      description: 参与项目的成员。填写格式：名字（角色），名字（角色）...
-    validations:
-      required: true
-  - type: input
-    id: authorAvatar
-    attributes:
-      labels: 作者头像的链接
-      description: 填写格式：https://xxx.png
-    validations:
-      required: true
-  - type: textarea
-    id: authorSocialLinks
-    attributes:
-      labels: 作者链接
-      description: 作者的社交链接，例如Github，Bilibili，Discord等。填写在第一个的将会被作为默认点击链接。
-      value: |
-            Github: https://github.com/xxx
-            Bilibili: https://space.bilibili.com/xxx
-            Discord: https://discord.gg/xxx
-    validations:
-      required: false
-  - type: textarea
-    id: description
-    attributes:
-      labels: 简介
-      description: 对前置的简短描述，不用太长
-    validations:
-      required: true
-  - type: input
-    id: link
-    attributes:
-      labels: Github 仓库链接（可选）
-      description: 填写格式：仓库所有者/仓库名（例如 CR-019/datapack-index）
-    validations:
-      required: false
-  - type: input
-    id: gameversion
-    attributes:
-      labels: 支持的游戏版本
-      description: 填写格式：1.19.2, 1.20.1, 1.21.1, 26.1...
-    validations:
-      required: true
-  - type: input
-    id: tags
-    attributes:
-      labels: 标签
-      description: 标签有助于对你的前置进行分类。填写格式：标签1, 标签2, 标签3... 建议参考其他页面的标签填写。
-    validations:
-      required: true
-  - type: textarea
-    id: details
-    attributes:
-      labels: 详情
-      description: 详细介绍这个前置，使用Markdown格式
-    validations:
-      required: true
+- type: input
+  id: name
+  attributes:
+    labels: 前置名称
+  validations:
+    required: true
+- type: input
+  id: version
+  attributes:
+    labels: 版本
+    placeholder: 1.0.0
+  validations:
+    required: true
+- type: input
+  id: author
+  attributes:
+    labels: 作者
+    description: 参与项目的成员。填写格式：名字（角色），名字（角色）...
+  validations:
+    required: true
+- type: input
+  id: authorAvatar
+  attributes:
+    labels: 作者头像的链接
+    description: 填写格式：https://xxx.png
+  validations:
+    required: true
+- type: textarea
+  id: authorSocialLinks
+  attributes:
+    labels: 作者链接
+    description: 作者的社交链接，例如Github，Bilibili，Discord等。填写在第一个的将会被作为默认点击链接。
+    value: |
+          Github: https://github.com/xxx
+          Bilibili: https://space.bilibili.com/xxx
+          Discord: https://discord.gg/xxx
+  validations:
+    required: false
+- type: textarea
+  id: description
+  attributes:
+    labels: 简介
+    description: 对前置的简短描述，不用太长
+  validations:
+    required: true
+- type: input
+  id: link
+  attributes:
+    labels: Github 仓库链接（可选）
+    description: 填写格式：仓库所有者/仓库名（例如 CR-019/datapack-index）
+  validations:
+    required: false
+- type: input
+  id: gameversion
+  attributes:
+    labels: 支持的游戏版本
+    description: 填写格式：1.19.2, 1.20.1, 1.21.1, 26.1...
+  validations:
+    required: true
+- type: input
+  id: tags
+  attributes:
+    labels: 标签
+    description: 标签有助于对你的前置进行分类。填写格式：标签1, 标签2, 标签3... 建议参考其他页面的标签填写。
+  validations:
+    required: true
+- type: textarea
+  id: details
+  attributes:
+    labels: 详情
+    description: 详细介绍这个前置，使用Markdown格式
+  validations:
+    required: true
