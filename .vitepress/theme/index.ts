@@ -1,5 +1,5 @@
 // https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
+import { defineComponent, h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
 import Giscus from '@giscus/vue'
@@ -15,24 +15,42 @@ import SpotlightHead from '../vue/SpotlightHead.vue'
 import RandomParagraph from '../vue/random.vue'
 import ColorLine from '../vue/ColorLine.vue'
 import NBTDefine from '../vue/NBTDefine.vue'
+import SearchBox from '../vue/wheel/SearchBox.vue'
+import InfoCard from '../vue/wheel/InfoCard.vue'
 import Node from '../vue/Node.vue'
+import SideCard from '../vue/wheel/SideCard.vue'
 import mediumZoom from 'medium-zoom'
 
 
 
 import 'katex/dist/katex.min.css'
 import { reactive, watch } from 'vue'
+import { useData } from 'vitepress'
 
 
 const globalDataStore = reactive({})
 
 export default {
   extends: DefaultTheme,
-  Layout: () => {
-    return h(DefaultTheme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
-  },
+  Layout: defineComponent({
+    name: 'CustomLayoutWrapper',
+    setup() {
+      const { frontmatter } = useData()
+      
+      return () => {
+        //如果frontmatter.wheel为真，则渲染wheel自定义侧边栏
+        if (frontmatter.value && frontmatter.value.wheel) {
+          return h('div', { class: 'wheel-layout' }, [
+            h(DefaultTheme.Layout, null, {
+              'aside-outline-before': () => h(SideCard)
+            })
+          ])
+        }
+        //否则返回默认的
+        return h(DefaultTheme.Layout)
+      }
+    }
+  }),
   enhanceApp({ app, router, siteData }) {
     // 注册全局组件
     app.component('GiscusComment', Giscus)
@@ -47,6 +65,8 @@ export default {
     app.component('SpotlightHead', SpotlightHead)
     app.component('random', RandomParagraph)
     app.component('ColorLine', ColorLine)
+    app.component('SearchBox', SearchBox)
+    app.component('InfoCard', InfoCard)
     app.component('node', Node)
 
     // 只在浏览器环境中执行 zoom 初始化
