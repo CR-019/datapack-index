@@ -1,14 +1,16 @@
 <template>
-    <ColorLine />
     <div class="info-card" v-if="hasInfo">
-        <img v-if="info.cover" :src="info.cover" class="info-cover" />
+        <div class="info-cover-wrapper" aria-hidden>
+            <img v-if="info.cover" :src="info.cover" class="info-cover" />
+            <div v-else class="info-cover-spacer" />
+        </div>
         <div class="info-body">
             <div class="info-main">
                 <div class="info-main-left">
                     <div class="info-header">
                         <h3 class="info-title">{{ info.name }}</h3>
                         <div class="info-divider" aria-hidden></div>
-                        <span class="rc-author">{{ info.version }}</span>
+                        <span>{{ info.version }}</span>
                     </div>
                     <p class="info-desc" v-if="info.description">{{ info.description }}</p>
                 </div>
@@ -23,11 +25,13 @@
                 </div>
             </div>
             <div class="gameversion">
+                支持的游戏版本：
                 <span v-for="(version, index) in info.gameversion" :key="index" class="version-badge">
                     {{ version }}
                 </span>
             </div>
             <div class="tags">
+                标签：
                 <span v-for="(tag, index) in info.tags" :key="index" class="tag-badge" :style="tagStyle(tag)">
                     {{ tag }}
                 </span>
@@ -35,13 +39,12 @@
         </div>
     </div>
     <div class="info-card empty" v-else>无可用信息</div>
-    <ColorLine />
 </template>
 
 <script setup>
 import { computed, ref, onMounted } from "vue";
 import { useData } from "vitepress";
-import ColorLine from '../ColorLine.vue'
+import { stringToBadgeColors } from "../../scripts/badgeColor";
 
 const { frontmatter } = useData();
 
@@ -53,29 +56,46 @@ const info = computed(() => {
 const authorsData = ref([])
 onMounted(async () => {
     try {
-        const res = await fetch('/datapack-index/authors.json')
-        if (res.ok) authorsData.value = await res.json()
+        const raw = info.value.author || [];
+        const list = Array.isArray(raw) ? raw : [raw];
+
+        const promises = list.map(async orig => {
+            // accept either string or object { name, char, avatarUrl, socialLinks }
+            const name = typeof orig === 'string' ? orig : (orig.name || orig.authorName || '');
+            const char = typeof orig === 'object' ? (orig.char || orig.c || '') : '';
+            try {
+                const res = await fetch(`/datapack-index/authors/${encodeURIComponent(name)}.json`);
+                if (res.ok) {
+                    const data = await res.json();
+                    return {
+                        name,
+                        char: char || (orig && orig.char) || '',
+                        avatar: '/datapack-index/' + data.avatar || (orig && (orig.avatarUrl || orig.avatar)) || '',
+                        socialLinks: data.socialLinks || (orig && orig.socialLinks) || []
+                    };
+                }
+            } catch (e) {
+                // ignore fetch error and fall back to orig
+            }
+            // fallback to provided info if fetch failed
+            return {
+                name,
+                char: char || (orig && orig.char) || '',
+                avatar: (orig && (orig.avatarUrl || orig.avatar)) || '',
+                socialLinks: (orig && orig.socialLinks) || []
+            };
+        });
+
+        const results = await Promise.all(promises);
+        authorsData.value = results.filter(Boolean);
     } catch (e) {
         // ignore
     }
-})
+});
 
 const mergedAuthors = computed(() => {
-    const raw = info.value.author || []
-    const list = Array.isArray(raw) ? raw : [raw]
-    return list.map(item => {
-        if (!item) return null
-        let name = ''
-        let char = ''
-        if (typeof item === 'string') name = item
-        else if (typeof item === 'object') {
-            name = item.name || ''
-            char = item.char || ''
-        }
-        const meta = authorsData.value.find(a => a.name === name) || {}
-        // avatar 可能已包含前缀，保留原样
-        return { name, char, avatar: '/datapack-index/' + meta.avatar || '', socialLinks: meta.socialLinks || [] }
-    }).filter(Boolean)
+    // authorsData is already an array of resolved author objects
+    return (authorsData.value || []).map(item => item).filter(Boolean)
 })
 
 // 点击作者头像或名字时，打开该作者第一个 socialLinks 链接（如果存在）
@@ -94,40 +114,18 @@ const hasInfo = computed(() => Object.keys(info.value || {}).length > 0);
 
 function tagStyle(tag) {
     // hard-coded tag color map
-    const map = {
-        科技: '#ff6b6b',
-        展示实体: '#6b8cff',
-        魔法: '#6b1fb3',
-        外观: '#6fa960',
-        blue: '#6b8cff',
-        green: '#6bffb3',
-        default: '#999999'
-    };
-    const hex = map[tag] || map.default;
-    const rgb = hexToRgb(hex);
-    if (!rgb) return {};
+    const colorSet = stringToBadgeColors(tag);
     return {
-        background: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.10)`,
-        border: `1px solid rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`,
-        color: hex,
+        background: colorSet.background,
+        border: `1px solid ${colorSet.border}`,
+        color: colorSet.text,
         padding: '4px 8px',
-        'border-radius': '8px',
-        'font-size': '12px'
+        'border-radius': '999px',
+        'font-size': '12px',
+        'min-width': '36px',
+        'line-height': '16px',
+        'text-align': 'center',
     };
-}
-
-function hexToRgb(hex) {
-    if (!hex) return null;
-    const h = hex.replace('#', '');
-    const bigint = parseInt(h, 16);
-    if (h.length === 3) {
-        return {
-            r: parseInt(h[0] + h[0], 16),
-            g: parseInt(h[1] + h[1], 16),
-            b: parseInt(h[2] + h[2], 16)
-        };
-    }
-    return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
 }
 </script>
 
@@ -135,8 +133,8 @@ function hexToRgb(hex) {
 .info-card {
     display: flex;
     align-items: flex-start;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 16px;
+    border-bottom: 2px #ebebeb solid;
     background: var(--vp-c-bg, #fff);
 }
 
@@ -146,6 +144,23 @@ function hexToRgb(hex) {
     object-fit: cover;
     border-radius: 6px;
     margin-right: 30px;
+}
+
+.info-cover-wrapper {
+    width: 84px;
+    height: 84px;
+    margin-right: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-cover-spacer {
+    width: 84px;
+    height: 84px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
+    border: 1px dashed rgba(0,0,0,0.04);
 }
 
 .info-body {
@@ -219,6 +234,7 @@ function hexToRgb(hex) {
     gap: 8px;
     margin-top: 2px;
     align-items: center;
+    font-size: smaller;
 }
 
 .version-badge {
@@ -229,6 +245,7 @@ function hexToRgb(hex) {
     border-radius: 999px;
     font-size: 12px;
     box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.02);
+    line-height: 16px;
 }
 
 .tags {
@@ -236,13 +253,7 @@ function hexToRgb(hex) {
     gap: 8px;
     align-items: center;
     margin-top: 10px;
-}
-
-.tag-badge {
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    box-shadow: 0 1px 0 rgba(16, 24, 40, 0.03);
+    font-size: smaller;
 }
 
 .authors-scroll{
@@ -254,6 +265,7 @@ function hexToRgb(hex) {
     align-items: center;
     padding-bottom: 6px;
     max-width: 300px;
+    margin-right: 48px;
 }
 
 .authors-scroll .author-item {

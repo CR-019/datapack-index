@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { stringToBadgeColors } from '../../scripts/badgeColor';
+
 export default {
     name: "ResultCard",
     props: {
@@ -46,27 +48,17 @@ export default {
             const dest = this.item.path ?? this.item.id ?? null;
             if (dest) this.$emit("select", "/datapack-index" + dest);
         },
+        
         tagStyle(tag) {
             // hard-coded tag color map
-            const map = {
-                科技: "#ff6b6b",
-                展示实体: "#6b8cff",
-                魔法: "#6b1fb3",
-                外观: "#6fa960",
-                blue: "#6b8cff",
-                green: "#6bffb3",
-                default: "#999999",
-            };
-            const hex = map[tag] || map.default;
-            const rgb = hexToRgb(hex);
-            if (!rgb) return {};
+            const colorSet = stringToBadgeColors(tag);
             return {
-                background: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.10)`,
-                border: `1px solid rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`,
-                color: hex,
-                padding: "4px 8px",
-                "border-radius": "8px",
-                "font-size": "12px",
+                background: colorSet.background,
+                border: `1px solid ${colorSet.border}`,
+                color: colorSet.text,
+                padding: '4px 8px',
+                'border-radius': '8px',
+                'font-size': '12px'
             };
         },
         tryLoadCover(src) {
@@ -107,19 +99,6 @@ export default {
     },
 };
 
-function hexToRgb(hex) {
-    if (!hex) return null;
-    const h = hex.replace("#", "");
-    const bigint = parseInt(h, 16);
-    if (h.length === 3) {
-        return {
-            r: parseInt(h[0] + h[0], 16),
-            g: parseInt(h[1] + h[1], 16),
-            b: parseInt(h[2] + h[2], 16),
-        };
-    }
-    return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
-}
 </script>
 
 <style scoped>

@@ -175,7 +175,6 @@ function formatDate(iso) {
     padding: 16px;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     background: #fff;
-    color: #111;
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
     width: 100%;
 }
@@ -242,7 +241,7 @@ function formatDate(iso) {
 }
 
 .lang-bar {
-    height: 7px;
+    height: 4px;
     border-radius: 7px;
     overflow: hidden;
     display: flex;
@@ -265,7 +264,7 @@ function formatDate(iso) {
     align-items: center;
     gap: 8px;
     font-size: 0.9rem;
-    color: #111827;
+    color: #24355a;
 }
 
 .dot {
@@ -326,12 +325,12 @@ function formatDate(iso) {
     font-size: 0.75rem;
     padding: 3px 8px;
     border-radius: 999px;
-    font-weight: 600;
-    color: #fff;
-    line-height: 1;
+    border: 1px solid;
+    font-weight: 500;
+    line-height: 16px;
 }
-.badge-release { background: #28a745; }
-.badge-prerelease { background: #6f42c1; }
+.badge-release { color: #28a745; border-color: #28a745; }
+.badge-prerelease { color: #7a6700; border-color: #7a6700; }
 
 .release-meta {
     display: flex;
