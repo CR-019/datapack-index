@@ -2,14 +2,13 @@
     <aside class="my-sidebar">
         <div class="card actions-card">
             <div class="actions">
-                <a :href="githubPath" target="_blank" class="action edit-btn" rel="noopener noreferrer">
-                    <svg viewBox="0 0 16 16" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.3 1.7a1 1 0 0 1 1.4 0l.6.6a1 1 0 0 1 0 1.4l-8.6 8.6a1 1 0 0 1-.5.3l-3 1a.5.5 0 0 1-.6-.6l1-3a1 1 0 0 1 .3-.5l8.6-8.6zM11.3 3L4 10.3 3 11l.7-1L12 3.7 11.3 3z"></path></svg>
-                    <span>在 GitHub 编辑此页</span>
-                </a>
-
                 <a href="../" target="_blank" class="action back-btn" rel="noopener noreferrer">
                     <svg viewBox="0 0 16 16" class="icon" aria-hidden="true"><path fill="currentColor" d="M5.5 3.5L4.5 4.5 8.0 8 4.5 11.5 5.5 12.5 10 8z"></path></svg>
                     <span>返回搜索</span>
+                </a>
+                <a :href="githubPath" target="_blank" class="action edit-btn" rel="noopener noreferrer">
+                    <svg viewBox="0 0 16 16" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.3 1.7a1 1 0 0 1 1.4 0l.6.6a1 1 0 0 1 0 1.4l-8.6 8.6a1 1 0 0 1-.5.3l-3 1a.5.5 0 0 1-.6-.6l1-3a1 1 0 0 1 .3-.5l8.6-8.6zM11.3 3L4 10.3 3 11l.7-1L12 3.7 11.3 3z"></path></svg>
+                    <span>在 GitHub 编辑此页</span>
                 </a>
             </div>
         </div>

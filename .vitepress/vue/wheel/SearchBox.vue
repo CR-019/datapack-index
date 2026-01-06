@@ -425,7 +425,6 @@ function processSearchResults(
 }
 
 @media (max-width: 820px) {
-
   .results,
   .random-results {
     grid-template-columns: 1fr;
@@ -445,7 +444,7 @@ function processSearchResults(
   display: flex;
   gap: 8px;
   width: 100%;
-  max-width: 720px;
+  max-width: 820px;
   margin-bottom: 20px;
   transition: transform 220ms ease;
 }
@@ -458,6 +457,7 @@ function processSearchResults(
 
 .search-box {
   min-width: 720px;
+  width: 100%;
   max-width: 720px;
   /* keep original input width even when results area expands */
   padding: 12px 56px 12px 18px;
@@ -580,11 +580,10 @@ function processSearchResults(
   margin-top: 20px;
   margin-right: 30px;
   min-height: 260px;
-  /* reserve space so shrinking doesn't change page height */
 }
 
 .logo {
-  height: 220px;
+  min-height: 120px;
   margin-right: 36px;
 }
 
@@ -598,6 +597,81 @@ function processSearchResults(
   font-size: 56px;
   font-weight: 800;
   line-height: 1;
+}
+
+/* 移动端优化 */
+@media (max-width: 720px) {
+  .page-frame {
+    padding: 16px 12px;
+  }
+  .header {
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+    min-height: 120px;
+  }
+  .logo {
+    height: 200px;
+    margin:0 0 30px 0;
+  }
+  
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 40px;
+    font-weight: 800;
+  }
+  
+  .subtitle {
+    font-size: 13px;
+    margin-top: 6px;
+    margin-left: 0;
+    color: #8a8f95;
+  }
+
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 8px 0 8px;
+    padding: 8px 20px;
+  }
+
+  .search-row {
+    max-width: 100%;
+    margin-bottom: 14px;
+  }
+  .search-box {
+    min-width: 100%;
+    height: 44px;
+    padding: 10px 48px 10px 12px;
+    border-radius: 20px;
+    font-size: 15px;
+  }
+  .search-box-button {
+    right: 8px;
+  }
+  .suggestions {
+    max-height: 320px;
+  }
+  .suggestion-item {
+    padding: 12px 12px;
+    white-space: normal;
+    gap: 8px;
+  }
+  .suggestion-name {
+    max-width: 60%;
+    font-size: 15px;
+  }
+  .suggestion-desc {
+    max-width: 36%;
+    font-size: 13px;
+  }
 }
 
 .subtitle {
