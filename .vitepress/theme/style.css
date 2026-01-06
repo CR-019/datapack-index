@@ -494,3 +494,89 @@
   top: -1.6em;
 }
 
+.wheel-layout aside {
+  width: 420px !important;
+  min-width: 320px !important;
+  flex: 0 0 420px !important;
+}
+
+/* 小屏幕上避免影响太大，仍保持响应性 */
+@media (max-width: 900px) {
+  .wheel-layout aside {
+    width: auto !important;
+    min-width: 0 !important;
+    flex: initial !important;
+  }
+  .wheel-layout .content {
+    max-width: 100% !important;
+  }
+}
+
+/* 明确设定侧边与主内容的 flex 行为，确保主内容收缩以让出侧边空间 */
+.wheel-layout aside,
+.wheel-layout .sidebar,
+.wheel-layout .theme-default-sidebar,
+.wheel-layout .vp-doc .sidebar {
+  flex: 0 0 420px !important;
+  width: 420px !important;
+}
+
+.wheel-layout main,
+.wheel-layout .theme-default-content,
+.wheel-layout .content,
+.wheel-layout .vp-doc {
+  flex: 1 1 auto !important;
+  max-width: none !important;
+}
+
+@media (max-width: 900px) {
+  .wheel-layout > * {
+    display: block !important;
+  }
+}
+
+.wheel-layout .container {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 24px !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+.wheel-layout .aside.left-aside {
+  flex: 0 0 420px !important;
+  width: 420px !important;
+  min-width: 320px !important;
+  position: static !important;
+  overflow: visible !important;
+}
+
+.wheel-layout .aside-container,
+.wheel-layout .aside-content,
+.wheel-layout .aside-curtain {
+  overflow: visible !important;
+}
+
+.wheel-layout .my-sidebar {
+  width: 100% !important; /* 填满 aside 容器 */
+  box-sizing: border-box !important;
+}
+
+.wheel-layout .content {
+  flex: 1 1 auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+.wheel-layout .content-container,
+.wheel-layout main,
+.wheel-layout .main {
+  overflow: visible !important;
+}
+
+@media (max-width: 900px) {
+  .wheel-layout .container {
+    display: block !important;
+  }
+}
+
