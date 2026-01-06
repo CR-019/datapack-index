@@ -1,5 +1,5 @@
 name: 提交新前置
-description: 向香草前置馆提交一个新的前置介绍，无论这个前置是否是你写的。提交即视为同意[提交规则与免责声明](https://github.com/CR-019/datapack-index/blob/main/CONTRIBUTING.md)。
+description: 向香草前置馆提交一个新的前置介绍，无论这个前置是否是你写的
 labels: new_wheel
 body:
 - type: input
@@ -75,3 +75,6 @@ body:
     description: 详细介绍这个前置，使用Markdown格式
   validations:
     required: true
+- type: markdown
+  attributes:
+    value: "提交即视为同意[提交规则与免责声明](https://github.com/CR-019/datapack-index/blob/main/CONTRIBUTING.md)。"
