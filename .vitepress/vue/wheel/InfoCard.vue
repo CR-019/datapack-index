@@ -24,7 +24,7 @@
                 <div class="info-main-left">
                     <div class="info-header">
                         <h3 class="info-title">{{ info.name }}</h3>
-                        <div class="info-divider" aria-hidden></div>
+                        <div v-if="!isMobile" class="info-divider" aria-hidden></div>
                         <span>{{ info.version }}</span>
                     </div>
                     <p class="info-desc" v-if="info.description">{{ info.description }}</p>
@@ -413,6 +413,12 @@ function tagStyle(tag) {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
         overflow: hidden;
+    }
+
+    .info-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0px;
     }
 
     .gameversion,
