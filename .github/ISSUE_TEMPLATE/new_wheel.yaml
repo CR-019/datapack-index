@@ -77,4 +77,4 @@ body:
     required: true
 - type: markdown
   attributes:
-    value: "提交即视为同意[提交规则与免责声明](https://github.com/CR-019/datapack-index/blob/main/CONTRIBUTING.md)。"
+    value: "提交即视为同意[提交规则与免责声明](https://github.com/CR-019/datapack-index/blob/master/CONTRIBUTING.md)。"
