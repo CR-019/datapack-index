@@ -45,7 +45,7 @@
 
         <section class="meta">
             <div class="release">
-                <div class="meta-title">Release</div>
+                <div class="meta-title">最新版本</div>
                 <div class="tag-row">
                     <template v-if="release">
                         <a :href="release.url" target="_blank" rel="noopener noreferrer" class="release-tag">{{ release.tagName }}</a>
@@ -58,7 +58,7 @@
                         </span>
                     </template>
                     <template v-else>
-                        <span class="muted">No releases</span>
+                        <span class="muted">无发布版本</span>
                     </template>
                 </div>
                 <div class="release-meta">
@@ -68,7 +68,7 @@
             </div>
 
             <div class="commit">
-                <div class="meta-title">Last commit</div>
+                <div class="meta-title">最后提交</div>
                 <div class="commit-time"><span class="muted">{{ formatDate(lastCommit) }}</span></div>
             </div>
         </section>
@@ -175,9 +175,12 @@ function formatDate(iso) {
     padding: 16px;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     background: #fff;
-    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
     width: 100%;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
+
+
+.repo-card:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(16,24,40,0.08); }
 
 .header {
     margin-bottom: 12px;
@@ -295,8 +298,8 @@ function formatDate(iso) {
 }
 
 .meta-title {
-    font-weight: 700;
-    color: #374151;
+    font-weight: 600;
+    color: #434d5e;
     margin-bottom: 6px;
 }
 
