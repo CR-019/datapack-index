@@ -2,8 +2,10 @@
     <div class="repo-card" v-if="repoName">
         <header class="header">
             <a :href="repo.url" target="_blank" rel="noopener noreferrer" class="repo-link">
-                <svg class="repo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="currentColor" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012.01-.27c.68 0 1.36.09 2.01.27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                <svg class="repo-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill="currentColor" fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012.01-.27c.68 0 1.36.09 2.01.27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
                 </svg>
                 <span class="repo-name-text">{{ repoName }}</span>
             </a>
@@ -48,12 +50,10 @@
                 <div class="meta-title">最新版本</div>
                 <div class="tag-row">
                     <template v-if="release">
-                        <a :href="release.url" target="_blank" rel="noopener noreferrer" class="release-tag">{{ release.tagName }}</a>
-                        <span
-                            class="badge"
-                            :class="release.isPrerelease ? 'badge-prerelease' : 'badge-release'"
-                            v-if="release && typeof release.isPrerelease !== 'undefined'"
-                        >
+                        <a :href="release.url" target="_blank" rel="noopener noreferrer" class="release-tag">{{
+                            release.tagName }}</a>
+                        <span class="badge" :class="release.isPrerelease ? 'badge-prerelease' : 'badge-release'"
+                            v-if="release && typeof release.isPrerelease !== 'undefined'">
                             {{ release.isPrerelease ? 'Pre‑release' : 'Release' }}
                         </span>
                     </template>
@@ -180,7 +180,10 @@ function formatDate(iso) {
 }
 
 
-.repo-card:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(16,24,40,0.08); }
+.repo-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(16, 24, 40, 0.08);
+}
 
 .header {
     margin-bottom: 12px;
@@ -208,7 +211,9 @@ function formatDate(iso) {
     color: #24292f;
 }
 
-.repo-name-text { line-height: 1; }
+.repo-name-text {
+    line-height: 1;
+}
 
 .desc {
     margin: 6px 0 0;
@@ -321,7 +326,10 @@ function formatDate(iso) {
     color: #0b66c3;
     text-decoration: none;
 }
-.release-tag:hover { text-decoration: underline; }
+
+.release-tag:hover {
+    text-decoration: underline;
+}
 
 .badge {
     display: inline-block;
@@ -332,8 +340,16 @@ function formatDate(iso) {
     font-weight: 500;
     line-height: 16px;
 }
-.badge-release { color: #28a745; border-color: #28a745; }
-.badge-prerelease { color: #7a6700; border-color: #7a6700; }
+
+.badge-release {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.badge-prerelease {
+    color: #7a6700;
+    border-color: #7a6700;
+}
 
 .release-meta {
     display: flex;
@@ -341,13 +357,16 @@ function formatDate(iso) {
     align-items: center;
     flex-wrap: wrap;
 }
+
 .release-name {
     color: #374151;
     font-size: 0.8rem;
     margin-left: 6px;
 }
 
-.commit-time { margin-top: 6px; }
+.commit-time {
+    margin-top: 6px;
+}
 
 .release-meta .muted {
     color: #6b7280;
@@ -363,5 +382,83 @@ function formatDate(iso) {
 .foot {
     margin-top: 12px;
     color: #6b7280;
+}
+
+/* Dark mode 支持 */
+.dark .repo-card {
+    background: linear-gradient(180deg, #1b1b1f 0%, #1c1c20 60%);
+    border: 1px solid #313131;
+    box-shadow: none;
+}
+
+.dark .repo-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+.dark .repo-link {
+    color: #7ec0ff;
+}
+
+.dark .repo-icon {
+    color: #e4e4e4;
+}
+
+.dark .desc {
+    color: #dfdfd6;
+}
+
+.dark .label {
+    color: #dfdfd6;
+}
+
+.dark .value {
+    color: #dfdfd6;
+}
+
+.dark .lang-bar {
+    background: #0f2230;
+}
+
+.dark .lang-item {
+    color: #dfdfd6;
+}
+
+.dark .lang-pct {
+    color: #c0c0b9;
+}
+
+.dark .divider {
+    border-top: 1px solid #313131;
+}
+
+.dark .meta {
+    color: #dfdfd6;
+}
+
+.dark .meta-title {
+    color: #dfdfd6;
+}
+
+.dark .release-tag {
+    color: #dfdfd6;
+}
+
+.dark .badge-release {
+    color: #7ad08a;
+    border-color: #7ad08a;
+}
+
+.dark .badge-prerelease {
+    color: #f1d37a;
+    border-color: #f1d37a;
+}
+
+.dark .release-meta .muted,
+.dark .commit-time .muted,
+.dark .loading,
+.dark .error,
+.dark .foot {
+    color: #dfdfd6;
 }
 </style>

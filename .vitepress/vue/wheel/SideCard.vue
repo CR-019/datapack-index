@@ -95,4 +95,25 @@ export default {
 .back-btn { background: #eff8ff; border-color: rgba(6,95,212,0.12); }
 
 .edit-btn span, .back-btn span { font-weight: 500; font-size: 0.95rem }
+
+.dark .card {
+    background: linear-gradient(180deg, #1b1b1f 0%, #1c1c20 60%);
+    color: #dfdfd6;
+    box-shadow: none;
+}
+
+.dark .action {
+    border: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.02);
+}
+
+.dark .action:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.6); transform: translateY(-1px); }
+
+.dark .action .icon { color: #e4e4e4 }
+
+.dark .edit-btn, .dark .back-btn {
+    background: rgba(255,255,255,0.02);
+    border-color: rgba(255,255,255,0.04);
+    color: #dfdfd6;
+}
 </style>

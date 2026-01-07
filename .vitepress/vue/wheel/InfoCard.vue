@@ -492,4 +492,73 @@ function tagStyle(tag) {
 
 
 .edit-btn span, .back-btn span { font-weight: 500; font-size: 0.95rem }
+
+/* Dark mode 支持 (参考 RepoCard) */
+.dark .info-card {
+    background: linear-gradient(180deg, #1b1b1f 0%, #1c1c20 60%);
+    border-bottom-color: #313131;
+    color: #dfdfd6;
+}
+
+.dark .info-cover-spacer {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.03));
+    border: 1px dashed rgba(255,255,255,0.04);
+}
+
+.dark .info-main {
+    background: transparent;
+}
+
+.dark .info-title {
+    color: #ffffff;
+}
+
+.dark .info-divider {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.dark .info-desc {
+    color: #dfdfd6;
+}
+
+.dark .version-badge {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #dfdfd6;
+}
+
+.dark .tag-badge {
+    background: rgba(255,255,255,0.02);
+    color: #e6e6e6;
+    border-color: rgba(255,255,255,0.06);
+}
+
+.dark .author-avatar {
+    box-shadow: none;
+}
+
+.dark .author-name {
+    color: #dfdfd6;
+}
+
+.dark .author-char {
+    color: #c0c0b9;
+}
+
+.dark .authors-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.06);
+}
+
+.dark .card {
+    background: linear-gradient(180deg, #1b1b1f 0%, #1c1c20 60%);
+    color: #dfdfd6;
+}
+
+.dark .action {
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.dark .action .icon {
+    color: #e4e4e4;
+}
 </style>

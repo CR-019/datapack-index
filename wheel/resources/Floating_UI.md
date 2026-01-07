@@ -27,7 +27,7 @@ Floating UI是一个基于展示实体实现的重量级UI框架，允许你使�
 
 # 玩家执行
 
-data modify floating_ui:input data set value {、
+data modify floating_ui:input data set value {\
     "type":"panel",\
     "size":[5f,5f],\
     "child":[\

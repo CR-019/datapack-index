@@ -5,7 +5,8 @@
                 <h3 class="rc-name">{{ item.name }}</h3>
                 <div class="rc-divider" aria-hidden></div>
                 <span class="rc-author" v-if="item.author && (item.author.length == 1)">{{ item.author[0].name }}</span>
-                <span class="rc-author" v-if="item.author && (item.author.length > 1)">{{ item.author[0].name }} ...</span>
+                <span class="rc-author" v-if="item.author && (item.author.length > 1)">{{ item.author[0].name }}
+                    ...</span>
             </div>
             <p class="rc-desc">{{ item.description }}</p>
         </div>
@@ -49,7 +50,7 @@ export default {
             const dest = this.item.path ?? this.item.id ?? null;
             if (dest) this.$emit("select", "/datapack-index" + dest);
         },
-        
+
         tagStyle(tag) {
             // hard-coded tag color map
             const colorSet = stringToBadgeColors(tag);
@@ -116,6 +117,10 @@ export default {
     transition: transform 0.18s ease, box-shadow 0.18s ease;
     will-change: transform, opacity;
     animation: popIn 320ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* allow overlay pseudo element when cover present */
+    position: relative;
+    overflow: hidden;
 }
 
 @keyframes popIn {
@@ -184,12 +189,14 @@ export default {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    display: -webkit-box;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    /* 标准属性，兼容性更好 */
+    line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    box-orient: vertical;
 }
 
 .result-card.has-cover .rc-author,
@@ -206,6 +213,10 @@ export default {
     justify-content: center;
     padding-right: 10px;
     min-width: 110px;
+
+    /* ensure content sits above possible cover overlay */
+    position: relative;
+    z-index: 1;
 }
 
 .gameversion {
@@ -266,5 +277,87 @@ export default {
     .card-left {
         padding-left: 10px;
     }
+}
+
+/* Dark mode 支持 */
+.dark .result-card {
+    /* 更偏向黑色的主题色 */
+    background: linear-gradient(90deg, #1b1b1f 0%, #1c1c20 60%);
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
+    color: #f3f3f3;
+}
+
+.dark .result-card:hover {
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.85);
+}
+
+/* When cover present, add a subtle black overlay so inline gradient isn't too bright */
+.dark .result-card.has-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.65), rgba(10, 10, 10, 0.35));
+    border-radius: 18px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ensure text sits above the overlay */
+.dark .result-card .card-left,
+.dark .result-card .card-right {
+    position: relative;
+    z-index: 1;
+}
+
+.dark .rc-name {
+    color: #ffffff;
+}
+
+.dark .result-card.has-cover .rc-name {
+    color: #ffffff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.dark .rc-divider {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.dark .rc-author {
+    color: #bdbdbd;
+}
+
+.dark .rc-desc {
+    color: #9ea6ac;
+}
+
+.dark .result-card.has-cover .rc-author,
+.dark .result-card.has-cover .rc-desc {
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.dark .version-badge {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.dark .result-card.has-cover .version-badge {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.dark .tag-badge {
+    box-shadow: none;
+    color: #e6e6e6;
+    border-color: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.dark .result-card.has-cover .tag-badge {
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.03) !important;
 }
 </style>
