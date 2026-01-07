@@ -65,9 +65,19 @@ body:
   id: tags
   attributes:
     label: 标签
-    description: 标签有助于对你的前置进行分类。填写格式：标签1, 标签2, 标签3... 建议参考其他页面的标签填写。
+    description: 标签有助于对前置进行分类。填写格式：标签1, 标签2, 标签3... 建议参考其他页面的标签填写。
   validations:
     required: true
+- type: textarea
+  id: depends
+  attributes:
+    label: 依赖项
+    description: 这个前置依赖的其他前置。
+    value: |
+      依赖1: https://github.com/xxx (若图书馆未收录)
+      依赖2: https://vanillalibrary.mcfpp.top/wheel/resources/xxx (若图书馆收录)
+  validations:
+    required: false
 - type: textarea
   id: details
   attributes:
