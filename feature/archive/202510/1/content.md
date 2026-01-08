@@ -9,15 +9,7 @@ title: '基于展示实体的一些巧思'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/104432208' }
     ]"
-    :extraAuthors="[
-      {
-        authorName: '雨相日生awa',
-        avatarUrl: '../../_authors/雨相日生.jpg',
-        socialLinks:[
-          { name: 'BiliBili', url: 'https://space.bilibili.com/299834358' }
-        ]
-      }
-    ]"
+    :extraAuthors="['雨相日生awa']"
     resourceLink = https://www.bilibili.com/video/BV1C7HyzNEeh
     cover='../_assets/1.png'
 />

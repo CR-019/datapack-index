@@ -160,18 +160,32 @@ export default {
             if (!extra) continue;
             if (typeof extra === 'string') {
                 const r = await fetch(`/datapack-index/authors/${extra}.json`);
-                if (r && r.ok) this.extraAuthorsInfo.push(await r.json());
+                if (r && r.ok) {
+                    const data = await r.json();
+                    this.extraAuthorsInfo.push({
+                        name: extra,
+                        avatar: '/datapack-index' + data.avatar,
+                        socialLinks: data.socialLinks || []
+                    });
+                }
             } else if (extra.authorName) {
                 // 如果 extra 已包含 avatarUrl 或 socialLinks，直接使用；否则尝试从单文件作者目录加载
                 if (extra.avatarUrl || (extra.socialLinks && extra.socialLinks.length)) {
                     this.extraAuthorsInfo.push({
-                        authorName: extra.authorName,
-                        avatarUrl: extra.avatarUrl,
+                        name: extra.authorName,
+                        avatar: '/datapack-index' + extra.avatarUrl,
                         socialLinks: extra.socialLinks || []
                     });
                 } else {
                     const r = await fetch(`/datapack-index/authors/${extra.authorName}.json`);
-                    if (r && r.ok) this.extraAuthorsInfo.push(await r.json());
+                    if (r && r.ok) {
+                        const data = await r.json();
+                        this.extraAuthorsInfo.push({
+                            name: extra.authorName,
+                            avatar: '/datapack-index' + data.avatar,
+                            socialLinks: data.socialLinks || []
+                        });
+                    }
                 }
             }
         }
