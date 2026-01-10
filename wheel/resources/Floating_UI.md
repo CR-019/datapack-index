@@ -1,14 +1,14 @@
 ---
 name: Floating UI
-author: 
-    - 
+author:
+    -
         name: Alumopper
         char: 作者
 description: 功能强大的重量级UI框架
 tags: [UI, 展示实体]
 version: 1.0-beta1
 gameversion: [1.21.9, 1.21.10]
-aside: left 
+aside: left
 wheel: true
 repo: Alumopper/Floating-UI
 ---
