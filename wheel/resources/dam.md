@@ -1,5 +1,5 @@
 ---
-name: DAM状态栏文本混合管理器
+name: DAM文本混合管理器
 author:
     -
         name: Dahesor
