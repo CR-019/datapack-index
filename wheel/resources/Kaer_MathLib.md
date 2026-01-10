@@ -1,14 +1,14 @@
 ---
 name: 卡儿数学库
-author: 
-    - 
+author:
+    -
         name: 卡儿3058
         char: 程序
 description: 一个功能完备，持续更新的数学库。除了常用的初等数学工具之外，也涉及到很多加密解密、图像渲染的内容。是数据包作者进行快速计算或高精度计算的不二之选。
 tags: [数学, 计算, 高性能, 高版本, 持续维护]
 version: 1.19
 gameversion: [1.21.3]
-aside: left 
+aside: left
 wheel: true
 repo: kaer-3058/large_number
 ---
