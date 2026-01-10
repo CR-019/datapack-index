@@ -25,6 +25,17 @@
 						</li>
 					</ul>
 				</div>
+				<div class="submit-button-container">
+					<button class="submit-button" @click="submit" aria-label="投稿">
+						<!-- inline upload/submit icon -->
+						<svg class="submit-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+							<path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+							<path d="M8 7l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+							<path d="M21 21H3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+						</svg>
+						<span class="submit-text">投稿</span>
+					</button>
+				</div>
 			</div>
 			<div class="results" v-if="!showRandomSection">
 				<ResultCard v-for="item in results" :key="item.id" :item="item" @select="goToResource" />
@@ -156,6 +167,16 @@ export default {
 							tokenize: "full",
 							resolution: 9,
 						},
+						{
+							field: "name",
+							tokenize: "full",
+							resolution: 9,
+						},
+						{
+							field: "author",
+							tokenize: "full",
+							resolution: 9,
+						},
 					],
 					store: [
 						"name",
@@ -232,6 +253,10 @@ export default {
 		goToResource(id) {
 			window.location.href = id;
 		},
+		submit(){
+			//跳转到https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml
+			window.location.href = "https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml";
+		}
 	},
 	computed: {
 		headerShrunk() {
@@ -501,6 +526,9 @@ function processSearchResults(
 	z-index: 50;
 	height: auto;
 }
+.search-box-button:focus {
+	outline: none;
+}
 
 .search-box-button .icon {
 	display: block;
@@ -518,6 +546,45 @@ function processSearchResults(
 	/* 变为不透明 */
 	transform: translateY(-1px);
 	filter: none;
+}
+
+.submit-button {
+	/* flat modern button */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	background: #1e90ff;
+	color: #fff;
+	min-width: 96px;
+	height: 48px;
+	padding: 0 14px;
+	border-radius: 26px;
+	font-size: 14px;
+	border: none;
+	cursor: pointer;
+	box-shadow: none; /* 扁平化，去掉立体阴影 */
+	transition: transform 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.submit-button .submit-text {
+	font-weight: 600;
+}
+
+.submit-button .submit-icon {
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	color: rgba(255,255,255,0.95);
+}
+
+.submit-button:hover {
+	background-color: #297fe6;
+}
+
+.submit-button:focus {
+	outline: 2px solid rgba(30,144,255,0.18);
+	outline-offset: 2px;
 }
 
 .suggestions {
@@ -669,6 +736,14 @@ function processSearchResults(
 		right: 8px;
 	}
 
+	.submit-button {
+		min-width: 84px;
+		height: 44px;
+		border-radius: 26px;
+		padding: 0 10px;
+		font-size: 13px;
+	}
+
 	.suggestions {
 		max-height: 320px;
 	}
@@ -773,6 +848,15 @@ function processSearchResults(
 
 .dark .suggestion-item:hover {
 	background: rgba(255,255,255,0.02);
+}
+
+.dark .submit-button {
+	background: linear-gradient(180deg, #2b6fd6, #2b6fd6);
+	color: #fff;
+}
+
+.dark .submit-button .submit-icon {
+	color: rgba(255,255,255,0.95);
 }
 
 .dark .header {

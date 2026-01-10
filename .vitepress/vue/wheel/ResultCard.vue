@@ -16,8 +16,9 @@
                     {{ version }}
                 </span>
             </div>
-            <div class="tags">
-                <span v-for="(tag, index) in item.tags" :key="index" class="tag-badge" :style="tagStyle(tag)">
+            <div class="tags" aria-hidden="false">
+                <!-- 渲染所有标签：默认只展示前两个，额外的在悬停时显示 -->
+                <span v-for="(tag, index) in (item.tags || [])" :key="index" :class="['tag-badge', { 'extra-tag': index >= 2 }]" :style="tagStyle(tag)">
                     {{ tag }}
                 </span>
             </div>
@@ -189,14 +190,13 @@ export default {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    /* 标准属性，兼容性更好 */
     line-clamp: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
     box-orient: vertical;
+    /* transition when hiding on hover (showing all tags) */
+    transition: opacity 180ms ease, max-height 220ms ease, margin 180ms ease;
+    max-height: 48px; /* enough for two lines */
+    opacity: 1;
 }
 
 .result-card.has-cover .rc-author,
@@ -211,8 +211,7 @@ export default {
     align-items: flex-end;
     gap: 14px;
     justify-content: center;
-    padding-right: 10px;
-    min-width: 110px;
+    min-width: 160px; 
 
     /* ensure content sits above possible cover overlay */
     position: relative;
@@ -244,19 +243,59 @@ export default {
 .tags {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; 
     justify-content: center;
+    overflow: hidden;
+    align-items: center;
 }
 
 .tag-badge {
-    padding: 2px 8px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 8px;
     font-size: 12px;
     box-shadow: 0 1px 0 rgba(16, 24, 40, 0.03);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .result-card.has-cover .tag-badge {
     box-shadow: none;
+}
+
+/* extra tags hidden by default, revealed on hover */
+.tag-badge.extra-tag {
+    display: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.result-card:hover .tag-badge.extra-tag,
+.result-card:focus-within .tag-badge.extra-tag {
+    display: inline-block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 当显示所有标签（悬停或聚焦）时，隐藏描述并添加过渡动画 */
+.result-card:hover .rc-desc,
+.result-card:focus-within .rc-desc {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+}
+
+/* Shrink description area to avoid pushing tags */
+.card-left {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-right: 12px;
+}
+
+.rc-desc {
+    font-size: 12px;
+    max-width: 100%;
 }
 
 /* Responsive: on narrow screens stack layout */
@@ -271,7 +310,7 @@ export default {
         justify-content: flex-start;
         gap: 8px;
         min-width: 0;
-        padding: 10px 22px 0 22px;
+        padding: 10px 10px 0 10px;
     }
 
     .card-left {

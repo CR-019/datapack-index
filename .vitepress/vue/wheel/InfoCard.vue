@@ -298,6 +298,7 @@ function tagStyle(tag) {
     padding-bottom: 6px;
     max-width: 300px;
     margin-right: 48px;
+    margin-left: 36px;
 }
 
 .authors-scroll .author-item {
@@ -319,8 +320,12 @@ function tagStyle(tag) {
 .author-name {
     font-size: 12px;
     color: var(--vp-c-text, #111);
-    text-align: center
-    ;cursor: pointer
+    text-align: center;
+    cursor: pointer;
+    /* 不允许换行，超出显示省略号 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .author-char {
