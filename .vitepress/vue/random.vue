@@ -2,10 +2,10 @@
 <template>
     <p :class="$style.paragraph" v-html="formattedParagraph"></p>
   </template>
-  
+
   <script setup>
   import { ref, onMounted, computed } from 'vue';
-  
+
   // 定义多个段落，每个段落可以是多行文本，并包含HTML标签
   /*
   `/*愚人节限定`,
@@ -17,10 +17,10 @@
      `你知道吗？mc刚刚更新了，并且加入了新的指令<a href=https://vanillalibrary.mcfpp.top/datapack-index/resources/是真的.html>/sex</a>,我试过了，是真的，你也快试试看吧！`,
      `《feature》创刊号今日发布！<a href=https://www.bilibili.com/video/BV1GJ411x7h7/ target="_blank">点我查看</a>`,
     ``*/
-  
-  
+
+
   const paragraphs = [
-     `—— 你为什么写数据包？是有什么受虐体质吗？  
+     `—— 你为什么写数据包？是有什么受虐体质吗？
      —— 是。`,
     `你本来应该下地狱的，但因为你生前写 <b>Minecraft数据包</b> ，我们就当做你已经服完刑期了`,
     `我升级地图，Spyglass给我报了1600个错误……`,
@@ -29,7 +29,7 @@
     `Bugjump Studios!`,
     `数据包开发者：（夜半惊醒）不是，它这么做就是为了恶心我一下吗？`,
     `Mojang教你可数和不可数`,
-    `数据包版本现在为<del>15</del> <del>18</del> <del>26</del> <del>41</del> <del>48</del> <del>57</del> <del>61</del> <del>71</del> <del>80</del> <del>81</del> <del>82.0</del> 88.0! `,
+    `数据包版本现在为<del>15</del> <del>18</del> <del>26</del> <del>41</del> <del>48</del> <del>57</del> <del>61</del> <del>71</del> <del>80</del> <del>81</del> <del>82.0</del> <del>88.0</del> 94.1!`,
     `着色器！`,
     `物品组件！`,
     `神 金 包`,
@@ -39,7 +39,7 @@
     `听说了吗？MCBBS打赢复活赛了 <a href=https://forum.mczwlt.net/ target="_blank">点这里前往-></a>`,
     `数据包笑传之Change Change 版本号`,
     `STFW stands for "Search the <i>Friendly</i> <a href=https://zh.minecraft.wiki/ target="_blank">Wiki</a>!"`,
-    `—— 你家有精神病史吗？  
+    `—— 你家有精神病史吗？
      —— 我有一个写数据包的舅舅。`,
     `我奶奶都比mojang会整理东西`,
     `mojang把代码当铁锅疯狂颠勺，API像葱花满天飞
@@ -73,27 +73,27 @@
     `无法在安全模式下加载世界。
     这个存档包含无效或损坏的数据。`
   ];
-  
+
   // 用于存储选中的段落
   const selectedParagraph = ref('');
-  
+
   // 在组件挂载时随机选择一个段落
   onMounted(() => {
     selectRandomParagraph();
   });
-  
+
   // 随机选择一个段落的函数
   function selectRandomParagraph() {
     const randomIndex = Math.floor(Math.random() * paragraphs.length);
     selectedParagraph.value = paragraphs[randomIndex];
   }
-  
+
   // 计算属性：确保正确处理换行符
   const formattedParagraph = computed(() => {
     return selectedParagraph.value.replace(/\n/g, '<br>');
   });
   </script>
-  
+
   <style module>
   /* 使用 CSS Modules */
   .paragraph {
