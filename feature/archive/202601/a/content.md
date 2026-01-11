@@ -2,7 +2,7 @@
 title: 'TheSkyBlessing数据包解析其二'
 ---
 
-<FeatureHead
+<FeaturedHead
     title='TheSkyBlessing数据包解析其二'
     authorName='伶'
     cover = '../_assets/a.png'
