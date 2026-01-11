@@ -15,24 +15,23 @@ export const sidebar_202601: DefaultTheme.Sidebar = [
   {
     text: '精选 Featured',
     items: [
-      { text: 'TheSkyBlessing数据包解析', link: '/feature/archive/202512/0/content' },
+      { text: 'TheSkyBlessing数据包解析其二', link: '/feature/archive/202601/a/content' },
     ]
   },
   {
     text: '洞见 Insights',
     items: [
-      { text: '一种可行的将OBJ模型转换为json模型的方法', link: '/feature/archive/202512/1/content' },
-      { text: '基于世界生成结构集完成的无限自由度的无限建筑结构', link: '/feature/archive/202512/2/content' },
-      { text: '自定义魔咒的综合应用', link: '/feature/archive/202512/3/content' },
-      { text: '使用头颅/玩家档案信息半自动获取Unix时间戳', link: '/feature/archive/202512/4/content' },
-      { text: '附注-核心全局量汇总（上）', link: '/feature/archive/202512/5/content' },
+      { text: '如何使用最新最热的MC特性制作原版国际象棋（上）', link: '/feature/archive/202601/d/content' },
+      { text: '如何判断给定地址的NBT数据类型', link: '/feature/archive/202601/e/content' },
+      { text: '原版开发常识汇总（其一）', link: '/feature/archive/202601/b/content' },
+      { text: '更好的右键检测：减半法', link: '/feature/archive/202601/f/content' },
 
     ]
   },
   {
     text: '巧匠 Masterpieces',
     items: [
-      { text: 'Sniffer: 来自Fabric的数据包开发支持Mod', link: '/feature/archive/202512/6/content' }
+      { text: '基于非对称加密的只能游玩一次的MC地图', link: '/feature/archive/202601/c/content' }
     ]
   },
   {

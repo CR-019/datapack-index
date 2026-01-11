@@ -8,10 +8,8 @@ const { isDark } = useData()
 <ColorLine :height="4"/>
 
 ## 图书馆上新 What's New
-<ColorLine :height="2"/>
 
 **[香草前置馆](/wheel/index.md)火爆开张中！如果知道好用的前置数据包或资源包，欢迎投稿（无论是否是你的）！**
-
 
 ## 命令快闪 Command Flashlight
 
