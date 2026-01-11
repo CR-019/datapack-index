@@ -16,6 +16,7 @@ wheel: true
 <InfoCard />
 
 本项目旨在通过简单的方式创建类似Galgame的对话框，且**支持多人并行使用**。
+
 [>> 展示视频 <<](https://www.bilibili.com/video/BV17HurzQETr/)
 
 阅读其[官方开发文档](https://ymqlgthbsakuradream.github.io/posts/mc/skdbox/index.html)以获取更多信息。
