@@ -1,7 +1,8 @@
 {
   "name": "火昱Flame",
   "socialLinks": [
-    { "name": "Bilibili", "url": "https://space.bilibili.com/1036717393" }
+    { "name": "Bilibili", "url": "https://space.bilibili.com/1036717393" },
+    { "name": "Github", "url": "https://github.com/Huoyuyuyu" }
   ],
   "avatar": "/_authors/火昱Flame.jpg"
 }

@@ -9,6 +9,7 @@ from pathlib import Path
 import jieba
 import frontmatter
 
+AUTHOR_DIR = "public/authors/"
 SRC_GLOB = "wheel/resources/**/*.md"
 OUT_DIR = Path("public")
 OUT_FILE = OUT_DIR / "formatters.json"
@@ -25,6 +26,23 @@ def load_cache():
 def save_cache(cache):
     CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
     CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def attempt_read_author_name(name: str) -> str:
+    AUTHOR_PATH = Path(AUTHOR_DIR)
+    target_json = AUTHOR_PATH / f"{name}.json"
+
+    if not target_json.exists():
+        return name
+
+    try:
+        data = json.loads(target_json.read_text(encoding="utf-8"))
+    except Exception:
+        return name
+
+    if isinstance(data, dict) and isinstance(data.get("name"), str) and data["name"].strip():
+        return data["name"].strip()
+
+    return name
 
 def process_file(p: Path):
     raw = p.read_text(encoding="utf-8")
@@ -44,12 +62,16 @@ def process_file(p: Path):
 
     # 提取作者姓名用于加入文本（兼容元素为字符串或对象的情况）
     author_names = []
+    authors_list_proccessed = []
     for a in authors_list:
+        authors_list_proccessed.append(a)
         if isinstance(a, dict):
             name = a.get("name")
         else:
             name = str(a)
         if name:
+            name = attempt_read_author_name(name)
+            authors_list_proccessed[-1]["name"] = name
             author_names.append(name)
 
     text = " ".join(filter(None, [data.get("name", ""), data.get("description", ""), " ".join(author_names)]))
@@ -64,7 +86,7 @@ def process_file(p: Path):
         "tokens": tokens,
         "gameversion": data.get("gameversion", []),
         # 保存为作者对象数组（兼容旧值，已在上面规范为列表）
-        "author": authors_list,
+        "author": authors_list_proccessed,
         "cover": data.get("cover", ""),
         "version": data.get("version", "")
     }
@@ -83,12 +105,15 @@ def main():
         if k not in src_ids:
             new_items.pop(k, None)
 
+    cache_hit = 0
+
     for p in files:
         id_rel = str(p.relative_to(Path.cwd())).replace("\\","/")
         raw = p.read_text(encoding="utf-8")
         h = hash_text(raw)
         cached = old_items.get(id_rel)
         if cached and cached.get("hash") == h:
+            cache_hit += 1
             continue
         # changed or new
         h2, rec = process_file(p)
@@ -101,7 +126,7 @@ def main():
     OUT_FILE.write_text(json.dumps(final_list, ensure_ascii=False), encoding="utf-8")
 
     save_cache({"items": new_items, "meta": {"ts": __import__("time").time()}})
-    print(f"Wrote {OUT_FILE} items: {len(final_list)}")
+    print(f"Wrote {OUT_FILE} items: {len(final_list)} with {cache_hit} cache hits.")
 
 if __name__ == "__main__":
     main()

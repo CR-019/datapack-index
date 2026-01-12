@@ -85,8 +85,9 @@ onMounted(async () => {
                 const res = await fetch(`/datapack-index/authors/${encodeURIComponent(name)}.json`);
                 if (res.ok) {
                     const data = await res.json();
+                    const finalName = data.name || name;
                     return {
-                        name,
+                        name: finalName,
                         char: char || (orig && orig.char) || '',
                         avatar: '/datapack-index/' + data.avatar || (orig && (orig.avatarUrl || orig.avatar)) || '',
                         socialLinks: data.socialLinks || (orig && orig.socialLinks) || []
