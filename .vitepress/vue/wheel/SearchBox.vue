@@ -48,6 +48,10 @@
 				<ResultCard v-for="item in randomResults" :key="item.id" :item="item" @select="goToResource" />
 			</div>
 			<div class="browse-toggle-row">
+				<button class="browse-toggle" @click="goToAll">
+					查看全部资源
+				</button>
+				<span class="bt-divider" aria-hidden="true"></span>
 				<button class="browse-toggle" @click="toggleBrowse">
 					{{ browseLabel }}
 				</button>
@@ -195,6 +199,7 @@ export default {
 			randomResults: [],
 			index: null,
 			data: [],
+			_originalTitle: '',
 		};
 	},
 	methods: {
@@ -344,7 +349,6 @@ export default {
 					pageSize: 40,
 				});
 				this.results = result.items;
-				console.log(result);
 			}
 		},
 
@@ -398,6 +402,9 @@ export default {
 				window.location.href = id;
 			}
 		},
+		goToAll() {
+			window.location.href = "/datapack-index/wheel/all"
+		},
 		submit() {
 			// 在新标签页中打开投稿页面
 			const url =
@@ -424,6 +431,24 @@ export default {
 	async mounted() {
 		if (!this.index) {
 			await this.fetchData();
+		}
+		// set document title for this page
+		try {
+			if (typeof document !== 'undefined') {
+				this._originalTitle = document.title || '';
+				document.title = '香草前置馆';
+			}
+		} catch (e) {
+			// ignore non-browser
+		}
+	},
+	beforeUnmount() {
+		try {
+			if (typeof document !== 'undefined') {
+				if (this._originalTitle) document.title = this._originalTitle;
+			}
+		} catch (e) {
+			// ignore
 		}
 	},
 };
@@ -569,6 +594,8 @@ function buildIndexFromData(data) {
 				{ field: "tokens", tokenize: "full", resolution: 9 },
 				{ field: "name", tokenize: "full", resolution: 9 },
 				{ field: "author", tokenize: "full", resolution: 9 },
+				{ field: "tags", tokenize: "full", resolution: 9 },
+				{ field: "gameversion", tokenize: "full", resolution: 9 },
 			],
 			store: [
 				"name",
@@ -963,6 +990,8 @@ function buildIndexFromData(data) {
 	margin-top: 12px;
 	display: flex;
 	justify-content: center;
+	gap: 18px;
+	align-items: center;
 }
 
 .browse-toggle {
@@ -971,6 +1000,15 @@ function buildIndexFromData(data) {
 	color: #666;
 	cursor: pointer;
 	font-size: 14px;
+}
+
+.bt-divider {
+	display: inline-block;
+	width: 1px;
+	height: 18px;
+	background: #e6e6e6;
+	border-radius: 1px;
+	opacity: 0.9;
 }
 
 .browse-toggle:hover {
@@ -994,8 +1032,6 @@ function buildIndexFromData(data) {
 			rgba(255, 255, 255, 0.02),
 			rgba(255, 255, 255, 0));
 }
-
-/* search-container 保持原样，不需要额外样式 */
 
 .dark .search-box {
 	background: #161618;
@@ -1068,5 +1104,9 @@ function buildIndexFromData(data) {
 
 .dark .browse-toggle:hover {
 	color: #e6e6e6;
+}
+
+.dark .bt-divider {
+	background: rgba(255,255,255,0.06);
 }
 </style>

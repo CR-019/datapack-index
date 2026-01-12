@@ -10,6 +10,13 @@
                 <span class="repo-name-text">{{ repoName }}</span>
             </a>
             <p class="desc" v-if="repo.description">{{ repo.description }}</p>
+            <p class="license">
+                <template v-if="licenseInfo">
+                    <a v-if="licenseInfo.url" :href="licenseInfo.url" target="_blank" rel="noopener noreferrer" class="license-name">{{ licenseInfo.name || licenseInfo.spdxId || '未知许可证' }}</a>
+                    <span v-else class="license-name">{{ licenseInfo.name || licenseInfo.spdxId || '未知许可证' }}</span>
+                </template>
+                <span v-else class="muted">未指定许可证</span>
+            </p>
         </header>
 
         <section class="stats">
@@ -97,6 +104,10 @@ const defaultColor = '#888';
 
 const repoName = computed(() => data.value?.name);
 const repo = computed(() => data.value || {});
+const licenseInfo = computed(() => {
+    // GitHub GraphQL returns licenseInfo with name, spdxId and url
+    return data.value?.licenseInfo || null;
+});
 
 const fetchRepo = async () => {
     if (!props.repo) return;
@@ -384,11 +395,60 @@ function formatDate(iso) {
     color: #6b7280;
 }
 
+.license {
+    margin-top: 8px;
+    font-size: 0.86rem;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.license .license-name {
+    display: inline-block;
+    font-weight: 600;
+    color: #0b66c3;
+    background: rgba(11,102,195,0.06);
+    padding: 3px 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(11,102,195,0.12);
+    text-decoration: none;
+    font-size: 0.82rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.license .license-name:hover {
+    text-decoration: underline;
+    background: rgba(11,102,195,0.08);
+}
+
+.license .muted {
+    color: #6b7280;
+    font-style: italic;
+}
+
+@media (max-width: 520px) {
+    .license { font-size: 0.78rem; }
+    .license .license-name { padding: 2px 6px; border-radius: 6px; font-size: 0.76rem; }
+}
+
 /* Dark mode 支持 */
 .dark .repo-card {
     background: linear-gradient(180deg, #1b1b1f 0%, #1c1c20 60%);
     border: 1px solid #313131;
     box-shadow: none;
+}
+
+.dark .license { color: #d1d9e6; }
+.dark .license .license-name {
+    color: #9ec8ff;
+    background: rgba(158,200,255,0.06);
+    border-color: rgba(158,200,255,0.08);
 }
 
 .dark .repo-card:hover {

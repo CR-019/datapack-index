@@ -154,7 +154,6 @@ export default {
             this.mainAuthor = await mainRes.json();
             this.mainAuthor.avatar = '/datapack-index' + this.mainAuthor.avatar
         }
-        console.log(this.mainAuthor);
         // 获取额外作者信息：支持传入字符串（name）或对象（包含 authorName/avatarUrl/socialLinks）
         for (const extra of this.extraAuthors || []) {
             if (!extra) continue;

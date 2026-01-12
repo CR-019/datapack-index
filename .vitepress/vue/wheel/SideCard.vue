@@ -54,7 +54,7 @@ export default {
 <style scoped>
 .my-sidebar {
     padding: 16px;
-    margin-bottom: 100px;
+    margin-top: -150px;
 }
 .card {
     padding: 8px;

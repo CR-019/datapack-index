@@ -34,6 +34,7 @@ export default defineConfig({
         outline: [2, 6],
         nav: [
             { text: "文档", link: "/index/绪论" },
+            { text: "前置馆", link: "/wheel" },
             { text: "《Feature》", link: "/feature/_index" },
             { text: "Wiki", link: "https://zh.minecraft.wiki/" },
         ],

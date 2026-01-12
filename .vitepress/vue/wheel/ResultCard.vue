@@ -1,14 +1,18 @@
 <template>
-    <div class="result-card" @click="onClick" :style="cardStyle" :class="{ 'has-cover': coverLoaded }">
+    <div class="result-card" @click="onClick">
         <div class="card-left">
-            <div class="rc-header">
-                <h3 class="rc-name">{{ item.name }}</h3>
-                <div class="rc-divider" aria-hidden></div>
-                <span class="rc-author" v-if="item.author && (item.author.length == 1)">{{ item.author[0].name }}</span>
-                <span class="rc-author" v-if="item.author && (item.author.length > 1)">{{ item.author[0].name }}
-                    ...</span>
+            <!-- cover thumbnail on the left: image or generated placeholder -->
+            <div class="card-thumb">
+                <img v-if="coverLoaded" :src="coverSrc" alt="cover" />
+                <div v-else class="thumb-placeholder" :style="placeholderStyle">{{ initials }}</div>
             </div>
-            <p class="rc-desc">{{ item.description }}</p>
+            <div class="left-content">
+                    <div class="rc-header">
+                        <h3 class="rc-name" ref="nameEl" :style="{ fontSize: nameFontSize + 'px' }">{{ item.name }}</h3>
+                    </div>
+                    <span class="rc-author" v-if="item.author">{{ item.author[0].name }}</span>
+                    <p class="rc-desc">{{ item.description }}</p>
+            </div>
         </div>
         <div class="card-right">
             <div class="gameversion">
@@ -35,15 +39,24 @@ export default {
         item: { type: Object, required: true },
     },
     data() {
-        return { coverLoaded: false, coverSrc: "" };
+        return { coverLoaded: false, coverSrc: "", nameFontSize: 18, _resizeTimer: null };
     },
     mounted() {
-        console.log(this.item);
         this.tryLoadCover(this.item && this.item.cover);
+        this.adjustNameFontSize();
+        // debounce resize
+        this._onResize = () => {
+            clearTimeout(this._resizeTimer);
+            this._resizeTimer = setTimeout(() => this.adjustNameFontSize(), 120);
+        };
+        window.addEventListener("resize", this._onResize);
     },
     watch: {
         "item.cover"(nv) {
             this.tryLoadCover(nv);
+        },
+        "item.name"() {
+            this.adjustNameFontSize();
         },
     },
     methods: {
@@ -85,20 +98,75 @@ export default {
                 this.coverSrc = "";
             }
         },
+        // adjust the name font size to fit on one line; if cannot, fallback to ellipsis
+        adjustNameFontSize() {
+            this.$nextTick(() => {
+                const el = this.$refs.nameEl;
+                if (!el) return;
+                const minSize = 12; // minimum font size in px
+                const maxSize = 18; // default / starting font size
+                // reset to max for measurement
+                el.style.whiteSpace = 'nowrap';
+                el.style.overflow = 'visible';
+                el.style.textOverflow = 'clip';
+                let size = maxSize;
+                el.style.fontSize = size + 'px';
+                // If it's already fitting, set and return
+                const fits = () => el.scrollWidth <= el.clientWidth + 1; // tolerance
+                if (fits()) {
+                    this.nameFontSize = size;
+                    // ensure ellipsis not applied
+                    el.style.overflow = '';
+                    el.style.textOverflow = '';
+                    return;
+                }
+                // decrement until fit or reach min
+                while (size > minSize && !fits()) {
+                    size -= 1;
+                    el.style.fontSize = size + 'px';
+                }
+                this.nameFontSize = size;
+                // if still doesn't fit at min size, apply ellipsis
+                if (!fits()) {
+                    el.style.whiteSpace = 'nowrap';
+                    el.style.overflow = 'hidden';
+                    el.style.textOverflow = 'ellipsis';
+                    this.nameFontSize = minSize;
+                } else {
+                    // clear overflow styles if fits
+                    el.style.overflow = '';
+                    el.style.textOverflow = '';
+                }
+            });
+        },
     },
     computed: {
-        cardStyle() {
-            if (this.coverLoaded && this.coverSrc) {
-                // overlay a subtle left->right gradient on top of the cover image
-                return {
-                    backgroundImage: `linear-gradient(90deg, rgba(255,255,255,0.78), rgba(247,251,255,0.28)), url('${this.coverSrc}')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                };
-            }
-            return {};
+        initials() {
+            const name = (this.item && this.item.name) || "";
+            if (!name) return "";
+            const parts = name.trim().split(/\s+/);
+            if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+            return (parts[0][0] + parts[1][0]).toUpperCase();
         },
+        placeholderStyle() {
+            const colors = stringToBadgeColors((this.item && this.item.name) || "");
+            return {
+                background: `linear-gradient(135deg, ${colors.background}, ${colors.border})`,
+                color: colors.text,
+            };
+        },
+    },
+    beforeDestroy() {
+        // Vue 2 hook
+        try {
+            window.removeEventListener("resize", this._onResize);
+        } catch (e) {}
+    },
+    unmounted() {
+        // Vue 3 hook
+        try {
+            window.removeEventListener("resize", this._onResize);
+        } catch (e) {}
     },
 };
 
@@ -118,6 +186,7 @@ export default {
     transition: transform 0.18s ease, box-shadow 0.18s ease;
     will-change: transform, opacity;
     animation: popIn 320ms cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 140px;
 
     /* allow overlay pseudo element when cover present */
     position: relative;
@@ -146,15 +215,65 @@ export default {
     box-shadow: 0 10px 30px rgba(12, 24, 40, 0.08);
 }
 
-.result-card.has-cover {
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 6px 24px rgba(8, 12, 20, 0.12);
-}
-
 .rc-header {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.card-thumb {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f6f8fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(16,24,32,0.04);
+    box-shadow: 0 2px 6px rgba(12,24,40,0.04);
+}
+
+.card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 6px;
+    box-shadow: inset 0 -6px 12px rgba(0,0,0,0.06);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.result-card:hover .thumb-placeholder {
+    transform: translateY(-2px);
+}
+
+.card-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.rc-header {
+    align-items: center;
 }
 
 .rc-name {
@@ -162,12 +281,12 @@ export default {
     font-weight: 500;
     margin: 0;
     color: #0b0b0b;
-    line-height: 1.15;
-}
-
-.result-card.has-cover .rc-name {
-    color: #061123;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .rc-divider {
@@ -180,10 +299,12 @@ export default {
 .rc-author {
     color: #7f8689;
     font-size: 13px;
+    margin-top: 4px;
+    display: block;
 }
 
 .rc-desc {
-    margin: 8px 0 0 0;
+    margin: 4px 0 0 0;
     color: #8b9398;
     font-size: 13px;
     overflow: hidden;
@@ -193,16 +314,9 @@ export default {
     -webkit-box-orient: vertical;
     line-clamp: 2;
     box-orient: vertical;
-    /* transition when hiding on hover (showing all tags) */
     transition: opacity 180ms ease, max-height 220ms ease, margin 180ms ease;
-    max-height: 48px; /* enough for two lines */
+    max-height: 50px; /* slightly smaller to fit layout */
     opacity: 1;
-}
-
-.result-card.has-cover .rc-author,
-.result-card.has-cover .rc-desc {
-    color: rgba(10, 20, 30, 0.6);
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .card-right {
@@ -234,12 +348,6 @@ export default {
     box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.02);
 }
 
-.result-card.has-cover .version-badge {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.18);
-    color: #084a86;
-}
-
 .tags {
     display: flex;
     gap: 8px;
@@ -257,10 +365,6 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-}
-
-.result-card.has-cover .tag-badge {
-    box-shadow: none;
 }
 
 /* extra tags hidden by default, revealed on hover */
@@ -331,15 +435,10 @@ export default {
     box-shadow: 0 7px 20px rgba(0, 0, 0, 0.85);
 }
 
-/* When cover present, add a subtle black overlay so inline gradient isn't too bright */
-.dark .result-card.has-cover::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.65), rgba(10, 10, 10, 0.35));
-    border-radius: 18px;
-    pointer-events: none;
-    z-index: 0;
+/* thumbnail adjustments for dark mode to keep consistency */
+.dark .card-thumb {
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
 
 /* ensure text sits above the overlay */
@@ -351,11 +450,6 @@ export default {
 
 .dark .rc-name {
     color: #ffffff;
-}
-
-.dark .result-card.has-cover .rc-name {
-    color: #ffffff;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }
 
 .dark .rc-divider {
@@ -370,21 +464,9 @@ export default {
     color: #9ea6ac;
 }
 
-.dark .result-card.has-cover .rc-author,
-.dark .result-card.has-cover .rc-desc {
-    color: rgba(255, 255, 255, 0.92);
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
-}
-
 .dark .version-badge {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-}
-
-.dark .result-card.has-cover .version-badge {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.08);
     color: #ffffff;
 }
 
@@ -393,10 +475,5 @@ export default {
     color: #e6e6e6;
     border-color: rgba(255, 255, 255, 0.06);
     background: rgba(255, 255, 255, 0.02);
-}
-
-.dark .result-card.has-cover .tag-badge {
-    box-shadow: none;
-    background: rgba(255, 255, 255, 0.03) !important;
 }
 </style>

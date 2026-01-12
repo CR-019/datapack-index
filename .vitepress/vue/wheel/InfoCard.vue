@@ -17,7 +17,9 @@
     <div class="info-card" v-if="hasInfo">
         <div class="info-cover-wrapper" aria-hidden>
             <img v-if="info.cover" :src="info.cover" class="info-cover" />
-            <div v-else class="info-cover-spacer" />
+            <div v-else class="info-cover-spacer">
+                <div class="thumb-placeholder" :style="placeholderStyle">{{ initials }}</div>
+            </div>
         </div>
         <div class="info-body">
             <div class="info-main">
@@ -59,7 +61,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, watch, onUnmounted } from "vue";
 import RepoCard from './RepoCard.vue';
 import { useData } from "vitepress";
 import { stringToBadgeColors } from "../../scripts/badgeColor";
@@ -129,7 +131,24 @@ function normalizeAvatar(av){
     return '/'+av.replace(/^\/+/, '')
 }
 
-const hasInfo = computed(() => Object.keys(info.value || {}).length > 0);
+    const hasInfo = computed(() => Object.keys(info.value || {}).length > 0);
+
+    // placeholder initials and style for missing cover
+    const initials = computed(() => {
+        const name = (info.value && info.value.name) || "";
+        if (!name) return "";
+        const parts = name.trim().split(/\s+/);
+        if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+        return (parts[0][0] + (parts[1] && parts[1][0] ? parts[1][0] : '')).toUpperCase();
+    });
+
+    const placeholderStyle = computed(() => {
+        const colors = stringToBadgeColors((info.value && info.value.name) || "");
+        return {
+            background: `linear-gradient(135deg, ${colors.background}, ${colors.border})`,
+            color: colors.text,
+        };
+    });
 
 // mobile detection (match CSS breakpoint used earlier)
 const isMobile = ref(false);
@@ -142,6 +161,33 @@ onMounted(() => {
         else if (mq.addListener) mq.addListener(update);
     } catch (e) {
         // ignore
+    }
+});
+
+// Set document title to "{{item.name}} | 香草前置馆" when info.name is present
+onMounted(() => {
+    try {
+        if (typeof document === 'undefined') return;
+        const originalTitle = document.title || '';
+
+        const updateTitle = (name) => {
+            if (name) document.title = `${name} | 香草前置馆`;
+        };
+
+        // initial set
+        updateTitle(info.value && info.value.name);
+
+        // watch for name changes
+        const stop = watch(() => info.value && info.value.name, (name) => {
+            updateTitle(name);
+        });
+
+        onUnmounted(() => {
+            stop();
+            if (originalTitle) document.title = originalTitle;
+        });
+    } catch (e) {
+        // ignore in non-browser environments
     }
 });
 
@@ -192,8 +238,32 @@ function tagStyle(tag) {
     width: 84px;
     height: 84px;
     border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
     border: 1px dashed rgba(0,0,0,0.04);
+}
+
+.thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 34px;
+    color: #fff;
+    border-radius: 6px;
+    box-shadow: inset 0 -6px 12px rgba(0,0,0,0.06);
+}
+
+@media (max-width: 720px) {
+    .thumb-placeholder { font-size: 28px; }
+}
+
+@media (max-width: 420px) {
+    .thumb-placeholder { font-size: 22px; }
 }
 
 .info-body {
