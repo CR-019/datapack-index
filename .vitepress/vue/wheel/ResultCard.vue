@@ -191,22 +191,28 @@ export default {
     /* allow overlay pseudo element when cover present */
     position: relative;
     overflow: hidden;
+    /* promote to its own layer to avoid browser subpixel text blurring during transforms */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
 @keyframes popIn {
     from {
         opacity: 0;
-        transform: translateY(8px) scale(0.985);
+        transform: translateY(8px);
     }
 
     60% {
         opacity: 1;
-        transform: translateY(-2px) scale(1.005);
+        transform: translateY(-2px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 }
 
@@ -287,6 +293,8 @@ export default {
     text-overflow: ellipsis;
     display: inline-block;
     vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .rc-divider {
