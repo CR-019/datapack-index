@@ -21,6 +21,7 @@ import {
     sidebar_202511,
     sidebar_202512,
 } from "./sidebar_feature2025"
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -137,6 +138,21 @@ export default defineConfig({
         plugins: [
             nodePolyfills({
                 include: ["util"],
+            }),
+            ViteImageOptimizer({
+                png: {
+                    quality: 80
+                },
+                jpeg: {
+                    quality: 80   
+                },
+                webp: {
+                    quality: 80,
+                    lossless: false
+                },
+                avif: { quality: 75 }, 
+                include: /\.(png|jpe?g|svg)$/i,
+                exclude: /node_modules/
             })
         ]
     },
