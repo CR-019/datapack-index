@@ -14,7 +14,7 @@ hero:
       link: /index/绪论
     - theme: brand
       text: 前置检索
-      link: /wheel
+      link: /wheel/
     - theme: alt
       text: 支持一下宣传视频！
       link: https://www.bilibili.com/video/BV1JuNyzXEsP

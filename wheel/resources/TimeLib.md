@@ -17,7 +17,7 @@ gameversion: [1.21~1.21.8]
 aside: left
 wheel: true
 repo: CMDred/TimeLib
-cover: https://raw.githubusercontent.com/CMDred/TimeLib/refs/heads/main/TimeLib/pack.png
+cover: /datapack-index/wheel/TimeLib.png
 ---
 
 <InfoCard />

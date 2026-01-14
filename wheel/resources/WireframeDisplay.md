@@ -11,7 +11,7 @@ gameversion: [1.21-1.21.4]
 aside: left
 wheel: true
 repo: Triton365/BlockState
-cover: https://github.com/user-attachments/assets/c8f58cc7-d075-4c84-8fa7-8e612ae91fd5
+cover: /datapack-index/wheel/WireframeDisplay.png
 ---
 
 <InfoCard />

@@ -14,7 +14,7 @@ gameversion: [1.21.5~1.21.11]
 aside: left
 wheel: true
 repo: CMDred/ForceloadLib
-cover: https://raw.githubusercontent.com/CMDred/ForceloadLib/refs/heads/main/ForceloadLib/pack.png
+cover: /datapack-index/wheel/ForceloadLib.png
 ---
 
 <InfoCard />

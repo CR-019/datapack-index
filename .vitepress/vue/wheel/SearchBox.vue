@@ -211,14 +211,37 @@ export default {
 				this.suggestions = [];
 				return;
 			}
-			// use flexsearch to get up to 10 raw hits, then map to stores
-			const raw = this.index.search(q, { limit: 10 });
+			// 支持以空格分词的多关键字搜索："a b" => 同时检索包含 a 和 b 的结果（匹配越多得分越高）
+			const keywords = splitQueryKeywords(q);
+			console.log("Searching for", keywords);
+			let raw;
+			if (keywords.length <= 1) {
+				// 单关键字或短语，直接查询
+				raw = this.index.search(q, { limit: 10 });
+			} else {
+				// 多关键字：分别查询每个关键字，把多个结果组传入处理函数以统计匹配数
+				raw = keywords.map((k) => this.index.search(k, { limit: 20 }));
+			}
 			const result = processSearchResults(
 				raw,
 				this.data,
 				["name", "description", "path"],
 				{ pageSize: 10 }
 			);
+			// 如果多关键字检索没有命中，尝试回退到整体短语检索（对版本号等场景更友好）
+			if ((!result || !result.total) && keywords.length > 1) {
+				const rawPhrase = this.index.search(q, { limit: 20 });
+				const resultPhrase = processSearchResults(rawPhrase, this.data, ["name", "description", "path"], { pageSize: 10 });
+				if (resultPhrase && resultPhrase.total) {
+					this.suggestions = (resultPhrase.items || []).slice(0, 5).map((it) => ({
+						name: it.name || "",
+						description: it.description || "",
+						path: it.path || "",
+					}));
+					this.suggestionIndex = -1;
+					return;
+				}
+			}
 			// map items to suggestions (single-line brief)
 			this.suggestions = (result.items || []).slice(0, 5).map((it) => ({
 				name: it.name || "",
@@ -342,12 +365,31 @@ export default {
 		onSearch() {
 			if (!this.index) return;
 			if (this.query.trim()) {
-				// increase search breadth: request more hits from the index
-				const raw = this.index.search(this.query, { limit: 40 });
+				// 支持空格分隔的多关键字搜索
+				const q = this.query.trim();
+				const keywords = splitQueryKeywords(q);
+				let raw;
+				if (keywords.length <= 1) {
+					// 单关键字或短语
+					raw = this.index.search(q, { limit: 40 });
+				} else {
+					// 多关键字：分别查询每个关键字，传入数组以便后续统计匹配次数/得分
+					raw = keywords.map((k) => this.index.search(k, { limit: 80 }));
+				}
 				// return more items per page for denser results
 				const result = processSearchResults(raw, this.data, undefined, {
 					pageSize: 40,
 				});
+
+				// 如果多关键字检索没有命中，则回退到整体短语检索
+				if ((!result || !result.total) && keywords.length > 1) {
+					const rawPhrase = this.index.search(q, { limit: 200 });
+					const resultPhrase = processSearchResults(rawPhrase, this.data, undefined, { pageSize: 40 });
+					if (resultPhrase && resultPhrase.total) {
+						this.results = resultPhrase.items;
+						return;
+					}
+				}
 				this.results = result.items;
 			}
 		},
@@ -456,33 +498,44 @@ export default {
 function flattenResults(raw) {
 	const map = new Map();
 	if (!raw) return [];
-	// case: simple id array
-	if (
-		Array.isArray(raw) &&
-		raw.length &&
-		(typeof raw[0] === "string" || typeof raw[0] === "number")
-	) {
-		raw.forEach((id) => map.set(String(id), (map.get(String(id)) || 0) + 1));
-	} else {
-		// case: groups from flexsearch enrich or mixed arrays
-		const groups = Array.isArray(raw) ? raw : [raw];
-		for (const group of groups) {
-			const arr = group && group.result ? group.result : group;
-			if (!arr) continue;
-			for (const item of arr) {
-				if (item == null) continue;
-				if (typeof item === "string" || typeof item === "number") {
-					const id = String(item);
-					map.set(id, (map.get(id) || 0) + 1);
-				} else {
-					// item could be {id,score,doc}
-					const id = String(item.id);
-					const s = typeof item.score === "number" ? item.score : 1;
+
+	// Recursively traverse various possible shapes returned by FlexSearch and collect atoms
+	function collect(node) {
+		if (node == null) return;
+		if (typeof node === 'string' || typeof node === 'number') {
+			const id = String(node);
+			map.set(id, (map.get(id) || 0) + 1);
+			return;
+		}
+		if (Array.isArray(node)) {
+			for (const it of node) collect(it);
+			return;
+		}
+		if (typeof node === 'object') {
+			// direct result object with result array
+			if (Array.isArray(node.result)) {
+				for (const it of node.result) collect(it);
+				return;
+			}
+			// object that may contain fields mapping to arrays (e.g., { name: [...], tags: [...] })
+			let seenId = false;
+			if (node.id || node.document || node.doc || node.path) {
+				const id = String(node.id ?? node.document ?? node.doc ?? node.path);
+				if (id) {
+					const s = typeof node.score === 'number' ? node.score : 1;
 					map.set(id, (map.get(id) || 0) + s);
+					seenId = true;
 				}
 			}
+			if (seenId) return;
+			for (const v of Object.values(node)) {
+				collect(v);
+			}
+			return;
 		}
 	}
+
+	collect(raw);
 	return [...map.entries()]
 		.map(([id, score]) => ({ id, score }))
 		.sort((a, b) => b.score - a.score);
@@ -583,6 +636,13 @@ function processSearchResults(
 		sortOpts ?? { primary: "score", desc: true, tieBreaker: "name" }
 	);
 	return paginate(items, page, pageSize);
+}
+
+// 将用户查询按空白字符分割为关键字数组，过滤掉空字符串
+function splitQueryKeywords(q) {
+	if (!q || typeof q !== 'string') return [];
+	// 使用正则拆分，并保留包含点号等版本号的片段
+	return q.split(/\s+/).map(s => s.trim()).filter(Boolean);
 }
 
 // helper: build a FlexSearch.Document index from data array

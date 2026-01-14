@@ -14,7 +14,7 @@ gameversion: [1.21.2~1.21.8]
 aside: left
 wheel: true
 repo: MulverineX/player_motion
-cover: https://raw.githubusercontent.com/MulverineX/player_motion/refs/heads/main/logo.png
+cover: /datapack-index/wheel/Player_Motion.png
 ---
 
 <InfoCard />

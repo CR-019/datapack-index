@@ -11,7 +11,7 @@ gameversion: [1.21.6~1.21.11]
 aside: left
 wheel: true
 repo: Dahesor/DaBsu
-cover: https://raw.githubusercontent.com/Dahesor/DaBsu-Batch-Spawner-Utils/refs/heads/main/pack.png
+cover: /datapack-index/wheel/dabsu.png
 ---
 
 <InfoCard />

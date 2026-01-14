@@ -14,7 +14,7 @@ gameversion: [1.21.5~1.21.8]
 aside: left
 wheel: true
 repo: CMDred/StringLib
-cover: https://raw.githubusercontent.com/CMDred/StringLib/refs/heads/main/StringLib/pack.png
+cover: /datapack-index/wheel/StringLib.png
 ---
 
 <InfoCard />

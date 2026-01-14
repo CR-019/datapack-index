@@ -11,7 +11,7 @@ gameversion: [1.13+]
 aside: left
 wheel: true
 repo: AmberWat/NegativeSpaceFont
-cover: https://raw.githubusercontent.com/AmberWat/NegativeSpaceFont/refs/heads/master/pack.png
+cover: /datapack-index/wheel/Neg-Space.png
 ---
 
 <InfoCard />

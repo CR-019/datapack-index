@@ -26,7 +26,8 @@
 				<button class="page-btn" :disabled="page >= totalPages" @click="nextPage">下一页</button>
 			</div>
 
-			<div class="empty" v-if="!data || !data.length">暂无资源</div>
+			<div class="empty" v-if="loading">加载中…</div>
+			<div class="empty" v-else-if="!data || !data.length">暂无资源</div>
 		</div>
 	</div>
 </template>
@@ -160,20 +161,12 @@ export default {
 	components: { ResultCard },
 	data() {
 		return {
-			// pagination state for AllPage
 			page: 1,
 			pageSize: 12,
-			// legacy/search state (kept for compatibility)
-			query: "",
-			results: [],
-			suggestions: [],
-			suggestionIndex: -1,
-			isInputFocused: false,
-			showRandomSection: false,
-			browseLabel: "或者随便看看？",
-			randomResults: [],
 			index: null,
 			data: [],
+			// 是否正在加载资源（用于在获取/解析资源时展示“加载中”）
+			loading: true,
 			_originalTitle: '',
 		};
 	},
@@ -184,8 +177,6 @@ export default {
 				idbDelete(CACHE_KEY);
 				this.index = null;
 				this.data = [];
-				this.results = [];
-				this.randomResults = [];
 				console.info("Formatters cache cleared");
 			} catch (e) {
 				console.warn("Failed to clear cache", e);
@@ -206,42 +197,53 @@ export default {
 			}
 		},
 		async fetchData() {
-			// attempt to read from IndexedDB cache first
+			// 设置加载状态，保证在获取/解析过程中显示“加载中”
+			this.loading = true;
 			try {
-				const cached = await idbGet(CACHE_KEY);
-				if (cached) {
-					const now = Date.now();
-					if (
-						cached.timestamp &&
-						now - cached.timestamp < (cached.ttl || CACHE_TTL)
-					) {
-						if (Array.isArray(cached.data)) {
-							this.data = cached.data;
-							this.index = buildIndexFromData(this.data);
-							return;
+				// attempt to read from IndexedDB cache first
+				try {
+					const cached = await idbGet(CACHE_KEY);
+					if (cached) {
+						const now = Date.now();
+						if (
+							cached.timestamp &&
+							now - cached.timestamp < (cached.ttl || CACHE_TTL)
+						) {
+							if (Array.isArray(cached.data)) {
+								this.data = cached.data;
+								this.index = buildIndexFromData(this.data);
+									this.loading = false;
+									return;
+							}
 						}
 					}
+				} catch (e) {
+					console.warn("Failed to read IDB cache for formatters.json", e);
+				}
+
+				// fetch fresh if cache missing/expired
+				const response = await fetch("../formatters.json");
+				const data = await response.json();
+				this.data = data;
+				this.index = buildIndexFromData(this.data);
+
+				// write to IndexedDB cache (only plain data)
+				try {
+					const sanitized = sanitizeDataForCache(this.data);
+					await idbSet(CACHE_KEY, {
+						timestamp: Date.now(),
+						ttl: CACHE_TTL,
+						data: sanitized,
+					});
+				} catch (e) {
+					console.warn("Failed to write formatters cache to IDB", e);
 				}
 			} catch (e) {
-				console.warn("Failed to read IDB cache for formatters.json", e);
-			}
-
-			// fetch fresh if cache missing/expired
-			const response = await fetch("../formatters.json");
-			const data = await response.json();
-			this.data = data;
-			this.index = buildIndexFromData(this.data);
-
-			// write to IndexedDB cache (only plain data)
-			try {
-				const sanitized = sanitizeDataForCache(this.data);
-				await idbSet(CACHE_KEY, {
-					timestamp: Date.now(),
-					ttl: CACHE_TTL,
-					data: sanitized,
-				});
-			} catch (e) {
-				console.warn("Failed to write formatters cache to IDB", e);
+				console.warn("fetchData error", e);
+				// 如果请求失败，确保 data 是数组而不是 null，从而不会误判为有资源
+				this.data = Array.isArray(this.data) ? this.data : [];
+			} finally {
+				this.loading = false;
 			}
 		},
 		goToResource(id) {
@@ -302,19 +304,13 @@ export default {
 			const items = Array.isArray(this.data) ? this.data : [];
 			return Math.max(1, Math.ceil(items.length / this.pageSize));
 		},
-		headerShrunk() {
-			const hasResults = Array.isArray(this.results) && this.results.length > 0;
-			// shrink if random/results are shown, or when input focused and no results/random shown
-			return (
-				this.showRandomSection ||
-				hasResults ||
-				(this.isInputFocused && !this.showRandomSection && !hasResults)
-			);
-		},
 	},
 	async mounted() {
 		if (!this.index) {
 			await this.fetchData();
+		} else {
+			// index already present, ensure loading flag is cleared
+			this.loading = false;
 		}
 		// initialize page from query if present
 		try {

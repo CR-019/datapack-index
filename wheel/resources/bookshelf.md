@@ -11,7 +11,7 @@ gameversion: [1.21~1.21.11]
 aside: left
 wheel: true
 repo: mcbookshelf/bookshelf
-cover: https://mcbookshelf.dev/favicon.png
+cover: /datapack-index/wheel/bookshelf.png
 ---
 
 <InfoCard />

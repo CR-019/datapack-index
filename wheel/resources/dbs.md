@@ -11,7 +11,7 @@ gameversion: [1.21.5~1.21.11]
 aside: left
 wheel: true
 repo: Dahesor/D-Better-Schedule
-cover: https://raw.githubusercontent.com/Dahesor/D-Better-Schedule/refs/heads/main/pack.png
+cover: /datapack-index/wheel/dbs.png
 ---
 
 <InfoCard />
