@@ -5,6 +5,7 @@ title: '基于非对称加密的只能游玩一次的MC地图'
 <FeatureHead
     title='基于非对称加密的只能游玩一次的MC地图'
     authorName='WinsreWu'
+    cover = '../_assets/c.png'
 />
 
 [BiliBili演示&原理视频](https://www.bilibili.com/video/BV1AweAzEEPY)\

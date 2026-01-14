@@ -2,7 +2,7 @@
 	<div class="page-frame">
 		<div class="search-container">
 			<div class="header" :class="{ 'header--shrunk': headerShrunk }">
-				<img src="/icons/bg4.png" alt="Logo" class="logo" />
+				<img src="/icons/cart_with_chest.png" alt="Logo" class="logo" />
 				<div class="title-container">
 					<span class="title">香草前置馆</span>
 					<span class="subtitle">图书馆最新业务火爆开张中</span>

@@ -48,6 +48,19 @@ const { isDark } = useData()
 1. 检测全部背包物品，包括副手，装备，合成栏等，建议使用`execute if items`先检测合成栏，如果检测到了则`return 1`，之后再`return run clear ... 0`。
 2. 如果只需要检测背包和快捷栏（槽位范围不那么多的时候），建议直接使用`execute if items`，大多数情况下比`clear ... 0`更快。
 
+## 你问我答 Q & A
+Q：我做了一个贴图，怎么让它像原版物品一样渲染呢？  
+A：在资源包的模型文件中有一个parent字段，可以指定一个模型文件的路径。指定后该模型可以继承父模型的一些数据。
+
+> 一个模型可以指定继承于另一个模型下，子模型可以继承父模型的部分数据：
+> - 如果子模型没有定义布尔型ambientocclusion、NBT列表/JSON数组elements或字符串gui_light，则直接使用父模型的数据。如果子模型有定义这些数据则使用子模型数据。
+> - 如果子模型没有定义NBT复合标签/JSON对象display中的其中一种显示格式，则使用父模型的对应显示格式。如果子模型有定义这种显示格式则使用子模型数据。
+> - 子模型的NBT复合标签/JSON对象textures会与父模型的NBT复合标签/JSON对象textures一起混合解析，见下文纹理变量。
+>
+> https://zh.minecraft.wiki/w/%E6%A8%A1%E5%9E%8B#%E6%A8%A1%E5%9E%8B%E7%BB%A7%E6%89%BF
+
+而"item/generated"这个模型是原版物品默认的模型，使用这个作为父模型，在textures字段下声明"layer0"纹理变量即可调用原版的渲染引擎渲染该贴图。
+
 <ClientOnly>
   <GiscusComment
     repo="CR-019/datapack-index"
