@@ -23,6 +23,10 @@ import {
 } from "./sidebar_feature2025"
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
+import{
+    sidebar_202601,
+}from "./sidebar_feature2026"
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     title: "香草图书馆",
@@ -70,6 +74,7 @@ export default defineConfig({
             "/feature/archive/202510": sidebar_202510,
             "/feature/archive/202511": sidebar_202511,
             "/feature/archive/202512": sidebar_202512,
+            "/feature/archive/202601": sidebar_202601,
             "/feature/": sidebar_feature,
         },
 

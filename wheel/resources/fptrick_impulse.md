@@ -14,7 +14,7 @@ wheel: true
 
 <InfoCard />
 
-本库使用1.21.11添加的魔咒效果，在相对坐标系内为玩家施加任意大小的动量。本库使用浮点数魔法将相对坐标系转换为局部坐标系。
+本库使用1.21.11添加的魔咒效果，在相对坐标系内为玩家施加任意大小的动量。本库使用浮点数魔法将相对坐标系`(~x ~y ~z)`转换为局部坐标系`(^u ^v ^w)`。
 
 本库无官方分发处。请[点击此处下载](https://github.com/CR-019/datapack-index/raw/refs/heads/lib-hosting/libs/fptrick_impulse_v2-1.zip)。
 

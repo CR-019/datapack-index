@@ -28,14 +28,21 @@ pageClass: h2-no-border
 ### 🌟最新
 
 <JournalIndex
-    cover="./cover/202512/202512.png"
-    :coverLink="'./index/202512'"
+    cover="./cover/202601/202601.png"
+    :coverLink="'./index/202601'"
 />
 
 
 <ColorLine />
 
 ### 往期
+
+<JournalIndex
+    cover="./cover/202512/202512.png"
+    :coverLink="'./index/202512'"
+/>
+
+---
 
 <JournalIndex
     cover="./cover/202511/202511.png"
@@ -51,15 +58,15 @@ pageClass: h2-no-border
 
 ---
 
+<details>
+<summary>更早</summary>
+
 <JournalIndex
     cover="./cover/202509/202509.png"
     :coverLink="'./index/202509'"
 />
 
 ---
-
-<details>
-<summary>更早</summary>
 
 <JournalIndex
     cover="./cover/202508/202508.png"
@@ -94,7 +101,7 @@ pageClass: h2-no-border
     :coverLink="'./index/202504'"
 />
 
-</details> 
+</details>
 
 ## 向《Feature》 投稿
 <ColorLine />
@@ -111,8 +118,8 @@ pageClass: h2-no-border
 
 ### 投稿形式
 
-我们接受各种类型的投稿。可以是原文章、可以是发在各种博客或论坛的文章链接、也可以是视频等。  
-你可以将包含投稿内容的如下信息使用网络邮箱发送到 1703467028@qq.com :  
+我们接受各种类型的投稿。可以是原文章、可以是发在各种博客或论坛的文章链接、也可以是视频等。
+你可以将包含投稿内容的如下信息使用网络邮箱发送到 1703467028@qq.com :
 - 投稿主体内容，需标明文章或视频的链接，或将原文以附件形式发送；
 - 稿件标题；
 - 摘要（可选但推荐）：以简要的文字说明投稿的主要内容；

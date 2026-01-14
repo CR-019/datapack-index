@@ -377,6 +377,7 @@ export const sidebar_202512: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202512' },
       { text: '上一刊', link: '/feature/index/202511' },
+      { text: '下一刊', link: '/feature/index/202601' },
     ]
   },
   {
