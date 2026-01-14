@@ -24,7 +24,7 @@ features:
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202512
+    link: /feature/index/202601
   - icon:
       src: /icons/vt.png
     title: 系列教程
