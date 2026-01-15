@@ -113,15 +113,13 @@ const { frontmatter } = useData()
 - Github：https://github.com/Alumopper
 
 
-## 水吧
+## 香草奖2025
 <ColorLine />
 <p class="float-right-image">
-  <img src="/103.png" alt="描述图片的文字">
+  <img src="/icons/tva2025.png" alt="描述图片的文字">
 </p>
 
+全MC圈最香草的奖项正在火热颁发中！  
+快来看看你心目中最香草的作品有没有获奖吧！
 
-香草图书馆的水吧开业啦！
-由[Giscus](https://giscus.app/zh-CN)驱动，现在本站正式支持评论功能。  
-逛累了，不妨去水吧转转吧。  
-请问您要来点Java吗？  
-[前往水吧->](/index/水吧.md)
+[去看看->](/feature/tva/tva2025.md)

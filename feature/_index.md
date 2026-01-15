@@ -25,7 +25,13 @@ pageClass: h2-no-border
 ## 特别企划
 <ColorLine />
 
-[香草奖](/feature/tva/tva2025.md)
+<IndexCompatible
+    title = "The Vanilla Awards (TVA) 2025 颁奖典礼"
+    url = "./tva/tva2025"
+    authorName = 香草图书馆工作组
+    abstract = "全MC圈最香草的奖项正在火热颁发中！快来看看你心目中最香草的作品有没有获奖吧！"
+    background = "./tva/_assets/tva2025.png"
+/>
 
 ## 阅读《Feature》
 <ColorLine />

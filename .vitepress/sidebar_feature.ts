@@ -5,6 +5,7 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     link: '/feature/_index',
     items: [
       { text: '绝赞征稿中！', link: '/feature/_index' },
+      { text: '香草奖2025', link: '/feature/tva/tva2025'}
     ]
   },
   {
