@@ -427,8 +427,7 @@ export default {
 .author-name {
   margin: 0;
   font-size: 1rem;
-  font-style: italic;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .social-links {

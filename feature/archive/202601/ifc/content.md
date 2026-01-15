@@ -68,7 +68,7 @@ A：在资源包的模型文件中有一个parent字段，可以指定一个模�
     category="闲聊 Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
-    term="30"
+    term="44"
     :strict="false"
     :reactionsEnabled="true"
     emitMetadata="0"

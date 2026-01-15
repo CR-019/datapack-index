@@ -22,6 +22,11 @@ pageClass: h2-no-border
 > 短文成型快，~~周刊~~相对讨论空间更自由，不失为一种圈内交流的好方法）
 > ——[issue#5](https://github.com/CR-019/datapack-index/issues/5)
 
+## 特别企划
+<ColorLine />
+
+[香草奖](/feature/tva/tva2025.md)
+
 ## 阅读《Feature》
 <ColorLine />
 

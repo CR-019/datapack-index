@@ -104,7 +104,7 @@ kill @s
     category="闲聊 Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
-    term="30"
+    term="43"
     :strict="false"
     :reactionsEnabled="true"
     emitMetadata="0"
