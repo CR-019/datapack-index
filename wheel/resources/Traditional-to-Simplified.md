@@ -11,7 +11,7 @@ gameversion: [1.20+]
 aside: left
 wheel: true
 repo: Rain156/Traditional-to-Simplified
-cover: https://raw.githubusercontent.com/Rain156/Traditional-to-Simplified/refs/heads/main/RP/pack.png
+cover: /datapack-index/wheel/Traditional-to-Simplified.png
 ---
 
 <InfoCard />

@@ -14,7 +14,7 @@ gameversion: [1.21.2~1.21.8]
 aside: left
 wheel: true
 repo: CMDred/ScoreFixer
-cover: https://raw.githubusercontent.com/CMDred/ScoreFixer/refs/heads/main/pack.PNG
+cover: /datapack-index/wheel/ScoreFixer.png
 ---
 
 <InfoCard />

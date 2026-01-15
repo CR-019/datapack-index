@@ -14,7 +14,7 @@ hero:
       link: /index/绪论
     - theme: brand
       text: 前置检索
-      link: /wheel
+      link: /wheel/
     - theme: alt
       text: 支持一下宣传视频！
       link: https://www.bilibili.com/video/BV1JuNyzXEsP
@@ -24,7 +24,7 @@ features:
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202512
+    link: /feature/index/202601
   - icon:
       src: /icons/vt.png
     title: 系列教程

@@ -11,7 +11,7 @@ gameversion: [1.21.2+]
 aside: left
 wheel: true
 repo: MulverineX/player_input
-cover: https://raw.githubusercontent.com/MulverineX/player_input/refs/heads/main/player_input/pack.png
+cover: /datapack-index/wheel/Player_Input.png
 ---
 
 <InfoCard />

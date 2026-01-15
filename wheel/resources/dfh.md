@@ -11,7 +11,7 @@ gameversion: [1.21.11]
 aside: left
 wheel: true
 repo: Dahesor/DFH
-cover: https://raw.githubusercontent.com/Dahesor/DFH/refs/heads/main/pack.png
+cover: /datapack-index/wheel/dfh.png
 ---
 
 <InfoCard />

@@ -598,3 +598,18 @@
   }
 }
 
+/* Ensure aside in wheel-layout is not sticky/fixed — allow it to scroll with the page */
+.wheel-layout aside,
+.wheel-layout .aside,
+.wheel-layout .theme-default-sidebar,
+.wheel-layout .vp-doc .sidebar,
+.wheel-layout .aside-container,
+.wheel-layout .aside-content,
+.wheel-layout .aside-curtain {
+  position: static !important;
+  top: auto !important;
+  transform: none !important;
+  will-change: auto !important;
+  overflow: visible !important;
+}
+

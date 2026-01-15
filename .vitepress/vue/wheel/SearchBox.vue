@@ -28,10 +28,14 @@
 				<div class="submit-button-container">
 					<button class="submit-button" @click="submit" aria-label="投稿">
 						<!-- inline upload/submit icon -->
-						<svg class="submit-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-							<path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-							<path d="M8 7l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-							<path d="M21 21H3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+						<svg class="submit-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true" focusable="false">
+							<path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+								stroke-linejoin="round" fill="none" />
+							<path d="M8 7l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+								stroke-linejoin="round" fill="none" />
+							<path d="M21 21H3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+								stroke-linejoin="round" fill="none" />
 						</svg>
 						<span class="submit-text">投稿</span>
 					</button>
@@ -44,6 +48,10 @@
 				<ResultCard v-for="item in randomResults" :key="item.id" :item="item" @select="goToResource" />
 			</div>
 			<div class="browse-toggle-row">
+				<button class="browse-toggle" @click="goToAll">
+					查看全部资源
+				</button>
+				<span class="bt-divider" aria-hidden="true"></span>
 				<button class="browse-toggle" @click="toggleBrowse">
 					{{ browseLabel }}
 				</button>
@@ -55,6 +63,127 @@
 <script>
 import FlexSearch from "flexsearch";
 import ResultCard from "./ResultCard.vue";
+
+// simple localStorage cache configuration
+const CACHE_KEY = "datapack_formatters_cache_v1";
+// default TTL: 24 hours
+const CACHE_TTL = 24 * 60 * 60 * 1000;
+
+// IndexedDB helpers
+function openIndexedDB() {
+	return new Promise((resolve, reject) => {
+		if (!window.indexedDB) return reject(new Error("IndexedDB not supported"));
+		const req = window.indexedDB.open("datapack_cache_db_v1", 1);
+		req.onupgradeneeded = (ev) => {
+			const db = ev.target.result;
+			if (!db.objectStoreNames.contains("cache")) {
+				db.createObjectStore("cache", { keyPath: "key" });
+			}
+		};
+		req.onsuccess = () => resolve(req.result);
+		req.onerror = () =>
+			reject(req.error || new Error("Failed to open IndexedDB"));
+	});
+}
+
+async function idbGet(key) {
+	try {
+		const db = await openIndexedDB();
+		return await new Promise((resolve, reject) => {
+			const tx = db.transaction(["cache"], "readonly");
+			const store = tx.objectStore("cache");
+			const req = store.get(key);
+			req.onsuccess = () => resolve(req.result ? req.result.value : null);
+			req.onerror = () => reject(req.error || new Error("IDB get failed"));
+		});
+	} catch (e) {
+		console.warn("idbGet error", e);
+		return null;
+	}
+}
+
+async function idbSet(key, value) {
+	try {
+		const db = await openIndexedDB();
+		return await new Promise((resolve, reject) => {
+			const tx = db.transaction(["cache"], "readwrite");
+			const store = tx.objectStore("cache");
+			const req = store.put({ key, value });
+			req.onsuccess = () => resolve(true);
+			req.onerror = () => reject(req.error || new Error("IDB set failed"));
+		});
+	} catch (e) {
+		console.warn("idbSet error", e);
+		return false;
+	}
+}
+
+async function idbDelete(key) {
+	try {
+		const db = await openIndexedDB();
+		return await new Promise((resolve, reject) => {
+			const tx = db.transaction(["cache"], "readwrite");
+			const store = tx.objectStore("cache");
+			const req = store.delete(key);
+			req.onsuccess = () => resolve(true);
+			req.onerror = () => reject(req.error || new Error("IDB delete failed"));
+		});
+	} catch (e) {
+		console.warn("idbDelete error", e);
+		return false;
+	}
+}
+
+// sanitize data before caching to avoid non-cloneable values
+function sanitizeDataForCache(data, fields = [
+	"id",
+	"tokens",
+	"name",
+	"description",
+	"tags",
+	"path",
+	"cover",
+	"gameversion",
+	"author",
+]) {
+	if (!Array.isArray(data)) return [];
+	return data.map((d) => {
+		const out = {};
+		for (const f of fields) {
+			// support nested fields 'a.b'
+			if (f.includes(".")) {
+				const parts = f.split(".");
+				let val = d;
+				for (const p of parts) {
+					if (val == null) break;
+					val = val[p];
+				}
+				out[parts.join(".")] = val == null ? null : val;
+			} else {
+				let val = d[f];
+				// only keep primitives and plain objects/arrays
+				if (
+					val == null ||
+					typeof val === "string" ||
+					typeof val === "number" ||
+					typeof val === "boolean" ||
+					Array.isArray(val) ||
+					(typeof val === "object" && val.constructor === Object)
+				) {
+					out[f] = val;
+				} else {
+					// fallback to string representation
+					try {
+						out[f] = String(val);
+					} catch (e) {
+						out[f] = null;
+					}
+				}
+			}
+		}
+		return out;
+	});
+}
 
 export default {
 	components: { ResultCard },
@@ -70,6 +199,7 @@ export default {
 			randomResults: [],
 			index: null,
 			data: [],
+			_originalTitle: '',
 		};
 	},
 	methods: {
@@ -81,14 +211,37 @@ export default {
 				this.suggestions = [];
 				return;
 			}
-			// use flexsearch to get up to 10 raw hits, then map to stores
-			const raw = this.index.search(q, { limit: 10 });
+			// 支持以空格分词的多关键字搜索："a b" => 同时检索包含 a 和 b 的结果（匹配越多得分越高）
+			const keywords = splitQueryKeywords(q);
+			console.log("Searching for", keywords);
+			let raw;
+			if (keywords.length <= 1) {
+				// 单关键字或短语，直接查询
+				raw = this.index.search(q, { limit: 10 });
+			} else {
+				// 多关键字：分别查询每个关键字，把多个结果组传入处理函数以统计匹配数
+				raw = keywords.map((k) => this.index.search(k, { limit: 20 }));
+			}
 			const result = processSearchResults(
 				raw,
 				this.data,
 				["name", "description", "path"],
 				{ pageSize: 10 }
 			);
+			// 如果多关键字检索没有命中，尝试回退到整体短语检索（对版本号等场景更友好）
+			if ((!result || !result.total) && keywords.length > 1) {
+				const rawPhrase = this.index.search(q, { limit: 20 });
+				const resultPhrase = processSearchResults(rawPhrase, this.data, ["name", "description", "path"], { pageSize: 10 });
+				if (resultPhrase && resultPhrase.total) {
+					this.suggestions = (resultPhrase.items || []).slice(0, 5).map((it) => ({
+						name: it.name || "",
+						description: it.description || "",
+						path: it.path || "",
+					}));
+					this.suggestionIndex = -1;
+					return;
+				}
+			}
 			// map items to suggestions (single-line brief)
 			this.suggestions = (result.items || []).slice(0, 5).map((it) => ({
 				name: it.name || "",
@@ -96,6 +249,20 @@ export default {
 				path: it.path || "",
 			}));
 			this.suggestionIndex = -1;
+		},
+
+		// clear cached formatters and index
+		clearCache() {
+			try {
+				idbDelete(CACHE_KEY);
+				this.index = null;
+				this.data = [];
+				this.results = [];
+				this.randomResults = [];
+				console.info("Formatters cache cleared");
+			} catch (e) {
+				console.warn("Failed to clear cache", e);
+			}
 		},
 		onKeydown(e) {
 			const len = Math.min(5, this.suggestions.length);
@@ -156,57 +323,74 @@ export default {
 			this.isInputFocused = true;
 		},
 		async fetchData() {
+			// attempt to read from IndexedDB cache first
+			try {
+				const cached = await idbGet(CACHE_KEY);
+				if (cached) {
+					const now = Date.now();
+					if (
+						cached.timestamp &&
+						now - cached.timestamp < (cached.ttl || CACHE_TTL)
+					) {
+						if (Array.isArray(cached.data)) {
+							this.data = cached.data;
+							this.index = buildIndexFromData(this.data);
+							return;
+						}
+					}
+				}
+			} catch (e) {
+				console.warn("Failed to read IDB cache for formatters.json", e);
+			}
+
+			// fetch fresh if cache missing/expired
 			const response = await fetch("../formatters.json");
 			const data = await response.json();
-			this.index = new FlexSearch.Document({
-				document: {
-					id: "id",
-					index: [
-						{
-							field: "tokens",
-							tokenize: "full",
-							resolution: 9,
-						},
-						{
-							field: "name",
-							tokenize: "full",
-							resolution: 9,
-						},
-						{
-							field: "author",
-							tokenize: "full",
-							resolution: 9,
-						},
-					],
-					store: [
-						"name",
-						"description",
-						"tags",
-						"path",
-						"cover",
-						"gameversion",
-						"author",
-					],
-					tag: ["tags", "gameversion"],
-				},
-			});
 			this.data = data;
-			for (const d of data) {
-				this.index.add(d);
+			this.index = buildIndexFromData(this.data);
+
+			// write to IndexedDB cache (only plain data)
+			try {
+				const sanitized = sanitizeDataForCache(this.data);
+				await idbSet(CACHE_KEY, {
+					timestamp: Date.now(),
+					ttl: CACHE_TTL,
+					data: sanitized,
+				});
+			} catch (e) {
+				console.warn("Failed to write formatters cache to IDB", e);
 			}
 		},
 		// perform the actual search against the built index
 		onSearch() {
 			if (!this.index) return;
 			if (this.query.trim()) {
-				// increase search breadth: request more hits from the index
-				const raw = this.index.search(this.query, { limit: 40 });
+				// 支持空格分隔的多关键字搜索
+				const q = this.query.trim();
+				const keywords = splitQueryKeywords(q);
+				let raw;
+				if (keywords.length <= 1) {
+					// 单关键字或短语
+					raw = this.index.search(q, { limit: 40 });
+				} else {
+					// 多关键字：分别查询每个关键字，传入数组以便后续统计匹配次数/得分
+					raw = keywords.map((k) => this.index.search(k, { limit: 80 }));
+				}
 				// return more items per page for denser results
 				const result = processSearchResults(raw, this.data, undefined, {
 					pageSize: 40,
 				});
+
+				// 如果多关键字检索没有命中，则回退到整体短语检索
+				if ((!result || !result.total) && keywords.length > 1) {
+					const rawPhrase = this.index.search(q, { limit: 200 });
+					const resultPhrase = processSearchResults(rawPhrase, this.data, undefined, { pageSize: 40 });
+					if (resultPhrase && resultPhrase.total) {
+						this.results = resultPhrase.items;
+						return;
+					}
+				}
 				this.results = result.items;
-				console.log(result);
 			}
 		},
 
@@ -251,12 +435,29 @@ export default {
 			}
 		},
 		goToResource(id) {
-			window.location.href = id;
+			// open resource in a new tab and nullify opener for security
+			try {
+				const win = window.open(id, "_blank");
+				if (win) win.opener = null;
+			} catch (e) {
+				// fallback to same-tab navigation if popup blocked
+				window.location.href = id;
+			}
 		},
-		submit(){
-			//跳转到https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml
-			window.location.href = "https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml";
-		}
+		goToAll() {
+			window.location.href = "/datapack-index/wheel/all"
+		},
+		submit() {
+			// 在新标签页中打开投稿页面
+			const url =
+				"https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml";
+			try {
+				const win = window.open(url, "_blank");
+				if (win) win.opener = null;
+			} catch (e) {
+				window.location.href = url;
+			}
+		},
 	},
 	computed: {
 		headerShrunk() {
@@ -273,39 +474,68 @@ export default {
 		if (!this.index) {
 			await this.fetchData();
 		}
+		// set document title for this page
+		try {
+			if (typeof document !== 'undefined') {
+				this._originalTitle = document.title || '';
+				document.title = '香草前置馆';
+			}
+		} catch (e) {
+			// ignore non-browser
+		}
+	},
+	beforeUnmount() {
+		try {
+			if (typeof document !== 'undefined') {
+				if (this._originalTitle) document.title = this._originalTitle;
+			}
+		} catch (e) {
+			// ignore
+		}
 	},
 };
 
 function flattenResults(raw) {
 	const map = new Map();
 	if (!raw) return [];
-	// case: simple id array
-	if (
-		Array.isArray(raw) &&
-		raw.length &&
-		(typeof raw[0] === "string" || typeof raw[0] === "number")
-	) {
-		raw.forEach((id) => map.set(String(id), (map.get(String(id)) || 0) + 1));
-	} else {
-		// case: groups from flexsearch enrich or mixed arrays
-		const groups = Array.isArray(raw) ? raw : [raw];
-		for (const group of groups) {
-			const arr = group && group.result ? group.result : group;
-			if (!arr) continue;
-			for (const item of arr) {
-				if (item == null) continue;
-				if (typeof item === "string" || typeof item === "number") {
-					const id = String(item);
-					map.set(id, (map.get(id) || 0) + 1);
-				} else {
-					// item could be {id,score,doc}
-					const id = String(item.id);
-					const s = typeof item.score === "number" ? item.score : 1;
+
+	// Recursively traverse various possible shapes returned by FlexSearch and collect atoms
+	function collect(node) {
+		if (node == null) return;
+		if (typeof node === 'string' || typeof node === 'number') {
+			const id = String(node);
+			map.set(id, (map.get(id) || 0) + 1);
+			return;
+		}
+		if (Array.isArray(node)) {
+			for (const it of node) collect(it);
+			return;
+		}
+		if (typeof node === 'object') {
+			// direct result object with result array
+			if (Array.isArray(node.result)) {
+				for (const it of node.result) collect(it);
+				return;
+			}
+			// object that may contain fields mapping to arrays (e.g., { name: [...], tags: [...] })
+			let seenId = false;
+			if (node.id || node.document || node.doc || node.path) {
+				const id = String(node.id ?? node.document ?? node.doc ?? node.path);
+				if (id) {
+					const s = typeof node.score === 'number' ? node.score : 1;
 					map.set(id, (map.get(id) || 0) + s);
+					seenId = true;
 				}
 			}
+			if (seenId) return;
+			for (const v of Object.values(node)) {
+				collect(v);
+			}
+			return;
 		}
 	}
+
+	collect(raw);
 	return [...map.entries()]
 		.map(([id, score]) => ({ id, score }))
 		.sort((a, b) => b.score - a.score);
@@ -406,6 +636,47 @@ function processSearchResults(
 		sortOpts ?? { primary: "score", desc: true, tieBreaker: "name" }
 	);
 	return paginate(items, page, pageSize);
+}
+
+// 将用户查询按空白字符分割为关键字数组，过滤掉空字符串
+function splitQueryKeywords(q) {
+	if (!q || typeof q !== 'string') return [];
+	// 使用正则拆分，并保留包含点号等版本号的片段
+	return q.split(/\s+/).map(s => s.trim()).filter(Boolean);
+}
+
+// helper: build a FlexSearch.Document index from data array
+function buildIndexFromData(data) {
+	const idx = new FlexSearch.Document({
+		document: {
+			id: "id",
+			index: [
+				{ field: "tokens", tokenize: "full", resolution: 9 },
+				{ field: "name", tokenize: "full", resolution: 9 },
+				{ field: "author", tokenize: "full", resolution: 9 },
+				{ field: "tags", tokenize: "full", resolution: 9 },
+				{ field: "gameversion", tokenize: "full", resolution: 9 },
+			],
+			store: [
+				"name",
+				"description",
+				"tags",
+				"path",
+				"cover",
+				"gameversion",
+				"author",
+			],
+			tag: ["tags", "gameversion"],
+		},
+	});
+	for (const d of data || []) {
+		try {
+			idx.add(d);
+		} catch (e) {
+			console.warn("Failed to add doc to index", e, d && d.id);
+		}
+	}
+	return idx;
 }
 </script>
 
@@ -526,6 +797,7 @@ function processSearchResults(
 	z-index: 50;
 	height: auto;
 }
+
 .search-box-button:focus {
 	outline: none;
 }
@@ -563,8 +835,10 @@ function processSearchResults(
 	font-size: 14px;
 	border: none;
 	cursor: pointer;
-	box-shadow: none; /* 扁平化，去掉立体阴影 */
-	transition: transform 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+	box-shadow: none;
+	/* 扁平化，去掉立体阴影 */
+	transition: transform 120ms ease, background-color 120ms ease,
+		box-shadow 120ms ease;
 }
 
 .submit-button .submit-text {
@@ -575,7 +849,7 @@ function processSearchResults(
 	width: 18px;
 	height: 18px;
 	display: inline-block;
-	color: rgba(255,255,255,0.95);
+	color: rgba(255, 255, 255, 0.95);
 }
 
 .submit-button:hover {
@@ -583,7 +857,7 @@ function processSearchResults(
 }
 
 .submit-button:focus {
-	outline: 2px solid rgba(30,144,255,0.18);
+	outline: 2px solid rgba(30, 144, 255, 0.18);
 	outline-offset: 2px;
 }
 
@@ -776,6 +1050,8 @@ function processSearchResults(
 	margin-top: 12px;
 	display: flex;
 	justify-content: center;
+	gap: 18px;
+	align-items: center;
 }
 
 .browse-toggle {
@@ -784,6 +1060,15 @@ function processSearchResults(
 	color: #666;
 	cursor: pointer;
 	font-size: 14px;
+}
+
+.bt-divider {
+	display: inline-block;
+	width: 1px;
+	height: 18px;
+	background: #e6e6e6;
+	border-radius: 1px;
+	opacity: 0.9;
 }
 
 .browse-toggle:hover {
@@ -797,14 +1082,16 @@ function processSearchResults(
 }
 
 .dark .page-frame::before {
-	background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+	background: linear-gradient(90deg,
+			rgba(255, 255, 255, 0.02),
+			rgba(255, 255, 255, 0));
 }
 
 .dark .page-frame::after {
-	background: linear-gradient(270deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+	background: linear-gradient(270deg,
+			rgba(255, 255, 255, 0.02),
+			rgba(255, 255, 255, 0));
 }
-
-/* search-container 保持原样，不需要额外样式 */
 
 .dark .search-box {
 	background: #161618;
@@ -819,7 +1106,7 @@ function processSearchResults(
 .dark .search-box:focus {
 	border-color: #bfbfbf;
 	outline: none;
-	box-shadow: 0 6px 18px rgba(255,255,255,0.04);
+	box-shadow: 0 6px 18px rgba(255, 255, 255, 0.04);
 }
 
 .dark .search-box-button .icon {
@@ -842,12 +1129,12 @@ function processSearchResults(
 }
 
 .dark .suggestion-item.active {
-	background: rgba(255,255,255,0.03);
-	outline: 2px solid rgba(255,255,255,0.06);
+	background: rgba(255, 255, 255, 0.03);
+	outline: 2px solid rgba(255, 255, 255, 0.06);
 }
 
 .dark .suggestion-item:hover {
-	background: rgba(255,255,255,0.02);
+	background: rgba(255, 255, 255, 0.02);
 }
 
 .dark .submit-button {
@@ -856,7 +1143,7 @@ function processSearchResults(
 }
 
 .dark .submit-button .submit-icon {
-	color: rgba(255,255,255,0.95);
+	color: rgba(255, 255, 255, 0.95);
 }
 
 .dark .header {
@@ -877,5 +1164,9 @@ function processSearchResults(
 
 .dark .browse-toggle:hover {
 	color: #e6e6e6;
+}
+
+.dark .bt-divider {
+	background: rgba(255,255,255,0.06);
 }
 </style>

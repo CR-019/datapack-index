@@ -11,7 +11,7 @@ gameversion: [1.20.2~1.21.11]
 aside: left
 wheel: true
 repo: Huoyuyuyu/BetterTitle
-cover: https://raw.githubusercontent.com/Huoyuyuyu/BetterTitle/refs/heads/main/BetterTitle%201.21.9-1.21.10/%C2%A7bBetterTitle%20RP%201.21.9-1.21.10/pack.png
+cover: /datapack-index/wheel/Better_Title.png
 ---
 
 <InfoCard />
