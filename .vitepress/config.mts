@@ -21,6 +21,11 @@ import {
     sidebar_202511,
     sidebar_202512,
 } from "./sidebar_feature2025"
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+
+import{
+    sidebar_202601,
+}from "./sidebar_feature2026"
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -33,6 +38,7 @@ export default defineConfig({
         outline: [2, 6],
         nav: [
             { text: "文档", link: "/index/绪论" },
+            { text: "前置馆", link: "/wheel" },
             { text: "《Feature》", link: "/feature/_index" },
             { text: "Wiki", link: "https://zh.minecraft.wiki/" },
         ],
@@ -68,6 +74,7 @@ export default defineConfig({
             "/feature/archive/202510": sidebar_202510,
             "/feature/archive/202511": sidebar_202511,
             "/feature/archive/202512": sidebar_202512,
+            "/feature/archive/202601": sidebar_202601,
             "/feature/": sidebar_feature,
         },
 
@@ -137,6 +144,21 @@ export default defineConfig({
         plugins: [
             nodePolyfills({
                 include: ["util"],
+            }),
+            ViteImageOptimizer({
+                png: {
+                    quality: 80
+                },
+                jpeg: {
+                    quality: 80   
+                },
+                webp: {
+                    quality: 80,
+                    lossless: false
+                },
+                avif: { quality: 75 }, 
+                include: /\.(png|jpe?g|svg)$/i,
+                exclude: /node_modules/
             })
         ]
     },

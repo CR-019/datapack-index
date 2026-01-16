@@ -30,46 +30,19 @@
       <!-- 主作者信息 -->
       <div class="author-info primary-author">
         <div class="avatar-wrapper">
-          <a
-            v-if="firstSocialLink"
-            :href="firstSocialLink.url"
-            class="avatar-link"
-            target="_blank"
-          >
-            <img
-              :src="avatarUrl"
-              :alt="authorName"
-              class="avatar"
-              @error="handleAvatarError"
-            />
+          <a v-if="firstSocialLink" :href="firstSocialLink.url" class="avatar-link" target="_blank">
+            <img :src="(mainAuthor && mainAuthor.avatar) || avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError" />
           </a>
-          <img
-            v-else
-            :src="avatarUrl"
-            :alt="authorName"
-            class="avatar"
-            @error="handleAvatarError"
-          />
+          <img v-else :src="(mainAuthor && mainAuthor.avatar) || avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError" />
           <div v-if="avatarLoading" class="loading-indicator"></div>
         </div>
         <div class="author-details">
-          <a
-            v-if="firstSocialLink"
-            :href="firstSocialLink.url"
-            class="author-name-link"
-            target="_blank"
-          >
-            <h3 class="author-name">{{ authorName }}</h3>
+          <a v-if="firstSocialLink" :href="firstSocialLink.url" class="author-name-link" target="_blank">
+            <h3 class="author-name">{{ mainAuthor ? mainAuthor.name : authorName }}</h3>
           </a>
-          <h3 v-else class="author-name">{{ authorName }}</h3>
+          <h3 v-else class="author-name">{{ mainAuthor ? mainAuthor.name : authorName }}</h3>
           <div class="social-links">
-            <a
-              v-for="(link, index) in socialLinks"
-              :key="index"
-              :href="link.url"
-              class="link"
-              target="_blank"
-            >
+            <a v-for="(link, index) in (mainAuthor && mainAuthor.socialLinks) || socialLinks || []" :key="index" :href="link.url" class="link" target="_blank">
               {{ link.name }}
             </a>
           </div>
@@ -80,52 +53,24 @@
       <div v-if="extraAuthors && extraAuthors.length > 0" class="vertical-divider"></div>
 
       <!-- 额外作者列表 -->
-      <div v-if="extraAuthors && extraAuthors.length > 0" class="extra-authors">
-        <div
-          v-for="(author, index) in extraAuthors"
-          :key="index"
-          class="author-info"
-        >
+      <div v-if="extraAuthorsInfo && extraAuthorsInfo.length > 0" class="extra-authors">
+        <div v-for="(author, index) in extraAuthorsInfo" :key="index" class="author-info">
           <div class="avatar-wrapper">
-            <a
-              v-if="author.socialLinks?.[0]"
-              :href="author.socialLinks[0].url"
-              class="avatar-link"
-              target="_blank"
-            >
-              <img
-                :src="author.avatarUrl"
-                :alt="author.authorName"
-                class="avatar"
-                @error="() => handleExtraAvatarError(index)"
-              />
+            <a v-if="author.socialLinks && author.socialLinks[0]" :href="author.socialLinks[0].url" class="avatar-link" target="_blank">
+              <img :src="author.avatar || ''" :alt="author.name || ''" class="avatar"
+                @error="() => handleExtraAvatarError(index)" />
             </a>
-            <img
-              v-else
-              :src="author.avatarUrl"
-              :alt="author.authorName"
-              class="avatar"
-              @error="() => handleExtraAvatarError(index)"
-            />
+            <img v-else :src="author.avatar || ''" :alt="author.name || ''" class="avatar"
+              @error="() => handleExtraAvatarError(index)" />
           </div>
           <div class="author-details">
-            <a
-              v-if="author.socialLinks?.[0]"
-              :href="author.socialLinks[0].url"
-              class="author-name-link"
-              target="_blank"
-            >
-              <h3 class="author-name">{{ author.authorName }}</h3>
+            <a v-if="author.socialLinks && author.socialLinks[0]" :href="author.socialLinks[0].url" class="author-name-link"
+              target="_blank">
+              <h3 class="author-name">{{ author.name }}</h3>
             </a>
-            <h3 v-else class="author-name">{{ author.authorName }}</h3>
+            <h3 v-else class="author-name">{{ author.name }}</h3>
             <div class="social-links">
-              <a
-                v-for="(link, idx) in author.socialLinks"
-                :key="idx"
-                :href="link.url"
-                class="link"
-                target="_blank"
-              >
+              <a v-for="(link, idx) in (author.socialLinks || [])" :key="idx" :href="link.url" class="link" target="_blank">
                 {{ link.name }}
               </a>
             </div>
@@ -153,18 +98,6 @@ export default {
       type: String,
       default: "是名字",
     },
-    authorBiliID: {
-      type: String,
-      default: "",
-    },
-    socialLinks: {
-      type: Array,
-      default: () => [],
-    },
-    avatarUrl: {
-      type: String,
-      default: "https://via.placeholder.com/50",
-    },
     abstractText: {
       type: String,
       default: "让我简单喵两句",
@@ -180,16 +113,7 @@ export default {
     // 新增：额外作者列表
     extraAuthors: {
       type: Array,
-      default: null, // 可选，默认为 null 或空数组
-      validator(value) {
-        // 验证每一项都包含必要字段
-        return value.every(
-          (author) =>
-            typeof author.authorName === "string" &&
-            typeof author.avatarUrl === "string" &&
-            Array.isArray(author.socialLinks)
-        );
-      },
+      default: []
     },
   },
   data() {
@@ -197,12 +121,14 @@ export default {
       avatarLoading: false,
       avatarError: false,
       extraAvatarErrors: [], // 记录每个额外作者头像是否出错
+      mainAuthor: null,
+      extraAuthorsInfo: [],
     };
   },
   computed: {
     firstSocialLink() {
-      return this.socialLinks && this.socialLinks.length > 0
-        ? this.socialLinks[0]
+      return this.mainAuthor && this.mainAuthor.socialLinks && this.mainAuthor.socialLinks.length > 0
+        ? this.mainAuthor.socialLinks[0]
         : null;
     },
   },
@@ -232,6 +158,43 @@ export default {
       this.$set(this.extraAvatarErrors, index, true);
       console.warn(`额外作者 #${index} 头像加载失败`);
     },
+  },
+  async mounted() {
+    try {
+      // load main author by name
+      const mainRes = await fetch(`/datapack-index/authors/${this.authorName}.json`);
+      if (mainRes && mainRes.ok) {
+        this.mainAuthor = await mainRes.json();
+        // normalize avatar path
+        if (this.mainAuthor.avatar) this.mainAuthor.avatar = '/datapack-index' + this.mainAuthor.avatar;
+      }
+
+      // load extra authors
+      for (const extra of this.extraAuthors || []) {
+        if (!extra) continue;
+        if (typeof extra === 'string') {
+          const r = await fetch(`/datapack-index/authors/${extra}.json`);
+          if (r && r.ok) {
+            const obj = await r.json();
+            if (obj.avatar) obj.avatar = '/datapack-index' + obj.avatar;
+            this.extraAuthorsInfo.push(obj);
+          }
+        } else if (extra.authorName) {
+          if (extra.avatarUrl || (extra.socialLinks && extra.socialLinks.length)) {
+            this.extraAuthorsInfo.push({ name: extra.authorName, avatar: extra.avatarUrl, socialLinks: extra.socialLinks || [] });
+          } else {
+            const r = await fetch(`/datapack-index/authors/${extra.authorName}.json`);
+            if (r && r.ok) {
+              const obj = await r.json();
+              if (obj.avatar) obj.avatar = '/datapack-index' + obj.avatar;
+              this.extraAuthorsInfo.push(obj);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
   },
 };
 </script>
@@ -277,11 +240,7 @@ export default {
   left: 0;
   right: 0;
   height: 100%;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.3) 0%,
-    transparent 100%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.3) 0%, transparent 100%);
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
@@ -289,7 +248,8 @@ export default {
 .article-container {
   max-width: 800px;
   padding: 20px;
-  margin: 0 auto; /* 居中 */
+  margin: 0 auto;
+  /* 居中 */
 }
 
 .color-line,
@@ -313,7 +273,7 @@ export default {
 
 .color-line::before,
 .color-line::after,
-.color-line > div {
+.color-line>div {
   content: "";
   flex: 1;
 }
@@ -322,7 +282,7 @@ export default {
   background: #c47c4e;
 }
 
-.color-line > div {
+.color-line>div {
   background: #74b096;
 }
 
@@ -332,8 +292,10 @@ export default {
 
 /* 特色横线特定样式 */
 .featured-color-line {
-  height: 8px; /* 设置特色横线高度 */
-  align-items: center; /* 垂直居中子元素 */
+  height: 8px;
+  /* 设置特色横线高度 */
+  align-items: center;
+  /* 垂直居中子元素 */
 }
 
 .orange {
@@ -347,7 +309,8 @@ export default {
 .image-container {
   position: relative;
   height: 100%;
-  width: calc(100% - 2 * (100% / 3)); /* 中间部分宽度，根据需要调整 */
+  width: calc(100% - 2 * (100% / 3));
+  /* 中间部分宽度，根据需要调整 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -449,7 +412,7 @@ export default {
 }
 
 .author-name-link:hover {
-  color:#0550ae;
+  color: #0550ae;
 }
 
 .dark .author-name-link {
@@ -458,14 +421,13 @@ export default {
 }
 
 .dark .author-name-link:hover {
-  color:#0550ae;
+  color: #0550ae;
 }
 
 .author-name {
   margin: 0;
   font-size: 1rem;
-  font-style: italic;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .social-links {

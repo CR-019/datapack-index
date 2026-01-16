@@ -6,7 +6,7 @@ title: '原版血条！'
 
 <FeatureHead
     title = 原版血条！
-    authorName = SK
+    authorName = SKSAMA
     avatarUrl = '../../_authors/sk.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/1546917549' },

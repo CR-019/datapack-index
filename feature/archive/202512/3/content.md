@@ -10,22 +10,7 @@ title: '自定义魔咒的综合应用'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/405830542' }
     ]"
-    :extraAuthors="[
-        {
-            authorName: 'Antares',
-            socialLinks: [
-                { name: 'BiliBili', url: 'https://space.bilibili.com/2127740148' }
-            ],
-            avatarUrl: '../../_authors/Antares.jpg'
-        },
-        {
-            authorName: '晓舒迢',
-            socialLinks: [
-                { name: 'BiliBili', url: 'https://space.bilibili.com/402383436' }
-            ],
-            avatarUrl: '../../_authors/晓舒迢.jpg'
-        }
-    ]"
+    :extraAuthors="['Antares','晓舒迢']"
 />
 
 ## 摘 要

@@ -49,18 +49,6 @@ export default {
       type: String,
       default: "是名字",
     },
-    authorBiliID: {
-      type: String,
-      default: "",
-    },
-    socialLinks: {
-      type: Array,
-      default: () => []
-    },
-    avatarUrl: {
-      type: String,
-      default: "https://via.placeholder.com/50",
-    },
     abstractText: {
       type: String,
       default: "让我简单喵两句",

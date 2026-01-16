@@ -30,7 +30,7 @@ data Color {
 
 <FeaturedHead
     title = 烟花来咯！
-    authorName = SK
+    authorName = SKSAMA
     avatarUrl = '../../_authors/sk.jpg'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/1546917549' },

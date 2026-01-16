@@ -5,14 +5,15 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     link: '/feature/_index',
     items: [
       { text: '绝赞征稿中！', link: '/feature/_index' },
+      { text: '香草奖2025', link: '/feature/tva/tva2025'}
     ]
   },
   {
     text: '最新',
     items: [
       {
-        text: '🌟2025.12',
-        link: '/feature/index/202512'
+        text: '🌟2026.01',
+        link: '/feature/index/202601'
       },
     ]
   },
@@ -20,16 +21,16 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '',
     items: [
       {
+        text: '2025.12',
+        link: '/feature/index/202512'
+      },
+      {
         text: '2025.11',
         link: '/feature/index/202511'
       },
       {
         text: '2025.10',
         link: '/feature/index/202510'
-      },
-      {
-        text: '2025.9',
-        link: '/feature/index/202509'
       }
     ]
   },
@@ -37,7 +38,11 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '往期',
     collapsed: true,
     items: [
-       {
+      {
+        text: '2025.9',
+        link: '/feature/index/202509'
+      },
+      {
         text: '2025.8',
         link: '/feature/index/202508'
       },

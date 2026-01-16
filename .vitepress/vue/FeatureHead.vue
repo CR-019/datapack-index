@@ -31,19 +31,6 @@ export default {
       type: String,
       default: "是名字",
     },
-    authorBiliID: {
-      type: String,
-      default: "",
-    },
-    socialLinks: {
-      type: Array,
-      default: () => []
-    },
-    // 注意：avatarUrl 现在变成了一个 prop，但可以通过事件更新
-    avatarUrl: {
-      type: String,
-      default: "https://via.placeholder.com/50",
-    },
     abstractText: {
       type: String,
       default: "让我简单喵两句",

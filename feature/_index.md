@@ -22,20 +22,38 @@ pageClass: h2-no-border
 > 短文成型快，~~周刊~~相对讨论空间更自由，不失为一种圈内交流的好方法）
 > ——[issue#5](https://github.com/CR-019/datapack-index/issues/5)
 
+## 特别企划
+<ColorLine />
+
+<IndexCompatible
+    title = "The Vanilla Awards (TVA) 2025 颁奖典礼"
+    url = "./tva/tva2025"
+    authorName = 香草图书馆工作组
+    abstract = "全MC圈最香草的奖项正在火热颁发中！快来看看你心目中最香草的作品有没有获奖吧！"
+    background = "./tva/_assets/tva2025.png"
+/>
+
 ## 阅读《Feature》
 <ColorLine />
 
 ### 🌟最新
 
 <JournalIndex
-    cover="./cover/202512/202512.png"
-    :coverLink="'./index/202512'"
+    cover="./cover/202601/202601.png"
+    :coverLink="'./index/202601'"
 />
 
 
 <ColorLine />
 
 ### 往期
+
+<JournalIndex
+    cover="./cover/202512/202512.png"
+    :coverLink="'./index/202512'"
+/>
+
+---
 
 <JournalIndex
     cover="./cover/202511/202511.png"
@@ -51,15 +69,15 @@ pageClass: h2-no-border
 
 ---
 
+<details>
+<summary>更早</summary>
+
 <JournalIndex
     cover="./cover/202509/202509.png"
     :coverLink="'./index/202509'"
 />
 
 ---
-
-<details>
-<summary>更早</summary>
 
 <JournalIndex
     cover="./cover/202508/202508.png"
@@ -94,7 +112,7 @@ pageClass: h2-no-border
     :coverLink="'./index/202504'"
 />
 
-</details> 
+</details>
 
 ## 向《Feature》 投稿
 <ColorLine />
@@ -111,8 +129,8 @@ pageClass: h2-no-border
 
 ### 投稿形式
 
-我们接受各种类型的投稿。可以是原文章、可以是发在各种博客或论坛的文章链接、也可以是视频等。  
-你可以将包含投稿内容的如下信息使用网络邮箱发送到 1703467028@qq.com :  
+我们接受各种类型的投稿。可以是原文章、可以是发在各种博客或论坛的文章链接、也可以是视频等。
+你可以将包含投稿内容的如下信息使用网络邮箱发送到 1703467028@qq.com :
 - 投稿主体内容，需标明文章或视频的链接，或将原文以附件形式发送；
 - 稿件标题；
 - 摘要（可选但推荐）：以简要的文字说明投稿的主要内容；

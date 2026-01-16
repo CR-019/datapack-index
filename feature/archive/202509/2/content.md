@@ -9,15 +9,7 @@ title: '自然工艺 - 高版本自定义模型框架'
     :socialLinks="[
         { name: 'BiliBili', url: 'https://space.bilibili.com/405830542' }
     ]"
-    :extraAuthors="[
-      {
-        authorName: 'Nox_Obscura',
-        avatarUrl: '../../_authors/nox_obscura.jpg',
-        socialLinks:[
-          { name: 'BiliBili', url: 'https://space.bilibili.com/1184771713' }
-        ]
-      }
-    ]"
+    :extraAuthors="['Nox_Obscura']"
     resourceLink = https://github.com/Bybycyann/NatureCraft
     cover='../_assets/2.png'
 />
