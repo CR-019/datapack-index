@@ -17,7 +17,7 @@ title: '图书馆最新力作：香草前置馆 现已上线！'
 
 **香草前置馆**（Vanilla Wheel Repository）由香草图书馆团队开发并维护，旨在收录各种前置的信息，并提供搜索功能，方便数据包的开发者快速找到自己需要的前置。
 
-香草前置馆现在可以在首页通过**前置索引**按钮访问，也可以通过导航栏的**前置馆**按钮访问，当然你也可以直接访问地址：https://vanillalibrary.mcfpp.top/datapack-index/wheel/。
+香草前置馆现在可以在首页通过**前置索引**按钮访问，也可以通过导航栏的**前置馆**按钮访问，当然你也可以直接访问地址：[https://vanillalibrary.mcfpp.top/datapack-index/wheel](https://vanillalibrary.mcfpp.top/datapack-index/wheel)。
 
 ![alt text](image.png)
 
