@@ -13,6 +13,12 @@ export const sidebar_202601: DefaultTheme.Sidebar = [
     link: '/feature/archive/202601/ifc/content'
   },
   {
+    text: '特别企划',
+    items: [
+      { text: 'The Vanilla Awards (TVA) 2025 颁奖典礼', link: '/feature/tva/tva2025' },
+    ]
+  },
+  {
     text: '精选 Featured',
     items: [
       { text: '图书馆最新力作：香草前置馆 现已上线！', link: '/feature/archive/202601/g/content' },
