@@ -6,7 +6,7 @@ author:
         char: 作者
 description: HUD绘制与可监听原版生命值变化的虚拟生命值操作库
 tags: [UI, 生命值, 虚拟生命值, HUD]
-version: 1.0.0
+version: 1.1.0
 gameversion: [1.21.11]
 aside: left
 wheel: true

@@ -19,3 +19,5 @@ cover: /datapack-index/wheel/bookshelf.png
 Bookshelf是一个支持大量不同功能的底层库，包括射线追踪，数学计算，生命值控制，定时任务，debug输出，碰撞箱判断等等。开发者可以有选择地安装需要的功能。
 
 请在其[官方网站](https://docs.mcbookshelf.dev/en/latest/)上获取更多信息。
+
+本库有正在翻译中的[中文文档](https://docs.mcbookshelf.dev/zh-cn/master/)。

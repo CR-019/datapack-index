@@ -15,7 +15,9 @@ repo: kaer-3058/large_number
 
 <InfoCard />
 
-它集结了我近年来学习MC命令和高等数学的成果，在MC函数宏时代下发展出来的一个库。
+[查看本库使用说明](https://github.com/kaer-3058/large_number/wiki/%E5%8D%A1%E5%84%BF%E7%9A%84%E6%95%B0%E5%AD%A6%E5%BA%93-Wiki%E2%80%90%E4%B8%AD%E6%96%87)
+
+它集结了大量MC命令和高等数学的成果，在MC函数宏时代下发展出来的一个库。
 
 一开始是做超级锻造台时，为了解决用MC命令扣除玩家的前N级经验。
 
