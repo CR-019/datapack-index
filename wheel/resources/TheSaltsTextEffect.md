@@ -20,4 +20,4 @@ cover: /datapack-index/wheel/TheSaltTextEffect.gif
 
 想要查看如何使用，查阅其官方说明([GitHub](https://github.com/TheSalts/Text_Effects))。
 
-![效果示意](/datapack-index/wheel/TheSaltTextEffect.gif)
+![效果示意](/public/wheel/TheSaltTextEffect.gif)
