@@ -11,7 +11,7 @@ gameversion: [1.21+]
 aside: left
 wheel: true
 repo: CR-019/dc
-cover: https://raw.githubusercontent.com/CR-019/dc/refs/heads/master/dc_v2.1.0/pack.png
+cover: /datapack-index/wheel/Deco_Creater_kit.png
 ---
 
 <InfoCard />
