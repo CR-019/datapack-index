@@ -6,7 +6,7 @@ author:
         char: 作者
 description: 简单交互性装饰模型支持库
 tags: [交互, 装饰模型]
-version: 2.1.0
+version: 2.1.2
 gameversion: [1.21+]
 aside: left
 wheel: true

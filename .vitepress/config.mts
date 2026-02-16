@@ -25,6 +25,7 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 import{
     sidebar_202601,
+    sidebar_202602,
 }from "./sidebar_feature2026"
 
 // https://vitepress.dev/reference/site-config
@@ -75,6 +76,7 @@ export default defineConfig({
             "/feature/archive/202511": sidebar_202511,
             "/feature/archive/202512": sidebar_202512,
             "/feature/archive/202601": sidebar_202601,
+            "/feature/archive/202602": sidebar_202602,
             "/feature/": sidebar_feature,
         },
 
