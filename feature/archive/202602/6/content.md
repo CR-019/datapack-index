@@ -267,7 +267,7 @@ $source\_cell = 0$，其中 $n$ 为 `+` 或 `-` 的数量。
 ## 八、 运行展示
 我们需要一个代码编辑框，用于输入 Brainduck 源码。
 
-![Brainduck 输入框](/image/Brainfuck_dialog.png)
+![Brainduck 输入框](./image/brainfuck_dialog.png)
 
 ## 九、 结论
 
