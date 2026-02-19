@@ -105,7 +105,7 @@ mcasm 的设计目标是对熟悉 x86 的开发者尽可能友好，同时加入
 
 #### 示例
 
-```mcasm
+```
 #include "stdio"
 
 static greeting "Hello, World"
@@ -162,7 +162,7 @@ TODO 由于某些尚未解决的问题，benchmark 还做不了，之后的论�
 
 #### mcasm
 
-```mcasm
+```
 // void matmul(int32_t *A, int32_t *B, int32_t *C, int M, int N, int K)
 export test:matmul:
     mov t0, 0  // int i;
@@ -355,7 +355,7 @@ return 1
 
 ## 附录：示例 mcasm 文件模板
 
-```mcasm
+```
 #include "stdlib"
 #include <stdio>
 
