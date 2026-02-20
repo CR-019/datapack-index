@@ -8,7 +8,7 @@
 ---
 
 最近收录：
-
+- [NBT Autocomplete - 提供游戏内nbt自动补全](https://modrinth.com/mod/nbt-autocomplete)
 ---
 
 ↓暂时弃用的狐狐版nbt树
