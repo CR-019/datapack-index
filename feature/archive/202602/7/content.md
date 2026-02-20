@@ -6,7 +6,7 @@ title: 'Patrick的流处理前置'
     title='Patrick的流处理前置'
     authorName='Patrick'
     cover = '../_assets/7.png'
-    ResourceLink = '../_assets/流处理前置.zip'
+    resourceLink = '../_assets/流处理前置.zip'
 />
 
 ## 摘要
