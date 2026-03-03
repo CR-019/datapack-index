@@ -124,11 +124,8 @@ export default defineConfig({
     },
     vite: {
         define: {
-            // 将 process.env 定义为空对象，防止报错
-            'process.env': {},
-            // 如果某些库直接访问 process (如 process.version)，可能需要更完整的模拟
-            // 通常下面这个就够用了，如果不行请看下方的“进阶方案”
-            'process': 'globalThis.process || {}', 
+            'process.env': JSON.stringify({}), // 将 process.env 替换为空对象
+            'global': 'globalThis',            // 将 global 替换为 globalThis
         },
         css: {
             // 提取 CSS 到单独文件
