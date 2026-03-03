@@ -55,7 +55,7 @@ $$ L_o(p, \omega_o) = L_e(p, \omega_o) + \sum_{l=1}^{N} f_r(p, \omega_{i_l}, \om
 
 ### 定向半球反射率（Directional-Hemispherical Reflectance）
 
-定向半球反射率通常简称为DHR，或用 $ \displaystyle R(l)$ 表示。定向半球指的是以法线为中心的半球，DHR描述了表面将光反射到半球上的总体反射率，它描述了BRDF模型的守恒程度。根据能量守恒定律，定向半球反射率的值必须在0到1之间。可以定义为 $ \displaystyle R(\omega_i) = \int\limits_{\Omega} f_r(p, \omega_i, \omega_o)(\omega_i \cdot n) d\omega_o$， 类似的，由于亥姆霍兹互异性，也可以这样定义 $ \displaystyle R(\omega_o) = \int\limits_{\Omega} f_r(p, \omega_i, \omega_o)(\omega_o \cdot n) d\omega_i $。事实上我们已经在反射方程中见到过这一部分。
+定向半球反射率通常简称为DHR，或用 $\displaystyle R(l)$ 表示。定向半球指的是以法线为中心的半球，DHR描述了表面将光反射到半球上的总体反射率，它描述了BRDF模型的守恒程度。根据能量守恒定律，定向半球反射率的值必须在0到1之间。可以定义为 $\displaystyle R(\omega_i) = \int\limits_{\Omega} f_r(p, \omega_i, \omega_o)(\omega_i \cdot n) d\omega_o$， 类似的，由于亥姆霍兹互异性，也可以这样定义 $\displaystyle R(\omega_o) = \int\limits_{\Omega} f_r(p, \omega_i, \omega_o)(\omega_o \cdot n) d\omega_i$。事实上我们已经在反射方程中见到过这一部分。
 
 ### 菲涅尔反射（Fresnel Reflection）
 

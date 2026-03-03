@@ -4,7 +4,6 @@ import { mcfunction } from "./highlights/mcfuntion";
 import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
 import anchor from "markdown-it-footnote";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 import {
     sidebar_feature,
@@ -46,6 +45,7 @@ export default defineConfig({
         search: {
             provider: "local",
             options: {
+                showDetailedList:true,
                 translations: {
                     button: {
                         buttonText: "搜索",
@@ -123,6 +123,13 @@ export default defineConfig({
         },
     },
     vite: {
+        define: {
+            // 将 process.env 定义为空对象，防止报错
+            'process.env': {},
+            // 如果某些库直接访问 process (如 process.version)，可能需要更完整的模拟
+            // 通常下面这个就够用了，如果不行请看下方的“进阶方案”
+            'process': 'globalThis.process || {}', 
+        },
         css: {
             // 提取 CSS 到单独文件
             // 这会为所有 CSS 生成文件，但我们只关心基础样式
@@ -144,9 +151,6 @@ export default defineConfig({
             },
         },
         plugins: [
-            nodePolyfills({
-                include: ["util"],
-            }),
             ViteImageOptimizer({
                 png: {
                     quality: 80
