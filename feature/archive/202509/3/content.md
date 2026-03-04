@@ -285,6 +285,8 @@ $$ \begin{bmatrix} 1 & 0 & 0 & t_x \\ 0 & 1 & 0 & t_y \\ 0 & 0 & 1 & t_z \\ 0 & 
 
 ### ModelViewMat推导
 
+
+<!-- 
 虽然我们还不知道投影变换是什么，但是很显然，`ModelViewMat`执行的其实只是一个简单的旋转。对其数据推导可以反过来让我们知道可以从该矩阵中读取到什么内容。
 
 为了使摄像机的后方成为z轴正方向，摄像机的上方成为y轴正方向，我们需要记录玩家的水平旋转角度$\theta$（ **偏航角Yaw Angle** ）和竖直旋转角度$\phi$（ **俯仰角Pitch Angle** ）。更具体地，我们会先处理玩家的偏航角，然后再处理俯仰角。
@@ -295,52 +297,52 @@ $$ \begin{bmatrix} 1 & 0 & 0 & t_x \\ 0 & 1 & 0 & t_y \\ 0 & 0 & 1 & t_z \\ 0 & 
 
 为了方便，这里直接采用玩家的选择角度作为偏航角和俯仰角（与数学中默认的角度有偏移，但这样方便我们获取玩家数据）
 
-在Minecraft中，初始角度是x轴向左，y轴向上，z轴指向屏幕里的，而我们的顶点所在的坐标系是x轴向右，y轴向上，而z轴指向屏幕外的。这意味着我们需要构造一个初始旋转矩阵（实际上对应坐标系偏航180°，但我们定这个角度为玩家的偏航0°）
+那么在此基础上，玩家向右转头的角度为 $\theta$ 时，为了抵消这个影响，需要绕+y逆时针旋转，应该有y不变，而x和z方向上的标准正交基被旋转到了
 
-$$ I_0 = \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1\end{bmatrix}$$
-
-那么在此基础上，玩家的偏航角为 $\theta$ 时，对应的是玩家向右偏航 $\theta$ ,世界向左旋转（相当于y轴朝向纸面外，顺时针旋转），应该有y不变，而x和z方向上的标准正交基被旋转到了
-
-$$ A_1 \cdot \hat \imath = A_1 \cdot \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} \cos \theta \\ 0 \\ -\sin \theta \end{bmatrix} $$
-
+$$ A_1 \cdot \hat \imath = A_1 \cdot \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} -\cos \theta \\ 0 \\ -\sin \theta \end{bmatrix} $$
+    
 $$ A_1 \cdot \hat \jmath = A_1 \cdot \begin{bmatrix} 0 \\ 1 \\ 0
  \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} $$
 
 $$ A_1 \cdot \hat k = A_1 \cdot \begin{bmatrix} 0 \\ 0 \\ 1
- \end{bmatrix} = \begin{bmatrix} \sin \theta \\ 0 \\ \cos \theta \end{bmatrix} $$
+ \end{bmatrix} = \begin{bmatrix} \sin \theta \\ 0 \\ -\cos \theta \end{bmatrix} $$
 
 ![alt text](519bb1aa0d5f9e921543c40d29605959.png)
 
 无论是设出A的每一项解方程，还是用基变换的观点看，我们都可以得到偏航矩阵A。我们这里将新的基依次填入矩阵的每一列
 
-$ A_1 = \begin{bmatrix} \cos \theta & 0 & \sin \theta \\ 0 & 1 & 0 \\ -\sin \theta & 0 & \cos \theta \end{bmatrix}$
+$$ A_1 = \begin{bmatrix} -\cos \theta & 0 & \sin \theta \\ 0 & 1 & 0 \\ -\sin \theta & 0 & -\cos \theta \end{bmatrix}$$
 
-不过前文说过，Minecraft中的玩家旋转角度与坐标系的旋转角度有180°的偏移，所以我们需要让$I_0$左乘$A_1$。而且我们这里处理的实际上是四个分量的齐次坐标，所以我们将其扩充为4x4的矩阵
+我们处理的是一个三维空间中的旋转变换，为了在齐次坐标中表示，我们需要将其扩展为4x4的矩阵，得到如下矩阵 -->
 
-$$ I_0 \cdot A_1 = \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1\end{bmatrix} \begin{bmatrix} \cos \theta & 0 & \sin \theta \\ 0 & 1 & 0 \\ -\sin \theta & 0 & \cos \theta \end{bmatrix} = \begin{bmatrix} -\cos \theta & 0 & -\sin \theta \\ 0 & 1 & 0 \\ \sin \theta & 0 & -\cos \theta \end{bmatrix} $$
+::: warning 推导被移除
+由于 Mojang 采用了与图形学标准有些不同的假设，为了避免混乱，这里的数学推导在 26/03/04 被移除。不再要求读者理解推导过程，直接看结论即可。
+:::
 
-$$ A = \begin{bmatrix} -\cos \theta & 0 & -\sin \theta & 0 \\ 0 & 1 & 0 & 0 \\ \sin \theta & 0 & -\cos \theta  & 0 \\ 0 & 0  & 0  & 1\end{bmatrix} $$
+![alt text](image-4.png)
 
-Minecraft中，玩家的俯仰角为 $\phi$ 时，视角向下俯仰 $\phi$ ，世界向上旋转（相当于x轴朝向纸面外，逆时针旋转），应该有x不变，y轴和z轴上的基向量被旋转到新的为止。同理，我们可以推出俯仰角对应的旋转矩阵
+打开F3时，将会看到如上图所示的玩家旋转信息，这对应了玩家nbt的 `Rotation[]` 部分。为了与数据包的交流方便，我们将偏航角设为玩家的 `Rotation[0]`，俯仰角设为玩家的 `Rotation[1]`，并且将它们分别命名为 `yaw` 和 `pitch`。玩家默认看向世界的+z轴，看向右边时 `yaw` 增加，那么对应的逆偏航矩阵就是（通过逆旋转抵消摄像机的旋转）：
 
-![alt text](338738a3d957f47d8b84adf3b1703933.png)
+$$ A = \begin{bmatrix} -\cos \theta & 0 & \sin \theta & 0 \\ 0 & 1 & 0 & 0 \\ -\sin \theta & 0 & -\cos \theta & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix} $$
+
+玩家看向下面时 `pitch` 增加，对应的逆俯仰矩阵为：
+
+<!-- ![alt text](338738a3d957f47d8b84adf3b1703933.png) -->
 
 $$ B = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos \phi & -\sin \phi & 0 \\ 0 & \sin \phi & \cos \phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
 
 最终我们得到
 
-$$ \text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & -\sin\theta & 0 \\ -\sin\theta\sin\phi & \cos\phi & -\cos\theta\sin\phi & 0 \\ \sin\theta\cos\phi & \sin\phi & -\cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
+$$ \text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & \sin\theta & 0 \\ \sin\theta\sin\phi & \cos\phi & \cos\theta\sin\phi & 0 \\ -\sin\theta\cos\phi & \sin\phi & -\cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
 
-验证：当 $\theta,\phi=0$ 时 `ModelViewMat` 的左上角3x3区域确实与$I_0$一致
-
-回到着色器，上面所有的计算是为了帮助我们理解 `ModelViewMat` 的值，不过要注意，由于GLSL内部按列储存矩阵，代码中发挥 `ModelViewMat` 作用的矩阵应该声明为
+不过要注意，由于GLSL内部按列储存矩阵，代码中发挥 `ModelViewMat` 作用的矩阵应该声明为
 
 ```glsl
 mat4 ModelViewMat = mat4(
-    -cos(yaw), -sin(yaw)*sin(pitch), sin(yaw)*cos(pitch),   0,
-        0    ,       cos(pitch)    ,       sin(pitch)   ,   0,
-    -sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),   0,
-        0    ,          0          ,         0          ,   1,
+    -cos(yaw),  sin(yaw)*sin(pitch), -sin(yaw)*cos(pitch),  0,
+        0    ,       cos(pitch)    ,       sin(pitch)    ,  0,
+     sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),  0,
+        0    ,          0          ,         0           ,  1
 );
 ```
 
@@ -349,8 +351,6 @@ mat4 ModelViewMat = mat4(
 * 从 `ModelViewMat` 的各项中读取到玩家的旋转角度Yaw和Pitch，为着色器提供信息。
 
 * 直接指定特定的视图变换，在客户端层面让玩家看向特定的方向而不产生抖动。
-
-![alt text](image-4.png)
 
 ### ProjMat推导
 
@@ -502,7 +502,7 @@ mat4 ProjMat = mat4(
     1/(tan(FOV/2)*Aspect)  ,        0      ,       0      , 0,
                 0          , 1/(tan(FOV/2)),       0      , 0,
                 0          ,        0      ,  (n+f)/(n-f) , -1,
-                0          ,        0      , (2*n*f)/(n-f), 0,
+                0          ,        0      , (2*n*f)/(n-f), 0
 );
 ```
 
@@ -571,7 +571,7 @@ $$ M_\text{Yaw}^T \cdot M_\text{Pitch}^T \cdot P = M_\text{Yaw}^{-1} \cdot M_\te
 
 由于这些操作旋转的是物体自身坐标系​，因此顺序很重要。若不理解两个变换的先后顺序如此重要，可以转动自己的头。如果你先偏航，后俯仰，就是先左右摇头，再上下点头。此时世界不会在你的眼中“斜过来”。但如果交换顺序，先俯仰，后偏航，就是先上下点头，再沿着你的下巴到头顶的轴线左右摇头，此时世界就会“斜过来”。显然不符合预期。
 
-特别地，当先执行的俯仰达到90°后，后执行的偏航会直接等效于一开始直接执行的 **翻滚（Roll）** 操作，这背后涉及的问题叫“万向节死锁”或“欧拉角死锁”，有兴趣的读者可以自行查阅。
+特别地，当先执行的俯仰达到90°后，后执行的偏航会直接等效于一个 **翻滚（Roll）** 操作，这背后涉及的问题叫“万向节死锁”或“欧拉角死锁”，有兴趣的读者可以自行查阅。
 
 所以当你在行主序视角下推导矩阵，一定要记住，填入GLSL的时候一定要交换行和列。
 

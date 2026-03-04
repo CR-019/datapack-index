@@ -44,7 +44,7 @@ mat4 ProjMat = mat4(
     1/(tan(FOV/2)*Aspect)  ,        0      ,       0      , 0,
                 0          , 1/(tan(FOV/2)),       0      , 0,
                 0          ,        0      ,  (n+f)/(n-f) , -1,
-                0          ,        0      , (2*n*f)/(n-f), 0,
+                0          ,        0      , (2*n*f)/(n-f), 0
 );
 ```
 
@@ -55,7 +55,7 @@ mat4 OrthoProjMat = mat4(
     1/(n*tan(FOV/2)*Aspect) ,        0        ,       0     , 0,
                0            , 1/(n*tan(FOV/2)),       0     , 0,
                0            ,        0        ,   -2/(f-n)  , 0,
-               0            ,        0        , -(f+n)/(f-n), 1,
+               0            ,        0        , -(f+n)/(f-n), 1
 );
 ```
 
@@ -142,10 +142,10 @@ sphericalVertexDistance = z_view;
 
 ```glsl
 mat4 ModelViewMat = mat4(
-    -cos(yaw), -sin(yaw)*sin(pitch), sin(yaw)*cos(pitch),   0,
-        0    ,       cos(pitch)    ,       sin(pitch)   ,   0,
-    -sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),   0,
-        0    ,          0          ,         0          ,   1,
+    -cos(yaw),  sin(yaw)*sin(pitch), -sin(yaw)*cos(pitch),  0,
+        0    ,       cos(pitch)    ,       sin(pitch)    ,  0,
+     sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),  0,
+        0    ,          0          ,         0           ,  1
 );
 ```
 
@@ -157,25 +157,18 @@ mat4 ModelViewMat = mat4(
 float yaw = radians(45.0);
 float pitch = radians(-30.0);
 mat4 FixedModelViewMat = mat4(
-    -cos(yaw), -sin(yaw)*sin(pitch), sin(yaw)*cos(pitch),   0,
-        0    ,       cos(pitch)    ,       sin(pitch)   ,   0,
-    -sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),   0,
-        0    ,          0          ,         0          ,   1,
+    -cos(yaw),  sin(yaw)*sin(pitch), -sin(yaw)*cos(pitch),  0,
+        0    ,       cos(pitch)    ,       sin(pitch)    ,  0,
+     sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),  0,
+        0    ,          0          ,         0           ,  1
 );
 ```
 
-或者，我们也可以直接使用一个预先计算好的矩阵常量来替换 `ModelViewMat` 变量：
+::: tip
+也可以直接使用一个预先计算好的矩阵常量来替换 `ModelViewMat` 变量：
+:::
 
-```glsl
-mat4 FixedModelViewMat = mat4(
-    -0.7071,  0.3536,  0.6124, 0.0,
-     0.0   ,  0.8660, -0.5000, 0.0,
-    -0.7071, -0.3536, -0.6124, 0.0,
-     0.0   ,  0.0   ,  0.0   , 1.0,
-);
-```
-
-这样，就从根本上锁定了视角，不论玩家如何移动和旋转摄像机，渲染出来的画面始终保持不变。但当玩家的偏移量太高时，依然会导致一些面的剔除，因此数据包层面依然需要在检测后重置玩家的朝向。
+这样，就从客户端层面锁定了视角，不论玩家如何移动和旋转摄像机，渲染出来的画面始终保持不变。但当玩家的偏移量太高时，依然会导致一些面的剔除，因此数据包层面依然需要在检测后重置玩家的朝向。
 
 ### 表面透射
 
@@ -300,7 +293,7 @@ mat4 ProjMat;
 为了确保玩家视角始终如一，我们需要在数据包层面重置玩家的朝向。我们可以通过一个简单的循环函数来实现，如果你需要让玩家自己操控视角，可以跳过这一步。
 
 ::: warning
-循环修改玩家的朝向在多人游戏中会占用较多的带宽，建议仅在单人游戏或局域网环境中使用。
+循环修改玩家的朝向在多人游戏中会占用较多的带宽，在通信时也可能导致客户端移动了视角但检测时服务端并未更新，在重置视角前服务端视角被更新，导致丢失了这一次的检测。因此在多人游戏中推荐当玩家视角偏移量达到一定程度时才进行重置。
 :::
 
 ```mcfunction
