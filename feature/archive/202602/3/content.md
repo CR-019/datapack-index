@@ -288,7 +288,7 @@ $$ L_o(p, \omega_o) = L_e(p, \omega_o) + \sum_{l=1}^{N} f_r(p, \omega_{i_l}, \om
 
 通过合并光照方向，每个点的光照方向实际上变成了一个固定的方向，从而进一步简化为了
 
-$$ L_o(p, \omega_o) = L_e(p, \omega_o) + f_r(p, \omega_{i_l}, \omega_o) \sum_{l=1}^{N} L_i(p, \omega_{i_l}) (\omega_{i_l} \cdot n) $$
+$$ L_o(p, \omega_o) = L_e(p, \omega_o) + f_r(p, \omega_{l}, \omega_o) L_i(p, \omega_{l}) (\omega_{l} \cdot n) $$
 
 这种简化使得我们无法正确模拟多个光源对同一表面的不同影响，尤其是在存在多个光源且它们的位置关系复杂时，可能会导致不真实的渲染效果。
 
