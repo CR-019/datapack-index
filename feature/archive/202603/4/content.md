@@ -5,7 +5,7 @@ title: 'Animated Java 原版模型动画制作系列教程'
 <FeatureHead
     title='Animated Java 原版模型动画制作系列教程'
     authorName='Sugar_Li'
-    cover = '../_assets/4.png',
+    cover = '../_assets/4.png'
 />
 
 ## 项目背景

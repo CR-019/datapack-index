@@ -7,7 +7,7 @@ hero:
   name: "香草图书馆"
   tagline: 原版模组开发资源索引站
   image:
-    src: /icons/bg3.png
+    src: /icons/bg5.png
   actions:
     - theme: brand
       text: 进入文档
@@ -24,7 +24,7 @@ features:
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202602
+    link: /feature/index/202603
   - icon:
       src: /icons/vt.png
     title: 系列教程

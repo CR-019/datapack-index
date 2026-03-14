@@ -1,11 +1,11 @@
 ---
-title: '独游水准的MC小游戏？《钢索骑士》发布'
+title: '独游水准的MC小游戏？《钢索骑士》'
 ---
 
 <FeaturedHead
-    title='独游水准的MC小游戏？《钢索骑士》发布'
+    title='独游水准的MC小游戏？《钢索骑士》'
     authorName='CR_019'
-    cover = '../_assets/1.png',
+    cover = '../_assets/1.png'
     :extraAuthors="['镇川', '轩宇1725']"
 />
 

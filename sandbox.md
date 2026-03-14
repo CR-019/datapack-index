@@ -8,14 +8,7 @@
 ---
 
 最近收录：
-- [NBT Autocomplete - 提供游戏内nbt自动补全](https://modrinth.com/mod/nbt-autocomplete)
-- [原版技术性开发教程 - 徐木弦](https://github.com/xu-mu-xian/Minecraft-Vanilla-Techincal-Development-Tutorial)
-- [我的世界wiki的历史版本在哪找？](https://www.bilibili.com/video/BV11if5BcEgs)
-- [【Minecraft】Animated Java原版模型动画制作基础教程①--以1.20.1版为例](https://www.bilibili.com/video/BV16zfHBGEi2)
-- [blockbench建模软件快速入门教程文档 - 伊塔喵啊](https://pcn6fq3p3rgn.feishu.cn/wiki/KYbDwKtyUi5VNZkw61wcuW50nTe?from=from_copylink)
-- [NexusMC - Minecraft社区](https://www.nexusmc.cn/)
-- [VM汉化组](https://vmct-cn.top/)
-- [CTM地图资源站](http://omgctm.top/)
+
 ---
 
 ↓暂时弃用的狐狐版nbt树

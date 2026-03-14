@@ -64,6 +64,7 @@ export const sidebar_202602: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202602' },
       { text: '上一刊', link: '/feature/index/202601' },
+      { text: '下一刊', link: '/feature/index/202603' },
     ]
   },
   {
@@ -97,6 +98,56 @@ export const sidebar_202602: DefaultTheme.Sidebar = [
     text: '巧匠 Masterpieces',
     items: [
       { text: 'Patrick的流处理前置', link: '/feature/archive/202602/7/content' }
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202603: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.03',
+    items: [
+      { text: '目录', link: '/feature/index/202603' },
+      { text: '上一刊', link: '/feature/index/202602' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202603/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '独游水准的MC小游戏？《钢索骑士》发布', link: '/feature/archive/202603/1/content' }
+    ]
+  },
+  {
+    text: '香草快讯 Λojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年3月', link: '/feature/archive/202603/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '单文件资源包实现竖半砖(超简单!)', link: '/feature/archive/202603/2/content' },
+      { text: '原版摄像机动画资源库', link: '/feature/archive/202603/3/content' },
+      { text: 'Animated Java 原版模型动画制作系列教程', link: '/feature/archive/202603/4/content' },
+      { text: '告别延迟拖尾：用线性预测实现 Display 实体的低延迟跟随', link: '/feature/archive/202603/5/content' },
+      { text: '动态自定义物品冷却', link: '/feature/archive/202603/6/content' }
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: 'Katton —— 轻量级可重载 Mod 框架', link: '/feature/archive/202603/katton/content' },
     ]
   },
   {

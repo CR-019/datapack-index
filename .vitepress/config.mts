@@ -25,6 +25,7 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import{
     sidebar_202601,
     sidebar_202602,
+    sidebar_202603,
 }from "./sidebar_feature2026"
 
 // https://vitepress.dev/reference/site-config
@@ -77,6 +78,7 @@ export default defineConfig({
             "/feature/archive/202512": sidebar_202512,
             "/feature/archive/202601": sidebar_202601,
             "/feature/archive/202602": sidebar_202602,
+            "/feature/archive/202603": sidebar_202603,
             "/feature/": sidebar_feature,
         },
 
@@ -85,7 +87,7 @@ export default defineConfig({
             { icon: "bilibili", link: "https://space.bilibili.com/85292644" },
             { icon: "afdian", link: "https://afdian.com/a/CR_019" },
         ],
-        logo: "/icons/bg3.png",
+        logo: "/icons/bg5.png",
         footer: {
             copyright: "Copyright©2025 CR_019",
             message:
@@ -93,7 +95,7 @@ export default defineConfig({
         },
     },
     head: [
-        ["link", { rel: "icon", href: "/datapack-index/icons/bg3.png" }],
+        ["link", { rel: "icon", href: "/datapack-index/icons/bg5.png" }],
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,
