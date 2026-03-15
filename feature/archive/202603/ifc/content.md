@@ -49,3 +49,23 @@ execute as 0-0-0-0-2 on passengers on origin run <命令>
 ```
 
 当我们要添加新的实体引用时，只需要让一个新的物品实体骑乘在世界实体上即可，无需限定物品实体的UUID。
+
+
+<ClientOnly>
+  <GiscusComment
+    repo="CR-019/datapack-index"
+    repoId="R_kgDONRhuqw"
+    category="闲聊 Chats"
+    categoryId="DIC_kwDONRhuq84CkchW"
+    mapping="number"
+    term="56"
+    :strict="false"
+    :reactionsEnabled="true"
+    emitMetadata="0"
+    inputPosition="top"
+    :theme="isDark ? 'dark' : 'light'"
+    lang="zh-CN"
+    loading="lazy"
+    class="giscus-wrapper"
+  />
+</ClientOnly>
