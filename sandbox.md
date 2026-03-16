@@ -8,7 +8,8 @@
 ---
 
 最近收录：
-
+- [**使用AI生成指令的工具**](https://wowomc.com/tools/ai-commander)
+- [MC原版视频播放器](https://github.com/WindWavesSea/Minecraft-Vanilla-Video-Player)
 ---
 
 ↓暂时弃用的狐狐版nbt树
