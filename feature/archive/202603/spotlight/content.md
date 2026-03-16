@@ -44,7 +44,7 @@ title: '香草快讯 - Λojang Spotlight - 2026年03月'
 
 ## 环境属性
 
-在26.1-pre-1中，提供了新的数值提供器，以获取当前上下位位置的环境属性的值。同时，加入了战利品表谓词`minecraft:environment_attribute_check`，用于在给定上下文的位置上精准匹配环境属性的值。
+在26.1-pre-1中，提供了新的数值提供器，以获取当前上下文位置的环境属性的值。同时，加入了战利品表谓词`minecraft:environment_attribute_check`，用于在给定上下文的位置上精准匹配环境属性的值。
 
 ## 杂项
 
