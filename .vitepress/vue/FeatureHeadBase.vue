@@ -28,51 +28,145 @@
     <!-- 作者信息和摘要 -->
     <div class="content-wrapper">
       <!-- 主作者信息 -->
-      <div class="author-info primary-author">
+      <div 
+        class="author-info primary-author" 
+        @mouseenter="hoveredAuthorIndex = 0" 
+        @mouseleave="hoveredAuthorIndex = -1"
+      >
         <div class="avatar-wrapper">
           <a v-if="firstSocialLink" :href="firstSocialLink.url" class="avatar-link" target="_blank">
-            <img :src="(mainAuthor && mainAuthor.avatar) || avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError" />
+            <img 
+              :src="(mainAuthor && mainAuthor.avatar) || avatarUrl" 
+              :alt="authorName" 
+              class="avatar" 
+              @error="handleAvatarError"
+              @mouseenter="highlightFirstSocialLink = true"
+              @mouseleave="highlightFirstSocialLink = false"
+            />
           </a>
-          <img v-else :src="(mainAuthor && mainAuthor.avatar) || avatarUrl" :alt="authorName" class="avatar" @error="handleAvatarError" />
+          <img 
+            v-else 
+            :src="(mainAuthor && mainAuthor.avatar) || avatarUrl" 
+            :alt="authorName" 
+            class="avatar" 
+            @error="handleAvatarError"
+            @mouseenter="highlightFirstSocialLink = true"
+            @mouseleave="highlightFirstSocialLink = false"
+          />
           <div v-if="avatarLoading" class="loading-indicator"></div>
         </div>
         <div class="author-details">
-          <a v-if="firstSocialLink" :href="firstSocialLink.url" class="author-name-link" target="_blank">
+          <a 
+            v-if="firstSocialLink" 
+            :href="firstSocialLink.url" 
+            class="author-name-link" 
+            target="_blank"
+            @mouseenter="highlightFirstSocialLink = true"
+            @mouseleave="highlightFirstSocialLink = false"
+          >
             <h3 class="author-name">{{ mainAuthor ? mainAuthor.name : authorName }}</h3>
           </a>
-          <h3 v-else class="author-name">{{ mainAuthor ? mainAuthor.name : authorName }}</h3>
+          <h3 
+            v-else 
+            class="author-name"
+            @mouseenter="highlightFirstSocialLink = true"
+            @mouseleave="highlightFirstSocialLink = false"
+          >
+            {{ mainAuthor ? mainAuthor.name : authorName }}
+          </h3>
           <div class="social-links">
-            <a v-for="(link, index) in (mainAuthor && mainAuthor.socialLinks) || socialLinks || []" :key="index" :href="link.url" class="link" target="_blank">
+            <a 
+              v-for="(link, index) in (mainAuthor && mainAuthor.socialLinks) || socialLinks || []" 
+              :key="index" 
+              :href="link.url" 
+              class="link"
+              :class="{ 'highlight': (index === 0 && highlightFirstSocialLink) || hoveredSocialLink === index }"
+              @mouseenter="hoveredSocialLink = index"
+              @mouseleave="hoveredSocialLink = -1"
+              target="_blank"
+            >
               {{ link.name }}
             </a>
           </div>
         </div>
       </div>
 
-      <!-- 竖线分隔符（仅当有额外作者时显示） -->
-      <div v-if="extraAuthors && extraAuthors.length > 0" class="vertical-divider"></div>
-
       <!-- 额外作者列表 -->
       <div v-if="extraAuthorsInfo && extraAuthorsInfo.length > 0" class="extra-authors">
-        <div v-for="(author, index) in extraAuthorsInfo" :key="index" class="author-info">
-          <div class="avatar-wrapper">
-            <a v-if="author.socialLinks && author.socialLinks[0]" :href="author.socialLinks[0].url" class="avatar-link" target="_blank">
-              <img :src="author.avatar || ''" :alt="author.name || ''" class="avatar"
-                @error="() => handleExtraAvatarError(index)" />
-            </a>
-            <img v-else :src="author.avatar || ''" :alt="author.name || ''" class="avatar"
-              @error="() => handleExtraAvatarError(index)" />
-          </div>
-          <div class="author-details">
-            <a v-if="author.socialLinks && author.socialLinks[0]" :href="author.socialLinks[0].url" class="author-name-link"
-              target="_blank">
-              <h3 class="author-name">{{ author.name }}</h3>
-            </a>
-            <h3 v-else class="author-name">{{ author.name }}</h3>
-            <div class="social-links">
-              <a v-for="(link, idx) in (author.socialLinks || [])" :key="idx" :href="link.url" class="link" target="_blank">
-                {{ link.name }}
+        <div 
+          v-for="(author, index) in extraAuthorsInfo" 
+          :key="index" 
+          class="extra-author-wrapper"
+        >
+          <div class="vertical-divider"></div>
+          <div 
+            class="author-info extra-author"
+            @mouseenter="hoveredAuthorIndex = index + 1" 
+            @mouseleave="hoveredAuthorIndex = -1"
+          >
+            <div class="avatar-wrapper">
+              <a 
+                v-if="author.socialLinks && author.socialLinks[0]" 
+                :href="author.socialLinks[0].url" 
+                class="avatar-link" 
+                target="_blank"
+                @mouseenter="highlightSpecificFirstSocialLink(index)"
+                @mouseleave="resetHighlightSpecific(index)"
+              >
+                <img 
+                  :src="author.avatar || ''" 
+                  :alt="author.name || ''" 
+                  class="avatar"
+                  @error="() => handleExtraAvatarError(index)"
+                  @mouseenter="highlightSpecificFirstSocialLink(index)"
+                  @mouseleave="resetHighlightSpecific(index)"
+                />
               </a>
+              <img 
+                v-else 
+                :src="author.avatar || ''" 
+                :alt="author.name || ''" 
+                class="avatar"
+                @error="() => handleExtraAvatarError(index)"
+                @mouseenter="highlightSpecificFirstSocialLink(index)"
+                @mouseleave="resetHighlightSpecific(index)"
+              />
+            </div>
+            <div class="author-details">
+              <a 
+                v-if="author.socialLinks && author.socialLinks[0]" 
+                :href="author.socialLinks[0].url" 
+                class="author-name-link"
+                target="_blank"
+                @mouseenter="highlightSpecificFirstSocialLink(index)"
+                @mouseleave="resetHighlightSpecific(index)"
+              >
+                <h3 class="author-name">{{ author.name }}</h3>
+              </a>
+              <h3 
+                v-else 
+                class="author-name"
+                @mouseenter="highlightSpecificFirstSocialLink(index)"
+                @mouseleave="resetHighlightSpecific(index)"
+              >
+                {{ author.name }}
+              </h3>
+              <div class="social-links">
+                <a 
+                  v-for="(link, idx) in (author.socialLinks || [])" 
+                  :key="idx" 
+                  :href="link.url" 
+                  class="link"
+                  :class="{ 
+                    'highlight': (idx === 0 && currentHighlightedIndex === index) || (hoveredSocialLink === idx && hoveredAuthorIndex === index + 1)
+                  }"
+                  @mouseenter="hoveredSocialLink = idx"
+                  @mouseleave="hoveredSocialLink = -1"
+                  target="_blank"
+                >
+                  {{ link.name }}
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -123,6 +217,10 @@ export default {
       extraAvatarErrors: [], // 记录每个额外作者头像是否出错
       mainAuthor: null,
       extraAuthorsInfo: [],
+      hoveredAuthorIndex: -1, // 跟踪当前悬停的作者索引
+      highlightFirstSocialLink: false, // 控制主作者第一个社媒链接高亮
+      hoveredSocialLink: -1, // 控制具体哪个社媒链接被悬停
+      currentHighlightedIndex: -1, // 控制当前高亮的额外作者索引
     };
   },
   computed: {
@@ -158,6 +256,14 @@ export default {
       this.$set(this.extraAvatarErrors, index, true);
       console.warn(`额外作者 #${index} 头像加载失败`);
     },
+    highlightSpecificFirstSocialLink(index) {
+      this.currentHighlightedIndex = index;
+    },
+    resetHighlightSpecific(index) {
+      if (this.currentHighlightedIndex === index) {
+        this.currentHighlightedIndex = -1;
+      }
+    }
   },
   async mounted() {
     try {
@@ -366,12 +472,31 @@ export default {
 
 .author-info {
   display: flex;
+  align-items: flex-start;
   gap: 15px;
-  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 33;
+}
+
+.author-info:hover,
+.author-info.hovered {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .primary-author {
   flex: 0 0 37%;
+}
+
+.extra-author {
+  flex: 1;
+}
+
+.extra-author-wrapper {
+  display: flex;
+  align-items: flex-start;
 }
 
 .vertical-divider {
@@ -383,7 +508,7 @@ export default {
 
 .extra-authors {
   display: flex;
-  gap: 20px;
+  gap: 10px; /* 减小间距以便容纳分割线 */
   flex-wrap: wrap;
   flex: 1;
 }
@@ -392,6 +517,7 @@ export default {
   position: relative;
   width: 50px;
   height: 50px;
+  flex-shrink: 0;
 }
 
 .avatar-link {
@@ -404,11 +530,22 @@ export default {
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.author-details {
+  flex: 1;
+}
+
+.author-info:hover .avatar,
+.author-info.hovered .avatar {
+  transform: scale(1.1);
 }
 
 .author-name-link {
   color: #333;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .author-name-link:hover {
@@ -428,22 +565,33 @@ export default {
   margin: 0;
   font-size: 1rem;
   font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.author-name:hover {
+  color: inherit; /* 确保作者名字在悬停时不改变颜色 */
 }
 
 .social-links {
   display: flex;
   gap: 10px;
   margin-top: 4px;
+  flex-wrap: wrap;
 }
 
 .link {
   color: #666;
   text-decoration: none;
   font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.link.highlight {
+  color: #0550ae !important;
 }
 
 .link:hover {
-  color: #333;
+  color: #0550ae;
 }
 
 .abstract {
