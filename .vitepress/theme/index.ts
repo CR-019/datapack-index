@@ -1,6 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
 import { defineComponent, h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
+import './process-polyfill.js' 
 import './style.css'
 import Giscus from '@giscus/vue'
 

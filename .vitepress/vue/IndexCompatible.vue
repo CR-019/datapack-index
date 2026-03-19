@@ -17,62 +17,80 @@
                 <div class="meta-section">
                     <!-- 主作者信息块 -->
                     <div class="author-container">
-                        <div class="author-info">
-                            <!-- 将头像和名字一起包裹在链接中 -->
-                            <a v-if="mainAuthor && mainAuthor.socialLinks && mainAuthor.socialLinks.length > 0"
-                                :href="mainAuthor.socialLinks[0].url" class="author-link" target="_blank">
-                                <img :src="mainAuthor.avatar || ''" :alt="mainAuthor.name || ''"
-                                    class="avatar" />
-                                <div class="author-details">
-                                    <h3 class="author-name">{{ mainAuthor.name }}</h3>
-                                </div>
-                            </a>
-                            <!-- 如果没有社交链接，则不包裹链接 -->
-                            <template v-else>
-                                <img :src="(mainAuthor && mainAuthor.avatar) || ''"
-                                    :alt="(mainAuthor && mainAuthor.name) || ''" class="avatar" />
-                                <div class="author-details">
-                                    <h3 class="author-name">{{ mainAuthor ? mainAuthor.name : authorName }}</h3>
-                                </div>
-                            </template>
-                        </div>
+                        <!-- 将头像、名字和社媒链接一起包裹在 .author-info 中 -->
+                        <div class="author-info"
+                             @mouseenter="highlightMainAuthorFirstLink = true"
+                             @mouseleave="highlightMainAuthorFirstLink = false">
+                            <div class="author-details-and-avatar">
+                                <!-- 将头像和名字一起包裹在链接中 -->
+                                <a v-if="mainAuthor && mainAuthor.socialLinks && mainAuthor.socialLinks.length > 0"
+                                    :href="mainAuthor.socialLinks[0].url" class="author-link" target="_blank">
+                                    <img :src="mainAuthor.avatar || ''" :alt="mainAuthor.name || ''"
+                                        class="avatar" />
+                                    <div class="author-details">
+                                        <h3 class="author-name">{{ mainAuthor.name }}</h3>
+                                    </div>
+                                </a>
+                                <!-- 如果没有社交链接，则不包裹链接 -->
+                                <template v-else>
+                                    <img :src="(mainAuthor && mainAuthor.avatar) || ''"
+                                        :alt="(mainAuthor && mainAuthor.name) || ''" class="avatar" />
+                                    <div class="author-details">
+                                        <h3 class="author-name">{{ mainAuthor ? mainAuthor.name : authorName }}</h3>
+                                    </div>
+                                </template>
+                            </div>
 
-                        <div class="social-links">
-                            <a v-for="(link, index) in (mainAuthor && mainAuthor.socialLinks) || []" :key="index"
-                                :href="link.url" class="link" target="_blank">
-                                {{ link.name }}
-                            </a>
+                            <div class="social-links">
+                                <a v-for="(link, index) in (mainAuthor && mainAuthor.socialLinks) || []" :key="index"
+                                    :href="link.url" class="link" 
+                                    :class="{ 'highlight': (index === 0 && highlightMainAuthorFirstLink && hoveredMainSocialLink === -1) || hoveredMainSocialLink === index }"
+                                    @mouseenter="hoveredMainSocialLink = index"
+                                    @mouseleave="hoveredMainSocialLink = -1"
+                                    target="_blank">
+                                    {{ link.name }}
+                                </a>
+                            </div>
                         </div>
                     </div> <!-- /主作者信息块 -->
 
                     <!-- 额外作者信息块 -->
                     <template v-if="extraAuthorsInfo && extraAuthorsInfo.length">
                         <div v-for="(extraAuthor, index) in extraAuthorsInfo" :key="index" class="author-container">
-                            <div class="author-info">
-                                <!-- 为额外作者的头像和名字添加链接 -->
-                                <a v-if="extraAuthor && extraAuthor.socialLinks && extraAuthor.socialLinks.length > 0"
-                                    :href="extraAuthor.socialLinks[0].url" class="author-link" target="_blank">
-                                    <img :src="extraAuthor.avatar || ''" :alt="extraAuthor.name || ''"
-                                        class="avatar" />
-                                    <div class="author-details">
-                                        <h4 class="extra-author-name">{{ extraAuthor.name }}</h4>
-                                    </div>
-                                </a>
-                                <!-- 如果额外作者没有社交链接，则不包裹链接 -->
-                                <template v-else>
-                                    <img :src="(extraAuthor && extraAuthor.avatar) || ''"
-                                        :alt="(extraAuthor && extraAuthor.name) || ''" class="avatar" />
-                                    <div class="author-details">
-                                        <h4 class="extra-author-name">{{ extraAuthor ? extraAuthor.name : '' }}
-                                        </h4>
-                                    </div>
-                                </template>
-                            </div>
-                            <div class="social-links">
-                                <a v-for="(link, linkIndex) in (extraAuthor && extraAuthor.socialLinks) || []"
-                                    :key="linkIndex" :href="link.url" class="link" target="_blank">
-                                    {{ link.name }}
-                                </a>
+                            <!-- 将头像、名字和社媒链接一起包裹在 .author-info 中 -->
+                            <div class="author-info"
+                                 @mouseenter="highlightSpecificFirstSocialLink('extra', index)"
+                                 @mouseleave="resetSpecificHighlight('extra', index)">
+                                <div class="author-details-and-avatar">
+                                    <!-- 为额外作者的头像和名字添加链接 -->
+                                    <a v-if="extraAuthor && extraAuthor.socialLinks && extraAuthor.socialLinks.length > 0"
+                                        :href="extraAuthor.socialLinks[0].url" class="author-link" target="_blank">
+                                        <img :src="extraAuthor.avatar || ''" :alt="extraAuthor.name || ''"
+                                            class="avatar" />
+                                        <div class="author-details">
+                                            <h4 class="extra-author-name">{{ extraAuthor.name }}</h4>
+                                        </div>
+                                    </a>
+                                    <!-- 如果额外作者没有社交链接，则不包裹链接 -->
+                                    <template v-else>
+                                        <img :src="(extraAuthor && extraAuthor.avatar) || ''"
+                                            :alt="(extraAuthor && extraAuthor.name) || ''" class="avatar" />
+                                        <div class="author-details">
+                                            <h4 class="extra-author-name">{{ extraAuthor ? extraAuthor.name : '' }}</h4>
+                                        </div>
+                                    </template>
+                                </div>
+                                
+                                <div class="social-links">
+                                    <a v-for="(link, linkIndex) in (extraAuthor && extraAuthor.socialLinks) || []"
+                                        :key="linkIndex" :href="link.url" class="link" 
+                                        :class="{ 'highlight': (linkIndex === 0 && currentHighlightedIndex === index && currentHighlightedType === 'extra' && hoveredExtraSocialLink === -1) || (hoveredExtraSocialLink === linkIndex && hoveredExtraAuthorIndex === index) }"
+                                        @mouseenter="hoveredExtraSocialLink = linkIndex; hoveredExtraAuthorIndex = index;"
+                                        @mouseleave="hoveredExtraSocialLink = -1; hoveredExtraAuthorIndex = -1;"
+                                        target="_blank">
+                                        {{ link.name }}
+                                    </a>
+                                </div>
                             </div>
                         </div> <!-- /额外作者信息块 -->
                     </template>
@@ -129,6 +147,12 @@ export default {
             bgLoadError: false,
             mainAuthor: null,
             extraAuthorsInfo: [],
+            highlightMainAuthorFirstLink: false, // 控制主作者第一个社媒链接高亮
+            hoveredMainSocialLink: -1, // 控制主作者具体哪个社媒链接被悬停
+            hoveredExtraSocialLink: -1, // 控制额外作者具体哪个社媒链接被悬停
+            hoveredExtraAuthorIndex: -1, // 跟踪当前悬停的额外作者索引
+            currentHighlightedIndex: -1, // 控制当前高亮的额外作者索引
+            currentHighlightedType: null // 控制当前高亮的是哪种类型（'main' 或 'extra'）
         };
     },
     computed: {
@@ -144,6 +168,16 @@ export default {
     methods: {
         handleBgError() {
             this.bgLoadError = true;
+        },
+        highlightSpecificFirstSocialLink(type, index) {
+            this.currentHighlightedIndex = index;
+            this.currentHighlightedType = type;
+        },
+        resetSpecificHighlight(type, index) {
+            if (this.currentHighlightedIndex === index && this.currentHighlightedType === type) {
+                this.currentHighlightedIndex = -1;
+                this.currentHighlightedType = null;
+            }
         }
     },
     // 使用 Vue Options API 的 mounted 钩子来执行异步加载
@@ -293,6 +327,7 @@ export default {
     flex-direction: column;
     /* 移除 gap，改用伪元素实现分隔 */
     /* gap: 1rem;  */
+    max-width: 33%; /* 限制最大宽度为卡片的1/3 */
 }
 
 /* 新增：作者块容器 */
@@ -303,6 +338,9 @@ export default {
     /* 宽屏下左对齐 */
     gap: 0.5rem;
     /* 控制头像名字和社交链接之间的间距 */
+    border-radius: 0px;
+    padding: 2px;
+    max-width: 100%; /* 确保不超出meta-section的宽度 */
 }
 
 /* 宽屏下，作者块之间添加水平分隔线 */
@@ -316,12 +354,35 @@ export default {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-
-/* 作者信息块 (主作者和额外作者) */
+/* 作者信息块 (主作者和额外作者) - 包含头像、名字和社媒链接 */
 .author-info {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 5px 5px; /* 缩小外部边距 */
+    border-radius: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100% + 20px); /* 加宽缩放块 */
+    margin-left: -5px; /* 补偿padding */
+    margin-right: -5px; /* 补偿padding */
+    max-width: calc(100% + 20px); /* 确保不超出父容器 */
+}
+
+.author-info:hover,
+.author-info.hovered {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 包裹头像和名字的容器 */
+.author-details-and-avatar {
     display: flex;
     align-items: center;
     gap: 1rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* 包裹头像和名字的链接样式 */
@@ -339,6 +400,8 @@ export default {
     /* 内边距 */
     transition: background-color 0.2s ease;
     /* 背景过渡效果 */
+    min-width: 0; /* 允许flex项目缩小 */
+    flex-shrink: 1;
 }
 
 .author-link:hover .author-name {
@@ -355,12 +418,21 @@ export default {
     /* 防止头像被压缩 */
     /* 移除头像自身的边框，由父级 a 标签提供视觉效果 */
     /* border: none; */
+    transition: transform 0.3s ease;
+}
+
+.author-info:hover .avatar {
+    transform: scale(1.1);
 }
 
 .author-details {
     line-height: 1.4;
     flex-grow: 1;
     /* 让名字占据剩余空间 */
+    min-width: 0; /* 允许flex项目缩小 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .author-name,
@@ -370,6 +442,15 @@ export default {
     margin: 0;
     color: var(--vp-c-text-1);
     /* 移除名字的悬停效果，因为整个链接区域会处理悬停 */
+    transition: color 0.3s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.author-name:hover,
+.extra-author-name:hover {
+    color: inherit; /* 确保作者名字在悬停时不改变颜色 */
 }
 
 .extra-author-name {
@@ -384,6 +465,13 @@ export default {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: calc(100% - 48px - 1rem); /* 减去头像和间隙的宽度 */
+}
+
+.author-info:hover .social-links {
+    transform: scale(1.03);
 }
 
 .link {
@@ -391,10 +479,19 @@ export default {
     text-decoration: none;
     font-size: 0.9rem;
     white-space: nowrap;
+    transition: color 0.3s ease;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.link.highlight {
+    color: #0550ae !important;
 }
 
 .link:hover {
     color: #333;
+    /* 移除背景色 */
+    background-color: transparent;
 }
 
 
@@ -503,7 +600,7 @@ export default {
         /* 水平居中 */
         align-items: flex-start;
         /* 顶部对齐作者块 */
-
+        max-width: 100%; /* 在窄屏下取消1/3限制 */
 
         /* 原有样式 */
         flex: 0 0 auto;
@@ -533,6 +630,8 @@ export default {
         /* 除了最后一个，都添加右边距 */
         margin-right: 1rem;
         /* --- */
+        max-width: 45%; /* 在窄屏下限制作者块的最大宽度，防止占用过多空间 */
+        min-width: 120px; /* 确保有最小宽度容纳内容 */
     }
 
     /* 修改点：给除了第一个之外的作者块添加左边距，使竖线看起来居中 */
@@ -570,11 +669,19 @@ export default {
         margin-right: 0;
     }
 
+    /* 窄屏下 .author-info 居中内容 */
+    .author-info {
+        align-items: center;
+        text-align: center;
+        max-width: calc(100% + 10px);
+    }
+    
     /* 窄屏下，社交链接不再缩进，而是居中 */
     .social-links {
-        margin-left: 1.5rem;
-        justify-content: left;
+        margin-left: 0;
+        justify-content: center;
         width: 100%;
+        max-width: 100%;
     }
 
     /* 窄屏下隐藏竖线 */
@@ -615,3 +722,4 @@ export default {
     }
 }
 </style>
+

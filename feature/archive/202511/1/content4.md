@@ -758,7 +758,7 @@ data modify storage c-: now-expression[-1][-1]._{__:int}.__ set value -2
 
 我们定程序层(`<program>`)为第0层，循环查找全局定义。该层的bnf表示如下:
 
-```bnf
+```
 <program> ::= <declaration-list>
 <declaration-list> ::= <declaration-list> <declaration> | <declaration>
 ```
@@ -795,7 +795,7 @@ execute unless score @s c-token = #error c-token run function c-:parse/node/prog
 
 以下是C-Minus语言全局定义的bnf表示: （数组功能已经属于C-Minus扩展变体的范畴了，具体实现中我们暂时不会支持数组。）
 
-```bnf
+```
 <declaration> ::= <var-declaration> | <fun-declaration>
 
 <var-declaration> ::= <type-specifier> ID ; | <type-specifier> ID [ NUM ] ;

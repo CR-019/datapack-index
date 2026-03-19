@@ -94,14 +94,14 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #160086,
-    #775cff 60%
+    #36d959,
+    #cf5cff 60%
   );
   --vp-home-hero-image-size: cover;
   --vp-home-hero-image-background-image: radial-gradient(
     circle at center,
-    rgba(0,0,0,0) 30%,
-    #775cff 70%
+    #36d95950 15%,
+    #5cff80d0 70%
   );
   --vp-home-hero-image-filter: blur(44px);
 }
@@ -110,14 +110,14 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #fde4d0,
-    #775cff 60%
+    #ffe35c,
+    #cf5cff 60%
   );
   --vp-home-hero-image-size: cover;
   --vp-home-hero-image-background-image: radial-gradient(
     circle at center,
-    rgba(255, 255, 255, 0.1) 30%,
-    #775cff 70%
+    #306abf50 15%,
+    #5c9fffd0 70%
   );
   --vp-home-hero-image-filter: blur(44px);
 }
@@ -125,19 +125,19 @@
 
 
 .VPButton.medium.brand {
-  background-color: #775cff; /* 例如：改为红色 */
+  background-color: #cf5cff; /* 例如：改为红色 */
   color: white;
-  border-color: #775cff;
+  border-color: #cf5cff;
 }
 
 .VPButton.medium.brand:hover {
-  background-color: #4b2ddf;
+  background-color: #b04bdb;
   color: white;
-  border-color: #4b2ddf;
+  border-color: #b04bdb;
 }
 
 .VPLink.link.no-icon.VPFeature:hover{
-  border-color: #775cff;
+  border-color: #cf5cff;
 }
 
 

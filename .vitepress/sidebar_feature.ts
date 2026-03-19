@@ -12,13 +12,27 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
     text: '最新',
     items: [
       {
-        text: '🌟2026.01',
+        text: '🌟2026.03',
+        link: '/feature/index/202603'
+      }
+    ]
+  },
+  {
+    text: '',
+    items: [
+      {
+        text: '2026.02',
+        link: '/feature/index/202602'
+      },
+      {
+        text: '2026.01',
         link: '/feature/index/202601'
       },
     ]
   },
   {
-    text: '',
+    text: 'Feature 2025',
+    collapsed: true,
     items: [
       {
         text: '2025.12',
@@ -31,13 +45,7 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
       {
         text: '2025.10',
         link: '/feature/index/202510'
-      }
-    ]
-  },
-  {
-    text: '往期',
-    collapsed: true,
-    items: [
+      },
       {
         text: '2025.9',
         link: '/feature/index/202509'

@@ -4,7 +4,6 @@ import { mcfunction } from "./highlights/mcfuntion";
 import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
 import anchor from "markdown-it-footnote";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 import {
     sidebar_feature,
@@ -25,6 +24,8 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 import{
     sidebar_202601,
+    sidebar_202602,
+    sidebar_202603,
 }from "./sidebar_feature2026"
 
 // https://vitepress.dev/reference/site-config
@@ -45,6 +46,7 @@ export default defineConfig({
         search: {
             provider: "local",
             options: {
+                showDetailedList:true,
                 translations: {
                     button: {
                         buttonText: "搜索",
@@ -75,6 +77,8 @@ export default defineConfig({
             "/feature/archive/202511": sidebar_202511,
             "/feature/archive/202512": sidebar_202512,
             "/feature/archive/202601": sidebar_202601,
+            "/feature/archive/202602": sidebar_202602,
+            "/feature/archive/202603": sidebar_202603,
             "/feature/": sidebar_feature,
         },
 
@@ -83,7 +87,7 @@ export default defineConfig({
             { icon: "bilibili", link: "https://space.bilibili.com/85292644" },
             { icon: "afdian", link: "https://afdian.com/a/CR_019" },
         ],
-        logo: "/icons/dream_catcher10.png",
+        logo: "/icons/bg5.png",
         footer: {
             copyright: "Copyright©2025 CR_019",
             message:
@@ -91,7 +95,7 @@ export default defineConfig({
         },
     },
     head: [
-        ["link", { rel: "icon", href: "/datapack-index/icons/dream_catcher10.png" }],
+        ["link", { rel: "icon", href: "/datapack-index/icons/bg5.png" }],
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,
@@ -121,6 +125,10 @@ export default defineConfig({
         },
     },
     vite: {
+        define: {
+            'process.env': JSON.stringify({}), // 将 process.env 替换为空对象
+            'global': 'globalThis',            // 将 global 替换为 globalThis
+        },
         css: {
             // 提取 CSS 到单独文件
             // 这会为所有 CSS 生成文件，但我们只关心基础样式
@@ -142,9 +150,6 @@ export default defineConfig({
             },
         },
         plugins: [
-            nodePolyfills({
-                include: ["util"],
-            }),
             ViteImageOptimizer({
                 png: {
                     quality: 80

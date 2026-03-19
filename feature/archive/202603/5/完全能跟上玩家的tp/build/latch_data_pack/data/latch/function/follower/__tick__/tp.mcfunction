@@ -1,0 +1,1 @@
+$execute positioned ~$(target_x) ~$(target_y) ~$(target_z) positioned ~$(target_x) ~$(target_y) ~$(target_z) positioned ^$(prev_x) ^ ^$(prev_z) rotated 0 90 positioned ^ ^ ^$(prev_y) run function latch:follower/tp_here

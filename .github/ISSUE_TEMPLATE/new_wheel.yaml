@@ -15,8 +15,8 @@ body:
     placeholder: 1.0.0
   validations:
     required: true
-- type: cover
-  id: version
+- type: input
+  id: cover
   attributes:
     label: 前置图标链接
   validations:

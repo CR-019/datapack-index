@@ -5,7 +5,7 @@ author:
         name: 卡儿3058
         char: 程序
 description: 一个功能完备，持续更新的数学库。除了常用的初等数学工具之外，也涉及到很多加密解密、图像渲染的内容。是数据包作者进行快速计算或高精度计算的不二之选。
-tags: [数学, 计算, 高性能, 高版本, 持续维护]
+tags: [数学, 计算, 高性能]
 version: 1.19
 gameversion: [1.21.3]
 aside: left
@@ -15,7 +15,9 @@ repo: kaer-3058/large_number
 
 <InfoCard />
 
-它集结了我近年来学习MC命令和高等数学的成果，在MC函数宏时代下发展出来的一个库。
+[查看本库使用说明](https://github.com/kaer-3058/large_number/wiki/%E5%8D%A1%E5%84%BF%E7%9A%84%E6%95%B0%E5%AD%A6%E5%BA%93-Wiki%E2%80%90%E4%B8%AD%E6%96%87)
+
+它集结了大量MC命令和高等数学的成果，在MC函数宏时代下发展出来的一个库。
 
 一开始是做超级锻造台时，为了解决用MC命令扣除玩家的前N级经验。
 

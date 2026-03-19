@@ -7,6 +7,7 @@
     "markdown-it-mathjax3": "^4.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
+    "unenv": "^1.10.0",
     "vite-plugin-node-polyfills": "^0.23.0",
     "vitepress": "^1.6.4"
   },

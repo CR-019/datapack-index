@@ -417,7 +417,7 @@ layout(std140) uniform DynamicTransforms {
 
 ModelViewMat 在第二节 **核心着色器的工作流程（上）** 中介绍过，它是用于模型-视图变换的矩阵，由摄像机的旋转角度计算而来，主要功能是对坐标系进行线性变换，使得摄像机位于原点并朝向 $-z$ 轴，由于输入着色器的数据本身就以摄像机为原点，因此这个矩阵只承担旋转功能（不包括绕 $z$ 轴的旋转）
 
-$$ \text{ModelViewMat} = \begin{bmatrix} -\cos\theta & 0 & -\sin\theta & 0 \\ -\sin\theta\sin\phi & \cos\phi & -\cos\theta\sin\phi & 0 \\ \sin\theta\cos\phi & \sin\phi & -\cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
+$$ \text{ModelViewMat} = \begin{bmatrix} -\cos\theta & 0 & \sin\theta & 0 \\ \sin\theta\sin\phi & \cos\phi & \cos\theta\sin\phi & 0 \\ -\sin\theta\cos\phi & \sin\phi & -\cos\theta\cos\phi & 0 \\ 0 & 0 & 0 & 1\end{bmatrix} $$
 
 旋转执行的顺序是先偏航（绕 $y$ 轴旋转角度 $\theta$ ），再俯仰（绕 $x$ 轴旋转角度 $\phi$），由于 Minecraft 命令上下文中的局部坐标系与OpenGL中的摄像机坐标系有旋转 $180°$ 的偏移，因此这里的旋转矩阵看上去不像熟悉的标准形式。具体计算可回到第二节 **核心着色器的工作流程（上）** 中查阅。
 
