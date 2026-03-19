@@ -13,14 +13,82 @@
 
 改动日志以正式版本为分类条目，降序排列。
 
-## 迁移指南
-[我的世界 JE1.21 数据包文件夹名称改变](https://www.bilibili.com/opus/942372286438047753)
-
 ## 正文
 
 ### **26.1**
 #### 数据包：
+- 时间线
+  - **增加了必选字段`clock`，规定本时间线以哪个世界时钟为准**。想要获得原本的行为，应该将`clock`定义为`minecraft:overworld`。
+- 命令
+  - **`time`命令使用的诸如`day`，`night`等选项代表的时间点不再是硬编码的**，而是可以在世界时钟中调整。这意味着诸如`time set day`命令的行为可能会被数据包改变。
+  - **移除了槽位`villager.*`。现在村民与猪灵的物品栏都可以使用`mob.inventory.*`来访问。**
+- 配方
+  - **部分特殊配方类型都被移除，并以新的，更灵活的配方类型替换**。包括`minecraft:crafting_special_armordye`，`minecraft:crafting_special_tippedarrow`，`minecraft:crafting_special_mapcloning`。**请[查阅wiki](https://zh.minecraft.wiki/w/?curid=29253)获取详细信息。**
+  - **以下配方类型的格式被更改为更灵活的形式**。包括`minecraft:crafting_transmute`，`minecraft:crafting_special_bannerduplicate`，`crafting_special_bookcloning`，`minecraft:crafting_decorated_pot`，`minecraft:crafting_special_firework_rocket`，`minecraft:crafting_special_firework_star_fade`，`minecraft:crafting_special_firework_star`，`minecraft:crafting_special_mapextending`，`minecraft:crafting_special_shielddecoration`。**请[查阅wiki](https://zh.minecraft.wiki/w/?curid=29253)获取详细信息。**
+  - **同时，部分切石机配方被重命名。**
+- 文本组件
+  - **现在使用`nbt`动态类型时，若`interpret`为`false`，解析的结果不再是扁平的字符串，而是经过颜色高亮的复杂文本。**
+    - **使用新的字段`plain`可以移除颜色高亮，但解析的结果不是如之前版本一样的扁平字符串。**
+- 世界
+  - **部分幼年生物的碰撞箱发生了变化。**包括牛、绵羊、豹猫、哞菇、鱿鱼、发光鱿鱼、僵尸、尸壳、溺尸、猪灵、僵尸猪灵、村民、僵尸村民、猫、鸡、马、狼、猪、兔子、美西螈、骷髅马。
+  - **自然生成的僵尸现在有可能拥有比20点更高的生命值**。
+  - **骆驼尸壳未使用的幼年个体被移除**。
+  - **村民交易的刷新现在取决于随机序列**。
+  - **告示牌和旗帜的`rotation`方块属性的默认值从`0`改为`8`。**
+- 数据格式
+  - **移除了玩家的NBT标签`ignore_fall_damage_from_current_explosion`。**
+- 维度类型
+  - **加入了字段`default_clock`指定用于`/time`的默认世界时钟。**
+  - **加入了字段`has_ender_dragon_fight`控制此维度是否有末影龙战斗。**
+- 环境属性
+  - `gameplay/turtle_egg_hatch_chance`的默认值变更为`0.002`。
+- 已配置的地物
+  - **下列地物类型被重命名**：
+    - `forest_rock` -> `block_blob`, `ice_spike` -> `spike`
+  - **移除了`flower`, `flower_no_bonemeal`, 和`random_patch`地物类型。**
+  - **`tree`地物的字段`force_dirt`和`dirt_provider`别合并为`below_trunk_provider`。**
+- 魔咒
+  - **`post_piercing_attack`组件默认不再检查玩家的饥饿度等级**。
+- 标签
+  - **部分标签被重命名**：
+    - `#dry_vegetation_may_place_on` → `#supports_dry_vegetation`
+    - `#bamboo_plantable_on` → `#supports_bamboo`
+    - `#small_dripleaf_placeable` → `#supports_small_dripleaf`
+    - `#big_dripleaf_placeable` → `#supports_big_dripleaf`
+    - `#mushroom_grow_block` → `#overrides_mushroom_light_requirement`
+    - `#snow_layer_can_survive_on` → `#support_override_snow_layer`
+    - `#snow_layer_cannot_survive_on` → `#cannot_support_snow_layer`
+  - **`#dyeable`物品标签已被移除。**
+  - **`#dirt`方块标签现在仅包含泥土、砂土和缠根泥土。**
+  - **向方块标签`#flower_pots`中加入了金蒲公英盆栽。**
+  - **向方块标签`#small_flowers`、物品标签`#piglin_loved`和`​#small_flowers`中加入了金蒲公英。**
+- 音效格式
+  - **狼音效变种定义格式将之前所有字段移动到`adult_sounds`内，并加入了`baby_sounds`表示幼年狼的音效**。
+- 测试环境定义格式
+  - **将`time_of_day`替换为`clock_time`。新增必选字段`clock`以提供一个世界时钟的ID。**
+- 存储
+  - **游戏世界的文件夹存档格式与`level.dat`的格式发生了重大改变，这意味着新版本的地图将无法在旧版本加载。`level.dat`内不再存储一份玩家数据，而是仅存储玩家的UUID以引用玩家数据文件。请查阅[wiki: Java版存档格式](https://zh.minecraft.wiki/w/?curid=9268)和[wiki：存档基础数据存储格式](https://zh.minecraft.wiki/w/?curid=124403)获取详细信息。**
+
 #### 资源包：
+- 纹理与模型
+  - **大量的幼年生物的纹理与模型更改**。包括驴、骡、海龟、蜜蜂、狐狸、犰狳、北极熊、羊驼、熊猫、疣猪兽、僵尸疣猪兽、嗅探兽、牛、绵羊、豹猫、哞菇、鱿鱼、发光鱿鱼、僵尸、尸壳、溺尸、猪灵、僵尸猪灵、村民、僵尸村民、猫、鸡、马、狼、猪、山羊、兔子、美西螈、骆驼、海豚、炽足兽、僵尸马、骷髅马、和行商羊驼。
+  - 幼年狼或猪身上的狼铠或鞍不再渲染。
+  - **移除了`demo_background.png`，改为使用精灵图`popup/background.png`。**
+  - **有极其多的纹理被重命名或移动。请见[Wiki的本表格](https://zh.minecraft.wiki/w/Java%E7%89%8826.1#%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90%E5%99%A8:~:text=%E7%9A%84%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6%E3%80%82-,%E5%AE%9E%E4%BD%93%E7%BA%B9%E7%90%86,-%E9%87%8D%E5%91%BD%E5%90%8D%E4%BA%86)。**
+- 声音
+  - **部分幼年生物现在使用与成年生物独立的音效**。包括猫、鸡、马、猪、狼。
+- 着色器
+  - **绊线的纹理现在使用`alpha cutout`渲染，不再是透明的。**
+  - **`lightmap.fsh`被大幅修改。**
+  - **`core/rendertype_item_entity_translucent_cull`被移除，由`core/entity`取代。**
+  - **`core/rendertype_entity_alpha`和`core/rendertype_entity_decal`被移除，改为`core/entity`实现的DISSOLVE标志。**
+  - **移除了`core/rendertype_translucent_moving_block`，以支持`core/block`。**
+  - **UI和世界中的物品渲染现在由`core/entity`拆分到新着色器`core/item`。**
+- 物品模型映射
+  - **部分模型类型现在拥有了新增的`transformation`字段，类似展示实体，可以对模型做变换。因此，部分特殊类型的变换现在不再是硬编码的，而是需要在物品模型映射中指定。**
+    - 包括`minecraft:bed`, `minecraft:banner`, `minecraft:conduit`, `minecraft:copper_colem_statue`, `minecraft:head`, `minecraft:player_head`, `minecraft:shulker_box`, `minecraft:shield`, `minecraft:trident`, `minecraft:standing_sign`, `minecraft:hanging_sign`
+  - **`minecraft:bed`模型现在只渲染一半的床，可以使用`part`字段控制显示哪一半。为了显示完整的床需要将两个模型拼接起来。**
+  - **`minecraft:shulker_box`模型移除了`orientation`字段。**
 
 ### **1.21.11**
 #### 数据包：
@@ -263,6 +331,8 @@
   - **后处理渲染过程`name`现被重命名为`program`，且需要命名空间ID。**
 
 ### **1.21**
+
+[我的世界 JE1.21 数据包文件夹名称改变](https://www.bilibili.com/opus/942372286438047753)
 
 #### 数据包：
 - NBT:
