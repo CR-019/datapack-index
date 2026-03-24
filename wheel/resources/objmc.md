@@ -19,4 +19,4 @@ repo: Godlander/objmc
 
 使用说明请见其[官方文档](https://github.com/Godlander/objmc/blob/main/README.md)。
 
-![展示图片](/datapack-index/wheel/objmc.png)
+![展示图片](/public/wheel/objmc.png)
