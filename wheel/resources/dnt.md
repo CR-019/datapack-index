@@ -6,8 +6,8 @@ author:
         char: 作者
 description: 安全字符串拼接，NBT转JSON等SNBT与字符串操作
 tags: [NBT, 字符串]
-version: 1.0.1
-gameversion: [1.21.5~1.21.11]
+version: 2.0.0
+gameversion: [1.21.5~26.1]
 aside: left
 wheel: true
 repo: Dahesor/DNT-Dahesor-NBT-Transformer

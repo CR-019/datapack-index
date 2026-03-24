@@ -1,7 +1,8 @@
 {
   "name": "古镇天Gugle",
   "socialLinks": [
-    { "name": "Bilibili", "url": "https://space.bilibili.com/19822751" }
+    { "name": "Bilibili", "url": "https://space.bilibili.com/19822751" },
+    { "name": "GitHub", "url": "https://github.com/Gu-ZT" }
   ],
   "avatar": "/_authors/gugle.jpg"
 }
