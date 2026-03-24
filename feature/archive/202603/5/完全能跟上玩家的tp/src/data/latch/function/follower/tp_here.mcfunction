@@ -1,1 +1,0 @@
-if loaded ~ ~ ~ run tp @s ~ ~ ~
