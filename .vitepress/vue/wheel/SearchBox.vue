@@ -933,7 +933,6 @@ function buildIndexFromData(data) {
 
 .logo {
 	min-height: 120px;
-	max-height: 240px;
 	margin-right: 36px;
 }
 
