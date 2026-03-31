@@ -2,16 +2,16 @@
 	<div class="page-frame">
 		<div class="search-container">
 			<div class="header" :class="{ 'header--shrunk': headerShrunk }">
-				<img src="/icons/cart_with_chest.png" alt="Logo" class="logo" />
+				<img src="/icons/cart_with_xiangcai.png" alt="Logo" class="logo" />
 				<div class="title-container">
-					<span class="title">香草前置馆</span>
+					<span class="title">香菜前置馆</span>
 					<span class="subtitle">图书馆最新业务火爆开张中</span>
 				</div>
 			</div>
 			<div class="search-row">
 				<div class="search-box-container">
 					<input v-model="query" @input="onInput" @keydown="onKeydown" @keyup.enter="doSearch"
-						@focus="isInputFocused = true" @blur="onInputBlur" placeholder="请问你今天要来点轮子吗" class="search-box"
+						@focus="isInputFocused = true" @blur="onInputBlur" placeholder="今日香菜惊爆价一块五一斤！" class="search-box"
 						aria-label="搜索" />
 					<button class="search-box-button" @click="doSearch" aria-label="搜索">
 						<img src="/icons/search.png" alt="搜索" class="icon" />
@@ -933,6 +933,7 @@ function buildIndexFromData(data) {
 
 .logo {
 	min-height: 120px;
+	max-height: 240px;
 	margin-right: 36px;
 }
 
