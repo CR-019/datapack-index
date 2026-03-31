@@ -4,10 +4,10 @@ layout: home
 pageClass: h2-no-border
 
 hero:
-  name: "香草图书馆"
+  name: "香菜图书馆"
   tagline: 原版模组开发资源索引站
   image:
-    src: /icons/bg5.png
+    src: /icons/bgx.png
   actions:
     - theme: brand
       text: 进入文档
@@ -21,7 +21,7 @@ hero:
 features:
   - icon:
       src: /icons/echo_prism.png
-    title: 《Feature》
+    title: 《Bug》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
     link: /feature/index/202603
@@ -39,7 +39,7 @@ features:
   - icon:
       src: /icons/ocean_clock.png
     title: 报刊亭
-    details: 浏览往期《Feature》
+    details: 浏览往期《Bug》
     link: /feature/_index
   - icon:
       src: /icons/green_apple.png

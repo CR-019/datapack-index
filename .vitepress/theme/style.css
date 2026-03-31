@@ -554,7 +554,6 @@
 }
 
 .wheel-layout .container {
-  display: flex !important;
   align-items: flex-start !important;
   gap: 24px !important;
   width: 100% !important;
