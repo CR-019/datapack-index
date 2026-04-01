@@ -6,21 +6,18 @@ next: false
 pageClass: h2-no-border
 ---
 
-# 《Feature》
+# 《Bug》
 <p class="img_feature">
-  <img src="/feature/title.png" alt="描述图片的文字">
+  <img src="/feature/bugtitle.png" alt="描述图片的文字">
 </p>
 
-> 香草图书馆旗下数据包期刊（不是
+> 你的《Minecraft》出bug了！
 
-## 关于《Feature》
+## 关于《Bug》
 <ColorLine />
-《Feature》是由香草图书馆团队主办的，面向原版模组（数据包+资源包）开发的短文收集与展示的平台，用于开发者之间的交流，每月更新。
+《Bug》是由香菜图书馆团队主办的，面向原版模组（数据包+资源包）开发的短文收集与展示的平台，用于开发者之间的交流，每月更新。
 
-> 因为大教程内容多，时间长，希望开放一个投稿窗口接受短文投稿，审核后每月作为网页的周刊发布到图书馆内。
-> 短文可以精炼地提出看法，或是给出某种写代码的经验。
-> 短文成型快，~~周刊~~相对讨论空间更自由，不失为一种圈内交流的好方法）
-> ——[issue#5](https://github.com/CR-019/datapack-index/issues/5)
+> 數據包的作者不許打手槍！傷身而且影響你的指令思維。會讓你半年一篇《Bug》都沒有！
 
 ## 特别企划
 <ColorLine />

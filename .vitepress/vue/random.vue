@@ -7,20 +7,8 @@
   import { ref, onMounted, computed } from 'vue';
 
   // 定义多个段落，每个段落可以是多行文本，并包含HTML标签
-  /*
-  `/*愚人节限定`,
+  /*愚人节限定
      `当你觉得会整活的时候，我没有整活，这也未尝不是一种整活`,
-     `<a href=https://ys.mihoyo.com/ target="_blank">点我自动下载原神</a>`,
-     `数据包是世界上最优雅、最精确、最强大的编程语言`,
-     `香草泥`,
-     `香草图书馆现在推出专属会员“香草泥”，成为香草泥，以获得观看文档权限`,
-     `你知道吗？mc刚刚更新了，并且加入了新的指令<a href=https://vanillalibrary.mcfpp.top/datapack-index/resources/是真的.html>/sex</a>,我试过了，是真的，你也快试试看吧！`,
-     `《feature》创刊号今日发布！<a href=https://www.bilibili.com/video/BV1GJ411x7h7/ target="_blank">点我查看</a>`,
-    ``*/
-
-
-  const paragraphs = [
-    `当你觉得会整活的时候，我没有整活，这也未尝不是一种整活`,
      `<a href=https://ys.mihoyo.com/ target="_blank">点我自动下载原神</a>`,
      `数据包是世界上最优雅、最精确、最强大的编程语言`,
      `香草泥`,
@@ -30,8 +18,13 @@
      `特大喜讯：数据包可以注册方块和物品了，<a href=https://www.bilibili.com/video/BV1GJ411x7h7/ target="_blank">点击这里查看最新快照</a>`,
      `香草图书馆从今日起正式更名“香菜图书馆”！`,
     `X X XXX`,
-    `獎一個華為手錶`
-    /*`—— 你为什么写数据包？是有什么受虐体质吗？
+    `獎一個華為手錶`,
+    */
+
+
+  const paragraphs = [
+    
+    `—— 你为什么写数据包？是有什么受虐体质吗？
      —— 是。`,
     `你本来应该下地狱的，但因为你生前写 <b>Minecraft数据包</b> ，我们就当做你已经服完刑期了`,
     `我升级地图，Spyglass给我报了1600个错误……`,
@@ -103,7 +96,7 @@
     
     `1980/02/01`,
     `有人说，1.20.2之前的版本属于太古版本，所以在此之前的数据包作者都是太古达人，也有人认为不尽如此。对此，你怎么看？`,
-    `mojang家里人的称呼分别是father、Mother、GrandFather和grand_mother`*/
+    `mojang家里人的称呼分别是father、Mother、GrandFather和grand_mother`
   ];
 
   // 用于存储选中的段落

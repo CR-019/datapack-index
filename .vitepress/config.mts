@@ -30,7 +30,7 @@ import{
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-    title: "香菜图书馆",
+    title: "香草图书馆",
     base: "/datapack-index/",
     description: "Powered by VitePress",
     themeConfig: {
@@ -87,7 +87,7 @@ export default defineConfig({
             { icon: "bilibili", link: "https://space.bilibili.com/85292644" },
             { icon: "afdian", link: "https://afdian.com/a/CR_019" },
         ],
-        logo: "/icons/bgx.png",
+        logo: "/icons/bg5.png",
         footer: {
             copyright: "Copyright©2026 VanillaLibrary Dev",
             message:
@@ -95,7 +95,7 @@ export default defineConfig({
         },
     },
     head: [
-        ["link", { rel: "icon", href: "/datapack-index/icons/bgx.png" }],
+        ["link", { rel: "icon", href: "/datapack-index/icons/bg5.png" }],
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,
