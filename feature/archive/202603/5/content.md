@@ -5,7 +5,7 @@ title: '告别延迟拖尾：用线性预测实现 Display 实体的低延迟跟
 <FeatureHead
     title='告别延迟拖尾：用线性预测实现 Display 实体的低延迟跟随'
     authorName='伊桑桑桑桑桑'
-    resourceLink = '../_assets/完全能跟上玩家的tp'
+    resourceLink = '../_assets/完全能跟上玩家的tp.zip'
 />
 
 ::: tip 该方法存在缺陷
