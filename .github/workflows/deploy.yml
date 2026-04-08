@@ -55,7 +55,7 @@ jobs:
         with:
           path: .vitepress/dist
 
-      # --- mcfpp.top 镜像部署---
+      # --- 原有的 SFTP 备份 (保持不变) ---
       - name: Upload mirror artifact
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -79,36 +79,39 @@ jobs:
           overwrite: true
           strip_components: 2
       
-      # --- 红石中继站镜像部署 ---
+      # --- 修正后的第三方部署逻辑 ---
       - name: Get upload policy
         id: policy
         run: |
+          # 现在 artifact.zip 已经存在于根目录了
           FILE_SIZE=$(stat -c%s artifact.zip)
+          echo "📦 File size: $FILE_SIZE"
+
           RESPONSE=$(curl -s -X GET \
             "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/upload-policy?contentType=application%2Fzip&filename=artifact.zip&size=$FILE_SIZE" \
             -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
 
-          echo "Upload policy response: $RESPONSE"
-
-          UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)
-          ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)
-          # Export values as step outputs so later steps can access them
-          echo "upload_url=$UPLOAD_URL" >> $GITHUB_OUTPUT
-          echo "attachment_id=$ATTACHMENT_ID" >> $GITHUB_OUTPUT
+          # 检查是否获取成功
+          if echo "$RESPONSE" | jq -e '.url' > /dev/null; then
+            echo "UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)" >> $GITHUB_ENV
+            echo "ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
+          else
+            echo "❌ 获取上传策略失败: $RESPONSE"
+            exit 1
+          fi
 
       - name: Upload artifact to S3
         run: |
-          echo "Uploading artifact to: ${{ steps.policy.outputs.upload_url }}"
-          curl -v -X PUT "${{ steps.policy.outputs.upload_url }}" \
+          echo "🚀 开始上传到 S3..."
+          # 确保这里上传的是刚才生成的 zip 包
+          curl -X PUT "$UPLOAD_URL" \
             -H "Content-Type: application/zip" \
             --data-binary @artifact.zip
+          echo "✅ 上传完成"
 
       - name: Trigger deployment
         id: deploy
         run: |
-          # pull attachment id from previous step output
-          ATTACHMENT_ID="${{ steps.policy.outputs.attachment_id }}"
-
           RESPONSE=$(curl -s -X POST \
             "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy" \
             -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
@@ -117,9 +120,12 @@ jobs:
               "attachmentId": "'"$ATTACHMENT_ID"'"
             }')
 
-          DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)
-          # persist deploy id for subsequent steps
-          echo "DEPLOY_ID=$DEPLOY_ID" >> $GITHUB_ENV| [ "$STATUS" = "RUNNING" ]; do
+          echo "DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
+
+      - name: Poll deployment status
+        run: |
+          STATUS="CREATED"
+          while [ "$STATUS" = "CREATED" ] || [ "$STATUS" = "RUNNING" ]; do
             sleep 5
             RESPONSE=$(curl -s -X GET \
               "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/$DEPLOY_ID/status" \
