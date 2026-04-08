@@ -4,50 +4,59 @@ on:
   push:
     branches: [master]
 
-# 设置token访问权限
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 只允许同时进行一次部署，跳过正在运行和最新队列之间的运行队列
-# 但是，不要取消正在进行的运行，因为我们希望允许这些生产部署完成
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  # 构建工作
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
+          fetch-depth: 0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2 # 安装pnpm并添加到环境变量
+        uses: pnpm/action-setup@v2
         with:
-          version: 9.13.2 # 指定需要的 pnpm 版本
+          version: 9.13.2
+          
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: pnpm # 设置缓存
-      - name: Setup Pages
-        uses: actions/configure-pages@v3  # 在工作流程自动配置GithubPages
+          cache: pnpm
+
       - name: Install dependencies
-        run: pnpm install # 安装依赖
+        run: pnpm install
+
       - name: Build with VitePress
+        run: pnpm run docs:build
+
+      # --- 新增：打包构建产物 ---
+      - name: Compress artifact
         run: |
-          pnpm run docs:build # 启动项目
-          touch .nojekyll  # 通知githubpages不要使用Jekyll处理这个站点，不知道为啥不生效，就手动搞了
+          # 进入构建目录
+          cd .vitepress/dist
+          # 将当前目录下的所有文件打包成 artifact.zip (放在项目根目录)
+          zip -r ../../artifact.zip .
+          # 验证文件是否存在
+          ls -lh ../../artifact.zip
+
+      # --- 原有的 GitHub Pages 上传 ---
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3  # 上传构建产物
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: .vitepress/dist # 指定上传的路径，当前是根目录，如果是docs需要加docs/的前缀
-      - name: Upload mirror artifact  # 部署镜像
+          path: .vitepress/dist
+
+      # --- 原有的 SFTP 备份 (保持不变) ---
+      - name: Upload mirror artifact
         uses: appleboy/scp-action@v0.1.0
         with:
           host: ${{ secrets.SFTP_HOST }}
@@ -69,16 +78,78 @@ jobs:
           target: /www/wwwroot/vanillalibrary.mcfpp.top
           overwrite: true
           strip_components: 2
+      
+      # --- 修正后的第三方部署逻辑 ---
+      - name: Get upload policy
+        id: policy
+        run: |
+          # 现在 artifact.zip 已经存在于根目录了
+          FILE_SIZE=$(stat -c%s artifact.zip)
+          echo "📦 File size: $FILE_SIZE"
 
-  # 部署工作
+          RESPONSE=$(curl -s -X GET \
+            "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/upload-policy?contentType=application%2Fzip&filename=artifact.zip&size=$FILE_SIZE" \
+            -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
+
+          # 检查是否获取成功
+          if echo "$RESPONSE" | jq -e '.url' > /dev/null; then
+            echo "UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)" >> $GITHUB_ENV
+            echo "ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
+          else
+            echo "❌ 获取上传策略失败: $RESPONSE"
+            exit 1
+          fi
+
+      - name: Upload artifact to S3
+        run: |
+          echo "🚀 开始上传到 S3..."
+          # 确保这里上传的是刚才生成的 zip 包
+          curl -X PUT "$UPLOAD_URL" \
+            -H "Content-Type: application/zip" \
+            --data-binary @artifact.zip
+          echo "✅ 上传完成"
+
+      - name: Trigger deployment
+        id: deploy
+        run: |
+          RESPONSE=$(curl -s -X POST \
+            "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy" \
+            -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "attachmentId": "'"$ATTACHMENT_ID"'"
+            }')
+
+          echo "DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
+
+      - name: Poll deployment status
+        run: |
+          STATUS="CREATED"
+          while [ "$STATUS" = "CREATED" ] || [ "$STATUS" = "RUNNING" ]; do
+            sleep 5
+            RESPONSE=$(curl -s -X GET \
+              "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/${{ env.DEPLOY_ID }}/status" \
+              -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
+
+            STATUS=$(echo "$RESPONSE" | jq -r .status)
+            echo "Deployment status: $STATUS"
+          done
+
+          if [ "$STATUS" != "SUCCESS" ]; then
+            echo "❌ Deployment failed"
+            exit 1
+          fi
+
+          echo "✅ Deployment successful"
+
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }} # 从后续的输出中获取部署后的页面URL
-    needs: build    # 在build后面完成
-    runs-on: ubuntu-latest  # 运行在最新版本的ubuntu系统上
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
     name: Deploy
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment  # 指定id
-        uses: actions/deploy-pages@v4 # 将之前的构建产物部署到github pages中
+        id: deployment
+        uses: actions/deploy-pages@v4
