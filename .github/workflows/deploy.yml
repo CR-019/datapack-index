@@ -128,7 +128,7 @@ jobs:
           while [ "$STATUS" = "CREATED" ] || [ "$STATUS" = "RUNNING" ]; do
             sleep 5
             RESPONSE=$(curl -s -X GET \
-              "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/${{ env.DEPLOY_ID }}/status" \
+              "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/$DEPLOY_ID/status" \
               -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
 
             STATUS=$(echo "$RESPONSE" | jq -r .status)
