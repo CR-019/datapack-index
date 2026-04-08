@@ -50,7 +50,6 @@ jobs:
           ls -lh ../../artifact.zip
 
       # --- 原有的 GitHub Pages 上传 ---
-      - name: U      # --- GitHub Pages 部署 ---
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
