@@ -90,16 +90,23 @@ jobs:
 
           UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)
           ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)
+          # Export values as step outputs so later steps can access them
+          echo "upload_url=$UPLOAD_URL" >> $GITHUB_OUTPUT
+          echo "attachment_id=$ATTACHMENT_ID" >> $GITHUB_OUTPUT
 
       - name: Upload artifact to S3
         run: |
-          curl -X PUT "$UPLOAD_URL" \
+          echo "Uploading artifact to: ${{ steps.policy.outputs.upload_url }}"
+          curl -v -X PUT "${{ steps.policy.outputs.upload_url }}" \
             -H "Content-Type: application/zip" \
             --data-binary @artifact.zip
 
       - name: Trigger deployment
         id: deploy
         run: |
+          # pull attachment id from previous step output
+          ATTACHMENT_ID="${{ steps.policy.outputs.attachment_id }}"
+
           RESPONSE=$(curl -s -X POST \
             "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy" \
             -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
@@ -109,6 +116,8 @@ jobs:
             }')
 
           DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)
+          # persist deploy id for subsequent steps
+          echo "DEPLOY_ID=$DEPLOY_ID" >> $GITHUB_ENV
 
       - name: Poll deployment status
         run: |
