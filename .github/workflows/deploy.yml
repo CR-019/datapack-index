@@ -49,7 +49,8 @@ jobs:
           # 验证文件是否存在
           ls -lh ../../artifact.zip
 
-      # --- GitHub Pages 部署 ---
+      # --- 原有的 GitHub Pages 上传 ---
+      - name: U      # --- GitHub Pages 部署 ---
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -119,12 +120,7 @@ jobs:
 
           DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)
           # persist deploy id for subsequent steps
-          echo "DEPLOY_ID=$DEPLOY_ID" >> $GITHUB_ENV
-
-      - name: Poll deployment status
-        run: |
-          STATUS="CREATED"
-          while [ "$STATUS" = "CREATED" ] || [ "$STATUS" = "RUNNING" ]; do
+          echo "DEPLOY_ID=$DEPLOY_ID" >> $GITHUB_ENV| [ "$STATUS" = "RUNNING" ]; do
             sleep 5
             RESPONSE=$(curl -s -X GET \
               "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/$DEPLOY_ID/status" \
