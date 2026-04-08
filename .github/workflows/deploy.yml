@@ -88,6 +88,8 @@ jobs:
             "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/upload-policy?contentType=application%2Fzip&filename=artifact.zip&size=$FILE_SIZE" \
             -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
 
+          echo "Upload policy response: $RESPONSE"
+
           UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)
           ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)
           # Export values as step outputs so later steps can access them
