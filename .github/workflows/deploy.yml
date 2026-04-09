@@ -80,58 +80,12 @@ jobs:
           strip_components: 2
       
       # --- 第三方部署 ---
-      - name: Get upload policy
-        id: policy
-        run: |
-          FILE_SIZE=$(stat -c%s artifact.zip)
-          echo "$FILE_SIZE"
-          RESPONSE=$(curl -s -X GET \
-            "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/upload-policy?contentType=application%2Fzip&filename=artifact.zip.zip&size=$FILE_SIZE" \
-            -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
-          echo "UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)" >> $GITHUB_ENV
-          echo "ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
-
-      - name: Upload artifact to S3
-        run: |
-          curl -X PUT "$UPLOAD_URL" \
-            -H "Content-Type: application/zip" \
-            --data-binary @artifact.zip
-          curl -X POST "https://www.mczwlt.net/api/hub/attachment" \
-            -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "attachmentId": "'"$ATTACHMENT_ID"'"
-            }'
-
-      - name: Trigger deployment
-        id: deploy
-        run: |
-          RESPONSE=$(curl -s -X POST \
-            "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy" \
-            -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "attachmentId": "'"$ATTACHMENT_ID"'"
-            }')
-          echo "$RESPONSE"
-          echo "DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
-      - name: Poll deployment status
-        run: |
-          STATUS="CREATED"
-          while [ "$STATUS" = "CREATED" ] || [ "$STATUS" = "RUNNING" ]; do
-            sleep 5
-            RESPONSE=$(curl -s -X GET \
-              "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/$DEPLOY_ID/status" \
-              -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
-            echo "$RESPONSE"
-            STATUS=$(echo "$RESPONSE" | jq -r .status)
-            echo "Deployment status: $STATUS"
-          done
-          if [ "$STATUS" != "SUCCESS" ]; then
-            echo " Deployment failed"
-            exit 1
-          fi
-          echo " Deployment successful"
+      - name: Deploy to Server
+        uses: redstone-ore/actions-docs-deploy@v1.0.3
+        with:
+          file: 构建打包后的文件地址
+          resource_id: ${{ secrets.RESOURCE_ID }}
+          bearer_token: ${{ secrets.BEARER_TOKEN }}
 
   deploy:
     environment:
