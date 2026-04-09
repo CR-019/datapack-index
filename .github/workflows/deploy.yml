@@ -79,7 +79,7 @@ jobs:
           overwrite: true
           strip_components: 2
       
-      # --- 修正后的第三方部署逻辑 ---
+      # --- 第三方部署 ---
       - name: Get upload policy
         id: policy
         run: |

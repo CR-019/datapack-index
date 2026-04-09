@@ -99,6 +99,7 @@ export default defineConfig({
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,
+    srcExclude:["material",".github",".idea"],
 
     markdown: {
         languages: [mcfunction, mcdoc, snbt],
