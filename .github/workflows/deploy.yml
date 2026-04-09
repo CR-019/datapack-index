@@ -79,36 +79,28 @@ jobs:
           overwrite: true
           strip_components: 2
       
-      # --- 修正后的第三方部署逻辑 ---
+      # --- 第三方部署 ---
       - name: Get upload policy
         id: policy
         run: |
-          # 现在 artifact.zip 已经存在于根目录了
-          FILE_SIZE=$(stat -c%s artifact.zip)
-          echo "📦 File size: $FILE_SIZE"
-
+          FILE_SIZE=$(stat -c%s yolo26n-320.zip)
+          echo "$FILE_SIZE"
           RESPONSE=$(curl -s -X GET \
-            "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/upload-policy?contentType=application%2Fzip&filename=artifact.zip&size=$FILE_SIZE" \
+            "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/upload-policy?contentType=application%2Fzip&filename=yolo26n-320.zip&size=$FILE_SIZE" \
             -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
-
-          # 检查是否获取成功
-          if echo "$RESPONSE" | jq -e '.url' > /dev/null; then
-            echo "UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)" >> $GITHUB_ENV
-            echo "ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
-          else
-            echo "❌ 获取上传策略失败: $RESPONSE"
-            exit 1
-          fi
-
+          echo "UPLOAD_URL=$(echo "$RESPONSE" | jq -r .url)" >> $GITHUB_ENV
+          echo "ATTACHMENT_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
       - name: Upload artifact to S3
         run: |
-          echo "🚀 开始上传到 S3..."
-          # 确保这里上传的是刚才生成的 zip 包
           curl -X PUT "$UPLOAD_URL" \
             -H "Content-Type: application/zip" \
-            --data-binary @artifact.zip
-          echo "✅ 上传完成"
-
+            --data-binary @yolo26n-320.zip
+          curl -X POST "https://www.mczwlt.net/api/hub/attachment" \
+            -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "attachmentId": "'"$ATTACHMENT_ID"'"
+            }'
       - name: Trigger deployment
         id: deploy
         run: |
@@ -116,41 +108,28 @@ jobs:
             "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy" \
             -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -H "Cookie: repeater-red.sid=s%3AdE-DOpSYd5mX3VI04-LNzuelrIUK3H-X.ilRfuO2wguGew%2FhMHMntWZmCLEvYvKOvtoNcbNCvtk0; sl-session=Vnk4IzVF12mJih4yHXqfig==; repeater-red-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NzljZDBiMmNlYzlhMDE5ZWVmNGRlYjAiLCJ1c2VybmFtZSI6IkNSXzAxOSIsImVtYWlsIjoieWFud2VuY2hhbzAxOUB5ZWFoLm5ldCIsInByZUxvZ2luIjpmYWxzZSwib3RwIjoic2tpcCIsImlzQWRtaW4iOmZhbHNlLCJpc0Jhbm5lZCI6ZmFsc2UsImlhdCI6MTc3NTYyOTgzMCwiZXhwIjoxNzc4MjIxODMwLCJqdGkiOiI2OWQ1ZjYwNjQ2ZmU0MTQxNjE4MGJhYjgifQ.VLKYu4BNraUETo8M0qI3YyHj-ORS8nPk8tfPkgX-d1o"\
             -d '{
               "attachmentId": "'"$ATTACHMENT_ID"'"
             }')
-
-            # --- 调试日志开始 ---
-            echo "🔴 原始 API 响应 JSON:"
-            echo "$RESPONSE" | jq .
-          
-            # 尝试提取常见的 ID 字段
-            EXTRACTED_ID=$(echo "$RESPONSE" | jq -r '.id // ._id // .deployId // "未找到ID字段"')
-            echo "🔍 尝试提取的 ID: $EXTRACTED_ID"
-            # --- 调试日志结束 ---
-
+          echo "$RESPONSE"
           echo "DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
-
       - name: Poll deployment status
         run: |
           STATUS="CREATED"
           while [ "$STATUS" = "CREATED" ] || [ "$STATUS" = "RUNNING" ]; do
             sleep 5
             RESPONSE=$(curl -s -X GET \
-              "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/$DEPLOY_ID/status" \
+              "https://www.mczwlt.net/api/hub/resource/${{ secrets.RESOURCE_ID }}/deploy/${{ env.DEPLOY_ID }}/status" \
               -H "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}")
-
+            echo "$RESPONSE"
             STATUS=$(echo "$RESPONSE" | jq -r .status)
             echo "Deployment status: $STATUS"
           done
-
           if [ "$STATUS" != "SUCCESS" ]; then
-            echo "❌ Deployment failed"
+            echo " Deployment failed"
             exit 1
           fi
-
-          echo "✅ Deployment successful"
+          echo " Deployment successful"
 
   deploy:
     environment:
