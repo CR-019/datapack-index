@@ -83,7 +83,7 @@ jobs:
       - name: Deploy to Server
         uses: redstone-ore/actions-docs-deploy@v1.0.3
         with:
-          file: 构建打包后的文件地址
+          file: artifact.zip
           resource_id: ${{ secrets.RESOURCE_ID }}
           bearer_token: ${{ secrets.BEARER_TOKEN }}
 
