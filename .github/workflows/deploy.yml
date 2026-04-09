@@ -121,6 +121,15 @@ jobs:
               "attachmentId": "'"$ATTACHMENT_ID"'"
             }')
 
+            # --- 调试日志开始 ---
+            echo "🔴 原始 API 响应 JSON:"
+            echo "$RESPONSE" | jq .
+          
+            # 尝试提取常见的 ID 字段
+            EXTRACTED_ID=$(echo "$RESPONSE" | jq -r '.id // ._id // .deployId // "未找到ID字段"')
+            echo "🔍 尝试提取的 ID: $EXTRACTED_ID"
+            # --- 调试日志结束 ---
+
           echo "DEPLOY_ID=$(echo "$RESPONSE" | jq -r ._id)" >> $GITHUB_ENV
 
       - name: Poll deployment status
