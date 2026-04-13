@@ -57,7 +57,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  third_party deploy:
+  third-party_deploy:
     runs-on: ubuntu-latest
     needs: build
     name: Third-party Deploy
