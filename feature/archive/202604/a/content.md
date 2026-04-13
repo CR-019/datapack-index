@@ -25,48 +25,22 @@ https://www.bilibili.com/video/BV1GNZpBhEAc
 https://www.minebbs.com/resources/15266/
 
 ## 地图截图
-<div style="text-align:center">
-<img src="图片/1.jpg" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/2.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/3.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/4.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/5.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/6.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/7.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/8.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/9.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/10.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/11.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/12.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/13.png" alt="" style="zoom:50%;" />
-</div>
-<div style="text-align:center">
-<img src="图片/14.png" alt="" style="zoom:50%;" />
-</div>
+![](图片/1.jpg)  
+![](图片/2.jpg)  
+![](图片/3.jpg)  
+![](图片/4.jpg)  
+![](图片/5.jpg)  
+![](图片/6.jpg)  
+![](图片/7.jpg)  
+![](图片/8.jpg)  
+![](图片/9.jpg)  
+![](图片/10.jpg)  
+![](图片/11.jpg)  
+![](图片/12.jpg)  
+![](图片/13.jpg)  
+![](图片/14.jpg)
+
+
 
 ## 奖项
 本地图荣获 MineBBS 首届方块创作大赛创思艺海赛道季军。​
