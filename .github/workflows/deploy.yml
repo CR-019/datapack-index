@@ -44,6 +44,31 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: .vitepress/dist
+      
+      # --- 在修复之前，暂时放在这里，防止链接爆炸 ---    
+      # --- SFTP 备份 ---
+      - name: Upload mirror artifact
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }}
+          source: .vitepress/dist/
+          target: /www/wwwroot/vanillalibrary.mcfpp.top/datapack-index/
+          overwrite: true
+          strip_components: 2
+      - name: Copy index
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }}
+          source: .vitepress/dist/index.html
+          target: /www/wwwroot/vanillalibrary.mcfpp.top
+          overwrite: true
+          strip_components: 2
 
   deploy_github:
     environment:
@@ -89,10 +114,11 @@ jobs:
           name: dist-files
           path: .vitepress/dist  
 
+  
   deploy_mcfpp:
     runs-on: ubuntu-latest
     needs: build_3party
-    name: Third-party Deploy
+    name: MCFPP Deploy
     steps:
       # 下载 artifact
       - name: Download artifact
@@ -101,34 +127,13 @@ jobs:
           name: dist-files
           path: .vitepress/dist
 
-      # --- SFTP 备份 ---
-      - name: Upload mirror artifact
-        uses: appleboy/scp-action@v0.1.0
-        with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
-          source: .vitepress/dist/
-          target: /www/wwwroot/vanillalibrary.mcfpp.top/datapack-index/
-          overwrite: true
-          strip_components: 2
-      - name: Copy index
-        uses: appleboy/scp-action@v0.1.0
-        with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
-          source: .vitepress/dist/index.html
-          target: /www/wwwroot/vanillalibrary.mcfpp.top
-          overwrite: true
-          strip_components: 2
+      
   
+
   deploy_repeater:
     runs-on: ubuntu-latest
     needs: build_3party
-    name: Third-party Deploy
+    name: Redstone Repeater Deploy
     steps:
       # 下载 artifact
       - name: Download artifact

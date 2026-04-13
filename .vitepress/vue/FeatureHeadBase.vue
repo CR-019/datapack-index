@@ -181,6 +181,8 @@
 </template>
 
 <script>
+const baseUrl = import.meta.env.BASE_URL;
+
 export default {
   name: "ArticleHeaderBase",
   props: {
@@ -268,31 +270,31 @@ export default {
   async mounted() {
     try {
       // load main author by name
-      const mainRes = await fetch(`/datapack-index/authors/${this.authorName}.json`);
+      const mainRes = await fetch(`${baseUrl.slice(0, -1)}/authors/${this.authorName}.json`);
       if (mainRes && mainRes.ok) {
         this.mainAuthor = await mainRes.json();
         // normalize avatar path
-        if (this.mainAuthor.avatar) this.mainAuthor.avatar = '/datapack-index' + this.mainAuthor.avatar;
+        if (this.mainAuthor.avatar) this.mainAuthor.avatar = baseUrl.slice(0, -1) + this.mainAuthor.avatar;
       }
 
       // load extra authors
       for (const extra of this.extraAuthors || []) {
         if (!extra) continue;
         if (typeof extra === 'string') {
-          const r = await fetch(`/datapack-index/authors/${extra}.json`);
+          const r = await fetch(`${baseUrl.slice(0, -1)}/authors/${extra}.json`);
           if (r && r.ok) {
             const obj = await r.json();
-            if (obj.avatar) obj.avatar = '/datapack-index' + obj.avatar;
+            if (obj.avatar) obj.avatar = baseUrl.slice(0, -1) + obj.avatar;
             this.extraAuthorsInfo.push(obj);
           }
         } else if (extra.authorName) {
           if (extra.avatarUrl || (extra.socialLinks && extra.socialLinks.length)) {
             this.extraAuthorsInfo.push({ name: extra.authorName, avatar: extra.avatarUrl, socialLinks: extra.socialLinks || [] });
           } else {
-            const r = await fetch(`/datapack-index/authors/${extra.authorName}.json`);
+            const r = await fetch(`/${baseUrl.slice(0, -1)}/authors/${extra.authorName}.json`);
             if (r && r.ok) {
               const obj = await r.json();
-              if (obj.avatar) obj.avatar = '/datapack-index' + obj.avatar;
+              if (obj.avatar) obj.avatar = baseUrl.slice(0, -1) + obj.avatar;
               this.extraAuthorsInfo.push(obj);
             }
           }
