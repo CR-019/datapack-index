@@ -44,6 +44,13 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: .vitepress/dist
+      
+      # --- 通用 artifact 上传
+      - name: Upload generic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+          path: .vitepress/dist  
 
   deploy:
     environment:
@@ -62,6 +69,14 @@ jobs:
     needs: build
     name: Third-party Deploy
     steps:
+      # 下载 artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: .vitepress/dist
+      
+      # 压缩 artifact
       - name: Compress artifact
         run: |
           # 进入构建目录
@@ -70,6 +85,7 @@ jobs:
           zip -r ../../artifact.zip .
           # 验证文件是否存在
           ls -lh ../../artifact.zip
+          
       # --- SFTP 备份 ---
       - name: Upload mirror artifact
         uses: appleboy/scp-action@v0.1.0
