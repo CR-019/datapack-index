@@ -57,7 +57,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  build_github:
+  build_3party:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -91,7 +91,7 @@ jobs:
 
   deploy_mcfpp:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build_3party
     name: Third-party Deploy
     steps:
       # 下载 artifact
@@ -127,7 +127,7 @@ jobs:
   
   deploy_repeater:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build_3party
     name: Third-party Deploy
     steps:
       # 下载 artifact
