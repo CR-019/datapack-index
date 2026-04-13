@@ -39,7 +39,29 @@ jobs:
       - name: Build with VitePress
         run: pnpm run docs:build
 
-      # --- 新增：打包构建产物 ---
+      # --- GitHub Pages 上传 ---
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  third-party deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    name: Third-party Deploy
+    steps:
       - name: Compress artifact
         run: |
           # 进入构建目录
@@ -48,14 +70,7 @@ jobs:
           zip -r ../../artifact.zip .
           # 验证文件是否存在
           ls -lh ../../artifact.zip
-
-      # --- 原有的 GitHub Pages 上传 ---
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .vitepress/dist
-
-      # --- 原有的 SFTP 备份 (保持不变) ---
+      # --- SFTP 备份 ---
       - name: Upload mirror artifact
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -86,15 +101,3 @@ jobs:
           file: artifact.zip
           resource_id: ${{ secrets.RESOURCE_ID }}
           bearer_token: ${{ secrets.BEARER_TOKEN }}
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    name: Deploy
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
