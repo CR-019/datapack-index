@@ -28,12 +28,10 @@ import{
     sidebar_202603,
 }from "./sidebar_feature2026"
 
-const siteBase = process.env.VITEPRESS_BASE || '/'
-
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
     title: "香草图书馆",
-    base: siteBase,
+    base: "/datapack-index/",
     description: "Powered by VitePress",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
