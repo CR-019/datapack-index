@@ -5,36 +5,44 @@
 >
 
 ## 目录
-- [前言](#前言)
-- [视频要求](#视频要求)
-	-  [使用加速游戏刻播放60帧视频](#使用加速游戏刻播放60帧视频)
-	-  [使用插帧播放60帧视频](#使用插帧播放60帧视频)
-- [配置](#配置)
-	- [参数解析](#参数解析)
-		- [frame_zero](#frame_zero)
-		- [frame](#frame)
-		- [path](#path)
-		- [name](#name)
-		- [blender](#blender)
-		- [blender_name](#blender_name)
-		- [frame_rate](#frame_rate)
-		- [sound](#sound)
-		- [sound_switch](#sound_switch)
-		- [max_frame](#max_frame)
-		- [slot](#slot)
-- [示例](#示例)
-- [原理](#原理)
-- [指令](#指令)
-	- [开始播放](#开始播放)
-	- [终止播放](#终止播放)
-	- [暂停播放](#暂停播放)
-	- [继续播放](#继续播放)
-	- [删除单一视频配置](#删除单一视频配置)
-	- [删除所有视频配置](#删除所有视频配置)
-- [关于序列图片](#关于序列图片)
-	- [如何导出序列图片](#如何导出序列图片)
-	- [推荐尺寸](#推荐尺寸)
-- [注意事项](#注意事项)
+- [我的世界原版视频播放器](#我的世界原版视频播放器)
+	- [目录](#目录)
+	- [前言](#前言)
+	- [视频要求](#视频要求)
+		- [使用加速游戏刻播放60帧视频](#使用加速游戏刻播放60帧视频)
+		- [使用插帧播放60帧视频](#使用插帧播放60帧视频)
+	- [配置](#配置)
+		- [参数解析](#参数解析)
+			- [frame\_zero](#frame_zero)
+			- [frame](#frame)
+			- [path](#path)
+			- [name](#name)
+			- [blender](#blender)
+			- [blender\_name](#blender_name)
+			- [frame\_rate](#frame_rate)
+			- [sound](#sound)
+			- [sound\_switch](#sound_switch)
+			- [max\_frame](#max_frame)
+			- [slot](#slot)
+		- [示例](#示例)
+			- [视频播放配置](#视频播放配置)
+				- [Function](#function)
+				- [资源包配置](#资源包配置)
+			- [sounds.json](#soundsjson)
+	- [原理](#原理)
+		- [**可以参考**](#可以参考)
+		- [装备遮罩（camera\_overlay）的一点研究](#装备遮罩camera_overlay的一点研究)
+				- [by CR\_019](#by-cr_019)
+	- [指令](#指令)
+		- [播放](#播放)
+			- [开始播放](#开始播放)
+		- [终止播放](#终止播放)
+		- [暂停播放](#暂停播放)
+		- [继续播放](#继续播放)
+		- [删除单个玩家的播放设置](#删除单个玩家的播放设置)
+		- [删除单一视频配置](#删除单一视频配置)
+		- [删除所有视频配置](#删除所有视频配置)
+		- [删除所有玩家的播放设置](#删除所有玩家的播放设置)
 
 ## 前言
 此项目实现在原版Minecraft中播放序列图片实现伪播放视频效果
@@ -60,7 +68,7 @@
 
 视频最好为20帧的，如果使用60帧的视频需要将[tick](http://https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/tick)设置为60
 
-```Minecraft_Command
+```mcfunction
 /tick rate 60
 ```
 
@@ -250,7 +258,7 @@
 
 #### 开始播放
 
-```Minecraft_Command
+```mcfunction
 /function animations:start {video_name:"video_name"}
 ```
 
@@ -258,32 +266,32 @@
 
 ### 终止播放
 
-```Minecraft_Command
+```mcfunction
 /function animations:stop
 ```
 
 ### 暂停播放
 
-```Minecraft_Command
+```mcfunction
 /function animations:pause
 ```
 
 ### 继续播放
 
-```Minecraft_Command
+```mcfunction
 /function animations:continue_play
 ```
 
 ### 删除单个玩家的播放设置
 
-```Minecraft_Command
+```mcfunction
 /function animations:player_video_play/storages/delete/delete_player {name:"name"}
 ```
 **name**为玩家名
 
 ### 删除单一视频配置
 
-```Minecraft_Command
+```mcfunction
 /function animations:video_list/delete_only {name:"name"}
 ```
 
@@ -291,13 +299,13 @@
 
 ### 删除所有视频配置
 
-```Minecraft_Command
+```mcfunction
 /function animations:video_list/delete_all
 ```
 
 ### 删除所有玩家的播放设置
 
-```Minecraft_Command
+```mcfunction
 /function animations:player_video_play/storages/delete/all_storages/delete
 ```
 ##关于序列图片

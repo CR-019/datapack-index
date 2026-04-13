@@ -1,5 +1,5 @@
 # 使用 PackSquash 压缩与混淆资源包
-bread
+> bread
 
 PackSquash 是一个资源包压缩与混淆工具，可以帮助减小资源包的体积并简单混淆它
 
