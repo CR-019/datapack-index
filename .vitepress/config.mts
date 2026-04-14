@@ -26,9 +26,12 @@ import{
     sidebar_202601,
     sidebar_202602,
     sidebar_202603,
+    sidebar_202604,
 }from "./sidebar_feature2026"
 
-const siteBase = process.env.VITEPRESS_BASE || '/'
+//const siteBase = process.env.VITEPRESS_BASE || '/'
+
+const siteBase = '/datapack-index/'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -81,6 +84,7 @@ export default defineConfig({
             "/feature/archive/202601": sidebar_202601,
             "/feature/archive/202602": sidebar_202602,
             "/feature/archive/202603": sidebar_202603,
+            "/feature/archive/202604": sidebar_202604,
             "/feature/": sidebar_feature,
         },
 

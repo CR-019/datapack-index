@@ -39,8 +39,8 @@ pageClass: h2-no-border
 ### 🌟最新
 
 <JournalIndex
-    cover="./cover/202603/202603.png"
-    :coverLink="'./index/202603'"
+    cover="./cover/202604/202604.png"
+    :coverLink="'./index/202604'"
 />
 
 
@@ -48,6 +48,12 @@ pageClass: h2-no-border
 
 ### 往期
 
+<JournalIndex
+    cover="./cover/202603/202603.png"
+    :coverLink="'./index/202603'"
+/>
+
+---
 
 <JournalIndex
     cover="./cover/202602/202602.png"

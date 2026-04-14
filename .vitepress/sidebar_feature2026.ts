@@ -116,6 +116,7 @@ export const sidebar_202603: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202603' },
       { text: '上一刊', link: '/feature/index/202602' },
+      { text: '下一刊', link: '/feature/index/202604' },
     ]
   },
   {
@@ -148,6 +149,57 @@ export const sidebar_202603: DefaultTheme.Sidebar = [
     text: '巧匠 Masterpieces',
     items: [
       { text: 'Katton —— 轻量级可重载 Mod 框架', link: '/feature/archive/202603/katton/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+
+export const sidebar_202604: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.04',
+    items: [
+      { text: '目录', link: '/feature/index/202604' },
+      { text: '上一刊', link: '/feature/index/202603' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202604/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '无限随机生成的跑酷地图你玩过吗？《跃动晶界2》', link: '/feature/archive/202604/0/content' }
+    ]
+  },
+  {
+    text: '香草快讯 Λojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年4月', link: '/feature/archive/202604/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '轻量级低损耗将OBJ模型转换为体素模型的算法和程序实现', link: '/feature/archive/202604/1/content' },
+      { text: '使用 PackSquash 压缩与混淆资源包', link: '/feature/archive/202604/2/content' },
+      { text: '开发经验分享：实体树及面向对象', link: '/feature/archive/202604/3/content' },
+      { text: '命令存储进阶：使用栈管理函数上下文', link: '/feature/archive/202604/4/content' },
+      { text: 'Floating UI实战——自定义控件', link: '/feature/archive/202604/5/content' }
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '我的世界原版视频播放器', link: '/feature/archive/202604/6/content' },
     ]
   },
   {

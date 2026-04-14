@@ -15,11 +15,11 @@ export const sidebar: DefaultTheme.Sidebar = [
     items: [
       { text: '🏠绝赞征稿中！', link: '/feature/_index' },
       { text: '🌟香草奖2025', link: '/feature/tva/tva2025'},
-      { text: '🌟2026.03', link: '/feature/index/202603' },
+      { text: '🌟2026.04', link: '/feature/index/202604' },
       {
         text: '',  items: [
-          { text: '2026.02', link: '/feature/index/202602'},
-          { text: '2026.01', link: '/feature/index/202601' }
+          { text: '2026.03', link: '/feature/index/202603'},
+          { text: '2026.02', link: '/feature/index/202602' }
         ]
       }
     ]
