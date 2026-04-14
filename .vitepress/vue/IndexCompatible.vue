@@ -114,6 +114,9 @@
 </template>
 
 <script>
+
+const baseUrl = import.meta.env.BASE_URL;
+
 export default {
     props: {
         title: {
@@ -183,21 +186,21 @@ export default {
     // 使用 Vue Options API 的 mounted 钩子来执行异步加载
     async mounted() {
         // 获取主要作者（如果存在）
-        const mainRes = await fetch(`/datapack-index/authors/${this.authorName}.json`);
+        const mainRes = await fetch(`${baseUrl.slice(0, -1)}/authors/${this.authorName}.json`);
         if (mainRes && mainRes.ok) {
             this.mainAuthor = await mainRes.json();
-            this.mainAuthor.avatar = '/datapack-index' + this.mainAuthor.avatar
+            this.mainAuthor.avatar = baseUrl.slice(0, -1) + this.mainAuthor.avatar
         }
         // 获取额外作者信息：支持传入字符串（name）或对象（包含 authorName/avatarUrl/socialLinks）
         for (const extra of this.extraAuthors || []) {
             if (!extra) continue;
             if (typeof extra === 'string') {
-                const r = await fetch(`/datapack-index/authors/${extra}.json`);
+                const r = await fetch(`${baseUrl.slice(0, -1)}/authors/${extra}.json`);
                 if (r && r.ok) {
                     const data = await r.json();
                     this.extraAuthorsInfo.push({
                         name: extra,
-                        avatar: '/datapack-index' + data.avatar,
+                        avatar: baseUrl.slice(0, -1) + data.avatar,
                         socialLinks: data.socialLinks || []
                     });
                 }
@@ -206,16 +209,16 @@ export default {
                 if (extra.avatarUrl || (extra.socialLinks && extra.socialLinks.length)) {
                     this.extraAuthorsInfo.push({
                         name: extra.authorName,
-                        avatar: '/datapack-index' + extra.avatarUrl,
+                        avatar: baseUrl.slice(0, -1) + extra.avatarUrl,
                         socialLinks: extra.socialLinks || []
                     });
                 } else {
-                    const r = await fetch(`/datapack-index/authors/${extra.authorName}.json`);
+                    const r = await fetch(`${baseUrl.slice(0, -1)}/authors/${extra.authorName}.json`);
                     if (r && r.ok) {
                         const data = await r.json();
                         this.extraAuthorsInfo.push({
                             name: extra.authorName,
-                            avatar: '/datapack-index' + data.avatar,
+                            avatar: baseUrl.slice(0, -1) + data.avatar,
                             socialLinks: data.socialLinks || []
                         });
                     }

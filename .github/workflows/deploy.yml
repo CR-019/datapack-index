@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build_github:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,26 +36,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build with VitePress
-        run: pnpm run docs:build
+      - name: Build for github pages
+        run: VITEPRESS_BASE="/datapack-index/" pnpm run docs:build
 
-      # --- 新增：打包构建产物 ---
-      - name: Compress artifact
-        run: |
-          # 进入构建目录
-          cd .vitepress/dist
-          # 将当前目录下的所有文件打包成 artifact.zip (放在项目根目录)
-          zip -r ../../artifact.zip .
-          # 验证文件是否存在
-          ls -lh ../../artifact.zip
-
-      # --- 原有的 GitHub Pages 上传 ---
-      - name: Upload artifact
+      # --- GitHub Pages 上传 ---
+      - name: Upload GitHub artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .vitepress/dist
-
-      # --- 原有的 SFTP 备份 (保持不变) ---
+      
+      # --- 在修复之前，暂时放在这里，防止链接爆炸 ---    
+      # --- SFTP 备份 ---
       - name: Upload mirror artifact
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -78,23 +69,93 @@ jobs:
           target: /www/wwwroot/vanillalibrary.mcfpp.top
           overwrite: true
           strip_components: 2
-      
-      # --- 第三方部署 ---
-      - name: Deploy to Server
-        uses: redstone-ore/actions-docs-deploy@v1.0.3
-        with:
-          file: artifact.zip
-          resource_id: ${{ secrets.RESOURCE_ID }}
-          bearer_token: ${{ secrets.BEARER_TOKEN }}
 
-  deploy:
+  deploy_github:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
+    needs: build_github
     runs-on: ubuntu-latest
     name: Deploy
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  build_3party:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.13.2
+          
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build for github pages
+        run: VITEPRESS_BASE="/" pnpm run docs:build   
+        
+      # --- 通用 artifact 上传
+      - name: Upload generic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+          path: .vitepress/dist  
+
+  
+  deploy_mcfpp:
+    runs-on: ubuntu-latest
+    needs: build_3party
+    name: MCFPP Deploy
+    steps:
+      # 下载 artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: .vitepress/dist
+
+      
+  
+
+  deploy_repeater:
+    runs-on: ubuntu-latest
+    needs: build_3party
+    name: Redstone Repeater Deploy
+    steps:
+      # 下载 artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: .vitepress/dist
+      
+      # 压缩 artifact
+      - name: Compress artifact
+        run: |
+          # 进入构建目录
+          cd .vitepress/dist
+          # 将当前目录下的所有文件打包成 artifact.zip (放在项目根目录)
+          zip -r ../../artifact.zip .
+          # 验证文件是否存在
+          ls -lh ../../artifact.zip
+
+      # --- 红石中继站部署 ---
+      - name: Deploy to Server
+        uses: redstone-ore/actions-docs-deploy@v1.0.3
+        with:
+          file: artifact.zip
+          resource_id: ${{ secrets.RESOURCE_ID }}
+          bearer_token: ${{ secrets.BEARER_TOKEN }}
