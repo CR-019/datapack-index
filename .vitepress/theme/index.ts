@@ -22,6 +22,7 @@ import Node from '../vue/Node.vue'
 import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
 import mediumZoom from 'medium-zoom'
+import RepoCard from '../vue/wheel/RepoCard.vue'
 
 
 
@@ -71,6 +72,7 @@ export default {
     app.component('InfoCard', InfoCard)
     app.component('node', Node)
     app.component('AllPage', AllPage)
+    app.component('RepoCard', RepoCard)
 
     // 只在浏览器环境中执行 zoom 初始化
     if (typeof window !== 'undefined') {
