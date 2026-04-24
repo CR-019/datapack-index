@@ -9,6 +9,12 @@ title: '我的世界原版视频播放器'
 	resourceLink= 'https://github.com/WindWavesSea/Minecraft-Vanilla-Video-Player/'
 />
 
+::: tip 参见
+[装备遮罩（camera_overlay）的一点研究 - CR_019](/resources/dust/2/2-装备遮罩.md)
+:::
+
+
+
 ## 目录
 
 - [目录](#目录)
@@ -60,7 +66,7 @@ title: '我的世界原版视频播放器'
 	- [推荐尺寸](#推荐尺寸)
 - [注意事项](#注意事项)
 
-***
+
 
 ## 序言
 
@@ -87,13 +93,11 @@ title: '我的世界原版视频播放器'
 > **序列图片**指将**视频**或**动画**的每一帧保存为独立的**静态图像文件**，并按帧序号顺序排列的一组图片文件。它常用于影视后期、3D 动画、特效制作等领域，因其跨平台兼容性高、画质无损而被广泛采用。
 >
 
-***
 
 ## 下载
 
 可以前往[Modrinth](https://modrinth.com/datapack/vanilla-video-player/)和[Github](https://github.com/WindWavesSea/Minecraft-Vanilla-Video-Player/)下载此前置包
 
-***
 
 ## 视频要求
 
@@ -104,7 +108,7 @@ title: '我的世界原版视频播放器'
 
 视频最好为20帧的，如果使用60帧的视频需要将[tick](http://https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/tick)设置为60
 
-```Minecraft_Command
+```mcfunction
 /tick rate 60
 ```
 
@@ -117,8 +121,6 @@ title: '我的世界原版视频播放器'
 视频配置中frame_rate是原视频帧率，如果视频为60帧可以这样配置
 
 ```frame_rate:60```
-
-***
 
 ## 对话框
 
@@ -137,30 +139,30 @@ title: '我的世界原版视频播放器'
 
 <div class="nbttree">
 
-<node type="compound" name="video_name"/> <br>这是data storage命名(一般与下文的name保持一致)
+<node type="compound" name="video_name"/> 这是data storage命名(一般与下文的name保持一致)
 
-- <node type="string" name="frame_zero" required=false /> <br>自动处理视频帧，默认不用填写，播放时自动根据帧数填写
-- <node type="int" name="frame" required=true /> <br>帧数 控制玩家目前播放的视频帧的物品
-- <node type="string" name="path" required=true /> <br>路径 指定序列图片在资源包纹理文件夹的位置
-- <node type="string" name="name" required=true /> <br>视频名称 匹配帧号前的名称
-- <node type="bool" name="blender" required=true /><br>使用blender输出的图片序列请开启此选项
-- <node type="string" name="blender_name" required=false /> <br>使用blender请留空
-- <node type="string" name="frame_rate" required=true /> <br>帧率 用于自定义帧率
-- <node type="string" name="sound" required=false /> <br>视频声音 需要开启sound_switch才能使用
-- <node type="bool" name="sound_switch" required=true /> <br>声音是否启用
-- <node type="string" name="max_frame" required=true /> <br>最大帧数
-- <node type="string" name="slot" required=true /> <br>设置物品穿戴在哪时启用遮罩<br>此值应为:head,body,chest,feet,legs,mainhand,offhand,saddle其中之一
-- <node type="compound" name="resolution" required=true /> <br>视频尺寸
-- - <node type="bool" name="switch" required=true /> <br>是否开启此功能
-- - <node type="bool" name="default_size" required=true /> <br>默认视频尺寸
-- - <node type="compound" name="size_list" required=true /> <br>是否启用一下尺寸
-- - - <node type="bool" name="1" required=true /> <br>是否支持16:9的播放尺寸
-- - - <node type="bool" name="2" required=true /> <br>是否支持16:10的播放尺寸
-- - - <node type="bool" name="1" required=true /> <br>是否支持3:2的播放尺寸
-- - - <node type="bool" name="1" required=true /> <br>是否支持4:3的播放尺寸
-- <node type="compound" name="language" required=true /> <br>视频名称显示语言
-- - <node type="string" name="default_language" required=true /> <br>默认显示语言(填写语言代码)
-- - <node type="string" name="zh-cn" required=true /> 填写翻译文本，其它语言也相同
+- <node type="string" name="frame_zero" required=false /> 自动处理视频帧，默认不用填写，播放时自动根据帧数填写
+- <node type="int" name="frame" required=true /> 帧数 控制玩家目前播放的视频帧的物品
+- <node type="string" name="path" required=true /> 路径 指定序列图片在资源包纹理文件夹的位置
+- <node type="string" name="name" required=true /> 视频名称 匹配帧号前的名称
+- <node type="bool" name="blender" required=true />使用blender输出的图片序列请开启此选项
+- <node type="string" name="blender_name" required=false /> 使用blender请留空
+- <node type="string" name="frame_rate" required=true /> 帧率 用于自定义帧率
+- <node type="string" name="sound" required=false /> 视频声音 需要开启sound_switch才能使用
+- <node type="bool" name="sound_switch" required=true /> 声音是否启用
+- <node type="string" name="max_frame" required=true /> 最大帧数
+- <node type="string" name="slot" required=true /> 设置物品穿戴在哪时启用遮罩此值应为:head,body,chest,feet,legs,mainhand,offhand,saddle其中之一
+- <node type="compound" name="resolution" required=true /> 视频尺寸
+  - <node type="bool" name="switch" required=true /> 是否开启此功能
+  - <node type="bool" name="default_size" required=true /> 默认视频尺寸
+  - <node type="compound" name="size_list" required=true /> 是否启用一下尺寸
+    - <node type="bool" name="1" required=true /> 是否支持16:9的播放尺寸
+    - <node type="bool" name="2" required=true /> 是否支持16:10的播放尺寸
+    - <node type="bool" name="3" required=true /> 是否支持3:2的播放尺寸
+    - <node type="bool" name="4" required=true /> 是否支持4:3的播放尺寸
+- <node type="compound" name="language" required=true /> 视频名称显示语言
+  - <node type="string" name="default_language" required=true /> 默认显示语言(填写语言代码)
+  - <node type="string" name="zh-cn" required=true /> 填写翻译文本，其它语言也相同
 
 </div>
 
@@ -429,7 +431,7 @@ function animations:video_add/main with storage video:school video
 那么**path**可以这样写
 ```{video:video/video_text}```
 
-***
+
 
 ## 原理
 
@@ -439,7 +441,6 @@ function animations:video_add/main with storage video:school video
 
 By CR_019
 
-***
 
 ## 指令
 
@@ -449,8 +450,8 @@ By CR_019
 
 #### 开始播放
 
-```Minecraft_Command
-/function animations:start {video_name:"video_name"}
+```mcfunction
+function animations:start {video_name:"video_name"}
 ```
 
 **video_name**就是上文data中写入的字符串
@@ -459,32 +460,32 @@ By CR_019
 
 ### 终止播放
 
-```Minecraft_Command
-/function animations:stop
+```mcfunction
+function animations:stop
 ```
 
 ***
 
 ### 暂停播放
 
-```Minecraft_Command
-/function animations:pause
+```mcfunction
+function animations:pause
 ```
 
 ***
 
 ### 继续播放
 
-```Minecraft_Command
-/function animations:continue_play
+```mcfunction
+function animations:continue_play
 ```
 
 ***
 
 ### 删除单个玩家的播放设置
 
-```Minecraft_Command
-/function animations:player_video_play/storages/delete/delete_player {name:"name"}
+```mcfunction
+function animations:player_video_play/storages/delete/delete_player {name:"name"}
 ```
 
 **name**为玩家名
@@ -493,16 +494,16 @@ By CR_019
 
 ### 删除所有玩家的播放设置
 
-```Minecraft_Command
-/function animations:player_video_play/storages/delete/all_storages/delete
+```mcfunction
+function animations:player_video_play/storages/delete/all_storages/run
 ```
 
 ***
 
 ### 删除单一视频配置
 
-```Minecraft_Command
-/function animations:video_list/delete_only {name:"name"}
+```mcfunction
+function animations:video_list/delete_only {name:"name"}
 ```
 
 **name**为视频配置项中的name
@@ -511,11 +512,10 @@ By CR_019
 
 ### 删除所有视频配置
 
-```Minecraft_Command
-/function animations:video_list/delete_all
+```mcfunction
+function animations:video_list/delete_all
 ```
 
-***
 
 ## 关于序列图片
 
@@ -571,8 +571,6 @@ By CR_019
 
 由于我的世界支持自适应纹理，推荐导出较小尺寸的图片以节约硬盘空间减小资源包大小
 推荐导出**960 * 540**大小的图片
-
-***
 
 ## 注意事项
 

@@ -96,6 +96,8 @@ export default {
   font-weight: bold;
   margin-left: -0.3em;
   margin-right: -1.2em;
+  display: inline-block;
+  cursor: help;
 }
 
 .indicator.required {
@@ -111,4 +113,5 @@ export default {
   bottom: -0.2em;
   font-size: 0.7em; 
 }
+
 </style>
