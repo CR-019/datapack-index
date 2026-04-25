@@ -29,7 +29,7 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       {
-        text: '逻辑结构：命令/函数',
+        text: '命令/函数',
         collapsed: false,
         items: [
           { text: '命令操作', link: '/index/命令1-命令操作' },
@@ -41,7 +41,7 @@ export const sidebar: DefaultTheme.Sidebar = [
         ]
       },
       {
-        text: '数据结构：数据包组分',
+        text: '数据包组分',
         link: '/index/数据包2-数据结构',
         collapsed: true,
         items: [
