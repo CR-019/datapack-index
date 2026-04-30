@@ -108,7 +108,7 @@ const { frontmatter } = useData()
 - Bilibili：https://space.bilibili.com/85292644
 - Github：https://github.com/CR-019
 
-🏡房东 @Alumooper：
+🏡房东 @Alumopper：
 - Bilibili：https://space.bilibili.com/280394409
 - Github：https://github.com/Alumopper
 
