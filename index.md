@@ -10,13 +10,16 @@ hero:
     src: /icons/bg5.png
   actions:
     - theme: brand
-      text: 进入文档
-      link: /index/绪论
+      text: 快速开始
+      link: /index/quick_start/mod
     - theme: brand
       text: 前置检索
       link: /wheel/
     - theme: alt
-      text: 支持一下宣传视频！
+      text: 查阅馆藏
+      link: /index/绪论
+    - theme: alt
+      text: 支持下宣传视频！
       link: https://www.bilibili.com/video/BV1JuNyzXEsP
 features:
   - icon:
