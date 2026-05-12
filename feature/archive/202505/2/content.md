@@ -6,10 +6,6 @@ title: '对展示实体渲染变换的研究'
 <FeatureHead
     title = 对展示实体渲染变换的研究
     authorName = 徐木弦
-    avatarUrl = '../../_authors/徐木弦.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/449298404' }
-    ]"
     resourceLink = 'https://www.bilibili.com/video/BV1hC5YzAE5w'
     cover='../_assets/2.png'
 />

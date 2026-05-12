@@ -5,10 +5,6 @@ title: '基于展示实体的一些巧思'
 <FeatureHead
     title = '基于展示实体的一些巧思'
     authorName = 轩宇1725
-    avatarUrl = '../../_authors/轩宇1725.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/104432208' }
-    ]"
     :extraAuthors="['雨相日生awa']"
     resourceLink = https://www.bilibili.com/video/BV1C7HyzNEeh
     cover='../_assets/1.png'

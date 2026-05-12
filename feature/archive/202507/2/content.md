@@ -5,10 +5,6 @@ title: 'minecraft指令烹饪指南：凉拌实体选择器'
 <FeatureHead
     title = 'minecraft指令烹饪指南：凉拌实体选择器'
     authorName = 创小业
-    avatarUrl = '../../_authors/mini_ye.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/133430292' }
-    ]"
     resourceLink = 'https://www.bilibili.com/read/cv36591936'
 />
 

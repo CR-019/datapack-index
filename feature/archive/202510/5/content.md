@@ -5,11 +5,6 @@ title: '从 /stopwatch 开始: 与时间检测有关的一些胡思乱想'
 <FeatureHead
     title = '从 /stopwatch 开始: 与时间检测有关的一些胡思乱想'
     authorName = 皮革剑
-    avatarUrl = '../../_authors/皮革剑.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/2127740148' },
-        { name: 'Github', url: 'https://github.com/LeatherSword/' }
-    ]"
     cover='../_assets/5.png'
 />
 
@@ -52,10 +47,10 @@ title: '从 /stopwatch 开始: 与时间检测有关的一些胡思乱想'
 可能会有读者好奇25w41a官方更新日志中介绍`/stopwatch`时在`Developer's Note`处提及的`/worldborder`计时方式是什么样子的。
 
 由于笔者没有使用相关计时方式的经验，笔者请教了巨佬 **[@小豆8593](https://space.bilibili.com/206987540)** ，得到回答如下: （略有改动）
-> 世界边界始终以毫秒为单位进行扩张/收缩，使用命令`/worldborder set <distance> [<time>]`可以控制该扩张/收缩的进程，而使用命令`/worldborder get`可以获取目前世界边界的距离数。  
-> 因此，通过合适地设定世界边界的扩张/收缩速度，我们可以通过作差方式获取前后两次操作的边界距离差值，除以速度后转换为时间差值。  
+> 世界边界始终以毫秒为单位进行扩张/收缩，使用命令`/worldborder set <distance> [<time>]`可以控制该扩张/收缩的进程，而使用命令`/worldborder get`可以获取目前世界边界的距离数。
+> 因此，通过合适地设定世界边界的扩张/收缩速度，我们可以通过作差方式获取前后两次操作的边界距离差值，除以速度后转换为时间差值。
 > 例如，用1000秒的时间扩张1000000格世界边界，即扩张速度为 **1格/毫秒**（`/worldborder set 1000000 1000`）时，前后两次获取的世界边界差值即为精确到毫秒的时间差值。
-> 
+>
 > 以下为一个例子:
 > ```mcfunction
 > # 瞬间设置好初始位置

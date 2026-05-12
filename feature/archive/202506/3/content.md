@@ -5,10 +5,6 @@ title: '从0开始制作哈基米音乐唱片数据包'
 <FeatureHead
     title = '从0开始制作哈基米音乐唱片数据包'
     authorName = 水上的星星
-    avatarUrl = '../../_authors/水上的星星.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/109317273' }
-    ]"
 />
 
 ***

@@ -5,11 +5,6 @@ title: '《大别墅》与对话框杂谈'
 <FeatureHead
     title = '《大别墅》与对话框杂谈'
     authorName = Dahesor
-    avatarUrl = '../../_authors/dahesor.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/1017007290' },
-        { name: 'GitHub', url: 'https://github.com/Dahesor/' }
-    ]"
     resourceLink = 'https://www.bilibili.com/video/BV1aT7czEEuf'
 />
 

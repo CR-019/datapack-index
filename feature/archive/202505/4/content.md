@@ -7,10 +7,6 @@ title: '数据包和命令入门学习-初学者如何快速适应'
 <FeatureHead
     title = 数据包和命令入门学习-初学者如何快速适应
     authorName = doom_decapitator
-    avatarUrl = '../../_authors/d_d.png'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/40077963' }
-    ]"
 />
 
 ## 简介

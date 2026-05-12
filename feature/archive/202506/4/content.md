@@ -5,10 +5,6 @@ title: '数据包の究极存值原理——什么是SNBT'
 <FeatureHead
     title = '数据包の究极存值原理——什么是SNBT'
     authorName = xiaou0
-    avatarUrl = '../../_authors/xiaou0.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/1998573191' }
-    ]"
 />
 
 

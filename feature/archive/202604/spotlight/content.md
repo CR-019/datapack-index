@@ -5,7 +5,6 @@ title: '香草快讯 - Λojang Spotlight - 2026年04月'
 <SpotlightHead
     title = "香草快讯 - Λojang Spotlight - 2026年04月"
     authorName = Alumopper
-    avatarUrl = '/datapack-index/_authors/alumopper.jpg'
     cover='../_assets/spotlight.png'
     type=1
 />

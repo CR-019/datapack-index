@@ -5,10 +5,6 @@ title: 'Patrick的数据包开发新手导航'
 <FeatureHead
     title = 'Patrick的数据包开发新手导航'
     authorName = Patrick
-    avatarUrl = '../../_authors/Patrick.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/544435182' }
-    ]"
     resourceLink = 'https://github.com/NessunoNessun0/TRPG_Plus'
     cover='../_assets/3.png'
 />

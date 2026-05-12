@@ -5,10 +5,6 @@ title: '文本动画资源库'
 <FeatureHead
     title = '文本动画资源库'
     authorName = CoolGaston
-    avatarUrl = '../../_authors/CoolGaston.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/648638421' }
-    ]"
     resourceLink = 'https://www.bilibili.com/video/BV1Jra8zUEVQ'
     cover='../_assets/7.png'
 />
@@ -38,9 +34,9 @@ title: '文本动画资源库'
 ### 安装Special Texts 特效字体资源库
 
 > **最新版本V2.0**
-> 
+>
 > [下载链接 https://wwql.lanzout.com/iEJlQ3639fre](https://wwql.lanzout.com/iEJlQ3639fre)
-> 
+>
 > 安装到存档请见[Minecraft Wiki 数据包-使用](https://zh.minecraft.wiki/w/数据包#使用)
 
 ---
@@ -61,64 +57,64 @@ title: '文本动画资源库'
 **文本展示实体模板**（此处英文名称即为上文所说xxx/preload的名称）
 
 * **fade**
-  
+
   * 基础淡入淡出（基础组件）
 * **cener_diffuse**
-  
+
   * 基础中心扩散淡入淡出（基础组件）
 * **step_diffuse**
-  
+
   * 中心打字机（基础组件）
 * **print**
-  
+
   * 打字机效果（打字机组件）
 * **print2**
-  
+
   * 打字机效果+退格消失（打字机组件）
 * **print3**
-  
+
   * 打字机效果+双向退格消失（打字机组件）
 * **cener_diffuse_more**
-  
+
   * 中心扩散淡入淡出（详细组件）
 * **slidedown**
-  
+
   * 自上下滑效果（详细组件）
 * **slideup**
-  
+
   * 自下上滑效果（详细组件）
 * **sliderandom**
-  
+
   * 自右向左滑效果（详细组件）
 * **slideleft**
-  
+
   * 随机滑动效果（详细组件）
 * **increase**
-  
+
   * 自小扩大效果（详细组件）
 * **increase2**
-  
+
   * 自小扩大，随后落地（详细组件）
 * **turnover**
-  
+
   * 翻页效果（详细组件）
 
 **title栏模板**
 
 * **printer_more**
-  
+
   * 动作栏打字机效果（title组件）
 * **printer_title**
-  
+
   * 标题栏打字机效果（title组件）
 * **printer_subtitle**
-  
+
   * 副标题栏打字机效果（subtitle组件）
 
 **记分板模板**
 
 * **scoreboardprinter**
-  
+
   * 记分板打字机效果（记分板组件）
 
 ### 组件说明
@@ -145,7 +141,7 @@ title: '文本动画资源库'
 * 更全面的生成工具
 
 > 有能力者可以自行编写用于分离每个字符并将其写入一个花括号包围的文本组件中，同时每个字符的颜色、特殊效果（下划线、加粗……）、背景色均可自定义，甚至可以为翻译组件或实体nbt组件等等。
-> 
+>
 > 若仍需快速生成文本组件，可以使用在线网站[渐变文字生成器](https://mcg.tuanzi.ink/)，需要同样颜色将初始色与结束色设置为同一色号即可！
 
 ### 自定义音效

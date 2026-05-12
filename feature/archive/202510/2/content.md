@@ -5,11 +5,6 @@ title: '在MC的UI中实现数据绑定'
 <FeatureHead
     title = '在MC的UI中实现数据绑定'
     authorName = Alumopper
-    avatarUrl = '../../_authors/alumopper.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
-        { name: 'GitHub', url: 'https://github.com/Alumopper' }
-    ]"
     resourceLink = 'https://github.com/Alumopper/Floating-UI'
 />
 
@@ -30,7 +25,7 @@ title: '在MC的UI中实现数据绑定'
 ```xml
 <!-- ItemsControl用于显示数据集合，ItemsSource绑定到ViewModel的数据源 -->
 <ItemsControl x:Name="listControl" ItemsSource="{Binding ItemList}">
-    
+
     <!-- 定义每个数据项的显示模板 -->
     <ItemsControl.ItemTemplate>
         <DataTemplate>
@@ -55,7 +50,7 @@ namespace WpfApp
         public MainWindow()
         {
             InitializeComponent();
-            
+
             // 创建测试数据
             var items = new List<Item>
             {
@@ -64,7 +59,7 @@ namespace WpfApp
                 new Item { Name = "项目3" },
                 // 可继续添加更多项目测试滚动效果
             };
-            
+
             // 设置数据上下文
             DataContext = new ViewModel { ItemList = items };
         }

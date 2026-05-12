@@ -5,10 +5,6 @@ title: 'TheSkyBlessing数据包解析'
 <FeaturedHead
     title = 'TheSkyBlessing数据包解析'
     authorName = 伶
-    avatarUrl = '../../_authors/伶.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/194411952' },
-    ]"
     cover = '../_assets/0.png'
     resourceLink = 'https://github.com/ProjectTSB/TheSkyBlessing'
 />

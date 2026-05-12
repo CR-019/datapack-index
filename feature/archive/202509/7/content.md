@@ -5,10 +5,6 @@ title: '数据包向资源包着色器传入参数'
 <FeatureHead
     title = '数据包向资源包着色器传入参数'
     authorName = MC作死狼王
-    avatarUrl = '../../_authors/狼王.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/508626439' }
-    ]"
 />
 
 ## 前篇-俺寻思之力

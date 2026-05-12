@@ -5,10 +5,6 @@ title: '更好的剧情对话'
 <FeaturedHead
     title = '更好的剧情对话'
     authorName = icuqALT10
-    avatarUrl = '../../_authors/icuqalt10.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/1239940161' }
-    ]"
     resourceLink = 'https://b3logfile.com/file/2025/06/更好的对话框（数据包+资源包）-cywDG0h.zip'
     cover='../_assets/1.png'
 />

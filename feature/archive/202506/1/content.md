@@ -5,11 +5,6 @@ title: '对 Minecraft 图标资产库资源包的可行性尝试'
 <FeatureHead
     title = '对 Minecraft 图标资产库资源包的可行性尝试'
     authorName = Sheep-realms
-    avatarUrl = '../../_authors/sheep-realms.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/43881503' },
-		{ name: 'GitHub', url: 'https://github.com/sheep-realms' }
-    ]"
     resourceLink = 'https://github.com/sheep-realms/Matrica-Design-Icons'
 />
 

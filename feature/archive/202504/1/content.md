@@ -5,10 +5,6 @@ title: '数据包快速入门'
 <FeatureHead
     title = 数据包快速入门
     authorName = 伊桑桑桑桑桑
-    avatarUrl = '../../_authors/伊桑.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/397069113' }
-    ]"
     resourceLink = 'http://underline.icu/mcfunction-guide/%E6%95%B0%E6%8D%AE%E5%8C%85%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/1/main.html'
 />
 

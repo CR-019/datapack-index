@@ -5,10 +5,6 @@ title: '自然工艺 - 高版本自定义模型框架'
 <FeaturedHead
     title = '自然工艺 - 高版本自定义模型框架'
     authorName = 七柏
-    avatarUrl = '../../_authors/七柏.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/405830542' }
-    ]"
     :extraAuthors="['Nox_Obscura']"
     resourceLink = https://github.com/Bybycyann/NatureCraft
     cover='../_assets/2.png'

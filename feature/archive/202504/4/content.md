@@ -5,10 +5,6 @@ title: 'NeKoCustomSpawn-demo'
 <FeatureHead
     title = NeKoCustomSpawn-demo
     authorName = 七柏
-    avatarUrl = '../../_authors/七柏.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/405830542' }
-    ]"
 />
 
 > 参考视频: [[数据包]基于 spreadplayers 的伪自然生成](https://www.bilibili.com/video/BV1FGRSYnELb/).

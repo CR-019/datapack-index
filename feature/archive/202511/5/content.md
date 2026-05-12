@@ -5,10 +5,6 @@ title: '一种particle指令下的粒子定向发射方法与简单实例'
 <FeatureHead
     title = '一种particle指令下的粒子定向发射方法与简单实例'
     authorName = Antares
-    avatarUrl = '../../_authors/Antares.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/123178313' }
-    ]"
     cover='../_assets/5.png'
 />
 

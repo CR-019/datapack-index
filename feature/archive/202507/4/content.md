@@ -5,10 +5,6 @@ title: '动态自定义物品使用冷却'
 <FeatureHead
     title = '动态自定义物品使用冷却'
     authorName = icuqALT10
-    avatarUrl = '../../_authors/icuqalt10.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/1239940161' }
-    ]"
 />
 
 看到CR_019大佬写的《基于原版冷却组件实现动态冷却》想起来很早之前我自己写的右键检测也可以实现动态自定义物品冷却，仅用到3个进度与其对应的reward函数和1个空配方 ~~闲来无事再投个稿（）~~

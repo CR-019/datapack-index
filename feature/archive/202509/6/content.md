@@ -5,10 +5,6 @@ title: '命令中的实体锚点和执行锚点'
 <FeatureHead
     title = '命令中的实体锚点和执行锚点'
     authorName = 徐木弦
-    avatarUrl = '../../_authors/徐木弦.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/449298404' }
-    ]"
     cover='../_assets/6.png'
 />
 

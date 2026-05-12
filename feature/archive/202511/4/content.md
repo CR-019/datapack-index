@@ -5,10 +5,6 @@ title: '基于按位操作及多进制编码的对话框多输入控件设计'
 <FeatureHead
     title = '基于按位操作及多进制编码的对话框多输入控件设计'
     authorName = 徐木弦
-    avatarUrl = '../../_authors/徐木弦.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/449298404' }
-    ]"
     cover='../_assets/4.png'
 />
 

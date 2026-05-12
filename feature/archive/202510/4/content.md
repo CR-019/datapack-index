@@ -5,10 +5,6 @@ title: '坐标系与坐标参数相关的基础理论'
 <FeatureHead
     title = '坐标系与坐标参数相关的基础理论'
     authorName = 徐木弦
-    avatarUrl = '../../_authors/徐木弦.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/449298404' }
-    ]"
     cover='../_assets/4.png'
 />
 

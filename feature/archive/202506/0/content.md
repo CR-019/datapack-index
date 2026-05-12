@@ -17,11 +17,6 @@ title: '适用于Minecraft的前端框架——Floating UI'
 <FeaturedHead
     title = '适用于Minecraft的前端框架——Floating UI'
     authorName = Alumopper
-    avatarUrl = '../../_authors/alumopper.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
-        { name: 'GitHub', url: 'https://github.com/Alumopper' }
-    ]"
     resourceLink = 'https://github.com/Alumopper/Floating-UI'
     cover='../_assets/0.png'
 />

@@ -5,10 +5,6 @@ title: '队列在数据包中的使用'
 <FeatureHead
     title = '队列在数据包中的使用'
     authorName = 洪旗
-    avatarUrl = '../../_authors/洪旗.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/1808971083' }
-    ]"
 />
 
 ## 问题背景

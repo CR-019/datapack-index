@@ -5,10 +5,6 @@ title: 'Minecraft资源包/数据包构建工具'
 <FeatureHead
     title = 'Minecraft资源包/数据包构建工具'
     authorName = 古镇天Gugle
-    avatarUrl = '../../_authors/gugle.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/19822751' }
-    ]"
     resourceLink = 'https://build.xekr.dev/'
 />
 
@@ -144,36 +140,36 @@ class Builder {
 - 用户希望同时使用金质和钻石质纹理，但钻石质模块应覆盖金质模块（即钻石质工具优先）。开发者配置如下：
 
     1. **config.json**:
-    
+
        ```json
-       { 
-           "pack_name": "BetterTools", 
-           "author": "XeKr", 
-           "description":"Better tools texture", 
-           "version": "1.0.0", 
-           "base_path": "./src", 
-           "main_module": "main", 
+       {
+           "pack_name": "BetterTools",
+           "author": "XeKr",
+           "description":"Better tools texture",
+           "version": "1.0.0",
+           "base_path": "./src",
+           "main_module": "main",
            "icon": "./icon.png"
        }
        ```
 
     2. **module.config.json**（位于gold模块内）:
 
-       ```json 
-       { 
-           "module_name": "gold", 
-           "support_version": "*", 
-           "weight": 0 
-       } 
+       ```json
+       {
+           "module_name": "gold",
+           "support_version": "*",
+           "weight": 0
+       }
        ```
 
     3. **module.config.json**（位于diamond模块内）:
-    
-       ```json 
-       { 
-           "module_name": "diamond", 
-           "support_version": "*", 
-           "weight": 1 
+
+       ```json
+       {
+           "module_name": "diamond",
+           "support_version": "*",
+           "weight": 1
        }
        ```
 

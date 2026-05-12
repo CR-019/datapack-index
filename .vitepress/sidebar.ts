@@ -5,6 +5,13 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       { text: '前言', link: '/index/前言' },
+      { text: '快速开始', link: '/index/quick_start/mod',
+        collapsed: true,
+        items:[
+          {text:"零基础阅读推荐",link:'/index/quick_start/零基础阅读推荐'},
+          {text:"给有编程基础者的数据包简述",link:'/index/quick_start/对有基础者简述'},
+        ]
+      },
       { text: '绪论', link: '/index/绪论' },
       { text: '最近更新', link: '/feature/archive/202603/ifc/content' }
     ]

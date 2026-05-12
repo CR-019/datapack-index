@@ -11,11 +11,6 @@ title: '香草快讯 - Λojang Spotlight - 2025年5月'
 <SpotlightHead
     title = "香草快讯 - Λojang Spotlight - 2025年5月"
     authorName = Alumopper
-    avatarUrl = '../../_authors/alumopper.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
-        { name: 'GitHub', url: 'https://github.com/Alumopper' }
-    ]"
     cover='../_assets/spotlight.jpg'
 	type=1
 />

@@ -5,10 +5,6 @@ title: '附注-核心全局量汇总（上）'
 <FeatureHead
     title = '附注-核心全局量汇总（上）'
     authorName = 轩宇1725
-    avatarUrl = '../../_authors/轩宇1725.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/104432208' }
-    ]"
 />
 
 ## 综述
