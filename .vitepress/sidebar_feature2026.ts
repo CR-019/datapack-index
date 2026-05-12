@@ -168,6 +168,7 @@ export const sidebar_202604: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202604' },
       { text: '上一刊', link: '/feature/index/202603' },
+      { text: '下一刊', link: '/feature/index/202605' },
     ]
   },
   {
@@ -200,6 +201,46 @@ export const sidebar_202604: DefaultTheme.Sidebar = [
     text: '巧匠 Masterpieces',
     items: [
       { text: '我的世界原版视频播放器', link: '/feature/archive/202604/6/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202605: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.05',
+    items: [
+      { text: '目录', link: '/feature/index/202605' },
+      { text: '上一刊', link: '/feature/index/202604' },
+    ]
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '基于新版本模型及模型映射的动画控制器', link: '/feature/archive/202605/0_model_anim/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      {text: '杂谈 - 着色器的应用与滥用', link: '/feature/archive/202605/1_shader/content'},
+      {text: '基于面剔除的原版连接纹理', link: '/feature/archive/202605/2_texture/content'},
+      {text: 'Sequencer Helper', link: '/feature/archive/202605/6_cr/content'},
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '在原版 Minecraft 中实现一个真实好玩的台球游戏', link: '/feature/archive/202605/3_pool/content' },
+      { text: 'Fast Motion', link: '/feature/archive/202605/5_motion/content' },
+      { text: '挖掘在地下', link: '/feature/archive/202605/4_dig/content' },
     ]
   },
   {
