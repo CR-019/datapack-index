@@ -421,7 +421,7 @@ function animations:video_add/main with storage video:school video
 
 ***
 
-你可以在[资源包](https://zh.minecraft.wiki/w/%E8%B5%84%E6%BA%90%E5%8C%85)内的材质文件夹里新建一个名为Video的视频文件夹存放图片序列
+你可以在[资源包](https://zh.minecraft.wiki/w/%E8%B5%84%E6%BA%90%E5%8C%85)内的纹理文件夹里新建一个名为Video的视频文件夹存放图片序列
 
 ```video/video_text/video0000.png```
 
