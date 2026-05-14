@@ -222,25 +222,35 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
     ]
   },
   {
+    text: '封二',
+    link: '/feature/archive/202605/ifc/content'
+  },
+  {
     text: '精选 Featured',
     items: [
-      { text: '基于新版本模型及模型映射的动画控制器', link: '/feature/archive/202605/0_model_anim/content' },
+      { text: '在原版 Minecraft 中实现一个真实好玩的台球游戏', link: '/feature/archive/202605/0/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Λojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年5月', link: '/feature/archive/202605/spotlight/content' },
     ]
   },
   {
     text: '洞见 Insights',
     items: [
-      {text: '杂谈 - 着色器的应用与滥用', link: '/feature/archive/202605/1_shader/content'},
-      {text: '基于面剔除的原版连接纹理', link: '/feature/archive/202605/2_texture/content'},
-      {text: 'Sequencer Helper', link: '/feature/archive/202605/6_cr/content'},
+      { text: '基于新版本模型及模型映射的动画控制器', link: '/feature/archive/202605/1/content' },
+      {text: '杂谈 - 着色器的应用与滥用', link: '/feature/archive/202605/2/content'},
+      {text: '基于面剔除的原版连接纹理', link: '/feature/archive/202605/3/content'},
     ]
   },
   {
     text: '巧匠 Masterpieces',
     items: [
-      { text: '在原版 Minecraft 中实现一个真实好玩的台球游戏', link: '/feature/archive/202605/3_pool/content' },
-      { text: 'Fast Motion', link: '/feature/archive/202605/5_motion/content' },
-      { text: '挖掘在地下', link: '/feature/archive/202605/4_dig/content' },
+      { text: 'Fast Motion', link: '/feature/archive/202605/5/content' },
+      { text: '挖掘在地下', link: '/feature/archive/202605/4/content' },
+      {text: 'Sequencer Helper', link: '/feature/archive/202605/6/content'},
     ]
   },
   {

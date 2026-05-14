@@ -27,7 +27,13 @@ export const sidebar_feature: DefaultTheme.Sidebar = [
       {
         text: '2026.03',
         link: '/feature/index/202603'
-      },
+      }
+    ]
+  },
+  {
+    text: '更早',
+    collapsed: true,
+    items: [
       {
         text: '2026.02',
         link: '/feature/index/202602'

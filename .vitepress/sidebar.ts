@@ -9,7 +9,7 @@ export const sidebar: DefaultTheme.Sidebar = [
         collapsed: true,
         items:[
           {text:"零基础阅读推荐",link:'/index/quick_start/零基础阅读推荐'},
-          {text:"给有编程基础者的数据包简述",link:'/index/quick_start/对有基础者简述'},
+          {text:"数据包简述与上手指北",link:'/index/quick_start/对有基础者简述'},
         ]
       },
       { text: '绪论', link: '/index/绪论' },
@@ -21,12 +21,11 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       { text: '🏠绝赞征稿中！', link: '/feature/_index' },
-      { text: '🌟香草奖2025', link: '/feature/tva/tva2025'},
-      { text: '🌟2026.04', link: '/feature/index/202604' },
+      { text: '🌟2026.05', link: '/feature/index/202605' },
       {
         text: '',  items: [
-          { text: '2026.03', link: '/feature/index/202603'},
-          { text: '2026.02', link: '/feature/index/202602' }
+          { text: '2026.04', link: '/feature/index/202604'},
+          { text: '2026.03', link: '/feature/index/202603' }
         ]
       }
     ]
