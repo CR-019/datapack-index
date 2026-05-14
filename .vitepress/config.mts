@@ -27,6 +27,7 @@ import{
     sidebar_202602,
     sidebar_202603,
     sidebar_202604,
+    sidebar_202605,
 }from "./sidebar_feature2026"
 
 //const siteBase = process.env.VITEPRESS_BASE || '/'
@@ -85,6 +86,7 @@ export default defineConfig({
             "/feature/archive/202602": sidebar_202602,
             "/feature/archive/202603": sidebar_202603,
             "/feature/archive/202604": sidebar_202604,
+            "/feature/archive/202605": sidebar_202605,
             "/feature/": sidebar_feature,
         },
 
