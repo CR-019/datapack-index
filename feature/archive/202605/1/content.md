@@ -8,6 +8,9 @@ title: '基于新版本模型及模型映射的动画控制器'
     cover = '../_assets/1_cover.png'
 />
 
+:::tip 参见
+可见[Sequencer Helper](/feature/archive/202605/6/content.md)，获取辅助使用该插件的工具。
+:::
 
 在1.21.11版本中，模型系统解除了“块”仅能绕单轴旋转的限制，使得构建更复杂的模型不再需要多个实体。基于这一特性，我们可以使用[Blockbench](https://www.blockbench.net/)制作动画，并借助[Java Block Sequencer](https://www.blockbench.net/plugins/java_block_sequencer)插件将动画的每一帧导出为独立的模型文件。
 

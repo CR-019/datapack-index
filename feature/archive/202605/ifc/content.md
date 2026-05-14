@@ -103,7 +103,7 @@ fill 0 0 0 31 0 31 air replace #easecation:not_red_concrete
     category="闲聊 Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
-    term="64"
+    term="69"
     :strict="false"
     :reactionsEnabled="true"
     emitMetadata="0"
