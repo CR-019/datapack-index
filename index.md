@@ -20,17 +20,17 @@ hero:
       link: https://www.bilibili.com/video/BV1JuNyzXEsP
 features:
   - icon:
+      src: /icons/vt.png
+    title: 快速开始
+    details: 简要介绍原版开发的概念以及如何快速上手
+    linkText: 第一次接触原版模组？戳这里
+    link: /index/quick_start/mod
+  - icon:
       src: /icons/echo_prism.png
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202604
-  - icon:
-      src: /icons/vt.png
-    title: 系列教程
-    details: 从零基础到稍微进阶的各种教程
-    linkText: 零基础新手戳这里
-    link: /index/参考
+    link: /feature/index/202605
   - icon:
       src: /icons/totem_of_recovery.png
     title: 工具箱

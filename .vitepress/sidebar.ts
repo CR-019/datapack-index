@@ -13,7 +13,7 @@ export const sidebar: DefaultTheme.Sidebar = [
         ]
       },
       { text: '绪论', link: '/index/绪论' },
-      { text: '最近更新', link: '/feature/archive/202603/ifc/content' }
+      { text: '最近更新', link: '/feature/archive/202604/ifc/content' }
     ]
   },
   {
