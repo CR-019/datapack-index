@@ -5,10 +5,6 @@ title: '迄今为止最搭配矛的魔咒！'
 <FeatureHead
     title = '迄今为止最搭配矛的魔咒！'
     authorName = Patrick
-    avatarUrl = '../../_authors/Patrick.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/544435182' }
-    ]"
     resourceLink = '../_assets/冲刺魔咒.zip'
     cover='../_assets/8.png'
 />

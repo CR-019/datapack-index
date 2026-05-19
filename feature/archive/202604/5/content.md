@@ -42,8 +42,8 @@ snapToTicks: 是否自动调整到最近的刻度 = false
 left_icon: 左侧图标 = "floating_ui:slider/left"
 right_icon: 右侧图标 = "floating_ui:slider/right"
 thumb_icon: 输入用的图标 = "floating_ui:slider/thumb"
-bar_texture: 滑动条材质 = "floating_ui:slider/bar"
-tick_texture: 刻度材质 = "floating_ui:slider/tick"
+bar_texture: 滑动条纹理 = "floating_ui:slider/bar"
+tick_texture: 刻度材纹理 = "floating_ui:slider/tick"
 left_padding: 左侧图标和滑动条最左端之间的距离（倍率10000） = 0
 我们定义这个变量，用来适配不同大小的图标，因为我们不能自动获取图标的实际大小
 right_padding: 右侧图标和滑动条最右端之间的距离（倍率10000） = 0

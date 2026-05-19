@@ -7,10 +7,6 @@ title: 'Digging Underground'
 <FeatureHead
     title = 'Digging Underground'
     authorName = sao_you
-    avatarUrl = '../../_authors/sao_you.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/286192403' }
-    ]"
     cover = '../_assets/6.png'
     resourceLink = 'https://wwdj.lanzout.com/b00mpggbvi'
 />

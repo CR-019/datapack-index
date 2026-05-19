@@ -5,19 +5,14 @@ title: '《MOT 无人机实例教程》摘要'
 <FeaturedHead
     title = '《MOT 无人机实例教程》摘要'
     authorName = 小豆8593
-    avatarUrl = '../../_authors/小豆8593.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/206987540' },
-        { name: 'GitHub', url: 'https://github.com/xiaodou8593' }
-    ]"
     resourceLink = https://github.com/xiaodou8593/mot_1.0
     cover='../_assets/0.png'
 />
 
-::: tip    
-适用版本：Minecraft Java Edition 1.21.4  
-项目架构：MOT + MOT-Memory + MOT-Math3.1 + MOT-Perf + iframe  
-语言：Minecraft 函数（mcfunction）+ MOT 模板语法 + 线性代数库  
+::: tip
+适用版本：Minecraft Java Edition 1.21.4
+项目架构：MOT + MOT-Memory + MOT-Math3.1 + MOT-Perf + iframe
+语言：Minecraft 函数（mcfunction）+ MOT 模板语法 + 线性代数库
 目标：从零开始构建一套**可遥控、可编程、可扩展**的无人机系统，并支持外接设备与 GUI 交互。
 :::
 

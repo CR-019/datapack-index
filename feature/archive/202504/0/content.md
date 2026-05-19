@@ -8,10 +8,6 @@ title: '原版家具的“终极答案”？——新一代家具框架《松果
 <FeaturedHead
     title = 原版家具的“终极答案”？——新一代家具框架《松果核》
     authorName = 兰那梛_nano
-    avatarUrl = '../../_authors/nano.jpg'
-    :socialLinks="[
-        { name: 'Bilibili', url: 'https://space.bilibili.com/2907002' }
-    ]"
     resourceLink = 'https://www.bilibili.com/opus/1044581242377338887'
     cover='../_assets/covers.png'
 />

@@ -31,11 +31,6 @@ data Color {
 <FeaturedHead
     title = 烟花来咯！
     authorName = SKSAMA
-    avatarUrl = '../../_authors/sk.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/1546917549' },
-        { name: 'GitHub', url: 'https://github.com/ymqlgthbSakuraDream' }
-    ]"
     resourceLink = 'https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250416.html'
     cover='../_assets/1.jpg'
 />

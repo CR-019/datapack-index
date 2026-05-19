@@ -82,7 +82,7 @@
   - `instrument` 组件加入字段 `description`；
   - **重命名`fire_resistant`物品组件为`damage_resistant`，并加入`types`字段；**
   - `potion_contents`物品组件加入`custom_name`字段；
-  - **将船和箱船的实体类型拆分为每种材质独立实体；**
+  - **将船和箱船的实体类型拆分为每种纹理独立实体；**
   - **容器方块实体的`Lock`字段被重命名为`lock`，并支持物品谓词；**
   - 实体X轴旋转角度现在必须在-90到90之间；
   - 聊天组件中的无效`selector`模式现在将导致命令解析失败，而不再解析为空字符串。
@@ -919,7 +919,7 @@
 
 * 纹理
   * 加入 `misc/spyglass_scope.png`；
-  * 加入`gui/container/bundle.png`用于收纳袋材质；
+  * 加入`gui/container/bundle.png`用于收纳袋纹理；
   * 更改了 `toasts.png`以包含收纳袋教程的图标；
   * 现在F3+F4游戏模式选择框的格子大小从25像素调整为26；
 * 模型

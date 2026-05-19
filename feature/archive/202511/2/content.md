@@ -5,10 +5,6 @@ title: '核心着色器的工作流程（下）'
 <FeatureHead
     title = '核心着色器的工作流程（下）'
     authorName = 轩宇1725
-    avatarUrl = '../../_authors/轩宇1725.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/104432208' }
-    ]"
     cover='../_assets/2.png'
 />
 
@@ -22,7 +18,7 @@ title: '核心着色器的工作流程（下）'
 
 前几节对渲染过程的介绍中，有一个问题被避开不谈，那就是 —— 我们一直操作的是顶点和插值，那么渲染对象表面上丰富的纹理是如何产生的？这就涉及到我们要介绍的采样概念。
 
-采样过程与 **采样器（Sampler）** 息息相关，在 OpenGL 中，一个采样器与一个 **纹理（Texture Unit）** 一一对应。纹理单元可以是一张贴图，也可以是物体表面的几何信息（如材质），亦可以是单纯的数据缓冲。
+采样过程与 **采样器（Sampler）** 息息相关，在 OpenGL 中，一个采样器与一个 **纹理（Texture Unit）** 一一对应。纹理单元可以是一张贴图，也可以是物体表面的几何信息（如纹理），亦可以是单纯的数据缓冲。
 
 采样过程在 `vsh` 和 `fsh` 内都有使用，最常用的 GLSL 采样函数如下：
 
@@ -57,7 +53,7 @@ Mipmap示意图
 ![alt text](permission.png)
 :::
 
-使用`textureLod()` 指定Lod等级可以防止材质信息的损失，从而用于各种检测（会在后面的实践篇中用到）。
+使用`textureLod()` 指定Lod等级可以防止纹理信息的损失，从而用于各种检测（会在后面的实践篇中用到）。
 
 ```glsl
 vec4 texelFetch(Sampler2D sampler, ivec2 P, int Lod)
@@ -134,7 +130,7 @@ vec4 textureProj(Sampler2D sampler, vec4 homoCoord)
 - AmbientLightFactor: 环境光照因子，用于调整环境光对最终亮度的贡献强度。
 - SkyFactor: 天空光照因子，与天空光照亮度乘算，调整天空光照的贡献强度。
 - BlockFactor: 方块光照因子，与方块光照亮度乘算，调整方块光照的贡献强度。
-- UseBrightLightmap: 是否使用高亮光照贴图，若为非0值，则会将原始光照颜色偏向青白色调，否则将会融合天空光照并暗化处理。  
+- UseBrightLightmap: 是否使用高亮光照贴图，若为非0值，则会将原始光照颜色偏向青白色调，否则将会融合天空光照并暗化处理。
 - NightVisionFactor: 夜视因子，将光照颜色向更亮的方向混合
 - DarknessScale: 黑暗缩放因子，降低颜色值，全局暗化
 - DarkenWorldFactor: 暗化因子，用于混合原始颜色和暗化颜色

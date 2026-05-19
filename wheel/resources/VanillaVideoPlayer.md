@@ -137,7 +137,7 @@ repo: WindWavesSea/Minecraft-Vanilla-Video-Player
 更多配置内容可以看
 [JAVA版声音事件](https://zh.minecraft.wiki/w/Java%E7%89%88%E5%A3%B0%E9%9F%B3%E4%BA%8B%E4%BB%B6)
 
-你可以在[资源包](https://zh.minecraft.wiki/w/%E8%B5%84%E6%BA%90%E5%8C%85)内的材质文件夹里新建一个名为Video的视频文件夹存放图片序列
+你可以在[资源包](https://zh.minecraft.wiki/w/%E8%B5%84%E6%BA%90%E5%8C%85)内的纹理文件夹里新建一个名为Video的视频文件夹存放图片序列
      video/video_text/video0000.png
      video/video_text/video....
 如果**命名空间**为video

@@ -5,10 +5,6 @@ title: '数据包快速入门'
 <FeatureHead
     title = 数据包快速入门
     authorName = 伊桑桑桑桑桑
-    avatarUrl = '../../_authors/伊桑.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/397069113' }
-    ]"
     resourceLink = 'http://underline.icu/mcfunction-guide/%E6%95%B0%E6%8D%AE%E5%8C%85%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/1/main.html'
 />
 
@@ -194,7 +190,7 @@ say 嘭！
 > ---
 >
 >  原版mc内部代码里就有一个自带的数据包，里面就有“minecraft/tags/function/tick.json”这个文件。
->  你做的事就是用你自己数据包里的“minecraft/tags/function/tick.json”去覆盖原版自带的数据包里的“minecraft/tags/function/tick.json”。我们可以类比画材质包的时候，我想用自己画的草方块贴图去覆盖原版的草方块贴图，只要把文件夹和文件名做的和原版里的完全一样，就会自动覆盖。
+>  你做的事就是用你自己数据包里的“minecraft/tags/function/tick.json”去覆盖原版自带的数据包里的“minecraft/tags/function/tick.json”。我们可以类比画资源包的时候，我想用自己画的草方块贴图去覆盖原版的草方块贴图，只要把文件夹和文件名做的和原版里的完全一样，就会自动覆盖。
 >
 >  这里的“覆盖”实际上并不是完全覆盖原版的“tick.json”，而是合并你的“tick.json”和原版自带的数据包的“tick.json”，说“覆盖”只是方便理解。
 >

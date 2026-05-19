@@ -5,7 +5,6 @@ title: '如何通过模型映射制作装弹动画？'
 <FeatureHead
     title = '如何通过模型映射制作装弹动画？'
     authorName = 呜呜呜228766
-    avatarUrl = '../../_authors/呜呜呜228766.jpg'
     resourceLink = 'https://wwbh.lanzouu.com/iAh3839h5prc'
     cover='../_assets/6.png'
 />

@@ -5,8 +5,15 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       { text: '前言', link: '/index/前言' },
+      { text: '快速开始', link: '/index/quick_start/mod',
+        collapsed: true,
+        items:[
+          {text:"零基础阅读推荐",link:'/index/quick_start/零基础阅读推荐'},
+          {text:"数据包简述与上手指北",link:'/index/quick_start/对有基础者简述'},
+        ]
+      },
       { text: '绪论', link: '/index/绪论' },
-      { text: '最近更新', link: '/feature/archive/202603/ifc/content' }
+      { text: '最近更新', link: '/feature/archive/202604/ifc/content' }
     ]
   },
   {
@@ -14,12 +21,11 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       { text: '🏠绝赞征稿中！', link: '/feature/_index' },
-      { text: '🌟香草奖2025', link: '/feature/tva/tva2025'},
-      { text: '🌟2026.04', link: '/feature/index/202604' },
+      { text: '🌟2026.05', link: '/feature/index/202605' },
       {
         text: '',  items: [
-          { text: '2026.03', link: '/feature/index/202603'},
-          { text: '2026.02', link: '/feature/index/202602' }
+          { text: '2026.04', link: '/feature/index/202604'},
+          { text: '2026.03', link: '/feature/index/202603' }
         ]
       }
     ]

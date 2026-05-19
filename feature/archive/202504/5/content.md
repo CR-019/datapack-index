@@ -5,10 +5,6 @@ title: 'Java版1.21.5-SNBT语法概览'
 <FeatureHead
     title = Java版1.21.5-SNBT语法概览
     authorName = luobojuo
-    avatarUrl = '../../_authors/_default.png'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/3461565177137515' }
-    ]"
 />
 
 

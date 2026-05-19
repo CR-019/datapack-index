@@ -5,10 +5,6 @@ title: '着色器03 核心着色器的工作流程（中）：从顶点到片元
 <FeatureHead
     title = '核心着色器的工作流程（中）：从顶点到片元'
     authorName = 轩宇1725
-    avatarUrl = '../../_authors/轩宇1725.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/104432208' }
-    ]"
     cover='../_assets/3.png'
 />
 

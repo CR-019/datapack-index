@@ -17,11 +17,6 @@ title: '适用于Minecraft的前端框架——Floating UI'
 <FeaturedHead
     title = '适用于Minecraft的前端框架——Floating UI'
     authorName = Alumopper
-    avatarUrl = '../../_authors/alumopper.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
-        { name: 'GitHub', url: 'https://github.com/Alumopper' }
-    ]"
     resourceLink = 'https://github.com/Alumopper/Floating-UI'
     cover='../_assets/0.png'
 />
@@ -243,7 +238,7 @@ data l: Control {
 }
 '/>
 
-`sprite`和`control`几乎没有新的控件数据，可以用于展示一个物品，通过修改材质可以用它展示一些图片。
+`sprite`和`control`几乎没有新的控件数据，可以用于展示一个物品，通过修改纹理可以用它展示一些图片。
 
 `stackpanel`是一个能自动布局的容器，可以以指定的布局方式自动排列内部的控件。
 

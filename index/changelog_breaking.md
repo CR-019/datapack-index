@@ -40,6 +40,7 @@
 - 维度类型
   - **加入了字段`default_clock`指定用于`/time`的默认世界时钟。**
   - **加入了字段`has_ender_dragon_fight`控制此维度是否有末影龙战斗。**
+  - **`ambient_light`不再能完全控制维度的环境光照。环境光照的视觉部分现在由环境属性的`visual/ambient_light_color`控制**
 - 环境属性
   - `gameplay/turtle_egg_hatch_chance`的默认值变更为`0.002`。
 - 已配置的地物
@@ -298,7 +299,7 @@
 - NBT：
   - **重命名`fire_resistant`物品组件为`damage_resistant`，并加入`types`字段；**
   - `potion_contents`物品组件加入`custom_name`字段；
-  - **将船和箱船的实体类型拆分为每种材质独立实体；**
+  - **将船和箱船的实体类型拆分为每种纹理独立实体；**
   - **容器方块实体的`Lock`字段被重命名为`lock`，并支持物品谓词；**
 - 数据包组分：
   - 进度：

@@ -5,10 +5,6 @@ title: '着色器基础教程01：Minecraft中的着色器'
 <FeaturedHead
     title = '着色器基础教程01：Minecraft中的着色器'
     authorName = 轩宇1725
-    avatarUrl = '../../_authors/轩宇1725.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/104432208' }
-    ]"
 />
 
 ## 写在前面

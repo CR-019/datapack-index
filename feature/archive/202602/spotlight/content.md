@@ -5,11 +5,6 @@ title: '香草快讯 - Λojang Spotlight - 2026年02月'
 <SpotlightHead
     title = "香草快讯 - Mojang Spotlight - 2026年02月"
     authorName = Alumopper
-    avatarUrl = '/datapack-index/_authors/alumopper.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
-        { name: 'GitHub', url: 'https://github.com/Alumopper' }
-    ]"
     cover='../_assets/spotlight.png'
     type=1
 />

@@ -5,10 +5,6 @@ title: '使用复合物品模型映射更简便的制作状态栏'
 <FeatureHead
     title = 使用复合物品模型映射更简便的制作状态栏
     authorName = CR_019
-    avatarUrl = '../../_authors/cr_019.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/85292644' }
-    ]"
     cover='../_assets/dust_7.png'
 />
 

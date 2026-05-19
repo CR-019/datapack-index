@@ -5,11 +5,6 @@ title: '像写诗一样制作可交互模型'
 <FeaturedHead
     title = '像写诗一样制作可交互模型'
     authorName = SKSAMA
-    avatarUrl = '../../_authors/sk.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/1546917549' },
-        { name: 'GitHub', url: 'https://github.com/ymqlgthbSakuraDream' }
-    ]"
     resourceLink = https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250808.html
     cover='../_assets/1.jpg'
 />
@@ -18,14 +13,14 @@ title: '像写诗一样制作可交互模型'
 
 
 
-本项目名为**SK Model Workspace(模型工作空间)**，旨在通过简单的方式，创建可交互，可复用的模型。同时具有丰富的接口和较强的可拓展性  
-~~由于作者一直在咕咕咕，导致该项目有很多坑没有填~~，如果你正在 **[香草图书馆](https://cr-019.github.io/datapack-index/)** 浏览本页面，可以 **[点这里](https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250808.html)** 访问该文章的原始页面，文章将在原始页面继续保持更新，之后会添加更多有用的功能  
+本项目名为**SK Model Workspace(模型工作空间)**，旨在通过简单的方式，创建可交互，可复用的模型。同时具有丰富的接口和较强的可拓展性
+~~由于作者一直在咕咕咕，导致该项目有很多坑没有填~~，如果你正在 **[香草图书馆](https://cr-019.github.io/datapack-index/)** 浏览本页面，可以 **[点这里](https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250808.html)** 访问该文章的原始页面，文章将在原始页面继续保持更新，之后会添加更多有用的功能
 之后我也会制作一些基于该数据包的原版家具，~~（然而我并不会建模，所以做的不怎么好）~~
-  
+
  - 运作方式：原版游戏,**[数据包](https://zh.minecraft.wiki/w/%E6%95%B0%E6%8D%AE%E5%8C%85)**
  - 支持版本：**1.21.8**
 
-本文将详细介绍该数据包的功能，并且提供一些案例教程方便读者理解  
+本文将详细介绍该数据包的功能，并且提供一些案例教程方便读者理解
 有什么问题或建议可以直接在b站或QQ上联系我哦
 
 
@@ -33,14 +28,14 @@ title: '像写诗一样制作可交互模型'
 
 <div class="nbttree">
 
-**依赖关系**  
+**依赖关系**
 
  + **(数据包)** SK Model Workspace
    + **(前置数据包)** SK API
 
 </div>
 
-[前往下载页面](https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250729.html)  
+[前往下载页面](https://ymqlgthbsakuradream.github.io/posts/minecraft/Archive.20250729.html)
 
 <br/><br/>
 
@@ -83,15 +78,15 @@ title: '像写诗一样制作可交互模型'
 ```
 data modify storage skmws reg.class.<类名> set value <模型数据>
 ```
-参数说明  
-**\<模型ID\>** 模型的ID，这是唯一的  
-**\<模型数据\>** 一个包含该模型所有数据的复合标签,格式如下  
+参数说明
+**\<模型ID\>** 模型的ID，这是唯一的
+**\<模型数据\>** 一个包含该模型所有数据的复合标签,格式如下
 
 <div class="nbttree">
 
 <node type="compound"/>(根标签)
-   + <node type="bool" name="abstract"/> (可选)指明该模型类是否为抽象类  
-   + <node type="string" name="extends"/> (可选)一个类名，该模型类的父类  
+   + <node type="bool" name="abstract"/> (可选)指明该模型类是否为抽象类
+   + <node type="string" name="extends"/> (可选)一个类名，该模型类的父类
    + <node type="list" name="elements"/> 元素列表
      + <node type="compound"/>(一个元素)，**详见：[元素格式](#3.2)**
    + <node type="compound" name="marker_merge"/> (可选)合并数据至该模型的标记实体，**详见：[Wiki:Marker](https://zh.minecraft.wiki/w/%E6%A0%87%E8%AE%B0?variant=zh-cn#%E6%95%B0%E6%8D%AE%E5%80%BC)**
@@ -141,46 +136,46 @@ data modify storage skmws reg.class.<类名> set value <模型数据>
 
 ### 模型类的继承
 
-**模型类**跟java中的**类**比较相似，同样支持多层继承，继承可以提升代码的复用性和扩展性  
-  
-这里举一个例子：我们要制作「门」，门的种类有很多「橡木门」，「白桦木门」，「金合欢木门」... 你可能会想到给每种门分别创建模型类，不过呢，这样做的话会产生相当多的冗余代码，因为任何一扇门都支持「开门」，「关门」等操作，而这项操作在每种类型的门的模型类中都写了一遍，虽然这样做也没什么问题无非多写了一点代码，我复制粘贴不就行了吗（笑），但是如果某一天要升级「开门」，「关门」等操作的相关代码，需要修改每一个类中的相关代码，这实在是太麻烦了  
-  
-于是聪明的你想到可以先创建一个「门」类，在「门」类中写上「开门」，「关门」相关代码，然后让「橡木门」类，「白桦木门」类，「金合欢木门」类 ... 都继承自「门」类，这样每一个继承自「门」类的类都拥有了「开门」，「关门」操作，接下来要做的只是在每一个子类中单独定义例如材质，模型，音效等子类特有内容即可  
-  
+**模型类**跟java中的**类**比较相似，同样支持多层继承，继承可以提升代码的复用性和扩展性
+
+这里举一个例子：我们要制作「门」，门的种类有很多「橡木门」，「白桦木门」，「金合欢木门」... 你可能会想到给每种门分别创建模型类，不过呢，这样做的话会产生相当多的冗余代码，因为任何一扇门都支持「开门」，「关门」等操作，而这项操作在每种类型的门的模型类中都写了一遍，虽然这样做也没什么问题无非多写了一点代码，我复制粘贴不就行了吗（笑），但是如果某一天要升级「开门」，「关门」等操作的相关代码，需要修改每一个类中的相关代码，这实在是太麻烦了
+
+于是聪明的你想到可以先创建一个「门」类，在「门」类中写上「开门」，「关门」相关代码，然后让「橡木门」类，「白桦木门」类，「金合欢木门」类 ... 都继承自「门」类，这样每一个继承自「门」类的类都拥有了「开门」，「关门」操作，接下来要做的只是在每一个子类中单独定义例如纹理，模型，音效等子类特有内容即可
+
 
 **SK Model Workspace**按照以下方式处理类的继承，对处理好的数据进行临时存储，方便下次取用
 
- - 检查当前模型类的<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**extends**字段，如果存在的话，则对模型类继承进行以下处理，如果父类也继承自某个类，将对父类进行递归处理  
- - 合并(merge)子类与父类的除<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**elements**以外所有数据  
- - 在<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**elements**中，子类中与父类中<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**id**相同的元素进行合并，其余ID仅存在于父类或子类中的元素的数据则全部保留 
+ - 检查当前模型类的<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**extends**字段，如果存在的话，则对模型类继承进行以下处理，如果父类也继承自某个类，将对父类进行递归处理
+ - 合并(merge)子类与父类的除<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**elements**以外所有数据
+ - 在<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**elements**中，子类中与父类中<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**id**相同的元素进行合并，其余ID仅存在于父类或子类中的元素的数据则全部保留
 
 此外，父类中的数据可能是残缺的，必须经过子类的补充才可以被实例化，为了避免这种父类被误实例化而造成未知错误，可以添加<img src="/nbt_sprites/bool.svg" style="display:inline;margin:0px;width:18px;"/>**abstract: 1b**字段将该类声明为抽象类，抽象类不可被实例化
 
 ### 实例化模型类
 
-什么是“实例化”呢，实例化确实是一个很抽象的概念，不过在这里你可以简单理解为把创建好的模型类摆出来，可以想象一下，你拿着一个方块对着地面点击右键，方块就被放在了地面上，这可以被认为是一种实例化  
-  
+什么是“实例化”呢，实例化确实是一个很抽象的概念，不过在这里你可以简单理解为把创建好的模型类摆出来，可以想象一下，你拿着一个方块对着地面点击右键，方块就被放在了地面上，这可以被认为是一种实例化
+
 **SK Model Workspace**提供多种实例化模型类的方式
 
-1. 通过类名  
+1. 通过类名
 ```
 function skmws:construct {class:"<类名>"}
 ```
-**(execute) as** 将作为该模型的拥有者  
-**(execute) positioned** 模型的创建位置  
-**(execute) rotated** 模型创建时的旋转角  
-  
-2. 通过传入完整的模型类数据  
+**(execute) as** 将作为该模型的拥有者
+**(execute) positioned** 模型的创建位置
+**(execute) rotated** 模型创建时的旋转角
+
+2. 通过传入完整的模型类数据
 ```
 function skmws:construct_with
 ```
-**(execute) as** 将作为该模型的拥有者  
-**(execute) positioned** 模型的创建位置  
-**(execute) rotated** 模型创建时的旋转角  
+**(execute) as** 将作为该模型的拥有者
+**(execute) positioned** 模型的创建位置
+**(execute) rotated** 模型创建时的旋转角
 **storage** skmws <img src="/nbt_sprites/object.svg" style="display:inline;margin:0px;width:18px;"/>temp.input 输入一个完整的模型类数据
 
-3. 通过Marker（供内部使用，不建议直接调用）  
-生成一个带有如下数据的Marker，Marker的位置和旋转角将被应用于模型创建  
+3. 通过Marker（供内部使用，不建议直接调用）
+生成一个带有如下数据的Marker，Marker的位置和旋转角将被应用于模型创建
 
 <div class="nbttree">
 
@@ -190,22 +185,22 @@ function skmws:construct_with
 
 </div>
 
-然后执行这个命令  
+然后执行这个命令
 该命令会处理距离执行者最近的带有**skmws.construct**标签的Marker
 ```
 function skmws:_private/_player_detect
 ```
-**(execute) as** 将作为该模型的拥有者 
+**(execute) as** 将作为该模型的拥有者
 
 
 ## 条件列表
 
 ### 概述
 
-条件列表位于模型类中的interaction元素的<img src="/nbt_sprites/object.svg" style="display:inline;margin:0px;width:18px;"/>**criteria**标签中，这个标签里的<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**leftclick**和<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**rightclick**就是条件列表，比方说当玩家左键点击了这个交互实体，则会执行<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**leftclick**标签中的条件列表  
-  
-为了解释清楚条件列表是干什么用的，举个例子：假设有一只羊，你可以手持小麦给羊喂食，或者手持染料给羊染色，手持剪刀给羊剪毛。像这种在不同情况下执行不同操作的行为可以通过条件列表实现  
-  
+条件列表位于模型类中的interaction元素的<img src="/nbt_sprites/object.svg" style="display:inline;margin:0px;width:18px;"/>**criteria**标签中，这个标签里的<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**leftclick**和<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**rightclick**就是条件列表，比方说当玩家左键点击了这个交互实体，则会执行<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**leftclick**标签中的条件列表
+
+为了解释清楚条件列表是干什么用的，举个例子：假设有一只羊，你可以手持小麦给羊喂食，或者手持染料给羊染色，手持剪刀给羊剪毛。像这种在不同情况下执行不同操作的行为可以通过条件列表实现
+
 在**SK Model Workspace**中，条件列表将按照以下方式处理
 
  - 依次检查条件列表中每一个项目
@@ -217,7 +212,7 @@ function skmws:_private/_player_detect
 
 <div class="nbttree">
 
-<node type="list" name=""/>(条件列表根标签)  
+<node type="list" name=""/>(条件列表根标签)
 + <node type="compound" name=""/>(一个检查项目)
     + <node type="string" name="mainhand_item"/> (可选)检查交互玩家主手物品，**详见：[Wiki:物品谓词](https://zh.minecraft.wiki/w/%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B#item_predicate)**
     + <node type="string" name="offhand_item"/> (可选)检查交互玩家副手物品，**详见：[Wiki:物品谓词](https://zh.minecraft.wiki/w/%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B#item_predicate)**
@@ -235,17 +230,17 @@ function skmws:_private/_player_detect
  - 条件列表的<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**event** 标签中
  - 模型类的 **events.<事件列表ID>** 标签中，此时定义的事件列表为私有事件列表，仅可被本类及其子类访问
  - 存储 **storage skmws reg.events.<事件列表ID>** 标签中，此时定义的事件列表为全局事件列表，可以被所有模型类访问，本包的一些内置功能是使用全局事件列表实现的，**详见：[模块](#8)**
-  
+
 
 ### 事件列表格式
 
 
 
-事件列表的执行者为该模型的Marker  
+事件列表的执行者为该模型的Marker
 可以使用 **@a[tag=skmws.s]** 来指定正在执行交互操作的玩家
 
 <div class="nbttree">
- 
+
 <node type="list" name=""/>(一个事件列表)
    + <node type="compound" name=""/>(一个事件)
      + <node type="string" name="type"/> 事件类型
@@ -257,7 +252,7 @@ function skmws:_private/_player_detect
 
  当 **type:"remove"** 时，移除该模型，同时触发on_remove私有事件列表
 
- 当 **type:"destroy"** 时，破坏该模型，同时触发on_remove私有事件列表  
+ 当 **type:"destroy"** 时，破坏该模型，同时触发on_remove私有事件列表
 破坏模型产生的效果定义在模型类的动态配置中，格式如下
 <div class="nbttree">
 
@@ -272,7 +267,7 @@ function skmws:_private/_player_detect
 
 #### # 冷却
 
- 当 **type:"cooldown"** 时，设置交互冷却时间，在该时间段内模型不接受任何操作  
+ 当 **type:"cooldown"** 时，设置交互冷却时间，在该时间段内模型不接受任何操作
 <div class="nbttree">
 
  + <node type="int" name="time"/> 冷却时间
@@ -344,7 +339,7 @@ function skmws:_private/_player_detect
 <div class="nbttree">
 
   + <node type="string" name="id"/> 元素ID
-  + <node type="string" name="key"/> 一个NBT路径 
+  + <node type="string" name="key"/> 一个NBT路径
   + <node type="any" name="value"/> 值
 </div>
 
@@ -380,7 +375,7 @@ function skmws:_private/_player_detect
 
 #### # 移动模型
 
- 当 **type:"move"** 时，移动整个模型，包括所有的方块和元素  
+ 当 **type:"move"** 时，移动整个模型，包括所有的方块和元素
 需要指定<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**position**，或者同时指定<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**facing**和<img src="/nbt_sprites/int.svg" style="display:inline;margin:0px;width:18px;"/>**px**
 <div class="nbttree">
 
@@ -395,7 +390,7 @@ function skmws:_private/_player_detect
  当 **type:"properties"** 时，编辑该模型的动态配置
 <div class="nbttree">
 
-  + <node type="string" name="key"/> 一个NBT路径 
+  + <node type="string" name="key"/> 一个NBT路径
   + <node type="any" name="value"/> 值
 </div>
 
@@ -410,11 +405,11 @@ function skmws:_private/_player_detect
 
 ### 事件的函数形式
 
-此外这些事件还有其对应的函数，调用这些函数所达到的效果与在事件列表中执行事件相同  
-可以在 **type:"cmd"** 事件执行的命令中使用这些函数，不能在其他的上下文中使用  
-格式如下： 
+此外这些事件还有其对应的函数，调用这些函数所达到的效果与在事件列表中执行事件相同
+可以在 **type:"cmd"** 事件执行的命令中使用这些函数，不能在其他的上下文中使用
+格式如下：
 ```
-function skmws:event/<事件类型> {<除type以外的参数>}  
+function skmws:event/<事件类型> {<除type以外的参数>}
 ```
 
 
@@ -424,7 +419,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 ### 概述
 
-展示实体的**transformation**字段可以进行插值，我们可以利用这个特性制作简单的动画  
+展示实体的**transformation**字段可以进行插值，我们可以利用这个特性制作简单的动画
 
 动画可以定义在以下几个地方
 
@@ -451,8 +446,8 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 ### 概述
 
-每一个实例化后的模型都有自己的操作权限，权限信息定义在模型类的动态配置<img src="/nbt_sprites/int.svg" style="display:inline;margin:0px;width:18px;"/>**permission**中  
-  
+每一个实例化后的模型都有自己的操作权限，权限信息定义在模型类的动态配置<img src="/nbt_sprites/int.svg" style="display:inline;margin:0px;width:18px;"/>**permission**中
+
 可选值和解释如下表：
 
 |<img src="/nbt_sprites/int.svg" style="display:inline;margin:0px;width:18px;"/>**permission**的值|权限描述|
@@ -481,7 +476,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
   + <node type="compound" name=""/>...
 
 </div>
- 
+
 
 
 ## 模块
@@ -492,9 +487,9 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 ### 全局事件：模型状态切换
 
-有的时候创建的模型会有很多状态，例如门可以分为“打开”和“关闭”两种状态，蛋糕可以按食用程度分为8种不同的状态。为了简化对模型状态的处理，可以调用**toggle_state**全局事件列表让模型切换到下一个状态，然后自动调用该模型的私有事件列表**on_state_<当前的状态>** ，以完成对模型更细致的处理  
-  
-全局事件列表ID：**toggle_state**  
+有的时候创建的模型会有很多状态，例如门可以分为“打开”和“关闭”两种状态，蛋糕可以按食用程度分为8种不同的状态。为了简化对模型状态的处理，可以调用**toggle_state**全局事件列表让模型切换到下一个状态，然后自动调用该模型的私有事件列表**on_state_<当前的状态>** ，以完成对模型更细致的处理
+
+全局事件列表ID：**toggle_state**
 
 <div class="nbttree">
 
@@ -506,12 +501,12 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 </div>
 
-关于本节内容的教程详见 **[实战：更丝滑的门](#9.6)** 
+关于本节内容的教程详见 **[实战：更丝滑的门](#9.6)**
 
 ### 全局事件：推动模型
 
-该模块被调用时可以让模型沿玩家面向的方向移动一格，如果模型的目标位置处有方块阻挡则不移动  
-  
+该模块被调用时可以让模型沿玩家面向的方向移动一格，如果模型的目标位置处有方块阻挡则不移动
+
 全局事件列表ID：**push**
 
 <div class="nbttree">
@@ -527,8 +522,8 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 ### 全局事件：染色与清洗
 
-众多周知mojang给很多物品和方块都加入了16种可供选择的颜色，本数据包也提供了类似的功能  
-  
+众多周知mojang给很多物品和方块都加入了16种可供选择的颜色，本数据包也提供了类似的功能
+
 染色：全局事件列表ID：**dye**
 
 清洗：全局事件列表ID：**wash**
@@ -564,8 +559,8 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 </div>
 
-该配置的默认值如下:   
-默认值写在了**function/cfg/config.mcfunction**中 
+该配置的默认值如下:
+默认值写在了**function/cfg/config.mcfunction**中
 
 ```json
 {
@@ -593,9 +588,9 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 ```
 
-当全局事件列表**dye**被执行时，首先会检查玩家手持物品，如果在**storage skmws config.dyeable.colors**中定义了这个物品，则获取对应的颜色键名<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**key**和粒子颜色<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**color**，然后使用该键名去模型的动态配置**properties.dyeable.values**中查询一个值，使用该值覆盖掉**properties.dyeable.key**指向的数据的原始值，最后生成指定颜色的粒子。如果上述步骤有任意一项执行失败，则模型颜色不会改变  
-  
-当全局事件列表**wash**被执行时，使用模型的动态配置中**properties.dyeable.values.default**的值覆盖掉**properties.dyeable.key**指向的数据的原始值 
+当全局事件列表**dye**被执行时，首先会检查玩家手持物品，如果在**storage skmws config.dyeable.colors**中定义了这个物品，则获取对应的颜色键名<img src="/nbt_sprites/string.svg" style="display:inline;margin:0px;width:18px;"/>**key**和粒子颜色<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**color**，然后使用该键名去模型的动态配置**properties.dyeable.values**中查询一个值，使用该值覆盖掉**properties.dyeable.key**指向的数据的原始值，最后生成指定颜色的粒子。如果上述步骤有任意一项执行失败，则模型颜色不会改变
+
+当全局事件列表**wash**被执行时，使用模型的动态配置中**properties.dyeable.values.default**的值覆盖掉**properties.dyeable.key**指向的数据的原始值
 
 关于本节内容的教程详见 **[教程：染色](#9.5)**
 
@@ -656,7 +651,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
                 leftclick:[ // 一个条件列表，在左键模型时执行
                     { //一个检查项目，但是没有定义任何条件，所以该项目无论何时都是通过的
                       event:[{type:"destroy"}] //一个事件列表，功能是摧毁模型
-                    }  
+                    }
                 ]
             }
         }
@@ -680,7 +675,7 @@ function skmws:event/<事件类型> {<除type以外的参数>}
         // 摧毁时的掉落物
         item:{
           // 掉落物的物品堆叠组件
-          components:{ 
+          components:{
 
             // 自定义物品模型
             "minecraft:item_model":"acacia_boat",
@@ -708,13 +703,13 @@ function skmws:event/<事件类型> {<除type以外的参数>}
 
 ### 教程：动画
 
-使用**SK Model Workspace**的动画系统，可以完成一些简单的模型动画  
+使用**SK Model Workspace**的动画系统，可以完成一些简单的模型动画
 
-现在我们需要制作一个铁傀儡开凿机，并循环播放开凿动画  
+现在我们需要制作一个铁傀儡开凿机，并循环播放开凿动画
 
 <img src="../_assets/Archive.20250808/2.gif" width="1000"/>
 
-观察一下开凿机，发现整个结构一共有5个方块，所以在模型类的<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**elements**中需要分别为这五个方块添加元素，元素ID分别为**head**，**body_1**，**body_2**，**body_3**，**body_4**，同时还需要一个交互实体，用于处理右键破坏操作  
+观察一下开凿机，发现整个结构一共有5个方块，所以在模型类的<img src="/nbt_sprites/Data_node_list.svg" style="display:inline;margin:0px;width:18px;"/>**elements**中需要分别为这五个方块添加元素，元素ID分别为**head**，**body_1**，**body_2**，**body_3**，**body_4**，同时还需要一个交互实体，用于处理右键破坏操作
 
 ```json
 elements:[
@@ -766,7 +761,7 @@ elements:[
     ]
 ```
 
-在<img src="/nbt_sprites/object.svg" style="display:inline;margin:0px;width:18px;"/>**properties**中配置一下破坏时的音效粒子和掉落物，这里的掉落物没有添加组件，所以会显示成默认材质(鸡刷怪蛋)
+在<img src="/nbt_sprites/object.svg" style="display:inline;margin:0px;width:18px;"/>**properties**中配置一下破坏时的音效粒子和掉落物，这里的掉落物没有添加组件，所以会显示成默认纹理(鸡刷怪蛋)
 
 ```json
 properties:{
@@ -1006,7 +1001,7 @@ criteria:{
             }
         },
 
-        // 模型被创建时播放的声音 
+        // 模型被创建时播放的声音
         playsound_on_place:"minecraft:block.grass.place"
     }
 ```
@@ -1087,7 +1082,7 @@ criteria:{
 
 ### 教程：染色
 
-染色是一个很常用的功能，接下来我们通过一个简单的例子带你了解这个功能  
+染色是一个很常用的功能，接下来我们通过一个简单的例子带你了解这个功能
 
 现在要制作一个可以染色的羊毛块
 
@@ -1264,7 +1259,7 @@ properties:{
 
 <img src="../_assets/Archive.20250808/5.gif" width="1000"/>
 
-我们先来思考一下这个该如何实现  
+我们先来思考一下这个该如何实现
 首先门的展示部分可以用两个方块展示实体实现，交互使用交互实体，碰撞箱使用两个屏障方块
 
 ```json
@@ -1344,8 +1339,8 @@ properties:{
     }
 ```
 
-现在需要实现右键开关门的操作，我们不妨把这个操作抽象一下，开门和关门可以视为两种状态，右键点击时可以从一种状态切换到另一种状态，使用 **全局事件: toggle_state** 可以很方便的解决有关状态切换的问题  
-  
+现在需要实现右键开关门的操作，我们不妨把这个操作抽象一下，开门和关门可以视为两种状态，右键点击时可以从一种状态切换到另一种状态，使用 **全局事件: toggle_state** 可以很方便的解决有关状态切换的问题
+
 条件列表这样写：
 
 ```json
@@ -1615,7 +1610,7 @@ properties:{
 
 </details>
 
-不过先别急，刚才只是做作了樱花木门的模型类，现在需要进行拓展。  
+不过先别急，刚才只是做作了樱花木门的模型类，现在需要进行拓展。
 先把所有门共有的数据提取出来放在父类中(下面的非共有数据已被注释)，并将父类定义为抽象类
 
 ```json

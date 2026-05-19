@@ -5,10 +5,6 @@ title: '虚空数据核心『寻回犬』模块的开发分享'
 <FeatureHead
     title = '虚空数据核心『寻回犬』模块的开发分享'
     authorName = Rainbow_
-    avatarUrl = '../../_authors/Rainbow_.png'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/11313906' }
-    ]"
     cover='../_assets/4.jpg'
 />
 

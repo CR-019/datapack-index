@@ -5,10 +5,6 @@ title: 'Minecraft资源包/数据包构建工具'
 <FeatureHead
     title = 'Minecraft资源包/数据包构建工具'
     authorName = 古镇天Gugle
-    avatarUrl = '../../_authors/gugle.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/19822751' }
-    ]"
     resourceLink = 'https://build.xekr.dev/'
 />
 
@@ -135,7 +131,7 @@ class Builder {
 
 ### 用例1：创建一个名为“BetterTools”的资源包
 
-**场景**：开发者创建了一个资源包，并希望将工具材质从原版材质替换为金质材质或钻石材质。
+**场景**：开发者创建了一个资源包，并希望将工具纹理从原版纹理替换为金质纹理或钻石纹理。
 
 - 假设开发者“XeKr”创建了一个名为“BetterTools”的资源包，该资源包包含以下模块：
     - `main`：主模块，包含基础纹理。
@@ -144,36 +140,36 @@ class Builder {
 - 用户希望同时使用金质和钻石质纹理，但钻石质模块应覆盖金质模块（即钻石质工具优先）。开发者配置如下：
 
     1. **config.json**:
-    
+
        ```json
-       { 
-           "pack_name": "BetterTools", 
-           "author": "XeKr", 
-           "description":"Better tools texture", 
-           "version": "1.0.0", 
-           "base_path": "./src", 
-           "main_module": "main", 
+       {
+           "pack_name": "BetterTools",
+           "author": "XeKr",
+           "description":"Better tools texture",
+           "version": "1.0.0",
+           "base_path": "./src",
+           "main_module": "main",
            "icon": "./icon.png"
        }
        ```
 
     2. **module.config.json**（位于gold模块内）:
 
-       ```json 
-       { 
-           "module_name": "gold", 
-           "support_version": "*", 
-           "weight": 0 
-       } 
+       ```json
+       {
+           "module_name": "gold",
+           "support_version": "*",
+           "weight": 0
+       }
        ```
 
     3. **module.config.json**（位于diamond模块内）:
-    
-       ```json 
-       { 
-           "module_name": "diamond", 
-           "support_version": "*", 
-           "weight": 1 
+
+       ```json
+       {
+           "module_name": "diamond",
+           "support_version": "*",
+           "weight": 1
        }
        ```
 
@@ -186,11 +182,11 @@ class Builder {
 
 ### 用例2：用户自定义资源包
 
-**场景**：玩家想要创建包含`高清材质`和`动态光影`但不包含`真实物理`的资源包
+**场景**：玩家想要创建包含`高清纹理`和`动态光影`但不包含`真实物理`的资源包
 
 1. 访问构建器页面
 2. 输入资源包仓库URL
-3. 加载配置后，勾选`高清材质`、`动态光影`模块，不勾选`真实物理`模块
+3. 加载配置后，勾选`高清纹理`、`动态光影`模块，不勾选`真实物理`模块
 4. 选择Minecraft `1.20.1`版本
 5. 点击`构建`按钮
 6. 获取定制化资源包ZIP

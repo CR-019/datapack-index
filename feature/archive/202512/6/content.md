@@ -1,11 +1,6 @@
 <FeatureHead
     title = 'Sniffer: 来自Fabric的数据包开发支持Mod'
     authorName = Alumopper
-    avatarUrl = '../../_authors/alumopper.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/280394409' },
-        { name: 'GitHub', url: 'https://github.com/Alumopper' }
-    ]"
     resourceLink = 'https://github.com/mcbookshelf/sniffer'
     cover = '../_assets/6.png'
 />

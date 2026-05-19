@@ -5,11 +5,6 @@ title: '简单、轻量、优雅——dc装饰模型支持库'
 <FeaturedHead
     title = '简单、轻量、优雅——dc装饰模型支持库'
     authorName = CR_019
-    avatarUrl = '../../_authors/cr_019.jpg'
-    :socialLinks="[
-        { name: 'BiliBili', url: 'https://space.bilibili.com/85292644' },
-        { name: 'GitHub', url: 'https://github.com/CR-019' }
-    ]"
     resourceLink = https://www.mcmod.cn/class/14646.html
     cover='../_assets/0.png'
 />
