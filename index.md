@@ -10,30 +10,27 @@ hero:
     src: /icons/bg5.png
   actions:
     - theme: brand
-      text: 快速开始
-      link: /index/quick_start/mod
+      text: 进入文档
+      link: /index/绪论
     - theme: brand
       text: 前置检索
       link: /wheel/
     - theme: alt
-      text: 查阅馆藏
-      link: /index/绪论
-    - theme: alt
-      text: 支持下宣传视频！
+      text: 支持一下宣传视频！
       link: https://www.bilibili.com/video/BV1JuNyzXEsP
 features:
+  - icon:
+      src: /icons/vt.png
+    title: 快速开始
+    details: 简要介绍原版开发的概念以及如何快速上手
+    linkText: 第一次接触原版模组？戳这里
+    link: /index/quick_start/mod
   - icon:
       src: /icons/echo_prism.png
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202604
-  - icon:
-      src: /icons/vt.png
-    title: 系列教程
-    details: 从零基础到稍微进阶的各种教程
-    linkText: 零基础新手戳这里
-    link: /index/参考
+    link: /feature/index/202605
   - icon:
       src: /icons/totem_of_recovery.png
     title: 工具箱
@@ -73,7 +70,7 @@ const { frontmatter } = useData()
 
 ## 🍀欢迎
 <ColorLine />
-欢迎来到香草图书馆。  
+欢迎来到香草图书馆。
 “香草”，即 `Vanilla` 。本站点是原版模组相关资源的索引站点，力求为Minecraft Java版的原版模组（即数据包+资源包）开发，提供尽量全面的资源索引。
 本站原名“原版模组体系结构”，由同名文章修改增补而来。
 我们的愿景是收集尽可能多尽可能全面的教程资源，如同图书馆一样，包罗万象。
@@ -122,7 +119,7 @@ const { frontmatter } = useData()
   <img src="/icons/tva2025.png" alt="描述图片的文字">
 </p>
 
-全MC圈最香草的奖项正在火热颁发中！  
+全MC圈最香草的奖项正在火热颁发中！
 快来看看你心目中最香草的作品有没有获奖吧！
 
 [去看看->](/feature/tva/tva2025.md)
