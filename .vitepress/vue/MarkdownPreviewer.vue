@@ -15,6 +15,41 @@ const PATH_STORAGE_KEY = 'vanilla-library-markdown-preview-path'
 const DRAFT_SAVED_AT_KEY = 'vanilla-library-markdown-preview-saved-at'
 const BASE_URL = import.meta.env.BASE_URL || '/'
 const SHIKI_THEMES = { light: 'github-light', dark: 'github-dark' }
+const RECOVERABLE_TEMPLATE_DIAGNOSTICS = new Set([
+  'Element is missing end tag.',
+  'Invalid end tag.'
+])
+const HTML_BLOCK_TAGS = new Set([
+  'article',
+  'aside',
+  'blockquote',
+  'caption',
+  'code',
+  'details',
+  'div',
+  'figcaption',
+  'figure',
+  'footer',
+  'header',
+  'li',
+  'main',
+  'nav',
+  'ol',
+  'p',
+  'pre',
+  'section',
+  'summary',
+  'table',
+  'tbody',
+  'td',
+  'tfoot',
+  'th',
+  'thead',
+  'tr',
+  'ul'
+])
+const MAX_PARTIAL_RENDER_DEPTH = 2
+const MAX_REPORTED_ISSUES = 12
 const SHIKI_LANGUAGES = [
   'javascript',
   'typescript',
@@ -99,6 +134,8 @@ const setupError = ref('')
 const draftError = ref('')
 const previewStyle = ref('')
 const isRendering = ref(false)
+const previewMode = ref('full')
+const previewIssueCount = ref(0)
 const loadedFileName = ref('')
 const renderVersion = ref(0)
 const draftSavedAt = ref('')
@@ -127,6 +164,14 @@ const frontmatterSummary = computed(() => {
 const draftStatus = computed(() => {
   if (draftError.value) return draftError.value
   return draftSavedAt.value ? `草稿已保存 ${draftSavedAt.value}` : '草稿待保存'
+})
+
+const renderStatusLabel = computed(() => {
+  if (isRendering.value) return '渲染中'
+  if (previewMode.value === 'partial') return `部分渲染 (${previewIssueCount.value} 个问题)`
+  if (previewMode.value === 'diagnostic') return `已渲染，含诊断 (${previewIssueCount.value} 个问题)`
+  if (previewError.value) return '渲染异常'
+  return '已渲染'
 })
 
 const pathControlLabel = computed(() => (isEditingPath.value ? '完成' : '修改'))
@@ -217,6 +262,8 @@ async function renderPreview() {
   isRendering.value = true
   previewError.value = ''
   setupError.value = ''
+  previewMode.value = 'full'
+  previewIssueCount.value = 0
 
   try {
     const parsed = splitFrontmatter(source.value)
@@ -237,32 +284,160 @@ async function renderPreview() {
       }
     }
 
-    const html = rewriteTemplateUrls(renderMarkdown(body, highlighter))
-    const render = compilePreviewTemplate(`<div class="markdown-preview-render vp-doc">${html}</div>`)
+    const result = renderPreviewMarkdown(body, highlighter)
 
     if (job !== activeRender) return
 
-    previewComponent.value = markRaw(defineComponent({
-      name: 'CompiledMarkdownPreview',
-      setup() {
-        const data = useData()
-        return {
-          site: data.site,
-          theme: data.theme,
-          page: data.page,
-          frontmatter: data.frontmatter
-        }
-      },
-      render
-    }))
+    previewComponent.value = result.component
+    previewError.value = result.report
+    previewMode.value = result.mode
+    previewIssueCount.value = result.issueCount
     renderVersion.value += 1
   } catch (error) {
     if (job !== activeRender) return
     previewComponent.value = null
-    previewError.value = formatError(error)
+    previewMode.value = 'failed'
+    previewIssueCount.value = 1
+    previewError.value = formatFatalRenderReport(error)
   } finally {
     if (job === activeRender) isRendering.value = false
   }
+}
+
+function renderPreviewMarkdown(markdown, highlighter) {
+  try {
+    const html = renderPreviewHtml(markdown, highlighter)
+    const template = wrapPreviewHtml(html)
+    const compiled = compilePreviewTemplate(template)
+    const report = compiled.diagnostics.length
+      ? formatDiagnosticRenderReport(compiled.diagnostics, template)
+      : ''
+
+    return {
+      component: createCompiledPreviewComponent(compiled.render, 'CompiledMarkdownPreview'),
+      issueCount: compiled.diagnostics.length,
+      mode: compiled.diagnostics.length ? 'diagnostic' : 'full',
+      report
+    }
+  } catch (error) {
+    return renderPartialPreview(markdown, highlighter, error)
+  }
+}
+
+function renderPreviewHtml(markdown, highlighter) {
+  try {
+    return rewriteTemplateUrls(renderMarkdown(markdown, highlighter))
+  } catch (error) {
+    throw createRenderError('Markdown 渲染', error, { markdown })
+  }
+}
+
+function wrapPreviewHtml(html) {
+  return `<div class="markdown-preview-render vp-doc">${html}</div>`
+}
+
+function wrapFragmentHtml(html) {
+  return `<div class="markdown-preview-fragment">${html}</div>`
+}
+
+function createCompiledPreviewComponent(render, name) {
+  return markRaw(defineComponent({
+    name,
+    setup() {
+      const data = useData()
+      return {
+        site: data.site,
+        theme: data.theme,
+        page: data.page,
+        frontmatter: data.frontmatter
+      }
+    },
+    render
+  }))
+}
+
+function renderPartialPreview(markdown, highlighter, originalError) {
+  const chunks = splitMarkdownChunks(markdown)
+  const issues = []
+  const items = renderPreviewChunks(chunks, highlighter, issues, 0)
+  const issueCount = Math.max(issues.length, 1)
+
+  return {
+    component: createPartialPreviewComponent(items),
+    issueCount,
+    mode: 'partial',
+    report: formatPartialRenderReport(originalError, issues)
+  }
+}
+
+function renderPreviewChunks(chunks, highlighter, issues, depth) {
+  const items = []
+
+  for (const chunk of chunks) {
+    if (!chunk.content.trim()) continue
+
+    try {
+      const html = renderPreviewHtml(chunk.content, highlighter)
+      const template = wrapFragmentHtml(html)
+      const compiled = compilePreviewTemplate(template)
+
+      if (compiled.diagnostics.length) {
+        issues.push({
+          type: 'diagnostic',
+          chunk,
+          diagnostics: compiled.diagnostics,
+          template
+        })
+      }
+
+      items.push({
+        component: createCompiledPreviewComponent(compiled.render, `MarkdownPreviewFragment${items.length + 1}`)
+      })
+    } catch (error) {
+      const looseChunks = depth < MAX_PARTIAL_RENDER_DEPTH ? splitMarkdownChunkLoosely(chunk) : []
+      if (looseChunks.length > 1) {
+        items.push(...renderPreviewChunks(looseChunks, highlighter, issues, depth + 1))
+        continue
+      }
+
+      const issue = {
+        type: 'error',
+        chunk,
+        error: createRenderError('分段渲染', error, { chunk })
+      }
+      issues.push(issue)
+      items.push({ issue })
+    }
+  }
+
+  return items
+}
+
+function createPartialPreviewComponent(items) {
+  const components = items.map((item, index) => {
+    if (item.component) return item.component
+    return createPreviewFragmentErrorComponent(item.issue, index)
+  })
+
+  return markRaw(defineComponent({
+    name: 'PartialMarkdownPreview',
+    render() {
+      return VueRuntime.h('div', { class: 'markdown-preview-render vp-doc partial-preview-content' },
+        components.map((component, index) => VueRuntime.h(component, { key: index })))
+    }
+  }))
+}
+
+function createPreviewFragmentErrorComponent(issue, index) {
+  return markRaw(defineComponent({
+    name: `MarkdownPreviewFragmentError${index + 1}`,
+    render() {
+      return VueRuntime.h('section', { class: 'preview-fragment-error' }, [
+        VueRuntime.h('strong', { class: 'preview-fragment-title' }, formatChunkRange(issue.chunk)),
+        VueRuntime.h('pre', { class: 'preview-fragment-detail' }, formatChunkIssue(issue))
+      ])
+    }
+  }))
 }
 
 async function getPreviewHighlighter() {
@@ -285,13 +460,276 @@ async function getPreviewHighlighter() {
 }
 
 function compilePreviewTemplate(template) {
-  const result = compileTemplate(template, {
-    mode: 'function',
-    hoistStatic: false,
-    cacheHandlers: false
+  const diagnostics = []
+  let result
+
+  try {
+    result = compileTemplate(template, {
+      mode: 'function',
+      hoistStatic: false,
+      cacheHandlers: false,
+      onError: (error) => diagnostics.push(error),
+      onWarn: (warning) => diagnostics.push(warning)
+    })
+  } catch (error) {
+    throw createRenderError('Vue 模板编译', error, { diagnostics, template })
+  }
+
+  const blockingDiagnostics = diagnostics.filter((diagnostic) => !isRecoverableTemplateDiagnostic(diagnostic))
+  let render
+
+  try {
+    render = new Function('Vue', result.code)(VueRuntime)
+  } catch (error) {
+    throw createRenderError('Vue 渲染函数生成', error, {
+      diagnostics: blockingDiagnostics,
+      generatedCode: result.code,
+      template
+    })
+  }
+
+  return {
+    diagnostics: blockingDiagnostics,
+    render
+  }
+}
+
+function isRecoverableTemplateDiagnostic(diagnostic) {
+  return RECOVERABLE_TEMPLATE_DIAGNOSTICS.has(formatError(diagnostic))
+}
+
+function createRenderError(stage, error, details = {}) {
+  const renderError = error instanceof Error ? error : new Error(formatError(error))
+  renderError.previewStage = renderError.previewStage || stage
+  Object.assign(renderError, details)
+  return renderError
+}
+
+function formatDiagnosticRenderReport(diagnostics, template) {
+  return [
+    '渲染报告',
+    `结果: 预览已生成，但 Vue 模板编译器报告了 ${diagnostics.length} 个非阻断问题。`,
+    '',
+    ...formatDiagnosticsSection(diagnostics, template)
+  ].join('\n')
+}
+
+function formatPartialRenderReport(originalError, issues) {
+  const lines = [
+    '渲染报告',
+    '结果: 完整预览失败，已切换为分段渲染。可编译的片段已经继续显示，失败片段会在原位置标出。',
+    '',
+    '完整渲染错误:',
+    ...indentLines(formatRenderErrorDetails(originalError))
+  ]
+
+  if (issues.length) {
+    lines.push('', `分段诊断 (${issues.length}):`)
+    for (const issue of issues.slice(0, MAX_REPORTED_ISSUES)) {
+      lines.push('', ...indentLines(formatIssueDetails(issue)))
+    }
+
+    if (issues.length > MAX_REPORTED_ISSUES) {
+      lines.push('', `还有 ${issues.length - MAX_REPORTED_ISSUES} 个问题未在报告中展开。`)
+    }
+  }
+
+  return lines.join('\n')
+}
+
+function formatFatalRenderReport(error) {
+  return [
+    '渲染报告',
+    '结果: 预览无法生成。',
+    '',
+    ...formatRenderErrorDetails(error)
+  ].join('\n')
+}
+
+function formatIssueDetails(issue) {
+  if (issue.type === 'diagnostic') {
+    return [
+      `${formatChunkRange(issue.chunk)} 有模板诊断，但该片段已渲染。`,
+      ...formatDiagnosticsSection(issue.diagnostics, issue.template)
+    ]
+  }
+
+  return [
+    `${formatChunkRange(issue.chunk)} 无法渲染。`,
+    ...formatRenderErrorDetails(issue.error),
+    'Markdown 片段:',
+    formatMarkdownExcerpt(issue.chunk)
+  ]
+}
+
+function formatRenderErrorDetails(error) {
+  const details = [
+    `阶段: ${error?.previewStage || '渲染'}`,
+    `信息: ${formatError(error)}`
+  ]
+
+  if (error?.chunk) {
+    details.push(`Markdown 行: ${error.chunk.startLine}-${error.chunk.endLine}`)
+  }
+
+  if (error?.diagnostics?.length) {
+    details.push('编译诊断:')
+    details.push(...indentLines(formatDiagnosticsSection(error.diagnostics, error.template)))
+  }
+
+  if (error?.template) {
+    const excerpt = formatTemplateExcerpt(error.template, firstDiagnosticOffset(error.diagnostics))
+    if (excerpt) {
+      details.push('生成模板上下文:')
+      details.push(excerpt)
+    }
+  }
+
+  return details
+}
+
+function formatDiagnosticsSection(diagnostics, template) {
+  return diagnostics.flatMap((diagnostic, index) => {
+    const location = diagnostic.loc?.start
+    const locationLabel = location ? `生成模板 line ${location.line}, column ${location.column}` : '位置未知'
+    const lines = [
+      `${index + 1}. ${formatError(diagnostic)}`,
+      `位置: ${locationLabel}`
+    ]
+    const excerpt = formatTemplateExcerpt(template, location?.offset)
+    if (excerpt) {
+      lines.push('上下文:', excerpt)
+    }
+    return lines
+  })
+}
+
+function firstDiagnosticOffset(diagnostics = []) {
+  return diagnostics.find((diagnostic) => typeof diagnostic.loc?.start?.offset === 'number')?.loc.start.offset
+}
+
+function formatTemplateExcerpt(template = '', offset, radius = 220) {
+  if (!template) return ''
+  const center = typeof offset === 'number' ? offset : Math.min(template.length, radius)
+  const start = Math.max(0, center - radius)
+  const end = Math.min(template.length, center + radius)
+  const prefix = start > 0 ? '...' : ''
+  const suffix = end < template.length ? '...' : ''
+  return `${prefix}${template.slice(start, end).trim()}${suffix}`
+}
+
+function formatChunkIssue(issue) {
+  return formatIssueDetails(issue).join('\n')
+}
+
+function formatChunkRange(chunk) {
+  if (!chunk) return '未知片段'
+  return chunk.startLine === chunk.endLine
+    ? `Markdown 第 ${chunk.startLine} 行`
+    : `Markdown 第 ${chunk.startLine}-${chunk.endLine} 行`
+}
+
+function formatMarkdownExcerpt(chunk, maxLines = 10) {
+  if (!chunk?.content) return ''
+  const lines = chunk.content.trim().split('\n')
+  const selected = lines.slice(0, maxLines).join('\n')
+  return lines.length > maxLines ? `${selected}\n...` : selected
+}
+
+function indentLines(lines, indent = '  ') {
+  return lines.map((line) => `${indent}${line}`)
+}
+
+function splitMarkdownChunks(markdown, options = {}) {
+  const preserveHtml = options.preserveHtml !== false
+  const lines = markdown.replace(/\r\n/g, '\n').split('\n')
+  const chunks = []
+  let current = []
+  let startLine = 1
+  let fenceMarker = ''
+  let containerDepth = 0
+  let htmlDepth = 0
+
+  const pushChunk = (endLine) => {
+    const content = current.join('\n')
+    if (content.trim()) {
+      chunks.push({
+        content,
+        startLine,
+        endLine
+      })
+    }
+    current = []
+    startLine = endLine + 1
+  }
+
+  lines.forEach((line, index) => {
+    const lineNumber = index + 1
+    const trimmed = line.trim()
+    current.push(line)
+
+    if (fenceMarker) {
+      if (trimmed.startsWith(fenceMarker)) fenceMarker = ''
+      return
+    }
+
+    const fenceMatch = trimmed.match(/^(`{3,}|~{3,})/)
+    if (fenceMatch) {
+      fenceMarker = fenceMatch[1]
+      return
+    }
+
+    if (/^:::\s*$/.test(trimmed)) {
+      containerDepth = Math.max(0, containerDepth - 1)
+    } else if (/^:::\s+\S+/.test(trimmed)) {
+      containerDepth += 1
+    }
+
+    if (preserveHtml) {
+      htmlDepth = Math.max(0, htmlDepth + getHtmlDepthDelta(line))
+    }
+
+    if (!trimmed && containerDepth === 0 && htmlDepth === 0) {
+      pushChunk(lineNumber)
+    }
   })
 
-  return new Function('Vue', result.code)(VueRuntime)
+  if (current.length) pushChunk(lines.length)
+  return chunks
+}
+
+function splitMarkdownChunkLoosely(chunk) {
+  const parts = splitMarkdownChunks(chunk.content, { preserveHtml: false })
+  if (parts.length <= 1) return []
+
+  return parts.map((part) => ({
+    content: part.content,
+    startLine: chunk.startLine + part.startLine - 1,
+    endLine: chunk.startLine + part.endLine - 1
+  }))
+}
+
+function getHtmlDepthDelta(line) {
+  let delta = 0
+  const tagPattern = /<\s*(\/?)\s*([A-Za-z][\w:-]*)([^>]*)>/g
+  let match
+
+  while ((match = tagPattern.exec(line))) {
+    const closing = Boolean(match[1])
+    const tag = match[2].toLowerCase()
+    const rest = match[3] || ''
+
+    if (!HTML_BLOCK_TAGS.has(tag)) continue
+    if (closing) {
+      delta -= 1
+      continue
+    }
+
+    if (/\/\s*$/.test(rest)) continue
+    delta += 1
+  }
+
+  return delta
 }
 
 async function executeSupportedSetup(markdown) {
@@ -1073,7 +1511,7 @@ function toggleTopPanel() {
 
       <section class="result-pane" aria-label="Rendered preview">
         <div class="status-row">
-          <span>{{ isRendering ? '渲染中' : '已渲染' }}</span>
+          <span>{{ renderStatusLabel }}</span>
           <span>{{ draftStatus }}</span>
           <span>元数据: {{ frontmatterSummary }}</span>
         </div>
@@ -1338,6 +1776,31 @@ function toggleTopPanel() {
 .preview-error {
   white-space: pre-wrap;
   font-size: 13px;
+  line-height: 1.6;
+  max-height: 42vh;
+  overflow: auto;
+}
+
+:global(.preview-fragment-error) {
+  margin: 18px 0;
+  border: 1px solid var(--vp-c-danger-2);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--vp-c-danger-soft);
+}
+
+:global(.preview-fragment-title) {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--vp-c-danger-1);
+}
+
+:global(.preview-fragment-detail) {
+  margin: 0;
+  white-space: pre-wrap;
+  color: var(--vp-c-text-1);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 :global(.markdown-preview-page .VPDoc .container),
