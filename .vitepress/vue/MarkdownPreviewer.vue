@@ -904,7 +904,8 @@ function extractFootnotes(markdown) {
 function resolvePreviewUrl(raw) {
   if (!raw) return ''
   if (/^(?:[a-z][a-z\d+.-]*:)?\/\//i.test(raw)) return raw
-  if (/^(?:#|mailto:|tel:|data:|javascript:)/i.test(raw)) return raw
+  if (/^(?:#|mailto:|tel:|data:)/i.test(raw)) return raw
+  if (/^javascript:/i.test(raw)) return '#'
 
   const [pathWithQuery, hash = ''] = raw.split('#')
   const [path, query = ''] = pathWithQuery.split('?')
