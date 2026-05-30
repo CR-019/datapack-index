@@ -59,6 +59,9 @@ importers:
       sharp:
         specifier: ^0.34.5
         version: 0.34.5
+      shiki:
+        specifier: 2.5.0
+        version: 2.5.0
       svgo:
         specifier: ^4.0.0
         version: 4.0.0

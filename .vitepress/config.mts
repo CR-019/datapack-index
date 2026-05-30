@@ -30,7 +30,9 @@ import{
     sidebar_202605,
 }from "./sidebar_feature2026"
 
-const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
+// const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
+
+const siteBase = '/datapack-index/'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -102,7 +104,7 @@ export default defineConfig({
         },
     },
     head: [
-        ["link", { rel: "icon", href: `${siteBase}icons/bg5.png` }],
+        ["link", { rel: "icon", href: `/datapack-index/icons/bg5.png` }],
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,

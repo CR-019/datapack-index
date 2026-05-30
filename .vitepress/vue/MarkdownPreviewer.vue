@@ -6,10 +6,48 @@ import { compile as compileTemplate } from '@vue/compiler-dom'
 import { Marked, Renderer } from 'marked'
 import katex from 'katex'
 import { compileToCache, config as nbtConfig } from '../MCFPPNBTParser'
+import { mcfunction } from '../highlights/mcfuntion'
+import { mcdoc } from '../highlights/mcdoc/mcdoc'
+import { snbt } from '../highlights/snbt'
 
 const STORAGE_KEY = 'vanilla-library-markdown-preview'
 const PATH_STORAGE_KEY = 'vanilla-library-markdown-preview-path'
+const DRAFT_SAVED_AT_KEY = 'vanilla-library-markdown-preview-saved-at'
 const BASE_URL = import.meta.env.BASE_URL || '/'
+const SHIKI_THEMES = { light: 'github-light', dark: 'github-dark' }
+const SHIKI_LANGUAGES = [
+  'javascript',
+  'typescript',
+  'json',
+  'jsonc',
+  'yaml',
+  'bash',
+  'shellscript',
+  'powershell',
+  'python',
+  'java',
+  'css',
+  'html',
+  'vue',
+  'markdown',
+  'xml',
+  'diff',
+  'ini',
+  'toml',
+  'plaintext'
+]
+const LANGUAGE_ALIASES = {
+  js: 'javascript',
+  ts: 'typescript',
+  yml: 'yaml',
+  sh: 'bash',
+  shell: 'bash',
+  zsh: 'bash',
+  md: 'markdown',
+  text: 'plaintext',
+  txt: 'plaintext',
+  'vue-html': 'vue'
+}
 
 const sampleMarkdown = `---
 name: Markdown Preview
@@ -58,10 +96,14 @@ const documentPath = ref('')
 const previewComponent = shallowRef(null)
 const previewError = ref('')
 const setupError = ref('')
+const draftError = ref('')
 const previewStyle = ref('')
 const isRendering = ref(false)
 const loadedFileName = ref('')
 const renderVersion = ref(0)
+const draftSavedAt = ref('')
+const isEditingPath = ref(false)
+const isTopPanelCollapsed = ref(false)
 
 const parentData = useData()
 const parsedFrontmatter = ref({})
@@ -82,26 +124,35 @@ const frontmatterSummary = computed(() => {
   return keys.length ? keys.join(', ') : 'none'
 })
 
+const draftStatus = computed(() => {
+  if (draftError.value) return draftError.value
+  return draftSavedAt.value ? `草稿已保存 ${draftSavedAt.value}` : '草稿待保存'
+})
+
+const pathControlLabel = computed(() => (isEditingPath.value ? '完成' : '修改'))
+
+const collapsedPathLabel = computed(() => documentPath.value || '资源解析路径未设置')
+
 let renderTimer = 0
 let activeRender = 0
 let previewStyleElement = null
+let previewHighlighterPromise = null
 
 onMounted(() => {
   const savedSource = window.localStorage.getItem(STORAGE_KEY)
   const savedPath = window.localStorage.getItem(PATH_STORAGE_KEY)
+  const savedAt = window.localStorage.getItem(DRAFT_SAVED_AT_KEY)
 
-  if (savedSource) source.value = savedSource
-  if (savedPath) documentPath.value = savedPath
+  if (savedSource !== null) source.value = savedSource
+  if (savedPath !== null) documentPath.value = savedPath
+  if (savedAt) draftSavedAt.value = savedAt
 
-  watch(source, () => {
-    window.localStorage.setItem(STORAGE_KEY, source.value)
+  window.addEventListener('beforeunload', handleBeforeUnload)
+  persistDraft()
+  watch([source, documentPath], () => {
+    persistDraft()
     queueRender()
-  })
-
-  watch(documentPath, () => {
-    window.localStorage.setItem(PATH_STORAGE_KEY, documentPath.value)
-    queueRender()
-  })
+  }, { flush: 'sync' })
 
   queueRender(0)
 })
@@ -109,8 +160,34 @@ onMounted(() => {
 watch(previewStyle, syncPreviewStyle, { immediate: true })
 
 onUnmounted(() => {
+  persistDraft()
+  window.removeEventListener('beforeunload', handleBeforeUnload)
   syncPreviewStyle('')
 })
+
+function handleBeforeUnload(event) {
+  if (persistDraft()) return
+
+  event.preventDefault()
+  event.returnValue = ''
+}
+
+function persistDraft() {
+  if (typeof window === 'undefined') return true
+
+  try {
+    const savedAt = new Date().toLocaleTimeString('zh-CN', { hour12: false })
+    window.localStorage.setItem(STORAGE_KEY, source.value)
+    window.localStorage.setItem(PATH_STORAGE_KEY, documentPath.value)
+    window.localStorage.setItem(DRAFT_SAVED_AT_KEY, savedAt)
+    draftSavedAt.value = savedAt
+    draftError.value = ''
+    return true
+  } catch (error) {
+    draftError.value = `草稿保存失败：${formatError(error)}`
+    return false
+  }
+}
 
 function syncPreviewStyle(css) {
   if (typeof document === 'undefined') return
@@ -151,7 +228,16 @@ async function renderPreview() {
     body = styles.content
     previewStyle.value = styles.styles.join('\n\n')
 
-    const html = rewriteTemplateUrls(renderMarkdown(body))
+    let highlighter = null
+    try {
+      highlighter = await getPreviewHighlighter()
+    } catch (error) {
+      if (!setupError.value) {
+        setupError.value = `Shiki 初始化失败：${formatError(error)}`
+      }
+    }
+
+    const html = rewriteTemplateUrls(renderMarkdown(body, highlighter))
     const render = compilePreviewTemplate(`<div class="markdown-preview-render vp-doc">${html}</div>`)
 
     if (job !== activeRender) return
@@ -177,6 +263,25 @@ async function renderPreview() {
   } finally {
     if (job === activeRender) isRendering.value = false
   }
+}
+
+async function getPreviewHighlighter() {
+  if (!previewHighlighterPromise) {
+    previewHighlighterPromise = import('shiki').then(({ createHighlighter }) => createHighlighter({
+      themes: Object.values(SHIKI_THEMES),
+      langs: SHIKI_LANGUAGES
+    })).then(async (highlighter) => {
+      await highlighter.loadLanguage(mcfunction)
+      await highlighter.loadLanguage(mcdoc)
+      await highlighter.loadLanguage(snbt)
+      return highlighter
+    }).catch((error) => {
+      previewHighlighterPromise = null
+      throw error
+    })
+  }
+
+  return previewHighlighterPromise
 }
 
 function compilePreviewTemplate(template) {
@@ -504,11 +609,11 @@ function extractStyleBlocks(markdown) {
   return { content, styles }
 }
 
-function renderMarkdown(markdown) {
+function renderMarkdown(markdown, highlighter) {
   const withContainers = transformContainers(markdown)
   const withMath = transformMath(withContainers)
   const footnotes = extractFootnotes(withMath)
-  const marked = createMarked()
+  const marked = createMarked(highlighter)
   const html = marked.parse(footnotes.content)
 
   if (!footnotes.items.length) return html
@@ -548,7 +653,7 @@ function rewriteTemplateUrls(html) {
     })
 }
 
-function createMarked() {
+function createMarked(highlighter) {
   const renderer = new Renderer()
 
   renderer.heading = function heading(token) {
@@ -559,10 +664,8 @@ function createMarked() {
   }
 
   renderer.code = function code(token) {
-    const language = normalizeLanguage(token.lang)
-    const className = language ? `language-${escapeAttr(language)}` : 'language-text'
-    const langLabel = language ? `<span class="lang">${escapeHtml(language)}</span>` : ''
-    return `<div class="${className}"><button title="Copy Code" class="copy"></button>${langLabel}<pre><code>${escapeCode(token.text)}</code></pre></div>`
+    const info = parseCodeInfo(token.lang)
+    return renderCodeBlock(token.text, info, highlighter)
   }
 
   renderer.image = function image(token) {
@@ -588,6 +691,74 @@ function createMarked() {
     headerIds: false,
     renderer
   })
+}
+
+function renderCodeBlock(code, info, highlighter) {
+  const displayLanguage = info.language || 'text'
+  const className = `language-${escapeAttr(displayLanguage)} vp-adaptive-theme`
+  const langLabel = `<span class="lang">${escapeHtml(displayLanguage)}</span>`
+
+  if (!highlighter) {
+    return `<div class="${className}"><button title="Copy Code" class="copy"></button>${langLabel}<pre v-pre class="vp-code"><code>${escapeCode(code)}</code></pre></div>`
+  }
+
+  const shikiLanguage = resolveShikiLanguage(displayLanguage, highlighter)
+  let highlighted = highlighter.codeToHtml(code.trimEnd(), {
+    lang: shikiLanguage,
+    themes: SHIKI_THEMES,
+    defaultColor: false
+  })
+
+  highlighted = highlighted
+    .replace(/<pre class="([^"]*)"/, '<pre v-pre class="$1 vp-code"')
+    .replace(/\{\{/g, '&#123;&#123;')
+
+  highlighted = addHighlightedLineClasses(highlighted, info.highlightLines)
+
+  return `<div class="${className}"><button title="Copy Code" class="copy"></button>${langLabel}${highlighted}</div>`
+}
+
+function parseCodeInfo(info = '') {
+  const raw = String(info || '')
+  const lineMatch = raw.match(/\{([\d,-]+)\}/)
+
+  return {
+    language: normalizeLanguage(raw) || 'text',
+    highlightLines: parseLineHighlights(lineMatch?.[1] || '')
+  }
+}
+
+function resolveShikiLanguage(language, highlighter) {
+  const normalized = LANGUAGE_ALIASES[language] || language
+  return highlighter.getLoadedLanguages().includes(normalized) ? normalized : 'plaintext'
+}
+
+function parseLineHighlights(value) {
+  const lines = new Set()
+
+  for (const part of value.split(',')) {
+    const [start, end] = part.split('-').map((item) => Number(item.trim()))
+    if (!start) continue
+
+    if (end && end >= start) {
+      for (let line = start; line <= end; line += 1) lines.add(line)
+    } else {
+      lines.add(start)
+    }
+  }
+
+  return lines
+}
+
+function addHighlightedLineClasses(html, highlightedLines) {
+  let lineNumber = 0
+  const withHighlightedLines = html.replace(/<span class="([^"]*\bline\b[^"]*)"/g, (match, classes) => {
+    lineNumber += 1
+    if (!highlightedLines.has(lineNumber) || classes.includes('highlighted')) return match
+    return `<span class="${classes} highlighted"`
+  })
+
+  return withHighlightedLines.replace(/<span class="([^"]*\bline\b[^"]*)"><\/span>/g, '<span class="$1"><wbr></span>')
 }
 
 function transformContainers(markdown) {
@@ -713,11 +884,11 @@ function extractFootnotes(markdown) {
   const definitions = new Map()
   const order = []
   const content = markdown
-    .replace(/^\[\^([^\]]+)\]:\s*(.*)$/gm, (_, id, text) => {
+    .replace(/^\[\^([^\]]+)]:\s*(.*)$/gm, (_, id, text) => {
       definitions.set(id, text)
       return ''
     })
-    .replace(/\[\^([^\]]+)\]/g, (_, id) => {
+    .replace(/\[\^([^\]]+)]/g, (_, id) => {
       if (!definitions.has(id)) return `[^${id}]`
       if (!order.includes(id)) order.push(id)
       const number = order.indexOf(id) + 1
@@ -753,7 +924,15 @@ function resolvePreviewUrl(raw) {
 }
 
 function normalizeLanguage(language = '') {
-  return language.replace(/\{.*$/, '').trim().toLowerCase()
+  return language
+    .replace(/\[.*]/, '')
+    .replace(/\{.*?}/, '')
+    .replace(/=(\d*)/, '')
+    .replace(/:(no-)?line-numbers(=\d*)?$/, '')
+    .replace(/(-vue| ).*$/, '')
+    .replace(/^vue-html$/, 'vue')
+    .trim()
+    .toLowerCase()
 }
 
 function slugify(value) {
@@ -793,8 +972,13 @@ function formatError(error) {
 function onFileChange(event) {
   const file = event.target.files?.[0]
   if (!file) return
+  if (!confirmReplaceDraft('打开文件')) {
+    event.target.value = ''
+    return
+  }
 
   loadedFileName.value = file.name
+  isEditingPath.value = false
   const reader = new FileReader()
   reader.onload = () => {
     source.value = String(reader.result || '')
@@ -804,44 +988,77 @@ function onFileChange(event) {
 }
 
 function useSample() {
+  if (!confirmReplaceDraft('载入示例')) return
   source.value = sampleMarkdown
   documentPath.value = ''
   loadedFileName.value = ''
+  isEditingPath.value = false
 }
 
 function clearSource() {
+  if (!confirmReplaceDraft('清空内容')) return
   source.value = ''
   loadedFileName.value = ''
+  isEditingPath.value = false
+}
+
+function confirmReplaceDraft(action) {
+  const hasDraft = source.value.trim() && source.value !== sampleMarkdown
+  if (!hasDraft || typeof window === 'undefined') return true
+
+  return window.confirm(`${action}会替换当前草稿，并覆盖本地自动保存。继续？`)
+}
+
+function togglePathEditing() {
+  isEditingPath.value = !isEditingPath.value
+}
+
+function toggleTopPanel() {
+  isTopPanelCollapsed.value = !isTopPanelCollapsed.value
 }
 </script>
 
 <template>
   <div class="markdown-preview-app">
-    <header class="preview-toolbar">
-      <div>
-        <h1>Markdown Preview</h1>
-        <p>香草图书馆编辑预览</p>
+    <div class="top-panel" :class="{ collapsed: isTopPanelCollapsed }">
+      <div v-if="isTopPanelCollapsed" class="collapsed-toolbar">
+        <button type="button" class="panel-toggle" @click="toggleTopPanel">展开</button>
+        <span>{{ draftStatus }}</span>
+        <span>{{ collapsedPathLabel }}</span>
       </div>
-      <div class="preview-actions">
-        <label class="preview-button">
-          打开 .md
-          <input type="file" accept=".md,.markdown,text/markdown,text/plain" @change="onFileChange">
-        </label>
-        <button type="button" class="preview-button" @click="useSample">示例</button>
-        <button type="button" class="preview-button subtle" @click="clearSource">清空</button>
-      </div>
-    </header>
 
-    <div class="path-row">
-      <label for="preview-path">文档路径</label>
-      <input
-        id="preview-path"
-        v-model="documentPath"
-        type="text"
-        spellcheck="false"
-        placeholder="feature/archive/202605/0/content.md"
-      >
-      <span v-if="loadedFileName" class="file-name">{{ loadedFileName }}</span>
+      <template v-else>
+        <header class="preview-toolbar">
+          <div>
+            <h1>Markdown Preview</h1>
+            <p>香草图书馆编辑预览</p>
+          </div>
+          <div class="preview-actions">
+            <label class="preview-button">
+              打开 .md
+              <input type="file" accept=".md,.markdown,text/markdown,text/plain" @change="onFileChange">
+            </label>
+            <button type="button" class="preview-button" @click="useSample">示例</button>
+            <button type="button" class="preview-button subtle" @click="clearSource">清空</button>
+            <button type="button" class="preview-button subtle" @click="toggleTopPanel">收起</button>
+          </div>
+        </header>
+
+        <div class="path-row">
+          <label for="preview-path">资源解析路径</label>
+          <input
+            id="preview-path"
+            v-model="documentPath"
+            type="text"
+            :readonly="!isEditingPath"
+            spellcheck="false"
+            title="用于让相对图片和链接按 Markdown 文件所在位置解析"
+            :placeholder="isEditingPath ? '例如 feature/archive/202605/0/content.md' : '未设置'"
+          >
+          <button type="button" class="path-toggle" @click="togglePathEditing">{{ pathControlLabel }}</button>
+          <span class="path-hint">{{ loadedFileName ? `已打开：${loadedFileName}` : '相对图片/链接按此定位' }}</span>
+        </div>
+      </template>
     </div>
 
     <main class="preview-workspace">
@@ -855,10 +1072,12 @@ function clearSource() {
 
       <section class="result-pane" aria-label="Rendered preview">
         <div class="status-row">
-          <span>{{ isRendering ? 'rendering' : 'ready' }}</span>
-          <span>frontmatter: {{ frontmatterSummary }}</span>
+          <span>{{ isRendering ? '渲染中' : '已渲染' }}</span>
+          <span>{{ draftStatus }}</span>
+          <span>元数据: {{ frontmatterSummary }}</span>
         </div>
 
+        <p v-if="draftError" class="preview-alert">{{ draftError }}</p>
         <p v-if="setupError" class="preview-alert">{{ setupError }}</p>
         <pre v-if="previewError" class="preview-error">{{ previewError }}</pre>
         <component :is="previewComponent" v-if="previewComponent" :key="renderVersion" />
@@ -870,8 +1089,56 @@ function clearSource() {
 <style scoped>
 .markdown-preview-app {
   width: min(1480px, calc(100vw - 48px));
+  height: calc(100vh - var(--vp-nav-height, 64px) - 16px);
   margin: 0 auto;
   color: var(--vp-c-text-1);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.top-panel {
+  flex-shrink: 0;
+}
+
+.top-panel.collapsed {
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.collapsed-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.collapsed-toolbar span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panel-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  min-width: 48px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 12px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.panel-toggle:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
 }
 
 .preview-toolbar {
@@ -881,6 +1148,7 @@ function clearSource() {
   gap: 16px;
   padding: 8px 0 16px;
   border-bottom: 1px solid var(--vp-c-divider);
+  flex-shrink: 0;
 }
 
 .preview-toolbar h1 {
@@ -934,14 +1202,15 @@ function clearSource() {
 
 .path-row {
   display: grid;
-  grid-template-columns: auto minmax(160px, 1fr) auto;
+  grid-template-columns: auto minmax(160px, 1fr) auto auto;
   align-items: center;
   gap: 10px;
   padding: 14px 0;
+  flex-shrink: 0;
 }
 
 .path-row label,
-.file-name {
+.path-hint {
   color: var(--vp-c-text-2);
   font-size: 13px;
 }
@@ -957,21 +1226,48 @@ function clearSource() {
   font: 13px ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
+.path-row input[readonly] {
+  cursor: default;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg-soft);
+}
+
 .path-row input:focus {
   border-color: var(--vp-c-brand-1);
   outline: none;
 }
 
+.path-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  min-width: 54px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.path-toggle:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
 .preview-workspace {
+  flex: 1;
   display: grid;
   grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
   gap: 16px;
-  min-height: calc(100vh - 250px);
+  min-height: 0;
 }
 
 .editor-pane,
 .result-pane {
   min-width: 0;
+  min-height: 0;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background: var(--vp-c-bg);
@@ -979,12 +1275,15 @@ function clearSource() {
 
 .editor-pane {
   display: flex;
+  overflow: hidden;
 }
 
 .editor-pane textarea {
   width: 100%;
-  min-height: 680px;
-  resize: vertical;
+  height: 100%;
+  min-height: 0;
+  resize: none;
+  overflow: auto;
   border: 0;
   border-radius: 8px;
   padding: 16px;
@@ -999,7 +1298,7 @@ function clearSource() {
 }
 
 .result-pane {
-  overflow: auto;
+  overflow-y: auto;
   padding: 0 22px 32px;
 }
 
@@ -1050,6 +1349,15 @@ function clearSource() {
   display: none;
 }
 
+:global(.markdown-preview-page .VPFooter),
+:global(.markdown-preview-page .VPDocFooter) {
+  display: none !important;
+}
+
+:global(.markdown-preview-page .VPDoc) {
+  padding-bottom: 0 !important;
+}
+
 :global(.markdown-preview-render) {
   max-width: 920px;
   margin: 0 auto;
@@ -1058,6 +1366,8 @@ function clearSource() {
 @media (max-width: 960px) {
   .markdown-preview-app {
     width: min(100%, calc(100vw - 28px));
+    height: auto;
+    min-height: calc(100vh - var(--vp-nav-height, 64px) - 20px);
   }
 
   .preview-toolbar {
@@ -1065,20 +1375,30 @@ function clearSource() {
     flex-direction: column;
   }
 
+  .collapsed-toolbar {
+    min-height: 36px;
+  }
+
   .preview-actions {
     justify-content: flex-start;
   }
 
   .path-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
+  }
+
+  .path-row label,
+  .path-hint {
+    grid-column: 1 / -1;
   }
 
   .preview-workspace {
     grid-template-columns: 1fr;
+    grid-template-rows: minmax(300px, 42vh) minmax(360px, 1fr);
   }
 
   .editor-pane textarea {
-    min-height: 360px;
+    min-height: 0;
   }
 }
 </style>

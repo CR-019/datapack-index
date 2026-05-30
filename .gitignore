@@ -7,3 +7,4 @@ cache
 .temp
 *.local
 **/.vscode/**
+/worker/worker.js

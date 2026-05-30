@@ -4,6 +4,7 @@ outline: false
 aside: false
 prev: false
 next: false
+footer: false
 pageClass: markdown-preview-page
 ---
 
