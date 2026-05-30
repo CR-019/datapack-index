@@ -30,7 +30,7 @@ import{
     sidebar_202605,
 }from "./sidebar_feature2026"
 
-//const siteBase = process.env.VITEPRESS_BASE || '/'
+// const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
 
 const siteBase = '/datapack-index/'
 
@@ -47,6 +47,7 @@ export default defineConfig({
             { text: "文档", link: "/index/绪论" },
             { text: "前置馆", link: "/wheel" },
             { text: "《Feature》", link: "/feature/_index" },
+            { text: "预览", link: "/preview" },
             { text: "Wiki", link: "https://zh.minecraft.wiki/" },
         ],
         search: {
@@ -103,7 +104,7 @@ export default defineConfig({
         },
     },
     head: [
-        ["link", { rel: "icon", href: "/datapack-index/icons/bg5.png" }],
+        ["link", { rel: "icon", href: `/datapack-index/icons/bg5.png` }],
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,
