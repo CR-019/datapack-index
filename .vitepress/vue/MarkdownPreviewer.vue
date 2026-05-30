@@ -2,7 +2,7 @@
 import * as VueRuntime from 'vue'
 import { computed, defineComponent, markRaw, onMounted, onUnmounted, provide, ref, shallowRef, watch } from 'vue'
 import { dataSymbol, useData } from 'vitepress'
-import { compile as compileTemplate } from '@vue/compiler-dom'
+import { compile as compileTemplate, errorMessages as vueCompilerErrorMessages } from '@vue/compiler-dom'
 import { Marked, Renderer } from 'marked'
 import katex from 'katex'
 import { compileToCache, config as nbtConfig } from '../MCFPPNBTParser'
@@ -19,6 +19,7 @@ const RECOVERABLE_TEMPLATE_DIAGNOSTICS = new Set([
   'Element is missing end tag.',
   'Invalid end tag.'
 ])
+const RECOVERABLE_TEMPLATE_DIAGNOSTIC_CODES = new Set([23, 24])
 const HTML_BLOCK_TAGS = new Set([
   'article',
   'aside',
@@ -495,7 +496,35 @@ function compilePreviewTemplate(template) {
 }
 
 function isRecoverableTemplateDiagnostic(diagnostic) {
-  return RECOVERABLE_TEMPLATE_DIAGNOSTICS.has(formatError(diagnostic))
+  return RECOVERABLE_TEMPLATE_DIAGNOSTIC_CODES.has(getTemplateDiagnosticCode(diagnostic))
+    || RECOVERABLE_TEMPLATE_DIAGNOSTICS.has(getTemplateDiagnosticMessage(diagnostic))
+    || RECOVERABLE_TEMPLATE_DIAGNOSTICS.has(formatError(diagnostic))
+}
+
+function getTemplateDiagnosticCode(diagnostic) {
+  const directCode = Number(diagnostic?.code)
+  if (Number.isInteger(directCode)) return directCode
+
+  const messageCode = formatError(diagnostic).match(/#compiler-(\d+)/)?.[1]
+  return messageCode ? Number(messageCode) : null
+}
+
+function getTemplateDiagnosticMessage(diagnostic) {
+  const rawMessage = formatError(diagnostic)
+  const code = getTemplateDiagnosticCode(diagnostic)
+  const mappedMessage = code == null ? '' : vueCompilerErrorMessages?.[code]
+
+  if (!mappedMessage) return rawMessage
+  if (!rawMessage.includes('vuejs.org/error-reference')) return rawMessage
+  return `${mappedMessage} (${rawMessage})`
+}
+
+function formatRenderErrorMessage(error) {
+  if (error?.code != null || formatError(error).includes('vuejs.org/error-reference')) {
+    return getTemplateDiagnosticMessage(error)
+  }
+
+  return formatError(error)
 }
 
 function createRenderError(stage, error, details = {}) {
@@ -565,7 +594,7 @@ function formatIssueDetails(issue) {
 function formatRenderErrorDetails(error) {
   const details = [
     `阶段: ${error?.previewStage || '渲染'}`,
-    `信息: ${formatError(error)}`
+    `信息: ${formatRenderErrorMessage(error)}`
   ]
 
   if (error?.chunk) {
@@ -593,7 +622,7 @@ function formatDiagnosticsSection(diagnostics, template) {
     const location = diagnostic.loc?.start
     const locationLabel = location ? `生成模板 line ${location.line}, column ${location.column}` : '位置未知'
     const lines = [
-      `${index + 1}. ${formatError(diagnostic)}`,
+      `${index + 1}. ${getTemplateDiagnosticMessage(diagnostic)}`,
       `位置: ${locationLabel}`
     ]
     const excerpt = formatTemplateExcerpt(template, location?.offset)
