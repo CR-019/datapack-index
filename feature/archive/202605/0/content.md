@@ -2,7 +2,7 @@
 title: '在原版 Minecraft 中实现一个真实好玩的台球游戏'
 ---
 
-<FeatureHead
+<FeaturedHead
     title='在原版 Minecraft 中实现一个真实好玩的台球游戏'
     authorName='YMS2001'
     cover = '../_assets/0_cover.webp'

@@ -248,8 +248,8 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
   {
     text: '巧匠 Masterpieces',
     items: [
-      { text: 'Fast Motion', link: '/feature/archive/202605/5/content' },
       { text: '挖掘在地下', link: '/feature/archive/202605/4/content' },
+      { text: 'Fast Motion', link: '/feature/archive/202605/5/content' },
       {text: 'Sequencer Helper', link: '/feature/archive/202605/6/content'},
     ]
   },

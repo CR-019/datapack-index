@@ -104,6 +104,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Ping attachment server
+        run: ping -c 4 attachment.mczwlt.net
+
       - name: Build for github pages
         run: VITEPRESS_BASE="/" pnpm run docs:build
 

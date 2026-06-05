@@ -1,4 +1,8 @@
-<FeaturedHead
+---
+title: 'Sequencer Helper'
+---
+
+<FeatureHead
     title = 'Sequencer Helper'
     authorName = CR_019
     resourceLink = 'https://cr-019.github.io/index/%E5%89%8D%E7%BD%AE/1-sh/page.html'

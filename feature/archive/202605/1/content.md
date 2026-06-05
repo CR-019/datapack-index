@@ -2,7 +2,7 @@
 title: '基于新版本模型及模型映射的动画控制器'
 ---
 
-<FeaturedHead
+<FeatureHead
     title='基于新版本模型及模型映射的动画控制器'
     authorName='雨相日生awa'
     cover = '../_assets/1_cover.png'
