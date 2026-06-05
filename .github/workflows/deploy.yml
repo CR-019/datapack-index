@@ -105,7 +105,7 @@ jobs:
         run: pnpm install
 
       - name: Ping attachment server
-        run: ping -c 4 attachment.mczwlt.net
+        run: ping -c 4 www.mczwlt.net
 
       - name: Build for github pages
         run: VITEPRESS_BASE="/" pnpm run docs:build
