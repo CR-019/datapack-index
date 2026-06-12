@@ -17,6 +17,9 @@ jobs:
   build_github:
     runs-on: ubuntu-latest
     steps:
+      - name: Ping attachment server
+        run: ping -c 4 www.google.com
+        
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -104,8 +107,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Ping attachment server
-        run: ping -c 4 www.mczwlt.net
 
       - name: Build for github pages
         run: VITEPRESS_BASE="/" pnpm run docs:build
