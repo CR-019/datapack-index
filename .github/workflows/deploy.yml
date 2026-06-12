@@ -17,9 +17,7 @@ jobs:
   build_github:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping attachment server
-        run: ping -c 4 www.google.com
-        
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
