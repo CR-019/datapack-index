@@ -10,14 +10,14 @@ hero:
     src: /icons/bg5.png
   actions:
     - theme: brand
-      text: 进入文档
+      text: 进入站点
       link: /index/绪论
     - theme: brand
       text: 前置检索
       link: /wheel/
     - theme: alt
-      text: 支持一下宣传视频！
-      link: https://www.bilibili.com/video/BV1JuNyzXEsP
+      text: 格式预览
+      link: /preview/
 features:
   - icon:
       src: /icons/vt.png
@@ -30,7 +30,7 @@ features:
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202605
+    link: /feature/index/202606
   - icon:
       src: /icons/totem_of_recovery.png
     title: 工具箱

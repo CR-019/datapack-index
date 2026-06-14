@@ -48,7 +48,7 @@ tellraw @a "\\"\
 \"
 ```
 
----
+<ColorLine :height="2"/>
 
 ### 上期参考答案
 
@@ -60,14 +60,19 @@ tellraw @a "\\"\
 execute as @e[type=wolf] on owner run tellraw @s "[提示] 你可以通过狗尾巴的角度判断它的生命值"
 ```
 
+---
+
 题目2：  
 
 `0.3125f`
+
+---
 
 题目3：
 
 声音事件 `backrooms:ambient.level0` 不在注册表中，生物群系定义文件不能直接用字符串形式的命名空间ID来引用未注册的声音事件。
 
+---
 
 题目4：
 

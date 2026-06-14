@@ -21,6 +21,9 @@ import {
     sidebar_202512,
 } from "./sidebar_feature2025"
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+import fs from "node:fs";
+import path from "node:path";
+import type { Plugin } from "vite";
 
 import{
     sidebar_202601,
@@ -28,7 +31,77 @@ import{
     sidebar_202603,
     sidebar_202604,
     sidebar_202605,
+    sidebar_202606,
 }from "./sidebar_feature2026"
+
+function htmlImagePlugin(): Plugin {
+  let root = "";
+  let outDir = "";
+  let isBuild = false;
+  const imageAssets = new Set<string>();
+
+  return {
+    name: "vitepress-html-image-handler",
+    enforce: "pre",
+
+    configResolved(config) {
+      root = config.root || process.cwd();
+      outDir = path.resolve(root, config.build.outDir);
+    },
+
+    config(_, { command }) {
+      isBuild = command === "build";
+    },
+
+    transform(code, id) {
+      if (!isBuild) return null;
+      if (!id.endsWith(".md") && !id.endsWith(".vue")) return null;
+
+      const sourceDir = path.dirname(id);
+
+      const patterns: RegExp[] = [
+        // <img src="..."> in HTML
+        /<img[^>]*src=["']([^"']+)["'][^>]*>/gi,
+        // Vue component props: cover="..." cover='...' cover = "..."
+        /\b(?:cover|background)\s*=\s*["']([^"']+\.(?:png|jpe?g|webp|svg|gif))["']/gi,
+        // :cover="'...'" (dynamic with literal string)
+        /:(?:cover|background)\s*=\s*"([^"]*)"\s*['"]([^"']+\.(?:png|jpe?g|webp|svg|gif))['"]/gi,
+        // bare string in :cover="..." not matching above
+        /:(?:cover|background)\s*=\s*"([./][^"]+\.(?:png|jpe?g|webp|svg|gif))"/gi,
+      ];
+
+      for (const regex of patterns) {
+        let match;
+        while ((match = regex.exec(code)) !== null) {
+          const src = match[match.length - 1]; // last capture group is the path
+          if (/^https?:\/\//.test(src)) continue;
+          if (src.startsWith("/")) continue;
+
+          const resolved = path.resolve(sourceDir, src);
+          if (fs.existsSync(resolved)) {
+            imageAssets.add(resolved);
+          }
+        }
+      }
+
+      return null;
+    },
+
+    closeBundle() {
+      if (!isBuild) return;
+      for (const sourcePath of imageAssets) {
+        const relativePath = path.relative(root, sourcePath).replace(/\\/g, "/");
+        const destPath = path.resolve(outDir, relativePath);
+        try {
+          fs.mkdirSync(path.dirname(destPath), { recursive: true });
+          fs.copyFileSync(sourcePath, destPath);
+        } catch {
+          // skip missing files
+        }
+      }
+    },
+  };
+}
 
 // const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
 
@@ -88,6 +161,7 @@ export default defineConfig({
             "/feature/archive/202603": sidebar_202603,
             "/feature/archive/202604": sidebar_202604,
             "/feature/archive/202605": sidebar_202605,
+            "/feature/archive/202606": sidebar_202606,
             "/feature/": sidebar_feature,
         },
 
@@ -160,6 +234,7 @@ export default defineConfig({
             },
         },
         plugins: [
+            htmlImagePlugin(),
             ViteImageOptimizer({
                 png: {
                     quality: 80

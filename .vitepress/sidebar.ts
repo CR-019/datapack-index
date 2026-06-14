@@ -21,11 +21,11 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: false,
     items: [
       { text: '🏠绝赞征稿中！', link: '/feature/_index' },
-      { text: '🌟2026.05', link: '/feature/index/202605' },
+      { text: '🌟2026.06', link: '/feature/index/202606' },
       {
         text: '',  items: [
+          { text: '2026.05', link: '/feature/index/202605'},
           { text: '2026.04', link: '/feature/index/202604'},
-          { text: '2026.03', link: '/feature/index/202603' }
         ]
       }
     ]

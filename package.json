@@ -2,6 +2,7 @@
   "devDependencies": {
     "@types/markdown-it-footnote": "^3.0.4",
     "@types/node": "^22.14.1",
+    "@vue/compiler-dom": "3.5.29",
     "katex": "^0.16.22",
     "markdown-it-footnote": "3.0.3",
     "markdown-it-mathjax3": "^4.3.2",
@@ -21,7 +22,6 @@
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.1",
     "@giscus/vue": "^3.1.1",
-    "@vue/compiler-dom": "3.5.29",
     "antlr4ts": "0.5.0-alpha.4",
     "antlr4ts-cli": "0.5.0-alpha.4",
     "badge-maker": "^5.0.2",

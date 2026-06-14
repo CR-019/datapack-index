@@ -219,6 +219,7 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202605' },
       { text: '上一刊', link: '/feature/index/202604' },
+      { text: '下一刊', link: '/feature/index/202606' },
     ]
   },
   {
@@ -251,6 +252,57 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
       { text: '挖掘在地下', link: '/feature/archive/202605/4/content' },
       { text: 'Fast Motion', link: '/feature/archive/202605/5/content' },
       {text: 'Sequencer Helper', link: '/feature/archive/202605/6/content'},
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+
+export const sidebar_202606: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.06',
+    items: [
+      { text: '目录', link: '/feature/index/202606' },
+      { text: '上一刊', link: '/feature/index/202606' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202606/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '用 Minecraft 还原接水管小游戏：基于 Prim 算法的随机树生成和基于 Tarjan 算法的环路搜索', link: '/feature/archive/202606/0/content' },
+      { text: '接水管地图生成与检验的实现（实体化方案）', link: '/feature/archive/202606/1/content' },
+      { text: '如何将单人游戏适配多人 - 以徐木弦的 Pipes 为例', link: '/feature/archive/202606/2/content' },
+    ]
+  },
+  {
+    text: '香草快讯 ojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年6月', link: '/feature/archive/202606/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '如何检测玩家按下了什么键', link: '/feature/archive/202606/3/content' },
+      { text: 'mcfunction 语言规范（简版）', link: '/feature/archive/202606/4/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '午夜灵魂', link: '/feature/archive/202606/5/content' },
+      { text: '把 Minecraft 建筑搬进 Blockbench：Minecraft OBJ Cubizer 插件', link: '/feature/archive/202606/6/content' },
     ]
   },
   {
