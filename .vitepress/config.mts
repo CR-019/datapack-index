@@ -108,11 +108,23 @@ function htmlImagePlugin(): Plugin {
 const siteBase = '/datapack-index/'
 
 // https://vitepress.dev/reference/site-config
+// @ts-ignore
 export default defineConfig({
     title: "香草图书馆",
     base: siteBase,
     description: "Powered by VitePress",
     themeConfig: {
+        announcementBar: {
+            enabled: true,
+            content: "🎉 香草图书馆特供 Markdown 预览器已上线",
+            link: siteBase + "preview",
+            linkText: "【传送门】",
+            background: "#ffa05a",
+            color: "#ffffff",
+            dismissible: true,
+            doNotShowAgainText: "不再提示",
+            storageKey: "datapack-index-announcement-202606-v2",
+        },
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",
         outline: [2, 6],
