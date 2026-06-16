@@ -15,6 +15,56 @@
 
 ## 正文
 
+### **26.2**
+#### 数据包：
+- 世界
+  - **床不再是方块实体**。
+  - **疣猪兽现在会在和平难度下消失**。
+  - **猪灵现在可以在和平难度下生成**。
+  - **幼年体的**犰狳、疣猪兽和僵尸僵尸疣猪兽、美西螈，骆驼、鸡、牛和哞菇、海豚、猫和豹猫、狐狸、蜜蜂、山羊、快乐恶魂、熊猫、猪、北极熊、绵羊、鱿鱼、狼、炽足兽、猪灵、所有僵尸变种、和鹦鹉螺的**碰撞箱，视线高度和乘客高度有所变更**。请[以Wiki为准](https://zh.minecraft.wiki/w/Java版26.2#更改)。
+- 粒子
+  - **现在，当粒子过多时，游戏不会丢弃新的粒子，而是会随机选择渲染粒子**。
+- 命令
+  - **`advancement`命令的文本输出有所变化**。
+  - **`team`中的队伍颜色参数现在严格需要小写下划线的形式（`dark_blue`而不能是`DarkBlue`）**。
+- 游戏内容
+  - **在极限模式世界中以旁观模式重生不再会关闭游戏规则`spectators_generate_chunks`**。
+- 标签
+  - **重命名方块标签**`#concrete_powder` -> `#concrete_powders`。
+  - **将方块标签`#mineable/pickaxe`和`​#happy_ghast_avoids`中的滴水石锥替换为`#speleothems`**。
+  - **实体类型标签`#cannot_be_pushed_onto_boats`中加入了硫方怪**。
+- NBT 
+  - **生物的`HurtByTimestamp`变更为`ticks_since_last_hurt_by_mob`。记录距离上次受伤时长而不是时间戳**。
+  - **`charged_projectiles`数组组件现在只接受最多1024个物品堆叠**。
+- 谓词
+  - **实体谓词`entity_properties`中的所有字段均被拓展为类似数据组件的形式**。
+    - 这意味着顶层字段名现在是命名空间ID的形式（`effects` -> `minecraft:effects`，可省略minecraft）。
+    - **实体子谓词`type_sepcific`被移动到顶层**（`"type_sepcific":{"minecraft:lightning":{...}}` -> `"minecraft:type_specific/lightning":{...}`）。
+- 世界生成
+  - 已配置的地物
+    - **破坏性地重命名并/或修改了以下地物。请以Wiki为准**：
+      - `pointed_dripstone` -> `speleothem`
+      - `dripstone_cluster` -> `speleothem_cluster`
+      - `large_dripstone`
+      - `tree`
+      - `multiface_growth`
+  - 处理器列表
+    - **`block_rot`现在会评估上一个方块处理器链处理后的方块状态，而不是总是使用结构的原始方块**。
+  - 密度函数
+    - 移除了`weird_scaled_sampler`，由新加入的`interval_select`取代。
+
+#### 资源包：
+- 模型
+  - **告示牌和悬挂式告示牌现在使用方块模型，而不是内置的实体模型**。
+- 物品模型映射
+  - 移除了特殊模型类型`bed`，`standing_sign`，和`hanging_sign`。
+- 纹理
+  - **`minecraft:signs`和`minecraft:beds`纹理集已被移除**。
+  - **变更了幼年疣猪兽，幼年僵尸疣猪兽，和幼年白色狐狸的纹理**。
+- 着色器
+  - **Minecraft即将完成从OpenGL到Vulkan的迁移。当前版本中同时支持两者，允许玩家自由切换。默认仍使用OpenGL，但它会在不久的将来被完全废弃**。
+  - 核心着色器`rendertype_text`，`rendertype_text_see_through`，`rendertype_text_intensity`，`rendertype_text_intensity_see_through`，`rendertype_text_background`和`rendertype_text_background_see_through`被`text`和`text_background`替代。
+
 ### **26.1**
 #### 数据包：
 - 时间线
