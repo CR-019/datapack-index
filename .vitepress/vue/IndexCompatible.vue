@@ -199,7 +199,7 @@ export default {
                 if (r && r.ok) {
                     const data = await r.json();
                     this.extraAuthorsInfo.push({
-                        name: extra,
+                        name: data.name || extra,
                         avatar: baseUrl.slice(0, -1) + data.avatar,
                         socialLinks: data.socialLinks || []
                     });
@@ -217,7 +217,7 @@ export default {
                     if (r && r.ok) {
                         const data = await r.json();
                         this.extraAuthorsInfo.push({
-                            name: extra.authorName,
+                            name: data.name || extra.authorName,
                             avatar: baseUrl.slice(0, -1) + data.avatar,
                             socialLinks: data.socialLinks || []
                         });
