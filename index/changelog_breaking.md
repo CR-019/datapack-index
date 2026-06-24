@@ -33,14 +33,14 @@
   - **重命名方块标签**`#concrete_powder` -> `#concrete_powders`。
   - **将方块标签`#mineable/pickaxe`和`​#happy_ghast_avoids`中的滴水石锥替换为`#speleothems`**。
   - **实体类型标签`#cannot_be_pushed_onto_boats`中加入了硫方怪**。
-- NBT 
+- NBT
   - **生物的`HurtByTimestamp`变更为`ticks_since_last_hurt_by_mob`。记录距离上次受伤时长而不是时间戳**。
   - **`charged_projectiles`数组组件现在只接受最多1024个物品堆叠**。
 - 谓词
-  - 字段 `type` 被重命名为 `minecraft:entity_type`
   - **实体谓词`entity_properties`中的所有字段均被拓展为类似数据组件的形式**。
     - 这意味着顶层字段名现在是命名空间ID的形式（`effects` -> `minecraft:effects`，可省略minecraft）。
     - **实体子谓词`type_sepcific`被移动到顶层**（`"type_sepcific":{"minecraft:lightning":{...}}` -> `"minecraft:type_specific/lightning":{...}`）。
+    - **重命名**`type `-> `minecraft:entity_type`。
 - 世界生成
   - 已配置的地物
     - **破坏性地重命名并/或修改了以下地物。请以Wiki为准**：
@@ -52,7 +52,7 @@
   - 处理器列表
     - **`block_rot`现在会评估上一个方块处理器链处理后的方块状态，而不是总是使用结构的原始方块**。
   - 密度函数
-    - 移除了`weird_scaled_sampler`，由新加入的`interval_select`取代。
+    - **移除了`weird_scaled_sampler`，由新加入的`interval_select`取代**。
 
 #### 资源包：
 - 模型
@@ -64,7 +64,7 @@
   - **变更了幼年疣猪兽，幼年僵尸疣猪兽，和幼年白色狐狸的纹理**。
 - 着色器
   - **Minecraft即将完成从OpenGL到Vulkan的迁移。当前版本中同时支持两者，允许玩家自由切换。默认仍使用OpenGL，但它会在不久的将来被完全废弃**。
-  - 核心着色器`rendertype_text`，`rendertype_text_see_through`，`rendertype_text_intensity`，`rendertype_text_intensity_see_through`，`rendertype_text_background`和`rendertype_text_background_see_through`被`text`和`text_background`替代。
+  - **核心着色器**`rendertype_text`，`rendertype_text_see_through`，`rendertype_text_intensity`，`rendertype_text_intensity_see_through`，`rendertype_text_background`和`rendertype_text_background_see_through`**被**`text`和`text_background`**替代**。
 
 ### **26.1**
 #### 数据包：
@@ -123,7 +123,7 @@
 
 #### 资源包：
 - 纹理与模型
-  - **大量的幼年生物的纹理与模型更改** 。包括驴、骡、海龟、蜜蜂、狐狸、犰狳、北极熊、羊驼、熊猫、疣猪兽、僵尸疣猪兽、嗅探兽、牛、绵羊、豹猫、哞菇、鱿鱼、发光鱿鱼、僵尸、尸壳、溺尸、猪灵、僵尸猪灵、村民、僵尸村民、猫、鸡、马、狼、猪、山羊、兔子、美西螈、骆驼、海豚、炽足兽、僵尸马、骷髅马、和行商羊驼。
+  - **大量的幼年生物的纹理与模型更改**。包括驴、骡、海龟、蜜蜂、狐狸、犰狳、北极熊、羊驼、熊猫、疣猪兽、僵尸疣猪兽、嗅探兽、牛、绵羊、豹猫、哞菇、鱿鱼、发光鱿鱼、僵尸、尸壳、溺尸、猪灵、僵尸猪灵、村民、僵尸村民、猫、鸡、马、狼、猪、山羊、兔子、美西螈、骆驼、海豚、炽足兽、僵尸马、骷髅马、和行商羊驼。
   - 幼年狼或猪身上的狼铠或鞍不再渲染。
   - **移除了`demo_background.png`，改为使用精灵图`popup/background.png`。**
   - **有极其多的纹理被重命名或移动。请见[Wiki的本表格](https://zh.minecraft.wiki/w/Java%E7%89%8826.1#%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90%E5%99%A8:~:text=%E7%9A%84%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6%E3%80%82-,%E5%AE%9E%E4%BD%93%E7%BA%B9%E7%90%86,-%E9%87%8D%E5%91%BD%E5%90%8D%E4%BA%86)。**
