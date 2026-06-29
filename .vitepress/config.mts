@@ -103,9 +103,9 @@ function htmlImagePlugin(): Plugin {
   };
 }
 
-// const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
+const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
 
-const siteBase = '/datapack-index/'
+
 
 // https://vitepress.dev/reference/site-config
 // @ts-ignore
@@ -207,6 +207,51 @@ export default defineConfig({
 
         config: (md) => {
             md.use(anchor);
+
+            // 自动适配硬编码的 /datapack-index/ 链接前缀：当 siteBase 变化时同步替换
+            const normalizedBase = siteBase === '/' ? '/' : siteBase.replace(/\/$/, '');
+            const basePrefix = normalizedBase === '/' ? '' : normalizedBase;
+
+            md.core.ruler.push('normalize_base_links', (state) => {
+                const processTokens = (tokens: any[]) => {
+                    for (const token of tokens) {
+                        if (token.type === 'link_open') {
+                            const idx = token.attrIndex('href');
+                            if (idx >= 0) {
+                                const href: string = token.attrs[idx][1];
+                                if (href.startsWith('/datapack-index/')) {
+                                    token.attrs[idx][1] = basePrefix + href.slice('/datapack-index'.length);
+                                } else if (href === '/datapack-index') {
+                                    token.attrs[idx][1] = normalizedBase;
+                                }
+                            }
+                        }
+                        if (token.type === 'image') {
+                            const idx = token.attrIndex('src');
+                            if (idx >= 0) {
+                                const src: string = token.attrs[idx][1];
+                                if (src.startsWith('/datapack-index/')) {
+                                    token.attrs[idx][1] = basePrefix + src.slice('/datapack-index'.length);
+                                } else if (src === '/datapack-index') {
+                                    token.attrs[idx][1] = normalizedBase;
+                                }
+                            }
+                        }
+                        if (token.type === 'html_inline' || token.type === 'html_block') {
+                            token.content = token.content.replace(
+                                /(href|src)=(["'])\/datapack-index(\/[^"']*)?\2/gi,
+                                (_: string, attr: string, quote: string, rest?: string) =>
+                                    `${attr}=${quote}${basePrefix}${rest || ''}${quote}`
+                            );
+                        }
+                        if (token.children) {
+                            processTokens(token.children);
+                        }
+                    }
+                };
+                processTokens(state.tokens);
+            });
+
             // 获取默认的 image renderer
             const defaultRender = md.renderer.rules.image
 
