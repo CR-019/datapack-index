@@ -1,4 +1,5 @@
 {
+  "name": "datapack-index",
   "devDependencies": {
     "@types/markdown-it-footnote": "^3.0.4",
     "@types/node": "^22.14.1",
