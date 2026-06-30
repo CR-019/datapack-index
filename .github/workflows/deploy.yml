@@ -107,7 +107,7 @@ jobs:
 
 
       - name: Build for github pages
-        run: VITEPRESS_BASE="/" pnpm run docs:build
+        run: pnpm run docs:build
 
       # --- 通用 artifact 上传
       - name: Upload generic artifact
