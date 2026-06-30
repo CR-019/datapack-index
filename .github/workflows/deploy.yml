@@ -161,3 +161,4 @@ jobs:
           file: artifact.zip
           resource_id: ${{ secrets.RESOURCE_ID }}
           bearer_token: ${{ secrets.BEARER_TOKEN }}
+          poll_timeout: '6000'
