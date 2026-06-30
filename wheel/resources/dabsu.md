@@ -7,7 +7,7 @@ author:
 description: 刷怪笼管理工具以及批量操作前置
 tags: [刷怪笼]
 version: 1.0.7
-gameversion: [1.21.6~1.21.11]
+gameversion: [1.21.6~26.2]
 aside: left
 wheel: true
 repo: Dahesor/DaBsu
