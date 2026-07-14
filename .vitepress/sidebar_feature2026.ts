@@ -337,7 +337,7 @@ export const sidebar_202607: DefaultTheme.Sidebar = [
   {
     text: '香草快讯 ojang Spotlight',
     items: [
-      { text: '香草快讯 - 2026年6月', link: '/feature/archive/202607/spotlight/content' },
+      { text: '香草快讯 - 2026年7月', link: '/feature/archive/202607/spotlight/content' },
     ]
   },
   {
