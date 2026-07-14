@@ -32,6 +32,7 @@ import{
     sidebar_202604,
     sidebar_202605,
     sidebar_202606,
+    sidebar_202607,
 }from "./sidebar_feature2026"
 
 function htmlImagePlugin(): Plugin {
@@ -174,6 +175,7 @@ export default defineConfig({
             "/feature/archive/202604": sidebar_202604,
             "/feature/archive/202605": sidebar_202605,
             "/feature/archive/202606": sidebar_202606,
+            "/feature/archive/202607": sidebar_202607,
             "/feature/": sidebar_feature,
         },
 

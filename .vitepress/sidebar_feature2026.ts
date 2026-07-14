@@ -270,7 +270,8 @@ export const sidebar_202606: DefaultTheme.Sidebar = [
     text: 'Feature 2026.06',
     items: [
       { text: '目录', link: '/feature/index/202606' },
-      { text: '上一刊', link: '/feature/index/202606' },
+      { text: '上一刊', link: '/feature/index/202605' },
+      { text: '下一刊', link: '/feature/index/202607' },
     ]
   },
   {
@@ -303,6 +304,56 @@ export const sidebar_202606: DefaultTheme.Sidebar = [
     items: [
       { text: '午夜灵魂', link: '/feature/archive/202606/5/content' },
       { text: '把 Minecraft 建筑搬进 Blockbench：Minecraft OBJ Cubizer 插件', link: '/feature/archive/202606/6/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202607: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.07',
+    items: [
+      { text: '目录', link: '/feature/index/202607' },
+      { text: '上一刊', link: '/feature/index/202606' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202607/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '利用数据包进行类DES加密解密', link: '/feature/archive/202607/0/content' }
+    ]
+  },
+  {
+    text: '香草快讯 ojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年6月', link: '/feature/archive/202607/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: 'doom.schedule —— 原版服务端调度器', link: '/feature/archive/202607/1/content' },
+      { text: '让所有物品都拥有不死图腾效果的方法', link: '/feature/archive/202607/2/content' },
+      { text: '着色器实践篇 - 灰度和抖动', link: '/feature/archive/202607/3/content' },
+      { text: '着色器实践篇 - 精准采样纹理', link: '/feature/archive/202607/4/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '蟑螂必须死！Pest Cant Pass！', link: '/feature/archive/202607/5/content' },
+      { text: '渐变文本生成器', link: '/feature/archive/202607/6/content' },
     ]
   },
   {

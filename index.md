@@ -30,7 +30,7 @@ features:
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202606
+    link: /feature/index/202607
   - icon:
       src: /icons/totem_of_recovery.png
     title: 工具箱
@@ -112,6 +112,11 @@ const { frontmatter } = useData()
 - Bilibili：https://space.bilibili.com/280394409
 - Github：https://github.com/Alumopper
 
+
+## 国内节点上新
+<ColorLine />
+与@红石中继站​ 合作，香草图书馆的国内节点上线了！
+可以使用https://cr-109.docs.repeater.red/datapack-index/ 访问
 
 ## 香草奖2025
 <ColorLine />
