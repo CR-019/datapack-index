@@ -154,10 +154,9 @@ title: '让所有物品都拥有不死图腾效果的方法'
 
 这里我使用的是 Python，代码直接粘贴了：
 
-[/md]
+::: details
 
-[spoiler]
-
+```python
 # 部分代码参考deepseek的输出
 
 import os
@@ -285,10 +284,9 @@ for subdir, is_recipe in [("loot_table", False), ("recipe", True)]:
                 process_json(inp, out, is_recipe)
 
 print("完成，输出到:", OUTPUT_ROOT)
+```
 
-[/spoiler]
-
-[md]
+:::
 
 此脚本运行后生成的数据包需要在新世界加载时使用！
 
@@ -308,16 +306,7 @@ print("完成，输出到:", OUTPUT_ROOT)
 
 - [可选下载位置](https://github.com/JesKi13567/Experimental-Datapacks/releases/tag/the-tag)
 
-[/md]
-
-[attach]14904[/attach]
-
-[attach]14906[/attach]
-
-[md]
 
 ## 视频演示
 
-[/md]
-
-[bilibili]BV1CQV1zHEjG[/bilibili]
+https://www.bilibili.com/video/BV1CQV1zHEjG
