@@ -3,7 +3,7 @@
 :::danger 又名“升级你的数据包后什么东西会坏掉”
 :::
 
-::: warning ⚠️本文部分正文内容翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
+::: warning ⚠️本文1.21.6以前的部分内容翻译自misode的“技术性更新日志”页面： https://misode.github.io/changelog
 :::
 
 ## 前言
