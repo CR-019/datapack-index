@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.1",
+    "@datapack-sandbox/vitepress-playground": "0.2.1",
     "@giscus/vue": "^3.1.1",
     "antlr4ts": "0.5.0-alpha.4",
     "antlr4ts-cli": "0.5.0-alpha.4",

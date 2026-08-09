@@ -3,6 +3,8 @@ import { defineComponent, h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import './process-polyfill.js' 
 import './style.css'
+import '@datapack-sandbox/vitepress-playground/style.css'
+import './playground-feature.css'
 import Giscus from '@giscus/vue'
 
 import FeaturedHead from '../vue/FeaturedHead.vue'

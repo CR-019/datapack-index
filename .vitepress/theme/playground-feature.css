@@ -1,0 +1,201 @@
+/* Feature magazine palette for the Datapack Sandbox test page. */
+.feature-sandbox-page {
+  --feature-orange: #c47c4e;
+  --feature-green: #74b096;
+  --feature-purple: #694ec6;
+  margin: 1.5rem 0 3rem;
+}
+
+.feature-sandbox-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  padding: clamp(1.35rem, 4vw, 2.4rem);
+  border: 1px solid color-mix(in srgb, var(--feature-purple) 22%, var(--vp-c-divider));
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 92% 10%, color-mix(in srgb, var(--feature-purple) 18%, transparent), transparent 38%),
+    radial-gradient(circle at 8% 90%, color-mix(in srgb, var(--feature-green) 18%, transparent), transparent 42%),
+    var(--vp-c-bg-soft);
+  box-shadow: 0 18px 45px rgb(53 38 61 / 10%);
+}
+
+.feature-sandbox-hero::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--feature-orange) 0 33.333%,
+    var(--feature-green) 33.333% 66.666%,
+    var(--feature-purple) 66.666% 100%
+  );
+  content: "";
+}
+
+.feature-sandbox-eyebrow {
+  margin: 0 0 0.55rem;
+  color: var(--feature-purple);
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+}
+
+.feature-sandbox-title {
+  margin: 0;
+  border: 0;
+  font-size: clamp(1.75rem, 5vw, 2.6rem);
+  line-height: 1.15;
+}
+
+.feature-sandbox-lead {
+  max-width: 46rem;
+  margin: 0.85rem 0 0;
+  color: var(--vp-c-text-2);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.feature-sandbox-palette {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: min(15rem, 58%);
+  height: 4px;
+  margin-top: 1.2rem;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.feature-sandbox-palette span:nth-child(1) {
+  background: var(--feature-orange);
+}
+
+.feature-sandbox-palette span:nth-child(2) {
+  background: var(--feature-green);
+}
+
+.feature-sandbox-palette span:nth-child(3) {
+  background: var(--feature-purple);
+}
+
+.feature-sandbox-guide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.feature-sandbox-guide-item {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.feature-sandbox-guide-item strong {
+  color: var(--vp-c-text-1);
+}
+
+.feature-sandbox-shell {
+  padding-top: 6px;
+  border-radius: 18px;
+  background: linear-gradient(
+    90deg,
+    var(--feature-orange) 0 33.333%,
+    var(--feature-green) 33.333% 66.666%,
+    var(--feature-purple) 66.666% 100%
+  );
+  box-shadow: 0 22px 55px rgb(42 33 48 / 14%);
+}
+
+.feature-sandbox-fallback {
+  padding: 2rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  text-align: center;
+}
+
+.dps-playground.feature-sandbox,
+.dps-playground.feature-sandbox:is(.dps-theme-light, .dps-theme-dark),
+.dark .dps-playground.feature-sandbox.dps-theme-auto {
+  --dps-accent: var(--feature-purple);
+  --dps-accent-hover: #7d62db;
+  --dps-accent-soft: color-mix(in srgb, var(--feature-purple) 17%, transparent);
+  --dps-on-accent: #ffffff;
+  --dps-border-strong: color-mix(in srgb, var(--feature-purple) 42%, var(--dps-border));
+  --dps-selection: color-mix(in srgb, var(--feature-purple) 25%, transparent);
+  --dps-danger: #b44843;
+  --dps-danger-soft: color-mix(in srgb, #b44843 13%, transparent);
+  --dps-syntax-keyword: var(--feature-purple);
+  --dps-syntax-type: var(--feature-orange);
+  --dps-syntax-string: #3f8d70;
+  --dps-syntax-number: #a7653c;
+  --dps-syntax-bool: #7655ca;
+  --dps-syntax-operator: #7a536e;
+  --dps-cell-shadow: 0 8px 22px rgb(45 34 52 / 8%);
+  overflow: hidden;
+  border-radius: 0 0 16px 16px;
+}
+
+html:not(.dark) .dps-playground.feature-sandbox.dps-theme-auto,
+.dps-playground.feature-sandbox.dps-theme-light {
+  --dps-bg: #f8f5f1;
+  --dps-panel: #ffffff;
+  --dps-panel-soft: #f3eee9;
+  --dps-code-bg: #fcfaf7;
+  --dps-border: #ded5cf;
+  --dps-text: #302b32;
+  --dps-muted: #6f6671;
+  --dps-faint: #978d98;
+  --dps-shadow: 0 16px 40px rgb(45 34 52 / 10%);
+}
+
+.dark .dps-playground.feature-sandbox.dps-theme-auto,
+.dps-playground.feature-sandbox.dps-theme-dark {
+  --dps-accent: #9278e1;
+  --dps-accent-hover: #a48cec;
+  --dps-bg: #18161b;
+  --dps-panel: #211e24;
+  --dps-panel-soft: #2a252d;
+  --dps-code-bg: #151318;
+  --dps-border: #453d49;
+  --dps-text: #f5f0f6;
+  --dps-muted: #c4b9c7;
+  --dps-faint: #968a99;
+  --dps-syntax-string: #87c8ae;
+  --dps-syntax-number: #dfa77f;
+  --dps-syntax-type: #dfa77f;
+  --dps-shadow: 0 18px 44px rgb(0 0 0 / 28%);
+  --dps-cell-shadow: 0 10px 26px rgb(0 0 0 / 22%);
+}
+
+.dps-playground.feature-sandbox .dps-cell {
+  border-radius: 10px;
+}
+
+.dps-playground.feature-sandbox .dps-cell-heading {
+  border-left: 3px solid var(--feature-green);
+}
+
+@media (max-width: 640px) {
+  .feature-sandbox-guide {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-sandbox-hero {
+    border-radius: 14px;
+  }
+
+  .feature-sandbox-shell {
+    border-radius: 14px;
+  }
+
+  .dps-playground.feature-sandbox {
+    border-radius: 0 0 12px 12px;
+  }
+}
