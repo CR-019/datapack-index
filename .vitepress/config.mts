@@ -38,6 +38,7 @@ import{
     sidebar_202606,
     sidebar_202607,
 }from "./sidebar_feature2026"
+import { sidebar_en } from "./sidebar_en"
 
 function htmlImagePlugin(): Plugin {
   let root = "";
@@ -115,6 +116,85 @@ const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+    locales: {
+        root: {
+            label: "简体中文",
+            lang: "zh-CN",
+            link: "/",
+        },
+        en: {
+            label: "English",
+            lang: "en-US",
+            link: "/en/",
+            title: "Vanilla Library",
+            description: "An index of resources for vanilla Minecraft Java Edition mod development.",
+            markdown: {
+                container: {
+                    tipLabel: "Tip",
+                    infoLabel: "Info",
+                    warningLabel: "Warning",
+                    dangerLabel: "Danger",
+                    detailsLabel: "Details",
+                },
+                codeCopyButton: {
+                    tooltipText: "Copy code",
+                    copiedText: "Copied",
+                },
+            },
+            themeConfig: {
+                nav: [
+                    { text: "Documentation", link: "/en/index/绪论" },
+                    { text: "Prerequisite Library", link: "/en/wheel/" },
+                    { text: "Feature", link: "/en/feature/_index" },
+                    { text: "Preview", link: "/en/preview/" },
+                    { text: "Wiki", link: "https://minecraft.wiki/" },
+                ],
+                outlineTitle: "On this page",
+                sidebar: sidebar_en,
+                announcementBar: {
+                    enabled: true,
+                    content: "🎉 Vanilla Library's Markdown previewer is now available",
+                    link: siteBase + "en/preview",
+                    linkText: "[Open]",
+                    background: "#ffa05a",
+                    color: "#ffffff",
+                    dismissible: true,
+                    doNotShowAgainText: "Don't show again",
+                    storageKey: "datapack-index-announcement-202606-v2-en",
+                },
+                search: {
+                    provider: "local",
+                    options: {
+                        // @ts-ignore
+                        showDetailedList: true,
+                        translations: {
+                            button: {
+                                buttonText: "Search",
+                                buttonAriaLabel: "Search documentation",
+                            },
+                            modal: {
+                                noResultsText: "No results found",
+                                resetButtonTitle: "Clear search",
+                                footer: {
+                                    selectText: "Select",
+                                    navigateText: "Navigate",
+                                },
+                            },
+                        },
+                    },
+                },
+                langMenuLabel: "Change language",
+                docFooter: {
+                    prev: "Previous page",
+                    next: "Next page",
+                },
+                footer: {
+                    copyright: "Copyright©2026 VanillaLibrary Dev",
+                    message: "Powered by VitePress and GitHub Pages",
+                },
+            },
+        },
+    },
     title: "香草图书馆",
     base: siteBase,
     description: "Powered by VitePress",
@@ -133,6 +213,13 @@ export default defineConfig({
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",
         outline: [2, 6],
+        i18nRouting(data, route, targetLocale) {
+            const target = data.site.value.locales[targetLocale]
+            const targetLink = target.link || (targetLocale === "root" ? "/" : `/${targetLocale}/`)
+            const relativePath = route.data.relativePath.replace(/^en\//, "").replace(/\.md$/, "")
+            const pagePath = relativePath === "index" ? "" : `/${relativePath}`
+            return `${targetLink.replace(/\/$/, "")}${pagePath}${route.hash}` || "/"
+        },
         nav: [
             { text: "文档", link: "/index/绪论" },
             { text: "前置馆", link: "/wheel" },
@@ -269,7 +356,32 @@ export default defineConfig({
                 // 给所有由 Markdown 语法生成的 img 添加 data-md-img 属性
                 token.attrSet('data-md-img', '')
                 // 调用默认渲染逻辑
-                return defaultRender?.(tokens, idx, options, env, self) || ''
+                const rendered = defaultRender?.(tokens, idx, options, env, self) || ''
+                return normalizeVoidMarkup(rendered)
+            }
+
+            // Raw HTML and Markdown hard breaks can also emit HTML void tags.
+            // Keep those compatible with Vue's template parser as well.
+            const normalizeVoidMarkup = (value: string) => value.replace(
+                /<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)(\s[^>]*?)?(\s*\/)?>(?:)/giu,
+                (_match, tag, attrs = '', slash = '') => slash
+                    ? `<${tag}${attrs}${slash}>`
+                    : `<${tag}${attrs} />`
+            )
+            for (const ruleName of ['html_inline', 'html_block'] as const) {
+                const defaultHtmlRender = md.renderer.rules[ruleName]
+                md.renderer.rules[ruleName] = (tokens, idx, options, env, self) => {
+                    const rendered = defaultHtmlRender
+                        ? defaultHtmlRender(tokens, idx, options, env, self)
+                        : tokens[idx].content
+                    return normalizeVoidMarkup(rendered)
+                }
+            }
+
+            const defaultHardbreakRender = md.renderer.rules.hardbreak
+            md.renderer.rules.hardbreak = (tokens, idx, options, env, self) => {
+                const rendered = defaultHardbreakRender?.(tokens, idx, options, env, self) || '<br>\n'
+                return normalizeVoidMarkup(rendered)
             }
         },
     },

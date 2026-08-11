@@ -4,15 +4,15 @@
 			<div class="header">
 				<img src="/icons/cart_with_chest.png" alt="Logo" class="logo" />
 				<div class="title-container">
-					<span class="title">香草前置馆 — 全部资源</span>
-					<span class="subtitle">随意挑选自己最香草的前置</span>
+						<span class="title">{{ siteTitle }}</span>
+						<span class="subtitle">{{ siteSubtitle }}</span>
 				</div>
 			</div>
 
 			<!-- action buttons: return to search, submit -->
 			<div class="action-row">
-				<button class="submit-button" @click="goToSearch" aria-label="返回搜索页面">返回搜索页面</button>
-				<button class="submit-button" @click="submit" aria-label="投稿">投稿</button>
+					<button class="submit-button" @click="goToSearch" :aria-label="backLabel">{{ backLabel }}</button>
+					<button class="submit-button" @click="submit" :aria-label="submitLabel">{{ submitLabel }}</button>
 			</div>
 
 			<div class="results">
@@ -21,13 +21,13 @@
 			</div>
 
 			<div class="pagination" v-if="totalPages > 1">
-				<button class="page-btn" :disabled="page <= 1" @click="prevPage">上一页</button>
-				<span class="page-info">第 {{ page }} / {{ totalPages }} 页</span>
-				<button class="page-btn" :disabled="page >= totalPages" @click="nextPage">下一页</button>
+					<button class="page-btn" :disabled="page <= 1" @click="prevPage">{{ previousLabel }}</button>
+					<span class="page-info">{{ pageLabel }} {{ page }} / {{ totalPages }}{{ pageSuffix }}</span>
+					<button class="page-btn" :disabled="page >= totalPages" @click="nextPage">{{ nextLabel }}</button>
 			</div>
 
-			<div class="empty" v-if="loading">加载中…</div>
-			<div class="empty" v-else-if="!data || !data.length">暂无资源</div>
+			<div class="empty" v-if="loading">{{ loadingLabel }}</div>
+			<div class="empty" v-else-if="!data || !data.length">{{ emptyLabel }}</div>
 		</div>
 	</div>
 </template>
@@ -35,6 +35,7 @@
 <script>
 import FlexSearch from "flexsearch";
 import ResultCard from "./ResultCard.vue";
+import { useData } from "vitepress";
 
 // simple localStorage cache configuration
 const CACHE_KEY = "datapack_formatters_cache_v1";
@@ -159,6 +160,10 @@ function sanitizeDataForCache(data, fields = [
 
 export default {
 	components: { ResultCard },
+	setup() {
+		const { lang } = useData();
+		return { lang };
+	},
 	data() {
 		return {
 			page: 1,
@@ -191,9 +196,9 @@ export default {
 					return;
 				}
 				// fallback: open root
-				window.location.href = "/datapack-index/wheel";
+				window.location.href = this.isEnglish ? "/datapack-index/en/wheel" : "/datapack-index/wheel";
 			} catch (e) {
-				window.location.href = "/datapack-index/wheel";
+				window.location.href = this.isEnglish ? "/datapack-index/en/wheel" : "/datapack-index/wheel";
 			}
 		},
 		async fetchData() {
@@ -294,6 +299,39 @@ export default {
 		},
 	},
 	computed: {
+			isEnglish() {
+				return String(this.lang || '').startsWith('en');
+			},
+			siteTitle() {
+				return this.isEnglish ? 'Vanilla Prerequisite Library — All Resources' : '香草前置馆 — 全部资源';
+			},
+			siteSubtitle() {
+				return this.isEnglish ? 'Choose the prerequisite that suits your vanilla project' : '随意挑选自己最香草的前置';
+			},
+			backLabel() {
+				return this.isEnglish ? 'Back to Search' : '返回搜索页面';
+			},
+			submitLabel() {
+				return this.isEnglish ? 'Submit' : '投稿';
+			},
+			previousLabel() {
+				return this.isEnglish ? 'Previous' : '上一页';
+			},
+			nextLabel() {
+				return this.isEnglish ? 'Next' : '下一页';
+			},
+			pageLabel() {
+				return this.isEnglish ? 'Page' : '第';
+			},
+			pageSuffix() {
+				return this.isEnglish ? '' : ' 页';
+			},
+			loadingLabel() {
+				return this.isEnglish ? 'Loading…' : '加载中…';
+			},
+			emptyLabel() {
+				return this.isEnglish ? 'No resources available' : '暂无资源';
+			},
 		paginatedItems() {
 			const items = Array.isArray(this.data) ? this.data : [];
 			const p = Math.max(1, Math.min(this.page, Math.ceil(items.length / this.pageSize || 1)));
@@ -324,7 +362,7 @@ export default {
 		try {
 			if (typeof document !== 'undefined') {
 				this._originalTitle = document.title || '';
-				document.title = '全部内容 | 香草前置馆';
+				document.title = this.isEnglish ? 'All Resources | Vanilla Prerequisite Library' : '全部内容 | 香草前置馆';
 			}
 		} catch (e) {
 			// ignore

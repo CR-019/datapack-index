@@ -50,20 +50,26 @@ const notebook: PlaygroundNotebook = {
 </header>
 
 放一个完整的notebook.
-
-<DpsPlayground
-    :notebook="notebook"
-    :allow-import="false"
-    :render="{ auto: false }"
-    theme="auto"
-    layout="compact"
-    checkpoint-name="feature-test"
-    site-id="vanilla-library"
-/>
+<div>
+    <ClientOnly>
+        <DpsPlayground
+        :notebook="notebook"
+        :allow-import="false"
+        :render="{ auto: false }"
+        theme="auto"
+        layout="compact"
+        checkpoint-name="feature-test"
+        site-id="vanilla-library"
+        />
+    </ClientOnly>
+</div>
 
 或者可以内联的小号的
-
-<DpsCell
-    v-model="source"
-    version="26.2"
-/>
+<div>
+    <ClientOnly>
+        <DpsCell
+        v-model="source"
+        version="26.2"
+        />
+    </ClientOnly>
+</div>

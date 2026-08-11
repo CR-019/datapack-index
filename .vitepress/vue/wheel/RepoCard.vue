@@ -12,10 +12,10 @@
             <p class="desc" v-if="repo.description">{{ repo.description }}</p>
             <p class="license">
                 <template v-if="licenseInfo">
-                    <a v-if="licenseInfo.url" :href="licenseInfo.url" target="_blank" rel="noopener noreferrer" class="license-name">{{ licenseInfo.name || licenseInfo.spdxId || '未知许可证' }}</a>
-                    <span v-else class="license-name">{{ licenseInfo.name || licenseInfo.spdxId || '未知许可证' }}</span>
+                    <a v-if="licenseInfo.url" :href="licenseInfo.url" target="_blank" rel="noopener noreferrer" class="license-name">{{ licenseInfo.name || licenseInfo.spdxId || (isEnglish ? 'Unknown license' : '未知许可证') }}</a>
+                    <span v-else class="license-name">{{ licenseInfo.name || licenseInfo.spdxId || (isEnglish ? 'Unknown license' : '未知许可证') }}</span>
                 </template>
-                <span v-else class="muted">未指定许可证</span>
+                <span v-else class="muted">{{ isEnglish ? 'No license specified' : '未指定许可证' }}</span>
             </p>
         </header>
 
@@ -54,7 +54,7 @@
 
         <section class="meta">
             <div class="release">
-                <div class="meta-title">最新版本</div>
+                <div class="meta-title">{{ isEnglish ? 'Latest Release' : '最新版本' }}</div>
                 <div class="tag-row">
                     <template v-if="release">
                         <a :href="release.url" target="_blank" rel="noopener noreferrer" class="release-tag">{{
@@ -65,7 +65,7 @@
                         </span>
                     </template>
                     <template v-else>
-                        <span class="muted">无发布版本</span>
+                        <span class="muted">{{ isEnglish ? 'No releases' : '无发布版本' }}</span>
                     </template>
                 </div>
                 <div class="release-meta">
@@ -75,7 +75,7 @@
             </div>
 
             <div class="commit">
-                <div class="meta-title">最后提交</div>
+                <div class="meta-title">{{ isEnglish ? 'Last Commit' : '最后提交' }}</div>
                 <div class="commit-time"><span class="muted">{{ formatDate(lastCommit) }}</span></div>
             </div>
         </section>
@@ -83,19 +83,23 @@
         <div class="foot" v-if="error">{{ error }}</div>
     </div>
 
-    <div v-else-if="loading" class="loading">Loading…</div>
+    <div v-else-if="loading" class="loading">{{ isEnglish ? 'Loading…' : '加载中…' }}</div>
     <div v-else-if="error" class="error">{{ error }}</div>
 </template>
 
 <script setup>
 
 import { ref, watchEffect, computed } from 'vue';
+import { useData } from 'vitepress';
 
 const props = defineProps({
     repo: { type: String, required: true },                // "owner/repo"
     apiBase: { type: String, default: 'https://api.mcfpp.top' },
     topN: { type: Number, default: 10 }                    // languages fetch limit (display subset)
 });
+
+const { lang } = useData();
+const isEnglish = computed(() => String(lang.value || '').startsWith('en'));
 
 const loading = ref(false);
 const error = ref('');

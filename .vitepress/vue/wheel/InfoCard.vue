@@ -5,11 +5,11 @@
 
                 <a href="../" target="_blank" class="action back-btn" rel="noopener noreferrer">
                     <svg viewBox="0 0 16 16" class="icon" aria-hidden="true"><path fill="currentColor" d="M5.5 3.5L4.5 4.5 8.0 8 4.5 11.5 5.5 12.5 10 8z"></path></svg>
-                    <span>返回搜索</span>
+                    <span>{{ isEnglish ? 'Back to Search' : '返回搜索' }}</span>
                 </a>
                 <a :href="githubPath" target="_blank" class="action edit-btn" rel="noopener noreferrer">
                     <svg viewBox="0 0 16 16" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.3 1.7a1 1 0 0 1 1.4 0l.6.6a1 1 0 0 1 0 1.4l-8.6 8.6a1 1 0 0 1-.5.3l-3 1a.5.5 0 0 1-.6-.6l1-3a1 1 0 0 1 .3-.5l8.6-8.6zM11.3 3L4 10.3 3 11l.7-1L12 3.7 11.3 3z"></path></svg>
-                    <span>在 GitHub 编辑此页</span>
+                    <span>{{ isEnglish ? 'Edit this page on GitHub' : '在 GitHub 编辑此页' }}</span>
                 </a>
             </div>
         </div>
@@ -42,20 +42,20 @@
                 </div>
             </div>
             <div class="gameversion">
-                支持的游戏版本：
+                {{ isEnglish ? 'Supported game versions:' : '支持的游戏版本：' }}
                 <span v-for="(version, index) in info.gameversion" :key="index" class="version-badge">
                     {{ version }}
                 </span>
             </div>
             <div class="tags">
-                标签：
+                {{ isEnglish ? 'Tags:' : '标签：' }}
                 <span v-for="(tag, index) in info.tags" :key="index" class="tag-badge" :style="tagStyle(tag)">
                     {{ tag }}
                 </span>
             </div>
         </div>
     </div>
-    <div class="info-card empty" v-else>无可用信息</div>
+    <div class="info-card empty" v-else>{{ isEnglish ? 'No information available' : '无可用信息' }}</div>
     <!-- show repo card under this component only on mobile -->
     <RepoCard v-if="isMobile && info.repo" :repo="info.repo" style="margin-top: 10px;" />
 </template>
@@ -66,7 +66,9 @@ import RepoCard from './RepoCard.vue';
 import { useData } from "vitepress";
 import { stringToBadgeColors } from "../../scripts/badgeColor";
 
-const { frontmatter } = useData();
+const { frontmatter, lang } = useData();
+
+const isEnglish = computed(() => String(lang.value || '').startsWith('en'));
 
 const info = computed(() => {
     return frontmatter.value || {};
@@ -164,14 +166,14 @@ onMounted(() => {
     }
 });
 
-// Set document title to "{{item.name}} | 香草前置馆" when info.name is present
+// Set the document title when info.name is present.
 onMounted(() => {
     try {
         if (typeof document === 'undefined') return;
         const originalTitle = document.title || '';
 
         const updateTitle = (name) => {
-            if (name) document.title = `${name} | 香草前置馆`;
+            if (name) document.title = `${name} | ${isEnglish.value ? 'Vanilla Prerequisite Library' : '香草前置馆'}`;
         };
 
         // initial set

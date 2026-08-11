@@ -16,7 +16,7 @@ type AnnouncementBarConfig = {
   closeLabel?: string
 }
 
-const { theme } = useData()
+const { theme, lang } = useData()
 const barRef = ref<HTMLElement | null>(null)
 const dismissed = ref(false)
 const doNotShowAgain = ref(false)
@@ -34,6 +34,8 @@ const config = computed(() => {
 const content = computed(() => config.value.content ?? config.value.text ?? '')
 const storageKey = computed(() => config.value.storageKey ?? 'site-announcement-bar')
 const isDismissible = computed(() => config.value.dismissible !== false)
+const defaultDoNotShowAgainText = computed(() => lang.value.startsWith('en') ? "Don't show again" : '不再提示')
+const defaultCloseLabel = computed(() => lang.value.startsWith('en') ? 'Close announcement' : '关闭公告')
 const isVisible = computed(() => {
   return config.value.enabled !== false && content.value.trim().length > 0 && (!isDismissible.value || !dismissed.value)
 })
@@ -142,12 +144,12 @@ watch(isVisible, () => {
             class="site-announcement-bar__checkbox"
             type="checkbox"
           >
-          <span>{{ config.doNotShowAgainText ?? '不再提示' }}</span>
+          <span>{{ config.doNotShowAgainText ?? defaultDoNotShowAgainText }}</span>
         </label>
         <button
           class="site-announcement-bar__close"
           type="button"
-          :aria-label="config.closeLabel ?? '关闭公告'"
+          :aria-label="config.closeLabel ?? defaultCloseLabel"
           @click="dismiss"
         >
           <span class="site-announcement-bar__close-icon" aria-hidden="true"></span>

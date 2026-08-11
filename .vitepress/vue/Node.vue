@@ -5,7 +5,7 @@
     <span
       v-if="required"
       class="indicator required"
-      title="此项为必选项"
+      :title="requiredTitle"
     >
       *
     </span>
@@ -13,7 +13,7 @@
     <span
       v-if="store"
       class="indicator store"
-      title="存储时必存在"
+      :title="storeTitle"
     >
       *
     </span>
@@ -22,8 +22,14 @@
 </template>
 
 <script>
+import { useData } from 'vitepress'
+
 export default {
   name: "NbtTypeTag",
+  setup() {
+    const { lang } = useData()
+    return { lang }
+  },
   props: {
     type: {
       type: String,
@@ -55,6 +61,12 @@ export default {
     }
   },
   computed: {
+    requiredTitle() {
+      return String(this.lang || '').startsWith('en') ? 'Required field' : '此项为必选项'
+    },
+    storeTitle() {
+      return String(this.lang || '').startsWith('en') ? 'Always present when stored' : '存储时必存在'
+    },
     iconSrc() {
       const typeToIconMap = {
         any: 'any',

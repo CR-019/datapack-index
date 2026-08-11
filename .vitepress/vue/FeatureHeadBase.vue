@@ -2,7 +2,7 @@
   <div class="article-container">
     <!-- 头图，仅当 cover 不是 false 时显示 -->
     <div v-if="cover !== false" class="header-image-wrapper">
-      <img :src="cover" alt="是封面" class="header-image" />
+      <img :src="cover" :alt="isEnglish ? 'Cover' : '是封面'" class="header-image" />
       <div class="gradient-overlay"></div>
     </div>
     <div v-else class="spacer"></div>
@@ -181,10 +181,19 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useData } from 'vitepress';
+
 const baseUrl = import.meta.env.BASE_URL;
 
 export default {
   name: "ArticleHeaderBase",
+  setup() {
+    const { lang } = useData();
+    return {
+      isEnglish: computed(() => String(lang.value || '').startsWith('en')),
+    };
+  },
   props: {
     title: {
       type: String,

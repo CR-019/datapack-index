@@ -84,7 +84,11 @@ const LANGUAGE_ALIASES = {
   'vue-html': 'vue'
 }
 
-const sampleMarkdown = `---
+const parentData = useData()
+const isEnglish = computed(() => String(parentData.lang.value || '').startsWith('en'))
+const t = (zh, en) => (isEnglish.value ? en : zh)
+
+const sampleMarkdownZh = `---
 name: Markdown Preview
 author:
   -
@@ -126,6 +130,50 @@ execute as @a run say preview
 \`\`\`
 `
 
+const sampleMarkdownEn = `---
+name: Markdown Preview
+author:
+  -
+    name: Alumopper
+    char: Editor
+description: Check Markdown and custom Vue components with the site's styles
+tags: [Preview, Markdown]
+version: 1.0
+gameversion: [1.21+]
+wheel: true
+---
+
+<InfoCard />
+
+<ColorLine :height="4" />
+
+# Markdown Preview
+
+::: tip
+This uses VitePress's documentation styles.
+:::
+
+<FeatureHead
+  title="Custom component preview"
+  authorName="Alumopper"
+  abstractText="Vue components in Markdown are rendered as real components."
+  cover="/icons/bg5.png"
+/>
+
+## Tables and code
+
+| Item | Status |
+| --- | --- |
+| GFM table | Working |
+| Vue component | Working |
+
+\`\`\`mcfunction
+execute as @a run say preview
+\`\`\`
+`
+
+const sampleMarkdown = isEnglish.value ? sampleMarkdownEn : sampleMarkdownZh
+
 const source = ref(sampleMarkdown)
 const documentPath = ref('')
 const previewComponent = shallowRef(null)
@@ -142,7 +190,6 @@ const draftSavedAt = ref('')
 const isEditingPath = ref(false)
 const isTopPanelCollapsed = ref(false)
 
-const parentData = useData()
 const parsedFrontmatter = ref({})
 const previewPage = computed(() => ({
   ...parentData.page.value,
@@ -163,20 +210,22 @@ const frontmatterSummary = computed(() => {
 
 const draftStatus = computed(() => {
   if (draftError.value) return draftError.value
-  return draftSavedAt.value ? `草稿已保存 ${draftSavedAt.value}` : '草稿待保存'
+  return draftSavedAt.value
+    ? t(`草稿已保存 ${draftSavedAt.value}`, `Draft saved ${draftSavedAt.value}`)
+    : t('草稿待保存', 'Draft not saved')
 })
 
 const renderStatusLabel = computed(() => {
-  if (isRendering.value) return '渲染中'
-  if (previewMode.value === 'partial') return `部分渲染 (${previewIssueCount.value} 个问题)`
-  if (previewMode.value === 'diagnostic') return `已渲染，含诊断 (${previewIssueCount.value} 个问题)`
-  if (previewError.value) return '渲染异常'
-  return '已渲染'
+  if (isRendering.value) return t('渲染中', 'Rendering')
+  if (previewMode.value === 'partial') return t(`部分渲染 (${previewIssueCount.value} 个问题)`, `Partial render (${previewIssueCount.value} issue${previewIssueCount.value === 1 ? '' : 's'})`)
+  if (previewMode.value === 'diagnostic') return t(`已渲染，含诊断 (${previewIssueCount.value} 个问题)`, `Rendered with diagnostics (${previewIssueCount.value} issue${previewIssueCount.value === 1 ? '' : 's'})`)
+  if (previewError.value) return t('渲染异常', 'Render error')
+  return t('已渲染', 'Rendered')
 })
 
-const pathControlLabel = computed(() => (isEditingPath.value ? '完成' : '修改'))
+const pathControlLabel = computed(() => (isEditingPath.value ? t('完成', 'Done') : t('修改', 'Edit')))
 
-const collapsedPathLabel = computed(() => documentPath.value || '资源解析路径未设置')
+const collapsedPathLabel = computed(() => documentPath.value || t('资源解析路径未设置', 'Resource path not set'))
 
 let renderTimer = 0
 let activeRender = 0
@@ -221,7 +270,7 @@ function persistDraft() {
   if (typeof window === 'undefined') return true
 
   try {
-    const savedAt = new Date().toLocaleTimeString('zh-CN', { hour12: false })
+    const savedAt = new Date().toLocaleTimeString(isEnglish.value ? 'en-US' : 'zh-CN', { hour12: false })
     window.localStorage.setItem(STORAGE_KEY, source.value)
     window.localStorage.setItem(PATH_STORAGE_KEY, documentPath.value)
     window.localStorage.setItem(DRAFT_SAVED_AT_KEY, savedAt)
@@ -229,7 +278,7 @@ function persistDraft() {
     draftError.value = ''
     return true
   } catch (error) {
-    draftError.value = `草稿保存失败：${formatError(error)}`
+    draftError.value = t(`草稿保存失败：${formatError(error)}`, `Failed to save draft: ${formatError(error)}`)
     return false
   }
 }
@@ -280,7 +329,7 @@ async function renderPreview() {
       highlighter = await getPreviewHighlighter()
     } catch (error) {
       if (!setupError.value) {
-        setupError.value = `Shiki 初始化失败：${formatError(error)}`
+        setupError.value = t(`Shiki 初始化失败：${formatError(error)}`, `Shiki initialization failed: ${formatError(error)}`)
       }
     }
 
@@ -328,7 +377,7 @@ function renderPreviewHtml(markdown, highlighter) {
   try {
     return rewriteTemplateUrls(renderMarkdown(markdown, highlighter))
   } catch (error) {
-    throw createRenderError('Markdown 渲染', error, { markdown })
+    throw createRenderError(t('Markdown 渲染', 'Markdown rendering'), error, { markdown })
   }
 }
 
@@ -403,7 +452,7 @@ function renderPreviewChunks(chunks, highlighter, issues, depth) {
       const issue = {
         type: 'error',
         chunk,
-        error: createRenderError('分段渲染', error, { chunk })
+        error: createRenderError(t('分段渲染', 'Partial rendering'), error, { chunk })
       }
       issues.push(issue)
       items.push({ issue })
@@ -472,7 +521,7 @@ function compilePreviewTemplate(template) {
       onWarn: (warning) => diagnostics.push(warning)
     })
   } catch (error) {
-    throw createRenderError('Vue 模板编译', error, { diagnostics, template })
+    throw createRenderError(t('Vue 模板编译', 'Vue template compilation'), error, { diagnostics, template })
   }
 
   const blockingDiagnostics = diagnostics.filter((diagnostic) => !isRecoverableTemplateDiagnostic(diagnostic))
@@ -481,7 +530,7 @@ function compilePreviewTemplate(template) {
   try {
     render = new Function('Vue', result.code)(VueRuntime)
   } catch (error) {
-    throw createRenderError('Vue 渲染函数生成', error, {
+    throw createRenderError(t('Vue 渲染函数生成', 'Vue render function generation'), error, {
       diagnostics: blockingDiagnostics,
       generatedCode: result.code,
       template
@@ -535,8 +584,8 @@ function createRenderError(stage, error, details = {}) {
 
 function formatDiagnosticRenderReport(diagnostics, template) {
   return [
-    '渲染报告',
-    `结果: 预览已生成，但 Vue 模板编译器报告了 ${diagnostics.length} 个非阻断问题。`,
+    t('渲染报告', 'Render report'),
+    t(`结果: 预览已生成，但 Vue 模板编译器报告了 ${diagnostics.length} 个非阻断问题。`, `Result: The preview was generated, but the Vue template compiler reported ${diagnostics.length} non-blocking issue${diagnostics.length === 1 ? '' : 's'}.`),
     '',
     ...formatDiagnosticsSection(diagnostics, template)
   ].join('\n')
@@ -544,21 +593,21 @@ function formatDiagnosticRenderReport(diagnostics, template) {
 
 function formatPartialRenderReport(originalError, issues) {
   const lines = [
-    '渲染报告',
-    '结果: 完整预览失败，已切换为分段渲染。可编译的片段已经继续显示，失败片段会在原位置标出。',
+    t('渲染报告', 'Render report'),
+    t('结果: 完整预览失败，已切换为分段渲染。可编译的片段已经继续显示，失败片段会在原位置标出。', 'Result: Full preview failed, so partial rendering was used. Compilable fragments remain visible, and failed fragments are marked in place.'),
     '',
-    '完整渲染错误:',
+    t('完整渲染错误:', 'Full-render error:'),
     ...indentLines(formatRenderErrorDetails(originalError))
   ]
 
   if (issues.length) {
-    lines.push('', `分段诊断 (${issues.length}):`)
+    lines.push('', t(`分段诊断 (${issues.length}):`, `Partial-render diagnostics (${issues.length}):`))
     for (const issue of issues.slice(0, MAX_REPORTED_ISSUES)) {
       lines.push('', ...indentLines(formatIssueDetails(issue)))
     }
 
     if (issues.length > MAX_REPORTED_ISSUES) {
-      lines.push('', `还有 ${issues.length - MAX_REPORTED_ISSUES} 个问题未在报告中展开。`)
+      lines.push('', t(`还有 ${issues.length - MAX_REPORTED_ISSUES} 个问题未在报告中展开。`, `${issues.length - MAX_REPORTED_ISSUES} more issue${issues.length - MAX_REPORTED_ISSUES === 1 ? '' : 's'} are not expanded in this report.`))
     }
   }
 
@@ -567,8 +616,8 @@ function formatPartialRenderReport(originalError, issues) {
 
 function formatFatalRenderReport(error) {
   return [
-    '渲染报告',
-    '结果: 预览无法生成。',
+    t('渲染报告', 'Render report'),
+    t('结果: 预览无法生成。', 'Result: The preview could not be generated.'),
     '',
     ...formatRenderErrorDetails(error)
   ].join('\n')
@@ -577,38 +626,38 @@ function formatFatalRenderReport(error) {
 function formatIssueDetails(issue) {
   if (issue.type === 'diagnostic') {
     return [
-      `${formatChunkRange(issue.chunk)} 有模板诊断，但该片段已渲染。`,
+      t(`${formatChunkRange(issue.chunk)} 有模板诊断，但该片段已渲染。`, `${formatChunkRange(issue.chunk)} has template diagnostics, but the fragment was rendered.`),
       ...formatDiagnosticsSection(issue.diagnostics, issue.template)
     ]
   }
 
   return [
-    `${formatChunkRange(issue.chunk)} 无法渲染。`,
+    t(`${formatChunkRange(issue.chunk)} 无法渲染。`, `${formatChunkRange(issue.chunk)} could not be rendered.`),
     ...formatRenderErrorDetails(issue.error),
-    'Markdown 片段:',
+    t('Markdown 片段:', 'Markdown fragment:'),
     formatMarkdownExcerpt(issue.chunk)
   ]
 }
 
 function formatRenderErrorDetails(error) {
   const details = [
-    `阶段: ${error?.previewStage || '渲染'}`,
-    `信息: ${formatRenderErrorMessage(error)}`
+    `${t('阶段', 'Stage')}: ${error?.previewStage || t('渲染', 'rendering')}`,
+    `${t('信息', 'Message')}: ${formatRenderErrorMessage(error)}`
   ]
 
   if (error?.chunk) {
-    details.push(`Markdown 行: ${error.chunk.startLine}-${error.chunk.endLine}`)
+    details.push(t(`Markdown 行: ${error.chunk.startLine}-${error.chunk.endLine}`, `Markdown lines: ${error.chunk.startLine}-${error.chunk.endLine}`))
   }
 
   if (error?.diagnostics?.length) {
-    details.push('编译诊断:')
+    details.push(t('编译诊断:', 'Compilation diagnostics:'))
     details.push(...indentLines(formatDiagnosticsSection(error.diagnostics, error.template)))
   }
 
   if (error?.template) {
     const excerpt = formatTemplateExcerpt(error.template, firstDiagnosticOffset(error.diagnostics))
     if (excerpt) {
-      details.push('生成模板上下文:')
+      details.push(t('生成模板上下文:', 'Generated-template context:'))
       details.push(excerpt)
     }
   }
@@ -619,14 +668,16 @@ function formatRenderErrorDetails(error) {
 function formatDiagnosticsSection(diagnostics, template) {
   return diagnostics.flatMap((diagnostic, index) => {
     const location = diagnostic.loc?.start
-    const locationLabel = location ? `生成模板 line ${location.line}, column ${location.column}` : '位置未知'
+    const locationLabel = location
+      ? t(`生成模板 line ${location.line}, column ${location.column}`, `Generated template line ${location.line}, column ${location.column}`)
+      : t('位置未知', 'Unknown location')
     const lines = [
       `${index + 1}. ${getTemplateDiagnosticMessage(diagnostic)}`,
-      `位置: ${locationLabel}`
+      `${t('位置', 'Location')}: ${locationLabel}`
     ]
     const excerpt = formatTemplateExcerpt(template, location?.offset)
     if (excerpt) {
-      lines.push('上下文:', excerpt)
+      lines.push(t('上下文:', 'Context:'), excerpt)
     }
     return lines
   })
@@ -651,10 +702,10 @@ function formatChunkIssue(issue) {
 }
 
 function formatChunkRange(chunk) {
-  if (!chunk) return '未知片段'
+  if (!chunk) return t('未知片段', 'Unknown fragment')
   return chunk.startLine === chunk.endLine
-    ? `Markdown 第 ${chunk.startLine} 行`
-    : `Markdown 第 ${chunk.startLine}-${chunk.endLine} 行`
+    ? t(`Markdown 第 ${chunk.startLine} 行`, `Markdown line ${chunk.startLine}`)
+    : t(`Markdown 第 ${chunk.startLine}-${chunk.endLine} 行`, `Markdown lines ${chunk.startLine}-${chunk.endLine}`)
 }
 
 function formatMarkdownExcerpt(chunk, maxLines = 10) {
@@ -1387,7 +1438,7 @@ function formatError(error) {
 function onFileChange(event) {
   const file = event.target.files?.[0]
   if (!file) return
-  if (!confirmReplaceDraft('打开文件')) {
+  if (!confirmReplaceDraft(t('打开文件', 'Open file'))) {
     event.target.value = ''
     return
   }
@@ -1403,7 +1454,7 @@ function onFileChange(event) {
 }
 
 function useSample() {
-  if (!confirmReplaceDraft('载入示例')) return
+  if (!confirmReplaceDraft(t('载入示例', 'Load sample'))) return
   source.value = sampleMarkdown
   documentPath.value = ''
   loadedFileName.value = ''
@@ -1411,7 +1462,7 @@ function useSample() {
 }
 
 function clearSource() {
-  if (!confirmReplaceDraft('清空内容')) return
+  if (!confirmReplaceDraft(t('清空内容', 'Clear content'))) return
   source.value = ''
   loadedFileName.value = ''
   isEditingPath.value = false
@@ -1421,7 +1472,9 @@ function confirmReplaceDraft(action) {
   const hasDraft = source.value.trim() && source.value !== sampleMarkdown
   if (!hasDraft || typeof window === 'undefined') return true
 
-  return window.confirm(`${action}会替换当前草稿，并覆盖本地自动保存。继续？`)
+  return window.confirm(isEnglish.value
+    ? `${action} will replace the current draft and overwrite the local autosave. Continue?`
+    : `${action}会替换当前草稿，并覆盖本地自动保存。继续？`)
 }
 
 function togglePathEditing() {
@@ -1437,7 +1490,7 @@ function toggleTopPanel() {
   <div class="markdown-preview-app">
     <div class="top-panel" :class="{ collapsed: isTopPanelCollapsed }">
       <div v-if="isTopPanelCollapsed" class="collapsed-toolbar">
-        <button type="button" class="panel-toggle" @click="toggleTopPanel">展开</button>
+        <button type="button" class="panel-toggle" @click="toggleTopPanel">{{ t('展开', 'Expand') }}</button>
         <span>{{ draftStatus }}</span>
         <span>{{ collapsedPathLabel }}</span>
       </div>
@@ -1446,32 +1499,32 @@ function toggleTopPanel() {
         <header class="preview-toolbar">
           <div>
             <h1>Markdown Preview</h1>
-            <p>香草图书馆编辑预览</p>
+            <p>{{ t('香草图书馆编辑预览', 'Vanilla Library editor preview') }}</p>
           </div>
           <div class="preview-actions">
             <label class="preview-button">
-              打开 .md
+              {{ t('打开 .md', 'Open .md') }}
               <input type="file" accept=".md,.markdown,text/markdown,text/plain" @change="onFileChange">
             </label>
-            <button type="button" class="preview-button" @click="useSample">示例</button>
-            <button type="button" class="preview-button subtle" @click="clearSource">清空</button>
-            <button type="button" class="preview-button subtle" @click="toggleTopPanel">收起</button>
+            <button type="button" class="preview-button" @click="useSample">{{ t('示例', 'Sample') }}</button>
+            <button type="button" class="preview-button subtle" @click="clearSource">{{ t('清空', 'Clear') }}</button>
+            <button type="button" class="preview-button subtle" @click="toggleTopPanel">{{ t('收起', 'Collapse') }}</button>
           </div>
         </header>
 
         <div class="path-row">
-          <label for="preview-path">资源解析路径</label>
+          <label for="preview-path">{{ t('资源解析路径', 'Resource path') }}</label>
           <input
             id="preview-path"
             v-model="documentPath"
             type="text"
             :readonly="!isEditingPath"
             spellcheck="false"
-            title="用于让相对图片和链接按 Markdown 文件所在位置解析"
-            :placeholder="isEditingPath ? '例如 feature/archive/202605/0/content.md' : '未设置'"
+            :title="t('用于让相对图片和链接按 Markdown 文件所在位置解析', 'Used to resolve relative images and links from the Markdown file location')"
+            :placeholder="isEditingPath ? t('例如 feature/archive/202605/0/content.md', 'e.g. feature/archive/202605/0/content.md') : t('未设置', 'Not set')"
           >
           <button type="button" class="path-toggle" @click="togglePathEditing">{{ pathControlLabel }}</button>
-          <span class="path-hint">{{ loadedFileName ? `已打开：${loadedFileName}` : '相对图片/链接按此定位' }}</span>
+          <span class="path-hint">{{ loadedFileName ? t(`已打开：${loadedFileName}`, `Opened: ${loadedFileName}`) : t('相对图片/链接按此定位', 'Relative images/links use this path') }}</span>
         </div>
       </template>
     </div>
@@ -1489,7 +1542,7 @@ function toggleTopPanel() {
         <div class="status-row">
           <span>{{ renderStatusLabel }}</span>
           <span>{{ draftStatus }}</span>
-          <span>元数据: {{ frontmatterSummary }}</span>
+          <span>{{ t('元数据', 'Metadata') }}: {{ frontmatterSummary }}</span>
         </div>
 
         <p v-if="draftError" class="preview-alert">{{ draftError }}</p>

@@ -17,7 +17,9 @@
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "buildWheel": "python .vitepress/scripts/build_formatters.py"
+    "buildWheel": "python .vitepress/scripts/build_formatters.py",
+    "translate:en": "node scripts/translate-markdown.mjs && node scripts/normalize-english-components.mjs",
+    "translate:en:comments": "node scripts/translate-english-comments.mjs"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.1",

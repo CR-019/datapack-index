@@ -4,17 +4,17 @@
 			<div class="header" :class="{ 'header--shrunk': headerShrunk }">
 				<img src="/icons/cart_with_chest.png" alt="Logo" class="logo" />
 				<div class="title-container">
-					<span class="title">香草前置馆</span>
-					<span class="subtitle">图书馆最新业务火爆开张中</span>
+						<span class="title">{{ siteTitle }}</span>
+						<span class="subtitle">{{ siteSubtitle }}</span>
 				</div>
 			</div>
 			<div class="search-row">
 				<div class="search-box-container">
 					<input v-model="query" @input="onInput" @keydown="onKeydown" @keyup.enter="doSearch"
-						@focus="isInputFocused = true" @blur="onInputBlur" placeholder="请问你今天要来点轮子吗" class="search-box"
-						aria-label="搜索" />
-					<button class="search-box-button" @click="doSearch" aria-label="搜索">
-						<img src="/icons/search.png" alt="搜索" class="icon" />
+							@focus="isInputFocused = true" @blur="onInputBlur" :placeholder="searchPlaceholder" class="search-box"
+							:aria-label="searchLabel" />
+						<button class="search-box-button" @click="doSearch" :aria-label="searchLabel">
+							<img src="/icons/search.png" :alt="searchLabel" class="icon" />
 					</button>
 					<ul v-if="query.trim() && suggestions.length && isInputFocused" class="suggestions" role="listbox">
 						<li v-for="(s, idx) in suggestions.slice(0, 5)" :key="s.path || idx"
@@ -26,7 +26,7 @@
 					</ul>
 				</div>
 				<div class="submit-button-container">
-					<button class="submit-button" @click="submit" aria-label="投稿">
+						<button class="submit-button" @click="submit" :aria-label="submitLabel">
 						<!-- inline upload/submit icon -->
 						<svg class="submit-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
 							aria-hidden="true" focusable="false">
@@ -37,7 +37,7 @@
 							<path d="M21 21H3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
 								stroke-linejoin="round" fill="none" />
 						</svg>
-						<span class="submit-text">投稿</span>
+						<span class="submit-text">{{ submitLabel }}</span>
 					</button>
 				</div>
 			</div>
@@ -49,11 +49,11 @@
 			</div>
 			<div class="browse-toggle-row">
 				<button class="browse-toggle" @click="goToAll">
-					查看全部资源
+						{{ browseAllLabel }}
 				</button>
 				<span class="bt-divider" aria-hidden="true"></span>
 				<button class="browse-toggle" @click="toggleBrowse">
-					{{ browseLabel }}
+					{{ browseText }}
 				</button>
 			</div>
 		</div>
@@ -63,6 +63,7 @@
 <script>
 import FlexSearch from "flexsearch";
 import ResultCard from "./ResultCard.vue";
+import { useData } from "vitepress";
 
 // simple localStorage cache configuration
 const CACHE_KEY = "datapack_formatters_cache_v1";
@@ -187,6 +188,10 @@ function sanitizeDataForCache(data, fields = [
 
 export default {
 	components: { ResultCard },
+	setup() {
+		const { lang } = useData();
+		return { lang };
+	},
 	data() {
 		return {
 			query: "",
@@ -195,7 +200,7 @@ export default {
 			suggestionIndex: -1,
 			isInputFocused: false,
 			showRandomSection: false,
-			browseLabel: "或者随便看看？",
+			browseLabel: "",
 			randomResults: [],
 			index: null,
 			data: [],
@@ -406,7 +411,7 @@ export default {
 			// hide random section when search executed
 			if (this.query.trim()) {
 				this.showRandomSection = false;
-				this.browseLabel = "或者随便看看？";
+				this.browseLabel = this.isEnglish ? "Or browse randomly?" : "或者随便看看？";
 			}
 		},
 		refreshRandom() {
@@ -420,7 +425,7 @@ export default {
 				this.randomResults = [];
 			}
 			// when refreshed explicitly, ensure label indicates ability to change batch
-			this.browseLabel = "再换一批？";
+			this.browseLabel = this.isEnglish ? "Another batch?" : "再换一批？";
 		},
 		toggleBrowse() {
 			if (this.showRandomSection) {
@@ -430,7 +435,7 @@ export default {
 				// show random area and hide results
 				this.refreshRandom();
 				this.showRandomSection = true;
-				this.browseLabel = "再换一批？";
+				this.browseLabel = this.isEnglish ? "Another batch?" : "再换一批？";
 				this.results = [];
 			}
 		},
@@ -445,7 +450,7 @@ export default {
 			}
 		},
 		goToAll() {
-			window.location.href = "/datapack-index/wheel/all"
+			window.location.href = this.isEnglish ? "/datapack-index/en/wheel/all" : "/datapack-index/wheel/all"
 		},
 		submit() {
 			// 在新标签页中打开投稿页面
@@ -458,8 +463,32 @@ export default {
 				window.location.href = url;
 			}
 		},
-	},
+		},
 	computed: {
+			isEnglish() {
+				return String(this.lang || '').startsWith('en');
+			},
+			siteTitle() {
+				return this.isEnglish ? 'Vanilla Prerequisite Library' : '香草前置馆';
+			},
+			siteSubtitle() {
+				return this.isEnglish ? "The library's newest collection is now open" : '图书馆最新业务火爆开张中';
+			},
+			searchPlaceholder() {
+				return this.isEnglish ? 'Which library wheel would you like today?' : '请问你今天要来点轮子吗';
+			},
+			searchLabel() {
+				return this.isEnglish ? 'Search' : '搜索';
+			},
+			submitLabel() {
+				return this.isEnglish ? 'Submit' : '投稿';
+			},
+			browseAllLabel() {
+				return this.isEnglish ? 'Browse all resources' : '查看全部资源';
+			},
+			browseText() {
+				return this.browseLabel || (this.isEnglish ? 'Or browse randomly?' : '或者随便看看？');
+			},
 		headerShrunk() {
 			const hasResults = Array.isArray(this.results) && this.results.length > 0;
 			// shrink if random/results are shown, or when input focused and no results/random shown
@@ -478,7 +507,7 @@ export default {
 		try {
 			if (typeof document !== 'undefined') {
 				this._originalTitle = document.title || '';
-				document.title = '香草前置馆';
+				document.title = this.isEnglish ? 'Vanilla Prerequisite Library' : '香草前置馆';
 			}
 		} catch (e) {
 			// ignore non-browser

@@ -10,17 +10,17 @@
                 :target="isExternalLink(coverLink) ? '_blank' : '_self'"
                 :rel="isExternalLink(coverLink) ? 'noopener noreferrer' : undefined"
             >
-                <img :src="cover" alt="本期封面" class="cover-image" />
+                <img :src="cover" :alt="isEnglish ? 'Issue cover' : '本期封面'" class="cover-image" />
             </a>
-            <img v-else :src="cover" alt="本期封面" class="cover-image" />
+            <img v-else :src="cover" :alt="isEnglish ? 'Issue cover' : '本期封面'" class="cover-image" />
         </div>
 
         <!-- 信息栏 -->
         <div class="info-bar">
 
             <div class="info-left">
-                <p class="editors">本期编辑：{{ editors.join('、') }}</p>
-                <p v-if="credits" class="credits">特别鸣谢：{{ credits.join('、') }}</p>
+                <p class="editors">{{ isEnglish ? 'Editors: ' : '本期编辑：' }}{{ editors.join(isEnglish ? ', ' : '、') }}</p>
+                <p v-if="credits" class="credits">{{ isEnglish ? 'Special thanks: ' : '特别鸣谢：' }}{{ credits.join(isEnglish ? ', ' : '、') }}</p>
             </div>
             <div class="info-right">
                 <a 
@@ -44,7 +44,16 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useData } from 'vitepress';
+
 export default {
+    setup() {
+        const { lang } = useData();
+        return {
+            isEnglish: computed(() => String(lang.value || '').startsWith('en'))
+        };
+    },
     props: {
         cover: {
             type: String,

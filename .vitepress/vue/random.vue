@@ -5,6 +5,10 @@
 
   <script setup>
   import { ref, onMounted, computed } from 'vue';
+  import { useData } from 'vitepress';
+
+  const { lang } = useData();
+  const isEnglish = computed(() => String(lang.value || '').startsWith('en'));
 
   // 定义多个段落，每个段落可以是多行文本，并包含HTML标签
   /*愚人节限定
@@ -22,7 +26,7 @@
     */
 
 
-  const paragraphs = [
+  const paragraphsZh = [
     
     `—— 你为什么写数据包？是有什么受虐体质吗？
      —— 是。`,
@@ -99,6 +103,57 @@
     `mojang家里人的称呼分别是father、Mother、GrandFather和grand_mother`
   ];
 
+  const paragraphsEn = [
+    `— Why do you write data packs? Is it some kind of masochism?\n     — Yes.`,
+    `You should have gone to hell, but because you wrote <b>Minecraft data packs</b> while alive, we will count your sentence as served.`,
+    `I upgraded my map, and Spyglass reported 1,600 errors to me…`,
+    `Also try MCFPP!`,
+    `Mojang 'Rename' Studios!`,
+    `Bugjump Studios!`,
+    `Data pack developer: (waking up at midnight) “No, did it do that just to annoy me?”`,
+    `Mojang teaches you countable and uncountable nouns.`,
+    `Data pack version is now <del>15</del> <del>18</del> <del>26</del> <del>41</del> <del>48</del> <del>57</del> <del>61</del> <del>71</del> <del>80</del> <del>81</del> <del>82.0</del> <del>88.0</del> <del>94.1</del> 101.1!`,
+    `Shaders!`,
+    `Item components!`,
+    `A divine gold pack.`,
+    `This is a data pack, and it has fallen apart!`,
+    `Hey, why does my 1.21 data pack not recognize functions?`,
+    `Do not lose hope and write a survival pack.`,
+    `Have you heard? MCBBS won its resurrection match. <a href=https://forum.mczwlt.net/ target="_blank">Go there -></a>`,
+    `The data pack joke saga: Change Change versions.`,
+    `STFW stands for "Search the <i>Friendly</i> <a href=https://zh.minecraft.wiki/ target="_blank">Wiki</a>!"`,
+    `— Does your family have a history of mental illness?\n     — I have an uncle who writes data packs.`,
+    `Even my grandmother organizes things better than Mojang.`,
+    `Mojang tosses code in an iron wok, sending APIs flying like chopped scallions.\n    The recipe the developer just learned (the development plan) instantly becomes kitchen waste.`,
+    `Lost-and-found notice: Looking for my sanity. I have not seen it since I started writing data packs.`,
+    `When you feel useless, think about Mojang's data-pack file management.`,
+    `The data pack root directory now contains advancements, variants, functions, variants, loot tables, variants, sound variants, and variants.`,
+    `Mojang holds something in and then has to pull it out, perhaps a night heron.`,
+    `Microsoft versus code!`,
+    `The naming joke saga: changing every time.`,
+    `A Mojang employee reached third grade, discovered that their second-grade homework was broken or incompatible, and renamed it.`,
+    `Mojang elbows every developer who uses a game feature equally.\n    — Just kidding; it elbows those who do not use one too (random renaming).`,
+    `Mojang: I renamed 1,000 keys!`,
+    `Mojang: Not the key name I like? Rename it directly.`,
+    `The data pack author merely checked item data and Mojang broke compatibility in half.`,
+    `Can you hear the data pack authors' wails?`,
+    `Can you feel the data pack coming apart at the seams?`,
+    `You never noticed the victorious renamers grinning.`,
+    `Also try <a href=http://underline.icu/ target="_blank">Underline</a>!`,
+    `Did you know: if the video is not ready when <i>Feature</i> is published, clicking the cover links to CR_019's activity page.`,
+    `Follow <a href=https://space.bilibili.com/85292644 target="_blank">CR_019</a>, please. Thank you!`,
+    `Follow <a href=https://space.bilibili.com/280394409 target="_blank">Alumopper</a>, please. Thank you!`,
+    `Expected a list, a list, a list, a list, a list, a list, a list, a list, a list, or a list.`,
+    `Performance: 😅`,
+    `Fun fact: an @e in a data pack will not make your computer explode.`,
+    `The selected data pack encountered an error, so the world cannot load.\n    You can try loading only the vanilla data pack ("Safe Mode") or return to the title screen and repair the problem manually.`,
+    `The world cannot be loaded in Safe Mode.\n    This save contains invalid or corrupted data.`,
+    `Every data pack or resource pack has applicable version numbers or a version range. A version range always has a compatible minimum and maximum version. The range is used only for game compatibility validation and for allowing overlay packs; whether the data pack or resource pack itself works depends on its contents, not its metadata.`,
+    `1980/02/01`,
+    `Some people say versions before 1.20.2 are ancient versions, so data pack authors from before then were ancient masters. Others disagree. What do you think?`,
+    `Mojang's family members are called father, Mother, GrandFather, and grand_mother.`,
+  ];
+
   // 用于存储选中的段落
   const selectedParagraph = ref('');
 
@@ -109,8 +164,9 @@
 
   // 随机选择一个段落的函数
   function selectRandomParagraph() {
-    const randomIndex = Math.floor(Math.random() * paragraphs.length);
-    selectedParagraph.value = paragraphs[randomIndex];
+    const availableParagraphs = isEnglish.value ? paragraphsEn : paragraphsZh;
+    const randomIndex = Math.floor(Math.random() * availableParagraphs.length);
+    selectedParagraph.value = availableParagraphs[randomIndex];
   }
 
   // 计算属性：确保正确处理换行符
