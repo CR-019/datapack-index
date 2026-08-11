@@ -5,7 +5,6 @@ title: '香草快讯 - Mojang Spotlight - 2025年6月'
 <script setup>
     import SpotlightHead from '/.vitepress/vue/SpotlightHead.vue'
     import ColorLine from '/.vitepress/vue/ColorLine.vue'
-    import NBTNode from '/.vitepress/vue/NBTNode.vue'
 </script>
 
 <SpotlightHead
@@ -41,25 +40,18 @@ title: '香草快讯 - Mojang Spotlight - 2025年6月'
 
 对话框的基本结构如下：
 
-<NBTNode>
-@Desc<"基本定义">
-data Dialog {
-    @Desc<"对话框的类型">
-    type as string;
-    @Desc<"对应框头，即标题，为文本组件">
-    title as text;
-    @Desc<"对应内容第一部分，对话框的主体元素，可以包含各种控件">
-    body as (compound | list&lt;any&gt;);
-    @Desc<"对应内容第二部分，通常是一系列的按钮，即输入控件">
-    inputs as list&lt;any&gt;;
-    @Desc<"在暂停屏幕或其他对话框内用于打开此对话框按钮的文本">
-    external_title as text;
-    @Desc<"对话框的操作后行为">
-    after_action as string;
-    @Desc<"单人游戏下对话框是否暂停游戏">
-    pause as bool;
-}
-</NBTNode>
+<div class="nbttree">
+
+<node type="compound" name="Dialog" />基本定义
+- <node type="string" name="type" />对话框的类型
+- <node type="string" /><node type="compound" /><node type="homolist" name="title" />对应框头，即标题，为文本组件
+- <node type="compound" /><node type="homolist" name="body" />对应内容第一部分，对话框的主体元素，可以包含各种控件
+- <node type="homolist" name="inputs" />对应内容第二部分，通常是一系列的按钮，即输入控件
+- <node type="string" /><node type="compound" /><node type="homolist" name="external_title" />在暂停屏幕或其他对话框内用于打开此对话框按钮的文本
+- <node type="string" name="after_action" />对话框的操作后行为
+- <node type="bool" name="pause" />单人游戏下对话框是否暂停游戏
+
+</div>
 
 主体元素，即`body`中的内容，有
 

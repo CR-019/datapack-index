@@ -78,13 +78,13 @@ data modify storage minecraft:skapi.dbox reg.event.<事件列表ID> set value <�
 **<事件列表ID>** 事件列表的ID，这是唯一的
 **<事件列表>** 一个包含所有事件的复合标签,格式如下
 
-<NBTTree code='
-@Name<"(根标签)">
-data EventList {
-    @Desc<"入口子列表"> main as list<compound>;
-    @Desc<"一个子列表"> @Name<"(子列表名)"> child as list<compound>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="(根标签)" />
+- <node type="homolist" name="main" />入口子列表
+- <node type="homolist" name="(子列表名)" />一个子列表
+
+</div>
 
 #### 播放事件列表
 
@@ -95,12 +95,12 @@ function skdbox:dialog
 **执行者** 指定要向谁播放事件列表，只能指定单一玩家
 **参数**
 
-<NBTTree code='
-@Name<"(根标签)">
-data FunctionArg {
-    @Desc<"事件列表的id"> id as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(根标签)" />
+- <node type="string" name="id" />事件列表的id
+
+</div>
 
 #### 终止事件列表
 
@@ -114,16 +114,16 @@ function skdbox:stop
 
 文本事件，顾名思义，就是在玩家屏幕上显示文本，一条文本显示完毕后，将等待玩家按下空格键，然后显示下一条文本
 
-<NBTTree code='
-@Name<"(文本事件根标签)">
-data TextEvent {
-    @Desc<"此项表明该事件是一个文本事件"> @Name<"type: text"> type as string;
-    @Desc<"要显示的文本，纯文本，不支持文本组件，可以使用转义"> @Name<"text"> qwq as string;
-    @Desc<"说话角色，用于控制显示对话框上方的角色名称和描述，若不存在，则使用上一次调用文本事件时使用的数据。如果此项为 NULL，则不显示角色名称和描述。关于角色定义，详见定义角色"> character as string;
-    @Desc<"角色名称（此项会覆盖character）"> display_name as string;
-    @Desc<"角色描述（此项会覆盖character）"> description as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(文本事件根标签)" />
+- <node type="string" name="type: text" />此项表明该事件是一个文本事件
+- <node type="string" name="text" />要显示的文本，纯文本，不支持文本组件，可以使用转义
+- <node type="string" name="character" />说话角色，用于控制显示对话框上方的角色名称和描述，若不存在，则使用上一次调用文本事件时使用的数据。如果此项为 NULL，则不显示角色名称和描述。关于角色定义，详见定义角色
+- <node type="string" name="display_name" />角色名称（此项会覆盖character）
+- <node type="string" name="description" />角色描述（此项会覆盖character）
+
+</div>
 
 ![Archive.20250705/20250706013057.png](Archive.20250705/20250706013057.png)
 
@@ -229,13 +229,13 @@ gantt
 
 这种情况下需要使用延迟事件，格式如下
 
-<NBTTree code='
-@Name<"(延迟事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个延迟事件"> @Name<"type: delay"> type as string;
-    @Desc<"延迟的时间（tick）"> time as int;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(延迟事件根标签)" />
+- <node type="string" name="type: delay" />此项表明该事件是一个延迟事件
+- <node type="int" name="time" />延迟的时间（tick）
+
+</div>
 
 ```json
 {
@@ -280,39 +280,39 @@ gantt
 
 #### 加载立绘 tachie_load
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件类型为：加载立绘"> @Name<"type: tachie_load"> type as string;
-    @Desc<"角色ID"> character as string;
-    @Desc<"立绘ID"> tachie as string;
-    @Desc<"立绘的x坐标，默认为 CENTER ，可选值为LEFT, M_LEFT, CENTER, M_RIGHT, RIGHT，如果想使用自定义值，详见全局设置 立绘"> position as string;
-    @Desc<"颜色叠加，默认为 default(#FFFFFF)，可选值为 midnight, noon，如果想使用自定义值，详见全局设置 立绘"> color as string;
-    @Desc<"动画ID，立绘载入动画，默认为 fade_in_left ，详见定义动画"> animation as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: tachie_load" />此项表明该事件类型为：加载立绘
+- <node type="string" name="character" />角色ID
+- <node type="string" name="tachie" />立绘ID
+- <node type="string" name="position" />立绘的x坐标，默认为 CENTER ，可选值为LEFT, M_LEFT, CENTER, M_RIGHT, RIGHT，如果想使用自定义值，详见全局设置 立绘
+- <node type="string" name="color" />颜色叠加，默认为 default(#FFFFFF)，可选值为 midnight, noon，如果想使用自定义值，详见全局设置 立绘
+- <node type="string" name="animation" />动画ID，立绘载入动画，默认为 fade_in_left ，详见定义动画
+
+</div>
 
 #### 修改立绘 tachie_modify
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件类型为：修改立绘"> @Name<"type: tachie_modify"> type as string;
-    @Desc<"角色ID"> character as string;
-    @Desc<"立绘ID"> tachie as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: tachie_modify" />此项表明该事件类型为：修改立绘
+- <node type="string" name="character" />角色ID
+- <node type="string" name="tachie" />立绘ID
+
+</div>
 
 #### 移除立绘 tachie_remove
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件类型为：加载立绘"> @Name<"type: tachie_animation"> type as string;
-    @Desc<"角色ID"> character as string;
-    @Desc<"动画ID，详见定义动画"> animation as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: tachie_animation" />此项表明该事件类型为：加载立绘
+- <node type="string" name="character" />角色ID
+- <node type="string" name="animation" />动画ID，详见定义动画
+
+</div>
 
 <div id="2.3.1"></div>
 
@@ -331,12 +331,12 @@ data FunctionArg {
 
 #### 终止事件
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个终止事件"> @Name<"type: stop"> type as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: stop" />此项表明该事件是一个终止事件
+
+</div>
 
 顾名思义，终止事件可以让事件列表提前结束
 
@@ -352,13 +352,13 @@ data FunctionArg {
 
 #### 跳转事件
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个跳转事件"> @Name<"type: jump"> type as string;
-    @Desc<"跳转至,子事件列表ID"> jump as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: jump" />此项表明该事件是一个跳转事件
+- <node type="string" name="jump" />跳转至,子事件列表ID
+
+</div>
 
 ```json
 {
@@ -378,14 +378,14 @@ data FunctionArg {
 
 用**`@a[tag=skdbox.s]`**指代玩家
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个检查条件事件"> @Name<"type: check_condition"> type as string;
-    @Desc<"一个execute命令的条件子命令"> condition as string;
-    @Desc<"跳转至,子事件列表ID"> jump as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: check_condition" />此项表明该事件是一个检查条件事件
+- <node type="string" name="condition" />一个execute命令的条件子命令
+- <node type="string" name="jump" />跳转至,子事件列表ID
+
+</div>
 
 #### 检查分数
 
@@ -393,43 +393,43 @@ data FunctionArg {
 
 用**@a[tag=skdbox.s]**指代玩家
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个检查分数事件"> @Name<"type: check_score"> type as string;
-    @Desc<"计分板名称"> scoreboard as string;
-    @Desc<"分数持有者"> object as string;
-    @Desc<"检查项目列表"> score as list<data {
-        @Desc<"区间，两个值对应左端点和右端点值"> interval as list<int>;
-        @Desc<"跳转至,子事件列表ID"> jump as string;
-    }>
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: check_score" />此项表明该事件是一个检查分数事件
+- <node type="string" name="scoreboard" />计分板名称
+- <node type="string" name="object" />分数持有者
+- <node type="homolist" name="score" />检查项目列表
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    - <node type="homolist" name="interval" />区间，两个值对应左端点和右端点值
+    - <node type="string" name="jump" />跳转至,子事件列表ID
+
+</div>
 
 #### 执行命令
 
 执行一条命令，命令的默认执行者为Marker，用**@a[tag=skdbox.s]**指代当前玩家
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个执行命令事件"> @Name<"type: cmd"> type as string;
-    @Desc<"要执行的命令"> cmd as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: cmd" />此项表明该事件是一个执行命令事件
+- <node type="string" name="cmd" />要执行的命令
+
+</div>
 
 #### 选项事件
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个选项事件"> @Name<"type: option"> type as string;
-    @Desc<"选项列表"> cmd as list<data {
-        @Desc<"该选项上的文字"> text as string;
-        @Desc<"跳转至,子事件列表ID"> jump as string;
-    }>;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: option" />此项表明该事件是一个选项事件
+- <node type="homolist" name="cmd" />选项列表
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    - <node type="string" name="text" />该选项上的文字
+    - <node type="string" name="jump" />跳转至,子事件列表ID
+
+</div>
 
 选项是Galgame必不可少的元素之一，不同的选项往往决定不同的剧情走向
 
@@ -478,7 +478,7 @@ F --> |0721| G(结束)
 
 ```
 
-<font size=6>Ciallo~（∠・ω< ）⌒ ★</font>
+<span style="font-size: 2rem">Ciallo~（∠・ω&lt; ）⌒ ★</span>
 
 ![Archive.20250705/20250708003913.png](Archive.20250705/20250708003913.png)
 ![Archive.20250705/20250708003930.png](Archive.20250705/20250708003930.png)
@@ -491,13 +491,13 @@ F --> |0721| G(结束)
 
 向当前玩家播放一个声音
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个播放声音事件"> @Name<"type: sound"> type as string;
-    @Desc<"要播放的声音"> sound as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: sound" />此项表明该事件是一个播放声音事件
+- <node type="string" name="sound" />要播放的声音
+
+</div>
 
 #### 语音事件
 
@@ -505,15 +505,15 @@ data FunctionArg {
 
 只需要使用一次语音事件，就可以为每一句对话自动播放对应的语音
 
-<NBTTree code='
-@Name<"(事件根标签)">
-data FunctionArg {
-    @Desc<"此项表明该事件是一个语音事件"> @Name<"type: voice"> type as string;
-    @Desc<"声音文件路径前缀"> path as string;
-    @Desc<"索引值，输入-1表示停止语音播放"> index as int;
-    @Desc<"说明哪些角色不需要播放语音，此项默认为[NULL]"> skip as list<string>;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(事件根标签)" />
+- <node type="string" name="type: voice" />此项表明该事件是一个语音事件
+- <node type="string" name="path" />声音文件路径前缀
+- <node type="int" name="index" />索引值，输入-1表示停止语音播放
+- <node type="homolist" name="skip" />说明哪些角色不需要播放语音，此项默认为[NULL]
+
+</div>
 
 来看一个例子：
 
@@ -573,16 +573,15 @@ data modify storage minecraft:skapi.dbox reg.character.<角色ID> set value <角
 
 **<角色信息>** 一个包含该角色所有信息的复合标签,格式如下
 
-<NBTTree code='
-@Name<"(根标签)">
-data Character {
-    @Desc<"角色的名字，会在对话框上方显示"> display_name as string;
-    @Desc<"角色的描述，会在对话框上方显示"> description as string;
-    @Desc<"角色的立绘"> tachie as data {
-        @Desc<"一个立绘字符串"> @Name<"立绘ID"> tachieID as string;
-    };
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(根标签)" />
+- <node type="string" name="display_name" />角色的名字，会在对话框上方显示
+- <node type="string" name="description" />角色的描述，会在对话框上方显示
+- <node type="compound" name="tachie" />角色的立绘
+  - <node type="string" name="立绘ID" />一个立绘字符串
+
+</div>
 
 来看一个示例：定义角色**丛雨**
 
@@ -684,19 +683,17 @@ data modify storage minecraft:skapi.dbox reg.animation.<动画ID> set value <动
 
 **<动画信息>** 一个包含该动画所有信息的列表,格式如下
 
-<NBTTree code='
-@Name<"(根标签)">
-data Animation {
-    @Name<"第一个项目"> first as data {
-        @Desc<"要覆盖进展示实体的数据"> merge as compound;
-    }>
-    @Name<"第二个项目"> second as data {
-        @Desc<"要覆盖进展示实体的数据"> merge as compound;
-        @Desc<"本项目距离上一个项目的时间(tick)"> delay as int;
-    }>
-    @Name<"..."> ect as compound;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(根标签)" />
+- <node type="compound" name="第一个项目" />
+  - <node type="compound" name="merge" />要覆盖进展示实体的数据
+- <node type="compound" name="第二个项目" />
+  - <node type="compound" name="merge" />要覆盖进展示实体的数据
+  - <node type="int" name="delay" />本项目距离上一个项目的时间(tick)
+- <node type="compound" name="..." />
+
+</div>
 
 值得注意的是，**translation**列表中得坐标是相对于当前坐标的，而不是相对于原点坐标
 
@@ -732,53 +729,45 @@ data Animation {
 需要更改请直接到文件中修改
 但是并不是所有的设置都建议更改，后面会讲几个常用的设置
 
-<NBTTree code='
-@Name<"(配置根标签)">
-data config {
-    @Desc<"文本框相关配置"> text_box as data {
-        @Desc<"文本框文本的拼接格式，主要用于显示角色名字和描述"> format as list<compound>;
-        @Desc<"文本框背景，acacia_chest_boat的string类型物品模型映射字符串"> bg as string;
-        @Desc<"行宽"> line_width as int;
-        @Desc<"文本对齐方式，可选值为center,left,right"> alignment as string;
-        @Desc<"缩放(不建议更改)"> scale as list<double>;
-        @Desc<"平移(不建议更改)"> translation as list<double>;
-    };
-    @Desc<"文本框内的文本相关配置"> text_display as data {
-        @Desc<"文本前缀"> prefix as string;
-        @Desc<"行宽"> line_width as int;
-        @Desc<"缩放(不建议更改)"> scale as list<double>;
-        @Desc<"平移(不建议更改)"> translation as list<double>;
-    };
-    @Desc<"选项相关配置"> option as data {
-        @Desc<"背景字符串"> bg as string;
-        @Desc<"选中的选项背景字符串"> bg_selected as string;
-        @Desc<"文本前缀"> prefix as string;
-        @Desc<"选中的选项的文本前缀"> prefix_selected as string;
-        @Desc<"行宽"> line_width as int;
-        @Desc<"缩放(不建议更改)"> scale as list<double>;
-        @Desc<"平移(不建议更改)"> translation as list<double>;
-        @Desc<"总行间距"> height as float;
-    };
-    @Desc<"立绘相关配置"> tachie as data {
-        @Desc<"位置枚举"> position as data {
-            @Desc<"一个x坐标偏移量"> @Name<"(名称)"> type as double;
-        };
-        @Desc<"叠加颜色"> color as data {
-            @Desc<"一个颜色，例如#FFFFFF"> @Name<"(名称)"> type as string;
-        };
-        @Desc<"默认动画"> default_animation as data {
-            @Desc<"动画ID，立绘载入时自动播放"> load as string;
-            @Desc<"动画ID，立绘移除时自动播放"> remove as string;
-        };
-        @Desc<"缩放(不建议更改)"> scale as list<double>;
-        @Desc<"平移(不建议更改)"> translation as list<double>;
-    };
-    @Desc<"音效相关配置"> sound as data {
-        @Desc<"选择选项时播放的音效"> option as string;
-        @Desc<"按空格键显示下一句文本时播放的音效"> @Name<"text"> qwq as string;
-    };
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="(配置根标签)" />
+- <node type="compound" name="text_box" />文本框相关配置
+  - <node type="homolist" name="format" />文本框文本的拼接格式，主要用于显示角色名字和描述
+  - <node type="string" name="bg" />文本框背景，acacia_chest_boat的string类型物品模型映射字符串
+  - <node type="int" name="line_width" />行宽
+  - <node type="string" name="alignment" />文本对齐方式，可选值为center,left,right
+  - <node type="homolist" name="scale" />缩放(不建议更改)
+  - <node type="homolist" name="translation" />平移(不建议更改)
+- <node type="compound" name="text_display" />文本框内的文本相关配置
+  - <node type="string" name="prefix" />文本前缀
+  - <node type="int" name="line_width" />行宽
+  - <node type="homolist" name="scale" />缩放(不建议更改)
+  - <node type="homolist" name="translation" />平移(不建议更改)
+- <node type="compound" name="option" />选项相关配置
+  - <node type="string" name="bg" />背景字符串
+  - <node type="string" name="bg_selected" />选中的选项背景字符串
+  - <node type="string" name="prefix" />文本前缀
+  - <node type="string" name="prefix_selected" />选中的选项的文本前缀
+  - <node type="int" name="line_width" />行宽
+  - <node type="homolist" name="scale" />缩放(不建议更改)
+  - <node type="homolist" name="translation" />平移(不建议更改)
+  - <node type="float" name="height" />总行间距
+- <node type="compound" name="tachie" />立绘相关配置
+  - <node type="compound" name="position" />位置枚举
+    - <node type="double" name="(名称)" />一个x坐标偏移量
+  - <node type="compound" name="color" />叠加颜色
+    - <node type="string" name="(名称)" />一个颜色，例如#FFFFFF
+  - <node type="compound" name="default_animation" />默认动画
+    - <node type="string" name="load" />动画ID，立绘载入时自动播放
+    - <node type="string" name="remove" />动画ID，立绘移除时自动播放
+  - <node type="homolist" name="scale" />缩放(不建议更改)
+  - <node type="homolist" name="translation" />平移(不建议更改)
+- <node type="compound" name="sound" />音效相关配置
+  - <node type="string" name="option" />选择选项时播放的音效
+  - <node type="string" name="text" />按空格键显示下一句文本时播放的音效
+
+</div>
 
 <div id="4.1"></div>
 
@@ -786,11 +775,12 @@ data config {
 
 比较有用的主要是修改文本的拼接格式
 
-<NBTTree code='
-data text_box {
-    @Desc<"文本框文本的拼接格式，主要用于显示角色名字和描述"> format as list<compound>;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="text_box" />
+- <node type="homolist" name="format" />文本框文本的拼接格式，主要用于显示角色名字和描述
+
+</div>
 
 默认是这样的，代表先显示一个“【”,然后放入角色名字，再显示一个"】",最后将文本颜色改为黄色，显示角色描述
 
@@ -810,20 +800,18 @@ format:[
 
 #### 立绘
 
-<NBTTree code='
-data tachie {
-    @Desc<"位置枚举"> position as data {
-        @Desc<"一个x坐标偏移量"> @Name<"(名称)"> type as double;
-    };
-    @Desc<"叠加颜色"> color as data {
-        @Desc<"一个颜色，例如\"#FFFFFF\""> @Name<"(名称)"> type as string;
-    };
-    @Desc<"默认动画"> default_animation as data {
-        @Desc<"动画ID，立绘载入时自动播放"> load as string;
-        @Desc<"动画ID，立绘移除时自动播放"> remove as string;
-    };
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="tachie" />
+- <node type="compound" name="position" />位置枚举
+  - <node type="double" name="(名称)" />一个x坐标偏移量
+- <node type="compound" name="color" />叠加颜色
+  - <node type="string" name="(名称)" />一个颜色，例如“#FFFFFF”
+- <node type="compound" name="default_animation" />默认动画
+  - <node type="string" name="load" />动画ID，立绘载入时自动播放
+  - <node type="string" name="remove" />动画ID，立绘移除时自动播放
+
+</div>
 
 修改或添加位置/颜色枚举，或者更改默认动画，以下是默认设置
 
@@ -854,22 +842,24 @@ tachie: {
 
 如果有一次性显示很多选项的需求，请修改总行间距以避免造成选项重叠
 
-<NBTTree code='
-data option {
-    @Desc<"总行间距"> height as float;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="option" />
+- <node type="float" name="height" />总行间距
+
+</div>
 
 <div id="4.4"></div>
 
 #### 声音
 
-<NBTTree code='
-data sound {
-    @Desc<"选择选项时播放的音效"> option as string;
-    @Desc<"按空格键显示下一句文本时播放的音效"> @Name<"text"> qwq as string;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="sound" />
+- <node type="string" name="option" />选择选项时播放的音效
+- <node type="string" name="text" />按空格键显示下一句文本时播放的音效
+
+</div>
 
 可以换成自己喜欢的音效，以下是默认设置
 

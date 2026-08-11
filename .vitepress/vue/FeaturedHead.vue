@@ -105,17 +105,17 @@ export default {
 }
 
 .orange {
-  background: #c47c4e;
+  background: var(--feature-orange);
 }
 
 .purple {
-  background: #694ec6;
+  background: var(--feature-purple);
 }
 
 .image-container {
   flex: 1;
   position: relative;
-  background: #74b096;
+  background: var(--feature-green);
   height: 100%;
 }
 

@@ -40,45 +40,28 @@ title: '香草快讯 - Λojang Spotlight - 2025年8月'
 
 现在，完整的`pack.mcmeta`格式如下所示：
 
-<NBTTree code='
-@Desc<"根对象">
-data pack {
-    @Desc<"存放数据包信息"> pack as data {
-        @Desc<"（文本组件）数据包的描述信息。在创建世界的数据包页面，或光标在/datapack list命令列出的数据包名称上悬停时，会显示此描述。">
-        description as text;
-        @Desc<"数据包兼容的最低版本号，为两个整数组成的数组，依次为主要版本号和次要版本号，必须大于81。">
-        min_format as (int|IntArray);
-        @Desc<"数据包兼容的最高版本号，为两个整数组成的数组，依次为主要版本号和次要版本号。">
-        max_format as (int|IntArray);
-    };
-    @Desc<"包过滤器，用于指定数据包要忽略的文件。在NBT列表/JSON数组block内被匹配到的任何模式都将形如其不在该数据包中存在。"> filter as data {
-        @Desc<"模式列表">
-        block as list<data {
-            @Desc<"一个正则表达式，表示要滤除文件的命名空间。若省略则匹配所有命名空间。">
-            namespace as string;
-            @Desc<"一个正则表达式，表示要滤除文件的路径。若省略则匹配所有文件。">
-            path as string;
-        }>;
-    };
-    @Desc<"要启用的实验性内容。注意：如果添加了该字段，则该数据包需要在创建新世界的时候添加，否则在更改旧世界的level.dat前无法添加。">
-    features as data {
-        @Desc<"启用的内容">
-        enabled as list<string>;
-    };
-    @Desc<"指定要覆盖的部分，即应用在“标准”包内容上的子包。其目录是其自己的资源和data目录（存放于包的根目录下）。">
-    overlay as data {
-        @Desc<"覆盖列表。其顺序很重要，列表中的第一个对象将被首先应用">
-        entries as list<data{  
-            @Desc<"此叠加数据包生效的最低版本号。格式与NBT复合标签/JSON对象pack中的格式相同">
-            min_format as (int|IntArray);
-            @Desc<"此叠加数据包生效的最高版本号">
-            max_format as (int|IntArray);
-            @Desc<"此子包所在的相对路径。">
-            directory as string;
-        }>;
-    }
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="pack" />根对象
+- <node type="compound" name="pack" />存放数据包信息
+  - <node type="string" /><node type="compound" /><node type="homolist" name="description" />（文本组件）数据包的描述信息。在创建世界的数据包页面，或光标在/datapack list命令列出的数据包名称上悬停时，会显示此描述。
+  - <node type="int" /><node type="int_list" name="min_format" />数据包兼容的最低版本号，为两个整数组成的数组，依次为主要版本号和次要版本号，必须大于81。
+  - <node type="int" /><node type="int_list" name="max_format" />数据包兼容的最高版本号，为两个整数组成的数组，依次为主要版本号和次要版本号。
+- <node type="compound" name="filter" />包过滤器，用于指定数据包要忽略的文件。在NBT列表/JSON数组block内被匹配到的任何模式都将形如其不在该数据包中存在。
+  - <node type="homolist" name="block" />模式列表
+    - <node type="compound" name="（列表元素）" :colon="false" />
+      - <node type="string" name="namespace" />一个正则表达式，表示要滤除文件的命名空间。若省略则匹配所有命名空间。
+      - <node type="string" name="path" />一个正则表达式，表示要滤除文件的路径。若省略则匹配所有文件。
+- <node type="compound" name="features" />要启用的实验性内容。注意：如果添加了该字段，则该数据包需要在创建新世界的时候添加，否则在更改旧世界的level.dat前无法添加。
+  - <node type="homolist" name="enabled" />启用的内容
+- <node type="compound" name="overlay" />指定要覆盖的部分，即应用在“标准”包内容上的子包。其目录是其自己的资源和data目录（存放于包的根目录下）。
+  - <node type="homolist" name="entries" />覆盖列表。其顺序很重要，列表中的第一个对象将被首先应用
+    - <node type="compound" name="（列表元素）" :colon="false" />
+      - <node type="int" /><node type="int_list" name="min_format" />此叠加数据包生效的最低版本号。格式与NBT复合标签/JSON对象pack中的格式相同
+      - <node type="int" /><node type="int_list" name="max_format" />此叠加数据包生效的最高版本号
+      - <node type="string" name="directory" />此子包所在的相对路径。
+
+</div>
 
 ## 战利品表上下文
 
@@ -107,16 +90,14 @@ data pack {
 
 object文本组件的格式如下：
 
-<NBTTree code='
-data root {
-    @Desc<"为object">
-    type as string;
-    @Desc<"（默认为minecraft:blocks）纹理图集的命名空间ID">
-    atlas as string;
-    @Desc<"图集中精灵图的命名空间ID。示例：item/porkchop。">
-    sprite as string;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="root" />
+- <node type="string" name="type" />为object
+- <node type="string" name="atlas" />（默认为minecraft:blocks）纹理图集的命名空间ID
+- <node type="string" name="sprite" />图集中精灵图的命名空间ID。示例：item/porkchop。
+
+</div>
 
 本期《feature》的一份投稿对这一特性进行了研究，可以去看看：
 

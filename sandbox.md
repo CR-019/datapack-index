@@ -1,12 +1,16 @@
 ---
-title: 数据包交互沙盒
+title: 香草沙盒
 outline: false
 ---
+
+香草图书馆测试场。
 
 <script setup lang="ts">
 import DpsPlayground, {
   type PlaygroundNotebook,
 } from '@datapack-sandbox/vitepress-playground'
+
+import DpsCell from '@datapack-sandbox/vitepress-playground/cell'
 
 const notebook: PlaygroundNotebook = {
   version: '26.2',
@@ -14,7 +18,7 @@ const notebook: PlaygroundNotebook = {
     {
       id: 'welcome',
       type: 'markdown',
-      source: '### Feature 测试场\n\n代码单元共享同一个浏览器本地世界；无需启动 Minecraft 服务端。',
+      source: '### 测试沙盒\n\n喵喵喵喵喵。',
     },
     {
       id: 'setup',
@@ -34,42 +38,32 @@ const notebook: PlaygroundNotebook = {
 }
 </script>
 
-<div class="feature-sandbox-page">
-  <header class="feature-sandbox-hero">
-    <p class="feature-sandbox-eyebrow">FEATURE · INTERACTIVE LAB</p>
-    <h1 class="feature-sandbox-title">数据包交互沙盒</h1>
+<header class="feature-sandbox-hero">
+    <p class="feature-sandbox-eyebrow">FEATURE · LAB</p>
+    <h1 class="feature-sandbox-title">测试喵</h1>
     <p class="feature-sandbox-lead">
-      直接编辑并运行 MCFunction，检查命令补全、诊断、状态快照与执行结果。所有计算都在浏览器本地完成。
+        文本测试喵
     </p>
     <div class="feature-sandbox-palette" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
-  </header>
+</header>
 
-  <div class="feature-sandbox-guide">
-    <div class="feature-sandbox-guide-item">
-      <strong>运行：</strong>使用单元格按钮，或按 <kbd>Ctrl/⌘</kbd> + <kbd>Enter</kbd>。
-    </div>
-    <div class="feature-sandbox-guide-item">
-      <strong>测试补全：</strong>在代码行中输入 <code>execute</code> 或 <code>scoreboard players</code>。
-    </div>
-  </div>
+放一个完整的notebook.
 
-  <ClientOnly>
-    <div class="feature-sandbox-shell">
-      <DpsPlayground
-        class="feature-sandbox"
-        :notebook="notebook"
-        :allow-import="false"
-        :render="{ auto: false }"
-        theme="auto"
-        layout="compact"
-        checkpoint-name="feature-test"
-        site-id="vanilla-library"
-      />
-    </div>
-    <template #fallback>
-      <div class="feature-sandbox-fallback">正在加载浏览器沙盒……</div>
-    </template>
-  </ClientOnly>
-</div>
+<DpsPlayground
+    :notebook="notebook"
+    :allow-import="false"
+    :render="{ auto: false }"
+    theme="auto"
+    layout="compact"
+    checkpoint-name="feature-test"
+    site-id="vanilla-library"
+/>
+
+或者可以内联的小号的
+
+<DpsCell
+    v-model="source"
+    version="26.2"
+/>

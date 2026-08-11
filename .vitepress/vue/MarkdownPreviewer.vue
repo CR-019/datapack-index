@@ -5,7 +5,6 @@ import { dataSymbol, useData } from 'vitepress'
 import { compile as compileTemplate, errorMessages as vueCompilerErrorMessages } from '@vue/compiler-dom'
 import { Marked, Renderer } from 'marked'
 import katex from 'katex'
-import { compileToCache, config as nbtConfig } from '../MCFPPNBTParser'
 import { mcfunction } from '../highlights/mcfuntion'
 import { mcdoc } from '../highlights/mcdoc/mcdoc'
 import { snbt } from '../highlights/snbt'
@@ -271,7 +270,7 @@ async function renderPreview() {
     parsedFrontmatter.value = parsed.data
 
     let body = parsed.content
-    body = await executeSupportedSetup(body)
+    body = stripSetupScripts(body)
     const styles = extractStyleBlocks(body)
     body = styles.content
     previewStyle.value = styles.styles.join('\n\n')
@@ -761,60 +760,8 @@ function getHtmlDepthDelta(line) {
   return delta
 }
 
-async function executeSupportedSetup(markdown) {
-  const scriptBlocks = []
-  const content = markdown.replace(/<script\s+setup[^>]*>([\s\S]*?)<\/script>/gi, (_, script) => {
-    scriptBlocks.push(script)
-    return ''
-  })
-
-  for (const script of scriptBlocks) {
-    const namespaceMatch = script.match(/\bconfig\.namespace\s*=\s*(['"`])([\s\S]*?)\1/)
-    if (namespaceMatch) {
-      nbtConfig.namespace = namespaceMatch[2]
-    }
-
-    const calls = findCompileToCacheCalls(script)
-    for (const call of calls) {
-      try {
-        await compileToCache(call.id, call.code)
-      } catch (error) {
-        setupError.value = `compileToCache(${call.id}) failed: ${formatError(error)}`
-      }
-    }
-  }
-
-  return content
-}
-
-function findCompileToCacheCalls(script) {
-  const calls = []
-  const pattern = /compileToCache\s*\(\s*(['"])(.*?)\1\s*,\s*(`(?:\\`|[\s\S])*?`|'(?:\\'|[\s\S])*?'|"(?:\\"|[\s\S])*?")\s*\)/g
-  let match
-
-  while ((match = pattern.exec(script))) {
-    calls.push({
-      id: match[2],
-      code: readStringLiteral(match[3])
-    })
-  }
-
-  return calls
-}
-
-function readStringLiteral(value) {
-  const quote = value[0]
-  const raw = value.slice(1, -1)
-
-  if (quote === '`') {
-    return raw.replace(/\\`/g, '`').replace(/\\\$/g, '$')
-  }
-
-  try {
-    return JSON.parse(value)
-  } catch {
-    return raw.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\n/g, '\n')
-  }
+function stripSetupScripts(markdown) {
+  return markdown.replace(/<script\s+setup[^>]*>[\s\S]*?<\/script>/gi, '')
 }
 
 function splitFrontmatter(markdown) {

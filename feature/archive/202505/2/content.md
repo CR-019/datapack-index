@@ -295,19 +295,15 @@ $$\boldsymbol{V}=\boldsymbol{B}^{-1}\boldsymbol{U\varSigma}$$
 这样可以不进行对角化计算而直接求出右奇异向量矩阵$\boldsymbol{V}$。\
 矩阵奇异值分解的结果具有几何意义，其中$\boldsymbol{U}$、$\boldsymbol{V}$是旋转变换矩阵，$\boldsymbol{\varSigma}$是缩放变换矩阵。任何变换都可以被分解成四个过程：初次旋转变换、缩放变换、再次旋转变换和平移变换。因此，用$\boldsymbol{V}$表示初次旋转变换，用$\boldsymbol{\varSigma}$表示缩放变换，用$\boldsymbol{U}$表示再次旋转变换，在此基础上再引入平移向量$\boldsymbol{T}$，则可以得到变换矩阵$\boldsymbol{A}$的分解形式，此时字段`transformation`是复合标签：
 
-<NBTTree code='
-@Desc<"根标签">
-data transformation {
-  @Desc<"模型进行缩放变换前的旋转变换，即初次旋转变换。与奇异值分解中的V相关。拥有两种可用数据形式：轴角式和四元数形式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。"> 
-  right_rotation as (compound | list<compound>);
-  @Desc<"模型的缩放变换，与奇异值分解中的∑相关。使用三维向量。"> 
-  scale as list<float>;
-  @Desc<"模型进行缩放变换后的旋转变换，即再次旋转变换，与奇异值分解中的U相关。同样有轴角式和用四元数形式两种表示方式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。"> 
-  left_rotation as (compound | list<compound>);
-  @Desc<"模型的平移变换 T。对应矩阵形式最后一列前三行元素。使用三维向量。"> 
-  translation as list<float>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="transformation" />根标签
+- <node type="compound" /><node type="homolist" name="right_rotation" />模型进行缩放变换前的旋转变换，即初次旋转变换。与奇异值分解中的V相关。拥有两种可用数据形式：轴角式和四元数形式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
+- <node type="homolist" name="scale" />模型的缩放变换，与奇异值分解中的∑相关。使用三维向量。
+- <node type="compound" /><node type="homolist" name="left_rotation" />模型进行缩放变换后的旋转变换，即再次旋转变换，与奇异值分解中的U相关。同样有轴角式和用四元数形式两种表示方式。编写时可以使用轴角式，但是在存储数据时一律转换成四元数形式。
+- <node type="homolist" name="translation" />模型的平移变换 T。对应矩阵形式最后一列前三行元素。使用三维向量。
+
+</div>
 
 对于`right_rotation`和`left_rotation`这两个字段，有轴角式和四元数形式两种数据形式表示旋转。下面分别介绍这两种数据形式：
 
@@ -344,32 +340,22 @@ $$\begin{align}
 \end{align}$$
 使用轴角式表示旋转时字段`right_rotation`和`left_rotation`为复合标签：
 
-<NBTTree code='
-@Desc<"left_rotation 或 right_rotation">
-data xxx_rotation {
-  @Desc<"绕轴旋转的角度，即 θ 角，采用角度制。"> 
-  angle as float;
-  @Desc<"含三个元素的有序数组，用于定义旋转轴向量 uu。一般可以写成单位向量。"> 
-  axis as list<float>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="xxx_rotation" />left_rotation 或 right_rotation
+- <node type="float" name="angle" />绕轴旋转的角度，即 θ 角，采用角度制。
+- <node type="homolist" name="axis" />含三个元素的有序数组，用于定义旋转轴向量 uu。一般可以写成单位向量。
+
+</div>
 
 ### 四元数形式
 使用四元数形式表示旋转时，字段`right_rotation`和`left_rotation`类型是列表，数据格式为：
 
-<div class="nbt-tree">
-  <span>
-    <span class="nbt-seg"></span>
-    <img class="nbt-icon" src="/nbt_sprites/homolist.svg" width="16" />
-    <strong>left_rotation</strong> 或
-    <img class="nbt-icon" src="/nbt_sprites/homolist.svg" width="16" />
-    <strong>right_rotation</strong>：表示四元数的四个元素，顺序依次为 x、y、z、w。
-  </span>
-  <span class="nbt-indent-1">
-    <span class="nbt-seg">└─</span>
-    <img class="nbt-icon" src="/nbt_sprites/float.svg" width="16" />
-    (四元数中的一个元素)
-  </span>
+<div class="nbttree">
+
+<node type="homolist" name="left_rotation" /> 或 <node type="homolist" name="right_rotation" />：表示四元数的四个元素，顺序依次为 x、y、z、w。
+- <node type="float" name="（列表元素）" :colon="false" />四元数中的一个元素
+
 </div>
 
 

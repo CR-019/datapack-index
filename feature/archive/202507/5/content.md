@@ -20,69 +20,52 @@ title: '一种基于展示实体的法阵'
 创建法阵\
 执行者将作为新法阵的持有者，如果该执行者已经持有法阵，则新的法阵会替换原来的法阵\
 
-<NBTTree code='
-@Desc<"根标签">
-data config {
-    @Desc<"该法阵所包含的层">
-    elements as list<data {
-        @Desc<"(可选，该项默认为model的值) 层ID">
-        id as string;
-        @Desc<"该层的模型">
-        model as string;
-        @Desc<"模型的渲染颜色，列表中的三个值分别表示RGB通道，使用颜色转换器计算颜色">
-        color as list<float>;
-        @Desc<"该层距离玩家眼部的距离">
-        distance as float;
-        @Desc<"该层的缩放倍数">
-        size as float;
-        @Desc<"(可选) 旋转步长，例如[10,3.14]表示每10tick旋转3.14弧度，不指定该项则不旋转">
-        rotate_step as list<float>;
-        @Desc<"(可选，默认为0) 初相位">
-        rotate_phase as float;
-    }>;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="config" />根标签
+- <node type="homolist" name="elements" />该法阵所包含的层
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    - <node type="string" name="id" />(可选，该项默认为model的值) 层ID
+    - <node type="string" name="model" />该层的模型
+    - <node type="homolist" name="color" />模型的渲染颜色，列表中的三个值分别表示RGB通道，使用颜色转换器计算颜色
+    - <node type="float" name="distance" />该层距离玩家眼部的距离
+    - <node type="float" name="size" />该层的缩放倍数
+    - <node type="homolist" name="rotate_step" />(可选) 旋转步长，例如[10,3.14]表示每10tick旋转3.14弧度，不指定该项则不旋转
+    - <node type="float" name="rotate_phase" />(可选，默认为0) 初相位
+
+</div>
 
 **sklibs:skmagic/modify**
 
 修改法阵的属性\
 将修改执行者所持有的法阵的属性，如果执行者没有持有法阵，则该函数不起作用\
 
-<NBTTree code='
-@Desc<"根标签">
-data config {
-    @Desc<"目标层ID，给所有ID为该ID的层应用如下变换">
-    id as string;
-    @Desc<"缩放倍数">
-    size as float;
-    @Desc<"到玩家眼部的距离">
-    distance as float;
-    @Desc<"插值时间">
-    duration as int;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="config" />根标签
+- <node type="string" name="id" />目标层ID，给所有ID为该ID的层应用如下变换
+- <node type="float" name="size" />缩放倍数
+- <node type="float" name="distance" />到玩家眼部的距离
+- <node type="int" name="duration" />插值时间
+
+</div>
 
 **sklibs:skmagic/modify2**
 
 批量修改法阵的属性\
 将批量修改执行者所持有的法阵的属性，如果执行者没有持有法阵，则该函数不起作用\
 
-<NBTTree code='
-@Desc<"根标签">
-data config {
-    @Desc<"修改列表">
-    modify as list<data {
-        @Desc<"目标层ID，给所有ID为该ID的层应用如下变换">
-        id as string;
-        @Desc<"缩放倍数">
-        size as float;
-        @Desc<"到玩家眼部的距离">
-        distance as float;
-        @Desc<"插值时间">
-        duration as int;
-    }>;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="config" />根标签
+- <node type="homolist" name="modify" />修改列表
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    - <node type="string" name="id" />目标层ID，给所有ID为该ID的层应用如下变换
+    - <node type="float" name="size" />缩放倍数
+    - <node type="float" name="distance" />到玩家眼部的距离
+    - <node type="int" name="duration" />插值时间
+
+</div>
 
 **sklibs:skmagic/insert**
 
@@ -90,28 +73,20 @@ data config {
 向执行者所持有的法阵添加新的层，如果执行者没有持有法阵，则该函数不起作用\
 参数格式与sklibs:skmagic/new相同\
 
-<NBTTree code='
-@Desc<"根标签">
-data config {
-    @Desc<"该法阵所包含的层">
-    elements as list<data {
-        @Desc<"(可选，该项默认为model的值) 层ID">
-        id as string;
-        @Desc<"该层的模型">
-        model as string;
-        @Desc<"模型的渲染颜色，列表中的三个值分别表示RGB通道，使用[颜色转换器](#color)计算颜色">
-        color as list<float>;
-        @Desc<"该层距离玩家眼部的距离">
-        distance as float;
-        @Desc<"该层的缩放倍数">
-        size as float;
-        @Desc<"(可选) 旋转步长，例如[10,3.14]表示每10tick旋转3.14弧度，不指定该项则不旋转">
-        rotate_step as list<float>;
-        @Desc<"(可选，默认为0) 初相位">
-        rotate_phase as float;
-    }>;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="config" />根标签
+- <node type="homolist" name="elements" />该法阵所包含的层
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    - <node type="string" name="id" />(可选，该项默认为model的值) 层ID
+    - <node type="string" name="model" />该层的模型
+    - <node type="homolist" name="color" />模型的渲染颜色，列表中的三个值分别表示RGB通道，使用[颜色转换器](#color)计算颜色
+    - <node type="float" name="distance" />该层距离玩家眼部的距离
+    - <node type="float" name="size" />该层的缩放倍数
+    - <node type="homolist" name="rotate_step" />(可选) 旋转步长，例如[10,3.14]表示每10tick旋转3.14弧度，不指定该项则不旋转
+    - <node type="float" name="rotate_phase" />(可选，默认为0) 初相位
+
+</div>
 
 **sklibs:skmagic/remove**
 
@@ -123,13 +98,12 @@ data config {
 发射弹幕\
 向执行者面向的方向发射指定数量的弹幕\
 
-<NBTTree code='
-@Desc<"根标签">
-data config {
-    @Desc<"弹幕的数量">
-    n as int;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="config" />根标签
+- <node type="int" name="n" />弹幕的数量
+
+</div>
 
 ::: details 颜色转换器
 <div id="color"></div>

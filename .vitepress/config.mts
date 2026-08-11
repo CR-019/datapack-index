@@ -3,6 +3,7 @@ import { sidebar } from "./sidebar";
 import { mcfunction } from "./highlights/mcfuntion";
 import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
+// @ts-ignore
 import anchor from "markdown-it-footnote";
 
 import {
@@ -21,8 +22,11 @@ import {
     sidebar_202512,
 } from "./sidebar_feature2025"
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+// @ts-ignore
 import fs from "node:fs";
+// @ts-ignore
 import path from "node:path";
+// @ts-ignore
 import type { Plugin } from "vite";
 
 import{
@@ -90,7 +94,8 @@ function htmlImagePlugin(): Plugin {
 
     closeBundle() {
       if (!isBuild) return;
-      for (const sourcePath of imageAssets) {
+      // @ts-ignore
+        for (const sourcePath of imageAssets) {
         const relativePath = path.relative(root, sourcePath).replace(/\\/g, "/");
         const destPath = path.resolve(outDir, relativePath);
         try {
@@ -109,7 +114,6 @@ const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
 
 
 // https://vitepress.dev/reference/site-config
-// @ts-ignore
 export default defineConfig({
     title: "香草图书馆",
     base: siteBase,
@@ -139,6 +143,7 @@ export default defineConfig({
         search: {
             provider: "local",
             options: {
+                // @ts-ignore
                 showDetailedList:true,
                 translations: {
                     button: {
@@ -158,6 +163,7 @@ export default defineConfig({
         },
 
         sidebar: {
+            // @ts-ignore
             "/index/": sidebar,
             "/resources/": sidebar,
             "/feature/archive/202504": sidebar_202504,
@@ -268,6 +274,12 @@ export default defineConfig({
         },
     },
     vite: {
+        // Vite's dependency optimizer relocates import.meta.url without copying
+        // the playground's packaged Worker asset. Serve this ESM package in
+        // place so its relative Worker URL continues to resolve from dist/.
+        optimizeDeps: {
+            exclude: ['@datapack-sandbox/vitepress-playground'],
+        },
         define: {
             'process.env': JSON.stringify({}), // 将 process.env 替换为空对象
             'global': 'globalThis',            // 将 global 替换为 globalThis

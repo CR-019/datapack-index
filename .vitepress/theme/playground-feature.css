@@ -1,11 +1,4 @@
-/* Feature magazine palette for the Datapack Sandbox test page. */
-.feature-sandbox-page {
-  --feature-orange: #c47c4e;
-  --feature-green: #74b096;
-  --feature-purple: #694ec6;
-  margin: 1.5rem 0 3rem;
-}
-
+/* Feature Hero */
 .feature-sandbox-hero {
   position: relative;
   overflow: hidden;
@@ -13,10 +6,7 @@
   padding: clamp(1.35rem, 4vw, 2.4rem);
   border: 1px solid color-mix(in srgb, var(--feature-purple) 22%, var(--vp-c-divider));
   border-radius: 18px;
-  background:
-    radial-gradient(circle at 92% 10%, color-mix(in srgb, var(--feature-purple) 18%, transparent), transparent 38%),
-    radial-gradient(circle at 8% 90%, color-mix(in srgb, var(--feature-green) 18%, transparent), transparent 42%),
-    var(--vp-c-bg-soft);
+  background: var(--vp-c-bg-soft);
   box-shadow: 0 18px 45px rgb(53 38 61 / 10%);
 }
 
@@ -78,51 +68,11 @@
   background: var(--feature-purple);
 }
 
-.feature-sandbox-guide {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin: 0 0 1rem;
-}
+/* DSP */
 
-.feature-sandbox-guide-item {
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-2);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.feature-sandbox-guide-item strong {
-  color: var(--vp-c-text-1);
-}
-
-.feature-sandbox-shell {
-  padding-top: 6px;
-  border-radius: 18px;
-  background: linear-gradient(
-    90deg,
-    var(--feature-orange) 0 33.333%,
-    var(--feature-green) 33.333% 66.666%,
-    var(--feature-purple) 66.666% 100%
-  );
-  box-shadow: 0 22px 55px rgb(42 33 48 / 14%);
-}
-
-.feature-sandbox-fallback {
-  padding: 2rem;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-2);
-  text-align: center;
-}
-
-.dps-playground.feature-sandbox,
-.dps-playground.feature-sandbox:is(.dps-theme-light, .dps-theme-dark),
-.dark .dps-playground.feature-sandbox.dps-theme-auto {
+.dps-playground,
+.dps-playground:is(.dps-theme-light, .dps-theme-dark),
+.dark .dps-playground.dps-theme-auto {
   --dps-accent: var(--feature-purple);
   --dps-accent-hover: #7d62db;
   --dps-accent-soft: color-mix(in srgb, var(--feature-purple) 17%, transparent);
@@ -137,13 +87,11 @@
   --dps-syntax-number: #a7653c;
   --dps-syntax-bool: #7655ca;
   --dps-syntax-operator: #7a536e;
-  --dps-cell-shadow: 0 8px 22px rgb(45 34 52 / 8%);
-  overflow: hidden;
-  border-radius: 0 0 16px 16px;
+  border-radius: 16px;
 }
 
-html:not(.dark) .dps-playground.feature-sandbox.dps-theme-auto,
-.dps-playground.feature-sandbox.dps-theme-light {
+html:not(.dark) .dps-playground.dps-theme-auto,
+.dps-playground.dps-theme-light {
   --dps-bg: #f8f5f1;
   --dps-panel: #ffffff;
   --dps-panel-soft: #f3eee9;
@@ -152,11 +100,10 @@ html:not(.dark) .dps-playground.feature-sandbox.dps-theme-auto,
   --dps-text: #302b32;
   --dps-muted: #6f6671;
   --dps-faint: #978d98;
-  --dps-shadow: 0 16px 40px rgb(45 34 52 / 10%);
 }
 
-.dark .dps-playground.feature-sandbox.dps-theme-auto,
-.dps-playground.feature-sandbox.dps-theme-dark {
+.dark .dps-playground.dps-theme-auto,
+.dps-playground.dps-theme-dark {
   --dps-accent: #9278e1;
   --dps-accent-hover: #a48cec;
   --dps-bg: #18161b;
@@ -170,32 +117,18 @@ html:not(.dark) .dps-playground.feature-sandbox.dps-theme-auto,
   --dps-syntax-string: #87c8ae;
   --dps-syntax-number: #dfa77f;
   --dps-syntax-type: #dfa77f;
-  --dps-shadow: 0 18px 44px rgb(0 0 0 / 28%);
-  --dps-cell-shadow: 0 10px 26px rgb(0 0 0 / 22%);
 }
 
-.dps-playground.feature-sandbox .dps-cell {
-  border-radius: 10px;
-}
-
-.dps-playground.feature-sandbox .dps-cell-heading {
+.dps-playground .dps-cell-heading {
   border-left: 3px solid var(--feature-green);
 }
 
 @media (max-width: 640px) {
-  .feature-sandbox-guide {
-    grid-template-columns: 1fr;
-  }
-
   .feature-sandbox-hero {
     border-radius: 14px;
   }
 
-  .feature-sandbox-shell {
-    border-radius: 14px;
-  }
-
-  .dps-playground.feature-sandbox {
+  .dps-playground {
     border-radius: 0 0 12px 12px;
   }
 }

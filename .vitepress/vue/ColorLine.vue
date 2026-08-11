@@ -32,14 +32,14 @@ export default {
 }
 
 .color-line::before {
-  background: #c47c4e;
+  background: var(--feature-orange);
 }
 
 .color-line > div {
-  background: #74b096;
+  background: var(--feature-green);
 }
 
 .color-line::after {
-  background: #694ec6;
+  background: var(--feature-purple);
 }
 </style>

@@ -387,15 +387,15 @@ export default {
 }
 
 .color-line::before {
-  background: #c47c4e;
+  background: var(--feature-orange);
 }
 
 .color-line>div {
-  background: #74b096;
+  background: var(--feature-green);
 }
 
 .color-line::after {
-  background: #694ec6;
+  background: var(--feature-purple);
 }
 
 /* 特色横线特定样式 */
@@ -404,14 +404,6 @@ export default {
   /* 设置特色横线高度 */
   align-items: center;
   /* 垂直居中子元素 */
-}
-
-.orange {
-  background: #c47c4e;
-}
-
-.purple {
-  background: #694ec6;
 }
 
 .image-container {
@@ -450,7 +442,7 @@ export default {
 }
 
 .resource-link a:hover {
-  color: #694ec6;
+  color: var(--feature-purple);
   opacity: 1;
   border-bottom-style: solid;
 }

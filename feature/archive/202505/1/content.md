@@ -2,32 +2,6 @@
 title: '烟花来咯！'
 ---
 <!-- markdownlint-disable MD033 MD041 -->
-<script setup>
-  import {compileToCache} from "/.vitepress/MCFPPNBTParser";
-
-  compileToCache('sklibs:command',`
-@Desc<"函数对象">
-data CommandObj {
-    @Desc<"需要执行的函数"> cmd as string;
-    @Desc<"函数参数"> args as compound;
-}
-`);
-
-  compileToCache('sklibs:color',`
-@Desc<"随机颜色项目">
-data Color {
-    @Desc<"初始十进制颜色HEX代码值数组，数组中一个数字代表一个颜色"> @Name<"from"> fro as list<int>;
-    @Desc<"渐变至十进制颜色HEX代码值数组，数组中一个数字代表一个颜色"> to as list<int>;
-    @Desc<"烟花形状(0:小球，1:大球，2:星状，3:苦力怕，4:爆发状)"> shape as int;
-    @Desc<"是否显示踪迹"> trail as int;
-    @Desc<"是否闪烁"> colors as int;
-    @Desc<"烟花叠加数量"> colors as int;
-    @Desc<"给烟花添加的字符串标签"> tags as list<string>;
-}
-  `)
-
-</script>
-
 <FeaturedHead
     title = 烟花来咯！
     authorName = SKSAMA
@@ -253,36 +227,65 @@ function sklibs:skfirework/fx/launch {
 `sklibs:skfirework/fx/launch`
 烟花启动函数，用于制做烟花升空阶段
 
-<NBTTree code='
-@Desc<"函数参数">
-data config {
-    @Desc<"升空时间（tick）"> life as int;
-    @Desc<"升空时间延迟结束后执行的命令"> cmdv as list<sklibs:command>;
-}'
-/>
+<div class="nbttree">
+
+<node type="compound" name="config" />函数参数
+- <node type="int" name="life" />升空时间（tick）
+- <node type="homolist" name="cmdv" />升空时间延迟结束后执行的命令
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **函数对象共通标签**
+
+    - <node type="string" name="cmd" />需要执行的函数
+    - <node type="compound" name="args" />函数参数
+
+
+</div>
 
 `sklibs:skfirework/fx/spread`\
 烟花扩散函数
-<NBTTree code='
-@Desc<"函数参数">
-data config {
-    @Desc<"数量"> n as int;
-    @Desc<"偏航角随机区间，默认[-180, 180]"> yaw as list<int>;
-    @Desc<"俯仰角随机区间，默认[-90, -20]"> pitch as list<int>;
-    @Desc<"延迟随机区间，默认[20,60]"> t as list<int>;
-    @Desc<"初速度（格/tick），默认 0.4d"> v as double;
-    @Desc<"重力加速度（格/tick），默认 0.01d"> g as double;
-    @Desc<"延迟结束后执行的命令"> cmdv as list<sklibs:command>;
-    @Desc<"延迟期间每刻执行的命令"> tick_cmdv as list<sklibs:command>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="config" />函数参数
+- <node type="int" name="n" />数量
+- <node type="homolist" name="yaw" />偏航角随机区间，默认[-180, 180]
+- <node type="homolist" name="pitch" />俯仰角随机区间，默认[-90, -20]
+- <node type="homolist" name="t" />延迟随机区间，默认[20,60]
+- <node type="double" name="v" />初速度（格/tick），默认 0.4d
+- <node type="double" name="g" />重力加速度（格/tick），默认 0.01d
+- <node type="homolist" name="cmdv" />延迟结束后执行的命令
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **函数对象共通标签**
+
+    - <node type="string" name="cmd" />需要执行的函数
+    - <node type="compound" name="args" />函数参数
+
+- <node type="homolist" name="tick_cmdv" />延迟期间每刻执行的命令
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **函数对象共通标签**
+
+    - <node type="string" name="cmd" />需要执行的函数
+    - <node type="compound" name="args" />函数参数
+
+
+</div>
 
 `sklibs:skfirework/fx/firework`\
 烟花生成函数，根据参数生成指定样式的原版烟花
-<NBTTree code='
-@Desc<"函数参数">
-data config {
-    @Desc<"烟花燃放延迟（默认为0）"> life as int;
-    @Desc<"随机颜色"> colors as list<sklibs:color>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="config" />函数参数
+- <node type="int" name="life" />烟花燃放延迟（默认为0）
+- <node type="homolist" name="colors" />随机颜色
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **随机颜色项目共通标签**
+
+    - <node type="homolist" name="from" />初始十进制颜色HEX代码值数组，数组中一个数字代表一个颜色
+    - <node type="homolist" name="to" />渐变至十进制颜色HEX代码值数组，数组中一个数字代表一个颜色
+    - <node type="int" name="shape" />烟花形状(0:小球，1:大球，2:星状，3:苦力怕，4:爆发状)
+    - <node type="int" name="trail" />是否显示踪迹
+    - <node type="int" name="colors" />是否闪烁
+    - <node type="int" name="colors" />烟花叠加数量
+    - <node type="homolist" name="tags" />给烟花添加的字符串标签
+
+
+</div>

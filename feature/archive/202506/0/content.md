@@ -3,17 +3,6 @@ title: '适用于Minecraft的前端框架——Floating UI'
 ---
 
 <!-- markdownlint-disable MD033 MD041 -->
-<script setup>
-    import {config} from '/.vitepress/MCFPPNBTParser.ts';
-
-    config.namespace = "floating_ui"
-
-</script>
-
-
-
-
-
 <FeaturedHead
     title = '适用于Minecraft的前端框架——Floating UI'
     authorName = Alumopper
@@ -100,11 +89,11 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
 - <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为`[0f,1f,0f,0f]`
 - <node type="homolist" name="tag" />控件的标签
 - <node type="homolist" name="anims" />
-  - <node type="compound" name="（列表元素）" colon=false />
+  - <node type="compound" name="（列表元素）" :colon="false" />
     <details><summary>动画共通标签</summary>
 
     - <node type="homolist" name="value" />动画的目标键值对
-      - <node type="compound" name="（列表元素）" colon=false />
+      - <node type="compound" name="（列表元素）" :colon="false" />
         <details><summary>共通标签</summary>
 
         - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
@@ -136,11 +125,11 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
 - <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为`[0f,1f,0f,0f]`
 - <node type="homolist" name="tag" />控件的标签
 - <node type="homolist" name="anims" />
-  - <node type="compound" name="（列表元素）" colon=false />
+  - <node type="compound" name="（列表元素）" :colon="false" />
     <details><summary>动画共通标签</summary>
 
     - <node type="homolist" name="value" />动画的目标键值对
-      - <node type="compound" name="（列表元素）" colon=false />
+      - <node type="compound" name="（列表元素）" :colon="false" />
         <details><summary>共通标签</summary>
 
         - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
@@ -191,64 +180,347 @@ Floating UI**布局数据**是由**UI控件数据**组成的。
 
 在创建文本控件以后，还可以访问到的额外数据有：
 
-<NBTTree code='
-@Desc<"所有文本组件UI控件的基类">
-data textcontrol {
-    @Desc<"这个控件的父控件的UUID"> parent as UUID;
-    @Desc<"这个控件所对应的文本展示实体的UUID"> displayEntity as UUID;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="textcontrol" />所有文本组件UI控件的基类
+- <node type="int_list" name="parent" />这个控件的父控件的UUID
+- <node type="int_list" name="displayEntity" />这个控件所对应的文本展示实体的UUID
+
+</div>
 
 这两种基类控件都是**抽象的**，即不能直接创建并显示出来。下面的控件类型则都是可以被实例化的。
 
 `panel`是一个简单的容器控件，可以在其中放置其他的子空间。
 
-<NBTTree code='
-data panel: Control {
-    @Desc<"子控件"> child as list<BaseControl>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="panel" />
+**控件共通标签**
+
+**基础控件共通标签**
+
+- <node type="string" name="type" />控件的类型
+- <node type="double" name="x" />x坐标。原点是正中央
+- <node type="double" name="y" />y坐标。原点是正中央
+- <node type="double" name="z" />z坐标。原点是正中央
+- <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+- <node type="homolist" name="tag" />控件的标签
+- <node type="homolist" name="anims" />控件的动画效果
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **动画共通标签**
+
+    - <node type="homolist" name="value" />动画的目标键值对
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+        - <node type="any" name="value" />动画要修改的NBT目标值
+    - <node type="float" name="time" />动画持续时间
+    - <node type="string" name="start" />事件。动画开始的时候触发。
+    - <node type="string" name="end" />事件。动画结束的时候触发。
+
+- <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+- <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+- <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+- <node type="string" name="display" />对应物品展示实体的`item_display`
+- <node type="compound" name="item" />物品展示实体将要展示的物品
+  **物品共通标签**
+
+  - <node type="string" name="id" />物品的id。如果命名空间为`minecraft`可省略。若此项省略则默认为`glass_pane`
+  - <node type="byte" name="count" />物品的id。若省略则默认为`1b`。基本没用喵
+  - <node type="compound" name="tex" />（已弃用）物品的CustomModelData
+  - <node type="compound" name="data" />一个复合标签，对应原版物品格式中的`components.minecraft:custom_data`
+  - <node type="compound" name="components" />一个物品组件
+
+
+- <node type="homolist" name="child" />子控件
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **基础控件共通标签**
+
+    - <node type="string" name="type" />控件的类型
+    - <node type="double" name="x" />x坐标。原点是正中央
+    - <node type="double" name="y" />y坐标。原点是正中央
+    - <node type="double" name="z" />z坐标。原点是正中央
+    - <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+    - <node type="homolist" name="tag" />控件的标签
+    - <node type="homolist" name="anims" />控件的动画效果
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        **动画共通标签**
+
+        - <node type="homolist" name="value" />动画的目标键值对
+          - <node type="compound" name="（列表元素）" :colon="false" />
+            - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+            - <node type="any" name="value" />动画要修改的NBT目标值
+        - <node type="float" name="time" />动画持续时间
+        - <node type="string" name="start" />事件。动画开始的时候触发。
+        - <node type="string" name="end" />事件。动画结束的时候触发。
+
+    - <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+    - <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+    - <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+</div>
 
 `button`是一个基础的按钮控件，可以被点击并触发点击事件。
 
-<NBTTree code='
-data button: Control {
-    @Desc<"事件。使用鼠标左键点击了此按钮时触发"> left_click as string;
-    @Desc<"事件。使用鼠标右键点击了此按钮时触发"> right_click as string;
-    @Desc<"按钮的内容，是一个控件。如果指定，则忽略`item`，而将按钮展示为指定的控件。"> content as BaseControl;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="button" />
+**控件共通标签**
+
+**基础控件共通标签**
+
+- <node type="string" name="type" />控件的类型
+- <node type="double" name="x" />x坐标。原点是正中央
+- <node type="double" name="y" />y坐标。原点是正中央
+- <node type="double" name="z" />z坐标。原点是正中央
+- <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+- <node type="homolist" name="tag" />控件的标签
+- <node type="homolist" name="anims" />控件的动画效果
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **动画共通标签**
+
+    - <node type="homolist" name="value" />动画的目标键值对
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+        - <node type="any" name="value" />动画要修改的NBT目标值
+    - <node type="float" name="time" />动画持续时间
+    - <node type="string" name="start" />事件。动画开始的时候触发。
+    - <node type="string" name="end" />事件。动画结束的时候触发。
+
+- <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+- <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+- <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+- <node type="string" name="display" />对应物品展示实体的`item_display`
+- <node type="compound" name="item" />物品展示实体将要展示的物品
+  **物品共通标签**
+
+  - <node type="string" name="id" />物品的id。如果命名空间为`minecraft`可省略。若此项省略则默认为`glass_pane`
+  - <node type="byte" name="count" />物品的id。若省略则默认为`1b`。基本没用喵
+  - <node type="compound" name="tex" />（已弃用）物品的CustomModelData
+  - <node type="compound" name="data" />一个复合标签，对应原版物品格式中的`components.minecraft:custom_data`
+  - <node type="compound" name="components" />一个物品组件
+
+
+- <node type="string" name="left_click" />事件。使用鼠标左键点击了此按钮时触发
+- <node type="string" name="right_click" />事件。使用鼠标右键点击了此按钮时触发
+- <node type="compound" name="content" />按钮的内容，是一个控件。如果指定，则忽略`item`，而将按钮展示为指定的控件。
+  **基础控件共通标签**
+
+  - <node type="string" name="type" />控件的类型
+  - <node type="double" name="x" />x坐标。原点是正中央
+  - <node type="double" name="y" />y坐标。原点是正中央
+  - <node type="double" name="z" />z坐标。原点是正中央
+  - <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+  - <node type="homolist" name="tag" />控件的标签
+  - <node type="homolist" name="anims" />控件的动画效果
+    - <node type="compound" name="（列表元素）" :colon="false" />
+      **动画共通标签**
+
+      - <node type="homolist" name="value" />动画的目标键值对
+        - <node type="compound" name="（列表元素）" :colon="false" />
+          - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+          - <node type="any" name="value" />动画要修改的NBT目标值
+      - <node type="float" name="time" />动画持续时间
+      - <node type="string" name="start" />事件。动画开始的时候触发。
+      - <node type="string" name="end" />事件。动画结束的时候触发。
+
+  - <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+  - <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+  - <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+</div>
 
 `textblock`是一个基础的文本控件，可以展示指定的文本
 
-<NBTTree code='
-data textblock: TextControl {
-    @Name<"text">
-    @Desc<"要展示的字符串。如果为列表则代表多行文本"> tex as (string | list<string>);
-    @Desc<"文本对齐方式，有`left`，`right`，`center`三种。默认为`left`"> align as string;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="textblock" />
+**文本控件共通标签**
+
+**基础控件共通标签**
+
+- <node type="string" name="type" />控件的类型
+- <node type="double" name="x" />x坐标。原点是正中央
+- <node type="double" name="y" />y坐标。原点是正中央
+- <node type="double" name="z" />z坐标。原点是正中央
+- <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+- <node type="homolist" name="tag" />控件的标签
+- <node type="homolist" name="anims" />控件的动画效果
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **动画共通标签**
+
+    - <node type="homolist" name="value" />动画的目标键值对
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+        - <node type="any" name="value" />动画要修改的NBT目标值
+    - <node type="float" name="time" />动画持续时间
+    - <node type="string" name="start" />事件。动画开始的时候触发。
+    - <node type="string" name="end" />事件。动画结束的时候触发。
+
+- <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+- <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+- <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+- <node type="float" name="fontsize" />字体的大小。仅用于输入
+
+- <node type="string" /><node type="homolist" name="text" />要展示的字符串。如果为列表则代表多行文本
+- <node type="string" name="align" />文本对齐方式，有`left`，`right`，`center`三种。默认为`left`
+
+</div>
 
 `list`是一个可以展示滚动一系列控件的容器控件。通过鼠标滚轮可以滚动展示其中的控件。
 
-<NBTTree code='
-@Name<"list">
-data l: Control {
-    @Desc<"子控件"> child as list<BaseControl>;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="list" />
+**控件共通标签**
+
+**基础控件共通标签**
+
+- <node type="string" name="type" />控件的类型
+- <node type="double" name="x" />x坐标。原点是正中央
+- <node type="double" name="y" />y坐标。原点是正中央
+- <node type="double" name="z" />z坐标。原点是正中央
+- <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+- <node type="homolist" name="tag" />控件的标签
+- <node type="homolist" name="anims" />控件的动画效果
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **动画共通标签**
+
+    - <node type="homolist" name="value" />动画的目标键值对
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+        - <node type="any" name="value" />动画要修改的NBT目标值
+    - <node type="float" name="time" />动画持续时间
+    - <node type="string" name="start" />事件。动画开始的时候触发。
+    - <node type="string" name="end" />事件。动画结束的时候触发。
+
+- <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+- <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+- <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+- <node type="string" name="display" />对应物品展示实体的`item_display`
+- <node type="compound" name="item" />物品展示实体将要展示的物品
+  **物品共通标签**
+
+  - <node type="string" name="id" />物品的id。如果命名空间为`minecraft`可省略。若此项省略则默认为`glass_pane`
+  - <node type="byte" name="count" />物品的id。若省略则默认为`1b`。基本没用喵
+  - <node type="compound" name="tex" />（已弃用）物品的CustomModelData
+  - <node type="compound" name="data" />一个复合标签，对应原版物品格式中的`components.minecraft:custom_data`
+  - <node type="compound" name="components" />一个物品组件
+
+
+- <node type="homolist" name="child" />子控件
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **基础控件共通标签**
+
+    - <node type="string" name="type" />控件的类型
+    - <node type="double" name="x" />x坐标。原点是正中央
+    - <node type="double" name="y" />y坐标。原点是正中央
+    - <node type="double" name="z" />z坐标。原点是正中央
+    - <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+    - <node type="homolist" name="tag" />控件的标签
+    - <node type="homolist" name="anims" />控件的动画效果
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        **动画共通标签**
+
+        - <node type="homolist" name="value" />动画的目标键值对
+          - <node type="compound" name="（列表元素）" :colon="false" />
+            - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+            - <node type="any" name="value" />动画要修改的NBT目标值
+        - <node type="float" name="time" />动画持续时间
+        - <node type="string" name="start" />事件。动画开始的时候触发。
+        - <node type="string" name="end" />事件。动画结束的时候触发。
+
+    - <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+    - <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+    - <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+</div>
 
 `sprite`和`control`几乎没有新的控件数据，可以用于展示一个物品，通过修改纹理可以用它展示一些图片。
 
 `stackpanel`是一个能自动布局的容器，可以以指定的布局方式自动排列内部的控件。
 
-<NBTTree code='
-data stackpanel: Control {
-    @Desc<"控件的布局方式。有right, left, center三种取值"> align as string;
-    @Desc<"子控件"> child as list<BaseControl>;
-    @Desc<"（TODO）子控件之间的间距"> gap as int;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="stackpanel" />
+**控件共通标签**
+
+**基础控件共通标签**
+
+- <node type="string" name="type" />控件的类型
+- <node type="double" name="x" />x坐标。原点是正中央
+- <node type="double" name="y" />y坐标。原点是正中央
+- <node type="double" name="z" />z坐标。原点是正中央
+- <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+- <node type="homolist" name="tag" />控件的标签
+- <node type="homolist" name="anims" />控件的动画效果
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **动画共通标签**
+
+    - <node type="homolist" name="value" />动画的目标键值对
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+        - <node type="any" name="value" />动画要修改的NBT目标值
+    - <node type="float" name="time" />动画持续时间
+    - <node type="string" name="start" />事件。动画开始的时候触发。
+    - <node type="string" name="end" />事件。动画结束的时候触发。
+
+- <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+- <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+- <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+
+- <node type="string" name="display" />对应物品展示实体的`item_display`
+- <node type="compound" name="item" />物品展示实体将要展示的物品
+  **物品共通标签**
+
+  - <node type="string" name="id" />物品的id。如果命名空间为`minecraft`可省略。若此项省略则默认为`glass_pane`
+  - <node type="byte" name="count" />物品的id。若省略则默认为`1b`。基本没用喵
+  - <node type="compound" name="tex" />（已弃用）物品的CustomModelData
+  - <node type="compound" name="data" />一个复合标签，对应原版物品格式中的`components.minecraft:custom_data`
+  - <node type="compound" name="components" />一个物品组件
+
+
+- <node type="string" name="align" />控件的布局方式。有right, left, center三种取值
+- <node type="homolist" name="child" />子控件
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    **基础控件共通标签**
+
+    - <node type="string" name="type" />控件的类型
+    - <node type="double" name="x" />x坐标。原点是正中央
+    - <node type="double" name="y" />y坐标。原点是正中央
+    - <node type="double" name="z" />z坐标。原点是正中央
+    - <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+    - <node type="homolist" name="tag" />控件的标签
+    - <node type="homolist" name="anims" />控件的动画效果
+      - <node type="compound" name="（列表元素）" :colon="false" />
+        **动画共通标签**
+
+        - <node type="homolist" name="value" />动画的目标键值对
+          - <node type="compound" name="（列表元素）" :colon="false" />
+            - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+            - <node type="any" name="value" />动画要修改的NBT目标值
+        - <node type="float" name="time" />动画持续时间
+        - <node type="string" name="start" />事件。动画开始的时候触发。
+        - <node type="string" name="end" />事件。动画结束的时候触发。
+
+    - <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+    - <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+    - <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+- <node type="int" name="gap" />（TODO）子控件之间的间距
+
+</div>
 
 ### 事件
 
@@ -271,17 +543,18 @@ Floating UI的事件机制相当简单，在数据格式中标注了是事件的
 
 既然是UI库，当然少不了动画的支持啦！借助Minecraft展示实体的插值功能，Floating UI提供了一些基本的动画功能。动画通常会在事件触发的时候执行。动画的数据格式如下所示：
 
-<NBTTree code='
-data animation {
-    @Desc<"动画的目标键值对"> value as list<data {
-        @Desc<"动画要修改的UI控件实体的NBT键"> key as string;
-        @Desc<"动画要修改的NBT目标值"> value as any;
-    }>;
-    @Desc<"动画持续时间"> time as float;
-    @Desc<"事件。动画开始的时候触发。"> start as string;
-    @Desc<"事件。动画结束的时候触发。"> end as string;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="animation" />
+- <node type="homolist" name="value" />动画的目标键值对
+  - <node type="compound" name="（列表元素）" :colon="false" />
+    - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+    - <node type="any" name="value" />动画要修改的NBT目标值
+- <node type="float" name="time" />动画持续时间
+- <node type="string" name="start" />事件。动画开始的时候触发。
+- <node type="string" name="end" />事件。动画结束的时候触发。
+
+</div>
 
 例如，要让一个`panel`在鼠标进入的时候变大，可以这样写：
 
@@ -310,12 +583,37 @@ data animation {
 
 通常来说，一个好用的UI库一定不能缺少自定义控件，或者用户控件，或者模板，Floating UI当然也不例外。通过控件模板，可以把多个控件打包在一起，这样就不用重复编写相同的代码了。Floating UI中控件模板的定义和使用都非常的简单。
 
-<NBTTree code='
-data template {
-    @Desc<"模板打包的控件"> content as BaseControl;
-    @Desc<"一系列键值对，定义了模板中的参数。键名代表了参数名，而键值则表示从content出发的NBT相对路径"> params as compound;
-}
-'/>
+<div class="nbttree">
+
+<node type="compound" name="template" />
+- <node type="compound" name="content" />模板打包的控件
+  **基础控件共通标签**
+
+  - <node type="string" name="type" />控件的类型
+  - <node type="double" name="x" />x坐标。原点是正中央
+  - <node type="double" name="y" />y坐标。原点是正中央
+  - <node type="double" name="z" />z坐标。原点是正中央
+  - <node type="homolist" name="rotation" />控件的旋转。是一个四元数。默认为[0f,1f,0f,0f]
+  - <node type="homolist" name="tag" />控件的标签
+  - <node type="homolist" name="anims" />控件的动画效果
+    - <node type="compound" name="（列表元素）" :colon="false" />
+      **动画共通标签**
+
+      - <node type="homolist" name="value" />动画的目标键值对
+        - <node type="compound" name="（列表元素）" :colon="false" />
+          - <node type="string" name="key" />动画要修改的UI控件实体的NBT键
+          - <node type="any" name="value" />动画要修改的NBT目标值
+      - <node type="float" name="time" />动画持续时间
+      - <node type="string" name="start" />事件。动画开始的时候触发。
+      - <node type="string" name="end" />事件。动画结束的时候触发。
+
+  - <node type="string" name="name" />控件的唯一字符串名，用于保存UUID
+  - <node type="string" name="move_in" />一个函数或函数标签的命名空间id。鼠标准星进入这个控件时执行
+  - <node type="string" name="move_out" />一个函数或函数标签的命名空间id。鼠标准星离开这个控件时执行
+
+- <node type="compound" name="params" />一系列键值对，定义了模板中的参数。键名代表了参数名，而键值则表示从content出发的NBT相对路径
+
+</div>
 
 将这个NBT数据传入`floating_ui:data custom.<模板名>`来注册这个模板，随后，就可以直接在`type`字段里面使用这个模板名了，并传入参数了。
 

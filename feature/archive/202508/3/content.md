@@ -433,22 +433,16 @@ Mojang在很早以前就把附魔金苹果的合成配方移除了。虽然现�
 
 由于没有定义，此进度完成之后不会得到任何奖励。但是实际上你可以定义进度完成的奖励。只需要在JSON文件的根对象下写入以下字段：
 
-<NBTTree code='
-@Desc<"根对象，进度中其余的部分被省略">
-data Reward {
-@Desc<"达成进度的奖励">
-reward as data{
-@Desc<"（默认为0）完成进度后玩家将获得的经验值">
-experience as int;
-@Desc<"完成进度后执行的函数，不支持函数标签。等同于直接使用/function">
-function as string;
-@Desc<"完成进度后玩家获得的战利品表">
-loot as list<string>;
-@Desc<"完成进度后玩家解锁的配方">
-recipes as list<string>;
-};
-};'
-/>
+<div class="nbttree">
+
+<node type="compound" name="Reward" />根对象，进度中其余的部分被省略
+- <node type="compound" name="reward" />达成进度的奖励
+  - <node type="int" name="experience" />（默认为0）完成进度后玩家将获得的经验值
+  - <node type="string" name="function" />完成进度后执行的函数，不支持函数标签。等同于直接使用/function
+  - <node type="homolist" name="loot" />完成进度后玩家获得的战利品表
+  - <node type="homolist" name="recipes" />完成进度后玩家解锁的配方
+
+</div>
 
 ::: tip 提示8
 
