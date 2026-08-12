@@ -2,11 +2,15 @@
 title: 'How to make all items have the effect of Undying Totem'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
-    title="How to make all items have the effect of Undying Totem"
+title='How to make all items have the effect of Undying Totem'
     authorName="jk137"
 />
-
 
 
 ## Preface
@@ -35,7 +39,7 @@ Of course, it doesn’t matter if you don’t have these knowledge points. I wil
 
 
 
-## Text
+## text
 
 There are two ideas to solve this problem.
 
@@ -43,11 +47,29 @@ There are two ideas to solve this problem.
 
 ### 1. Pure command method
 
-See the following lines of command:`/give @s stick[death_protection={}]`- Directly gives the current executor a stick with a death protection component.`/item modify entity @s weapon.mainhand {function: "set_components", components: {death_protection: {}}}`- Change the item in the current executor's main hand position to an item with a death protection component.`/loot give @s loot {functions: [{function: "set_components", components: {death_protection: {}}}], pools: [{rolls: 1, entries: [{type: "loot_table", value: "chests/end_city_treasure"}]}]}`- Obtain end city loot boxes and add death protection components to all items in them.
+See the following lines of command:
 
 
 
-The above 3 methods can all obtain the target item without modifying the vanilla game file.
+`/give @s stick[death_protection={}]`
+
+- Directly gives the current executor a stick with a death protection component.
+
+
+
+`/item modify entity @s weapon.mainhand {function: "set_components", components: {death_protection: {}}}`
+
+- Change the item at the current executor's main hand position to an item with a death protection component.
+
+
+
+`/loot give @s loot {functions: [{function: "set_components", components: {death_protection: {}}}], pools: [{rolls: 1, entries: [{type: "loot_table", value: "chests/end_city_treasure"}]}]}`
+
+- Obtain end city loot boxes and add death protection components to all items in them.
+
+
+
+The above 3 methods can obtain the target item without modifying the vanilla game file.
 
 
 
@@ -65,7 +87,7 @@ The old problem is indeed solved, but it will lead to new problems: nbt is diffe
 
 
 
-What about adding components to all drops?
+How about adding components to all drops?
 
 
 
@@ -73,13 +95,21 @@ The stacking problem of dropped objects can indeed be partially solved, but as f
 
 
 
-#### Summary
+#### Summarize
 
-This method only requires high-frequency operation (frequently loading chunk's cyclic command block or data packtick) the following two lines of command:`/item modify entity @a container.* {function: "set_components", components: {death_protection: {}}}`
+This method only requires high-frequency operation (frequently loading chunk's cyclic command block or data packtick) the following two lines of command:
 
 
 
-`/item modify entity @e[type=item] container.0 {function: "set_components", components: {death_protection: {}}}`Cons: Requires an extra step to organize the backpack manually.
+`/item modify entity @a container.* {function: "set_components", components: {death_protection: {}}}`
+
+
+
+`/item modify entity @e[type=item] container.0 {function: "set_components", components: {death_protection: {}}}`
+
+
+
+Cons: Requires an extra step to organize the backpack manually.
 
 
 
@@ -105,13 +135,23 @@ Since [Java Edition 1.20.5](https://zh.minecraft.wiki/w/Java版1.20.5), recipe p
 
 The general format is:
 
--`{"type": "shaped/shapeless/smelting/special/etc.", ..., "result": {"count": count, "id": "result ID", "components": {components}}}`
+- `{"type": "有序/无序/熔炼/特殊等等", ..., "result": {"count": 个数, "id": "产物id", "components": {组件}}}`
+
+
+
 #### loot table
 
 The general format is:
 
--`{"type": "block/chest/entity/etc.", ..., "pools": [{pool 1}, {pool 2}]}`If not`functions`The fields are added:`"functions": [{"function": "set_components", components: {components}}]`
-#### Script
+- `{"type": "方块/箱子/实体等等", ..., "pools": [{随机池1}, {随机池2}]}`
+
+
+
+If not`functions`The fields are added:`"functions": [{"function": "set_components", components: {组件}}]`
+
+
+
+#### script
 
 Obviously, it would be too troublesome for us to modify these vanilla files one by one. Using scripts can help us save time faster.
 
@@ -122,7 +162,7 @@ Here I am using Python and the code is pasted directly:
 ::: details
 
 ```python
-#Part of the code refers to the output of deepseek
+# 部分代码参考deepseek的输出
 
 import os
 
@@ -130,7 +170,7 @@ import json
 
 
 
-#Component definition
+# 组件定义
 
 COMPONENT = {
 
@@ -158,9 +198,9 @@ COMPONENT = {
 
 
 
-#Path configuration
+# 路径配置
 
-#It needs to be vanilladata pack, and you need to unzip the data\minecraft in the vanillajar file.
+# 需为原版数据包，要解压原版jar文件中的data\minecraft
 
 INPUT_ROOT = r'D:\Codes\VSCode\python\test\minecraft'
 
@@ -250,18 +290,29 @@ for subdir, is_recipe in [("loot_table", False), ("recipe", True)]:
 
 print("完成，输出到:", OUTPUT_ROOT)
 ```
+
+
 :::
 
-The data pack generated after running this script needs to be used when the new world is loaded!
+The data pack generated after running this script needs to be used when loading a new world!
 
 
 
-### Appendix
+### appendix
 
-To have the same effect as the Totem of Undying, please replace the death protection component`{}`for:`{"death_effects": [{"type": "clear_all_effects"}, {"type": "apply_effects", "effects": [{"id": "fire_resistance", "duration": 800}, {"id": "regeneration", "amplifier": 1, "duration": 900}, {"id": "absorption", "amplifier": 1, "duration": 100}]}]}`
-## Download
+To have the same effect as the Totem of Undying, please replace the death protection component`{}`for:
+
+
+
+`{"death_effects": [{"type": "clear_all_effects"}, {"type": "apply_effects", "effects": [{"id": "fire_resistance", "duration": 800}, {"id": "regeneration", "amplifier": 1, "duration": 900}, {"id": "absorption", "amplifier": 1, "duration": 100}]}]}`
+
+
+
+## download
 
 - [Optional download location](https://github.com/JesKi13567/Experimental-Datapacks/releases/tag/the-tag)
 
 
-## Video demonstrationhttps://www.bilibili.com/video/BV1CQV1zHEjG
+## Video demonstration
+
+https://www.bilibili.com/video/BV1CQV1zHEjG

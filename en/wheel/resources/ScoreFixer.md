@@ -2,7 +2,7 @@
 name: ScoreFixer
 author:
     -
-        name: SilicaYT
+        name: SilicatYT
         char: author
     -
         name: CMDred
@@ -16,6 +16,11 @@ wheel: true
 repo: CMDred/ScoreFixer
 cover: /datapack-index/wheel/ScoreFixer.png
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 
 <InfoCard />
 

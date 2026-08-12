@@ -1,3 +1,7 @@
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <script setup>
 import { useData } from 'vitepress'
 import ColorLine from '/.vitepress/vue/ColorLine.vue'
@@ -26,14 +30,14 @@ This section posts new posts recently included in the library, replacing the ori
 - [Tutorial: How to combine two items after throwing them together](https://www.bilibili.com/video/BV1opCvBiEAh/)
 
 
-## command flashlight Command Flashlight
+## Command Flashlight Command Flashlight
 
 ### MC explosion momentum calculation formula
 
 Explosion intensity = 1-distance from explosion center to entity/explosion diameter
 Explosion momentum = unit vector from explosion center to entity eye * explosion intensity
 
-### Convert direction to quaternion
+### Execute direction to quaternion
 
 ```mcfunction
 execute in minecraft:overworld positioned 0. 0 1. rotated ~ 0 positioned ^ ^ ^1 facing 0. 0 0. positioned 0. 0 0. run teleport 0-0-0-0-0 ^ ^ ^-1
@@ -47,7 +51,9 @@ execute store result storage example:s quaternion[2] float .00000000046566128752
 execute store result storage example:s quaternion[1] float .000000000465661287520 run scoreboard players operation #y temp *= #s temp
 execute store result storage example:s quaternion[0] float -.00000000046566128752 run scoreboard players operation #x temp *= #c temp
 ```
-### Calculate the sun and moon altitude angle
+
+
+### Calculate sun and moon altitude angle
 
 The following code takes the time of day as input and outputs the angle of the sun (the angle value is multiplied by 100000 for accuracy). If the angle is 0, the sun is due east; if the angle is 90, the sun is due north, and so on. The moon's position is opposite that of the sun (360 - sun angle = moon angle).
 
@@ -56,7 +62,6 @@ Due to the existence of 1.21.11 environment attribute settings, the actual locat
 :::
 
 pack:main.mcfunction
-
 ```mcfunction
 scoreboard objectives add obj._ dummy
 scoreboard players set #24 obj._ 24
@@ -97,11 +102,13 @@ execute at @s run tp @s ^ ^ ^1
 execute store result score #_d obj._ run data get entity @s Pos[2] 100000
 kill @s
 ```
+
+
 <ClientOnly>
   <GiscusComment
     repo="CR-019/datapack-index"
     repoId="R_kgDONRhuqw"
-    category="Chats"
+category="Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
     term="43"

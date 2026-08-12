@@ -2,17 +2,21 @@
 title: 'Dynamic custom item uses cooling'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
-    title = "Dynamic custom item uses cooling"
+title = 'Dynamic custom item uses cooling'
     authorName = "icuqALT10"
 />
-
 
 When I saw "Dynamic Cooling Based on Vanilla Cooling Components" written by CR_019, I remembered that the right-click detection I wrote a long time ago can also realize dynamic custom item cooling. It only uses 3 advancements and their corresponding reward functions and 1 empty recipe ~~I will submit another article when I have nothing to do ()~~
 
 ## Contains content
 
-advancement:"`using_item`"、"`consume_item`"、"`recipe_unlocked`"
+advancement："`using_item`"、"`consume_item`"、"`recipe_unlocked`"
 
 recipe: any empty recipe
 
@@ -20,11 +24,13 @@ recipe: any empty recipe
 
 ### General idea
 
-The vanilla `consumable` component can customize the time required to consume an item, while the `use_cooldown` component can set the cooldown after use.
+vanilla`consumable`Components can customize the consumption time of items.`use_cooldown组件`You can set the cooling time after use
 
-However, in most cases, the `use_cooldown` component is triggered only when `consumable` is triggered.
+but`use_cooldown`In most cases, components are only triggered when`consumable`will be triggered accordingly
 
-Therefore, we can use `consumable` to trigger `use_cooldown`. There is no noticeable difference between 1t and 2t, so the time required for consumption can be set to 0.1s, while the `using_item` advancement can be triggered continuously during the consumption process.
+So we can use`consumable来触发use_cooldown`
+
+There is no physical difference between 1t and 2t, so the consumption time can be set to 0.1s, and using_itemadvancement can be continuously triggered during the consumption process.
 
 This way we can do:
 
@@ -40,7 +46,7 @@ The third advancement can use the item information stored in the 1t time, and re
 
 Take the instructions I have written as an example
 
-#### The 1tth advancement and function
+#### Advancement and function of Section 1t
 
 ```json
 {
@@ -66,33 +72,35 @@ Take the instructions I have written as an example
 ```mcfunction
 advancement revoke @s only yyt:system/click_check/consumable/right_click_mainhand
 
-#Dynamic update cd that is triggered only once by right-clicking on a tag
+#根据tag一次右键仅触发一次的动态更新cd
 execute unless entity @s[tag=cooldown_set] run function yyt:system/right_click/mainhand/consumable/cd
 
-#Get item information
+#获取物品信息
 data remove storage yyt:item modify
 data modify storage yyt:item modify set from entity @s SelectedItem
 
-#Save the item information to the player's exclusive storage (free to use the details, no details will be given)
+#将物品信息保存到玩家专属storage中（具体自由发挥，不详细讲述）
 function yyt:players/get/main
 data modify storage yyt:player player.temp.item.modify set from storage yyt:item modify
 function yyt:players/set/main
 
-#revoke the third advancement, paving the way for the following (?)
+#revoke第三个进度，为下文做铺垫（？）
 advancement revoke @s only yyt:system/click_check/consumable/mainhand_replace
 ```
 
 
 ```mcfunction
-#Modify the cd of the item in the player's hand
+#修改玩家手中物品的cd
 item modify entity @s weapon.mainhand {function:"set_components",components:{"minecraft:use_cooldown":{seconds:0.5,"cooldown_group":"yyt:weapon/sword/1/1"}}}
 
-#Give the tag and let cd ensure that it is only modified once
+#给予tag，让cd确保一次只修改一次
 tag @s add cooldown_set
 ```
-In this way, this advancement and its corresponding function are triggered at the 1tth time, the information of the item is successfully saved, and the cd of the item in hand is modified.
 
-#### The 2nd and second advancement
+
+In this way, this advancement and its corresponding function are triggered at the 1tth time, the item information is successfully saved, and the cd of the item in hand is modified.
+
+#### 2t and second advancement
 
 ```json
 {
@@ -118,21 +126,23 @@ In this way, this advancement and its corresponding function are triggered at th
 ```mcfunction
 advancement revoke @s only yyt:system/click_check/right_click_mainhand
 
-#remove tag
+#移除tag
 tag @s remove cooldown_set
 
-#Execute the corresponding function
+#执行对应函数
 function yyt:system/right_click/function with entity @s SelectedItem.components.minecraft:custom_data
 
-#Re-give the recipe to trigger the third advancement
+#重新给予配方	以触发第三个进度
 recipe take @s yyt:click_check/mainhand
 recipe give @s yyt:click_check/mainhand
 ```
+
+
 The item consumption is triggered normally, the item's cooling group enters the cd, and a recipe is given.
 
 If you want to modify the item, such as modifying the quantity or modifying nbt, you can do so by modifying the item information saved previously.
 
-#### The 2nd and third advancement
+#### 2t and 3rd advancement
 
 ```json
 {
@@ -162,22 +172,24 @@ If you want to modify the item, such as modifying the quantity or modifying nbt,
 
 
 ```mcfunction
-#Read item information
+#读取物品信息
 function yyt:players/get/main
 data modify storage yyt:item modify set from storage yyt:player player.temp.item.modify
 
-#Write back the original cd. Feel free to use it. You can save the original cd in custom_data and use macros here to modify the content of the above storage. But it’s too much to write.
+#写回原始cd 自由发挥    可以将原始cd保存在custom_data里在这里用宏修改上面的storage的内容	不过多写了
 function 懒得写
 
-#Return item and quantity
+#返还物品以及数量
 item replace entity @s weapon.mainhand with stick
 function yyt:system/item/components/mainhand with storage yyt:item modify
 function yyt:system/item/count/mainhand
 
-#Clear item information and return it to player-specific storage
+#清除物品信息并返还给玩家专属storage
 data remove storage yyt:player player.temp.item.modify
 function yyt:players/set/main
 ```
+
+
 The most critical part is that the advancement obtained by the recipe will be triggered after the player is updated, so we can use this to seamlessly return the item to the player when the second player successfully consumes the item (it doesn’t matter if you don’t understand it, you just need to know to give the player the recipe in the second advancement and write its acquisition detection in the third advancement)
 
 ## Epilogue
@@ -185,3 +197,4 @@ The most critical part is that the advancement obtained by the recipe will be tr
 It’s actually not troublesome to do. It just took me a long time to think about it while I was writing it.
 
 Hope this helps!
+

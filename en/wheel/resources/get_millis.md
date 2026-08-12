@@ -13,6 +13,10 @@ wheel: true
 repo: intsuc/get_millis
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 Calculate the high-precision time of the JVM in milliseconds ((System.nanoTime() / 1000000L) & 0x0000ffffffffffff).
@@ -22,18 +26,17 @@ Calculate the high-precision time of the JVM in milliseconds ((System.nanoTime()
 Read its official documentation ([Github](https://github.com/intsuc/get_millis)) for details.
 
 Example:
-
 ```mcfunction
 scoreboard objectives add example dummy
 
 execute store result score #start example run function get_millis:api/get_and_resolve
-  #Perform any time-consuming tasks such as:
+  # 执行任意花费时间的任务，如:
   reload
   reload
   reload
 execute store result score #end example run function get_millis:api/get_and_resolve
 
 scoreboard players operation #end example -= #start example
-#Output elapsed time
+# 输出经过的时间
 tellraw @a ["Elapsed time: ", {score: {name: "#end", objective: "example"}, color: "gold"}, " ms"]
 ```

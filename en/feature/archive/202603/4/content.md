@@ -1,6 +1,12 @@
 ---
-title: 'Animated Java vanilla model animation production tutorial series'
+title: 'Animated Java vanilla model animation production series tutorial'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title="Animated Java vanilla model animation production series tutorials"
     authorName="Sugar_Li"
@@ -13,9 +19,9 @@ Animated Java is a plug-in based on Blockbench that allows creators to implement
 
 The reason was that my friend Kevin needed to make a boss battle system when making Yaqi Story 2, but he didn't know how to use AJ. When I went to station B to look for tutorials, I found that there was no relatively systematic and comprehensive AJ tutorial. So, I decided to record such a set of tutorials myself, and at the same time produce supporting Chinese documents and Chinese plug-ins.
 
-## Introduction to tutorial series
+## Tutorial series introduction
 
-### Basic Tutorial (Completed)
+### Basic tutorial (completed)
 
 The basic tutorial takes version 1.20.1 as an example and uses the v0.4.8 version plug-in for explanation. This set of tutorials covers the complete process of making AJ animation from scratch:
 
@@ -27,7 +33,7 @@ In the first issue, I introduced the prerequisites for using AJ, including downl
 
 The second issue is the core part of the practical operation. I demonstrated how to create an AJ project in Blockbench, set project parameters, import models and create animations. The tutorial explains in detail:
 
-- Operation of animation keyframes (three transformations: position, rotation, and scaling)
+- Animation keyframe operations (three transformations: position, rotation, and scaling)
 - Selection of interpolation type (linear, smooth, Bezier, step)
 - The difference between loop modes (single, hold, loop)
 - Methods for project export and in-game testing
@@ -39,7 +45,7 @@ In addition, I also introduced the extended functions, including the use of anim
 - Basic tutorial ①: [BV16zfHBGEi2](https://www.bilibili.com/video/BV16zfHBGEi2)
 - Basic tutorial ②: [BV1mFfrB6EeA](https://www.bilibili.com/video/BV1mFfrB6EeA)
 
-### Advanced Tutorial
+### Advanced tutorial
 
 The advanced tutorial explains the new version of the plug-in (v1.8.1, supports 1.20.4+) and introduces the new features and improvements of the new version.
 
@@ -60,6 +66,8 @@ The function API of the new version of AJ has been significantly updated. Summon
 ```mcfunction
 function animated_java:<项目名>/summon {args:{variant:'angry', animation:'walk', frame: 20}}
 ```
+
+
 Compared with the old version that required setting multiple scoreboard values, the new version's macro function method is more intuitive and convenient, and it is also easier to embed variables in the command.
 
 **Variation System**
@@ -79,7 +87,7 @@ For those who are already using older versions of AJ to create projects, I will 
 Stacking is a technique for attaching multiple bones to each other and can be used to create dynamic models. Through the "use entity" and "command when summoned" properties of the locator, multiple bones can be stacked together, such as mounting the head bone to the body bone to achieve a more flexible model combination.
 
 ::: tip Stay tuned
-The second phase of the advanced tutorial is in production. After the update, the entire AJ series of tutorials will be completed.
+The second phase of the advanced tutorial is in production, and the entire AJ series of tutorials will be completed after the update.
 :::
 
 **Video link:**
@@ -89,7 +97,7 @@ The second phase of the advanced tutorial is in production. After the update, th
 
 Select the corresponding AJ plug-in version according to the game version:
 
-| Plug-in version | Supported game versions |
+| Plug-in version | Supported game version |
 |---------|--------------|
 | v1.8.1 (latest version) | 1.20.4+ |
 | v0.4.8 | 1.19.4 - 1.20.6 |
@@ -114,9 +122,9 @@ In order to promote learning exchanges and lower the learning threshold of Anima
 ### Document features
 
 - Translated based on Animated Java v1.8.1 version
-- Most content is translated by AI and finely tuned by humans
+- Most content is translated by AI and fine-tuned by humans
 - Provide online version and local version
-- The entire site production takes about one night (about 19:43 - 5:00 the next day)
+- The whole site production takes about one night (about 19:43 - 5:00 the next day)
 
 ### Access method
 
@@ -124,7 +132,7 @@ In order to promote learning exchanges and lower the learning threshold of Anima
 
 **Local document**: After downloading from the network disk, run`start_server.bat`You can view it locally, it loads quickly and you don’t have to worry about the website hanging down.
 
-::: warning description
+::: warning illustrate
 This document may not contain content updated after March 2026. Although it has been proofread repeatedly, there may still be undiscovered omissions or errors. If any problems are found, feedback is welcome.
 :::
 
@@ -135,10 +143,10 @@ The new version of the AJ plug-in does not have a Chinese interface by default. 
 ### How to use
 
 1. Download the Chinese plug-in file from the network disk
-2. Replace the corresponding files in the Blockbench plug-in directory
+2. Replace the corresponding files in the Blockbench plugin directory
 3. Restart Blockbench to see the Chinese interface
 
-::: warning version note
+::: warning versionnote
 The Chinese plug-in is based on v1.8.1 version, and subsequent versions may not be compatible.
 :::
 
@@ -147,10 +155,12 @@ The Chinese plug-in is based on v1.8.1 version, and subsequent versions may not 
 ### Network disk link
 
 **Baidu Netdisk:**
-- Links:https://pan.baidu.com/s/1hRxfVTx8c1e6v_cuqTjvaw- Extraction code: tcbl
+- Link:https://pan.baidu.com/s/1hRxfVTx8c1e6v_cuqTjvaw
+- Extraction code: tcbl
 
 **Quark Network Disk:**
-- Links:https://pan.quark.cn/s/0e512d263e51- Extraction code: vgv1
+- Link:https://pan.quark.cn/s/0e512d263e51
+- Extraction code: vgv1
 
 ### Information content
 
@@ -165,20 +175,26 @@ The network disk contains the following resources:
 
 In the process of creating tutorials and documentation, I consulted the following resources:
 
-### Official resources
+### official resources
 
 - Blockbench official website:https://www.blockbench.net
-- Blockbench Wiki：https://www.blockbench.net/wiki/- Animated Java official documentation:https://animated-java.dev/docs- Animated Java version description:https://animated-java.dev/docs/legacy-releases/versions
+- Blockbench Wiki：https://www.blockbench.net/wiki/
+- Animated Java official documentation:https://animated-java.dev/docs
+- Animated Java version description:https://animated-java.dev/docs/legacy-releases/versions
+
 ### Chinese resources
 
-- Animated Java Chinese documentation:https://aj.sugarli.cn/docs- Chinese Minecraft Wiki:https://zh.minecraft.wiki/
+- Animated Java Chinese documentation:https://aj.sugarli.cn/docs
+- Chinese Minecraft Wiki:https://zh.minecraft.wiki/
+
 ## About the author
 
 Hello, hello, this is Lizi, a pigeon-type map maker, an UP owner who is trying to do live broadcasts and some practical tutorials.
 
-- **Station B homepage**:https://space.bilibili.com/20703672- **Fans communication group**: 925118607
+- **Bilibili homepage**:https://space.bilibili.com/20703672
+- **Fans communication group**: 925118607
 
-Welcome friends to join the exchange group discussion!
+Welcome friends to join the discussion group!
 
 ## Disclaimer
 
@@ -189,3 +205,4 @@ Welcome friends to join the exchange group discussion!
 ---
 
 Thank you all for your support! If you have any questions, please leave a message in the comment area or join the discussion group. If you have any mistakes, please raise them and I will actively correct them!
+

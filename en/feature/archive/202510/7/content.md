@@ -1,6 +1,12 @@
 ---
 title: 'Text Animation Resource Library'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "Text animation resource library"
     authorName = "CoolGaston"
@@ -8,13 +14,15 @@ title: 'Text Animation Resource Library'
     cover='../../../../../feature/archive/202510/_assets/7.png'
 />
 
+
+
 "Text Animation Resource Library" is a data pack module based on display entity and titlecommand, and runs with pure command driver.
 
 Supported version: minecraft java edition 1.21.6+
 
 [Demonstrate](https://www.bilibili.com/video/BV1Jra8zUEVQ)
 
-## Animation display
+## animation display
 
 ### Show entity animation
 
@@ -28,7 +36,7 @@ Supported version: minecraft java edition 1.21.6+
 
 ## How to use
 
-### Install Special Texts special effect font resource library
+### Install the Special Texts special effect font resource library
 
 > **Latest versionV2.0**
 >
@@ -42,21 +50,23 @@ Supported version: minecraft java edition 1.21.6+
 
 * **Generate text**
   * Determine the execution dimension, position and orientation
-    *`execute in xxx at/positioned xxx rotated/facing xxx`* Select the template function (see below for details) preload instruction and use the parameter component: initialization + project title text or generate entity
-    *`run function textanimation:xxx/preload {}`* To end all text display entity text, use function textanimation:killall, or click to clear all text animations in the panel entering the game
+    * `execute in xxx at/positioned xxx rotated/facing xxx`
+  * Select the template function (see below for details) preload instruction and use the parameter component: initialization + project title text or generate entity
+    * `run function textanimation:xxx/preload {}`
+* To end all text display entity text, use function textanimation:killall, or click to clear all text animations in the panel entering the game
 
 ### Template description
 
 **Each template has specific components, and parameters cannot be missing! ! ! **
 
-**Text display entity template** (The English name here is the name of xxx/preload mentioned above)
+**Text display entity template** (the English name here is the name of xxx/preload mentioned above)
 
 * **fade**
 
-  * Basic fade in and fade out (basic component)
+  * Basic Fade (Basic Component)
 * **cener_diffuse**
 
-  * Basic center diffuse fade (basic component)
+  * Basic Center Diffusion Fade (Basic Component)
 * **step_diffuse**
 
   * Center typewriter (basic component)
@@ -71,7 +81,7 @@ Supported version: minecraft java edition 1.21.6+
   * Typewriter effect + two-way backspace disappears (typewriter component)
 * **cener_diffuse_more**
 
-  * Center diffuse fade (detailed component)
+  * Center Diffusion Fade (Detailed Component)
 * **slidedown**
 
   * Top-down effect (detailed components)
@@ -83,16 +93,16 @@ Supported version: minecraft java edition 1.21.6+
   * Sliding effect from right to left (detailed components)
 * **slideleft**
 
-  * Random sliding effect (detailed components)
+  * Random sliding effect (detailed component)
 * **increase**
 
-  * Small expansion effect (detailed components)
+  * Enlargement effect since childhood (detailed components)
 * **increase2**
 
-  * Expanded from a small age and then implemented (detailed components)
+  * Expanded since childhood and then implemented (detailed components)
 * **turnover**
 
-  * Page turning effect (detailed components)
+  * Page turning effect (detailed component)
 
 **title bar template**
 
@@ -115,12 +125,18 @@ Supported version: minecraft java edition 1.21.6+
 ### Component Description
 
 * **Basic components**
-  *`{text:"string",color:"color",time:half the duration in game ticks}`* **Detailed Components**
-  *`{text:'[{text component}]',time:duration in game ticks,scale:scale (1 if not scaled),sound:sound index (define it in print/sounds, otherwise 0),speed:animation speed (default 100; higher is faster)}`* **Typewriter Components**
-  *`{text:'[{text component}]',time:duration in game ticks,scale:scale (1 if not scaled),length:maximum horizontal length (only available for the printer effect),sound:sound index (define it in print/sounds, otherwise 0),speed:animation speed (default 100; higher is slower)}`* **title component**
-  *`{text:'[{text component}]',sound:sound index (define it in print/sounds, otherwise 1)}`* **subtitle component**
-  *`{text:'[{text component}]',sound:sound index (define it in print/sounds, otherwise 1),title:[0 or 1] (0 means no title is playing while typing the subtitle; 1 means a title is playing while typing the subtitle)}`* **scoreboard component**
-  *`{text:'[{text component}]',sound:sound index (define it in print/sounds; defaults to 0 otherwise)}`
+  * `{text:"字符串",color:"颜色",time:持续的游戏刻一半}`
+* **Detailed Components**
+  * `{text:'[{文本组件}]',time:持续的游戏刻,scale:缩放大小（不缩放为1）,sound:声音序号(须在print/sounds文件自定义,否则为0),speed:动画速度（默认为100，越大越快）}`
+* **Typewriter Components**
+  * `{text:'[{文本组件}]',time:持续的游戏刻,scale:缩放大小（不缩放为1）,length:最大横向长度（仅打印机效果可使用）,sound:声音序号(须在print/sounds文件自定义,否则为0),speed:动画速度（默认为100，越大越慢）}`
+* **title component**
+  * `{text:'[{文本组件}]',sound:声音序号(须在print/sounds文件自定义,否则为1)}`
+* **subtitle component**
+  * `{text:'[{文本组件}]',sound:声音序号(须在print/sounds文件自定义,否则为1),title:【0或1】(0表示subtitle打字时无正在播放的title，1表示subtitle打字时正在播放title)}`
+* **scoreboard component**
+  * `{text:'[{文本组件}]',sound:声音序号(须在print/sounds文件自定义,否则默认为0)}`
+
 ### Text component generation
 
 * Quick generation tool
@@ -135,39 +151,44 @@ Supported version: minecraft java edition 1.21.6+
 
 ### Custom sound effects
 
-In the sounds.mcfunction of each animation's function folder, you can write new sounds by imitating existing instructions. The following is an example:
+In the sounds.mcfunction of the function folder of each animation, you can write new sounds by imitating existing instructions. The following is an example:
 
 > Add the sound effect of picking up the experience ball in the turnover animation. As the sound number 2, you can write instructions
-
 ```mcfunction
 execute if score @s textanimation_sound matches 2 as @a at @s run playsound minecraft:item.bundle.drop_contents master @a ~ ~ ~ 0.8 1.4 0.4
 ```
+
+
 Then call the function in the game`textanimation:turnover/preload {sounds:2……}`, the value corresponding to sounds is the value of the scoreboard that detects the new sound effect definition.
 
-* The sounds of each animation are independent of each other, so please make sure you add sound effects to the corresponding sounds file, otherwise the sound will not be played! ! !
+* The sounds of each animation are independent of each other, so be sure to add sound effects to the corresponding sounds file, otherwise the sound will not play! ! !
 
 ### Usage examples
 
-* Generate a white character Hello facing you in the 2 spaces in front of you (using the slidedown template, no scaling, no acceleration, no special sound effects)
+* Generate a white character Hello facing you 2 spaces in front of you (using the slidedown template, no scaling, no acceleration, no special sound effects)
 
 ```mcfunction
 execute anchored eyes positioned ^ ^ ^2 facing entity @s eyes run function textanimation:slidedown/preload {text:'[{text:"H",color:"white"},{text:"e",color:"white"},{text:"l",color:"white"},{text:"l",color:"white"},{text:"o",color:"white"}]',time:170,scale:1,sound:0,speed:100}
 ```
+
+
 * Generate a golden character Title in the title column (using printer_title template)
 
 ```mcfunction
 function textanimation:print_title/preload {text:'[{text:"H",color:"gold"},{text:"e",color:"gold"},{text:"l",color:"gold"},{text:"l",color:"gold"},{text:"o",color:"gold"}]',time:170,scale:1,sound:0}
 ```
+
+
 ![Demo video](https://b3logfile.com/file/2025/09/2025-09-13-3mp4-n5mhYBi.gif)
 
-## Design ideas
+## design ideas
 
-### Source of inspiration
+### source of inspiration
 
 > PowerPoint text playback
 > Aftereffect animated subtitles
 
-### Design Reference
+### Design reference
 
 > Create your own 📚story📚 in Minecraft! Dialogue Generator——Paper[Dialogue Generator v2](https://www.youtube.com/watch?v=I-17u_JJ3aI&t=1s))
 
@@ -176,25 +197,25 @@ function textanimation:print_title/preload {text:'[{text:"H",color:"gold"},{text
 ### Implementation ideas
 
 * Pass in text components (each word is divided into one component)
-* Use the function execution position to generate an invisible display entity (text_display) with a transparency of 0 as the reference point to store the text component
+* Use the function execution position to generate an invisible display entity (text_display) with a transparency of 0 as the reference point to store the text component.
 * Generate a marker as the starting position of the animation
 * Offset the reference point to the left by (number of characters/2)*0.23 cells as the first word generation position
-* Within the same game time
+* within the same game
   * Repeat the execution to generate the text display entity (transparency is 0)
   * Store corresponding text components, data tags and scoreboard scores
   * Offset one character width to the right by the number of cells
 
-> Each text corresponds to a display entity, which may cause a lot of lags. Please do not pass in too long text!
+> Each text corresponds to a display entity, which can easily cause a lot of lag. Please do not pass in too long text!
 
-* Display the tag of the entity based on the text, determine what animation will be executed, and determine the order in which to start the animation through the scoreboard value
+* Display the entity's tag based on the text, determine what animation will be executed, and determine the order in which to start the animation through the scoreboard value.
 * After completing the animation: gradually set the transparency to 0 (fade out), or gradually reduce the number of text components displayed (backspace typing)
 * After everything is transparent, remove all display entities and tags of this text.
 
 ### Production credits
 
-> [Paper Circle Paper](https://x.com/CricelPaper)
->[The tenth day of winter](https://space.bilibili.com/437726454)
-> [Annoyance](https://space.bilibili.com/418369418)
+> [Paper circle Paper](https://x.com/CricelPaper)
+> [The tenth day of winter](https://space.bilibili.com/437726454)
+> [funny](https://space.bilibili.com/418369418)
 > [Axiom Mod](https://https://modrinth.com/mod/axiom)
 > [DatapackHelperPlus](https://marketplace.visualstudio.com/items?itemName=SPGoding.datapack-language-server)
 > [PCL2](https://afdian.com/a/LTCat)
@@ -206,3 +227,6 @@ function textanimation:print_title/preload {text:'[{text:"H",color:"gold"},{text
 * data pack is completely free and open source, and has stopped updating content [click here to download](https://wwql.lanzout.com/iEJlQ3639fre)
 * For cooperation and bug feedback, please go to [CoolGaston personal space](https://space.bilibili.com/648638421) Chat with the author privately or join QQ group chat 1049824637
 * Finally, I sincerely hope that this resource library data pack can bring convenience to all developers in their map creation!
+
+
+

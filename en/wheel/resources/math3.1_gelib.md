@@ -13,6 +13,10 @@ wheel: true
 repo: xiaodou8593/math3.1_gelib
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 The Azuki graphics library allows the creation of virtual geometric shapes and rendering them in space. If you want to know how to use each function, you should directly check the comments at the beginning of the function and the doc.txt in each folder.

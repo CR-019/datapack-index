@@ -5,53 +5,58 @@ pageClass: h2-no-border
 
 hero:
   name: "Vanilla Library"
-  tagline: Vanilla mod development resource index
+  tagline: vanilla mod development resource index site
   image:
     src: /icons/bg5.png
   actions:
     - theme: brand
       text: Enter the site
-      link: /en/index/绪论
+      link: /index/Introduction
     - theme: brand
-      text: Search prerequisites
-      link: /en/wheel/
+      text: pre-search
+      link: /wheel/
     - theme: alt
-      text: Format preview
-      link: /en/preview/
+      text: format preview
+      link: /preview/
 features:
   - icon:
       src: /icons/vt.png
-    title: Quick Start
-    details: A brief introduction to vanilla development and how to get started quickly
-    linkText: New to vanilla mods? Start here
-    link: /en/index/quick_start/mod
+    title: Quick start
+    details: A brief introduction to the concept of vanilla development and how to get started quickly
+    linkText: First time coming into contact with vanilla mod? Click here
+    link: /index/quick_start/mod
   - icon:
       src: /icons/echo_prism.png
-    title: "Feature"
-    details: A monthly collection of short data pack articles
-    linkText: The latest issue is now available!
-    link: /en/feature/index/202607
+    title: 《Feature》
+    details: data pack short article monthly
+    linkText: The latest issue has been released!
+    link: /feature/index/202607
   - icon:
       src: /icons/totem_of_recovery.png
-    title: Toolbox
-    details: An index of tools that make data pack development easier
-    link: /en/index/工具
+    title: toolbox
+    details: Tool index that facilitates data pack development
+    link: /index/tools
   - icon:
       src: /icons/ocean_clock.png
     title: Newsstand
-    details: Browse previous issues of "Feature"
-    link: /en/feature/_index
+    details: Browse past issues of "Feature"
+    link: /feature/_index
   - icon:
       src: /icons/green_apple.png
-    title: Data Pack Practice
-    details: Practical and example-based tutorials
-    link: /en/index/数据包实践
+    title: data pack practice
+    details: practical and example tutorials
+    link: "/index/data pack practice"
   - icon:
       src: /icons/sweetbarry_stew.png
-    title: Update Change Quick Reference
-    details: See what may break when you update your data pack
-    link: /en/index/changelog_breaking
+    title: Quick review of update changes
+    details: See what breaks after updating your data pack
+    link: /index/changelog_breaking
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <script setup>
 import { useData } from 'vitepress'
 import RandomParagraph from '/.vitepress/vue/random.vue'
@@ -68,58 +73,58 @@ const { frontmatter } = useData()
 
 <div class="spacer"></div>
 
-## 🍀 Welcome
+## 🍀Welcome
 <ColorLine />
 
 Welcome to Vanilla Library.
-“Vanilla” means `Vanilla`. This site indexes resources related to vanilla mods, and aims to provide as comprehensive an index as possible for developing vanilla mods (that is, data packs + resource packs) for Minecraft: Java Edition.
-This site was originally named “Vanilla Mod Architecture”, adapted and expanded from the article of the same name.
-Our vision is to collect as many comprehensive tutorial resources as possible, like a library with something for everyone.
-Readers can choose suitable resources to study and use from the links provided here according to their preferences and needs.
+"Vanilla" i.e.`Vanilla`. This site is an index site for resources related to vanilla mods. It strives to provide as comprehensive a resource index as possible for the development of vanilla mods (i.e. data pack + resource pack) for the Minecraft Java version.
+The original name of this site is "vanilla mod architecture", which was modified and supplemented from the article of the same name.
+Our vision is to collect as many and comprehensive tutorial resources as possible, like a library, all-encompassing.
+Readers can choose appropriate resources to study and use from the links given on this site according to their own preferences and needs.
 
-## 📚 Resources
+## 📚Resource related
 <ColorLine />
 
-### MCBBS Resources
-Since MCBBS closed, many of its resources have been lost.
-We found some of them; clicking those links now takes you to an archive page where you can browse the content.
-However, we have not yet found a considerable number of MCBBS posts. We mark links to those posts with strikethrough. If you are the original author of one of these posts, or know where it has been archived, please contact us.
+### MCBBS resources
+Due to the closure of MCBBS, many of its resources have been lost.
+We found some of these resources, clicking on them now will jump to the archive page to browse the content.
+However, there is a significant proportion of MCBBS posts that we have yet to find. We've struck through the links in these posts. If you are the original author of the posts, or know where these posts are archived, please feel free to contact us.
 
-> Although the BBS has made a comeback, the data is still missing and urgently needs to be supplemented.
+> Although bbs won the rematch, the data is still missing and needs to be supplemented urgently.
 
-### Expanding the collection
-The site's resources are continuously being expanded. The closure of MCBBS, together with the technical changes Mojang has made to the Java Edition in recent versions, has left relatively few tutorials and introductions for new-version features.
-In addition, topics related to vanilla mod development theory, such as debugging techniques and performance testing, are also short on material.
-We welcome experienced vanilla mod authors to write tutorials for these missing sections. If you have relevant material, please contact us; we would be happy to enrich our collection.
+### Expand resources
+Site resources are being continuously added. Due to the closure of MCBBS and the recent technical changes made by several versionmojang to the Java version, there is a lack of tutorials and introductions to the new version-related features.
+In addition, content related to vanilla mod development theory, such as debugging skills, performance testing and other sections, is also in a state of lack of information.
+We welcome experienced vanilla mod authors to write tutorials for these missing sections. If you have relevant materials, please feel free to contact us and we will be happy to add to our collection.
 
-### Article hosting
-We recommend that contributors publish their articles on another platform first and then add a link to this site;
-however, if an author would rather publish the document directly on this platform, we also provide article hosting:
-- We accept documents in Markdown format;
-- We store your article in the repository and reference it in the body through an internal site link;
-- Of course, we still recommend that authors keep a local archive.
+### Article temporary storage
+We recommend that submitting authors publish their articles on other platforms first, and then add links to this site;
+However, if the author wishes to publish the document directly on this platform, we also provide article temporary storage services:
+- We accept documents in markdown format;
+- We will store your article in the warehouse and cite the document as an in-site link in the text.
+- Of course, we still recommend that authors keep archives locally.
 
-## ☎️ Contact us
+## ☎️Contact us
 <ColorLine />
 
-📧 **Suggestion box** (new link entries or document-change suggestions):
-[GitHub Issues](https://github.com/CR-019/datapack-index/issues)
+📧**Suggestion box** (new link entries/document modification suggestions):
+[Github issues](https://github.com/CR-019/datapack-index/issues)
 
-📖 Librarian @CR_019:
-- QQ: 1703467028
-- Bilibili: https://space.bilibili.com/85292644
-- GitHub: https://github.com/CR-019
+📖Librarian @CR_019:
+- QQ:1703467028
+- Bilibili：https://space.bilibili.com/85292644
+- Github：https://github.com/CR-019
 
-🏡 Landlord @Alumopper:
-- Bilibili: https://space.bilibili.com/280394409
-- GitHub: https://github.com/Alumopper
+🏡Landlord @Alumopper:
+- Bilibili：https://space.bilibili.com/280394409
+- Github：https://github.com/Alumopper
 
 
-## New domestic mirror
+## Domestic node update
 <ColorLine />
 
-In cooperation with @红石中继站, Vanilla Library's domestic mirror is now online!
-You can access it at https://cr-109.docs.repeater.red/datapack-index/
+In cooperation with @红石综合站, Vanilla Library’s domestic node is online!
+Can be usedhttps://cr-109.docs.repeater.red/datapack-index/access
 
 ## Vanilla Awards 2025
 <ColorLine />
@@ -127,11 +132,10 @@ You can access it at https://cr-109.docs.repeater.red/datapack-index/
 <p class="float-right-image">
   
 
-<img src="/icons/tva2025.png" alt="Vanilla Awards 2025">
+<img src="/icons/tva2025.png" alt="Text describing the image">
 </p>
 
-The most vanilla awards in the entire MC community are being presented now!
-Come see whether the work you consider the most vanilla has won an award!
+The most vanilla award in the entire MC circle is now being awarded!
+Come and see if your most vanilla work has won an award!
 
-[Take a look ->](/en/feature/tva/tva2025.md)
-
+[Go and have a look->](/en/feature/tva/tva2025.md)

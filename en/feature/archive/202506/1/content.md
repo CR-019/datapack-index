@@ -2,11 +2,16 @@
 title: 'A feasibility attempt at the Minecraft icon asset library resource pack'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "A feasibility attempt at the Minecraft icon asset library resource pack"
     authorName = "Sheep-realms"
-    resourceLink = 'https://github.com/sheep-realms/Matrica-Design-Icons'/>
-
+    resourceLink = 'https://github.com/sheep-realms/Matrica-Design-Icons'
+/>
 
 
 Have you ever thought about where the various beautiful icons in major websites and apps come from? Some large companies usually design a set of icon asset libraries on demand. After all, what they design is what suits them best. Independent developers and small projects will use public icon asset libraries.
@@ -28,15 +33,15 @@ But doing this will inevitably require replacing some characters. What character
 
 First of all, we cannot replace those characters that we may use, whether it is a rare character or a weird Martian script. We must try our best not to destroy the characters that humans may use. While you'll generally be fine using the default fonts, don't forget that Minecraft has an accessibility feature - Narrator. The narrator will read out the characters used as icons, which is clearly inappropriate.
 
-The author first thought of the private use area (Area A) of the Unicode extension plane, that is`E0000`to`EFFFF`. But soon ran into a problem, Minecraft did not support the`\u{e0000}`The format's escape characters represent characters outside the base plane, but are converted to two code units. Although the conversion process is not complicated, I think there is no need to cause unnecessary trouble for yourself.
+The author first thought of the private use area (Area A) of the Unicode extension plane, which is `E0000`to`EFFFF`. But we soon encountered a problem. Minecraft did not support escape characters similar to the `\u{e0000}` format to represent characters outside the basic plane. Instead, it had to be converted into two code units. Although the conversion process is not complicated, I think there is no need to cause unnecessary trouble for yourself.
 
-Fortunately, there is also a private area in the Unicode basic multilingual plane, that is`E000`to`F8FF`. Although it's a little less, we can define multiple fonts, so we don't need to worry too much about capacity.
+Fortunately, there is also a private area in the Unicode basic multilingual plane, which is `E000`to`F8FF`. Although it's a little less, we can define multiple fonts, so we don't need to worry too much about capacity.
 
 > In fact, many icon libraries on the market will use fonts to replace private area characters as one of the import solutions. You may have seen a box or garbled characters appear on the web page where the icon should be displayed when the network is not connected.
 
 Therefore, by creating a font definition JSON and a 16 × 16 character icon matrix diagram, we can complete the mapping between icons and text:
 
-::: details font definition JSON
+::: details Font definition JSON
 
 ``` json
 {
@@ -74,11 +79,13 @@ Therefore, by creating a font definition JSON and a 16 × 16 character icon matr
     ]
 }
 ```
+
+
 By the way, the definition of space width is added here just to facilitate adding a gap between two icons.
 
 :::
 
-Of course, the 16 × 16 matrix is just a habit. If you want, it is not impossible to stuff all the icons into one picture, but it is not recommended.
+Of course, the 16 × 16 matrix is ​​just a habit. If you want, it is not impossible to stuff all the icons into one picture, but it is not recommended.
 
 At this point, the implementation plan of the resource pack part has been determined to be feasible.
 
@@ -99,7 +106,7 @@ To sum up, using Material Design Icons as a reference is a good choice.
 So when naming this resource pack, the author combined the words Material and Minecraft and named it Matrica Design Icons.
 
 
-## Draw icon
+## draw icon
 
 Now, we finally get to draw the icons! But wait, how big do we want the icon to be?
 
@@ -127,12 +134,12 @@ Under normal circumstances, Chinese characters will also "stand" on the baseline
 In fact, until the baseline position supports floating point numbers, this is already the optimal position, and trying other positions will only offset it further.
 
 
-### Design Rules
+### design rules
 
 In order to make the visual presentation of icons uniform, we also need to determine some rules.
 
 
-#### Boundary restrictions
+#### border restrictions
 
 In order to make the visual size of the icon uniform, the author sets the outermost circle of pixels as the border. Main elements should not cross this boundary, but decorative elements can.
 
@@ -146,7 +153,7 @@ Pixelation can cause a lot of detail to be lost, so don't sacrifice readability 
 ![Icon readability comparison chart](../../../../../feature/archive/202506/1/image/3-5.png)
 
 
-#### Localization
+#### localization
 
 Obviously, icons designed to be universal in various fields may not necessarily meet the needs of use in Minecraft. Therefore, we should incorporate some Minecraft elements and make some localized modifications.
 
@@ -155,7 +162,7 @@ Obviously, icons designed to be universal in various fields may not necessarily 
 Now that we have drawn some icons, the question arises: How can we find these icons more easily?
 
 
-## Create icon search tool
+## Create an icon finder tool
 
 Very good, this is no longer the field of art design, we seem to have entered an unimagined field.
 
@@ -171,7 +178,7 @@ Users can click on the icon listed to learn the details of the icon, copy the te
 
 ![Icon details page](../../../../../feature/archive/202506/1/image/4-2.png)
 
-As shown in the figure above, using this icon requires specifying`matrica:card`font, use`\ue059`character.
+As shown in the picture above, using this icon requires specifying the `matrica:card`font and using the`\ue059` character.
 
 Of course, this tool cannot identify which icons are in the resource pack by itself, and the icon information needs to be entered manually.
 
@@ -187,12 +194,12 @@ Since the resource pack is hosted on GitHub, we can use GitHub's workflow for au
 In addition, GitHub can also provide static web page hosting services, so the icon finder tool in the resource pack can also be used online.
 
 
-## Postscript
+## postscript
 
 Currently, this resource pack is still being filled with new content, and there are not many icons available. It is foreseeable that there will still be a long time before the official version is released, and it may not even be completed. Still, it was an interesting attempt to explore the possibility of making a resource pack of icon asset libraries.
 
 
-## External links
+## external links
 
 - [Matrica Design Icons resource pack’s GitHub repository](https://github.com/sheep-realms/Matrica-Design-Icons)
 - [Material Design Icons](https://pictogrammers.com/library/mdi/)

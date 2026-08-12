@@ -2,6 +2,11 @@
 pageClass: h2-no-border
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <script setup>
 import { useData } from 'vitepress'
 import ColorLine from '/.vitepress/vue/ColorLine.vue'
@@ -23,36 +28,42 @@ const { isDark } = useData()
 
 <ColorLine :height="2"/>
 
-## command flashlight Command Flashlight
+## Command Flashlight Command Flashlight
 
 ### Fast entity accessor
 
 We know that using Itementity's Throwertag can save the UUID reference of the entity and access it efficiently:
 
 ```mcfunction
-#Save the UUID of the current entity to itemNBT
-#Assume that the uuid of our itemity is fixed to 0-0-0-0-1
+# 将当前实体的UUID保存到物品NBT中
+# 假设我们物品实体的uuid固定为0-0-0-0-1
 data modify entity 0-0-0-0-1 Thrower set from entity @s UUID
 ```
+
+
 As long as this entity still exists, we can access this entity through this item anywhere in our data pack:
 
 ```mcfunction
 execute as 0-0-0-0-1 on origin run <命令>
 ```
-But what if you want to store references to multiple entities? We can let multiple items ride on a worldentity and access it with the help of worldentity:
+
+
+But what if you want to store references to multiple entities? We can let multiple items ride on a world entity and access it with the help of world entity:
 
 ```mcfunction
-#Assume the worldentity is 0-0-0-0-2
+# 假设世界实体是0-0-0-0-2
 execute as 0-0-0-0-2 on passengers on origin run <命令>
 ```
-When we want to add a new entity reference, we only need to let a new itemity ride on the worldentity without limiting the UUID of the itemity.
+
+
+When we want to add a new entity reference, we only need to let a new itemity ride on the world entity without limiting the UUID of the itemity.
 
 
 <ClientOnly>
   <GiscusComment
     repo="CR-019/datapack-index"
     repoId="R_kgDONRhuqw"
-    category="Chats"
+category="Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
     term="56"

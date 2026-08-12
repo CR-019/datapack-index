@@ -14,6 +14,11 @@ repo: Huoyuyuyu/BetterTitle
 cover: /datapack-index/wheel/Better_Title.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 Better Title is a multi-text manipulation library based on negative spaces and shaders, allowing variable text to be displayed at various locations on the screen.

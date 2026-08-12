@@ -2,15 +2,19 @@
 title: 'Shader Basics Tutorial 01: Shader in Minecraft'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeaturedHead
-    title = "Shader Basics Tutorial 01: Shader in Minecraft"
-    authorName = "Xuanyu1725"
+title = 'Shader Basics Tutorial 01: Shader in Minecraft'
+authorName = Xuanyu1725
 />
 
+## write in front
 
-## written in front
-
-The previous shader tutorial was written in the column of station b and can be found in Vanilla Library (marked as`obsolete`). However, due to mysterious changes in site b that are not backward compatible, these tutorials are no longer available.
+The previous shader tutorial was written in the column of station b and can be found in Vanilla Library (marked as`已过时`). However, due to mysterious changes in site b that are not backward compatible, these tutorials are no longer available.
 
 On the other hand, as of the writing date of this article (August 3, 2025), Minecraft's shader is not a stable API. It changes every few versions, making the shader tutorial difficult to maintain.
 
@@ -20,15 +24,15 @@ On the other hand, as of the writing date of this article (August 3, 2025), Mine
 
 Because of this, it is recommended that readers of this article study according to the following ideas:
 
-- First keep it consistent with the version of the tutorial
+- First, keep it consistent with the version of the tutorial
 
-- After becoming proficient in writing shader content, compare and adapt to the writing of the new version in the wiki and vanilla asset files.
+- After you are proficient in writing shader content, compare and adapt to the writing of the new version in the wiki and vanilla asset files.
 
 Unlike learning in other Minecraft technical areas, the shader's Wiki page is not very effective in early learning, and it is not valuable to consult until the fifth issue of this tutorial. This is mainly because the current content of the Wiki is for general shader workers to quickly understand the rendering characteristics of Minecraft, and shader itself requires a certain amount of systematic learning, and the technical threshold is much higher than other fields. Moreover, the current Chinese page has not been maintained for a long time, and many readers are not in the habit of consulting English pages, which makes shader learning very unfriendly to beginners. The original intention of this tutorial is to supplement the content that is lacking in the Wiki as carefully as possible, so that people without shader basics can quickly learn and develop Minecraft shaders. Of course, due to the frequent changes in the API, I hope that the tutorial can convey to readers the method of studying shader features instead of unchanged feature descriptions and test data.
 
 *(We also call on you to supplement the pipeline content of each version that can be used for reference and testing when writing shaders or reading source code. You can join the data maintenance group 1004722950)*
 
-## What does shader do?
+## What does a shader do?
 
 ### Shaders in Minecraft
 
@@ -44,7 +48,7 @@ In the following tutorials, I will introduce the workflow of the shader, and the
 
 ### Minecraftshader History
 
-#### Low version
+#### low version
 
 The history of Minecraftshader is actually very long. It was first added in 1.7 and was used for the screen effects in the "Super Secret Options". At that time, there was only the **post-processing shader** (treating the entire screen as a plane with textures, and then modifying it, so it can only achieve filter-like effects). Then the Super Secret option button is`1.9`was removed, the remaining shader is`1.20.5`was deleted.
 
@@ -58,7 +62,9 @@ Although these post-processing shaders cannot change the shape of elements in th
 
 ![alt text](../../../../../feature/archive/202508/1/image-2.png)
 
-#### New version`1.17`The core shader has been added. The opening of the core shader means that we can control the vertices of every element in the world. Of course, more importantly, we can now access more specific data and global data needed for rendering. We will introduce these aspects in detail later.
+#### new version
+
+`1.17`The core shader has been added. The opening of the core shader means that we can control the vertices of every element in the world. Of course, more importantly, we can now access more specific data and global data needed for rendering. We will introduce these aspects in detail later.
 
 With now access to a lot of content that may not ultimately be rendered to the screen, as well as fog and lighting calculations, the content of the shader has begun to become complex and diverse. Some complex effects can now be achieved
 
@@ -68,11 +74,11 @@ The pictures below are vanilla lights and shadows from bradleyq and JNNGL.
 
 ![alt text](../../../../../feature/archive/202508/1/image-4.png)
 
-### Shaders outside Minecraft
+### Shaders outside of Minecraft
 
 Generally speaking, developers usually have control over the entire rendering process, especially control over which data can be entered into the shader. This is not possible in Minecraft's resource pack, which is why the shader in Minecraft is so wheelchair-bound.
 
-But it is still useful to learn more about shaders and graphics broadly, and here are some recommended resources that you may need. Note that you don’t need to learn this right now, I will cover most of it in the tutorial and these resources are for further learning only.
+But it is still useful to learn more about shaders and graphics broadly, and here are some recommended resources you may need. Note that you don’t need to learn this right now, I will cover most of it in the tutorial and these resources are for further learning only.
 
 #### GAMES101
 
@@ -88,13 +94,13 @@ A website for shader writers to communicate. This website provides many open sou
 
 #### LearnOpenGL
 
-[Original text](https://learnopengl.com/) [Chinese translation](https://learnopengl-cn.github.io/)
+[original](https://learnopengl.com/) [Chinese translation](https://learnopengl-cn.github.io/)
 
 A systematic tutorial on OpenGL (the graphics API used by Minecraft). Learning it is not necessary, but it is helpful for understanding the rendering process.
 
-Therefore, learning Minecraftresource packshader, on the one hand, is to learn the syntax of GLSL (OpenGL Shading Language) itself (basically consistent with other platforms), and on the other hand, more importantly, it is to understand the structure and conventions of Mojang's customized rendering pipeline.
+Therefore, learning Minecraft resource pack shader, on the one hand, is to learn the syntax of GLSL (OpenGL Shading Language) itself (basically consistent with other platforms), and on the other hand, more importantly, it is to understand the structure and conventions of Mojang's customized rendering pipeline.
 
-## Rendering pipeline
+## rendering pipeline
 
 *Note: From here on, many important concepts will appear in the tutorial, and I will provide their English names for easy reference*
 
@@ -116,7 +122,7 @@ In one sentence, the content we see on the screen is composed of **fragments**, 
 
 We now know the main work of the shader, which is the operations related to vertices and fragments. Based on specific purposes, we can divide shaders into three major categories.
 
-- Core Shader: Processes mesh, texture and other data and outputs it as a visible picture.
+- Core shader: Processes mesh, texture and other data, and outputs it as a visible picture.
 
 - Post-processing shader (Post Shader): Processes the core shader output after further processing by the game, that is, the frame buffer (Frame Buffer), and synthesizes it into the final output picture.
 
@@ -138,7 +144,8 @@ If you feel that the above content is enough, then you can take a break and cont
 
 Although we only need to modify the contents of the vertex shader and fragment shader, it is still necessary to understand the entire rendering process, but there is no need to understand how to implement the primitive assembly, rasterization and other processes mentioned below. We only focus on the shader.
 
-#### The first stage - vertex shader stage
+#### Stage 1
+- Vertex shader stage
 
 Various things loaded into the game will send their vertex attributes to specific shader objects, represented by`.vsh`Vertex shader to process these vertices.
 
@@ -150,11 +157,12 @@ There is actually a lot of content output by the vertex shader. First of all, it
 
 This step is not programmable. The primitive assembly stage will connect the vertices output by the vertex shader in the previous stage into basic primitives (points, lines, **triangles**). In the previous stage, not all vertices sent to the shader will be kept on the screen, beyond`(-1.0, -1.0, -1.0)`arrive`(1.0, 1.0, 1.0)`Vertices within the range are ultimately invisible and will be culled during the primitive assembly phase.
 
-#### The third stage - Geometry shader (Geometry Shader)
+#### The third stage - geometry shader (Geometry Shader)
 
 The geometry shader can generate more vertices and primitives based on basic primitives, but Minecraft does not allow modifying the geometry shader, so we skip it.
 
-#### The fourth stage - Rasterization
+#### Stage 4
+- Rasterization
 
 This step is also not programmable. Discretize the geometric primitives obtained in the previous step into fragments corresponding to the pixels on the screen. Each fragment will inherit the attributes output by the vertex shader and interpolate smoothly. This process is called **Fragment Interpolation**. Interpolation is the process of converting discrete content into continuous content. The fragment will calculate its own attribute value from the attribute value of the vertex based on its relative position to the vertex.
 
@@ -166,41 +174,42 @@ This stage is similar to the first stage, using the data of each fragment to cal
 
 #### Phase Six - Testing and Mixing
 
-This stage mainly includes **Depth Test** and **Transparency Blending (Alpha Blending)** and other contents. The depth test will determine which fragment will remain on the screen based on the depth of the fragment. Transparency mixing will mix colors with other fragments based on the transparency of the fragment and obtain a new color.
+This stage mainly includes **Depth Test** and **Transparency Blending (Alpha Blending)** and other contents. The depth test will determine which fragment will remain on the screen based on the depth of the fragment. Transparency mixing will mix colors with other fragments based on the transparency of the fragment, and finally obtain a new color.
 
 ![alt text](../../../../../feature/archive/202508/1/image-6.png)
 
 ### File hierarchy in resource pack
 
-in`1.21.2`Previously, all shaders were stored in resource packs`assets/minecraft/shaders`Under, the core shader is stored in`shaders/core`Next, the shader is stored in`shaders/include`Next, the post-processing shader pipeline is defined in`shaders/post`Next, the shader program of the post-processing shader is in`shaders/program`Down.
+exist`1.21.2`Previously, all shaders were stored in resource packs`assets/minecraft/shaders`Under, the core shader is stored in`shaders/core`Next, the shader is stored in`shaders/include`Next, the post-processing shader pipeline is defined in`shaders/post`Next, the shader program of the post-processing shader is in`shaders/program`Down.
 
     assets/minecraft/shaders/
-    ├── core/ [core shader]
-    │ ├── rendertype_entity.vsh
-    │ └── rendertype_entity.fsh
-    ├── include/ [include shader]
-    │ ├── fog.glsl
-    │ └── light.glsl
-    ├── post/ [Post-processing pipeline definition]
-    │ └── creeper.json
-    └── program/ [post-processing shader program]
+├── core/ [core shader]
+    │   ├── rendertype_entity.vsh
+    │   └── rendertype_entity.fsh
+├── include/ [include shader]
+    │   ├── fog.glsl
+    │   └── light.glsl
+├── post/ [Post-processing pipeline definition]
+    │   └── creeper.json
+└── program/ [post-processing shader program]
         ├── blur.fsh
         └── blur.vsh
 
-in`1.21.2`Finally, the post-processing shader pipeline was moved to`assets/minecraft/post_effect`Down.
+exist`1.21.2`Finally, the post-processing shader pipeline was moved to`assets/minecraft/post_effect`Down.
 
     assets/minecraft/
     ├── shaders/
-    │ ├── core/ [core shader]
-    │ ├── include/ [include shader]
-    │ └── post/ [Post-processing shader program]
-    │ ├── blur.fsh
-    │ └── blur.vsh
-    └── post_effect/ [Post-processing pipeline definition]
+│ ├── core/ [core shader]
+│ ├── include/ [include shader]
+│ └── post/ [Post-processing shader program]
+    │       ├── blur.fsh       
+    │       └── blur.vsh       
+└── post_effect/ [Post-processing pipeline definition]
         └── creeper.json
 
-## Summary
+## Summarize
 
-This tutorial introduces the shader and its workflow. It has not yet begun to introduce the writing of the shader. Compared with other parts of the resource pack, the shader does require theoretical study before you can start writing. This is also a major feature of the shader. Starting from the next section, we will introduce the writing of the core shader and use it to implement some simple content. Starting in the next section, you will see the above concepts reflected repeatedly in shaders.
+This tutorial introduces the shader and its workflow. It has not yet begun to introduce the writing of the shader. Compared with other parts of the resource pack, shaders do require theoretical study before you can start writing. This is also a major feature of shaders. Starting from the next section, we will introduce the writing of the core shader and use it to implement some simple content. Starting in the next section, you will see the above concepts reflected repeatedly in shaders.
 
 Although I said it at the beginning, I still have to remind you that shader is not a stable API. Mojang clearly stated that it will change frequently, so it is best to learn shader in a fixed version, and then refer to wiki and vanilla resources for further learning.
+

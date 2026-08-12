@@ -13,6 +13,11 @@ wheel: true
 repo: kaer-3058/large_number
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 [View the instructions for using this library](https://github.com/kaer-3058/large_number/wiki/%E5%8D%A1%E5%84%BF%E7%9A%84%E6%95%B0%E5%AD%A6%E5%BA%93-Wiki%E2%80%90%E4%B8%AD%E6%96%87)
@@ -23,7 +28,7 @@ At the beginning, when making the super forging bench, in order to solve the pro
 
 My intention in making this library is to provide another reliable library for the development of mcf. It no longer makes developers feel confused when they think that mcf does not have native mathematical operations.
 
-This mathematics library is equipped with the most advanced and powerful numerical calculation system, and has established the industry's top mathematics front-end library in scientific computing for MCdata pack. It contains more than 40,000 commands and has an almost complete command interface. It can be said that all the numerical calculation needs you can think of are available here.
+This mathematics library is equipped with the most advanced and powerful numerical calculation system, and has established the industry's top mathematics front-end library in scientific computing for MC data pack. It contains more than 40,000 commands and has an almost complete command interface. It can be said that all the numerical calculation needs you can think of are available here.
 
 Currently it includes 24 major categories: trigonometric function, four integer rules, four array rules, four floating point rules, floating point operations, square root, cube root, ranging, gadgets, geometry, lists, probability, mathematics, exponential function, logarithmic function, factorial-gamma function, linear algebra, scientific computing, scientific computing + particle graphics, special functions, number theory, calculus, Fourier analysis, particle graphics.
 

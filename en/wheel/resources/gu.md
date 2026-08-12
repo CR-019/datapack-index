@@ -13,10 +13,14 @@ wheel: true
 repo: gibbsly/gu
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 gu is a simple low-level library that can convert UUID in array format into hyphenated hexadecimal string format. This library will allow you to select entities directly using UUID, change the score of an entity when it is not loaded, etc.
 
->`gu:generate`- After converting the executor's UUID into a hyphenated hexadecimal string format. Write the results to storage`gu:main out`
+> - `gu:generate`: After converting the executor's UUID into a hyphenated hexadecimal string format, write the result to storage `gu:main out`.
 
-> `gu:convert`- Give this macro function something like`{UUID:[I;0,1,2,3]}`is an input, the function converts it to a hyphenated hexadecimal string format and writes the result to storage`gu:main out`
+> - `gu:convert`: Given input such as `{UUID:[I;0,1,2,3]}`, this macro function converts it to a hyphenated hexadecimal string format and writes the result to storage `gu:main out`.

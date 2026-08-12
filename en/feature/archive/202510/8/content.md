@@ -1,12 +1,19 @@
 ---
 title: 'The best spell to match a spear so far! '
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "The best spell to go with a spear so far!"
     authorName = "Patrick"
     resourceLink = '../_assets/冲刺魔咒.zip'
     cover='../../../../../feature/archive/202510/_assets/8.png'
 />
+
 
 Spear has been out for two days (until writing the article). Videos about researching new version features have been posted all over Bilibili, especially in the parkour circle. Datapackers have also published many of their research results in the media. From a technical perspective, it seems that everyone is more inclined to study the new interaction methods brought by spears. I also feel very...comfortable with this new left-click detection method added by Mojang? Now there is no need to put an interactive entity on each player's head!
 
@@ -18,10 +25,10 @@ When you wear an item with this enchantment, your **sprint speed** will continue
 
 It doesn't quite make sense considering that the spear gives you a speed bonus, so it's not enchanted on the spear itself, but on the leggings.
 
-Since it is slightly OP, it has a side effect: extra durability is consumed when sprinting, and the higher the spell level, the greater the consumption (the highest level is V).
+Since it is slightly OP, it has a side effect: extra durability is consumed when sprinting, and the higher the level of the spell, the greater the consumption (the highest level is V).
 
 ::: tip detailed data
-namespaceID: rainbow_trials:rush
+namespaceID：rainbow_trials:rush
 
 Highest level: V
 
@@ -35,7 +42,7 @@ Effect:
 1. When sprinting, the movement_speed attribute of the player wearing an item with this enchantment increases by 0.02*enchantment level every game tick.
 2. When the item with this enchantment is in the correct slot, the following three checks will be triggered every time the wearer moves. When all checks are passed, 2^(1+enchantment level) points of durability will be deducted from the item.
     1. There is a 0.03 probability of passing this check
-    2. Check if the wearer is sprinting
+    2. Checks if the wearer is sprinting
     3. Check if the wearer is on the ground
 :::
 

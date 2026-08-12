@@ -13,24 +13,28 @@ wheel: true
 repo: WindWavesSea/Minecraft-Vanilla-Video-Player
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 The following usage instructions may not be the latest, please refer to the documentation in Github.
 
 ## Instructions for use
 ### Video requirements
-- Use accelerated gaming to play 60fps video
-- Use frame insertion to play 60-frame video
+-  Use accelerated gaming to play 60fps video
+-  Use frame insertion to play 60-frame video
 
 ### Configuration in data pack
 - Parameter analysis
-### Principle
+###	principle
 
 ## Video requirements
 
 It needs to be a picture sequence (.png format)
 
-### Use game acceleration to play 60 frames video ###
+### Play 60fps video using game acceleration ###
 
 The best video is 20 frames. If you use 60 frames video, you need to change [tick](http://https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/tick) is set to 60
 
@@ -47,7 +51,7 @@ In the video configuration, frame_rate is the frame rate of the original video. 
 ### Parameter analysis
 #### frame_zero
 Check the change of the first picture, which is generally all 0s. Check how many 0s there are before the last 0, and write these 0s into frame_zero. For example, video0000.png should write 000 like this,
-As follows
+as follows
      {frame_zero:"000"}
 #### frame(number of frames)
 Used to control the video frame (picture) currently played by the player
@@ -79,7 +83,7 @@ If ** it is not a server, you also need to fill in the actual frame rate of the 
 #### sound(video sound)
 **Sound_switch needs to be turned on to use**
 If the video has sound, you need to write the video sound playback defined by sounds.json here. Please refer to playsound to write it.
-#### sound_switch (whether the sound is enabled)
+#### sound_switch (whether sound is enabled)
 Enter false/true to control whether the sound is turned on/whether the video needs to play sound {sound_switch:"false/true"}
 #### max_frame (maximum number of frames)
 Maximum number of frames for video
@@ -87,7 +91,6 @@ Maximum number of frames for video
 ### Example
 #### Video playback configuration
 ##### Function
-
 ```mcfunction
     data merge storage video:video_text \
 	{\
@@ -107,7 +110,6 @@ Maximum number of frames for video
 ```
 ##### resource pack configuration
 #### sounds.json
-
 ```json
 {
     "video_text":{
@@ -146,7 +148,7 @@ If **namespace** is video
 Then **path** can be written like this
      {video:video/video_text}
 
-## Principle
+## principle
 ### **You can refer to it**
 
 ### A little research on equipment mask (camera_overlay)
@@ -155,9 +157,9 @@ Then **path** can be written like this
 
 [Click to view](https://vanillalibrary.mcfpp.top/datapack-index/resources/dust/2/2-%E8%A3%85%E5%A4%87%E9%81%AE%E7%BD%A9.html)
 
-# directive
+# instruction
 
-## Play
+## play
 
 ### Use /function to play
 
@@ -171,7 +173,7 @@ Then **path** can be written like this
 ## Pause playback
 	/function animations:pause
 
-## Continue playing
+## continue playing
 	/function animations:continue_play
 
 ## Delete the playback settings of a single player

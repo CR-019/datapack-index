@@ -1,6 +1,12 @@
 ---
 title: 'How to create a reloading animation through model mapping? '
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "How to create a reloading animation through model mapping?"
     authorName = "Woo woo 228766"
@@ -10,23 +16,23 @@ title: 'How to create a reloading animation through model mapping? '
 
 This article will introduce an animation implementation method through the model mapping mechanism, which can be achieved by using only resource pack.
 
-:::tip see
-There are currently blockbench plug-ins that can implement interpolation and export sequence frame models. See [java block sequencer](https://github.com/Jatzylap/Java-Block-Sequencer).
+:::tip See
+There are currently blockbench plug-ins that can implement interpolation and export sequence frame models. See [java block sequencer](https://github.com/Jatzylap/Java-Block-Sequencer)。
 :::
 
 
-## Where did the animation come from?
+## Where did animation come from?
 
->Animation is a picture that decomposes the character's expressions, movements, changes, etc. into many frames of action moments, and then uses a camera to continuously shoot a series of frames to create a continuously changing visual picture. Its basic principle is the same as that of movies and television, which is **[persistence of vision](https://baike.baidu.com/item/%E8%A7%86%E8%A7%89%E6%9A%82%E7%95%99/0?fromModule=lemma_inlink)**principle. Medical science has proven that humans have the characteristic of "persistence of vision". After human eyes see a painting or an object, it will not disappear within 0.34 seconds. Using this principle, playing the next picture before one picture disappears will create a smooth visual change effect.
+>Animation is to decompose the characters' expressions, movements, changes, etc. and draw them into frames of many action moments, and then use a camera to continuously shoot a series of frames to create a continuously changing picture for the vision. Its basic principle is the same as that of movies and television, which is **[persistence of vision](https://baike.baidu.com/item/%E8%A7%86%E8%A7%89%E6%9A%82%E7%95%99/0?fromModule=lemma_inlink)**principle. Medical science has proven that humans have the characteristic of "persistence of vision". After human eyes see a painting or an object, it will not disappear within 0.34 seconds. Using this principle, playing the next picture before one picture disappears will create a smooth visual change effect.
 ---Baidu Encyclopedia
 
 ![Demo](../../../../../feature/archive/202511/6/演示.gif)
 
 ## Implementation principle
 
-In the itemmodel mapping mechanism updated in 1.21.4, there is a value dispatch type itemmodel mapping** (range_dispatch). This itemmodel mapping type will first calculate and return a numerical attribute given in the item stack. The game will sort the given threshold from small to large, find the first numerical attribute that exceeds or is equal to the threshold, and use the corresponding itemmodel mapping. If the numeric attribute is less than all thresholds, the fallback mapping is used.
+In the item model mapping mechanism updated in 1.21.4, there is a value dispatch type item model mapping** (range_dispatch). This item model mapping type will first calculate and return a numerical attribute given in the item stack. The game will sort the given threshold from small to large, find the first numerical attribute that exceeds or is equal to the threshold, and use the corresponding item model mapping. If the numeric attribute is less than all thresholds, the fallback mapping is used.
 
-::: tip in layman’s terms
+::: tip In layman's terms
 Define the threshold of each model. If the given value reaches the threshold of one of the models, then this model is used. If the predetermined value of the model is not reached, the fallback model (fallback) is used.
 :::
 
@@ -39,7 +45,7 @@ Editor's note: Older versions of model annotations also have a fallback mapping 
 If we want to implement the function of a gun, we should modify it on the basis of the crossbow and use the **model mapping numerical attribute.`crossbow/pull`**
 
 | namespaceID | has additional elements | value source |
-| :----------------------- | :----------: | :---------------------------------------------------------------------------------------------------------------- |
+| :---------------------- | :----------: | :---------------------------------------------------------------------------------------------------------- |
 | bundle/fullness | No | Get the capacity of the storage bag. This floating point number will only be between 0-1, if there is no item stack`bundle_contents`component returns 0 |
 | compass | Yes | Get the compass pointing direction |
 | cooldown | No | Get the cooling degree of the item stack; if the item is not in the playeritem column, return 0 |
@@ -55,12 +61,13 @@ If we want to implement the function of a gun, we should modify it on the basis 
 
 ```java
 /**
-     * Get the advancement value of the crossbow's draw animation
-     * @param itemStack crossbow item stack
-     * @param level clientworld (can be empty)
-     * @param entity Use the entity of the item (can be empty)
-     * @param remainTime remaining usage time
-     * @return Bow drawing animation advancement, range 0.0F to 1.0F, returns 0.0F when loaded or without user*/
+     * 获取弩的拉弓动画进度值
+     * @param itemStack 弩物品堆
+     * @param level 客户端世界（可为空）
+     * @param entity 使用物品的实体（可为空）
+     * @param remainTime 剩余使用时间
+     * @return 拉弓动画进度，范围0.0F到1.0F，已装填或无使用者时返回0.0F
+     */
     @Override
     public float get(ItemStack itemStack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int remainTime) {
         if (entity == null) {
@@ -73,6 +80,8 @@ If we want to implement the function of a gun, we should modify it on the basis 
         }
     }
 ```
+
+
 Then we can use this return value to achieve *Show different models at different stages of loading! *
 
 Just define something like the following example in your model mapping file:
@@ -99,30 +108,34 @@ Just define something like the following example in your model mapping file:
     ],
 }
 ```
+
+
 ## Model generation
 
-Obviously, to make a smooth animation, dozens or hundreds of models need to be spliced together. It is obviously unrealistic to generate them one by one. We can output several **"keyframe models"**, just like **"keyframes"** in other animation software. The software automatically completes the animation between "keyframes" and "keyframes". For this purpose, I made an automatic generation script.
+Obviously, to make a smooth animation, dozens or hundreds of models need to be spliced ​​together. It is obviously unrealistic to generate them one by one. We can output several **"keyframe models"**, just like **"keyframes"** in other animation software. The software automatically completes the animation between "keyframes" and "keyframes". For this purpose, I made an automatic generation script.
 
 Several files named in the following format need to be given, such as *gun_1.json* and *gun_5.json*. The files and their values ​​will be completed using a specific difference (for example, linear here).
 
 | File name (input data in bold) | Content (a simplified example) |
-| :------------------------: | :--------------------------: |
-| ***gun_1.json*** | ***1, 5, 10*** |
-| gun_2.json | 2, 10, 20 |
-| gun_3.json | 3, 15, 30 |
-| gun_4.json | 4, 20, 40 |
-| ***gun_5.json*** | ***5, 25, 50*** |
+| :------------------------: | :-----------------------: |
+|  ***gun_1.json***  | ***1 , 5 , 10*** |
+|         gun_2.json         |        2 , 10 , 20        |
+|         gun_3.json         |        3 , 15 , 30        |
+|         gun_4.json         |        4 , 20 , 40        |
+|  ***gun_5.json***  | ***5 , 25 , 50*** |
 
 Note: When using it, you need to ensure that the structure between the two "keyframe models" is consistent, and the changes between them only apply to part of the content. Anyway, there is no problem in model transformation and display transformation! 😎
 
 Note 2: Although the model mapping mechanism itself is called every frame, the value it calls is updated every moment, so under normal circumstances, the number of animation frames is still limited to 20 frames :(
 
-::: warning generation script (requires Java environment)
+::: warning Generate script (requires Java environment)
 
 - Download link: &lt;https://wwbh.lanzouu.com/iAh3839h5prc&gt;
 - Password: ef0v
 :::
 
-::: tip advertising
+::: tip advertise
 I am using BUKKIT API + data pack + resource pack to develop a vanilla extension plug-in server. Currently, 100+ items, more buildings and mob groups have been implemented. If you are interested in this project, you can add me at QQ3124289614 to make it together!
 :::
+
+

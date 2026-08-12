@@ -8,6 +8,7 @@ const execFileAsync = promisify(execFile)
 const root = process.cwd()
 const translationInputDirectory = path.join(root, '.cache')
 const force = process.argv.includes('--force')
+const onlyMissing = process.argv.includes('--only-missing')
 const requestedFiles = process.argv
   .filter((arg) => arg.startsWith('--file='))
   .map((arg) => arg.slice('--file='.length).replaceAll('\\', '/'))
@@ -26,6 +27,13 @@ const ignoredDirectories = new Set([
 // reinterpret command/data-pack terminology as ordinary prose.
 const glossary = [
   ['原版模组', 'vanilla mod'],
+  ['函数宏', 'function macro'],
+  ['随机刻', 'random tick'],
+  ['展示实体', 'display entity'],
+  ['显示实体', 'display entity'],
+  ['方块实体', 'block entity'],
+  ['资源位置', 'resource location'],
+  ['文本组件', 'text component'],
   ['数据包', 'data pack'],
   ['资源包', 'resource pack'],
   ['命令方块', 'command block'],
@@ -102,6 +110,10 @@ function protectValue(protectedValues, value) {
   return token
 }
 
+function protectStructuralValue(protectedValues, value) {
+  return protectValue(protectedValues, value)
+}
+
 const protectedBlockPattern = /QzX9vA\d{5}LmR7/gu
 
 function splitChunks(value, maxLength = 1600) {
@@ -150,7 +162,7 @@ async function acquireRequestSlot() {
     release = resolve
   })
   await previous
-  const wait = Math.max(0, 120 - (Date.now() - lastRequestAt))
+  const wait = Math.max(0, 20 - (Date.now() - lastRequestAt))
   if (wait) await new Promise((resolve) => setTimeout(resolve, wait))
   lastRequestAt = Date.now()
   release()
@@ -241,13 +253,13 @@ function protectTerms(value) {
 
 function protectMarkup(value, protectedValues) {
   const patterns = [
-    /```[\s\S]*?```/gu,
+    /(^[ \t]*````[^\r\n`]*(?:\r?\n|$)[\s\S]*?^[ \t]*````[ \t]*(?:\r?\n|$)|^[ \t]*```[^\r\n`]*(?:\r?\n|$)[\s\S]*?^[ \t]*```[ \t]*(?:\r?\n|$)|^[ \t]*~~~[^\r\n~]*(?:\r?\n|$)[\s\S]*?^[ \t]*~~~[ \t]*(?:\r?\n|$))/gmu,
+    /```[^\r\n]*```/gu,
     /~~~[\s\S]*?~~~/gu,
     /<!--\s*[\s\S]*?-->/gu,
-    /`[^`\n]+`/gu,
     /\$\$[\s\S]*?\$\$/gu,
     /\$(?:\\.|[^$\n])+\$/gu,
-    /<(?=[^>]*\b(?:src|href|cover|background)\s*=)[^>]+>/giu,
+    /(\b(?:src|href|cover|background|resourceLink)\s*=\s*)(["'])([^"']*)(\2)/giu,
     /https?:\/\/[^\s)\]>]+/gu,
   ]
   let result = value
@@ -258,11 +270,21 @@ function protectMarkup(value, protectedValues) {
     return `${prefix}${protectValue(protectedValues, target)}`
   })
   for (const pattern of patterns) {
-    result = result.replace(pattern, (match) => {
+    result = result.replace(pattern, (...args) => {
+      const match = args[0]
+      if (pattern.source.startsWith('(\\b(?:src|href|cover|background|resourceLink)')) {
+        const [, prefix, quote, target] = args
+        return `${prefix}${quote}${protectValue(protectedValues, target)}${quote}`
+      }
       return protectValue(protectedValues, match)
     })
   }
   return result
+}
+
+function protectMarkdownPrefixes(value, protectedValues) {
+  const markdownPrefixPattern = /^[ \t]*(?:#{1,6}[ \t]+|(?:[-+*]|\d+[.)])[ \t]+|>[ \t]?|:::[ \t]*(?:(?:tip|warning|danger|info|details|important|caution)(?:[ \t]+)?|$)|(?=[A-Za-z][A-Za-z0-9:-]*[ \t]*=))/gmu
+  return value.replace(markdownPrefixPattern, (match) => protectStructuralValue(protectedValues, match))
 }
 
 function restoreTokens(value, protectedValues) {
@@ -273,16 +295,8 @@ function restoreTokens(value, protectedValues) {
   return result
 }
 
-async function translateText(value) {
-  if (!isChinese(value)) return value
-
-  const protectedValues = []
-  // Protect markup before applying the terminology glossary. Otherwise a
-  // glossary term inside a URL or code block would be restored into that
-  // protected value and silently rewrite it.
-  let prepared = protectMarkup(value, protectedValues)
-  prepared = protectTerms(prepared)
-
+async function translatePreparedLine(prepared) {
+  if (!isChinese(prepared)) return prepared
   const translationParts = []
   const tokenPattern = /QzX9vA\d{5}LmR7/gu
   let cursor = 0
@@ -299,7 +313,25 @@ async function translateText(value) {
   }
 
   const translatedChunks = await Promise.all(translationParts)
-  return restoreTokens(translatedChunks.join(''), protectedValues)
+  return translatedChunks.join('')
+}
+
+async function translateText(value) {
+  if (!isChinese(value)) return value
+
+  const protectedValues = []
+  // Protect markup before applying the terminology glossary. Otherwise a
+  // glossary term inside a URL or code block would be restored into that
+  // protected value and silently rewrite it.
+  let prepared = protectMarkup(value, protectedValues)
+  prepared = protectTerms(prepared)
+  // Translate one Markdown line at a time. The translation service may
+  // otherwise merge headings and list items into the surrounding paragraph.
+  prepared = protectMarkdownPrefixes(prepared, protectedValues)
+  const translatedLines = await Promise.all(
+    prepared.split('\n').map((line) => translatePreparedLine(line)),
+  )
+  return restoreTokens(translatedLines.join('\n'), protectedValues)
 }
 
 async function translateAttributeValues(value) {
@@ -378,7 +410,7 @@ function localiseReference(sourceRelativePath, targetRelativePath, reference) {
 
 function localiseLinks(value, sourceRelativePath, targetRelativePath) {
   const protectedValues = []
-  let result = value.replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/gu, (match) => {
+  let result = value.replace(/(^[ \t]*````[^\r\n`]*(?:\r?\n|$)[\s\S]*?^[ \t]*````[ \t]*(?:\r?\n|$)|^[ \t]*```[^\r\n`]*(?:\r?\n|$)[\s\S]*?^[ \t]*```[ \t]*(?:\r?\n|$)|^[ \t]*~~~[^\r\n~]*(?:\r?\n|$)[\s\S]*?^[ \t]*~~~[ \t]*(?:\r?\n|$)|```[^\r\n]*```)/gmu, (match) => {
     const token = `MCBLOCK${protectedValues.length}TOKEN`
     protectedValues.push([token, match])
     return token
@@ -398,6 +430,10 @@ async function translateFile(relativePath) {
   const sourcePath = path.join(root, relativePath)
   const targetRelativePath = path.posix.join('en', relativePath)
   const targetPath = path.join(root, targetRelativePath)
+  if (onlyMissing && fs.existsSync(targetPath)) {
+    const existing = fs.readFileSync(targetPath, 'utf8')
+    if (/:::\s*tip\s+Translation notice/iu.test(existing)) return 'skipped'
+  }
   if (!force && fs.existsSync(targetPath)) return 'skipped'
 
   const source = fs.readFileSync(sourcePath, 'utf8')

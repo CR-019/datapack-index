@@ -13,6 +13,10 @@ wheel: true
 repo: Dahesor/DNT-Dahesor-NBT-Transformer
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 This library allows to provide some tools for operating SNBT. It can splice any string and supports escape characters; it can also convert an NBT structure into an equivalent JSON structure.
@@ -22,17 +26,17 @@ Read its official documentation ([Github](https://github.com/Dahesor/DNT-Dahesor
 
 **Splicing example:**
 
-Input: [`"Hello"`,`" single ' quote"`,`" and \\ back slash"`]
+enter:[`"Hello"`,`" single ' quote"`,`" and \\ back slash"`]
 
-Output:`"Hello single ' quote and \\ back slash"`**NBT to JSON example:**
+Output:`"Hello single ' quote and \\ back slash"`
 
-Input:
+**NBT to JSON example:**
 
+enter:
 ```snbt
 {equipment:{mainhand:{id:"diamond",components:{"minecraft:item_name":{text:"what\"\"''ha>?",italic:true},"!attribute_modifiers":{},custom_data:{'Cool"\'\\Name':Yeah...}}}}}
 ```
 Output:
-
 ```json
 {"equipment":{"mainhand":{"components":{"!attribute_modifiers":{},"custom_data":{"Cool\"'\\Name":"Yeah..."},"minecraft:item_name":{"italic":true,"text":"what\"\"''ha>?"}},"id":"diamond"}}}
  ```

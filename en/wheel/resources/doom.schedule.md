@@ -13,6 +13,10 @@ wheel: true
 repo: DoomDecapitator/doom.schedule
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 doom.schedule is a data pack scheduling framework for the Minecraft vanilla server. It provides features such as game time-based task queue, execution context freezing, target offline detection and automatic recovery, and failure retry without relying on Mods.

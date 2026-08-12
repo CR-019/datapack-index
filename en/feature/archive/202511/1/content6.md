@@ -4,9 +4,14 @@ next:
     link: '/feature/archive/202511/1/content'
 ---
 
-# [Use data pack to make a compiler or interpreter: take the C language subset C-Minus as an example](/en/feature/archive/202511/1/content)
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
 
-## 6. Run display
+
+# [Use data pack to make a compiler or interpreter: Take the C language subset C-Minus as an example](/en/feature/archive/202511/1/content)
+
+## 6. Operation display
 
 ### 6.1 Code editing box
 
@@ -14,13 +19,13 @@ Use the following function to create the code editing dialog shown in the title 
 
 ![code edit box](../../../../../feature/archive/202511/1/2025-10-06_18.13.30.png)
 
-::: warning note
+::: warning Notice
 Since the string passed from the dialog to the function must go through at least two levels of macros, and among the two levels of macros, only the macros inside the dialog will be escaped when the string is replaced (equivalent to one escape and one escape parsing offset), if the string is directly passed in as a function parameter, problems will arise due to an additional escape parsing.
 
 Therefore, we use the method of passing in the compound tag to pass the string, so that there will be no second escape analysis.
 :::
 
-function`c-:display/`
+function `c-:display/`
 
 ```mcfunction
 data modify storage c-: display._ set value {type:multi_action,title:"Enter C-Minus Code Here",can_close_with_escape:1b,inputs:[{type:text,label:Code,width:400,key:_,max_length:2147483647,multiline:{height:192}}],actions:[{label:Save,action:{type:"dynamic/run_command",template:"function c-:display/submit {_:{_:'$(_)'}}"}},{label:Run,action:{type:"run_command",command:"function c-:run/"}}]}
@@ -42,6 +47,8 @@ function `c-:display/submit`
 $data modify storage c-: code set value $(_)
 function c-:parse/start
 ```
+
+
 ### 6.2 Intermediate code display
 
 Use the following code to complete the intermediate code display as shown in the title picture, which can be used for some analysis.
@@ -135,4 +142,5 @@ function `c-:display/midcode/_/if`(Actually, if you think about it, this whole s
 ```mcfunction
 $tellraw @s ['    ',{text:jmp-unless,color:green},' $(s)[$(s_)] , $(b)']
 ```
+
 

@@ -1,10 +1,14 @@
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <FeatureHead
     title="Floating UI practice - custom controls"
     authorName="Alumopper"
     cover = '../../../../../feature/archive/202604/_assets/5.png'
 />
 
-:::tip? ! FUI! ?
+:::tip ？！FUI ！？
 Floating UI is a ~~probably the most~~powerful heavyweight UI framework in vanilla, allowing you to define a complex and beautiful floating interactive UI in a simple NBT format.
 :::
 
@@ -14,15 +18,16 @@ Floating UI is a ~~probably the most~~powerful heavyweight UI framework in vanil
 
 Let’s see what we’re going to do in this article! is a super cool (not, but at least it looks easy to use) slider control:
 
-<div style="display: flex; justify-content: center;" >&lt;iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116364119441510&bvid=BV1mHDiBrE18&cid=37319477305&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width: 80%; height: 300px"&gt;&lt;/iframe&gt;</div>
+<div style="display: flex; justify-content: center;" >
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=116364119441510&bvid=BV1mHDiBrE18&cid=37319477305&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width: 80%; height: 300px"></iframe></div>
 
 What needs to be done?
 
-1. We need one element at each end of the slider to represent the two ends of the slider.
+1. We need one element at each end to represent the two ends of the slider.
 2. We need a long thing in the middle to represent the slider
 3. We also need something movable to represent the slider
 4. You may also need some tick marks on the slider to represent the values.
-5. Finally, we need to monitor the user's mouse scrolling input to change the position of the slider, and may also need to perform some processing to align the slider with the scale.
+5. Finally, we need to listen to the user's mouse scroll input to change the position of the slider, and may also need to do some processing to align the slider with the scale.
 
 ## Define properties
 
@@ -48,43 +53,45 @@ left_padding: 左侧图标和滑动条最左端之间的距离（倍率10000） 
 right_padding: 右侧图标和滑动条最右端之间的距离（倍率10000） = 0
 value_change: 数值改变时的回调函数 = null
 ```
+
+
 For integer attributes, we need to create a new corresponding scoreboard. The value of the item display entity corresponding to each UI control on this scoreboard is its attribute value. For other types, we will store it in the NBT of the entity displayed by this item.
 
 I have drawn some icons and set up models in advance. If the user does not pass in these properties, the icons and models I drew will be used by default.
 
 :::details scoreboard definition
-
 ```mcfunction
-#slider minimum value
+# slider最小值
 scoreboard objectives add floating_ui.slider.min dummy
-#slider maximum value
+# slider最大值
 scoreboard objectives add floating_ui.slider.max dummy
-#slider length
+# slider长度
 scoreboard objectives add floating_ui.slider.length dummy
-#The gap between the slider maximum value and the scale
+# slider最大值和刻度之间的差距
 scoreboard objectives add floating_ui.slider.max_tick_gap dummy
-#slider step size
+# slider步长
 scoreboard objectives add floating_ui.slider.step dummy
-#slider scale
+# slider刻度
 scoreboard objectives add floating_ui.slider.tick dummy
-#slider current value
+# slider当前值
 scoreboard objectives add floating_ui.slider.value dummy
-#slider current value
+# slider当前值
 scoreboard objectives add floating_ui.slider.shadow_value dummy
-#Whether the slider automatically adjusts to the nearest scale
+# slider是否自动调整到最近的刻度
 scoreboard objectives add floating_ui.slider.snapToTicks dummy
-#Whether the slider displays scales
+# slider是否显示刻度
 scoreboard objectives add floating_ui.slider.tickVisible dummy
-#Slider left icon
+# slider左侧图标
 scoreboard objectives add floating_ui.slider.left_padding dummy
-#Slider right icon
+# slider右侧图标
 scoreboard objectives add floating_ui.slider.right_padding dummy
 ```
+
 :::
 
 ## File structure
 
-When we need to define a new control, we need to`floating_ui:element/&lt;control name>`Create a series of files in the directory. For this slider control, we need to first create these files and folders:
+When we need to define a new control, we need to`floating_ui:element/&lt;控件名>`Create a series of files in the directory. For this slider control, we need to first create these files and folders:
 
 ![alt text](../../../../../feature/archive/202604/5/image.png)
 
@@ -92,9 +99,9 @@ When we need to define a new control, we need to`floating_ui:element/&lt;control
 
 ## Control creation
 
-### Properties
+### property
 
-let us look towards`_new`function!
+let us look towards`_new`function！
 
 All controls inherit`control`control, which means our`_new`function needs to call the parent control`_new`function. In addition, we also need to handle the control's own properties, which are not handled by the parent control's functions. exist`_new`function, we can pass`storage floating_ui:input temp`Access the property value passed in when creating the control. For example, we use the following code to determine whether the user has passed in`min`attribute and assign it to the scoreboard:
 
@@ -102,9 +109,11 @@ All controls inherit`control`control, which means our`_new`function needs to cal
 execute unless data storage floating_ui:input temp.min run data modify storage floating_ui:input temp.min set value 0
 execute store result score @s floating_ui.slider.min run data get storage floating_ui:input temp.min
 ```
+
+
 The same is true for other attributes.
 
-### Child control
+### child control
 
 Next comes the more complicated part. Our control is composed of multiple sub-elements, including icons at the left and right ends, a slider in the middle, a slider, and possible tick marks. We regard these child elements as child controls of this slider, in`_new`function to create them. If all are written in`_new`, the code would be quite lengthy (although not shorter now), so we will create a new function`set_content`to specifically handle the creation of child controls.
 
@@ -113,16 +122,18 @@ In FUI, it is also very simple to create sub-controls for a control. Just need t
 The code actually looks like this:
 
 ```mcfunction
-#Generate an item display entity. Its orientation and position are consistent with the current UI
-#This is all template code. Even if you don’t understand it, you can copy it directly.
+# 生成一个物品展示实体。它的朝向和位置都和当前UI一致
+# 这都是模板代码，就算你看不懂也可以直接复制
 data modify storage floating_ui:input summon.arg.type set value "item_display"
 function floating_ui:macro/summon_with_rot with storage floating_ui:input summon.arg
-#Generate a new control, type is sprite, size is [0,0], specify tag
+# 生成一个新的控件，类型为sprite，大小为[0,0]，指定tag
 data modify storage floating_ui:input temp set value {type: "sprite", size: [0,0], tag:"floating_ui_slider_left_icon"}
-#Use the item display entity just generated as the executor to call the generation function of the control
+# 以刚刚生成的物品展示实体为执行者，调用控件的生成函数
 execute as @n[tag=just,distance=..1] run function floating_ui:_new_control
 data modify entity 1bf52-0-0-0-2 Thrower set from entity @s UUID
 ```
+
+
 Here, I need to explain how the relationship between child controls and parent controls is bound.
 
 A control pointer will be stored in 1bf52-0-0-0-2worldentity. Generally speaking, after we call the _new function of the control, the UUID of the control will be stored in the itemity, and we can access the control through on origin. When we generate child controls,`control/_new`The execution has been completed, so 1bf52-0-0-0-2 will point to the current control, that is, to the parent control of the child control. When the child control is generated, it will also be called`control/_new`, in this function, the control being generated will be ridden to the entity pointed to by 1bf52-0-0-0-2, which is the parent control. In this way, we can establish the relationship between parent and child controls through riding.
@@ -138,21 +149,21 @@ Taking the icon on the left as an example, let’s see how this icon is actually
 ```mcfunction
 scoreboard players add @s floating_ui.child_z 10
 
-#Generate left icon
+# 生成左侧图标
 data modify storage floating_ui:input summon.arg.type set value "item_display"
 function floating_ui:macro/summon_with_rot with storage floating_ui:input summon.arg
 
 data modify storage floating_ui:input temp set value {type: "sprite", size: [0,0], tag:"floating_ui_slider_left_icon"}
-#Of course you can modify temp multiple times to set more attributes.
+# 你当然可以分多次修改temp来设置更多的属性喵
 data modify storage floating_ui:input temp.model set from entity @s item.components."minecraft:custom_data".data.left_icon、
 
-#Calculate width and height
-#The height and width of the icon are the same as the height of the slider
+# 计算宽度和高度
+# 图标的高度，宽度均和slider的高度相同
 data modify storage floating_ui:input temp.size[] set from entity @s item.components."minecraft:custom_data".data.size[1]
-#The left end position of the icon is aligned with the left end of the slider
-#Think that the default size of the icon is always 16px, which is 1
-#Access the size of the current control through floating_ui.size0_without_scale (size0 is the width)
-#In order to maintain decimal accuracy, the values ​​on these scoreboards are integers (fixed-point numbers) magnified 10,000 times.
+# 图标的左端位置和slider的左端对齐
+# 认为图标的默认大小总是16px，也就是1
+# 通过floating_ui.size0_without_scale访问到当前控件的大小（size0就是宽度）
+# 这些计分板的数值为了保持小数精度，都是放大了10000倍的整数（定点数）
 scoreboard players operation x floating_ui.temp = @s floating_ui.size0_without_scale
 scoreboard players operation x floating_ui.temp /= 2 int
 scoreboard players operation x floating_ui.temp *= -1 int
@@ -162,7 +173,9 @@ execute as @n[tag=just,distance=..1] run function floating_ui:_new_control
 scoreboard players add @s floating_ui.child_z 10
 data modify entity 1bf52-0-0-0-2 Thrower set from entity @s UUID
 ```
-You may notice a detail in the code, which is`scoreboard players add @s floating_ui.child_z 10`。`x`and`y`It means up, down, left and right,`z`What it means is the order of sub-controls. If the child control's`z`They are all the same, they will overlap, and Z-fighting may even occur (that is, when two faces overlap, the game does not know which one to display, and it will flicker). Therefore, every time we generate a child control, we need to`z`Add a little more so they don't overlap.
+
+
+You may notice a detail in the code, which is`scoreboard players add @s floating_ui.child_z 10`。`x`and`y`It means up, down, left and right,`z`What it means is the order of sub-controls. If the child control's`z`They are all the same, they will overlap, and Z-fighting may even occur (that is, when two faces overlap, the game does not know which one to display, and it will flicker). Therefore, every time we generate a sub-control, we need to`z`Add a little more so they don't overlap.
 
 The same is true for several other controls. You can check the source code of FUI for details.
 
@@ -170,20 +183,22 @@ Next is the more troublesome thing, which is the slider. The slider is a dynamic
 
 ```mcfunction
 
-#Generate thumb icon
+# 生成thumb图标
 data modify storage floating_ui:input summon.arg.type set value "item_display"
 function floating_ui:macro/summon_with_rot with storage floating_ui:input summon.arg
 data modify storage floating_ui:input temp set value {type: "sprite", size: [0,0], tag:"floating_ui_slider_thumb_icon"}
 data modify storage floating_ui:input temp.model set from entity @s item.components."minecraft:custom_data".data.thumb_icon
-#Calculate width and height
-#The height and width of the icon are the same as the height of the slider
+# 计算宽度和高度
+# 图标的高度和宽度和slider的高度相同
 data modify storage floating_ui:input temp.size[] set from entity @s item.components."minecraft:custom_data".data.size[1]
 execute store result storage floating_ui:input temp.z float 0.0001 run scoreboard players get @s floating_ui.child_z
 execute as @n[tag=just,distance=..1] run function floating_ui:_new_control
 scoreboard players remove @s floating_ui.child_z 20
-#Update thumb position based on value
+# 根据value更新thumb的位置
 function floating_ui:element/slider/update_thumb
 ```
+
+
 Because the logic of updating the slider position is not only in the generation, every time the user changes the value, the slider position needs to be updated, so we write it as a separate function`update_thumb`, just call it whenever you need to update the slider position.
 
 With the functions provided by FUI, the update logic is not complicated. Calculate the current value as a percentage of the entire slider range, and then multiply it by the length of the slider to get the offset of the slider relative to the start point of the slider. last call`_set_offset`Just function to set this offset.
@@ -198,24 +213,26 @@ scoreboard players operation percent floating_ui.temp -= 5000 int
 scoreboard players operation percent floating_ui.temp *= @s floating_ui.size0_without_scale
 execute store result storage floating_ui:input temp.x float 0.0001 run scoreboard players operation percent floating_ui.temp /= 10000 int
 
-#Note that we use on passengers to find the slider control here, because the current executor is still the slider control
+# 注意我们这里使用on passengers找到滑块控件，因为当前执行者仍然是slider控件
 execute on passengers if entity @s[tag=floating_ui_slider_thumb_icon] run function floating_ui:element/control/_set_offset
 ```
+
+
 The logic of scales is similar, but although the positions of scales are also calculated based on values, their number and position are fixed. At the same time, we need a loop logic to calculate how many ticks need to be generated and their positions based on the maximum and minimum values ​​and tick intervals. Therefore, we need to create a new function`create_tick`, in which this loop is processed.
 
 ```mcfunction
 scoreboard players operation curr_value floating_ui.temp += @s floating_ui.slider.tick
 execute if score curr_value floating_ui.temp > @s floating_ui.slider.max run return 0
 
-#Generate scale
+# 生成刻度
 
 data modify entity 1bf52-0-0-0-2 Thrower set from entity @s UUID
 data modify storage floating_ui:input summon.arg.type set value "item_display"
 function floating_ui:macro/summon_with_rot with storage floating_ui:input summon.arg
 data modify storage floating_ui:input temp set value {type: "sprite", size: [0,0], tag:"floating_ui_slider_tick_icon"}
 data modify storage floating_ui:input temp.model set from entity @s item.components."minecraft:custom_data".data.tick_texture
-#Calculate width and height
-#The height and width of the icon are the same as the height of the slider
+# 计算宽度和高度
+# 图标的高度和宽度和slider的高度相同
 data modify storage floating_ui:input temp.size[] set from entity @s item.components."minecraft:custom_data".data.size[1]
 execute store result storage floating_ui:input temp.z float 0.0001 run scoreboard players get @s floating_ui.child_z
 execute as @n[tag=just,distance=..1] run function floating_ui:_new_control
@@ -234,13 +251,14 @@ execute as 1bf52-0-0-0-2 on origin run function floating_ui:element/control/_set
 
 function floating_ui:element/slider/create_tick
 ```
+
+
 With the previous foreshadowing, this logic should not be very complicated, so I won’t go into details.
 
 Finally, in`floating_ui:load`Register the id of this control in function:
 
-```
-mcfunction
-#region control registration
+```mcfunction
+#region 控件注册
 data modify storage floating_ui:data std set value {\
     "button":0b,\
     "list":0b, \
@@ -253,6 +271,8 @@ data modify storage floating_ui:data std set value {\
 }
 
 ```
+
+
 So now, our control can be rendered normally. Write a simple test layout:
 
 ```mcfunction
@@ -271,15 +291,17 @@ data modify storage floating_ui:input data set value {\
     ]\
 }
 ```
+
+
 and then call`floating_ui:.player_new_ui`function, you can see the effect w.
 
 ## Monitor input
 
 We will control the`event`Event handling functions are defined in the folder. To avoid trouble, FUI provides a template that is placed in`element/custom_control_template`, we put its`event`Just copy the folder and it will be fine.
 
-For this slider control, we need to monitor two inputs - one is the user's wheel input, that is`roll`event, corresponding`roll_event`function; the other is the user's click input, that is`click`event, corresponding`click_event`function.
+For this slider control, we need to monitor two inputs - one is the user's wheel input, that is`roll`event, corresponding`roll_event`function; the other is the user's click input, that is`click`event, corresponding`click_event`function。
 
-### Scroll wheel event
+### wheel event
 
 :::tip
 In the scroll wheel event, we can pass the variable`score slot floating_ui.temp`Gets how many shortcut bars the player's mouse wheel has rolled over in this event. If the player mouse wheel scrolls down, this value is positive; if it scrolls up, this value is negative.
@@ -295,7 +317,7 @@ So, in the end, our logic is this:
 
 ```mcfunction
 #update the value
-#If snapToTicks is true, adjust according to the scale, otherwise according to the step size
+#如果snapToTicks为true，则按照刻度调整，否则按照步长
 execute if score @s floating_ui.slider.snapToTicks matches 1 run scoreboard players operation delta floating_ui.temp = @s floating_ui.slider.tick
 execute if score @s floating_ui.slider.snapToTicks matches 0 run scoreboard players operation delta floating_ui.temp = @s floating_ui.slider.step
 scoreboard players operation change floating_ui.temp = delta floating_ui.temp
@@ -303,13 +325,15 @@ scoreboard players operation change floating_ui.temp *= slot floating_ui.temp
 execute if score change floating_ui.temp matches ..0 if score @s floating_ui.slider.value = @s floating_ui.slider.max run scoreboard players operation @s floating_ui.slider.value = @s floating_ui.slider.shadow_value
 execute if score change floating_ui.temp matches 1.. run scoreboard players operation @s floating_ui.slider.shadow_value = @s floating_ui.slider.value
 scoreboard players operation @s floating_ui.slider.value += change floating_ui.temp
-#Clamp
+# 钳制
 execute if score @s floating_ui.slider.value < @s floating_ui.slider.min run scoreboard players operation @s floating_ui.slider.value = @s floating_ui.slider.min
 execute if score @s floating_ui.slider.value > @s floating_ui.slider.max run scoreboard players operation @s floating_ui.slider.shadow_value += delta floating_ui.temp
 execute if score @s floating_ui.slider.value > @s floating_ui.slider.max run scoreboard players operation @s floating_ui.slider.value = @s floating_ui.slider.max
 function floating_ui:element/slider/update_thumb
 ```
-### Click event
+
+
+### click event
 
 :::tip
 In the click event, we can pass`score this.u/this.v floating_ui.temp`To get the relative position of the click position in the current control, the unit is the block length, and the origin is at the upper left corner of the control.
@@ -322,20 +346,24 @@ scoreboard players operation x floating_ui.temp = this.u floating_ui.temp
 scoreboard players operation x floating_ui.temp *= @s floating_ui.scale
 scoreboard players operation x floating_ui.temp /= 100 int
 ```
+
+
 Then, we need to handle what happens when the user clicks on the icons at the left and right ends of the slider. In this case, the value should be set to the maximum or minimum value:
 
 ```mcfunction
-#minimum value
+# 最小值
 execute if score x floating_ui.temp <= @s floating_ui.slider.left_padding run return run scoreboard players operation @s floating_ui.slider.value = @s floating_ui.slider.min
-#maximum value
+# 最大值
 scoreboard players operation to_right floating_ui.temp = @s floating_ui.size0_without_scale
 scoreboard players operation to_right floating_ui.temp -= x floating_ui.temp
 execute if score to_right floating_ui.temp <= @s floating_ui.slider.right_padding run return run scoreboard players operation to_right floating_ui.temp *= @s floating_ui.slider.max
 ```
+
+
 Then, calculate the distance from the click point to the left side of the slider as a percentage of the entire length of the slider, and multiply it by the range to get the value corresponding to the click position:
 
 ```mcfunction
-#In the middle, calculate
+# 在中间，计算
 scoreboard players operation bar_length floating_ui.temp = @s floating_ui.size0_without_scale
 scoreboard players operation bar_length floating_ui.temp -= @s floating_ui.slider.left_padding
 scoreboard players operation bar_length floating_ui.temp -= @s floating_ui.slider.right_padding
@@ -347,28 +375,34 @@ scoreboard players operation x floating_ui.temp /= 10000 int
 scoreboard players operation x floating_ui.temp += @s floating_ui.slider.min
 scoreboard players operation @s floating_ui.slider.value = x floating_ui.temp
 ```
+
+
 Finally, we align this value to the scale using simple rounding:
 
 ```mcfunction
-#Align to scale
-#The step size only takes effect for scroll events, and click events are not limited by the step size.
+# 对齐到刻度
+# 步长只对滚动事件生效，点击事件不受步长限制
 execute if score @s floating_ui.slider.snapToTicks matches 0 run return 0
 scoreboard players operation to_tick floating_ui.temp = @s floating_ui.slider.value
 scoreboard players operation to_tick floating_ui.temp -= @s floating_ui.slider.min
-#rounding
+# 四舍五入
 scoreboard players operation to_tick floating_ui.temp += 5000 int
 scoreboard players operation to_tick floating_ui.temp /= @s floating_ui.slider.tick
 scoreboard players operation to_tick floating_ui.temp *= @s floating_ui.slider.tick
 scoreboard players operation to_tick floating_ui.temp += @s floating_ui.slider.min
 scoreboard players operation @s floating_ui.slider.value = to_tick floating_ui.temp
 ```
+
+
 In this way, we successfully updated the slider value based on the user's input. Don't forget to update the slider's position!
 
 ```mcfunction
-#renew
+# 更新
 function floating_ui:element/slider/update_thumb
 ```
-## Trigger event
+
+
+## trigger event
 
 As a control that can obtain user input, developers definitely want to monitor user input through an event-like method instead of detecting value changes every tick. In FUI, it is very simple to customize an event.
 
@@ -377,20 +411,26 @@ Remember a property we defined before?
 ```js
 value_change: 数值改变时的回调函数 = null
 ```
-exist`_new`function, it is stored as a string attribute in the NBT of the item display entity of the control. This event should be fired when the value is changed, which is when the user clicks or scrolls the mouse wheel.
 
-:::warning note
-We have not judged whether the values before and after modification have actually changed. That is to say, even if the user scroll wheel inputs a value, but because it is clamped, the final value has not changed, and this event will be triggered. If you don't want this behavior, you can determine whether the current value is the same as the previous value in the event function, and return directly if they are the same.
-:::`value_change`It is the namespaceID of a function, so we have to call the corresponding function through a macro. In FUI, you should write the calling procedure like this:
+
+exist`_new`function, it is stored as a string attribute in the NBT of the item display entity of the control. This event should be triggered when the value is changed, that is, when the user clicks or scrolls the mouse wheel.
+
+:::warning Notice
+We have not judged whether the values ​​before and after modification have actually changed. That is to say, even if the user scroll wheel inputs a value, but because it is clamped, the final value has not changed, and this event will be triggered. If you don't want this behavior, you can determine whether the current value is the same as the previous value in the event function, and return directly if they are the same.
+:::
+
+`value_change`It is the namespaceID of a function, so we have to call the corresponding function through a macro. In FUI, you should write the calling procedure like this:
 
 ```mcfunction
-#trigger event
+# 触发事件
 data modify storage floating_ui:temp arg.function set from entity @s item.components.minecraft:custom_data.data.value_change
 function floating_ui:util/function
 ```
+
+
 Add this code to your`click_event`and`roll_event`function, this event can be triggered w
 
-## Summary
+## Summarize
 
 Although it is said to be a tutorial, it is actually a personal summary of my development process (?
 

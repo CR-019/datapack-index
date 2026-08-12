@@ -14,6 +14,11 @@ repo: Triton365/BlockState
 cover: /datapack-index/wheel/Block_State.gif
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 This library adds a very long loot table and uses it to obtain block and block status information at any location.
@@ -27,8 +32,9 @@ execute anywhere`loot ... loot blockstate:get`An item can be generated. The item
 ```snbt
 {"minecraft:custom_data":{Name:"minecraft:...",Properties:{...}}}
 ```
-Example:
 
+
+Example:
 ```mcfunction
 summon item_display ~ ~ ~ {UUID:[I;0,0,0,0]}
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 contents loot blockstate:get

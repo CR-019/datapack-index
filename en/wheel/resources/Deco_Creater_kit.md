@@ -1,5 +1,5 @@
 ---
-name: Deco Creator kit
+name: Deco Creater kit
 author:
     -
         name: CR_019
@@ -13,6 +13,11 @@ wheel: true
 repo: CR-019/dc
 cover: /datapack-index/wheel/Deco_Creater_kit.png
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 
 <InfoCard />
 

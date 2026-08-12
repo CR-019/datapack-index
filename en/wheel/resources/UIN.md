@@ -13,6 +13,10 @@ wheel: true
 repo: ououn/UIN
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 UINtag classification data pack provides a large number of block, item, and entity type tags for data pack use. (For example, all redstone components, all fuel items, all blocks without block state, etc.).

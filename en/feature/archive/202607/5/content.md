@@ -1,6 +1,12 @@
 ---
 title: 'The cockroach must die! Pest Cant Pass! '
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title="The cockroach must die! Pest Cant Pass!"
     authorName="CR_019"
@@ -8,6 +14,7 @@ title: 'The cockroach must die! Pest Cant Pass! '
     cover = '../../../../../feature/archive/202607/_assets/5.png'
     resourceLink = 'https://www.bilibili.com/video/BV175Ta6BE3k'
 />
+
 
 > When you find one cockroach in your home, it means there are already a thousand cockroaches hiding in the dark...
 > Having said that, who can resist turning into a Cantonese twin ponytail!
@@ -22,7 +29,7 @@ Players can choose to play as **[Pest Exterminator]** or **[Cockroach]** and sta
 
 ## **【INTRODUCTION | Game details】**
 
-### **【Pest Control Team】**![Human.png](../../../../../feature/archive/202607/5/%2855%29.png)
+### **[Pest Control Team]**![Human.png](../../../../../feature/archive/202607/5/(55).png)
 
 ![Presentation 1\_01.png](../../../../../feature/archive/202607/5/演示文稿1_01.png)
 
@@ -30,13 +37,13 @@ Players can choose to play as **[Pest Exterminator]** or **[Cockroach]** and sta
 
 ![1.00](../../../../../feature/archive/202607/5/演示文稿1_02.png)
 
-In the game, by attacking **[cockroaches]** and cleaning up the **[garbage]** left by [cockroaches], the exterminator team can obtain **[Performance]**
+In the game, by attacking **[cockroaches]** and cleaning up the **[garbage]** left behind by [cockroaches], the exterminator team can obtain **[Performance]**
 
 ![1.00](../../../../../feature/archive/202607/5/演示文稿1_03.png)
 
 **[Performance]** Used to purchase various powerful props in the game. Each prop has a powerful ability to assist in exterminating pests.
 
-### **[Cockroach]**![Cockroach living cockroach.png](../../../../../feature/archive/202607/5/%2864%29.png)
+### **【Cockroach】**![Cockroach living cockroach.png](../../../../../feature/archive/202607/5/(64).png)
 
 ![1.00](../../../../../feature/archive/202607/5/演示文稿1_04.png)
 
@@ -44,21 +51,21 @@ In the game, by attacking **[cockroaches]** and cleaning up the **[garbage]** le
 
 ![1.00](../../../../../feature/archive/202607/5/演示文稿1_05.png)
 
-**[Cockroach]** has the ability to fly and climb walls, can taunt **[Pest Control Team]**, and can also evolve by eating food in the scene
+**[Cockroach]** has the ability to fly and climb walls, can taunt **[Pest Exterminator]**, and can also evolve by eating food in the scene
 
 ![1.00](../../../../../feature/archive/202607/5/演示文稿1_06.png)
 
 Evolve to gain more powerful abilities and upgrades to escape increasingly powerful **[Pest Exterminator]**
 
-### **[Others]**![Officially started.png](../../../../../feature/archive/202607/5/%2860%29.png)
+### **[Others]**![Officially started.png](../../../../../feature/archive/202607/5/(60).png)
 
 ![1.00](../../../../../feature/archive/202607/5/演示文稿1_07.png)
 
-### There is a built-in [Help Menu] in the game. Press the [L] key to open the achievement menu to view it.
+### There is a [Help Menu] built into the game. You can view it by pressing the [L] key to open the achievement menu.
 
 ![1.00](../../../../../feature/archive/202607/5/演示文稿1_08.png)
 
-There is a **[Administrator]** team in the game. After joining the administrator team, you can adjust the values of various rules in the game.
+There is a **[Administrator]** team in the game. After joining the administrator team, you can adjust the values ​​of various rules in the game.
 
 ***
 
@@ -66,9 +73,9 @@ There is a **[Administrator]** team in the game. After joining the administrator
 
 * The mini-game map uses a specially made texture pack. Please play it after installing the texture pack correctly.
 
-* The game supports more than 2 people to play, and the optimal number of players is 5-10 people
+* The game supports more than 2 people, and the optimal number of players is 5-10 people.
 
-* The game supports system random team division, and the ratio of players is that one out of every five players will play the role of [Pest Exterminator Team]
+* The game supports random team division by the system. The ratio of players is that one out of every five players will play the role of [Pest Exterminator Team].
 
 ### **【 SCENCE | Game screenshots 】**
 

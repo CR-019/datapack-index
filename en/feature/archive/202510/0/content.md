@@ -1,6 +1,12 @@
 ---
 title: 'Summary of "MOT Drone Example Tutorial"'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeaturedHead
     title = "Summary of &quot;MOT UAV Example Tutorial&quot;"
     authorName = "Adzuki Bean 8593"
@@ -15,7 +21,7 @@ Language: Minecraft function (mcfunction) + MOT template syntax + linear algebra
 Goal: Build a **remotely controlled, programmable, and scalable** drone system from scratch, and support interaction between external devices and GUI.
 :::
 
-### Why should I write this tutorial?
+### Why am I writing this tutorial?
 
 With the rise of related technologies such as item display entity (IDE), text display entity (TDE), and block display entity (BDE) updated in JAVA version 1.19.4, vanilla developers have encountered two urgent practical needs:
 
@@ -29,25 +35,27 @@ The latter is represented by local coordinate system algorithm, quaternion algor
 ### What can you learn in this tutorial?
 
 ---
-* Practice of mcfunction object-oriented thinking
+* The practice of mcfunction object-oriented thinking
 * Module protocol and module communication
-* Use the mot program for templated project construction
-*Standardized testing practices
+* Using the mot program for templated project construction
+* Standardized testing practices
 ---
 * Quaternions and local coordinate systems
-*Kinematics and physical calculations
-*Application of automatic control algorithms
+* Kinematics and Physical Computation
+* Application of automatic control algorithms
 ---
 
-### How to get the tutorial?
+### How to get tutorials?
 
-> Warehouse address:https://github.com/xiaodou8593/mot_1.0> source_files is the mcfunction template auxiliary program source file (need to be used in this project)
+> Warehouse address:https://github.com/xiaodou8593/mot_1.0
+
+> source_files is the mcfunction template auxiliary program source file (need to be used in this project)
 
 
 > example_tutorial is the markdown document of the tutorial (please press [.mot_example.md](https://github.com/xiaodou8593/mot_1.0/blob/main/example_tutorial/.mot_example.md)、[chapter1.md](https://github.com/xiaodou8593/mot_1.0/blob/main/example_tutorial/.chapter1.md)、[chapter2.md](https://github.com/xiaodou8593/mot_1.0/blob/main/example_tutorial/.chapter2.md)、[chapter3.md](https://github.com/xiaodou8593/mot_1.0/blob/main/example_tutorial/.chapter3.md) read sequentially)
 
 
-> example_datapack is the finished data pack (you can compare it if you have any doubts during the project construction process)
+> example_datapack is the finished data pack (you can compare it if you encounter any doubts during the project construction process)
 
 ---
 
@@ -87,16 +95,16 @@ The latter is represented by local coordinate system algorithm, quaternion algor
 
 | Program | Function | Status |
 |---|---|---|
-|`height`| Fixed height hover | 0/1/2 |
-|`rotation`| Yaw angle lock | 0/1/2 |
-|`position`| Horizontal displacement | 0/1/2 |
-|`facing`| Aim at target point | 0/1/2 |
-|`compose`| Multi-program serial | 0/1/2 |
-|`up / turn / forward`| Instant increment | Transfer to the above program |
-|`left_connect / left_deconnect / left_use`| Left Slot | 0/-1/2 |
-|`down_* / right_*`| The other two slots | Same as above |
-|`waiting`| Wait N moments | Countdown |
-|`landing / near_landing`| Near ground landing | Automatic altitude correction |
+| `height`| Fixed height hover | 0/1/2 |
+| `rotation`| Yaw angle lock | 0/1/2 |
+| `position`| Horizontal displacement | 0/1/2 |
+| `facing`| Aim at target point | 0/1/2 |
+| `compose`| Multi-program serial | 0/1/2 |
+| `up / turn / forward`| Instant increment | Transfer to the above program |
+| `left_connect / left_deconnect / left_use`| Left Slot | 0/-1/2 |
+| `down_* / right_*`| The other two slots | Same as above |
+| `waiting`| Wait N moments | Countdown |
+| `landing / near_landing`| Near ground landing | Automatic altitude correction |
 
 ---
 
@@ -117,26 +125,30 @@ The latter is represented by local coordinate system algorithm, quaternion algor
 ### Generate drone
 
 ```mcfunction
-#Import data template
+# 导入数据模板
 data modify storage mot_uav:io input set from storage mot_uav:class test
-#Specify build location
+# 指定生成位置
 tp @e[tag=math_marker,limit=1] 0 0 0
 data modify storage mot_uav:io input.position set from entity @e[tag=math_marker,limit=1] Pos
-#Parse the data template and construct the instance
+# 解析数据模板，构造实例
 function mot_uav:_new
 ```
+
+
 ---
-### Generate machine gun
+### spawn machine gun
 
 ```mcfunction
-#Import data template
+# 导入数据模板
 data modify storage mot_scatter:io input set from storage mot_scatter:class test
-#Specify build location
+# 指定生成位置
 tp @e[tag=math_marker,limit=1] 0 0 0
 data modify storage mot_scatter:io input.position set from entity @e[tag=math_marker,limit=1] Pos
-#Parse the data template and construct the instance
+# 解析数据模板，构造实例
 function mot_scatter:_new
 ```
+
+
 > The method of constructing other device instances is the same as above
 
 ---
@@ -145,12 +157,16 @@ function mot_scatter:_new
 ```mcfunction
 function mot_uav:test/general/start
 ```
+
+
 ---
-### Target test scenario
+### Target test scenarios
 
 ```mcfunction
 function mot_uav:test/facing/start
 ```
+
+
 ---
 ### One-click exhibition scene
 

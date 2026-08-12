@@ -13,6 +13,11 @@ wheel: true
 repo: Bybycyann/BetterCustomTools
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 
@@ -23,7 +28,7 @@ Multiple triggers are encapsulated to implement an event flow that can achieve i
 
 Read its official documentation ([Github](https://github.com/Bybycyann/BetterCustomTools/blob/main/README_zh.md)) for more information.
 
-## Dependencies
+## rely
 
 > [!IMPORTANT]
 > Better Custom Tools requires [Player Data Expansion](/en/wheel/resources/PlayerDataExpansion) as a frontend to manage player data.
@@ -37,12 +42,12 @@ Some instructions are provided below and may be out of date. Please refer to the
 > *data pack provides some function interfaces, but they are usually called internally.*
 
 | function | function | description |
-| :----------------: | :-------------------------------------------------------------: | :----------------------------------------------------------------: |
-|`#bct:item.get`| Get item data to`bct.io stack[-1].CONTEXT.item_data`      |             CONTEXT: {hand: (mainhand\|offhand)}             |
+| :----------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|  `#bct:item.get`| Get item data to`bct.io stack[-1].CONTEXT.item_data`      |             CONTEXT: {hand: (mainhand\|offhand)}             |
 | `#bct:item.update`| will`bct:io stack[-1].item_update`The data is merged into the target item (merge) | CONTEXT: {hand: (mainhand\|offhand)<br />Needs to`bct:io stack[-1].item_update`Pass in the data to be merged |
-|`#bct:item.cd`| Get the cooling status of the target item, the return value is 1 (cooling ended) or 0 (cooling in progress) | CONTEXT: {hand: (mainhand\|offhand) |
-|`#bct:using.exit`| Interrupt a usage state (using) | - |
-|`#bct:macro`| Call a macro command | Need to`bct:io stack[-1].command`To write the target command<br /> you need to`bct:io stack[-1]`Passed in as macro parameter |
+|   `#bct:item.cd`| Get the cooling status of the target item, the return value is 1 (cooling ended) or 0 (cooling in progress) | CONTEXT: {hand: (mainhand\|offhand) |
+| `#bct:using.exit`| Interrupt a usage state (using) | - |
+|    `#bct:macro`| Call a macro command | Need to`bct:io stack[-1].command`To write the target command<br /> you need to`bct:io stack[-1]`Passed in as macro parameter |
 
 ## Example
 

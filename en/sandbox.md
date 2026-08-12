@@ -1,9 +1,13 @@
 ---
-title: 香草沙盒
+title: Vanilla Sandbox
 outline: false
 ---
 
-香草图书馆测试场。
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+Vanilla Library testing ground.
 
 <script setup lang="ts">
 import DpsPlayground, {
@@ -20,7 +24,7 @@ const notebook: PlaygroundNotebook = {
     {
       id: 'welcome',
       type: 'markdown',
-      source: '### 测试沙盒\n\n喵喵喵喵喵。',
+      source: '### Test Sandbox\n\nMeow Meow Meow Meow Meow.',
     },
     {
       id: 'setup',
@@ -42,16 +46,16 @@ const notebook: PlaygroundNotebook = {
 
 <header class="feature-sandbox-hero">
     <p class="feature-sandbox-eyebrow">FEATURE · LAB</p>
-    <h1 class="feature-sandbox-title">测试喵</h1>
+<h1 class="feature-sandbox-title">Test Meow</h1>
     <p class="feature-sandbox-lead">
-        文本测试喵
+Text test meow
     </p>
     <div class="feature-sandbox-palette" aria-hidden="true">
       <span></span><span></span><span></span>
     </div>
 </header>
 
-放一个完整的notebook.
+Put a complete notebook.
 <div>
     <ClientOnly>
         <DpsPlayground
@@ -66,7 +70,7 @@ const notebook: PlaygroundNotebook = {
     </ClientOnly>
 </div>
 
-或者可以内联的小号的
+Or a small one that can be inlined
 <div>
     <ClientOnly>
         <DpsCell

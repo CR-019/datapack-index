@@ -19,6 +19,11 @@ wheel: true
 repo: TouchController/E1epack
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 This data pack provides developers with some miscellaneous and practical functions, most of which are function packages of single commands or macro commands, such as quickly opening the death list, iron block elevator, obtaining time, modifying the player's maximum health value, etc.

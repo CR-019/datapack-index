@@ -13,6 +13,10 @@ wheel: true
 repo: Dahesor/Leopard-Cat
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 Big-faced cat adds a shell to vanilla's forceloadcommand. When using Big Face Cat, all forceload instructions should be issued through Big Face Cat.

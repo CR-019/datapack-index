@@ -2,21 +2,25 @@
 title: 'mcfunction language specification (short version)'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
-    title="mcfunction Language Specification (Simplified Version)"
-    authorName="Esan Sang Sang Sang"
+title='mcfunction Language Specification (Simplified Version)'
+authorName='Esan Sang Sang Sang'
 />
 
-
 :::warning Editor's Note
-This is a set of naming conventions used to make the data pack structure easier to read. It is not a grammar rule and is not checked by the game.  
+This is a set of naming conventions used to make the data pack structure easier to read. It is not a grammar rule and is not checked by the game.
 Readers are not required to abide by the following conventions, but concise and standardized naming will obviously make the data pack cleaner and easier to read, and can also significantly improve development efficiency and maintainability. Therefore, readers are recommended to read it carefully.
 :::
 
-## Basic principles
+## basic principles
 
 1. Prefer short names.
-2. The name cannot be ambiguous.
+2. Names must not be ambiguous.
 3. When there is no actual conflict, no redundant levels will be added.
 
 ## Field
@@ -34,34 +38,43 @@ storage(<namespace>:data projectile)
 tag(<namespace>.projectile)
 function <namespace>:projectile/create
 ```
+
+
 The entity tag must be manually added with the namespace prefix:
 
 ```text
 tag(<namespace>.projectile)
 ```
+
+
 ### Properties and inheritance
 
 Attributes represent part of the data of a field:
 
-```
-text
+```text
 projectile.speed
 projectile.life
 ```
+
+
 Inheritance represents a complete type of field:
 
 ```text
 projectile.fire
 projectile.ice
 ```
+
+
 When path conflicts occur in long-term data, add a layer of attributes, such as`default`、`dummy`or`value`Wait, to eliminate the conflict.
-like`character.knight.max_health`and`character.max_health`conflict.`character.max_health`should be written as`character.default.max_health`.
+like`character.knight.max_health`and`character.max_health`conflict.`character.max_health`should be written as`character.default.max_health`。
 
 ## function structure
 
 ```text
 类/方法/中间过程
 ```
+
+
 For example:
 
 ```text
@@ -71,25 +84,27 @@ projectile/create/write_data
 projectile/delete
 ...
 ```
+
+
 - Methods are allowed to be called outside the field.
-- Intermediate processes such as`projectile/create/write_data`, only belongs to`create`, other functions cannot be called.
+- The intermediate process is like`projectile/create/write_data`, only belongs to`create`, other functions cannot be called.
 - When multiple methods need to share the same intermediate process, promote it to a private method.
 
-```
-text
+```text
 projectile/__validate
 projectile/create
 projectile/create/write_data
 projectile/delete
 ```
+
+
 The structure can be changed to this. private method`__validate`allow`projectile`All methods within (only`create`and`delete`, excluding`create/write_data`) call, but not open outside the field.
 
-## Special tags
+## special mark
 
 Special markers are not part of the name. Tags should be ignored when determining name conflicts.
 
-```
-text
+```text
 __tick__       自动方法：由游戏特性或游戏内入口调用
 __validate     私有方法：仅供当前字段内部调用
 __id__         长期变量：需要跨 tick 保存，不应随意修改
@@ -97,9 +112,7 @@ __id__         长期变量：需要跨 tick 保存，不应随意修改
 
 
 `__xx__`，`__xx`and`xx`Considered to have the same name, they can be created at the same time, but the functions must be exactly the same, such as:
-
 ```
-
 # __a__
 function a
 
@@ -109,26 +122,29 @@ function a
 # a
 say 1
 ```
-## Method input
+
+
+## method input
 
 Method inputs are read-only by default. When the input needs to be modified, it must be stated in the header document.
 
-```
-mcfunction
+```mcfunction
 #> projectile/create
-#Create projectiles
+#   创建投射物
 # @input
 #   storage <namespace>:io projectile
 # @output
-#Newly created projectile
+#   新创建的投射物
 ```
-or shorter:
 
+or shorter:
 ```mcfunction
 #> projectile/create
-#Create a projectile, input is io projectile
+#   创建投射物，输入为io projectile
 ```
-## Temporary variables
+
+
+## Temporary variable
 
 Common temporary variables:
 
@@ -138,11 +154,13 @@ storage(<namespace>:io temp.projectile)
 tag(<namespace>.this)
 tag(<namespace>.init)
 ```
+
+
 After calling a normal method, existing temporary variables should be regarded as having unknown contents and should not be read further.
 
 Private methods share variables with the caller and do not affect the call of temporary variables.
 
-## Quick Check
+## quick check
 
 ```text
 字段的一部分数据                 属性

@@ -14,6 +14,11 @@ repo: AmberWat/NegativeSpaceFont
 cover: /datapack-index/wheel/Neg-Space.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 The Negative Space Fontresource pack allows you to add negative space within text in multiple versions, offset the entire following text to the left to allow for variable visual effects, or control the overall length of text fragments.

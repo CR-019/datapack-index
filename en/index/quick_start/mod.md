@@ -1,41 +1,45 @@
-# Quick Start
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+# quick start
 
 ::: tip
-This article briefly discusses what vanilla mods are and how to get started.
+This article briefly discusses what vanilla mod is and how to get started easily.
 
-If you prefer, you can go directly to [Browse the Collection](/en/index/绪论).
+If you want, you can go directly to [View Collection](/en/index/绪论)
 :::
 
 ## What is a data pack?
 
-A data pack is a way to modify or add gameplay to `Minecraft: Java Edition` without changing the Java source code. It is an officially supported, lightweight modification system that also supports hot reloading.
+data pack is a method that can be used for`Minecraft：Java`Methods to modify the version or add new gameplay. It is an officially supported lightweight modification system and allows hot reloading.
 
-A data pack can generally be divided into two components. The first consists of configuration files written in `JSON`, which modify the game's registries—for example, by changing or adding advancements and crafting recipes. The second consists of programs written in the `mcfunction` language, which execute a series of commands in order to implement logic ranging from simple to complex.
+The data pack can be roughly divided into two components. One is to use`JSON`The written configuration file is used to modify the game's registry, such as changing or adding new advancements, synthesizing recipes, etc.; the second is to use`mcfunction`A program written in a language that can execute a series of commands in sequence to implement a variety of logic from simple to complex.
 
-After years of development, data packs have become capable of solving most game-modification needs. They can approach or even match the functionality of mods and plugins, and have become a mainstream tool for map development. As versions continue to update, the data pack system will become more complete.
+After years of development, data pack has been able to provide solutions for most needs for game modification, can approach or even reach the functions of mods and plug-ins, and has become a mainstream tool in the field of map development. With the continuous updating of version, the data pack system will become more and more perfect.
+
 
 ## What is a resource pack?
 
-A resource pack is a way to modify game resources, such as by changing or adding textures, models, and fonts, or even modifying the game's shader programs. Because data packs can modify only game logic and cannot easily provide new visual elements, vanilla developers work with data packs and resource packs together to create more attractive game experiences. Modifying the game with both resource packs and data packs is generally called vanilla modding or vanilla development.
+Resource pack is a means to modify game resources, such as modifying or adding textures, models, fonts, and even modifying the game's shader program. Since data pack can only modify game logic and cannot simply provide new visual elements for the game, vanilla developers will deal with data pack and resource pack at the same time to achieve more beautiful game effects. The method of modifying the game through resource packs and data packs together is generally called vanilla mod or vanilla development.
+
 
 ## Advantages and disadvantages of vanilla development
-
-As a way to modify Minecraft: Java Edition, vanilla development has the following advantages and disadvantages compared with mods based on third-party APIs such as Forge, Fabric, and NeoForge, and plugins for server software such as Bukkit:
+Also as a solution for modifying the Java version of Minecraft, compared with mods based on third-party APIs such as forge/fabric/neoforge, and server-side plug-ins such as bukkit, vanilla development has the following advantages and disadvantages:
 - Advantages:
-  - officially supported, with comprehensive documentation;
-  - easy to start with, with simple syntax;
-  - runs entirely on the server, requiring the client to install only the resource pack;
-  - good cross-platform compatibility, supporting many different modded clients and servers and allowing cross-platform multiplayer;
-  - supports hot reloading and offers high development efficiency.
+  - Officially supported and well documented;
+  - Easy to get started with simple syntax;
+  - Fully server-side operation, the client only needs to install the resource pack;
+  - It has good horizontal compatibility, supports a variety of different mod terminals and servers, and can be connected across terminals;
+  - Supports hot reloading and high development efficiency.
 - Disadvantages:
-  - limited functionality, with few ways to reach lower-level systems; achievable functionality depends heavily on the interfaces Mojang provides;
-  - performance overhead, since command-based systems incur additional cost.
+  - The functions are limited and there are few means of reaching the bottom layer. The functions that can be realized are highly dependent on the interface provided by Mojang;
+  - Performance cost, the system implemented based on command will incur additional consumption.
 
-## Getting started quickly
+## Get started quickly
 
-If you have some programming experience and background, go directly to [A Brief Introduction to Data Packs for Readers with Programming Experience](./对有基础者简述). It briefly explains how to set up a development environment and introduces the basics of the `mcfunction` language.
+If you have certain programming experience and foundation, please go directly to [A brief introduction to data pack for those with programming foundation](./对有基础者简述). Here we will briefly introduce how to set up the development environment and give`mcfunction`A basic introduction to language.
 
-If you have no background at all, do not worry! Read [Recommended Reading for Beginners](./零基础阅读推荐). It explains how to get started and where to begin among the Vanilla Library's extensive collection.
+If you don’t have any background, no need to stress! Please check [Recommended Reading for Zero Basics](./零基础阅读推荐). Here we'll tell you how to get started and where to start reading among Vanilla Library's extensive collections.
 
-Have fun!
-
+Have fun.

@@ -2,7 +2,7 @@
 name: TimeLib
 author:
     -
-        name: SilicaYT
+        name: SilicatYT
         char: author
     -
         name: BananaRedPanda
@@ -19,6 +19,10 @@ wheel: true
 repo: CMDred/TimeLib
 cover: /datapack-index/wheel/TimeLib.png
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
 
 <InfoCard />
 

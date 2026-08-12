@@ -2,15 +2,19 @@
 title: 'Command Storage Advanced: Use stack management function context'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
-    title="Command Storage Advanced: Use stack management function context"
-    authorName="Qibai"
-	:extraAuthors="['Xu Muxian']"
+title='Command Storage Advanced: Use stack management function context'
+authorName='Qibai'
+:extraAuthors="['Xu Muxian']"
 />
 
-
-## Summary
-This article discusses how to optimize the data management and logic design of Minecraft function (mcfunction, hereafter referred to as mcf) through simulation stack structure. In view of the pain points of native mcf scope limitations, process data residue and inefficient cross-function communication, variable isolation and context transfer are achieved through manual management of the "push/pop" mechanism, and recursive calls and dynamic scope nesting are supported. This solution uses the command storage system (storage) to replace macro parsing, improves performance and reduces resource redundancy, provides clear scope control and maintainability for complex data pack development, especially in scenarios such as multi-layer nesting and algorithm implementation, significantly enhances logic clarity and execution efficiency, and provides a standardized development model for mcf.
+## summary
+This article discusses how to optimize the data management and logic design of Minecraft function (mcfunction, hereafter referred to as mcf) through the simulation stack structure. In view of the pain points of native mcf scope limitations, process data residue and inefficient cross-function communication, variable isolation and context transfer are achieved through manual management of the "push/pop" mechanism, and recursive calls and dynamic scope nesting are supported. This solution uses the command storage system (storage) to replace macro parsing, improves performance and reduces resource redundancy, provides clear scope control and maintainability for complex data pack development, especially in scenarios such as multi-layer nesting and algorithm implementation, significantly enhances logic clarity and execution efficiency, and provides a standardized development model for mcf.
 
 
 ## 1. Introduction
@@ -18,8 +22,10 @@ This article discusses how to optimize the data management and logic design of M
 mcf does not have native scope management. Once a large number of variable operations are involved, it is often easy to have variables pile up. Secondly, since variables are usually global, loopholes such as timing issues or out-of-bounds access often occur when functions are executed. These situations usually introduce some unexpected bugs, which slow down development advancement and significantly reduce the development experience. In addition, where cross-functional information exchange is required, it becomes extremely difficult to write complex algorithms due to the lack of context. ~~So much so that the community often hears the joke (bushi) that developing data packs is like going to jail. ~~There is therefore an urgent need to introduce a new mechanism to solve the above problems to achieve cross-function context calls and variable isolation. The management solution based on the stack structure proposed in this article was born out of this.
 
 <div style="text-align:center">
+	
 
-<img src="../../../../../feature/archive/202604/4/img/1.png" alt="" style="zoom:30%;" /><p style="color: gray;">Figure 1: Current status of data pack development</p>
+<img src="../../../../../feature/archive/202604/4/img/1.png" alt="" style="zoom:30%;" />
+<p style="color: gray;">Figure 1: Current status of data pack development</p>
 </div>
 
 
@@ -31,7 +37,7 @@ mcf does not have native scope management. Once a large number of variable opera
 
 **Stack** (stack), also known as **Stack** or **Stack**, is [Computer Science](https://zh.wikipedia.org/wiki/計算機科學) one of the [abstract data types](https://zh.wikipedia.org/wiki/抽象資料型別), operations of adding data (push) and removing data (pop) are only allowed at one end of the ordered linear data collection (called the top of the stack). Therefore, according to [last in, first out] (https://zh.wikipedia.org/wiki/後進先出演算法) (LIFO, Last In First Out) operates on the principle, and stacks commonly use one-dimensional [array](https://zh.wikipedia.org/wiki/陣列) or [link list](https://zh.wikipedia.org/wiki/連結串列) to achieve. Often associated with another ordered linear data collection [queue](https://zh.wikipedia.org/wiki/佇列) are compared with each other.
 
-#### 2.1.1 Stack operation
+#### 2.1.1 Stack operations
 
 There are two basic operations on the stack, called push and pop.
 
@@ -40,18 +46,21 @@ There are two basic operations on the stack, called push and pop.
 **Pop:** Remove the top frame from the stack and update the top pointer to the upper stack frame;
 
 <div style="text-align:center">
+	
 
-<img src="../../../../../feature/archive/202604/4/img/2.png" alt="" style="zoom:50%;" /><p style="color: gray;">Figure 2: Stack operation</p>
+<img src="../../../../../feature/archive/202604/4/img/2.png" alt="" style="zoom:50%;" />
+<p style="color: gray;">Figure 2: Stack operation</p>
 </div>
 
 #### 2.1.2 List stack
 
-The linear nature of the list structure is naturally suitable for building a stack structure. The orderliness and dynamic expandability of its elements provide an ideal basis for simulating the "last in, first out" principle of the stack. Each list element corresponds to a Stack Frame, and the top of the stack is always at the end of the list (indexed by`-1`location).
+The linear nature of the list structure is naturally suitable for building a stack structure. The orderliness and dynamic expandability of its elements provide an ideal basis for simulating the "last in, first out" principle of the stack. Each list element corresponds to a Stack Frame, and the top of the stack is always at the end of the list (indexed by`
+- 1`location).
 
-The following is a simple demonstration using Python:
+The following is a simple demonstration in Python:
 
 ```python
-#Define an empty list as a stack
+#定义一个空 list 当做栈
 stack = []
 stack.append(1)
 stack.append(2)
@@ -61,6 +70,8 @@ print("取一个元素：",stack.pop())
 print("取一个元素：",stack.pop())
 print("取一个元素：",stack.pop())
 ```
+
+
 The output result is
 
 ```python
@@ -69,6 +80,8 @@ The output result is
 取一个元素： 2
 取一个元素： 1
 ```
+
+
 ### 2.2 command storage
 
 > from mcwiki
@@ -81,17 +94,18 @@ Command storage uses NBT to store game data and supports multiple data types suc
 
 Combining stack and command storage, developers can try`/data`Operate command storage to build a simple stack structure in mcf. In subsequent demonstrations, this article will use`example:0`This command is stored as a discussion object.
 
-### 3.1 Build stack in function
+### 3.1 Build the stack in function
 
 Combined with the nature of the stack structure, a list can be used to simulate it. Obviously you can use the append method to push a stack frame to the top of the stack, and because`stack`is a list, so you can use`stack[-1]`As a path to access the top of the stack, use`remove stack[-1]`You can pop the stack frame, making it easy to implement push and pop in stack operations:
 
-```
-mcfunction
+```mcfunction
 # stack.push()
 data modify storage example:0 stack append value {}
 # stack.pop()
 data remove storage example:0 stack[-1]
 ```
+
+
 > [!TIP]
 >
 > Since calling append when the path does not exist in storage will automatically create a new list and push elements in, there is no need to initialize the stack here.
@@ -101,9 +115,7 @@ data remove storage example:0 stack[-1]
 Now that there is an empty stack frame inside the function, you can try to write some data into it and use it as a parameter for the function logic call. Here is a simple`max`function as an example to discuss how to manage functions in mcf.
 
 ::: details Python
-
-```
-python
+```python
 '''
 输出最大值
 '''
@@ -127,6 +139,7 @@ m = max(input = input)
 print('input =', input )
 print('m =', m)
 ```
+
 :::
 
 > [!WARNING]
@@ -134,17 +147,15 @@ print('m =', m)
 > For ease of display, mcf here uses the form of inline function, and actual function writing requires cross-file access.
 
 ::: details mcfunction
-
-```
-mcfunction
+```mcfunction
 # ---------- #max(input : array) ----------
 # stack.push()
 data modify storage example:0 stack append value {}
 
-#Read formal parameters
+# 读取形参
 data modify storage example:0 stack[-1].CONTEXT.input set from storage example:0 stack[-2].CONTEXT.input
 
-#beat
+# 打擂
 scoreboard players reset #size var
 execute store result score #size var run data get storage example:0 stack[-1].CONTEXT.input
 execute unless score #size var matches 1.. run return run function THIS.parent/errors/unknown_data:
@@ -163,13 +174,13 @@ data remove storage example:0 stack[-1]
 # ---------- #max(input : array) ----------#
 
 # ---------- main ---------- #
-#call max function
+# 调用 max 函数
 # stack.push()
 data modify storage example:0 stack append value {}
 
 data modify storage example:0 stack[-1].CONTEXT merge value {"input": [1, 1, 4, 5, 1, 4, 1, 9, 1, 9 ,8 ,1 ,0, 100, 450, 0, 332]}
 excute store result score #m var run function #max
-#Formatted output
+# 格式化输出
 tellraw @s {"translate": "input = %s", with: [{"type": "nbt", "storage": "example:0", nbt: "stack[-1].CONTEXT.input"}]}
 tellraw @s {"translate": "m = %s", "with": [{"score": {"name": "#m", "objective": "var"}}]}
 
@@ -177,6 +188,7 @@ tellraw @s {"translate": "m = %s", "with": [{"score": {"name": "#m", "objective"
 data remove storage example:0 stack[-1]
 # ---------- main ---------- #
 ```
+
 :::
 
 above`max`The example of function successfully transplanted Python code logic into mcf. In the process of writing mcf, use stack to create a stack frame for each level of function to isolate the variable environment in which it is located.
@@ -193,7 +205,7 @@ Create independent stack frames for each function and use them uniformly`stack[-
 
 **Execution Environment**
 
-Declare a dictionary in each stack frame`CONTEXT`Used to store the custom context when a function is executed, thereby achieving controllable cross-function variable communication while limiting the scope of the variable. Compared with the function macro (macro) form, this contextual interaction mode is **non-traversal**`execute store`and`data`The impact on performance during operation is generally small. 
+Declare a dictionary in each stack frame`CONTEXT`Used to store the custom context when a function is executed, thereby achieving controllable cross-function variable communication while limiting the scope of the variable. Compared with the function macro (macro) form, this contextual interaction mode is **non-traversal**`execute store`and`data`The impact on performance during operation is generally small.
 
 **Data Redundancy**
 
@@ -214,3 +226,4 @@ Under the structure of the function stack that can be cleared as needed, it avoi
 [6] [Madara Awa. On the implementation and performance optimization of the Brainduck interpreter in the Minecraft environment [J/OL]. Feature, 2026, 2(2).](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202602/6/content.html)
 
 [7] [Leather Sword. Using data pack to make a compiler or interpreter: taking the C language subset C-Minus as an example [J/OL]. Feature, 2025, 1(11).](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202511/1/content.html)
+

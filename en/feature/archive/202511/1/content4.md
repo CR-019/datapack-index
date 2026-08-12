@@ -4,17 +4,22 @@ next:
     link: '/feature/archive/202511/1/content'
 ---
 
-# [Use data pack to make a compiler or interpreter: take the C language subset C-Minus as an example](/en/feature/archive/202511/1/content)
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
+# [Use data pack to make a compiler or interpreter: Take the C language subset C-Minus as an example](/en/feature/archive/202511/1/content)
 
 ## 4. Syntax analysis (Parse), semantic analysis and intermediate code generation
 
-### 4.4 Expression evaluation part construction
+### 4.4 Construction of expression evaluation part
 
 #### 4.4.1 Preparation
 
 Similar to the lexical analyzer, we will also use predicate here to simplify some type distinctions that require complex execute judgments.
 
-predicate`c-:parse/type-specifier`(Type qualifier, for C-Minus only`int`and`void`。)
+predicate `c-:parse/type-specifier`(Type qualifier, for C-Minus only`int`and`void`。)
 
 ```json
 {"condition":"any_of","terms":[
@@ -24,7 +29,8 @@ predicate`c-:parse/type-specifier`(Type qualifier, for C-Minus only`int`and`void
 ```
 
 
-predicate `c-:parse/addop`(Addition operator, including`+`and`-`)
+predicate `c-:parse/addop`(Addition operator, including`+`and`
+- `)
 
 ```json
 {"condition":"any_of","terms":[
@@ -64,13 +70,15 @@ predicate `c-:parse/movop`(Assignment operator, including`=`,`+=`,`-=`,`*=`,`/=`
     {"condition":"entity_scores","entity":"this","scores":{"c-token":{"min":70,"max":74}}}]
 }
 ```
+
+
 #### 4.4.2 Start
 
 Since in some cases the first lexeme of an expression has been read before it can be determined that the expression will be parsed using the expression method, we use a method similar to the lexical analysis part here, that is, the "start state" of expression recognition is the state in which the first lexeme has been recognized and returned.
 
 At the same time, since subexpressions can be embedded in expressions through parentheses and function calls, we complete the overall initialization work in another function and use the stack to manage the relationship between the main expression and subexpressions. The recognition of sub-expressions at each level will start at`now-expression`A list is added after the list, and after the recognition is completed, it will be sorted to the upper level list as the last element.
 
-function`c-:parse/expression/start`
+function `c-:parse/expression/start`
 
 ```mcfunction
 data modify storage c-: now-expression set value []
@@ -93,12 +101,14 @@ execute if predicate c-:parse/addop run return run function c-:parse/expression/
 
 function c-:terminate {msg:"SyntaxError: expected expression before '%3$s' token"}
 ```
+
+
 #### 4.4.3 Variables and Numeric Nodes
 
 Since we usually need to see the next operator on a variable to decide whether it is reduced, no reduction is attempted on a variable or number when it is read in.
 More informally, we will always "let operators find and combine variables". However, there are two things that need to be done here, namely, determine the scope of the read variable name and append the scope offset value information; register the read number to the constant scoreboard.
 
-function`c-:parse/expression/number`
+function `c-:parse/expression/number`
 
 ```mcfunction
 # -- THIS --
@@ -148,8 +158,10 @@ execute if score @s c-token = #( c-chr run return run function c-:parse/expressi
 # -- END --
 return run function c-:parse/expression/end
 ```
+
+
 We will use the following set of functions to determine the scope of variables. It should be noted that the function name belongs to a global variable, and its location will be used to store the return value of the function.
-function`c-:parse/find-name/`
+function `c-:parse/find-name/`
 
 ```mcfunction
 execute store result score #visit-chain-len c- run data get storage c-: now-variable
@@ -192,11 +204,13 @@ function `c-:parse/find-name/-`
 ```mcfunction
 $return run execute if data storage c-: variable[{name:"$(_)"}]
 ```
+
+
 #### 4.4.4 Operator Node
 
 Operator nodes will try to perform all possible feasible reduction operations (except unary operators, we will treat unary positive and negative operators directly as addition and subtraction with operands of 0). For example, multiplication nodes will try to perform multiplicative reduction, while addition nodes will try to perform multiplication and additive reduction. Since both addition and multiplication are left associative operations, each reduction attempt is only performed once.
 
-function`c-:parse/expression/unary`
+function `c-:parse/expression/unary`
 
 ```mcfunction
 # -- THIS --
@@ -284,9 +298,11 @@ function c-:terminate {msg:"SyntaxError: expected expression before '%3$s' token
 
 # -- END --
 ```
+
+
 The assignment statement is special. Since the assignment is a right associative operation, the reduction can only start after the entire statement is completed, so it can only be registered when the equal sign is read.
 
-function`c-:parse/expression/mov`
+function `c-:parse/expression/mov`
 
 ```mcfunction
 # -- THIS --
@@ -305,11 +321,13 @@ function c-:terminate {msg:"SyntaxError: expected expression before '%3$s' token
 
 # -- END --
 ```
+
+
 #### 4.4.5 End node
 
 Reading characters other than operators such as commas, parentheses, and semicolons will trigger the end of the expression in this layer (the exception is the left parenthesis, whose behavior is to start a new expression layer). At the end, addition and multiplication reduction will be attempted again, and finally assignment statement reduction will be performed.
 Due to the right associativity of the assignment statement, the reduction operation of the assignment statement here will be performed in a loop.
-function`c-:parse/expression/end`
+function `c-:parse/expression/end`
 
 ```mcfunction
 function c-:parse/expression/reduction/mulop/
@@ -317,16 +335,18 @@ function c-:parse/expression/reduction/addop/
 function c-:parse/expression/reduction/relop/
 function c-:parse/expression/reduction/mov/
 ```
+
+
 #### 4.4.6 Subexpression node
 
 A subexpression node begins with the parentheses that are not appended to the variable name and ends with the right parenthesis.
 During the subexpression recognition process, it will be on the stack`now-expression`A new item is appended to the item, and after the recognition is completed, the final element of the item will be appended to the end of the previous layer as one of the elements and continue to participate in the operation of the previous layer.
 
-::: warning note
+::: warning Notice
 The C language has a less common syntax that allows multiple expressions to be separated by commas, and only the value of the last expression will be returned. This grammatical situation is considered here.
 :::
 
-function`c-:parse/expression/bracket`
+function `c-:parse/expression/bracket`
 
 ```mcfunction
 # -- THIS --
@@ -359,11 +379,13 @@ function `c-:parse/expression/bracket_sep`
 data remove storage c-: now-expression[-1]
 return run function c-:parse/expression/bracket
 ```
+
+
 #### 4.4.7 function call node
 
 The function call node starts with the parentheses appended to the variable name and ends with the closing parenthesis. Each of these parameters will be a subexpression.
 
-function`c-:parse/expression/call/start`
+function `c-:parse/expression/call/start`
 
 ```mcfunction
 # -- THIS --
@@ -434,18 +456,20 @@ execute if predicate c-:parse/movop run return run function c-:terminate {msg:"S
 # -- END --
 return run function c-:parse/expression/end
 ```
+
+
 #### 4.4.8 Reduction part
 
-##### 4.4.8.1 Addition and reduction
+##### 4.4.8.1 Additive reduction
 
 We will divide the addition part into the following four categories:
 
-- The previous item is a temporary variable. At this time, we directly add and subtract the latter item to the previous item, and the result item is the previous item.
-- Both the preceding and following terms are constants. At this time, we directly perform constant calculations, and the result term is the operation result.
+- The former item is a temporary variable. At this time, we directly add and subtract the latter item to the previous item, and the result item is the previous item.
+- The preceding and following terms are both constants. At this time, we directly perform constant calculations, and the result term is the result of the operation.
 - One of the before and after items is of type`void`(from void type function), error reported.
 - For the rest, create a new temporary variable equal to the previous item, add or subtract the latter item to the temporary variable, and the result item is the temporary variable.
 
-function`c-:parse/expression/reduction/addop/`
+function `c-:parse/expression/reduction/addop/`
 
 ```mcfunction
 data modify storage c-: now-codeline set value {}
@@ -512,11 +536,13 @@ data modify storage c-: now-expression[-1][-1]._._ set from storage c-: now-code
 data modify storage c-: now-expression[-1][-1]._.__ set value -2
 data remove storage c-: now-expression[-1][-2]
 ```
+
+
 ##### 4.4.8.2 Multiplicative reduction
 
 The basic case of multiplicative reduction is exactly the same as that of addition.
 
-function`c-:parse/expression/reduction/mulop/`
+function `c-:parse/expression/reduction/mulop/`
 
 ```mcfunction
 data modify storage c-: now-codeline set value {}
@@ -585,11 +611,13 @@ data modify storage c-: now-expression[-1][-1]._._ set from storage c-: now-code
 data modify storage c-: now-expression[-1][-1]._.__ set value -2
 data remove storage c-: now-expression[-1][-2]
 ```
+
+
 ##### 4.4.8.3 Comparison operation reduction
 
 The basic situation of comparison operation reduction is the same as the previous two, although this operation has three operands in the intermediate language implementation.
 
-function`c-:parse/expression/reduction/relop/`
+function `c-:parse/expression/reduction/relop/`
 
 ```mcfunction
 data modify storage c-: now-codeline set value {}
@@ -662,11 +690,13 @@ data modify storage c-: now-expression[-1][-1]._._ set from storage c-: now-code
 data modify storage c-: now-expression[-1][-1]._.__ set value -2
 data remove storage c-: now-expression[-1][-2]
 ```
+
+
 ##### 4.4.8.4 Assignment reduction
 
 There will only be one case of assignment reduction and no classification will be done. However, due to the right associativity of assignment, it needs to be run in a loop.
 
-function`c-:parse/expression/reduction/mov/`
+function `c-:parse/expression/reduction/mov/`
 
 ```mcfunction
 execute if function c-:parse/expression/reduction/mov/_ unless data storage c-: now-expression[-1][-1]._{__:void} run return run function c-:parse/expression/reduction/mov/
@@ -701,6 +731,8 @@ data modify storage c-: now-expression[-1][-1]._ set from storage c-: now-expres
 data remove storage c-: now-expression[-1][-2]
 return 1
 ```
+
+
 ##### 4.4.8.5 function call reduction
 
 Each parameter will be a subexpression, and the final value of each parameter will be assigned to the newly created scoreboard. Then the function call will be officially started and a value will be returned (stored in the global scoreboard location corresponding to the function).
@@ -719,6 +751,8 @@ mov argn[0] , 18[temp]
 call function1 ; 运行函数（函数开始时会移动访问链标号与临时计分板标号）。
 mov 19[temp] , function1[global] ; 将其返回值存入本函数的temp层。
 ```
+
+
 Since there are new levels in this process, here is the`now-variable`Add an empty list to ensure correct variable scope.
 
 function`c-:parse/expression/reduction/call/start`
@@ -760,6 +794,8 @@ data remove storage c-: now-variable[-1]
 execute store result storage c-: now-expression[-1][-1]._._ int 1 run scoreboard players get #tmpvar-count c-
 data modify storage c-: now-expression[-1][-1]._{__:int}.__ set value -2
 ```
+
+
 ### 4.5 Top-down construction of non-expression parts
 
 As mentioned before, we will use a top-down construction method for the non-expression part.
@@ -767,7 +803,7 @@ As mentioned before, we will use a top-down construction method for the non-expr
 Since errors may occur during each level of analysis, we will track an error tag in each level of recursion. If an error is encountered during the execution of a certain level of analysis, the recursion will be terminated.
 This error flag is the same as the error flag of lexical analysis, that is, when the syntax analysis fails, the player's c-token scoreboard score will also be overwritten as the error score (127), and any ongoing analysis process will be terminated.
 
-::: warning note
+::: warning Notice
 Due to some initialization requirements, the entrance to each layer of the subsequent analysis process is "this morpheme" (the morpheme that has been read into the scoreboard such as c-token) instead of "the next morpheme".
 
 Therefore, if a certain layer is at the current morpheme position, it can be concluded that its part is over, and the corresponding function still needs to perform the "get morpheme" operation again to avoid infinite loops and abnormal behaviors.
@@ -781,6 +817,8 @@ We determine the program layer (`&lt;program&gt;`) is level 0, looping to find g
 <program> ::= <declaration-list>
 <declaration-list> ::= <declaration-list> <declaration> | <declaration>
 ```
+
+
 Translated, it is a program`&lt;program&gt;`Always consists of a list, each item in the list is a statement`&lt;declaration&gt;`。
 
 function `c-:parse/start`
@@ -809,6 +847,8 @@ execute unless predicate c-:parse/type-specifier run return run function c-:term
 execute if predicate c-:parse/type-specifier run function c-:parse/node/declaration/type-specifier
 execute unless score @s c-token = #error c-token run function c-:parse/node/program
 ```
+
+
 #### 4.5.2 Global definition layer
 
 The following is the bnf representation of the C-Minus language global definition: (The array function already belongs to the category of C-Minus extended variants, and we will not support arrays in the specific implementation for the time being.)
@@ -824,18 +864,20 @@ The following is the bnf representation of the C-Minus language global definitio
 <param-list> ::= <param-list> , <param> | <param>
 <param> ::= <type-specifier> ID | <type-specifier> ID [ ]
 ```
+
+
 Roughly translated:
 
-- A C-Minus code file is composed of a series of global declarations (`&lt;declaration&gt;`), these global declarations are of two types: variable declarations (`&lt;var-declaration&gt;`) and function definition (`&lt;fun-declaration&gt;`).
-- The first two morphemes of a declaration statement are each a type identifier (`&lt;type-specifier&gt;`) with a variable name (`ID`), but starting from the third item:
+- A C-Minus code file is composed of a series of global declarations (`&lt;declaration&gt;`), these global declarations are of two types: variable declarations (`&lt;var-declaration&gt;`) and function definition (`&lt;fun-declaration&gt;`)。
+- The first two lexemes of a declaration statement are each a type identifier (`&lt;type-specifier&gt;`) with a variable name (`ID`), but starting from the third item:
   - The third item in the function definition is the left parenthesis, which represents the beginning of the parameter list (note: C cannot set the initial value of the parameter);
-  - The third item in the variable declaration may be`=`(Assign an initial value, which can only be a constant),`,`(next variable declaration of the same type) or`;`(end of statement).
+  - The third item in the variable declaration might be`=`(Assign an initial value, which can only be a constant),`,`(next variable declaration of the same type) or`;`(end of statement).
 
 To identify these, we build nodes for this process in a very similar way to the lexical analysis stage.
 
 ##### 4.5.2.1 Common content
 
-function`c-:parse/node/declaration/type-specifier`
+function `c-:parse/node/declaration/type-specifier`
 
 ```mcfunction
 # -- THIS --
@@ -873,9 +915,11 @@ return run function c-:terminate {msg:"SyntaxError: expected '=', ',' or ';' bef
 
 # -- END --
 ```
+
+
 ##### 4.5.2.2 Variable declaration branch
 
-function`c-:parse/node/declaration/equal`
+function `c-:parse/node/declaration/equal`
 
 ```mcfunction
 # -- THIS --
@@ -939,9 +983,11 @@ function c-:lexical-analysis/node/
 
 # -- END --
 ```
+
+
 ##### 4.5.2.3 function definition branch
 
-function`c-:parse/node/declaration/arg/start`
+function `c-:parse/node/declaration/arg/start`
 
 ```mcfunction
 # -- THIS --
@@ -1064,6 +1110,8 @@ data modify storage c-: now-block set value [{chain:1b,func:1b}]
 function c-:lexical-analysis/node/
 function c-:parse/node/local/
 ```
+
+
 #### 4.5.3 Local layer
 
 The local layer is within a single function or block of code. For C-Minus, the following statement types may appear in the local layer: (For the convenience of readers, we do not use bnf format to express this part of the code format here.)
@@ -1136,9 +1184,11 @@ function `c-:parse/node/declaration/func_`(If it is a function definition, move 
 ```mcfunction
 $data modify storage c-: variable[{name:"$(name)"}].code set from storage c-: now-function.code
 ```
+
+
 ##### 4.5.3.1 Single expression
 
-function`c-:parse/node/local/expression`
+function `c-:parse/node/local/expression`
 
 ```mcfunction
 # -- EXPR --
@@ -1159,12 +1209,14 @@ function `c-:parse/node/local/expression_sep`
 function c-:lexical-analysis/node/
 return run function c-:parse/node/local/expression
 ```
+
+
 ##### 4.5.3.2 Local variable declaration
 
 The local variable declaration part is not much different from the structure of the global variable declaration except that the function cannot be defined and the initial value may not be a constant.
 For efficiency, we will only add separate scope levels to blocks of code where local variable declarations exist.
 
-function`c-:parse/node/local/type-identifier`
+function `c-:parse/node/local/type-identifier`
 
 ```mcfunction
 # -- THIS --
@@ -1272,6 +1324,8 @@ function c-:lexical-analysis/node/
 
 # -- END --
 ```
+
+
 ##### 4.5.3.3 if-else statement and while statement
 
 if-else statements and while statements follow a fairly fixed format, so we can consolidate almost all nodes into one or two functions for continuous execution.
@@ -1383,8 +1437,10 @@ function c-:parse/node/local/if/_ with storage c-: now-block[-1]
 
 data remove storage c-: now-block[-1]
 ```
+
+
 Some auxiliary functions are as follows: (To save debugging overhead, if-else code blocks share some auxiliary functions with while code blocks.)
-function`c-:parse/node/local/while/expr`
+function `c-:parse/node/local/while/expr`
 
 ```mcfunction
 function c-:lexical-analysis/node/
@@ -1424,10 +1480,12 @@ function `c-:parse/node/local/if/_`(For handling jump 2.)
 ```mcfunction
 $execute store result storage c-: now-function.code[$(2)].b int 1 run data get storage c-: now-function.code
 ```
+
+
 ##### 4.5.3.4 return statement
 
 The return statement has different entries for different types of functions. A function without a return value can only have a return statement without a return value, and a function with a return value must return with a return value.
-function`c-:parse/node/local/return/void`(Functions without return values ​​use this entry.)
+function `c-:parse/node/local/return/void`(Functions without return values ​​use this entry.)
 
 ```mcfunction
 # -- RETURN (VOID) --
@@ -1472,4 +1530,5 @@ function `c-:parse/node/local/return/sep`
 function c-:lexical-analysis/node/
 function c-:parse/node/local/return/
 ```
+
 

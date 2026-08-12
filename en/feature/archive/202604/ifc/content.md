@@ -2,6 +2,11 @@
 pageClass: h2-no-border
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <script setup>
 import { useData } from 'vitepress'
 import ColorLine from '/.vitepress/vue/ColorLine.vue'
@@ -13,27 +18,27 @@ const { isDark } = useData()
 
 ## What's New in the Library?
 - [**Tools that use AI to generate instructions**](https://wowomc.com/tools/ai-commander)
-- [MCvanilla Video Player](https://github.com/WindWavesSea/Minecraft-Vanilla-Video-Player)
+- [MCvanilla video player](https://github.com/WindWavesSea/Minecraft-Vanilla-Video-Player)
 
 <ColorLine :height="2"/>
 
-## command flashlight Command Flashlight
+## Command Flashlight Command Flashlight
 
-### Detect whether a specific coordinate is powered by redstone within the context
+### Detect within context whether a specific coordinate is powered by redstone
 
 Places a funnel at the specified location, checks its enabledblock status, and then clears it. This state will be set within the context.
 
-## I ask you to answer Quizs
+## I ask you answer Quizs
 
 :::warning This column is not a "you ask and I answer"!
-In this column, we will ask several questions, and readers can give their own answers in the comment area (indicate the question number).  
-The answer will be announced in the next issue of Feature.  
+In this column, we will ask several questions, and readers can give their own answers in the comment area (indicate the question number).
+The answer will be announced in the next issue of Feature.
 
 The questioner of this issue: Xu Muxian
 :::
 
 :::tip
-The questions in this issue are based on`26.1`version.
+The questions in this issue are based on`26.1`version。
 :::
 
 ---
@@ -42,16 +47,15 @@ The questions in this issue are based on`26.1`version.
 
 ---
 
-2. Fill in the blanks: During the process of making the map, you need to design a bookshelf trigger event. Click the white box position as shown in the picture to trigger the mechanism. The mechanism is an interactive entity, and its size completely fits the pixels of the texture book on the bookshelf. What should the value of the interactive entity data height field be written as?
+2. Fill in the blanks: In the process of making the map, you need to design a bookshelf trigger event. Click the white box position as shown in the picture to trigger the mechanism. The mechanism is an interactive entity, and its size completely fits the pixels of the texture book on the bookshelf. Then what should the value of the height field of the interactive entity data be written as?
 ![](../../../../../feature/archive/202604/ifc/交互实体.png)
 
 
 ---
 
-3. Analysis question: Custom world generation is a module that is prone to errors. Without using any external plug-ins or Mods,
+3. Analysis question: Custom world generation is an error-prone module. Without using any external plug-ins or Mods,
 A "safe mode" error occurred in an archive that used a custom world generation, causing the player to be unable to enter the archive.
 Check the game log and get the following part:
-
 ``` 
 [16:15:18] [Render thread/ERROR]: Registry loading errors: 
 > Errors in registry minecraft:worldgen/biome: 
@@ -64,6 +68,7 @@ Caused by: java.lang.IllegalStateException: Failed to get element ResourceKe
 y[minecraft:sound_event / backrooms:ambient.level0] 
 ...
 ```
+
 Try to analyze the cause of the "Safe Mode" error.
 
 
@@ -80,7 +85,7 @@ Try to analyze the cause of the "Safe Mode" error.
   <GiscusComment
     repo="CR-019/datapack-index"
     repoId="R_kgDONRhuqw"
-    category="Chats"
+category="Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
     term="64"

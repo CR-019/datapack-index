@@ -2,22 +2,27 @@
 title: 'Sequencer Helper'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "Sequencer Helper"
     authorName = "CR_019"
-    resourceLink = 'https://cr-019.github.io/index/%E5%89%8D%E7%BD%AE/1-sh/page.html'/>
-
+    resourceLink = 'https://cr-019.github.io/index/%E5%89%8D%E7%BD%AE/1-sh/page.html'
+/>
 
 
 Sequencer Helper is a tool for encapsulation and management by [Java Block Sequencor](https://www.blockbench.net/plugins/java_block_sequencer) This Block Bench plugin is a data pack and python script tool.
-Java Block Sequencor can generate frame animation models, and Sequencer Helper can easily and automatically generate corresponding itemmodel mapping files, and use concise and unified parameters to call and play animations.
+Java Block Sequencor can generate frame animation models, and Sequencer Helper can easily and automatically generate corresponding item model mapping files, and use concise and unified parameters to call and play animations.
 
 ## File structure
-Sequencer Helper contains two parts: a python script for itemmodel mapping generation, and a data pack for playing animations.
+Sequencer Helper contains two parts: a python script for item model mapping generation, and a data pack for playing animations.
 
-## itemmodel mapping generation
+## item model mapping generation
 Generate script`generate.py`Designed specifically for Vs Code, you need to open the folder where the frame animation resource pack is located, and install Python3 and the corresponding vsc plug-in to ensure that vscode can execute python scripts. \
-First, you need to use Java Block Sequencor to create and export frame animation models, and place all animations in the same parent directory to ensure that they are`model directory/animation directory/frame.json`, and pay attention to specifying the texture position;\
+First, you need to use Java Block Sequencor to create and export frame animation models, and place all animations in the same parent directory to ensure that they are`模型目录/动画目录/帧.json`, and pay attention to specifying the texture position;\
 Then put the generated script into the resource pack directory, use the resource pack root directory as the execution location, and specify the following parameters. An example is given here.
 
 ```python
@@ -34,16 +39,18 @@ Minecraft帧动画序列模型映射文件生成脚本
 - 帧索引FRAME_INDEX: 影响帧索引字符串在物品custom_model_data.floats的第几项
 """
 
-#Input parameter configuration area - modify the parameters here to generate different mapping files
-SOURCE_PATH = "assets\kaleidoscope_lab\models\leave_me_alone_box"  #Source path: Specify the directory of the frame animation
-TARGET_PATH = "assets\kaleidoscope_lab\items"  #Target path: the path to generate the model mapping file
-FILE_NAME = "leave_me_alone_box"  #File name: the name of the mapping file (without the .json suffix)
-ANIMATION_LIST = ["open", "close1", "close2", "close3", "close4"]  #Animation list: each item represents an animation
-FALLBACK_MAPPING = None  #Fallback mapping: optional, represents the model when animation is not playing
-ANIMATION_INDEX = 0  #Animation index: affects the outermost index
-FRAME_INDEX = 0  #Frame index: affects the index corresponding to the inner frame
+# 输入参数配置区 - 修改这里的参数来生成不同的映射文件
+SOURCE_PATH = "assets\kaleidoscope_lab\models\leave_me_alone_box"  # 源路径：指定帧动画的目录
+TARGET_PATH = "assets\kaleidoscope_lab\items"  # 目标路径：生成模型映射文件的路径
+FILE_NAME = "leave_me_alone_box"  # 文件名：映射文件的名字（不含.json后缀）
+ANIMATION_LIST = ["open", "close1", "close2", "close3", "close4"]  # 动画列表：每个项代表一个动画
+FALLBACK_MAPPING = None  # 回落映射：可选，表示在不播放动画时的模型
+ANIMATION_INDEX = 0  # 动画索引：影响最外层index
+FRAME_INDEX = 0  # 帧索引：影响内层帧对应的index
 ```
-After completing the parameter filling and execution, the generated itemmodel mapping file can be found in the corresponding target path.
+
+
+After completing the parameter filling and execution, the generated item model mapping file can be found in the corresponding target path.
 
 
 ## data pack management
@@ -54,44 +61,46 @@ When using this data pack, users need to first generate an item display entity t
 Use the display entity as the executor to execute parameter configuration and start playback instructions:
 
 ```mcfunction
-#Initialize all parameters
+#初始化所有参数
 function sh:init
 
-#Specify parameters in the specified storage
+#在指定的storage指定参数
 data modify storage sh:props data merge value {\
   id:"open",frames:5,type:2,anim_index:0,frame_index:0,\
   function:"kaleidoscope:lab/trans/leave_me_alone_box/roll_close"\
 }
 
-#Execute the start animation function
+#执行开始动画函数
 function sh:start
 ```
 
 
-`sh:init`function is used to initialize all animation related parameters;\
-The specified parameters are located in`sh:props data`In this storage, users need to use`data modify ... merge ...`The command merges parameters into it;\`sh:start`Function is used to perform animation playback behavior according to the parameters after specifying the parameters.
+`sh:init`function is used to initialize all animation related parameters; \
+The specified parameters are located in`sh:props data`In this storage, users need to use`data modify ... merge ...`The command merges parameters into it;\
+`sh:start`Function is used to perform animation playback behavior according to the parameters after specifying the parameters.
 
 ### Parameters and explanations
 All possible parameters, their types and explanations are as follows:
--`id`(string): String, indicating the animation played this time, corresponding to an item in ANIMATION_LIST;
--`frames`(int): Indicates the total number of frames of the animation, counting from 0, consistent with the frame animation number exported by the plug-in;
--`type`(enum int): The type of operation performed after the animation is played:
+- `id`(string): String, indicating the animation played this time, corresponding to an item in ANIMATION_LIST;
+- `frames`(int): Indicates the total number of frames of the animation, counting from 0, consistent with the frame animation number exported by the plug-in;
+- `type`(enum int): The type of operation performed after the animation is played:
   - 1 means loop, reset to the first frame and play again;
   - 2 means simple stop, retain all parameters and stay at the last frame;
-  - Other values represent a reset, clearing all parameters and returning to the model represented by the fallback map.
--`anim_index`(int): animation index, same as ANIMATION_INDEX;
--`frame_index`(int): Frame index, same as FRAME_INDEX;
--`function`(string): Optional, callback function, a function executed with the model as the executor at the location of the model after the animation is played.
+  - Other values ​​represent a reset, clearing all parameters and returning to the model represented by the fallback map.
+- `anim_index`(int): animation index, same as ANIMATION_INDEX;
+- `frame_index`(int): Frame index, same as FRAME_INDEX;
+- `function`(string): Optional, callback function, a function executed with the model as the executor at the location of the model after the animation is played.
   - It can be a macro function, and the parameters are filled in directly after the function path, and the double quotes need to be escaped.
   - like:`{function:"foo:bar with entity @s data"}`
+
 ### Other api information
-- functionapi:
-  -`sh:init`function is used to initialize all animation related parameters;
-  -`sh:start`Function is used to perform animation playback behavior according to the parameters after specifying the parameters.
-  -`sh:end`The function is automatically called after the animation is completed, or it can be called in the middle of the animation to clear all parameters and return to the fallback mapping.
-- **Read-only data**:
-  - Note: The mechanism of data pack relies on these data to operate! Don't change these values ​​unless you are sure of the consequences of your actions!
-  -`sh_frame`Scoreboard: Indicates the frame currently played by the model. You can read this value and perform operations such as playing sound effects;
-  -`sh_max_frame`Scoreboard: Indicates the total number of frames of the current animation;
-  -`sh_type`Scoreboard: Indicates the operations performed after the animation is played, corresponding to the parameters in`type`;
+- functionapi：
+  - `sh:init`function is used to initialize all animation related parameters;
+  - `sh:start`Function is used to perform animation playback behavior according to the parameters after specifying the parameters.
+  - `sh:end`The function is automatically called after the animation is completed. It can also be called in the middle of the animation to clear all parameters and return to the fallback mapping.
+- **Read only data**:
+  - Note: The data pack mechanism relies on these data to operate! Don't change these values ​​unless you are sure of the consequences of your actions!
+  - `sh_frame`Scoreboard: Indicates the frame currently played by the model. You can read this value and perform operations such as playing sound effects;
+  - `sh_max_frame`Scoreboard: Indicates the total number of frames of the current animation;
+  - `sh_type`Scoreboard: Indicates the operations performed after the animation is played, corresponding to the parameters in`type`；
   - entity`data.sh_animation`Storage: Incoming parameters are stored here, data structures and`storage sh:props data`Exactly the same, animation id, etc. can be read here.

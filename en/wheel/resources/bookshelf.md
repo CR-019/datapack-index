@@ -14,6 +14,10 @@ repo: mcbookshelf/bookshelf
 cover: /datapack-index/wheel/bookshelf.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 Bookshelf is a low-level library that supports a large number of different functions, including ray tracing, mathematical calculations, health control, scheduled tasks, debug output, collision box judgment, etc. Developers can selectively install required features.

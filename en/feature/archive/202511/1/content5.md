@@ -4,7 +4,12 @@ next:
     link: '/feature/archive/202511/1/content'
 ---
 
-# [Use data pack to make a compiler or interpreter: take the C language subset C-Minus as an example](/en/feature/archive/202511/1/content)
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
+# [Use data pack to make a compiler or interpreter: Take the C language subset C-Minus as an example](/en/feature/archive/202511/1/content)
 
 ## 5. Code execution
 
@@ -18,7 +23,7 @@ There are two main issues that need to be dealt with at this stage: how to deter
 We will always use a program counter stack to maintain the current function and line of code. Each counter in the counting stack stores two positions: pos and next-pos.
 Before each execution, use the last next-pos to overwrite pos as the executed code position, and add 1 bit to overwrite next-pos. The jump instruction in the program may overwrite next-pos, while the call instruction will add an item to the stack.
 
-function`c-:run/`
+function `c-:run/`
 
 ```mcfunction
 scoreboard objectives add c-runtime dummy
@@ -52,9 +57,11 @@ execute store result storage c-:runtime program-counter[-1].next-pos int 1 run s
 function c-:run/_/ with storage c-:runtime program-counter[-1]
 execute if data storage c-:runtime program-counter[-1].next-pos run function c-:run/_
 ```
+
+
 ### 5.2 Global variable initialization
 
-function`c-:run/initialize/`
+function `c-:run/initialize/`
 
 ```mcfunction
 execute store result storage c-:runtime _.i int 1 run scoreboard players get #i c-runtime
@@ -77,9 +84,11 @@ function `c-:run/initialize/__`
 ```mcfunction
 $scoreboard players set #$(name) c-data.-1 $(initial)
 ```
+
+
 ### 5.3 Scope-scoreboard conversion
 
-function`c-:run/_/`
+function `c-:run/_/`
 
 ```mcfunction
 $data modify storage c-:runtime _ set from storage c-: variable[{name:'$(f)'}].code[$(pos)]
@@ -106,9 +115,11 @@ function `c-:run/_/_`
 ```mcfunction
 $function c-:run/_/$(v) with storage c-:runtime _
 ```
+
+
 ### 5.4 Operation instructions
 
-function`c-:run/_/add`
+function `c-:run/_/add`
 
 ```mcfunction
 $scoreboard players operation #$(_s)$(s) c-data.$(s_) += #$(_o)$(o) c-data.$(o_)
@@ -190,9 +201,11 @@ function `c-:run/_/gt`
 ```mcfunction
 $execute store result score #$(_s)$(s) c-data.$(s_) if score #$(_o)$(o) c-data.$(o_) > #$(_o2)$(o2) c-data.$(o2_)
 ```
+
+
 ### 5.5 Jump instructions
 
-function`c-:run/_/jmp`
+function `c-:run/_/jmp`
 
 ```mcfunction
 $data modify storage c-:runtime program-counter[-1].next-pos set value $(b)
@@ -204,9 +217,11 @@ function `c-:run/_/if`
 ```mcfunction
 $execute if score #$(_s)$(s) c-data.$(s_) matches 0 run data modify storage c-:runtime program-counter[-1].next-pos set value $(b)
 ```
+
+
 ### 5.6 Scope addition and deletion instructions
 
-function`c-:run/_/chain-add`
+function `c-:run/_/chain-add`
 
 ```mcfunction
 execute store result storage c-:runtime __._ int 1 run scoreboard players add #visit-chain c-runtime 1
@@ -234,9 +249,11 @@ function `c-:run/_/chian-remove_`
 ```mcfunction
 $scoreboard objectives remove c-data.$(_)
 ```
+
+
 ### 5.7 Call and return instructions
 
-function`c-:run/_/call`
+function `c-:run/_/call`
 
 ```mcfunction
 $data modify storage c-:runtime program-counter append value {f:$(f),next-pos:0}
@@ -262,4 +279,5 @@ function c-:run/_/chain-remove_ with storage c-:runtime _
 scoreboard players remove #visit-chain c-runtime 1
 execute if score #visit-chain c-runtime > #tmp-chain c-runtime run function c-:run/_/ret_
 ```
+
 

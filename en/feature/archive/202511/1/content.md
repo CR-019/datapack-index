@@ -1,6 +1,12 @@
 ---
 title: 'Using data pack to make a compiler or interpreter: taking the C language subset C-Minus as an example'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeaturedHead
     title = "Using data pack to make a compiler or interpreter: taking the C language subset C-Minus as an example"
     authorName = "leather sword"
@@ -8,26 +14,26 @@ title: 'Using data pack to make a compiler or interpreter: taking the C language
     cover='../../../../../feature/archive/202511/_assets/1.png'
 />
 
-## Summary
+## summary
 
 This article introduces the concept of a compiler and the basic characteristics of mcfunction as a computer language, and demonstrates how to use data pack to create a compiler (interpreter) from a high-level language to mcfunction by implementing a complete compiler of C language subset C-Minus.
 
-## Directory
+## Table of contents
 
 - Preface
-- [1. General introduction](#_1-general-introduction)
-- [2. About source language and target language](#_2-about-source-language-and-target-language)
-- [3. Lexical Analysis](#_3-lexical-analysis)
-  - [3.1 data pack character recognition](#_3-1-data-pack-character-recognition)
+- [1. General introduction](#一总体介绍)
+- [2. About source language and target language](#二关于源语言与目标语言)
+- [3. Lexical Analysis](#三词法分析lexical-analysis)
+  - [3.1 data pack character recognition](#31-数据包字符识别)
   - [3.2 More details](/en/feature/archive/202511/1/content3)
-- [4. Syntax analysis (Parse), semantic analysis and intermediate code generation](#_4-syntax-analysis-parse-semantic-analysis-and-intermediate-code-generation-content4-md)
-  - [4.1 Overview of syntax analysis](#_4-1-overview-of-syntax-analysis)
-  - [4.2 function and storage allocation](#_4-2-function-and-storage-allocation)
-  - [4.3 Undefined Behavior](#_4-3-undefined-behavior)
+- [4. Syntax analysis (Parse), semantic analysis and intermediate code generation](#四语法分析parse语义分析与中间代码生成)
+  - [4.1 Overview of syntax analysis](#41-语法分析总述)
+  - [4.2 function and storage allocation](#42-函数与存储分配)
+  - [4.3 Undefined Behavior](#43-未定义行为)
   - [4.4 More details](/en/feature/archive/202511/1/content4)
-- [5. Code execution](/en/feature/archive/202511/1/content5)
+- [5. Code operation](/en/feature/archive/202511/1/content5)
 - [6. Operation display](/en/feature/archive/202511/1/content6)
--[7. Postscript](#_7-postscript)
+- [7. Postscript](#七后记)
 
 ## Preface
 
@@ -53,7 +59,7 @@ It should be noted that this article is related to the [clang-mc project publish
 
 ## 2. About source language and target language
 
-### 2.1 About target language mcfunction
+### 2.1 About the target language mcfunction
 
 Obviously, the mcfunction language is an interpreted language rather than a compiled language. Although the mcfunction language code in the data pack will be cached, command parsing will be performed during caching (if the parsing fails, the function cannot be executed).
 
@@ -61,13 +67,13 @@ Since the calculations in the mcfunction language can almost only be completed t
 
 The author does not plan to criticize this view (it is undeniable that this method does bring great convenience to related development), but this article does not tend to use such a development method. In order to find a more suitable development foundation, we will sort out some basic features of the mcfunction language.
 
-#### 2.1.1 Variables in mcfunction language
+#### 2.1.1 Variables of mcfunction language
 
 The mcfunction language has a very rich set of variable types, although these types do not necessarily have matching calculation methods. The processing of these variables themselves is similar to a high-level language, and there is no limit on the number like register operations.
 
 The variables of mcfunction can be roughly divided into two types: scoreboard variables and NBT variables. These two variables can be converted to each other under certain conditions. Of course, in a sense, the custom boss column can also be used as a variable that can be converted into and out of the above two variables.
 
-It is difficult to determine which type of variable type the mcfunction language belongs to, but what is certain is that mcfunction must be a typed language. For scoreboard variables, it can be regarded as a statically typed language (in fact, there is only one type: int). However, for NBT variables with type division, since the variable type is determined during runtime (for example, for command storage of type double`test:test1`In terms of processing in /datacommand`test:test1[2]`It will not cause parsing errors, it will only be reported as a command failure at runtime) and can be processed according to dynamically typed languages.
+It is difficult to determine which type of variable type the mcfunction language belongs to, but what is certain is that mcfunction must be a typed language. For scoreboard variables, it can be regarded as a statically typed language (in fact, there is only one type: int). However, for NBT variables with type division, since the variable type is determined during runtime (such as for command storage of type double`test:test1`In terms of processing in /datacommand`test:test1[2]`It will not cause parsing errors, it will only be reported as a command failure at runtime) and can be processed according to dynamically typed languages.
 
 ##### 2.1.1.1 Scoreboard variables
 
@@ -87,7 +93,7 @@ NBT variables can be passed`/data modify ... set from ...`The assignment command
 
 ##### 2.1.1.3 Customize boss column variables
 
-Each custom boss column can store 2 int values (maximum value and current value). Although there are size restrictions when these values are set directly (the maximum value is greater than 0, the current value is greater than or equal to 0), there are no such restrictions when using /execute to transfer, that is, it can be used to access 2 int values.
+Each custom boss column can store 2 int values ​​(maximum value and current value). Although there are size restrictions when these values ​​are set directly (the maximum value is greater than 0, the current value is greater than or equal to 0), there are no such restrictions when using /execute to transfer, that is, it can be used to access 2 int values.
 
 Obviously this method of variable storage is not very useful, because int values ​​can be stored in the scoreboard, but the custom boss column cannot perform any operations. This storage method is mentioned here only because it happens to be`/execute store result`One of the storage locations available in command, that is, only the above three types of variables can directly access and convert each other. Even if other types of commands can access data, they almost still need to interact with these three variables (specifically, the first two), and most likely need to use macros or extract command block output to complete.
 
@@ -97,11 +103,11 @@ The mcfunction language code files in the data pack are suffixed with .mcfunctio
 
 #### 2.1.3 Judgment of mcfunction language
 
-mcfunction language usage`/execute if ... run function`command to perform judgment operations. This command can judge many types of information, and even reference another function to participate in the judgment. Because it can reference scoreboards, it can actually support most of the judgment methods available in other programming languages. And since this judgment does not necessarily require jumping to run other functions (the if subcommand can also terminate the executecommand), some Boolean operations can also be performed (note that it is not a bit operation).
+mcfunction language usage`/execute if ... run function`command to perform judgment operations. This command can judge many types of information, and even reference another function to participate in the judgment. Because it can reference scoreboards, it can actually support most of the judgment methods available in other programming languages. And since this judgment does not necessarily require jumping to run other functions (the if subcommand can also terminate the execute command), some Boolean operations can also be performed (note that it is not a bit operation).
 
-#### 2.1.4 Function of mcfunction language
+#### 2.1.4 Functions of mcfunction language
 
-Each code file in the mcfunction language is called a function. The concept of function here is different from that of most other programming languages: the function of mcfunction language does not have native local variables, and all variables are global. Although parameters can be passed in in the form of NBT variables, these parameters will only be used as macros to participate in the initialization of function execution and cannot be used as local variables. Each function can provide a return value (default is 0) or a failure mark. These contents can be stored and processed by the /executecommand of the upper layer function, or they can be returned continuously. When executing the /returncommand that provides a return value, the function will be interrupted.
+Each code file in the mcfunction language is called a function. The concept of function here is different from that of most other programming languages: the function of mcfunction language does not have native local variables, and all variables are global. Although parameters can be passed in in the form of NBT variables, these parameters will only be used as macros to participate in the initialization of function execution and cannot be used as local variables. Each function can provide a return value (default is 0) or a failure mark. These contents can be stored and processed by the /execute command of the upper layer function, or they can be returned continuously. When executing the /returncommand that provides a return value, the function will be interrupted.
 
 #### 2.1.5 Loops and recursion in mcfunction language
 
@@ -130,9 +136,9 @@ For C-Minus, this word segmentation process is slightly more complicated because
 
 Before the formal implementation, we need to ask: mcfunction's string does not provide native character data conversion, how can we achieve character recognition?
 
-[August issue of the same clang-mc project](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202508/7/content.html), the author xia__mc asked the same question in the comment area when the author released the interpreter project in May. At that time, the author gave a preliminary answer based on some experience accumulated during production. Five months later, the author has more thoughts on this issue, which are now presented as follows:
+[August issue of the same issue clang-mc project](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202508/7/content.html), the author xia__mc asked the same question in the comment area when the author released the interpreter project in May. At that time, the author gave a preliminary answer based on some experience accumulated during production. Five months later, the author has more thoughts on this issue, which are now presented as follows:
 
-#### 3.1.1 Traverse strings
+#### 3.1.1 Traversing strings
 
 String traversal is completed using the string slicing feature of 1.19.4version23w03a, and one character will be taken from the first character of the string each time. We assume that the code is stored in location`c-:code.0`(destructible) and in position`c-:code._`Have a backup.
 We will store the corresponding number of the character taken in our own c-chr scoreboard. The code corresponding to each operation is as follows (will destroy`code.0`）:
@@ -149,7 +155,9 @@ execute unless data storage c-: code.1 run scoreboard players set @s c-chr 0
 
 scoreboard players add #tok1 c- 1
 ```
-#### 3.1.2 Recognize single characters
+
+
+#### 3.1.2 Recognizing single characters
 
 We could of course enumerate every possible character and try to match each character retrieved. If the scale to be processed is not large, such an enumeration method is barely acceptable. In fact, due to the author's limited knowledge and limited knowledge, part of the version released in May used the "enumeration attempt coverage" solution that is less efficient than this solution.
 
@@ -158,27 +166,29 @@ function ~~`c-:next_char/_`~~(deprecated)
 ```mcfunction
 execute if data storage c-: code{1:" "} run scoreboard players set @s c-chr 32
 execute if data storage c-: code{1:"!"} run scoreboard players set @s c-chr 33
-#... (omit 13 commands)
+# ... （省略13条命令）
 execute if data storage c-: code{1:"/"} run scoreboard players set @s c-chr 47
 execute if data storage c-: code{1:"0"} run scoreboard players set @s c-chr 48
-#... (omit 8 commands)
+# ... （省略8条命令）
 execute if data storage c-: code{1:"9"} run scoreboard players set @s c-chr 57
 execute if data storage c-: code{1:":"} run scoreboard players set @s c-chr 58
-#... (omit 5 commands)
+# ... （省略5条命令）
 execute if data storage c-: code{1:"@"} run scoreboard players set @s c-chr 64
 execute if data storage c-: code{1:"A"} run scoreboard players set @s c-chr 65
-#... (56 commands omitted)
+# ... （省略56条命令）
 execute if data storage c-: code{1:"z"} run scoreboard players set @s c-chr 122
-#... (omit 3 commands)
+# ... （省略3条命令）
 execute if data storage c-: code{1:"~"} run scoreboard players set @s c-chr 126
 ```
+
+
 However, the question asked by xia__mc at that time required the recognition of more symbols or even the entire Unicode space symbol, and the enumeration method with a complexity of O(n) instructions was obviously unable to do this, and it would almost inevitably exceed the upper limit of the number of instructions. At this time, we must need a way to complete the identification with a complexity of O(logn) or even O(1) instructions.
 
 At this point, we have to turn our perspective to the native text matching mechanism in the game command system.
 
 Yes, when we tried to use enumeration to solve the character problem, we had ignored a recipe built into the game's command system: the scoreboard. The scoreboard completes player name matching every time the command is parsed. The macro function mechanism of 23w31a allows us to modify the content of the player name, and then directly use the scoreboard's native matching function to complete matching with O(1) instruction complexity.
 
-:::danger Attention
+::: danger Notice
 Since the scoreboard system tracks score items globally, adding too many score items to a single scoreboard (hereinafter referred to as a "mega scoreboard") will actually have a greater impact on failed queries for all scoreboards (and a small impact on successful queries).
 It has been measured that in the presence of a c-chr scoreboard, regardless of whether the c-chr scoreboard is queried or not, any failed scoreboard query/operation takes approximately 10 to 30 times as long as a successful scoreboard operation and 4 times as long as a stored NBT operation.
 
@@ -208,20 +218,24 @@ with open('data/c-/function/init/chr.mcfunction',"w",encoding="utf-8") as f:
         except UnicodeEncodeError:
             pass
 ```
+
+
 After executing this code, a 2.5MB function file will be generated.`c-:init/chr`. Execute this function, and then you will notice that the size of the scoreboard.dat file becomes about 466KB. This file size is actually quite acceptable. However, it should be noted that due to the large number of objects tracked by the scoreboard after this step of preparation, any use`*`Commands that select all scoreboard items (even if they are not related to the c-chr scoreboard) run the risk of causing the server to freeze.
 
 The code for the recognition part is as follows (look at the previous function):
 
-function`c-:next-char/_`
+function `c-:next-char/_`
 
 ```mcfunction
 $return run scoreboard players get #$(1) c-chr
 ```
-#### 3.1.3 Special Judgment
+
+
+#### 3.1.3 Special judgment
 
 There are a small number of characters that cannot be determined through the above methods. These characters include: half-width spaces, tabs, and newlines. When these characters enter the above function, the initialization will fail, and the return success value is 0. At this time, a special judgment is triggered, and the judgment of the character is finally completed. The code is as follows:
 
-function`c-:next-char/-`
+function `c-:next-char/-`
 
 ```mcfunction
 execute if data storage c-: code{1:" "} run return 32
@@ -230,9 +244,11 @@ execute if data storage c-: code{1:"\r"} run return 10
 execute if data storage c-: code{1:"\t"} run return 9
 return 65536
 ```
-::: tip In fact, you don’t need to spend so much time on it.
 
-In fact, in terms of parsing the code of most programming languages (even Easy Language), there is usually no need to recognize characters in the entire Unicode space. The reason is that codes beyond the scope of ASCII are generally comments, string contents or variable names, which are stored as a whole. All characters without special grammatical meaning (no matter what they are) can be regarded as "a certain character" and automatically compiled into part of the variable name/comment/string. After the recognition is completed, it is directly sliced ​​from the corresponding position of the source code and passed to the syntax analyzer.
+
+::: tip In fact, there is no need to spend so much time
+
+In fact, in terms of parsing the code of most programming languages ​​(even Easy Language), there is usually no need to recognize characters in the entire Unicode space. The reason is that codes beyond the scope of ASCII are generally comments, string contents or variable names, which are stored as a whole. All characters without special grammatical meaning (no matter what they are) can be regarded as "a certain character" and automatically compiled into part of the variable name/comment/string. After the recognition is completed, it is directly sliced ​​from the corresponding position of the source code and passed to the syntax analyzer.
 
 At this time, the aforementioned initialization Python code can only retain the first loop, or even retain only punctuation spaces, numbers, and a small number of special logo letters and remove all other recognitions.
 
@@ -246,7 +262,7 @@ However, considering that the performance overhead of adding Unicode recognition
 
 ### 4.1 Overview of syntax analysis
 
-::: warning note
+::: warning Notice
 The entire implementation content of this chapter is based on the theoretical foundations related to syntax analysis and a large number of other foundations (so it is very inconvenient to re-divide the chapters). However, based on the specific needs of the C-Minus language, we split the expression evaluation from the overall program and use bottom-up analysis alone, and all other components are analyzed using top-down analysis. The general reasons are as follows:
 
 The source language Python of the previous draft has a characteristic: it does not require forcing all the main logic to be written in a function, so there is no obvious difference between the outermost layer and the function layer. The outermost layer can also have operation statements such as assignment and call. Therefore, for the analysis of the Python language, all bottom-up analysis is feasible.
@@ -258,7 +274,9 @@ Of course, in theory, top-down analysis of the expression evaluation part is als
 
 #### 4.1.1 Top-down syntax analysis
 
-If any readers have read [August issue of the same issue "Custom instructions for renaming items based on anvils"](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202508/5/content.html), what this article describes is actually a relatively simple grammatical analysis process, and its production is as follows: (It doesn’t matter if the reader can’t understand the production. In fact, I can’t understand it either. In fact, I won’t use this thing directly in the subsequent process because the level of abstraction is too high.)$$
+If any readers have read [August issue of the same issue "Custom instructions for renaming items based on anvils"](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202508/5/content.html), what this article describes is actually a relatively simple grammatical analysis process, and its production is as follows: (It doesn’t matter if the reader can’t understand the production. In fact, I can’t understand it either. In fact, I won’t use this thing directly in the subsequent process because the level of abstraction is too high.)
+
+$$
 n\rightarrow\mathbf{digit}
 $$
 
@@ -272,9 +290,15 @@ $$
 
 $$
 A\rightarrow E+A\mid E
-$$We can briefly translate the original author's design ideas into a top-down analysis process. Take the original author’s example as an example:$$
+$$
+
+We can briefly translate the original author's design ideas into a top-down analysis process. Take the original author’s example as an example:
+
+$$
 1D6+2D4+3
-$$First place a start symbol$A$, and then try using the production$A\rightarrow E+A$Expand this expression. This attempt is what the original author said "Scan every character, check for delimiters$+$".
+$$
+
+First place a start symbol$A$, and then try using the production$A\rightarrow E+A$Expand this expression. This attempt is what the original author said "Scan every character, check for delimiters$+$ "。
 
 If delimiter is checked$+$, which represents the part before the + sign ($1D6$)match$E$, matching later$A$; After that, the program will continue to match the following$A$Try the same extension. Otherwise (if the last item has been scanned), it cannot be matched, and instead, use$A\rightarrow E$production.
 
@@ -287,9 +311,13 @@ Of course, the number of productions in most modern programming languages ​​
 Therefore, this article will use another analysis process in the expression part, that is, the bottom-up analysis process, that is, the "shift-reduce" analysis method. This method does not try to "decompose" a starting symbol into a set of symbols or morphemes, but instead "merges" the morphemes into symbols step by step as a set of morphemes is read in.
 However, because the original description of these methods is too abstract, these definitions may be greatly misinterpreted below, and syntax trees will be used directly instead of other concepts such as parse trees.
 
-We take the following expression as an example to briefly introduce the basic idea of ​​the "shift-reduce" parsing method:$$
+We take the following expression as an example to briefly introduce the basic idea of ​​the "shift-reduce" parsing method:
+
+$$
 1*6+2*4*5+3
-$$Scan each character from left to right (actually a lexeme, here all 1-character long morphemes are used for convenience):
+$$
+
+Scan each character from left to right (actually a lexeme, here all 1-character long morphemes are used for convenience):
 
 ```
 1                 -- *6+2*4*5+3
@@ -314,6 +342,8 @@ $$Scan each character from left to right (actually a lexeme, here all 1-characte
 +(+,3)            --
 计算: 46+3=49
 ```
+
+
 Ultimately, we hope to transform it into a syntax tree in the following form: (and a series of operation codes)
 
 <div class="nbttree">
@@ -378,7 +408,7 @@ scoreboard players operation <s> <s_> = <o> <o_>
 # call <f>
 <跳转至函数f的第一行代码>
 
-#ret <s>(<s_>) <f> (Note: f is automatically attached to the intermediate code at compile time. Even functions without return values ​​are treated as returning 0 here.)
+# ret <s>(<s_>) <f> （注: f在编译期自动附加到中间代码上。即使是无返回值函数在此也按返回0处理。）
 <从现有函数中返回>
 
 # eq <s>(<s_>) , <o>(<o_>) == <o2>(<o2_>)
@@ -408,11 +438,13 @@ execute if score <s> <s_> matches 0 run <跳转至b位置>
 # jmp <b>
 <跳转至b位置>
 ```
-### 4.2 Function and storage allocation
+
+
+### 4.2 function and storage allocation
 
 #### 4.2.1 Scope
 
-The code of C series languages ​​has scope distinction, and C-Minus requires us to implement this feature. Each function in the code has its own scope. Different instances of the function will have different scopes, and there is also a global scope.
+The code of C series languages ​​​​has scope distinction, and C-Minus requires us to implement this feature. Each function in the code has its own scope. Different instances of the function will have different scopes, and there is also a global scope.
 Variables under each scope can only be read and written within this scope and its sub-scopes, and can be overwritten by variables with the same name in sub-scopes.
 Theoretically, other languages ​​such as Python have very similar concepts, but there is a situation in the code of C series languages: each code block (including code blocks generated by if or while) will also generate an independent scope, so scope nesting will occur.
 
@@ -442,7 +474,7 @@ During analysis and intermediate code generation, we will use storage`c-:variabl
   - <node type="string" name="type"/> The return value type of function. For the C-Minus language implemented in this article, its value can only be "int". If function is of void type, this item does not exist.
   - <node type="list" name="arg"/> Parameter list of function. This item must not exist for parameterless functions (the call can be appended with any number of invalid parameters), and this item must exist and be an empty list for functions that do not allow additional parameters to be called (specified using void when defining).
     - <node type="compound" name=""/> A parameter that follows the same format as a variable.
-  - <node type="list" required=true name="code"/> stores a list of function intermediate codes. This must exist for function.
+  - <node type="list" required=true name="code"/> Stores a list of function intermediate codes. This must exist for function.
     - <node type="compound" name=""/> A line of intermediate code.
       - <node type="string" required=true name="v"/> Directive for intermediate code.
       - <node type="int" name=""/><node type="string" name="s"/> The scoreboard name of the source variable.
@@ -453,13 +485,15 @@ During analysis and intermediate code generation, we will use storage`c-:variabl
 </div>
 
 Of course, we will not work all in this storage item from the beginning, but will be divided into multiple levels of temporary storage items:
-<div class="nbttree">- <node type="compound" name="now-declaration"/> The temporary storage location of ongoing variable declarations, the format is the same as above. The declaration of function parameters and if/while structures also use this storage bit briefly. If recognized as a function definition, the declaration will be moved to now-function.
-- <node type="compound" name="now-function"/> Temporary storage location for ongoing function definitions. The format is the same as above. C-series languages ​​do not support nested functions, so this item does not use lists. After the definition is completed, the function will be moved to variable.
-- <node type="list" name="now-block"/> is only used for code blocks, storing some process information of the code block to determine the jump location when the recognition is completed.
+<div class="nbttree">
+
+- <node type="compound" name="now-declaration"/> The temporary storage location of ongoing variable declarations, the format is the same as above. The declaration of function parameters and if/while structures also use this storage bit briefly. If recognized as a function definition, the declaration will be moved to now-function.
+- <node type="compound" name="now-function"/> The temporary storage location for ongoing function definitions. The format is the same as above. C-series languages ​​do not support nested functions, so this item does not use lists. After the definition is completed, the function will be moved to variable.
+- <node type="list" name="now-block"/> is only used for code blocks and stores some process information of the code block to determine the jump location when the recognition ends.
   - <node type="compound" name=""/> One of them.
-    - <node type="int" name="0"/> This item is used in the while code block to store the start position of the loop. At the end of the code block, a jump to the beginning of the loop is appended.
+    - <node type="int" name="0"/> This item is used in the while code block to store the starting position of the loop. At the end of the code block, a jump to the beginning of the loop is appended.
     - <node type="int" name="1"/> This item is used in if and while code blocks to store the judgment position. After the code block ends, the jump line number will be appended to the line number of the item record.
-    - <node type="bool" name="chain"/> Whether there are local variables defined inside the code block determines whether a new scope level needs to be created in the code block (the new scope operation is completed at the location where the local variables are defined). A function will always have a new scope created by the layer above it.
+    - <node type="bool" name="chain"/> Whether there are local variables defined inside the code block determines whether a new scope level needs to be created in the code block (the new scope operation is completed at the location where the local variable is defined). A function will always have a new scope created by the layer above it.
 - <node type="list" name="now-variable"/> The variable of the code block being defined. Due to the existence of nested code blocks, this is implemented as a list (stack). When determining the scope level of a variable, traverse the list from back to front to find the variable definition. The list is discarded after definition is complete.
   - <node type="list" name=""/> A list of local variables of a code block, the format is the same as above.
 - <node type="list" name="now-expression"/> The expression undergoing shift-reduce analysis. Due to the presence of parentheses, it is also implemented as a list (stack). In theory, when an expression reaches its end position, there should be only 1 element in the list.
@@ -467,7 +501,7 @@ Of course, we will not work all in this storage item from the beginning, but wil
     - <node type="int" name=""/><node type="string" name="_"/> Scoreboard name for the variable.
     - <node type="string" name=""/><node type="int" name="__"/> The scope offset value of the variable. Set to the string "global" to represent the global scope, and set to "temp" to represent a temporary variable.
     - <node type="byte" name="v"/> operator.
-- <node type="list" name="now-codeline"/> The intermediate codeline now being generated is temporarily stored here. This item is added for optimization purposes, and it may not be included, but some codes will be more cumbersome.
+- <node type="list" name="now-codeline"/> The intermediate code lines currently being generated are temporarily stored here. This item is added for optimization purposes, and it may not be included, but some codes will be more cumbersome.
 
 </div>
 
@@ -492,7 +526,7 @@ There are two main issues that need to be dealt with at this stage:
 We will always use a program counter stack to maintain the current function and line of code. Each counter in the counting stack stores two positions: pos and next-pos.
 Before each execution, use the last next-pos to overwrite pos as the executed code position, and add 1 bit to overwrite next-pos. The jump instruction in the program may overwrite next-pos, while the call instruction will add an item to the stack.
 
-## 6. [Run Display](/en/feature/archive/202511/1/content6)
+## 6. [Operation display](/en/feature/archive/202511/1/content6)
 
 In order to show our compilation effect in Minecraft, most basically, we need a code editing box for inputting C-Minus source code.
 
@@ -518,3 +552,4 @@ Come to think of it, what I want to say in the postscript seems to have been sai
 This article was drafted on August 30, 2025, rewritten on September 22, 2025, and finalized and submitted on October 6, 2025.
 Affected by the new features of 2025.10.09, the author wrote another article, so this article was not published in the October issue.
 The final revision will be completed on October 24, 2025, and will finally be presented in the November issue.
+

@@ -13,6 +13,10 @@ wheel: true
 repo: gibbsly/ehid
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 ehid assigns a binary ID to the entity and uses advancement detection to determine which entity the player attacked or killed, or which entity attacked or killed the player.

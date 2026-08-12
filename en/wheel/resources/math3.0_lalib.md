@@ -13,6 +13,10 @@ wheel: true
 repo: xiaodou8593/math3.0_lalib
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 Adzuki Line Algebra Library 3.0 supports various mathematical calculations and operations related to linear algebra. If you want to know how to use each function, you should directly look at the comments at the beginning of the function.

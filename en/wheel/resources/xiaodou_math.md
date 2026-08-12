@@ -13,6 +13,10 @@ wheel: true
 repo: xiaodou8593/math3.1
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 The Xiaodou math library provides a large number of support for mathematical operations. If you want to know how to use each function, you should directly look at the comments at the beginning of the function.

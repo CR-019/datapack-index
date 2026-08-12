@@ -1,6 +1,12 @@
 ---
 title: 'TheSkyBlessingdata pack analysis'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeaturedHead
     title = "TheSkyBlessingdata pack analysis"
     authorName = "Ling"
@@ -27,27 +33,31 @@ The /time query gametime command can obtain the time when the world archive is o
 ```mcfunction
 execute store result storage global Time int 1 run time query gametime
 ```
+
+
 ### Multiplayer game detection
 
 ```mcfunction
 execute store result score $PlayerCount Global if entity @a
 ```
-### Interval timer
+
+
+### interval timer
 
 Suitable for functions that do not need to be executed every tick, such as only executed once per second, here it is executed once every 4t (0.2s)
 
-```
-mcfunction
+```mcfunction
 scoreboard players add $4tInterval Global 1
 scoreboard players operation $4tInterval Global %= $4 Const
 execute if score $4tInterval Global matches 0 run function core:tick/4_interval
 ```
+
+
 ### player event
 
 The next layer of the global tick function is the player's tick function. Some commonly used player events are listed below:
 
-```
-mcfunction
+```mcfunction
 # player/load.mcfunction
 
 scoreboard objectives add UsedMilk used:milk_bucket {"text":"牛奶使用检查"}
@@ -64,19 +74,19 @@ scoreboard objectives add DropEvent custom:drop {"text":"事件：物品掉落"}
 ```
 
 
-```
-mcfunction
+```mcfunction
 execute if entity @s[scores={DeathEvent=1..}] run tag @s add Death
 execute if entity @s[scores={FirstJoinEvent=1}] run function core:handler/first_join
 execute if entity @s[scores={RejoinEvent=1..}] run function core:handler/rejoin
 execute if entity @s[scores={RespawnEvent=1}] run function core:handler/respawn
 ```
-## load function - distinguish between data migration fields and production environment
+
+
+## load function——distinguish between data migration fields and production environment
 
 The load function at the top level of the data pack is divided into two parts - the load main function and the load_once function. Initialization operations such as creating the scoreboard are actually completed in the load_once function. The load main function has the following fragment
 
-```
-mcfunction
+```mcfunction
 data modify storage global IsProduction set value true
 execute if data storage global {IsProduction:1b} unless data storage global GameVersion run function core:load_once
 execute if data storage global {IsProduction:0b} run function core:load_once
@@ -85,12 +95,13 @@ function core:migration/
 ```
 
 
-```
-mcfunction
+```mcfunction
 # function core:migration/
 execute if data storage global {GameVersion:"v1.0.0"} run function core:migration/v1.0.1/
 execute if data storage global {GameVersion:"v1.0.1"} run function core:migration/v1.0.2/
 ```
+
+
 The load_once function has the following snippet at the top
 
 ```mcfunction
@@ -99,16 +110,18 @@ data modify storage global GameVersion set value "v1.0.2"
 data modify storage global FirstGameVersion set value "v1.0.2"
 data modify storage global ExpectedDatapackCount set value 22
 
-#... (initialization of various scoreboards)
+# ... （各类计分板初始化）
 ```
+
+
 To add to the prerequisite knowledge, "development" and "production" are two terms in computer application development, which respectively mean production (the state that is still under development) and release (the state when development is completed and handed over to users for use). The player downloaded from the forum must be the release version. The IsProduction variable in the load function must be true. When the map maker develops the data pack, this value is false. It is changed to true before going online.
 
-### Implement parsing
+### Implement analysis
 
 This part of the content is mainly used for data migration after the map is released, that is, the player can update the map while retaining the data (usually by replacing the data pack or level.dat file). The latest map version is currently 1.0.2. If I download it and play it when the map version is 1.0.0, the first loading process of this data pack is as follows:
 
-1. Detected that there is no GameVersion field in storage
-2. It is judged as entering the map for the first time.
+1. No GameVersion field in storage detected
+2. It is judged that it is the first time to enter the map.
 3. Execute load_once function and record that the current game version is 1.0.0
 4. When entering the map later, the GameVersion field is detected and the load_once function is no longer executed repeatedly.
 
@@ -117,9 +130,11 @@ The map is now updated to version 1.0.1. This line and the corresponding data mi
 ```mcfunction
 execute if data storage global {GameVersion:"v1.0.0"} run function core:migration/v1.0.1/
 ```
+
+
 1. The GameVersion field is detected and the load_once function is no longer executed.
 2. Execute the migration function and find that the GameVersion field matches the old version number. Execute the data migration function of the new version and update the GameVersion field to the latest version number.
-3. When entering the map later, the GameVersion field is detected, and the load_once function is no longer executed repeatedly.
+3. When entering the map later, the GameVersion field is detected and the load_once function is no longer executed repeatedly.
 
 From this, we can find that after this processing, the load_once function is literally executed only once from the beginning of entering the map, and the data migration function of subsequent version updates will only be executed once when the map is entered for the first time after the version is updated. The above is the state when the player actually plays the map. It is much simpler for the map maker to develop the data pack. After changing the IsProduction field to false, load_once will be executed every time the map is entered. The map version must be the latest, and there is no need to deal with data migration issues.
 
@@ -127,37 +142,37 @@ Generally speaking, adding these contents in the load function serves the player
 
 ## Custom UI - use font to create item bar item cooling bar
 
-### Realize the effect
+### achieve effect
 
 ![2025-11-07_15.21.25.png](../../../../../feature/archive/202512/0/4f33452a-c28d-4a32-9043-79618ec15e4f.png)
 
 The UI on the player screen can be divided into the following parts for introduction (please manually ignore the satiety display with the apple core module installed)
 
-- Main cooling bar
+- main cooling strip
 - Equipment cooling bar on the left
-- Cooling bar in the middle shortcut bar
-- Player effect status on the right
+- Middle hot bar cooling bar
+- Right player effect status
 
 ![2025-11-07_15.21.25.png](../../../../../feature/archive/202512/0/2025-11-07_15.21.25.png)
 
-- Main cooling bar
-  -- Display the cooling time of the items in the main hand, which is the same as the one displayed at the top of the shortcut bar item. Only items in the cooling state will be displayed.
+- main cooling strip
+- - Display the cooling time of the items in the main hand, which is the same as the one displayed at the top of the shortcut bar item. Only items in the cooling state will be displayed.
 - Equipment cooling bar on the left
-  -- Display the cooling time of each of the four parts of the body's equipment and the off-hand items. Only equipment with skills that are on cooling will be displayed.
-- Cooling bar in the middle shortcut bar
-  -- Display the cooling time of each of the nine items in the shortcut bar. Items that have not been cooled or have been cooled will not be displayed.
-- Player effect status on the right
-  -- As the name suggests, it displays the effect state of the player, but this does not refer to the various potion states of vanilla. The special states here are customized content in the map material. The positive effects and negative effects are separated into two lines. For example, holding the Crescent Moon Talisman here obtains the "new moon" effect of gaining extra health points for one cycle. The "+" sign represents the positive effect. Different custom special effects have different icons. This part involving the asset library will be introduced later.
+- - Display the cooling time of each of the four parts of the body's equipment and the off-hand items. Only equipment with skills that are on cooling will be displayed.
+- Middle hot bar cooling bar
+- - Display the cooling time of each of the nine items in the shortcut bar. Items that have not been cooled or have been cooled will not be displayed.
+- Right player effect status
+- - As the name suggests, it displays the effect state of the player, but this does not refer to the various potion states of vanilla. The special states here are customized content in the map material. The positive effects and negative effects are separated into two lines. For example, holding the Crescent Moon Talisman here obtains the "new moon" effect of gaining extra health points for one cycle. The "+" sign represents the positive effect. Different custom special effects have different icons. This part involving the asset library will be introduced later.
 
-### Implement parsing
+### Implement analysis
 
 First of all, it is clear that the key to implementing custom UI must be a title command executed in the tick function. Starting from the player using an item to put it into the cooling state, we analyze what the tick function does. The overall steps are as follows
 
-1. Reduce cooling time
-2. Calculate the percentage of current cooldown time and maximum cooldown time
-3. Map the percentage value to a unicode character
+1. Reduce cooldown time
+2. Calculate the current cooldown and the percentage of the maximum cooldown
+3. Maps a percentage value to a unicode character
 4. Encapsulate this character and its matching resource pack font into a text component, and insert spaces between different characters to achieve the effect of adjusting UI coordinates
-5. Use /title to display this text component to the actionbar position of the player screen.
+5. Use /title to display this text component to the actionbar position of the player screen
 
 Only the next few steps are introduced here. The overall command fragment is as follows. What needs to be noted here is that because the space is used to adjust the UI coordinate at the end, putting all UI into the same text component may cause extrusion and misalignment. For this reason, the precise positioning part needs to be mentioned separately. For example, it is divided into three parts: minibar (equipment and shortcut bar cooling bar), mainbar (main cooling bar) and effect (player status). The following takes the minibar part as an example.
 
@@ -184,9 +199,11 @@ title @s[gamemode= spectator] actionbar [{"text":""},{"storage":"oh_my_dat:","nb
 title @s[gamemode=!spectator] actionbar [{"text":""},{"storage":"oh_my_dat:","nbt":"_[-4][-4][-4][-4][-4][-4][-4][-4].Message.MiniBars[]","interpret":true,"separator":""},{"storage":"oh_my_dat:","nbt":"_[-4][-4][-4][-4][-4][-4][-4][-4].Message.MainBar[]","interpret":true,"separator":""},{"storage":"oh_my_dat:","nbt":"_[-4][-4][-4][-4][-4][-4][-4][-4].Message.Effect[]","interpret":true,"separator":""}]
 data remove storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].Message
 ```
+
+
 So there is a section in the function defined by the macro asset_manager:/artifact/cooldown/mini_bar/construct_message.m that is used to encapsulate the text component. You can see that the parameters of this macro will eventually be converted into a part of unicode. According to the definition of the previous resource pack, the parameters need to be 1000 to 1016 or 9999, which correspond to the icons of the four parts of the body, the off-hand item and the nine items of the shortcut bar. Different icons are separated by spaces (the space font here will be attached at the end)
 
-:::tip Editor’s note
+:::tip Editor's Note
 The default font can be defined in the empty text at the beginning, and can be inherited if no additional definitions are made thereafter. This optimization can be implemented as follows.
 :::
 
@@ -237,7 +254,9 @@ $data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].Message.MiniBa
     '{"text":"\\uC089","font":"space"}'
 ]
 ```
-### Reproduction effect
+
+
+### Replica effect
 
 Remove the parameters required by the above macro function and run it directly. Introduce the necessary space font in the resource pack. The final positioning effect of the UI display is as follows
 
@@ -296,9 +315,9 @@ title @s actionbar [ \
 
 Up to this step, using the resource pack font to display the advancement bar icon has been completed. Since this step uses macros, the first two steps only need to solve the problem of obtaining the cooling time percentage of the item corresponding to the advancement bar and converting it into macro parameters. However, calculating the cooling time in TSB is too cumbersome because it involves the introduction of the asset library, so the custom UI part ends here.
 
-## Transform the experience indicator into a mana indicator
+## Transformed the experience indicator into a mana indicator
 
-### Realize the effect
+### achieve effect
 
 ![2025-11-08_15.33.56.png](../../../../../feature/archive/202512/0/51074880-3c4a-458a-a2bd-dbc52f3269da.png)
 
@@ -308,7 +327,7 @@ Up to this step, using the resource pack font to display the advancement bar ico
 
 My maximum mana value here is 428 (MP value, I will still use mana value later). You can see that the current value is displayed at the level position, and the experience bar can change with the percentage of mana value.
 
-### Implement parsing
+### Implement analysis
 
 It is also clear that in order to manually control the experience bar while avoiding the interference of the vanilla experience ball mechanism, it must be done by a function that executes the xp command in the tick function. There are two main functions to implement this function. player_manager:mp/viewer/check_xpbar function is executed with the player tick. Its main contents are as follows
 
@@ -316,9 +335,9 @@ It is also clear that in order to manually control the experience bar while avoi
 
 The above functions may seem a bit confusing without separation. In fact, we only need to know that the main implementation only needs to call the line of adjust_xpbar function. The other parts are used for calculation, so the functions of check_xpbar function can be divided like this
 
-1. Get the percentage of the player’s current experience and the current level’s maximum experience (xp_p attribute in player data)
+1. Get the percentage of the player's current experience and the current level's maximum experience (xp_p attribute in player data)
 2. Calculate the percentage of current mana and maximum mana
-3. If the player's current level and current mana value are not equal (that is, the mana value changes), or the calculation results of the experience bar percentage and the mana value percentage are inconsistent (that is, the maximum mana value changes), perform an update
+3. If the player's current level and current mana value are not equal (that is, the mana value changes), or the calculation results of the experience bar percentage and the mana value percentage are inconsistent (that is, the maximum mana value changes), an update is performed.
 4. Execute adjust_xpbar function to update, set the length of the experience bar according to the current mana value percentage, and set the level to the current mana value
 
 The percentage calculation and comparison can be easily completed using the scoreboard. Setting the level can also be done directly using the /xp command. The problem is how to control the experience value bar to match the percentage. This is the most ingenious part of this system. The command of adjust_xpbar function is as follows
@@ -371,21 +390,23 @@ scoreboard players operation $NowMP Temporary *= $2 Const
 execute if score $NowMP Temporary matches ..-1 run xp add @s 1 levels
 scoreboard players reset $NowMP Temporary
 ```
+
+
 This function uses the binary decomposition algorithm twice. Let’s first introduce this algorithm (computer basics such as integer overflow will not be supplemented)
 
 > Detect each binary bit and assign a weight to it by continuously shifting the binary number to the left (×2) and checking the sign bit (a negative number means the highest bit is 1). It is suitable for scenarios where floating point numbers need to be converted into integers.
 
 It can be roughly broken down into the following steps (note that the initial input proportion value and the current mana value use floating point numbers):
 
-1. Set the experience of the current mana percentage
+1. Sets experience as a percentage of current mana
    1. Set the player level to 40 (the experience required to upgrade from level 40 to level 41 is 202, that is, the total value of the experience bar is 202, which is relatively close to a multiple of 100)
-   2. Multiply the current scale value by the initial accuracy value 2^24 (this will cause the result to be multiplied by 2, which corresponds to the actual total value of the experience bar in the previous step being 200)
+   2. The current scale value is multiplied by the initial accuracy value 2^24 (this will cause the result to be multiplied by 2, which corresponds to the actual total value of the experience bar in the previous step being 200)
    3. The algorithm is executed. Each step adds experience to the player through add. The final total experience point value is twice the integer converted from the initial proportion value.
 2. Set level and mana equal
    1. The current scale value is multiplied by the initial precision value 2^20
    2. The algorithm is executed. Each step adds a level to the player through add. The final level is an integer converted from the initial current mana value.
 
-### Reproduction effect
+### Replica effect
 
 The check_xpbar function is as follows. Compared with the above, the part of obtaining the player experience bar percentage is simplified here.
 
@@ -406,6 +427,8 @@ scoreboard players reset $Lv Temporary
 scoreboard players reset $LvP Temporary
 scoreboard players reset $NowLvP Temporary
 ```
+
+
 adjust_xpbar function, which is slightly different from the above because it has been processed based on actual data.
 
 ```mcfunction
@@ -462,6 +485,8 @@ execute if score $NowMP Temporary matches ..-1 run xp add @s 1 levels
 
 scoreboard players reset $NowMP Temporary
 ```
+
+
 Here the maximum mana value is set to 200, and the current mana value is 100
 
 ![2025-11-08_16.43.13.png](../../../../../feature/archive/202512/0/cfe0d164-c867-4739-9db5-7dc8637d2fef.png)
@@ -474,8 +499,7 @@ The case where the initial level of the setting is not 40 is also tested here. B
 
 In addition, since the xp command is executed every tick, the game will continuously play the player upgrade sound effects for the player, which is very annoying. So you can find this overwritten sound event in the assets/minecraft/sounds.json file of the resource pack. Just remove the sound effects of the player upgrade.
 
-```
-json
+```json
 {
   "entity.player.levelup": {
     "replace": true,
@@ -483,29 +507,32 @@ json
   }
 }
 ```
-## OhMyDat and data interface - ways to use caching for optimization
+
+
+## OhMyDat and data interfaces - ways to optimize using caching
 
 The previous cases all skipped the data calculation related parts because TSB also designed an interface layer before calculation. All data must be obtained through the interface layer. These contents are in the api directory of the main package. Here we first introduce the player data related interfaces to complete the missing calculation parts in the previous two cases.
 
 The first is [OhMyDat](https://github.com/Ai-Akaishi/OhMyDat) This package, which occupies a very important position in the entire project, has a very simple function - to create a private data storage space for the entity that executes the command. When it is necessary to put all the data of the executor into storage, just introduce OhMyDat to quickly store and read it. A brief introduction using the command line demonstrated on github as an example
 
-```
-mcfunction
-#Execute pleasefunction before use (the executor of the function must be the entity to store data)
+```mcfunction
+# 使用前执行please函数（函数的执行者必须是要存储数据的实体）
 function #oh_my_dat:please
 
-#Get data storage
+# 获取数据存储
 data get storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].DataName
 
-#Modify data storage
+# 修改数据存储
 data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].DataName set value DataValue
 
-#Delete data store
+# 删除数据存储
 data remove storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].DataName
 ```
+
+
 The general principle of OhMyDat is to <b>use an algorithm with a time complexity of O(1) to store entity data into a space in a multi-dimensional array</b>, so multiple calls in the same tick will not cause excessive consumption. For the player, the stored data is the player's nbt. For other assets in the project, such as custom monsters, the stored content also includes the id of the corresponding asset. The object created in this way can store its own data, and can also be connected to the corresponding location in the asset library through the id to obtain data. This has actually formed the relationship between objects and classes in object-oriented programming. This kind of application method is very common in the entire project, so it is worthy of a separate introduction about OhMyDat. The following only focuses on the most basic usage in the player interface.
 
-Let’s go back to the previous example of making a mana bar. It is known that resetting the player's experience bar requires the percentage of the player's current experience value. Use`data get entity @s XpP`It can be obtained directly, but data command has always been the focus of performance optimization. This command will be executed in the tick function. As the command increases, the same attribute may be read countless times in the same tick.
+Let’s go back to the previous example of making a mana bar. It is known that resetting the player's experience bar requires the percentage of the player's current experience value, which can be obtained directly using `data get entity @s
 
 ![image.png](../../../../../feature/archive/202512/0/image%205.png)
 
@@ -520,7 +547,7 @@ In front of the interface to obtain all attributes, the restore_or_fetch functio
 Therefore, the workflow of data caching is summarized as follows:
 
 1. To obtain the player attributes, execute the corresponding data_get function in the api directory.
-2. Execute data_get function first and restore_or_fetch function
+2. data_get function is executed first restore_or_fetch function
 3. in restore_or_refetch function
    1. Update the data cache time to the current time
    2. If it is not the latest time before the update, update the data and use set from to store the player data in the cache.
@@ -529,7 +556,7 @@ Therefore, the workflow of data caching is summarized as follows:
 
 Suppose I need to obtain the player's XPP twice in the same tick. By calling the data_get interface, the cache will be updated to the latest time when it is obtained for the first time. Reading after that will no longer trigger an update. The data in the cache read twice is the latest. As long as the interface is called to obtain the data, it will only be read from the cache. Therefore, no matter what attribute is obtained, the player data will only be obtained once in the same tick. The use of OhMyDat simplifies the process of differentiating storage space for entities, so this data interface mode is also suitable for multiplayer games and other customized entities, and is a very good inspiration for performance control.
 
-## Appendix
+## appendix
 
 space space font (resource pack minecraft/font directory)
 
@@ -538,3 +565,4 @@ space space font (resource pack minecraft/font directory)
 Common constants (executed in the load function after creating the Const scoreboard)
 
 [define_const.mcfunction](/en/feature/archive/202512/0/define_const)
+

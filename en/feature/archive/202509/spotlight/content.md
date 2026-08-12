@@ -1,3 +1,7 @@
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <SpotlightHead
     title = "Vanilla News - Λojang Spotlight - September 2025"
     authorName = "Alumopper"
@@ -7,13 +11,13 @@
 
 Here is ***Vanilla*** news, the most ***Vanilla*** technical snapshot news in Minecraft. Our reporter *Vanilla Fox* reports the latest snapshot news for you~
 
-This month Mojang released a total of six snapshots: 25w34a-37a, all belonging to 1.21.9. The data packversion number came to **87.0**, and the resource packversion number came to **69.0**.
+This month Mojang released a total of six snapshots: 25w34a-37a, all belonging to 1.21.9. The data pack version number came to **87.0**, and the resource pack version number came to **69.0**.
 
 Let’s talk about the conclusion first. This month’s update is less destructive and of average practicality. Overall, it is at the upper level of **Big Cup**.
 
 The important thing to watch this month is the player model, a new technical entity. Unfortunately, the current player model cannot do anything useful. We can only wait for further updates from Mojang.
 
->Did you know that this month Mojang had the rare release of two`b`Snapshot -`25w36b`and`25w34b`.
+> Did you know that this month Mojang had a rare two releases?`b`Snapshot -`25w36b`and`25w34b`。
 
 <ColorLine />
 
@@ -35,17 +39,18 @@ In 25w34a, some changes were made to the player profile. me first`profile`The co
 
 * If not defined`properties`field, and`name`and`id`If only one of the fields is defined, the game will obtain the current data of the corresponding player in real time. There may be a delay in this process, with the default skin being displayed during loading.
 
-At the same time, a new command is also added: [**`/fetchprofile`**](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/fetchprofile), used to obtain player files **asynchronously**. After the command is obtained, a text component containing the obtained results will be output in the chat bar. But since Minecraft's command system is **synchronous**, use`store`or`return`When obtaining the return value of this command through a method like this, it will not block the running of the command. On the contrary, it will always return`1`, and will always succeed.
+At the same time, a new command is also added: [**`/fetchprofile`**](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/fetchprofile), used to obtain player files **asynchronously**. After the command is obtained, a text component containing the obtained results will be output in the chat bar. But since Minecraft's command system is **synchronous**, use`store`or`return`When getting the return value of this command through a method like this, it will not block the running of the command. On the contrary, it will always return`1`, and will always succeed.
 
 ## Miscellaneous
 
 In addition, there are many smaller updated changes.
 
 * for`object`Text component added`object`Field, there is`atlas`and`player`Two optional values. The former is the previous`object`component, which renders a player avatar based on a player profile component.
-* Added a series of rules. Some of them replace the ones that originally existed in`server.properties`Configuration items in the file:
-  *`pvp`: Whether to allow players to attack other players
-  *`allowEnteringNetherUsingPortals`: Whether the entity can enter the Nether through the Nether Portal
-  *`enableCommandBlocks`: Whether to enable command block
-  *`spawnMonsters`: Whether to generate hostile mobs
-  *`spawnerBlocksEnabled`: Whether to enable monster spawner
-* 💥 will`enableCommandBlocks`Game rules renamed to`commandBlocksEnabled`, to match Bedrock Edition
+* A series of rules have been added. Some of them replace the ones that originally existed in`server.properties`Configuration items in the file:
+  * `pvp`: Whether to allow players to attack other players
+  * `allowEnteringNetherUsingPortals`: Whether the entity can enter the Nether through the Nether Portal
+  * `enableCommandBlocks`: Whether to enable command block
+  * `spawnMonsters`: Whether to generate hostile mobs
+  * `spawnerBlocksEnabled`: Whether to enable monster spawner
+* 💥will`enableCommandBlocks`Game rules renamed to`commandBlocksEnabled`, to match Bedrock Edition
+

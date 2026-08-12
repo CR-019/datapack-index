@@ -2,6 +2,11 @@
 pageClass: h2-no-border
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <script setup>
 import { useData } from 'vitepress'
 import ColorLine from '/.vitepress/vue/ColorLine.vue'
@@ -13,12 +18,12 @@ const { isDark } = useData()
 
 ## What's New in the Library?
 
-### Domestic nodes are online
-In cooperation with @红石中继站, Vanilla Library’s domestic node is online!  
-Can be usedhttps://cr-109.docs.repeater.red/datapack-index/visit
+### Domestic nodes go online
+In cooperation with @红石综合站, Vanilla Library’s domestic node is online!
+Can be usedhttps://cr-109.docs.repeater.red/datapack-index/access
 
 
-## command flashlight Command Flashlight
+## Command Flashlight Command Flashlight
 
 ### Warning - Danger of item directive
 Use a loot table to exchange the main hand ⇄ The off-hand only needs 1 command!  The core is to use slot_source. Since you can reference slots and make conditional logic judgments for each slot, you only need to detect one slot and reference another slot at the same time; and mainhand and offhand are consecutive in slot numbers, so executing the following command will take effect directly: loot replace entity @s weapon.mainhand loot lib:swap_mainhand_offhand 🎉.
@@ -111,20 +116,22 @@ Main and deputy hand replacement loot table
     ]
 }
 ```
+
+
 <ColorLine :height="2"/>
 
-## I ask you to answer Quizs
+## I ask you answer Quizs
 
 :::warning This column is not a "you ask and I answer"!
-In this column, we will ask several questions, and readers can give their own answers in the comment area (indicate the question number).  
-The answer will be announced in the next issue of Feature.  
+In this column, we will ask several questions, and readers can give their own answers in the comment area (indicate the question number).
+The answer will be announced in the next issue of Feature.
 
 The questioner of this issue: Xu Muxian
 :::
 
 ---
 
-1. Fix the pitch angle (Rotation[1]) of the nearest marked entity to 9.6, and the yaw angle (Rotation[0]) continues to increase evenly every game tick at a rate of 1 degree per second.
+1. The pitch angle (Rotation[1]) of the nearest marked entity is fixed to 9.6, and the yaw angle (Rotation[0]) continues to increase evenly every game tick at a rate of 1 degree per second.
 
 ---
 
@@ -145,11 +152,15 @@ The questioner of this issue: Xu Muxian
   ]
 }
 ```
+
+
 The actual code points used by the font are U+E000 to U+E013. The operation of displaying the entity is as follows:
 
 ```mcfunction
 execute as @e[type=text_display,tag=arrows] run data modify @s text set value {font:"minecraft:arrows",text:"\ue001"}
 ```
+
+
 The expected effect after application is a scrolling upward arrow, bitmap`minecraft:font/arrows.png`As shown in the picture:
 
 ![](../../../../../feature/archive/202607/ifc/位图字体箭头.png)
@@ -158,41 +169,47 @@ After actual application, the display of characters U+E003 to U+E008 is always o
 
 ---
 
-3. There are 10 markers in the world, and function`cpp:marker`The number of chain executions of the command is 5. Execute this command:
+3. There are 10 markers in the world, and the function`cpp:marker`The number of chain executions of the command is 5. Execute this command:
 
-```
-mcfunction
+```mcfunction
 execute as @e[type=marker] at @s run function cpp:marker
 ```
+
+
 To make the command fully executed,`max_command_sequence_length`What should be the minimum value of ?
 
 ---
 
 <ColorLine :height="2"/>
 
-### Reference answer from previous issue
+### Reference answers from last issue
 
 > Note: The answer is not unique. Just solve the problem.
 
 Question 1:
 
 ```
-
 <存档名称>\dimensions\minecraft\the_end\entities\r.0.0.mca
 ```
+
+
 ---
 
-Question 2:$$\begin{bmatrix}
- -1 & 0 & 0 & 0\\
+Question 2:
+
+$$\begin{bmatrix}
+ - 1 & 0 & 0 & 0\\
  0 & -1 & 0 & 0\\
  0 & 0 & -1 & 0\\
  0 & 0 & 0 & 1
-\end{bmatrix}$$---
+\end{bmatrix}$$
+
+
+---
 
 Question 3:
 
 ```
-
 "filter": {
   "block": [
     {
@@ -202,6 +219,8 @@ Question 3:
   ]
 }
 ```
+
+
 ---
 
 ## data pack jokes Jokes
@@ -217,7 +236,7 @@ Question 3:
   <GiscusComment
     repo="CR-019/datapack-index"
     repoId="R_kgDONRhuqw"
-    category="Chats"
+category="Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
     term="71"

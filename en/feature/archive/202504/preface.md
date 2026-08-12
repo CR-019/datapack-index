@@ -1,3 +1,7 @@
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 # Founding message
 
 Here is the first issue of Feature. If you have never heard of feature, it is a platform for collecting and displaying short articles developed for vanilla mods (data pack + resource pack). It is used for communication between developers and is updated monthly.

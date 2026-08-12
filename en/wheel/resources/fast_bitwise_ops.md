@@ -13,6 +13,10 @@ wheel: true
 repo: Triton365/fast_bitwise_ops
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 This library exploits floating point errors to perform bit operations quickly. Supports and, or, xor, nand, nor, xnor operations.
@@ -22,7 +26,6 @@ This library exploits floating point errors to perform bit operations quickly. S
 Read its official documentation ([Github](https://github.com/Triton365/fast_bitwise_ops)) for details.
 
 Example:
-
 ```mcfunction
 scoreboard players set #input1 fast_bitwise <INPUT1>
 scoreboard players set #input2 fast_bitwise <INPUT2>

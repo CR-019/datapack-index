@@ -5,7 +5,12 @@ const root = process.cwd()
 const englishRoot = path.join(root, 'en')
 const componentNames = 'FeaturedHead|FeatureHead|SpotlightHead|JournalHead|IndexCompatible|ColorLine'
 const componentPattern = new RegExp(`<(?::?${componentNames})\\b[\\s\\S]*?\\/>`, 'gu')
-const fencedPattern = /(```[\s\S]*?```|~~~[\s\S]*?~~~)/gu
+const customTagNames = new Set([
+  'Badge', 'Button', 'DpsCell', 'DpsPlayground', 'Panel', 'Property',
+  'Sprite', 'Template', 'TextBlock', 'TextButton', 'UI', 'Vec3d', 'Window',
+  'AllPage', 'MarkdownPreviewer', 'SearchBox',
+])
+const fencedPattern = /(^[ \t]*````[^\r\n`]*(?:\r?\n|$)[\s\S]*?^[ \t]*````[ \t]*(?:\r?\n|$)|^[ \t]*```[^\r\n`]*(?:\r?\n|$)[\s\S]*?^[ \t]*```[ \t]*(?:\r?\n|$)|^[ \t]*~~~[^\r\n~]*(?:\r?\n|$)[\s\S]*?^[ \t]*~~~[ \t]*(?:\r?\n|$))/gmu
 const attributePattern = /^(\s+)(title|authorName|abstract|abstractText|description|text|alt)(\s*=\s*)([^\r\n]*)(\r?)$/u
 const safeTags = new Set([
   'a', 'article', 'aside', 'audio', 'b', 'blockquote', 'br', 'button', 'code', 'col', 'div',
@@ -17,6 +22,36 @@ const safeTags = new Set([
   'RandomParagraph', 'FeatureHead', 'FeaturedHead', 'SpotlightHead', 'JournalHead',
   'IndexCompatible', 'Tabs', 'Tab', 'CodeGroup', 'CodeGroupItem', 'VPBadge', 'http', 'https', 'mailto',
 ])
+const translationNotice = `::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::`
+
+const terminologyReplacements = [
+  [/\bdata packedit\b/gu, 'data pack editor'],
+  [/\bdata packfunction\b/gu, 'data pack function'],
+  [/\bdata packversion\b/gu, 'data pack version'],
+  [/\bresource packversion\b/gu, 'resource pack version'],
+  [/\bfunctioncommand\b/gu, 'function command'],
+  [/\bcommandtp\b/gu, 'command TP'],
+  [/\bexecutecommand\b/gu, 'execute command'],
+  [/\bversionexecute\b/gu, 'version execute'],
+  [/\bitemmodel\b/gu, 'item model'],
+  [/\bvanillashader\b/gu, 'vanilla shader'],
+  [/\bresource packshader\b/gu, 'resource pack shader'],
+  [/\bdata packresource pack\b/gu, 'data pack/resource pack'],
+  [/\bdata packtag\b/gu, 'data pack tag'],
+  [/\bNBTtags\b/gu, 'NBT tags'],
+  [/\bSNBTtag\b/gu, 'SNBT tag'],
+  [/\bfunctiontag\b/gu, 'function tag'],
+  [/\badvancementpredicate\b/gu, 'advancement predicate'],
+  [/\bloot tablepredicate\b/gu, 'loot table predicate'],
+  [/\bMinecraftresource\b/gu, 'Minecraft resource'],
+  [/\bZIPresource\b/gu, 'ZIP resource'],
+  [/\bMCdata pack\b/gu, 'MC data pack'],
+  [/\bmcvanilla\b/gu, 'MC vanilla'],
+  [/\bserverworld\b/gu, 'server world'],
+  [/\bworldentity\b/gu, 'world entity'],
+]
 
 function escapeAttribute(value) {
   return value.replaceAll('"', '&quot;')
@@ -43,7 +78,7 @@ function normalizeComponentBlock(block) {
 }
 
 function normalizeFenceBoundaries(value) {
-  const fencePattern = /```|~~~/gu
+  const fencePattern = /^[ \t]*(?:````|```|~~~)(?=[ \t]*(?:[A-Za-z0-9_+.-]+)?[ \t]*(?:\r?$))/gmu
   let result = ''
   let cursor = 0
   let inFence = false
@@ -91,11 +126,45 @@ function normalizeHtmlBlocks(value) {
     .replace(/(<\/details>)(?=[^\r\n])/gu, '$1\n\n')
 }
 
+function normalizeMarkdownBoundaries(value) {
+  let result = value
+  result = result.replace(
+    /([^#\r\n])([ \t]*)(#{1,6}[ \t]+[A-Za-z])/gu,
+    '$1\n\n$3',
+  )
+  result = result.replace(
+    /([)\]`])([ \t]*)(-[ \t]*(?=[A-Za-z0-9\[`*]))/gu,
+    '$1\n$3',
+  )
+  result = result.replace(
+    /([)\]`])([ \t]*)(\d+[.)][ \t]+)/gu,
+    '$1\n$3',
+  )
+  result = result.replace(/`[ \t]+([^`\n]*?)[ \t]+`/gu, '`$1`')
+  result = result.replace(/^([ \t]*-(?!-{2}))[ \t]*(?=\S)/gmu, '$1 ')
+  return result
+}
+
 function normalizeSfcBoundaries(value) {
   return value.replace(
     /([^\r\n])---(\r?\n\s*<(?:script|style)\b)/giu,
     '$1\n\n---$2',
   )
+}
+
+function ensureTranslationNotice(value) {
+  if (/:::\s*tip\s+Translation notice/iu.test(value)) return value
+
+  const lines = value.split('\n')
+  let insertAt = 0
+  if (lines[0]?.trim() === '---') {
+    const frontmatterEnd = lines.findIndex((line, index) => index > 0 && line.trim() === '---')
+    if (frontmatterEnd >= 0) insertAt = frontmatterEnd + 1
+  }
+
+  const prefix = lines.slice(0, insertAt).join('\n').replace(/\n+$/u, '')
+  const suffix = lines.slice(insertAt).join('\n').replace(/^\n+/u, '')
+  return [prefix, translationNotice, suffix].filter((part) => part !== '').join('\n\n') + '\n'
 }
 
 function normalizeHeadingBoundaries(value) {
@@ -120,17 +189,42 @@ function normalizeHeadingBoundaries(value) {
     }
 
     let result = line.replace(/([^\s#\r\n])(#{1,6}\s+[A-Za-z])/gu, '$1\n$2')
-    if (/^\s*#{1,6}[A-Za-z]/u.test(result)) {
-      result = result.replace(/^(\s*#{1,6})(?=[A-Za-z])/u, '$1 ')
+    if (/^[ \t]*#{1,6}(?!#)\S/u.test(result)) {
+      result = result.replace(/^([ \t]*#{1,6})(?!#)(?=\S)/u, '$1 ')
     }
     return result
   }).join('\n')
 }
 
+function normalizeEnglishTerminology(value) {
+  const protectedValues = []
+  let result = value.replace(
+    /`[^`\n]*`|https?:\/\/[^\s)>]+|<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>|<[^>\n]*>/giu,
+    (match) => {
+      const token = 'QzTerm' + String(protectedValues.length).padStart(4, '0') + 'LmR7'
+      protectedValues.push([token, match])
+      return token
+    },
+  )
+  for (const [pattern, replacement] of terminologyReplacements) {
+    result = result.replace(pattern, replacement)
+  }
+  for (const [token, replacement] of [...protectedValues].reverse()) {
+    result = result.split(token).join(replacement)
+  }
+  return result
+}
+
 function normalizeLiteralAngles(value) {
-  const withKnownTags = value.replace(
+  const restoredCustomTags = value.replace(
+    /&lt;(\/?)([A-Za-z][A-Za-z0-9:-]*)([^>\r\n]*?)&gt;/gu,
+    (match, slash, tag, rest) => customTagNames.has(tag) ? `<${slash}${tag}${rest}>` : match,
+  )
+  const withKnownTags = restoredCustomTags.replace(
     /<(\/?)([A-Za-z][A-Za-z0-9:-]*)([^>\r\n]*?)>/gu,
-    (match, slash, tag, rest) => safeTags.has(tag) ? match : `&lt;${slash}${tag}${rest}&gt;`
+    (match, slash, tag, rest) => safeTags.has(tag) || customTagNames.has(tag)
+      ? match
+      : `&lt;${slash}${tag}${rest}&gt;`
   )
   return withKnownTags.replace(/<(?![\/!?A-Za-z])/gu, '&lt;')
 }
@@ -159,7 +253,8 @@ function normalizeMarkdown(value) {
 
       return `${prefix}${normalizeComponentBlock(block)}${suffix}`
     })
-    return normalizeHeadingBoundaries(normalizeLiteralAngles(normalizeHtmlBlocks(withComponents)))
+    const withBoundaries = normalizeMarkdownBoundaries(normalizeHtmlBlocks(withComponents))
+    return normalizeHeadingBoundaries(normalizeEnglishTerminology(normalizeLiteralAngles(withBoundaries)))
   }).join('')
 }
 
@@ -180,7 +275,7 @@ let changed = 0
 
 for (const filePath of files) {
   const source = fs.readFileSync(filePath, 'utf8')
-  const normalized = normalizeMarkdown(source)
+  const normalized = ensureTranslationNotice(normalizeMarkdown(source))
   if (normalized === source) continue
   fs.writeFileSync(filePath, normalized, 'utf8')
   changed += 1

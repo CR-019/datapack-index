@@ -14,20 +14,25 @@ repo: WindWavesSea/Simple-NPC
 cover: /datapack-index/wheel/simple_npc_cover.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 This library makes vanilla NPC configuration easier. You only need to write storage and execute the generation function to configure an NPC that belongs to you.
 
 The following features are supported:
 
-* Customize the floating words above NPC.
+* Customize the floating words above the NPC.
 * Customize NPC skins.
-* Right-click the NPC to run instructions or functions.
+* Right-click the NPC to run an instruction or function.
 
 The following instructions may be out of date, please refer to [Official Documents](https://github.com/WindWavesSea/Simple-NPC/blob/main/README.md) shall prevail.
 
 ## Storage structure
-### Default structure (do not enable custom configuration)
+### Default structure (custom configuration is not enabled)
 <div class="nbttree">
 
 <node type="compound" name="name" /> This key name must be consistent with the nametag.
@@ -38,25 +43,25 @@ The following instructions may be out of date, please refer to [Official Documen
   - <node type="bool" name="look_player" />Whether the NPC looks towards the player.
   - <node type="string" name="default_orientation" />Default orientation (required if using look_player).
 - <node type="compound" name="text" required=true />Floating word.
-  - <node type="compound" name="pos" required=true />coordinate.
-    - <node type="float" name="x" required=true /> xcoordinate.
-    - <node type="float" name="y" required=true /> ycoordinate.
-    - <node type="float" name="z" required=true /> zcoordinate.
-  - <node type="list" name="text" required=true /> contains [text component](https://zh.minecraft.wiki/w/文本组件).
+  - <node type="compound" name="pos" required=true />coordinate。
+    - <node type="float" name="x" required=true /> xcoordinate。
+    - <node type="float" name="y" required=true /> ycoordinate。
+    - <node type="float" name="z" required=true /> zcoordinate。
+  - <node type="list" name="text" required=true /> contains [text component](https://zh.minecraft.wiki/w/文本组件)。
 - <node type="compound" name="npc" required=true />player model configuration.
-  - <node type="compound" name="pos" required=true />coordinate.
-    - <node type="float" name="x" required=true /> xcoordinate.
-    - <node type="float" name="y" required=true /> ycoordinate.
-    - <node type="float" name="z" required=true /> zcoordinate.
+  - <node type="compound" name="pos" required=true />coordinate。
+    - <node type="float" name="x" required=true /> xcoordinate。
+    - <node type="float" name="y" required=true /> ycoordinate。
+    - <node type="float" name="z" required=true /> zcoordinate。
   - <node type="string" name="model" required=true /> player model type.
   - <node type="string" name="texture" required=true /> player skin &lt;namespace&gt;:textures/&lt;path&gt;.png or skin link.
 - <node type="compound" name="right_click"/>Right-click NPC to execute.
   - <node type="string" name="command" />The command executed by right-clicking (choose one configuration with function).
-  - <node type="string" name="function" />The function executed by right-clicking (choose one with command to configure).
+  - <node type="string" name="function" />The function to be executed by right-clicking (choose one with command to configure).
 
 </div>
 
-### Custom configuration structure (enable custom configuration)
+### Custom configuration structure (turn on custom configuration)
 <div class="nbttree">
 
 <node type="compound" name="name" /> This key name must be consistent with the nametag.
@@ -67,16 +72,16 @@ The following instructions may be out of date, please refer to [Official Documen
   - <node type="bool" name="look_player" />Whether the NPC looks towards the player.
   - <node type="string" name="default_orientation" />Default orientation (required if look_player is used).
 - <node type="compound" name="text" required=true />Floating word.
-  - <node type="compound" name="pos" required=true />coordinate.
-    - <node type="float" name="x" required=true /> xcoordinate.
-    - <node type="float" name="y" required=true /> ycoordinate.
-    - <node type="float" name="z" required=true /> zcoordinate.
-  - <node type="compound" name="data" required=true /> See the text display entity's [entity data](https://zh.minecraft.wiki/w/展示实体#实体数据) configuration
+  - <node type="compound" name="pos" required=true />coordinate。
+    - <node type="float" name="x" required=true /> xcoordinate。
+    - <node type="float" name="y" required=true /> ycoordinate。
+    - <node type="float" name="z" required=true /> zcoordinate。
+  - <node type="compound" name="data" required=true /> See the text showing the entity's [entity data](https://zh.minecraft.wiki/w/展示实体#实体数据) configuration
 - <node type="compound" name="npc" required=true />player model configuration.
-  - <node type="compound" name="pos" required=true />coordinate.
-    - <node type="float" name="x" required=true /> xcoordinate.
-    - <node type="float" name="y" required=true /> ycoordinate.
-    - <node type="float" name="z" required=true /> zcoordinate.
+  - <node type="compound" name="pos" required=true />coordinate。
+    - <node type="float" name="x" required=true /> xcoordinate。
+    - <node type="float" name="y" required=true /> ycoordinate。
+    - <node type="float" name="z" required=true /> zcoordinate。
   - <node type="compound" name="data" required=true /> See player model [entity data](https://zh.minecraft.wiki/w/玩家模型#实体数据) configuration
 - <node type="compound" name="right_click"/>Right-click NPC to execute.
   - <node type="string" name="command" />The command executed by right-clicking (choose one configuration with function).
@@ -84,10 +89,9 @@ The following instructions may be out of date, please refer to [Official Documen
 
 </div>
 
-### Example storage
+### Examplestorage
 
 Default configuration
-
 ```mcfunction
 data modify storage windwaves_sea:npc root.npc_setting merge value {\
     test:{\
@@ -113,8 +117,8 @@ data modify storage windwaves_sea:npc root.npc_setting merge value {\
     }\
 }
 ```
-Custom configuration
 
+Custom configuration
 ```mcfunction
 data modify storage windwaves_sea:npc root.npc_setting merge value {\
     test_custom:{\
@@ -139,31 +143,33 @@ data modify storage windwaves_sea:npc root.npc_setting merge value {\
     }\
 }
 ```
-### Command analysis
+
+### Instruction parsing
 
 #### Generate NPC
-
-```
-mcfunction
+```mcfunction
 function npc:summon {name:"name"}
 ```
+
+
 To generate an NPC, you need to write the configuration first, and it cannot be generated repeatedly. The name is the NPC name in the configuration above (the same below).
 
 #### Clear NPCs
-
-```
-mcfunction
+```mcfunction
 function npc:remove/npc {name:"name"}
 ```
-### Delete configuration (clear NPC at the same time)
 
+
+### Delete configuration (also clear NPC)
 ```mcfunction
 function npc:remove/setting {name:"name"}
 ```
+
+
 ---
-## Download
+## download
 QQ group: 117464315
 
-Github:https://github.com/WindWavesSea/Simple-NPC/
+Github：https://github.com/WindWavesSea/Simple-NPC/
 
 Modrinth: https://modrinth.com/datapack/simple-npc

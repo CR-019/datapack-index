@@ -2,7 +2,7 @@
 name: Per Player Displays
 author:
     -
-        name: SilicaYT
+        name: SilicatYT
         char: author
     -
         name: CMDred
@@ -15,6 +15,11 @@ aside: left
 wheel: true
 repo: CMDred/Per-Player-Displays
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 
 <InfoCard />
 

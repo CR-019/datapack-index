@@ -14,10 +14,16 @@ repo: TheSalts/Text_Effects
 cover: /datapack-index/wheel/TheSaltTextEffect.gif
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 This resource pack can add dynamic effects to any text in the game, such as twisting, shaking, bouncing, etc.
 
-To see how to use it, check out its official instructions ([GitHub](https://github.com/TheSalts/Text_Effects)).
+To see how to use it, check out its official instructions ([GitHub](https://github.com/TheSalts/Text_Effects))。
 
 ![Effect indication](/public/wheel/TheSaltTextEffect.gif)
+

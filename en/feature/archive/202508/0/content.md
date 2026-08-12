@@ -1,6 +1,12 @@
 ---
 title: 'Minecraft Custom Structure Generation Guide'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeaturedHead
     title = "Minecraft custom structure generation guide"
     authorName = "Tartaric acid bacteria"
@@ -17,7 +23,7 @@ This tutorial is suitable for all data pack, module, and plug-in authors. Whethe
 
 **This article uses the NeoForge 1.21.1 environment as an example to explain in detail**. The technical content covered at the same time is theoretically applicable to all versions 1.20 and above. Considering that this tutorial is mainly for entry-level users, we will focus on practicality and operability, and will not delve into the details of some overly complex parameters. If necessary later, we will launch a special advanced analysis chapter.
 
-## Understanding Structure Set (Structure Set)
+## Understanding Structure Set
 
 When Minecraft performs world generation, the game engine will automatically read`worldgen/structure_set`All structure set definition files in the folder, and the corresponding structures are generated in the appropriate mob cluster according to the configuration.
 
@@ -33,6 +39,8 @@ By customizing the data pack, we can easily add a completely new set of structur
             └── structure_set
                 └── custom.json (结构集名称，可以自定义)
 ```
+
+
 When writing structure set files, it is recommended to use &lt;https://misode.github.io/worldgen/structure-set&gt; This excellent online tool generates the corresponding JSON configuration. The website provides a visualization function that can visually observe the structure generation density and distribution effects, which is very friendly for novices.
 
 ![img](../../../../../feature/archive/202508/0/1.png)
@@ -42,20 +50,20 @@ To better understand the role of structure sets, we demonstrate with an interest
 ```json
 {
   "placement": {
-    //Generally speaking, it is random_spread, unless it is a structure with a special mechanism like a fortress.
+    // 一般来说都是 random_spread，除非是要塞那种特殊机制的结构
     "type": "minecraft:random_spread",
-    //Since the village is going to be urbanized, the probability of its generation must be greatly increased. We let it try to generate it every 2 chunks.
+    // 村庄既然要城市化，那么必须生成概率要大大增加，我们让它每 2 区块尝试生成一次
     "spacing": 2,
-    //Minimum distance (chunk) between villages. The maximum distance between two structures is 2 × spacing - separation
+    // 村庄之间的最小距离（区块）。两次结构之间的最大距离则为 2 × spacing - separation
     "separation": 1,
-    //Salt, yes, that’s what it’s called. You need to know some cryptography knowledge to understand it. You can understand it as a random number seed.
+    // 盐，对的，就叫这个。需要懂一些密码学知识才能理解，你可以把它理解为一个随机数种子
     "salt": 0,
-    //Frequency algorithm, just default
+    // 频率算法，默认就行了
     "frequency_reduction_method": "default",
-    //Frequency, 0-1, since we want urbanization, let's make it 100% generated
+    // 频率，0-1，既然我们要城市化，那么就让它 100% 生成吧
     "frequency": 1
   },
-  //All structures attempted to join
+  // 所有尝试加入的结构
   "structures": [
     {
       "structure": "minecraft:village_plains",
@@ -80,6 +88,8 @@ To better understand the role of structure sets, we demonstrate with an interest
   ]
 }
 ```
+
+
 After re-entering the game, you will be surprised to find that the villages have become extremely dense and urban:
 
 ![img](../../../../../feature/archive/202508/0/2.png)
@@ -100,9 +110,9 @@ Minecraft Wiki's [Structure Definition Format](https://zh.minecraft.wiki/w/%E7%B
 
 ![img](../../../../../feature/archive/202508/0/4.png)
 
-- The uncircled part: the lowest degree of customization, only some parameters can be modified, and the architectural style cannot be changed;
+- Uncircled part: The degree of customization is the lowest, only some parameters can be modified, and the architectural style cannot be changed;
 - Green part: High degree of customization, parameters and structure templates can be modified;
-- Red part: The highest degree of customization, which can modify a large number of generation parameters and achieve complex structure generation through the puzzle mechanism.
+- Red part: The highest degree of customization, a large number of generation parameters can be modified, and complex structure generation can be achieved through the puzzle mechanism.
 
 > [!TIP]
 > Carefully observe the birth time of the structure: most structures before 1.13 were hard-coded; structure templates were used before 1.18; after that, the puzzle mechanism was fully adopted.
@@ -113,43 +123,45 @@ To demonstrate the power of structure definition, let's try an imaginative proje
 First, we need to`worldgen/structure`Create under directory`custom_village.json`document. This file will define how our underwater village will be generated:
 
 ```json
-//Let's create an Atlantis
-//For parameters, please refer to: https://zh.minecraft.wiki/w/%E7%BB%93%E6%9E%84%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F
+// 我们来生成一个亚特兰蒂斯
+// 参数可参考：https://zh.minecraft.wiki/w/%E7%BB%93%E6%9E%84%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F
 {
-  //Type, only minecraft:jigsaw has the highest degree of freedom
+  // 类型，只有 minecraft:jigsaw 自由度是最高的
   "type": "minecraft:jigsaw",
-  //Let's make it spawn in all mob biomes with #minecraft:is_ocean
+  // 我盟让它生成在所有带有 #minecraft:is_ocean 的生物群系中
   "biomes": "#minecraft:is_ocean",
-  //The maximum distance between the puzzle block and the starting point
+  // 拼图方块距离起始点的最大距离
   "max_distance_from_center": 80,
-  //Optional parameter, the height of the village's creation
-  //Here I fill in OCEAN_FLOOR_WG, in theory it will be generated on the seabed
+  // 可选参数，村庄的生成高度
+  // 这里我填写 OCEAN_FLOOR_WG，理论上它会生成在海床上
   "project_start_to_heightmap": "OCEAN_FLOOR_WG",
   "start_height": {
     "absolute": 0
   },
-  //For the village size, we set it smaller, 3, that is, it can be generated recursively at most 3 times.
+  // 村庄大小，我们设定小一些，3，也就是最多递归生成 3 次
   "size": 3,
-  //mobs that can be generated within the scope of this structure, leave blank to indicate default
+  // 这个结构范围内可以生成的生物，留空，表示默认
   "spawn_overrides": {},
-  //Starting puzzle pool
+  // 起始的拼图池
   "start_pool": "minecraft:village/plains/town_centers",
-  //Generation stage, refer to WiKi
+  // 生成的阶段，参考 WiKi
   "step": "surface_structures",
-  //Adaptation to the surrounding terrain, this is used here, it can automatically adapt to the surrounding environment
+  // 与周围地形的适配，这里就用这个，能自动契合周围环境
   "terrain_adaptation": "beard_thin",
-  //Are other puzzle structures generated when out of range?
-  //Used to prevent structures from being generated vertically
+  // 当超出范围时还生成其他拼图结构么
+  // 用来防止结构垂直方向生成
   "use_expansion_hack": true
 }
 ```
+
+
 Next, we need to modify the structure set file we created earlier to replace the vanilla village with our custom underwater village:
 
 ```json
 {
   "placement": {
     "type": "minecraft:random_spread",
-    //In order to avoid villages stacking on top of each other, we slightly expanded the generation interval this time to facilitate observation.
+    // 为了避免村庄叠村庄，这次我们把生成间隔稍微扩大一些，方便观察
     "spacing": 8,
     "separation": 2,
     "salt": 0,
@@ -157,7 +169,7 @@ Next, we need to modify the structure set file we created earlier to replace the
     "frequency": 1
   },
   "structures": [
-    //Here we only write our structure
+    // 这里只写我们的结构
     {
       "structure": "custom:custom_village",
       "weight": 1
@@ -165,13 +177,15 @@ Next, we need to modify the structure set file we created earlier to replace the
   ]
 }
 ```
+
+
 After completing the configuration, re-enter the game and you will find some wonderful phenomena in the ocean. Although the starting building of the village was indeed generated on the seabed according to our settings, the subsequent puzzle parts had unexpected effects:
 
 ![img](../../../../../feature/archive/202508/0/5.png)
 
 This phenomenon reveals an important question: Why can the starting point of the village be correctly generated on the seabed, but the subsequent puzzle structure does not meet our expectations? To understand this problem, we need to take a closer look at how Minecraft puzzle structures are generated.
 
-## Decrypt the puzzle structure generation mechanism
+## Deciphering the puzzle structure generation mechanism
 
 In the blocky world of Minecraft, how to naturally generate large building complexes has always been a technical challenge. Simple grid placement can make buildings look stiff and unnatural, but the puzzle mechanic developed by Mojang cleverly solves this problem. This system not only ensures the natural connection of the structure, but also achieves a high degree of randomness and scalability.
 
@@ -203,7 +217,7 @@ Of course, if this recursive process is not restricted, it can theoretically pro
 
 We are in front`custom_village.json`set in the file`size`Parameters are the key configuration used to control the depth of this recursion. The maximum recursion depth set by the system is 22 layers. When this limit is reached, the system will automatically stop trying to generate new structures to avoid infinite expansion.
 
-### Intelligent matching mechanism for puzzle splicing
+### Intelligent matching mechanism for puzzle stitching
 
 The puzzle splicing mechanism is the technical core of the entire system, which determines how different structures are naturally connected together. A deep understanding of this mechanism is critical to creating complex and coordinated custom structures.
 
@@ -223,8 +237,8 @@ Puzzle blocks can also be placed inside structures to embed substructures. At th
 
 As shown below:
 
-- The area where puzzle A is located has 13 spaces, and houses C or D can be assembled.
-- Puzzle B is located in an area with only 7 spaces, and can only assemble houses C
+- There are 13 spaces in the area where puzzle A is located, and houses C or D can be assembled.
+- B The area where the puzzle is located has only 7 spaces, and it can only assemble houses C
 
 ![img](../../../../../feature/archive/202508/0/15.png)
 
@@ -238,10 +252,9 @@ This design effectively avoids sudden interruptions in structural generation, en
 
 ![img](../../../../../feature/archive/202508/0/18.png)
 
-In the configuration of the structure pool, each structure is assigned a weight value, and these values directly affect the probability of the structure being selected. Structures with larger weight values ​​have a higher probability of being selected during the random selection process. This weighted randomization mechanism allows creators to precisely control how often different types of buildings appear in generated results:
+In the configuration of the structure pool, each structure is assigned a weight value, and these values ​​directly affect the probability of the structure being selected. Structures with larger weight values ​​have a higher probability of being selected during the random selection process. This weighted randomization mechanism allows creators to precisely control how often different types of buildings appear in generated results:
 
-```
-json
+```json
 {
   "elements": [
     {
@@ -275,6 +288,8 @@ json
   "fallback": "minecraft:village/plains/terminators"
 }
 ```
+
+
 ### Intelligent algorithm for terrain adaptation
 
 For structures such as underground ruins, the system can directly generate them in a grid manner because they do not require complex interactions with the surface environment. However, for structures such as villages that need to coexist harmoniously with the surface environment, if a rigid grid generation method is still used, extremely unnatural visual effects will occur when the building group spans hillsides, rivers or other terrain changes.
@@ -285,7 +300,7 @@ The development team at Mojang took this issue into consideration and introduced
 
 This terrain adaptation mechanism has an important feature: in addition to the initial structure being forcibly placed according to the configuration, all subsequent structures selected from the template pool will undergo automatic terrain adaptation processing. This ensures that the resulting building complex is not only functionally coherent but also visually integrated with the surrounding environment, creating a natural and harmonious landscape effect.
 
-### Source of the problem: Abnormal generation of Atlantis village
+### Root cause of the problem: Atlantis village generation abnormality
 
 Now we can clearly diagnose the problems encountered in previous underwater village projects. Although we clearly specified in the structure definition that the village should be generated on the seabed, and the starting structure was indeed forced to be placed in the correct location according to our settings, the subsequent structure generation was unexpected.
 
@@ -295,16 +310,17 @@ To completely solve this problem and create a true Atlantis village, we needed t
 
 ## Create a custom structure template
 
-### Structure block: digital tool for architects
+### Structural blocks: digital tools for architects
 
 Structure block is the core tool for creating custom structures in Minecraft. It is like a powerful architectural recorder that can convert your creative buildings into reusable digital templates.
 
 The structure block is a special tool for creative mode. Ordinary players cannot find it directly in the creative item column. You need to obtain it through the following instructions:
 
-```
-mcfunction
+```mcfunction
 /give @s minecraft:structure_block
 ```
+
+
 The structure block has three different working modes, each with its specific purpose.
 
 1. **Save mode (Save)**: used to export structures
@@ -319,21 +335,21 @@ The structure block has three different working modes, each with its specific pu
 
 To build the structure you want in creative mode, pay attention to the following points:
 
-- Keep the structure size reasonable (maximum 48×48×48)
-- If you are making a puzzle structure, you need to carefully consider the placement, orientation and name of the puzzle blocks
+- Keep structures reasonably sized (up to 48×48×48)
+- If you are making a puzzle structure, you need to carefully consider the placement, orientation and name of the puzzle blocks.
 - Reserve necessary space for structural adaptation
 
 #### Step 2: Place the structure block
 
 1. Place a structure block in one corner of the structure
-2. Set mode to "Save"
-3. Enter the structure name (e.g.`custom:my_house`)
+2. Set mode to Save
+3. Enter a structure name (e.g.`custom:my_house`）
 
 #### Step 3: Set boundaries
 
 - **Manual Setup**: Enter X, Y, Z dimensions in the "Size" field
 - **AUTO-DETECTION**: Use the "Detect" button to automatically calculate structure size
-- **Corner Marker**: Mark the opposite corner using the structure block of corner mode
+- **Corner Marker**: Use the corner mode structure block to mark the opposite corner
 
 ![img](../../../../../feature/archive/202508/0/20.png)
 
@@ -345,21 +361,22 @@ The structure gap is a special block, which will be processed as "do not replace
 
 **How ​​to obtain:**
 
-```
-mcfunction
+```mcfunction
 /give @s minecraft:structure_void
 ```
+
+
 **Main purpose:**
 
 1. **Maintain original terrain**
-   - When a building is generated on a hillside, the structure's vacant positions remain on the original terrain
+   - When a building is generated on a hillside, the structure's vacant positions remain on the original terrain.
    - Avoid unnecessary terrain damage
 
 2. **Partial replacement strategy**
    - Only replace blocks in specific areas
    - Maintain natural terrain transitions
 
-3. **AIR AREA MARKING**
+3. **Air Zone Marker**
    - Clearly mark which locations should be air
    - Distinguish between "replace with air" and "do not replace"
 
@@ -396,14 +413,15 @@ The identifier of the current puzzle block, used to match other puzzle blocks.
 
 Specify the name of the puzzle block to be connected, which must match for successful connection.
 
-```
-text
+```text
 连接示例:
 拼图 A 名称: "minecraft:building_entrance"
 方块 B 目标名称: "minecraft:building_entrance"
 → 成功连接
 ```
-#### 4. Transform into
+
+
+#### 4. transform into
 
 When the game naturally generates a structure, it will automatically remove all puzzle blocks. Here, fill in the block type that will be converted into after the puzzle block is removed.
 Fill in as`minecraft:structure_void`The effect is the same as the previous structural vacancy.
@@ -412,43 +430,44 @@ Fill in as`minecraft:structure_void`The effect is the same as the previous struc
 
 Controls the number of recursively generated layers when clicking the "Generate" button. It is only used for in-game debugging and will not be written to the template file.
 
-#### 6. Keep the puzzle
+#### 6. Keep the puzzle pieces
 
 Determines whether the puzzle block will be retained after the structure is generated. It is only used for in-game debugging and will not be written to the template file.
 
-## Efficient structure file management and optimization
+## Efficient structural file management and optimization
 
 **Structural Verification Checklist:**
 
 - [ ] The puzzle block is configured correctly
-- [ ] Structural spaces are placed reasonably
+- [ ] Structural vacancies are placed reasonably
 - [ ] Dimensions comply with restrictions
 - [ ] Compatible with target pool
 - [ ] File naming convention
 
 After you complete the above check items, you can put the exported nbt file into the structure folder of your data pack. To keep your project tidy, it is recommended to create a sensible subfolder structure to organize different types of buildings:
 
-```
-text
+```text
 数据包
 └── data
-    └── custom    #namespace folder
+    └── custom    # 命名空间文件夹
         └── structure
-            ├── building    #The set of subfolders is just for organization and not necessary.
+            ├── building    # 套的子文件夹，仅仅是为了规整，非必须
             │   ├── house_small.nbt
             │   └── house_large.nbt
             └── decoration
                 └── fountain.nbt
 ```
+
+
 Since structure files are in binary NBT data format and use gzip compression, it is quite difficult to edit these files directly. Fortunately, the community has developed excellent tools to solve this problem. Use VSCode editor and install [NBT Viewer](https://marketplace.visualstudio.com/items?itemName=Misodee.vscode-nbt) plug-in, you can easily open and edit these structure template files.
 
 The plug-in’s 3D visualization capabilities are particularly useful. When you select a specific block in the 3D view, you can directly modify the data stored inside it. As shown in the figure below, we can directly modify the structure pool name in the puzzle block through the plug-in, which greatly simplifies the production and debugging process of data pack:
 
 ![img](../../../../../feature/archive/202508/0/11.png)
 
-## Build structure pool system
+## Building a structure pool system
 
-The structure pool is the core configuration file of the puzzle generation system, which defines the connection relationships and generation logic between structures. For detailed parameter description, please refer to &lt;https://zh.minecraft.wiki/w/%E7%BB%93%E6%9E%84%E6%B1%A0&gt;.
+The structure pool is the core configuration file of the puzzle generation system, which defines the connection relationships and generation logic between structures. For detailed parameter description, please refer to &lt;https://zh.minecraft.wiki/w/%E7%BB%93%E6%9E%84%E6%B1%A0&gt;。
 
 The "target pool" field configured in the puzzle block is actually the ID identifier of the structure pool. When the game generates the starting structure, the puzzle block in the starting structure will search for the corresponding structure pool configuration in the data pack based on this identifier, and then randomly select the appropriate structure from the pool for recursive generation. Throughout the process, the system can also perform additional modifications and processing of the structure before and after generation.
 
@@ -456,45 +475,45 @@ The generation of vanilla villages follows a carefully designed hierarchical str
 
 In order to efficiently realize our Atlantis village project, we will adopt a progressive approach: based on modifying the vanilla template file, focus on creating the structure pool configuration of the three core parts of the starting structure, street system and village building.
 
-### Starting structure pool configuration (`worldgen/template_pool/town_centers.json`)
+### Starting structure pool configuration (`worldgen/template_pool/town_centers.json`）
 
 The starting structure pool defines the core building of the village, usually a square, fountain, or other landmark. The configuration of this structure pool is relatively simple, as it only needs to contain one or a few central building options:
 
-```
-json
+```json
 {
   "elements": [
     {
       "element": {
-        //Keep writing this
+        // 固定写这个
         "element_type": "minecraft:single_pool_element",
-        //This requires us to put a template file plains_fountain_01.nbt under the structure folder (note that it is not the one under worldgen)
-        //For convenience here, we directly modify the vanilla structure file
+        // 这需要我们放一个模板文件 plains_fountain_01.nbt 在 structure 文件夹下（注意不是 worldgen 下的那个）
+        // 这里为了方便，我们直接修改原版的结构文件
         "location": "custom:plains_fountain_01",
-        //Let's leave it blank for now
+        // 我们先暂时留空
         "processors": "minecraft:empty",
-        //Must be set to rigid, otherwise it will not spawn underwater
+        // 必须设置为 rigid，否则不能在水下生成
         "projection": "rigid"
       },
       "weight": 1
     }
   ],
-  //There are no other elements in this pool, so we set an empty fallback
+  // 这个池子没有其他元素了，所以我们设置一个空的回退
   "fallback": "minecraft:empty"
 }
 ```
-### Street system pool configuration (`worldgen/template_pool/streets.json`)
+
+
+### Street System Pool Configuration (`worldgen/template_pool/streets.json`）
 
 The street system is the skeleton structure that connects various buildings and needs to contain a variety of different road types to accommodate various connection needs:
 
-```
-json
+```json
 {
   "elements": [
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        //Straight road, no cabin puzzle
+        // 直道，没有小屋拼图
         "location": "custom:straight_01",
         "processors": "minecraft:empty",
         "projection": "rigid"
@@ -504,7 +523,7 @@ json
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        //Straight, with a 13-slot hut puzzle
+        // 直道，带一个 13 格空位的小屋拼图
         "location": "custom:straight_02",
         "processors": "minecraft:empty",
         "projection": "rigid"
@@ -514,7 +533,7 @@ json
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        //Corner, hut puzzle with a 7-slot space
+        // 转角，带一个 7 格空位的小屋拼图
         "location": "custom:corner_01",
         "processors": "minecraft:empty",
         "projection": "rigid"
@@ -524,7 +543,7 @@ json
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        //Crossroads, hut puzzle with seven 7-slot spaces
+        // 十字路口，带七个 7 格空位的小屋拼图
         "location": "custom:crossroad_01",
         "processors": "minecraft:empty",
         "projection": "rigid"
@@ -535,18 +554,19 @@ json
   "fallback": "minecraft:empty"
 }
 ```
-### Building structure pool configuration (`worldgen/template_pool/houses.json`)
+
+
+### Building structure pool configuration (`worldgen/template_pool/houses.json`）
 
 The building structure pool contains various houses and functional buildings in the village, which will be called by the puzzle blocks in the street system:
 
-```
-json
+```json
 {
   "elements": [
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        //Small villager house, 7 blocks
+        // 小型村民房屋，占地 7 格
         "location": "custom:plains_small_house_1",
         "processors": "minecraft:empty",
         "projection": "rigid"
@@ -556,7 +576,7 @@ json
     {
       "element": {
         "element_type": "minecraft:legacy_single_pool_element",
-        //Medium villager house, 13 blocks
+        // 中型村民房屋，占地 13 格
         "location": "custom:plains_medium_house_1",
         "processors": "minecraft:empty",
         "projection": "rigid"
@@ -567,6 +587,8 @@ json
   "fallback": "minecraft:empty"
 }
 ```
+
+
 The structure pool configuration file alone is not enough to complete our Atlantis project. We also need to provide the supporting structure template file, which is the above configuration.`location`The specific construction document that the field refers to.
 
 At this stage, we can adopt an efficient method: directly copy the vanilla structure template file, and then use VSCode's NBT Viewer plug-in to make the necessary modifications.
@@ -593,17 +615,19 @@ This result demonstrates the power of the puzzle system: by carefully configurin
 
 In the process of developing and testing custom structures, mastering some practical instructions can greatly improve work efficiency, allowing you to quickly verify whether the configuration is correct and discover and solve problems in a timely manner.
 
-Use the locate command to quickly locate a specific structure or mob biome:
+Use the locate command to quickly locate a specific structure or mob:
 
-```
-mcfunction
+```mcfunction
 /locate structure minecraft:village_taiga
 /locate biome minecraft:wooded_badlands
 ```
+
+
 When you need to directly test the generation effect of the structure, the place command provides an instant placement function, which can directly place the specified structure or structure template at the current location:
 
 ```mcfunction
 /place structure custom:custom_village
 /place template custom:corner_01
 ```
+
 

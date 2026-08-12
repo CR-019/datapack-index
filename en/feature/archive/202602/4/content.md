@@ -1,6 +1,12 @@
 ---
 title: 'How to use the latest and hottest MC features to make vanilla chess (Part 2)'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title="How to use the latest and hottest MC features to make vanilla chess (Part 2)"
     authorName="CR_019"
@@ -8,13 +14,15 @@ title: 'How to use the latest and hottest MC features to make vanilla chess (Par
 />
 
 ### Is the title a little different?
-> Yes, because we have also made Chinese chess. You can watch this video:https://www.bilibili.com/video/BV1EhFWzJE9G
+> Yes, because we have also made Chinese chess. You can watch this video:
+https://www.bilibili.com/video/BV1EhFWzJE9G
+
 ## Preliminary summary
 In the last video, we explained in detail how to spell out the patterns and words, and made the model part and operation interface part of chess. However, currently there is no response when we click on this dialog. Therefore, we need to add click events to these fonts to make the interface operable. How to correctly select and place the chess pieces by setting the click command and parsing the input results is what this tutorial will discuss.
 
-## Part0: Analysis of operation process
+## Part0: Analyze the operation process
 Before we officially start, we need to consider what the player's operation process is like:
-Because there are no rules for moving pieces, we only need to consider the player selecting and placing the pieces.  
+Because there are no rules for moving pieces, we only need to consider the player selecting and placing the pieces.
 Therefore, we need to maintain a **selected state**, and then respond differently to click events depending on whether it has a selected state:
 - When no piece is selected:
   - If you click on a space on the chessboard or a space in the capturing area, no operation will be performed;
@@ -24,51 +32,51 @@ Therefore, we need to maintain a **selected state**, and then respond differentl
   - If you click on the capture area, move the chess pieces off the board;
   - If you click on itself, cancel the selection;
   - If you click on your own chess piece, switch to select that chess piece;
-  - If you click on the enemy chess piece, the piece will be captured (move the chess piece and remove the enemy chess piece from the board).
+  - If you click on the enemy chess piece, you will capture the piece (move the chess piece and remove the enemy chess piece from the board).
 
 Next, just follow this idea and design the logical system of the chessboard.
 
-:::tip about binding
-There is still an unresolved problem here, which is how to determine which chessboard the player is operating?  
-In fact, the DC engine comes with its own uid system. When the player clicks on the chessboard, the uid of the chessboard can be bound to the player's`pc_chess_bind`On the scoreboard, you can use this binding relationship to search in both directions when searching for entities.  
+:::tip About binding
+There is still an unresolved problem here, which is how to determine which chessboard the player is operating?
+In fact, the DC engine comes with its own uid system. When the player clicks on the chessboard, the uid of the chessboard can be bound to the player's`pc_chess_bind`On the scoreboard, when searching for an entity, you can use this binding relationship to search in both directions.
 When exiting the dialog interface, monitoring will also be performed to unbind the player from the chessboard.
 :::
 
 ## Part1: Monitor click operations
-Fonts can be set`click_event`, then the player can execute a command when he clicks on the font.  
-However, due to ~~*Mojang's little ingenuity*~~ **For ~~security~~** considerations, any command with permissions greater than or equal to 1 will pop up a secondary confirmation pop-up window here, which is disastrous for the player's interactive experience. Therefore, we have to use the only operable 0 permission command: **trigger**.  
+Fonts can be set`click_event`, then the player can execute a command when clicking the font.
+However, due to ~~*Mojang's little ingenuity*~~ **For ~~security~~** considerations, any command with permissions greater than or equal to 1 will pop up a secondary confirmation pop-up window here, which is disastrous for the player's interactive experience. Therefore, we have to use the only operable 0-privilege directive: **trigger**.
 
-:::tip about trigger command
-Data pack developers who have been involved since 1.13 or even in the 1.20 era may not be familiar with this ancient command. Specifically, it allows a player without permission to modify the value of a specific scoreboard a limited number of times through this command (the scoreboard needs to be a trigger criterion).  
-For example, an administrator can execute`scoreboard players enable CR_019 Foo`, so player`CR_019`Just execute it once`trigger foo set 1`or`trigger foo add 1`Come and modify yourself once`foo`Scores on this scoreboard. If you want to modify it later, you need to execute the enable command above again.  
+:::tip About trigger instructions
+Data pack developers who have been involved since 1.13 or even in the 1.20 era may not be familiar with this ancient command. Specifically, it allows a player without permission to modify the value of a specific scoreboard a limited number of times through this command (the scoreboard needs to be a trigger criterion).
+For example, an administrator can execute`scoreboard players enable CR_019 Foo`, so player`CR_019`Just execute it once`trigger foo set 1`or`trigger foo add 1`Come and modify yourself once`foo`Scores on this scoreboard. If you want to modify it later, you need to execute the enable command above again.
 Here, we need to allow the player to modify the value of the corresponding points item at any time, so we use high-frequency function to enable permissions for this scoreboard for all players. No further details will be given later.
 :::
 
 Through the trigger instruction, we can pass an integer to the scoreboard. When it changes, we know that the player clicked.
 
-:::warning introduces the concept: click value
-Since almost all subsequent click events use trigger to set the scoreboard, for the convenience of explanation, we will call the set value **click value**.  
-Setting the click value means setting the click event of this character to`trigger pc_chess_trigger set &lt;click value>`, when the high-frequency function here detects a player click, it can obtain this value and analyze its meaning.
+:::warning Introducing the concept: click value
+Since almost all subsequent click events use trigger to set the scoreboard, for the convenience of explanation, we will call the set value **click value**.
+Setting the click value means setting the click event of this character to`trigger pc_chess_trigger set &lt;点击值>`, when the high-frequency function here detects a player click, it can obtain this value and analyze its meaning.
 :::
 
 
-data/chess/function/tick.mcfunction:
-
+data/chess/function/tick.mcfunction：
 ```mcfunction
 scoreboard players enable @a pc_chess_trigger
 
-#click operation
+#点击操作
 execute as @a at @s if score @s pc_chess_trigger matches 1.. run function chess:dialog/_operation/click
 execute as @a at @s if score @s pc_chess_trigger matches ..-1 run function chess:dialog/_operation/option
 
 scoreboard players set @a pc_chess_trigger 0
 ```
+
+
 We use a high-frequency function to detect changes in this value, and then handle the subsequent logic in the click function.
 
 data/chess/function/dialog/_operation/click.mcfunction
-
 ```mcfunction
-#click event
+#点击事件
 tag @s add pc_chess_player_temp
 execute as @e[type=marker,tag=dc_pivot,distance=..10] if score @s dc_uid = @n[type=player,tag=pc_chess_player_temp] pc_chess_bind run function chess:dialog/_operation/click_
 
@@ -78,12 +86,14 @@ tag @s remove pc_chess_player_temp
 
 data/chess/function/dialog/_operation/click_.mcfunction
 ```mcfunction
-#check status
+#检查状态
 execute if data entity @s data.chessboard.select run return run function chess:dialog/_operation/place
 
 execute unless data entity @s data.chessboard.select run return run function chess:dialog/_operation/select
 ```
-Here we check whether the chessboard data has`select`tag, if present, means that the chessboard is selected. In the selected state, the placement-related functions are executed, otherwise the selection-related functions are executed.  
+
+
+Here we check whether the chessboard data has`select`tag, if present, means that the chessboard is selected. In the selected state, the placement-related functions are executed, otherwise the selection-related functions are executed.
 
 ::: tip
 The structure of select is as follows:
@@ -104,13 +114,12 @@ The structure of select is as follows:
 
 > - When no piece is selected:
 > - If you click on a space on the chessboard or a space in the capturing area, no operation will be performed;
-> - If you click on the square of the chess piece on the board/capture area, select the chess piece.
+> - If you click on the square of the chess piece on the board/capture area, the chess piece will be selected.
 
 
 data/chess/function/dialog/_operation/select.mcfunction
-
 ```mcfunction
-#Select grid
+#选择格子
 
 scoreboard players operation @s pc_chess_position = @n[tag=pc_chess_player_temp] pc_chess_trigger
 
@@ -118,7 +127,7 @@ execute if score @s pc_chess_position matches 1..64 run function chess:dialog/_o
 
 execute if score @s pc_chess_position matches 101.. run function chess:dialog/_operation/select/piece
 
-#synchronous
+#同步
 tag @s add pc_chess_board_temp
 tag @a remove pc_chess_player_temp
 playsound ui.button.click block @a ~ ~ ~
@@ -126,21 +135,23 @@ execute as @a if score @s pc_chess_bind = @n[type=marker,tag=pc_chess_board_temp
 function chess:events/sync/execute
 tag @s remove pc_chess_board_temp
 ```
-### Select operation
 
-At this point, we need to parse the specific coordinates of the player's click based on the click value.  
-When splicing the dialog, I specified a separate trigger value for the coordinate of each checkerboard. Assign click values ​​1-64 from left to right and bottom to top.  
+
+### Select action
+
+At this point, we need to parse the specific coordinates of the player's click based on the click value.
+When splicing the dialog, I specified a separate trigger value for the coordinate of each checkerboard. Assign click values ​​1-64 from left to right and bottom to top.
 *Specially, for the sake of uniformity, when flipping the perspective, the click value of the dialog is actually rotated 180 degrees. When arranging the mapping of the chess pieces, just invert one x and one y, which is also very simple. *
 
-In the capture area below, click values of 101-116 and 201-216 are assigned to the font of the chess piece according to the position of the chess piece. The click value of the empty character used to place the placeholder is set to 100, and no response is made to this value.
+In the capture area below, click values ​​of 101-116 and 201-216 are assigned to the font of the chess piece according to the position of the chess piece. The click value of the empty character used to place the placeholder is set to 100, and no response is made to this value.
 
 The chess pieces in the capture area are very simple. Since each click value corresponds to a specific chess piece, you can exhaustively set the corresponding chess piece color and ID.
 
 ::: details data/chess/function/dialog/_operation/select/piece.mcfunction
 
 ```mcfunction
-#eating area
-#Traverse directly
+#吃子区
+#直接遍历
 
 execute if score @s pc_chess_position matches 101 run data modify entity @s data.chessboard.select set value {x:0,y:0,type:"pieces",color:"white",id:"king"}
 execute if score @s pc_chess_position matches 102 run data modify entity @s data.chessboard.select set value {x:1,y:0,type:"pieces",color:"white",id:"queen"}
@@ -176,26 +187,26 @@ execute if score @s pc_chess_position matches 214 run data modify entity @s data
 execute if score @s pc_chess_position matches 215 run data modify entity @s data.chessboard.select set value {x:14,y:1,type:"pieces",color:"black",id:"pawn6"}
 execute if score @s pc_chess_position matches 216 run data modify entity @s data.chessboard.select set value {x:15,y:1,type:"pieces",color:"black",id:"pawn7"}
 ```
+
 :::
 
 On the chessboard it's a little more complicated. It is necessary to first decompose the incoming click value into xycoordinate, and then compare it with the data of the chess piece position one by one to confirm whether there is a chess piece at the clicked position;
 If there are no chess pieces, it will end directly. If there are chess pieces, in addition to setting the selected chess piece id and color, you also need to record the selected coordinate. There are three functions to handle here.
 
-::: details chessboard processing function
+::: details Checkerboard processing function
 
 data/chess/function/dialog/_operation/select/chessboard.mcfunction：
-
 ```mcfunction
-#on the chessboard
+#在棋盘上
 scoreboard players remove @s pc_chess_position 1
-#Decompose horizontal and vertical coordinates
+#分解横纵坐标
 scoreboard players operation $x pc_chess_position = @s pc_chess_position
 scoreboard players operation $y pc_chess_position = @s pc_chess_position
 scoreboard players operation $x pc_chess_position %= $8 pc_chess_position
 scoreboard players operation $y pc_chess_position /= $8 pc_chess_position
 
 
-#Traverse selection
+#遍历选择
 function chess:dialog/_operation/select/chessboard_piece
 ```
 
@@ -343,13 +354,14 @@ execute store result entity @s data.chessboard.select.y int 1 run scoreboard pla
 
 scoreboard players set @s pc_chess_switch 1
 ```
+
 :::
 
 ### Synchronous operation
 Finally, we need to render the selection box to the player's dialog. In fact, we only need to perform a synchronization operation. The rendering of the selection box will be completed automatically when the dialog is refreshed. The same is true for the synchronization of the position of the chess pieces when placing the chess pieces later. A unified process is used here:
 
 ```mcfunction
-#synchronous
+#同步
 tag @s add pc_chess_board_temp
 tag @a remove pc_chess_player_temp
 playsound ui.button.click block @a ~ ~ ~
@@ -357,6 +369,8 @@ execute as @a if score @s pc_chess_bind = @n[type=marker,tag=pc_chess_board_temp
 function chess:events/sync/execute
 tag @s remove pc_chess_board_temp
 ```
+
+
 Refresh and display the dialog once for the player, and refresh the model synchronously once, so that the data stored in the model can be synchronized to the display.
 
 ## Part3: Placement operation
@@ -366,24 +380,23 @@ Refresh and display the dialog once for the player, and refresh the model synchr
 > - If you click on the capture area, move the chess pieces off the board;
 > - If you click on itself, cancel the selection;
 > - If you click on your own chess piece, switch to select that chess piece;
-> - If you click on the enemy chess piece, capture the piece (move the chess piece and remove the enemy chess piece from the board).
+> - If you click on the enemy chess piece, the piece will be captured (move the chess piece and remove the enemy chess piece from the board).
 
 The part of placing chess pieces is a little more complicated, but it is generally divided into two categories: click on the grid on the chessboard or capture the piece area. Still use the click value for the first conditional judgment:
 
 
 data/chess/function/dialog/_operation/place.mcfunction:
-
 ```mcfunction
-#place chess pieces
+#放置棋子
 
 scoreboard players operation @s pc_chess_position = @n[tag=pc_chess_player_temp] pc_chess_trigger
 
-#on the chessboard
+#在棋盘上
 execute if score @s pc_chess_position matches 1..64 run function chess:dialog/_operation/place/chessboard
-#outside the chessboard
+#在棋盘外
 execute if score @s pc_chess_position matches 100.. run function chess:dialog/_operation/place/piece
 
-#synchronous
+#同步
 tag @s add pc_chess_board_temp
 tag @a remove pc_chess_player_temp
 playsound block.decorated_pot.place block @a ~ ~ ~
@@ -391,67 +404,70 @@ execute as @a if score @s pc_chess_bind = @n[type=marker,tag=pc_chess_board_temp
 function chess:events/sync/execute
 tag @s remove pc_chess_board_temp
 ```
+
+
 ### First conditional judgment
 
 The logic of the capture area is very simple. If the selected piece is already in the capture area, just cancel the selection; if it is on the chessboard, move it out of the chessboard (set xy to -1).
 
 data/chess/function/dialog/_operation/place/piece.mcfunction:
-
 ```mcfunction
-#If you are already in the sub-eating area, just cancel your selection.
+#如果本来就在吃子区，直接取消选择
 execute if data entity @s {data:{chessboard:{select:{type:"pieces"}}}} run return run data remove entity @s data.chessboard.select
 
-#If on the board, remove it from the board
+#如果在棋盘上，将其移出棋盘
 execute unless data entity @s {data:{chessboard:{select:{type:"pieces"}}}} run function chess:dialog/_operation/place/piece_place with entity @s data.chessboard.select
 ```
 
 
 data/chess/function/dialog/_operation/place/piece_place.mcfunction
 ```mcfunction
-#Remove pieces
+#移出棋子
 $data modify entity @s data.chessboard.chess_pieces.$(color).$(id) set value {x:-1,y:-1}
 
 data remove entity @s data.chessboard.select
 ```
+
+
 The logic of clicking on the chessboard is similar to that of selection. It still analyzes the coordinates first, and then determines the chess piece in the position. There are some changes in the part of judging chess pieces:
 - First, a new self-check is added, just check the xycoordinate of the select directly;
 - Then judge the relationship between the enemy and ourselves based on the color of the selected chess piece, and handle them separately:
 
-Finally, if no piece is matched, it is a space, move and clear the selection.
+Finally, if there is no matching piece, it is a space, move and clear the selection.
 
 data/chess/function/dialog/_operation/place/chessboard.mcfunction:
-
 ```mcfunction
-#on the chessboard
+#在棋盘上
 scoreboard players remove @s pc_chess_position 1
-#Decompose horizontal and vertical coordinates
+#分解横纵坐标
 scoreboard players operation $x pc_chess_position = @s pc_chess_position
 scoreboard players operation $y pc_chess_position = @s pc_chess_position
 scoreboard players operation $x pc_chess_position %= $8 pc_chess_position
 scoreboard players operation $y pc_chess_position /= $8 pc_chess_position
 
-#Determine whether it is oneself
+#判断是否是自身
 execute store result score $px pc_chess_position run data get entity @s data.chessboard.select.x
 execute store result score $py pc_chess_position run data get entity @s data.chessboard.select.y
 execute unless data entity @s {data:{chessboard:{select:{type:"pieces"}}}} if score $px pc_chess_position = $x pc_chess_position if score $py pc_chess_position = $y pc_chess_position run return run data remove entity @s data.chessboard.select
 
 
-#Determine whether it is the position of other chess pieces
+#判断是否是其他棋子的位置
 scoreboard players set @s pc_chess_switch 0
 execute if data entity @s {data:{chessboard:{select:{color:"white"}}}} run function chess:dialog/_operation/place/chessboard_piece_white
 execute if data entity @s {data:{chessboard:{select:{color:"black"}}}} run function chess:dialog/_operation/place/chessboard_piece_black
 
-#If the selection is not toggled, move the selected piece and clear the selection state.
+#如果不是切换选择，将选定的棋子移动，并清除选择状态
 execute unless score @s pc_chess_switch matches 1 run function chess:dialog/_operation/place/chessboard_place with entity @s data.chessboard.select
 ```
+
+
 ### Switch selection and capture
 
 This part takes White as an example, and Black’s corresponding processing can be:
 
 ::: details data/chess/function/dialog/_operation/place/chessboard_piece_white.mcfunction:
-
 ```mcfunction
-#Own chess piece, switch selection
+#己方棋子，切换选择
 execute store result score $px pc_chess_position run data get entity @s data.chessboard.chess_pieces.white.pawn0.x
 execute store result score $py pc_chess_position run data get entity @s data.chessboard.chess_pieces.white.pawn0.y
 execute if score $px pc_chess_position = $x pc_chess_position if score $py pc_chess_position = $y pc_chess_position run return run function chess:dialog/_operation/select/chessboard_selected {color:"white",id:"pawn0"}
@@ -517,7 +533,7 @@ execute store result score $py pc_chess_position run data get entity @s data.che
 execute if score $px pc_chess_position = $x pc_chess_position if score $py pc_chess_position = $y pc_chess_position run return run function chess:dialog/_operation/select/chessboard_selected {color:"white",id:"queen"}
 
 
-#Enemy piece, capture piece
+#敌方棋子，吃子
 execute store result score $px pc_chess_position run data get entity @s data.chessboard.chess_pieces.black.pawn0.x
 execute store result score $py pc_chess_position run data get entity @s data.chessboard.chess_pieces.black.pawn0.y
 execute if score $px pc_chess_position = $x pc_chess_position if score $py pc_chess_position = $y pc_chess_position run return run function chess:dialog/_operation/place/capture {color:"black",id:"pawn0"}
@@ -582,6 +598,8 @@ execute store result score $px pc_chess_position run data get entity @s data.che
 execute store result score $py pc_chess_position run data get entity @s data.chessboard.chess_pieces.black.queen.y
 execute if score $px pc_chess_position = $x pc_chess_position if score $py pc_chess_position = $y pc_chess_position run return run function chess:dialog/_operation/place/capture {color:"black",id:"queen"}
 ```
+
+
 :::
 
 This step is to traverse the data list and check whether there is a corresponding chess piece on the grid;
@@ -589,15 +607,16 @@ If it is one's own chess piece, call the function of the select module to switch
 If it is an enemy chess piece, capture is triggered, and the corresponding color and chess piece id are passed into the capture function:
 
 data/xiangqi/function/dialog/_operation/place/capture.mcfunction:
-
 ```mcfunction
-#Capture: Move the chess piece off the board
+#吃子：将棋子移出棋盘
 
 $data modify entity @s data.chessboard.chess_pieces.$(color).$(id) set value {x:-1,y:-1}
 ```
-The step of capturing a piece only removes the enemy piece, because the part of moving the selected piece and the movement of clicking on the empty space are processed at the end.
 
-### Synchronization
+
+The step of capturing only removes the enemy chess piece, because the part of moving the selected chess piece and the movement of clicking on the empty space are processed at the end.
+
+### synchronous
 After moving the chess pieces, you need to synchronize them as usual. This part has been mentioned in the selection section, and the process is exactly the same.
 
 ## PartEX: Switch perspective and default layout

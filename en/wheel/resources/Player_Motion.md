@@ -1,5 +1,5 @@
 ---
-name: PlayerMotion
+name: Player Motion
 author:
     -
         name: MulverineX
@@ -17,13 +17,18 @@ repo: MulverineX/player_motion
 cover: /datapack-index/wheel/Player_Motion.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 This library modifies the player's momentum by accurately creating explosions at high altitudes. Read the documentation in the repository for details.
 
 Easy to use:
 
-### Modify momentum on local coordinate (`^ ^ ^`）
+### Modify momentum at local coordinate (`^ ^ ^`）
 
 ```mcfunction
 # Left/Right

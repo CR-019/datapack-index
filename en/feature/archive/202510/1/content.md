@@ -1,6 +1,12 @@
 ---
 title: 'Some ingenious ideas based on displaying entities'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "Some ingenious ideas based on displaying entities"
     authorName = "Xuanyu 1725"
@@ -9,17 +15,17 @@ title: 'Some ingenious ideas based on displaying entities'
     cover='../../../../../feature/archive/202510/_assets/1.png'
 />
 
-## Summary
+## Overview
 
 In the past, animations in vanilla mods were almost always implemented using armor stand posture transformation or TP, which was limited by the maximum TPS. Generally, the animation could only reach a maximum of 20FPS. Furthermore, it is difficult to achieve animations containing voxel deformations other than introducing more repetitive voxels.
 
 The display entity added in 1.19.4 is a very flexible and useful tool in the vanilla mod. Due to its ability to customize linear transformation and interpolation, it is widely used in various high frame rate animations. Therefore, it is very necessary to master the simple use of the display entity. **Some readers and authors pointed out that the content of Feature is relatively hard-core, which makes newcomers afraid to submit articles, so I chose to compile a simpler note showing entity animation. **
 
-> The notes have been authorized by the original author
+> Notes have been authorized by the original author
 >
 > Original address [https://www.bilibili.com/video/BV1C7HyzNEeh](https://www.bilibili.com/video/BV1C7HyzNEeh) by: 雨相日生awa
 
-This video introduces several examples of using custom baked models + showing entity interpolation animation + life cycle to create simple dynamic effects.
+This video introduces several examples of using custom baking models + showing entity interpolation animation + life cycle to create simple dynamic effects.
 
 ![alt text](../../../../../feature/archive/202510/1/image-2.png)
 
@@ -36,11 +42,11 @@ In the first example, the author used negative volume voxels to create a "stroke
 
 ![Outer outline diagram](../../../../../feature/archive/202510/1/image.png)
 
-The author here uses Blockbench's plug-in Outline Creator (by Wither) to automatically build the outer outline. If you need to manually create the outer outline, you need to first change the outer outline in Blockbench.`File -> Settings -> Snapping -> Negative Size`or`File -> Settings -> Snapping -> Nagetive Size`Check.
+The author here uses Blockbench's plug-in Outline Creator (by Wither) to automatically build the outer outline. If you need to manually create the outer outline, you need to first change the outer outline in Blockbench.`文件 -> 设置 -> 吸附 -> 负值模型`or`File -> Settings -> Snapping -> Nagetive Size`Check.
 
 In terms of commands. The author generated a scale transformation as`[5f, 5f ,25f]`The item displays the entity, and the displayed item is mounted`minecraft:item_model`Component, pointing to the model just created. At the same time, a timer is created to remove the display entity 10 ticks after it is generated. and set the new pose at 2t after generation`scale:[0f, 0f, 25f]`, interpolation 2t. This shows that the size of the entity remains unchanged in the z direction, and the x and y directions change from`5`zoom to`0`, showing the linear thinning effect of the cylinder.
 
-### The pit left by Mojang
+### The little hole left by Mojang
 
 It is worth noting that the interpolation characteristics of item display entity and block display entity are different. When the current interpolation is not completed and a new posture is set, then:
 
@@ -56,15 +62,15 @@ The figure below shows the diameter change pattern of single setting posture and
 
 ![alt text](../../../../../feature/archive/202510/1/image-1.png)
 
-## Blade and Light Example - Pseudo-particles for player
+## Sword and Light Example - Pseudo-Particles for Players
 
 Generally speaking, this type of special effect only requires placing a voxel in the model and at least one face to have a texture. by setting`billboard`, showing that the entity can rotate the model based on the camera direction. It is worth noting that the z direction of the model coordinate system is in the same direction as the camera z axis.
 
 By riding, another sword light can move completely synchronously with the sword light on the client. In this way, multiple different display entity animations can be anchored together.
 
-### The pit left by Mojang
+### The little hole left by Mojang
 
-There is a 180° horizontal rotation difference between the camera coordinate system and the player coordinate system. The z-axis of the camera coordinate system is perpendicular to the screen and outward, while the z-axis of the player coordinate system is perpendicular to the screen and inward (both are right-handed systems). If you can't get around it, for insurance, you can paste textures on both surfaces perpendicular to the z-axis of the model's coordinate system.
+There is a 180° horizontal rotation difference between the camera coordinate system and the player coordinate system. The z-axis of the camera coordinate system is perpendicular to the screen and outward, while the z-axis of the player coordinate system is perpendicular to the screen and inward (both are right-handed systems). If you can't get around it, for insurance, you can paste textures on both surfaces perpendicular to the z-axis of the model coordinate system.
 
 ## Other thoughts
 
@@ -76,7 +82,7 @@ For animations similar to lasers, the brightness of the display entity should be
 
 If you need to mount the shader on the display entity, you may need to use the leather class or other items that can specify the color through the data pack. Then detect specific **vertex color** within the shader
 
-## Summary
+## Summarize
 
 By analyzing the video of the original author Yu Xiangrisheng, this note has compiled some simple implementation methods for displaying entity animation effects:
 
@@ -84,4 +90,4 @@ By analyzing the video of the original author Yu Xiangrisheng, this note has com
 - Adjust the color effect of special effects by setting the light level
 - Achieve special effects similar to particle effects by setting automatic rotation
 - Bind multiple display entity animations by riding
-- and a few pitfalls that need attention
+- And a few pitfalls that need attention

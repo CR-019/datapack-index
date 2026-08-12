@@ -13,6 +13,11 @@ wheel: true
 
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <InfoCard />
 
 This project aims to create a dialog similar to Galgame in a simple way, and **supports parallel use by multiple people**.
@@ -21,9 +26,9 @@ This project aims to create a dialog similar to Galgame in a simple way, and **s
 
 Read its [official development documentation](https://ymqlgthbsakuradream.github.io/posts/mc/skdbox/index.html) for more information.
 
-### Prefix
+### prefix
 * [Negative Space Font](/en/wheel/resources/Neg-Space)
-*SKAPI
+* SK API
 
 ![Show pictures](https://ymqlgthbsakuradream.github.io/posts/mc/skdbox/index/20250707235217.png)
 ![Show pictures](https://ymqlgthbsakuradream.github.io/posts/mc/skdbox/index/20250707235138.png)

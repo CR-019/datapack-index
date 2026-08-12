@@ -2,11 +2,15 @@
 title: 'Miscellaneous Talk - Application and Abuse of Shaders'
 ---
 
-<FeatureHead
-    title="Miscellaneous Talk - Application and Abuse of Shaders"
-    authorName="Xuanyu1725"
-/>
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
 
+
+<FeatureHead
+title='Miscellaneous Talk - Application and Abuse of Shaders'
+authorName='Xuanyu1725'
+/>
 
 
 I have published a lot of shader tutorials on the site. Although new chapters will still be published, most of the basic content has been covered so far (except for post-processing shaders). Readers should be able to design and write shaders by themselves.
@@ -15,7 +19,7 @@ Because people repeatedly come to me to consult about some shaders that complica
 
 This article is intended for readers who already have a shader foundation, but if you are interested in the use or customization of shaders, you can also try reading this article. We won’t get too technical and talk more about design issues.
 
-## Restate the function of shader
+## Reaffirm shader functionality
 
 A shader is a program. Before this happens, the game has already decided what to render and what not to render. The game will only send some necessary data to the shader to run.
 
@@ -33,40 +37,43 @@ The function of shader is very powerful, and its C-like syntax is more flexible 
 
 [Mojang has made it clear long ago](https://www.minecraft.net/en-us/article/minecraft-snapshot-25w31a#:~:text=Shaders%20%26%20Post%2Dprocess%20Effects)**Although the shader is now open for modification, it is not officially supported to use resource packs to overwrite vanilla shaders**. Judging from Mojang's recent announcement of plans to switch from **OpenGL** to **Vulkan**, the rendering pipeline will usher in a series of changes, large and small, and each change may invalidate the part you focus on **Minecraft rendering pipeline features**. But the other parts of the resource pack are just scattered asset files. They do not need to rely on the characteristics of the entire rendering pipeline to implement functions like the shader, so their stability is much higher.
 
-In addition, not all players can accept the game experience without lighting and shadowing. Most maps or servers that use shaders do not have pictures that can convince players to turn off lighting and shadowing. The vanillashader-based resource pack we developed is almost unusable under **Optifine** and **Sodium**, and **Iris** (as a custom shader loader for **Sodium**) is also incompatible with vanilla's shader API. Either require the player to install additional mods, or develop a shader specifically suitable for these APIs. These are not very Vanilla.
+In addition, not all players can accept the game experience without lighting and shadowing. Most maps or servers that use shaders do not have pictures that can convince players to turn off lighting and shadowing. The vanilla shader-based resource pack we developed is almost unusable under **Optifine** and **Sodium**, and **Iris** (as a custom shader loader for **Sodium**) is also incompatible with vanilla's shader API. Either require the player to install additional mods, or develop a shader specifically suitable for these APIs. These are not very Vanilla.
 
 <img src="../../../../../feature/archive/202605/2/img/B61DB6C867B0F17A77F525843FDACD3D.jpg" width="420">
+
 ## What are the functions of other components of the resource pack?
 
 Before discussing when to use shaders, it is necessary to understand the functions of other components of the resource pack. Now the resource pack is very powerful except for the shader. Here we give some examples to illustrate which functions that once required the use of shaders have now been replaced by more stable and supported solutions. If you are not interested in these solutions, you can skip directly to the next section
 
-### Rotation angle
+### rotation angle
 
 The current model is no longer limited to rotation angles, and baked model production is more flexible (I did design some shaders to extend the rotation restrictions, but with the addition of display entities and the subsequent relaxation of rotation restrictions, these shaders are completely meaningless).
 
 ### Affine transformation
 
-In the latest snapshot (belonging to`26.1`) allows adding a new model to the itemmodel mapping`transformation`Field, the format is the same as the display entity, which means that in addition to a rigid body transformation, the current model transformation can also have an arbitrary affine transformation (that is, allowed to be sheared), which means that each element of the baked model can now be a parallelepiped, and in this way, the baked model can be used to represent the triangular surface without the need to use a series of elements to approximate the triangular surface as in the past, so [objmc](https://github.com/Godlander/objmc) shader project may no longer be useful in the future (but when the model is more complex, **objmc** performs better, because using the model solution will introduce dozens of times the number of vertices).
+In the latest snapshot (belonging to`26.1`) allows adding a new model to the item model mapping`transformation`Field, the format is the same as the display entity, which means that in addition to a rigid body transformation, the current model transformation can also have an arbitrary affine transformation (that is, allowed to be sheared), which means that each element of the baked model can now be a parallelepiped, and in this way, the baked model can be used to represent the triangular surface without the need to use a series of elements to approximate the triangular surface as in the past, so [objmc](https://github.com/Godlander/objmc) shader project may no longer be useful in the future (but when the model is more complex, **objmc** performs better, because using the model solution will introduce dozens of times the number of vertices).
 
 The image below shows how to represent a triangle with 3 parallelograms. Since each parallelogram is actually a baked model element, it has$24 \times 3$vertices and$12 \times 3$A triangular surface.
 
 <img src="../../../../../feature/archive/202605/2/img/ec24596e03af3a1b245847b18fa416fe.png" width="420">
+
 ### Condition checks related to client
 
-itemmodel mapping allows baking models to be mapped through item stack properties.
+item model mapping allows baking models to be mapped through item stack properties.
 
-One of the application scenarios of shaders is to replace the client condition check that vanilla does not have to control model changes. However, itemmodel mapping has added a large number of allowed conditions, and more will be added in the future. In addition to checking the status of the **item Stack** on the server side, itemmodel mapping also allows checking:
+One of the application scenarios of shaders is to replace the client condition check that vanilla does not have to control model changes. However, item model mapping has added a large number of allowed conditions, and more will be added in the future. In addition to checking the status of the **item Stack** on the server side, item model mapping also allows checking:
 
 - extended_view: Check whether the current client is pressed`⇧ Shift`and the item is rendered within the GUI
-- keybind_down: Check whether the key binding is pressed
-- selected: Check whether the player has selected this item stack in the shortcut bar
+- keybind_down: Check whether the keybind is pressed
+- selected: Checks whether the player has selected this item stack in the shortcut bar
 - view_entity: Check whether the camera is on this entity (such as yourself in normal mode and the entity watching in spectator mode)
--...
+- ...
 
-::: details Tucao
-> Tucao view_entity's introduction on the wiki is really inhumane, the Chinese wiki is
+::: details Make complaints
+> The introduction of view_entity on the wiki is really unspeakable. The Chinese wiki is
 >
->Check whether the mob holding this item stack is the entity currently serving as the camera, that is, whether it is the current player in non-spectator mode, and whether it is the corresponding entity currently entering the perspective in spectator mode."`(editor's note: no longer)`>
+>Check whether the mob holding this item stack is the entity currently serving as the camera, that is, whether it is the current player in non-spectator mode, and whether it is the corresponding entity currently entering the perspective in spectator mode."`（编者注：已不再是）`
+>
 >English wiki is
 >
 > - When not spectating, return true if context entity is the local > player entity, i.e. the one controlled by client.
@@ -74,12 +81,12 @@ One of the application scenarios of shaders is to replace the client condition c
 > - When spectating, return true if context entity is the spectated entity.
 >
 > - If context entity is not present, will return false.
+<img src="../../../../../feature/archive/202605/2/img/9945d493081e928aaa095b45317ef5ee.png" width="400">
+:::
 
-<img src="../../../../../feature/archive/202605/2/img/9945d493081e928aaa095b45317ef5ee.png" width="400">:::
+### negative size model
 
-### Negative size model
-
-Negative dimension modeling is a modeling technique. Since Minecraft's rendering pipeline accepts elements with negative side lengths, each directed face will be inverted during rendering, so that the player can only see the back of the model in the usual sense instead of the front. This technique can achieve a stroke-like effect. (Can also be used to achieve hollowing out)
+Negative dimension modeling is a modeling technique. Since Minecraft's rendering pipeline accepts elements with negative side lengths, each directed face will be inverted during rendering, so that the player can only see the back of the model in the usual sense rather than the front. This technique can achieve a stroke-like effect. (Can also be used to achieve hollowing out)
 
 The following is from [夜LOY_ALoyi](https://space.bilibili.com/352879603) 、[numio](https://space.bilibili.com/420920060) and [Jinchuan](https://space.bilibili.com/10016652) for three examples of negative size models:
 
@@ -88,21 +95,22 @@ The following is from [夜LOY_ALoyi](https://space.bilibili.com/352879603) 、[n
 <img src="../../../../../feature/archive/202605/2/img/faf0fb026df7fb748728e7176eb6a6a8.png" width="100">
 
 <img src="../../../../../feature/archive/202605/2/img/image.png" width="240">
-### Negative spaces
+
+### negative space
 
 Negative space refers to an invisible character with a negative width introduced in a custom font. Normally, the font needs to rely on a width to determine where its next character should start rendering. If this width is negative, then our pointer will move forward, creating some overlap when rendering. This eliminates the trouble of using a shader to translate text left and right. At the same time, the native font system can eliminate a lot of work of marking the shader.
 
-(If you need a lot of up and down movement, you may still need a shader. You can refer to the front [BetterTitle - Huoyu](https://vanillalibrary.mcfpp.top/datapack-index/wheel/resources/Better_Title.html))
+(If you need a lot of up and down movement, you may still need a shader. You can refer to the front [BetterTitle - Huoyu](https://vanillalibrary.mcfpp.top/datapack-index/wheel/resources/Better_Title.html)）
 
-### Connect texture (face culling)
+### Join textures (face culling)
 
 This is a slightly special example that uses the optimization mechanism of face culling to achieve optfine's connected texture effect. The main principle is to put different differences into the same model, and use face elimination to determine the faces to eliminate other differences, leaving only one. In this way, the block can decide to use different models based on the connection status of the blocks around it.
 
 This technique can even almost completely replace the shader, because the shader can only see each vertex or pixel itself, but cannot see what the surrounding blocks look like. This technique is in [this article](../2_texture/content).
 
-## Main application scenarios of shader
+## The main application scenarios of shaders
 
-This paragraph may look like it is written in a textbook, but we must be clear about what work the shader was originally introduced to accomplish.
+This paragraph may look like it is written in a textbook, but we must be clear about what work the shader was originally introduced to complete.
 
 In terms of purpose, the job of the vertex shader is to obtain the final screen position by performing efficient matrix operations on the vertex positions defined in the program, while the job of the fragment shader is to obtain the final color of each pixel through some texture sampling and mathematical operations. However, their functions can be summarized as: determining the position of any vertex and determining the color of any pixel.
 
@@ -112,38 +120,59 @@ So what are the typical applications that can only be realized by shaders? We ca
 
 - Fine-tuning the lighting model: Minecraft's lighting model is fixed. The only operable space is the ambient occlusion of the block model (can be turned off), the light level of the display entity, and the self-illumination of the baked model. However, elements such as dynamic models are not allowed to be modified at all, so you need to rely on the shader to make custom adjustments to these contents.
 
-<img src="../../../../../feature/archive/202605/2/img/QQ_1773928349320.png" width="420">- Skybox: Minecraft’s skybox is fixed, but Optfine has introduced the function of customizing the skybox very early, which is a highly requested feature. However, Minecraft's skybox is a solid color map rendered through a special shader. The color is only related to the position, so we can only use the shader to programmatically generate the sky. (Image from [Wolf King](https://space.bilibili.com/508626439) )
+<img src="../../../../../feature/archive/202605/2/img/QQ_1773928349320.png" width="420">
 
-<img src="../../../../../feature/archive/202605/2/img/9c1afcf748f9a066a77369819ff76468.png" width="420">- Camera control: Although the data pack can control the player's coordinates and orientation, there is a jitter problem. In order to solve the jitter problem, client-level camera control (such as Bedrock Edition's`/camera`command, but not in the Java version), which requires a shader to control the position and orientation of the camera by modifying the MVP matrix.
+- Skybox: Minecraft’s skybox is fixed, but Optfine introduced the function of customizing the skybox very early, which is a highly requested feature. However, Minecraft's skybox is a solid color map rendered through a special shader. The color is only related to the position, so we can only use the shader to programmatically generate the sky. (Image from [Wolf King](https://space.bilibili.com/508626439) )
 
-<img src="../../../../../feature/archive/202605/2/img/2026-03-19_21.53.51.png" width="420">- Forced translucency: Some shaders in Minecraft do not support translucent rendering (such as solid blocks before 26.1), and the type of shader rendering of elements is hard-coded, so we can only force the translucency effect through the shader (randomly discarding fragments).
+<img src="../../../../../feature/archive/202605/2/img/9c1afcf748f9a066a77369819ff76468.png" width="420">
 
-<img src="../../../../../feature/archive/202605/2/img/QQ_1770161816441.png" width="420">- Completely remove certain elements: Minecraft has a large amount of content that does not allow texture modification, or is not rendered through textures at all (such as the old version of tooltip), so we can only completely remove these elements through the shader.
+- Camera control: Although the data pack can control the player's coordinates and orientation, there is a jitter problem. In order to solve the jitter problem, client-level camera control (such as Bedrock Edition's`/camera`command, but not in the Java version), which requires a shader to control the position and orientation of the camera by modifying the MVP matrix.
+
+<img src="../../../../../feature/archive/202605/2/img/2026-03-19_21.53.51.png" width="420">
+
+- Forced translucency: Some shaders in Minecraft do not support translucent rendering (such as solid blocks before 26.1), and the type of shader rendering of elements is hard-coded, so we can only force the translucency effect through the shader (randomly discarding fragments).
+
+<img src="../../../../../feature/archive/202605/2/img/QQ_1770161816441.png" width="420">
+
+- Completely remove certain elements: Minecraft has a large amount of content that does not allow texture modification, or is not rendered through textures at all (such as the old version of tooltip), so we can only completely remove these elements through the shader.
 
 <img src="../../../../../feature/archive/202605/2/img/image-5.png" width="420"> 
 
-<img src="../../../../../feature/archive/202605/2/img/image-6.png" width="420">- Generate texture: Similar to the above, for elements that cannot be changed by modifying the texture, we can only generate new textures through the shader. (Algorithm from [_polymath](https://www.shadertoy.com/view/lsVBWy) ）
+<img src="../../../../../feature/archive/202605/2/img/image-6.png" width="420">
 
-<img src="../../../../../feature/archive/202605/2/img/image-3.png" width="420">- Rendering different models in different contexts: Although itemmodel mapping already allows us to render different models based on some conditions, these conditions are still very limited, so we can only implement more complex condition checks through shaders. (Mainly by rendering multiple models at the same time, and then using the shader to decide which models to discard) (Model from [Not Zeli](https://space.bilibili.com/1236612296) )
+- Generate texture: Similar to the above, for elements that cannot be changed by modifying the texture, we can only generate new textures through the shader. (Algorithm from [_polymath](https://www.shadertoy.com/view/lsVBWy) ）
 
-> When this article is published, this function can already be implemented using itemmodel mapping.
+<img src="../../../../../feature/archive/202605/2/img/image-3.png" width="420">
 
-<img src="../../../../../feature/archive/202605/2/img/67ac66e11c0a7ea07ab29d5d1f9b42ed.png" width="420">The above contents are all possible solutions as Mojang opens new interfaces, and the following functions must be implemented through the shader (that is, the shader's job) even if Mojang joins:
+- Rendering different models in different contexts: Although item model mapping already allows us to render different models based on some conditions, these conditions are still very limited, so we can only implement more complex condition checks through shaders. (Mainly by rendering multiple models at the same time, and then using the shader to decide which models to discard) (Model from [Not Zeli](https://space.bilibili.com/1236612296) )
+
+> At the time of publishing this article, this feature can already be implemented using item model mapping.
+
+<img src="../../../../../feature/archive/202605/2/img/67ac66e11c0a7ea07ab29d5d1f9b42ed.png" width="420">
+
+The above contents are all possible solutions as Mojang opens new interfaces, and the following functions must be implemented through the shader (that is, the shader's job) even if Mojang joins:
 
 - Water surface ripples: Without considering physical interaction, simple water surface ripples are very suitable to be implemented with a shader. You only need to ensure that the results calculated by the shader have an integer number of periods within the range of the data and are continuous everywhere to create a good ripple effect.
 
-<img src="../../../../../feature/archive/202605/2/img/image-2.png" width="420">- Lighting model: Minecraft uses a very simplified lighting model (similar to Lambert diffuse reflection), and the shader allows us to implement more complex lighting models (such as Blinn-Phong, Cook-Torrance, etc.).
+<img src="../../../../../feature/archive/202605/2/img/image-2.png" width="420">
 
-<img src="../../../../../feature/archive/202605/2/img/image-1.png" width="420">- Stylized rendering: Through shaders we can achieve some special rendering effects, such as cartoon rendering, pixelation, edge detection, etc. These are typical application scenarios of shaders.
+- Lighting model: Minecraft uses a very simplified lighting model (similar to Lambert diffuse reflection), and the shader allows us to implement more complex lighting models (such as Blinn-Phong, Cook-Torrance, etc.).
 
-<img src="../../../../../feature/archive/202605/2/img/7126653836b16aca7bb5058a4fa78c6b.png" width="420">- Post-processing effects: Through shaders we can achieve some global post-processing effects, such as blur, tone mapping, depth of field, etc. These are also typical application scenarios of shaders. (Image from [Qingluka](https://space.bilibili.com/33229178) )
+<img src="../../../../../feature/archive/202605/2/img/image-1.png" width="420">
+
+- Stylized rendering: Through shaders we can achieve some special rendering effects, such as cartoon rendering, pixelation, edge detection, etc. These are typical application scenarios of shaders.
+
+<img src="../../../../../feature/archive/202605/2/img/7126653836b16aca7bb5058a4fa78c6b.png" width="420">
+
+- Post-processing effects: Through shaders we can achieve some global post-processing effects, such as blur, tone mapping, depth of field, etc. These are also typical application scenarios of shaders. (Image from [Qingluka](https://space.bilibili.com/33229178) )
 
 <img src="../../../../../feature/archive/202605/2/img/image-4.png" width="420">
-## Summary
 
-Before adopting a shader, first determine whether these features can be easily implemented with a more stable API. If you know enough about shaders, or continue to study in depth, you will be able to naturally judge which functions are suitable to be implemented with shaders, and which functions are not suitable to be implemented with shaders.
+## Summarize
 
-## References and Resources
+Before adopting a shader, first determine whether these functions can be easily implemented with a more stable API. If you know enough about shaders, or continue to study in depth, you will be able to naturally judge which functions are suitable to be implemented with shaders, and which functions are not suitable to be implemented with shaders.
+
+## Citations and Resources
 
 - objmc - GodLander: [Bypass Java Edition model limitations by baking vertex data into textures](/en/wheel/resources/objmc)
 - BetterTitle - Huoyu: [Multiple text operation library based on negative spaces and shader](/en/wheel/resources/Better_Title)

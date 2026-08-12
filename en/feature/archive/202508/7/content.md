@@ -1,6 +1,12 @@
 ---
 title: 'clang-mc: Virtual CPU and assembly development framework for Minecraft data pack'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "clang-mc: Virtual CPU and assembly development framework for Minecraft data pack"
     authorName = "xia__mc"
@@ -8,7 +14,7 @@ title: 'clang-mc: Virtual CPU and assembly development framework for Minecraft d
     resourceLink = 'https://github.com/xia-mc/clang-mc'
 />
 
-## Summary
+## summary
 
 Since the development of Minecraft data pack has always faced problems such as poor readability, difficulty in maintenance, and limited functionality, Project clang-mc attempts to improve the Minecraft data pack development experience by constructing an environment similar to modern hardware and integrating it with LLVM to achieve compatibility with high-level languages.
 
@@ -16,7 +22,7 @@ For this reason, this article serves as`Project clang-mc`As the core part, a vir
 
 By abstracting the underlying command logic into CPU instructions and memory access, this tool chain significantly simplifies the development process in some scenarios and improves code readability and maintainability. Experiments show that this solution provides a feasible compilation tool support for building an efficient and structured Minecraft automation system.
 
-## Introduction
+## introduction
 
 The LLVM compiler infrastructure and its optimization techniques are mainly oriented to the physical hardware design of the **register-memory architecture**, and its core assumptions (such as fast register access, explicit memory address space) are consistent with Minecraft's`mcfunction`There are **substantial differences** in the command execution environment.`mcfunction`It is essentially a scripting language based on sequential execution of commands and block/entity states, and lacks native support for underlying computing abstractions such as registers and unified memory address spaces.
 
@@ -35,29 +41,29 @@ Specifically, the main contributions of this article are as follows:
 - **vCPU instruction set architecture:** Define a streamlined and practical instruction set that needs to be considered`mcfunction`Execution characteristics (such as latency, command limits) and feasibility as an LLVM backend.
 - **Companion Assembly Language:** Design a set of human-readable assembly syntax for developers to write directly or as output from the LLVM backend.
 - **Assembler:** Builds an assembly code that translates into`mcfunction`command tool.
-- **vCPU runtime:** exploit`mcfunction`Native data structures to implement an efficient runtime library.
+- **vCPU runtime:** Utilization`mcfunction`Native data structures to implement an efficient runtime library.
 
 In subsequent chapters, we will introduce them one by one:
 
 - **vCPU architecture details:** Design details of registers and memory models
 - **Assembly language and assembler** Assembly language syntax and assembler design and implementation
 - **vCPU runtime mechanism** vCPU runtime implementation mechanism and performance
-- **Evaluation and Application** Comparison of typical performance, overhead, and typical bare mcfunction of vCPU instruction set.
+- **Evaluation and Application** Comparison of typical performance, overhead, and typical bare mcfunction of the vCPU instruction set.
 
-## vCPU architecture details
+## vCPU architectural details
 
 
-### Design goals
+### design goals
 
 - **Expressiveness**: Can support the basic operations required by LLVM IR (integer arithmetic, load/store, branch, function call, stack management, etc.).
-- **Compilability**: instructions can be easily mapped to`mcfunction`command sequence, and the assembler can perform predictable code generation and optimization (such as instruction fusion, constant folding).
+- **Compilability**: instructions are easily mapped to`mcfunction`command sequence, and the assembler can perform predictable code generation and optimization (such as instruction fusion, constant folding).
 - **Effectiveness**: Try to reduce the command runtime overhead under Minecraft's command restrictions (function macros, function calls, scoreboard/NBT operation overhead).
 - **Comprehensibility**: Assembly syntax is friendly to programmers familiar with x86-64, making it easy to write and debug manually.
 - **Fitness with LLVM**: Facilitates using LLVM as a front-end target (such as implementing a simple LLVM backend or target description).
 
-### Register
+### register
 
-with`x86`, `RISC-V`Similar to other popular hardware architectures,`Project clang-mc`vCPU has`caller-saved`, `callee-saved`, `special`Three kinds of **registers**.
+and`x86`, `RISC-V`Similar to other popular hardware architectures,`Project clang-mc`vCPU has`caller-saved`, `callee-saved`, `special`Three kinds of **registers**.
 
 vCPU has 32 **general registers**, including 8 **parameter/temporary registers** (r0~r7), 8 **temporary registers** (t0~t7), and 16 **persistent registers** (x0~x15). This number of registers helps LLVM fully optimize the code to avoid using slower memory while ensuring`HashMap`Work at peak performance.
 
@@ -67,31 +73,35 @@ Register based on`mcfunction`Scoreboard implementation, which is also`mcfunction
 
 In the vCPU runtime implementation, registers are mapped to a named scoreboard objective, and each register is a **virtual player**.
 
-### Memory model
+### memory model
 
 - **Linear virtual memory**: vCPU is presented as a linear byte addressing space, ranging from 0~2147483647.
-- **Memory Partitions**: Unlike x86, to simplify implementation, vCPU has no concept of "code segments", all memory is readable and writable without any differences.
+- **Memory Partitioning**: Unlike x86, to simplify implementation, vCPU has no concept of "code segments", all memory is readable and writable without any differences.
 
 In order to achieve mapping of huge memory spaces, we use **function macro** to dynamically generate instructions, which makes memory significantly slower than registers. In Minecraft 1.21, Java STL is used internally in memory`ArrayList`accomplish.
 
-### Addressing Mode (Integrity and Compatibility)
+### Addressing modes (integrity and compatibility)
 
 Referring to the addressing flexibility of x86-64, vCPU supports the following addressing expressions:
 
-- Direct immediate:`[imm]`- Register indirection:`[rbase]`- Base address + offset:`[rbase + disp]`- base + index \* scale + offset:`[rbase + rindex*scale + disp]`(scale value is not limited)
+- Direct immediate number:`[imm]`
+- Register indirection:`[rbase]`
+- Base address + offset:`[rbase + disp]`
+- Base + index \* scale + offset:`[rbase + rindex*scale + disp]`(scale value is not limited)
 
 mcfunction does not support multiple mathematical calculations at once. In order to maintain simplicity and efficiency between the assembler and the runtime, complex addressing will eventually be translated into a series of instructions.
 
-## Assembly language
+## assembly language
 
-The design goal of mcasm is to be as friendly as possible to developers familiar with x86, while adding instructions and directives that can be easily mapped to mcfunctions.
+The design goal of mcasm is to be as friendly as possible to developers familiar with x86, while adding instructions and directives that are easy to map to mcfunctions.
 
 ### Basic grammar points
 
-- tag:`label:`(Consistent with x86)
+- tag：`label:`(Consistent with x86)
 - tag modifier: such as`export test:test:`Indicates that a function is exported. The name of the exported function will not be renamed and is therefore affected by the mcfunction naming restriction.
-- Command format:`mnemonic operand1, operand2`(Supports registers, immediate numbers, and memory expressions)
-- Notes:`;`or`//`- Directives:`static`(convenient for static data)
+- Instruction format:`mnemonic operand1, operand2`(Supports registers, immediate numbers, and memory expressions)
+- Note:`;`or`//`
+- Directive:`static`(convenient for static data)
 - Macro support: for generating repeating patterns or encapsulating complex mcfunction fragments
 
 #### Example
@@ -113,6 +123,8 @@ export test:main:
     call print
     ret
 ```
+
+
 ## vCPU runtime
 
 The vCPU runtime is the core component that ultimately executes command semantics as Minecraft commands and includes the following modules:
@@ -120,23 +132,23 @@ The vCPU runtime is the core component that ultimately executes command semantic
 ### Initialization and resource management
 
 - The runtime creates the required`scoreboard objectives`、`storage`wait.
-- Allocate stack space and initialize the memory model to enable`malloc`etc. methods work normally.
+- Allocate stack space and initialize the memory model so that`malloc`etc. methods work normally.
 
-### Memory reading and writing
+### Memory read and write
 
 - The runtime provides an interface to use memory space (e.g.`std:heap/expend`Extend memory space,`std:_internal/load_heap_custom`read memory, etc.).
 
-### Latency and Visibility
+### Latency and visibility
 
 - mcfunction is single-threaded and all instructions are synchronized. So you don't need to think about this at all.
 
-## Evaluation and Application
+## Assessment and Application
 
 :::tip
-TODO Due to some unresolved issues, the benchmark cannot be done yet. Later papers and videos will be mentioned separately. Please forgive me**
+TODO Due to some unresolved issues, the benchmark cannot be done yet. Later papers and videos will be mentioned separately. Forgive me**
 :::
 
-## Application
+## application
 
 mcasm has performed well in scenarios such as structuring code and shortening the number of lines.
 
@@ -144,7 +156,7 @@ mcasm has performed well in scenarios such as structuring code and shortening th
 
 [Learn about mcasm in 100 seconds](https://www.bilibili.com/video/BV1bhtrznEzE)
 
-### Case Study
+### case study
 
 An example of **matrix multiplication** is given below to show the`mcasm`arrive`mcfunction`Conversion example.
 
@@ -310,22 +322,24 @@ execute if score t0 vm_regs < r3 vm_regs run return run return run function outp
 # ret
 return 1
 ```
-### Limitations
 
-- **Performance lower limit**: Although many calculations can be mapped to vCPU in concept, Minecraft's command execution model is destined to have a throughput that cannot be compared with real hardware;`Project clang-mc`The performance upper limit of mcfunction cannot be increased, and performance will still be reduced for certain operations that are difficult to simulate (IEEE 754 floating point, unsigned math calculations, etc.).
+
+### limitation
+
+- **Performance lower limit**: Although it is conceptually possible to map many calculations to vCPU, Minecraft's command execution model is destined to have a throughput that cannot be compared with real hardware;`Project clang-mc`The performance upper limit of mcfunction cannot be increased, and performance will still be reduced for certain operations that are difficult to simulate (IEEE 754 floating point, unsigned math calculations, etc.).
 - **Debugging Complexity**: Although mcasm improves readability when coding, runtime errors are still limited by ojang's debugging tool support. even though`clang-mc`The compiler provides **debugging symbols** to help establish the connection between mcfunction code and mcasm, but the debugging difficulty is still not lower than that of bare mcfunction.
 - **ABI and compatibility issues**: In order to better integrate with LLVM, we still need to define more detailed ABI documentation and test suites in subsequent work. Current documentation and other infrastructure are still severely lacking.
 
-### Future of work
+### future work
 
-- **More Advanced Instruction Optimization**: Implement stronger local/global optimization on the assembler side (optimized register allocation, data flow analysis, compile-time calculations, etc.).
+- **More Advanced Instruction Optimization**: Implement stronger local/global optimizations on the assembler side (optimized register allocation, data flow analysis, compile-time calculations, etc.).
 - **Richer standard library**: Implements string processing, I/O abstraction, asynchronous event processing, and Minecraft command binding.
 - **Toolchain integration**: Develop LLVM backend and improve the compilation toolchain from C/C++/Rust and other frontends to mcasm.
 - **Performance and Debugging Tools**: Provides improved mcfunction interpreter, register and memory visualization, debugger (based on Minecraft Mod).
 
-## Conclusion
+## in conclusion
 
-This article is in`Project clang-mc`Against the background of`x86-64`Feature inspiration, orientation`mcfunction`Environmental`vCPU`Design and`mcasm`Assembly language template.
+This article is in`Project clang-mc`Against the background of`x86-64`Feature inspiration, orientation`mcfunction`environmental`vCPU`Design and`mcasm`Assembly language template.
 
 Through the **register-memory** abstraction, we provide a feasible intermediate representation for applying the LLVM optimizer to Minecraft automation scenarios.
 
@@ -334,13 +348,13 @@ Although limited by Minecraft's command execution model, this design can signifi
 ## Acknowledgments
 
 - [Minecraft](https://www.minecraft.net): Minecraft game developed by Mojang Studios`clang-mc`Follow [Minecraft EULA](https://www.minecraft.net/en-us/eula) and related terms of use.
--[LLVM](https://llvm.org): Advanced compiler infrastructure, open source under the Apache License 2.0.
+- [LLVM](https://llvm.org): Advanced compiler infrastructure, open source under the Apache License 2.0.
 - [ankerl::unordered_dense](https://github.com/martinus/unordered_dense): A modern C++ high-performance, low-memory hash table implementation, licensed under the [MIT License](https://github.com/martinus/unordered_dense/blob/main/LICENSE)。
 - [fmt](https://fmt.dev/): A fast and secure C++ formatting library, compliant with [MIT License](https://github.com/fmtlib/fmt/blob/master/LICENSE.rst)。
 - [spdlog](https://github.com/gabime/spdlog): A high-performance C++ logging library, compliant with [MIT License](https://github.com/gabime/spdlog/blob/v1.x/LICENSE)。
-- [yaml-cpp](https://github.com/jbeder/yaml-cpp): A C++ YAML parsing and generation library, compliant with [MIT License](https://github.com/jbeder/yaml-cpp/blob/master/LICENSE).
+- [yaml-cpp](https://github.com/jbeder/yaml-cpp): A C++ YAML parsing and generation library, compliant with [MIT License](https://github.com/jbeder/yaml-cpp/blob/master/LICENSE)。
 
-## Reference
+## refer to
 
 1. [Minecraft Wiki](https://zh.minecraft.wiki/)
 2. [LLVM Compiler Infrastructure Project](https://llvm.gnu.ac.cn/)
@@ -374,4 +388,5 @@ export test:main:
     call print
     ret
 ```
+
 

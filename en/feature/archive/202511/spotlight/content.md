@@ -1,3 +1,7 @@
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <SpotlightHead
     title = "Vanilla News - Mojang Spotlight - November 2025"
     authorName = "Alumopper"
@@ -7,7 +11,7 @@
 
 Here is ***Vanilla*** news, the most ***Vanilla*** technical snapshot news in Minecraft. Our reporter *Vanilla Fox* reports the latest snapshot news for you~
 
-Mojang released a total of six snapshots this month: 25w42a-46a, all belonging to 1.21.11. The data packversion number came to **93.1**, and the resource packversion number came to **74.0**.
+Mojang released a total of six snapshots this month: 25w42a-46a, all belonging to 1.21.11. The data pack version number came to **93.1**, and the resource pack version number came to **74.0**.
 
 The technical content of this month's snapshot mainly revolves around a new content - **Environmental Attributes**. At the same time, some minor modifications and additions have been made to the main gameplay content of 1.21.11.
 
@@ -19,7 +23,7 @@ Let’s talk about the conclusion first. This month’s update is more versatile
 >
 > For more important destructive changes, they will be marked with 💥
 
-## Environment properties
+## Environmental properties
 
 Environmental attributes were added in 25w42a, relying on data-driven control of various visual effects and gameplay content. The game calculates the final environmental attribute values ​​based on multiple current environmental attribute sources (such as dimension, mob cluster, time, etc.), thereby controlling visual effects such as sky color and cloud color, as well as environmental lighting, whether the bed can be slept on, and other game behaviors.
 
@@ -43,11 +47,13 @@ For example:
   }
 }
 ```
+
+
 This example will change the radius of water fog in the corresponding dimension or mob biome to 0.85 times its original value.
 
 There are so many types of environmental attributes, from visual effects to sound effects to visual gameplay, there is already a wealth of content to explore in just a few snapshots. All environment attributes can be found in [Environment Attributes#Environment Attribute List](https://zh.minecraft.wiki/w/%E7%8E%AF%E5%A2%83%E5%B1%9E%E6%80%A7#%E7%8E%AF%E5%A2%83%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8) found in.
 
-## Timeline
+## timeline
 
 Timeline is a new experimental feature added in 25w45a, which uses the game day time as an environmental attribute source to affect environmental attributes.
 
@@ -72,9 +78,11 @@ The timeline definition format contains two fields:`period_ticks`and`tracks`. Th
     }
 }
 ```
+
+
 The period of the above timeline is 24000 ticks, which is exactly one game day. Orbit only`minecraft:gameplay/cat_waking_up_gift_chance`, that is, controlling the probability of the cat giving a gift to the player. The easing type is`constant`, represents a constant, so there is a sudden change at the key frame. Therefore, this timeline defines that between the 362nd moment and the 23667th moment, the probability of the cat giving a gift is 0, and between the 23667th moment and the 362nd moment of the next cycle, the probability of the cat giving a gift is 0.7.
 
-## Slot source
+## slot source
 
 Slot source is a new feature added in 25w44a that allows the data pack to specify any slot location. Currently, the slot source can only be used in the loot table, allowing the loot table to extract items from the corresponding slot.
 
@@ -104,6 +112,8 @@ For example:
     ]
 }
 ```
+
+
 The source of this slot is`slot_source`used in`minecraft:slot_range`Select the player's shortcut bar and equipment bar slot, in`item_filter`It is defined that the number of items in the slot must be greater than or equal to 16, so in general, this slot source selects slots with a number greater than or equal to 16 in the player shortcut bar and equipment bar.
 
 The specific slot source type can be found in [Slot Source](https://zh.minecraft.wiki/w/%E6%A7%BD%E4%BD%8D%E6%BA%90) found in.
@@ -112,26 +122,26 @@ The specific slot source type can be found in [Slot Source](https://zh.minecraft
 
 In addition to the major sections mentioned above, there are also many detailed modifications in these snapshots. To avoid being verbose, I will only write down some of the modifications that I think are more important. You can check the update log for specific modifications.
 
-* Some fields in the original dimension type format and mob definition format have been removed because they are duplicated with environment attributes.
+* Some fields in the original dimension type format and mob definition format have been removed due to duplication with environment attributes.
 
-*`kinetic_weapon`Add new field`contact_cooldown_ticks`, indicating the cooldown after a hit. You cannot interact with the entity until you are able to hit it again.
+* `kinetic_weapon`Add new field`contact_cooldown_ticks`, indicating the cooldown after a hit. You cannot interact with the entity until you are able to hit it again.
 
 * New enchantment effects`apply_exhaustion`, control the additional consumption caused to the target entity.
 
-* The world boundary is now based on game tick changes rather than real time, so pausing the game now also pauses the movement of the world boundary. Correspondingly,`/worldborder`command`time`The parameter is now also changed from accepting seconds to accepting a time value (default is tick, if there is s or d suffix, it is seconds or days)
+* The world boundary is now based on changes in game time rather than real time, so pausing the game now also pauses the movement of the world boundary. Correspondingly,`/worldborder`command`time`The parameter is now also changed from accepting seconds to accepting a time value (default is tick, if there is s or d suffix, it is seconds or days)
 
-* All game rules have been renamed from camel case to snake case, and range restrictions have been added to some game rules.
+* All game rules have been renamed from camel case to snake case, and range constraints have been added to some game rules.
 
 * New advancement trigger`spear_mobs`, triggered when the player uses any item to perform a charge attack
 
-* Some adjustments to shader
+* Some adjustments to the shader
 
-* Elements in the block model can now rotate around multiple axes
+* Elements in block models can now rotate around multiple axes
 
 Please check the update log for more details~
 
 
-- 25w42a:&lt;https://zh.minecraft.wiki/w/25w42a&gt;  
+- 25w42a：&lt;https://zh.minecraft.wiki/w/25w42a&gt;  
 - 25w43a：&lt;https://zh.minecraft.wiki/w/25w43a&gt;  
 - 25w44a：&lt;https://zh.minecraft.wiki/w/25w44a&gt;  
 - 25w45a：&lt;https://zh.minecraft.wiki/w/25w45a&gt;  

@@ -1,6 +1,12 @@
 ---
 title: 'TheSkyBlessing Analysis No. 3 - Detecting mob attacks'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title="TheSkyBlessing analyzes the third one - detecting mob attacks"
     authorName="Ling"
@@ -84,6 +90,8 @@ execute if score $CloneFlagIndex Temporary matches 00.. run tag @s add FindFlag1
 execute if score $CloneFlagIndex Temporary matches ..-1 run tag @s add FindFlag15.1
 scoreboard players reset $CloneFlagIndex Temporary
 ```
+
+
 Putting aside the long list of adding tags below, the first step of the function is actually easy to understand - under the global scoreboard there is an index number that will increase every time a mob is created. The maximum value of this index number is 2^16 and is reset when it is reached. This ID is the UUID of the mob.
 
 ```
@@ -92,7 +100,9 @@ scoreboard players operation $FlagIndex Global %= $2^15 Const
 execute if score $FlagIndex Global matches 0 run scoreboard players add $FlagIndex Global 1
 scoreboard players operation @s MobUUID = $FlagIndex Global
 ```
-The latter part seems very complicated, but in fact it has been used many times in the previous TSB analysis. The method of converting decimal to other bases and then obtaining the digit is used very frequently in the map. The idea here is - **After converting the UUID into a binary number, continuously shift left to detect whether the current digit is 0 or 1 and add a tag with the corresponding digit to the mob**. The tag format is FindFlag (digits) / (0 or 1). Note that the number of digits is calculated from 0 (the number of digits in the nth number is n-1)
+
+
+The following part seems very complicated, but in fact it has been used many times in the previous TSB analysis. The method of converting decimal to other bases and then obtaining the digit is used very frequently in the map. The idea here is - **After converting the UUID into a binary number, continuously shift left to detect whether the current digit is 0 or 1 and add a tag with the corresponding digit to the mob**. The tag format is FindFlag (digits) / (0 or 1). Note that the number of digits is calculated from 0 (the number of digits in the nth number is n-1)
 
 ```
 scoreboard players operation $CloneFlagIndex Temporary = $FlagIndex Global
@@ -101,32 +111,34 @@ execute if score $CloneFlagIndex Temporary matches 00.. run tag @s add FindFlag0
 execute if score $CloneFlagIndex Temporary matches ..-1 run tag @s add FindFlag0.1
 scoreboard players operation $CloneFlagIndex Temporary *= $2 Const
 
-#Keep moving left....
+# 不断左移....
 ```
+
+
 In order to see the effect of this function more intuitively, we find the lamb near the birth point on the map and directly query its MobUUID score value
 
 ![image1.png](../../../../../feature/archive/202602/5/image1.png)
 
 Taking the above mob UUID as 9328 as an example, the function process when generating this mob can be summarized as follows
 
-1. Get the current global index number 9328 and save it as the MobUUID of the mob.
-2. Convert the value of the decimal index number to binary and complete it to sixteen digits (0010 0100 0111 0000)
+1. Get the current global index number 9328 and save it as the mob's MobUUID
+2. Convert the value of the decimal index number to binary, padding to sixteen digits (0010 0100 0111 0000)
 3. Start moving left
     1. Bit 0 is 0, add tag FindFlag0.0
-    2. The first bit is 0, add tag FindFlag1.0
-    3. The second bit is 1, add tag FindFlag2.1
+    2. Bit 1 is 0, add tag FindFlag1.0
+    3. Bit 2 is 1, add tag FindFlag2.1
     4. Bit 3 is 0, add tag FindFlag3.0
     5. …
-    6. The 15th bit is 0, add tag FindFlag15.0
+    6. Bit 15 is 0, add tag FindFlag15.0
 4. The 16-digit number check is completed and ends here
 
 So the tags owned by a mobentity in the game will become like this. Except for the three simple and easy-to-understand tags AlreadyInitMob, AssetMob, and Friend, the other tags starting with FindFlag all serve to mark the mob UUID.
 
 ![image.png](../../../../../feature/archive/202602/5/image%201.png)
 
-Through this operation of adding a tag to a mob when it is created, we have been able to know its UUID through the tag attached to the mob. The UUID is unique for each mob, so the UUID tag attached to the mob will also be unique. Then the idea of inferring the mob through the tag is available, and the specific method will be completed in the advancement definition section below.
+Through this operation of adding a tag to a mob when it is created, we have been able to know its UUID through the tag attached to the mob. The UUID is unique for each mob, so the UUID tag attached to the mob will also be unique. Then the idea of ​​inferring the mob through the tag is available, and the specific method will be completed in the advancement definition section below.
 
-## Advancement detects mobs causing damage
+## advancement detects mobs causing damage
 
 There is check_entity_hurt_player advancement in the advancements directory. The file is as follows. The content is long and some comments have been made.
 
@@ -134,7 +146,7 @@ There is check_entity_hurt_player advancement in the advancements directory. The
 {
   "criteria": {
 
-	  #The 16-digit tags are detected in sequence, with a total of 32 criteria. The following parts are omitted here.
+	  #依次检测16位的标签，共32个准则，此处省略后面的部分
 
     "0-0": {
       "conditions": {
@@ -163,7 +175,7 @@ There is check_entity_hurt_player advancement in the advancements directory. The
 
     # ...
 
-    #Whether the damage is blocked
+    # 伤害是否被格挡
 
     "blocked": {
       "conditions": { "damage": { "blocked": true, "source_entity": {} } },
@@ -174,7 +186,7 @@ There is check_entity_hurt_player advancement in the advancements directory. The
       "trigger": "entity_hurt_player"
     },
 
-    #Damage Type - Explosion
+    # 伤害类型-爆炸
 
     "type-explosion": {
       "conditions": {
@@ -186,7 +198,7 @@ There is check_entity_hurt_player advancement in the advancements directory. The
       "trigger": "entity_hurt_player"
     },
 
-    #Damage Type - Melee
+    # 伤害类型-近战
 
     "type-melee": {
       "conditions": {
@@ -198,7 +210,7 @@ There is check_entity_hurt_player advancement in the advancements directory. The
       "trigger": "entity_hurt_player"
     },
 
-    #Damage Type - Projectile
+    # 伤害类型-弹射物
 
     "type-projectile": {
       "conditions": {
@@ -210,7 +222,7 @@ There is check_entity_hurt_player advancement in the advancements directory. The
       "trigger": "entity_hurt_player"
     }
 
-    #Damage types other than melee, explosion, and projectile
+    # 近战、爆炸、弹射物之外的伤害类型
 
     "type-other": {
       "conditions": {
@@ -252,11 +264,13 @@ There is check_entity_hurt_player advancement in the advancements directory. The
   }
 }
 ```
+
+
 Referring to the advancement definition format on the wiki, we can divide the content of this advancement file as follows
 
-1. Define 32 criteria related to the UUID tag carried by the mob, corresponding to the sixteen bits of the UUID and the two situations of 0 and 1 for each bit. In addition, there are two criteria for whether damage is blocked and three criteria for damage type. These criteria will be checked after mobentity damages the player.
+1. 32 criteria related to the UUID tag carried by the mob are defined, corresponding to the sixteen bits of the UUID and the two situations of 0 and 1 for each bit. In addition, there are two criteria for whether damage is blocked and three criteria for damage type. These criteria will be checked after the mobentity damages the player.
 2. The requirement to achieve advancement is that the 16-digit UUID test passes. At this time, the injured player will meet the corresponding criteria based on the tag of the mob that caused the damage. For example, if the mob has tag 5-1 (the fifth digit of the UUID is 1), the injured player will meet criteria 5-1 when it causes damage to the player.
-3. When the player achieves an achievement, execute the reward function on_hurt
+3. Execute reward function on_hurt when player achieves achievement
 
 ![image.png](../../../../../feature/archive/202602/5/image%202.png)
 
@@ -271,6 +285,8 @@ function mob_manager:entity_finder/entity_hurt_player/filters/
 scoreboard players set @s InBattleTick 160
 advancement revoke @s only mob_manager:entity_finder/check_entity_hurt_player
 ```
+
+
 The filters function will select all mobentities within 150 blocks around the injured player, and use these mobentities as executors to execute the filtering function.
 
 ```
@@ -278,6 +294,8 @@ The filters function will select all mobentities within 150 blocks around the in
 
 execute as @e[type=#lib:living,type=!player,distance=..150] run function mob_manager:entity_finder/entity_hurt_player/filters/15
 ```
+
+
 There are a total of sixteen filtering functions, each of which detects one bit of the mob UUID tag, and determines whether it can enter the next level of filtering based on the advancement criteria reached by the injured player. In this way, it is called sixteen times layer by layer. The mobs that can all pass are the mobs that just caused damage to the player. There are many layers of files, only some examples are posted below for reference.
 
 ```
@@ -302,30 +320,32 @@ execute if entity @p[tag=DamagedPlayer,advancements={mob_manager:entity_finder/c
 execute if entity @p[tag=DamagedPlayer,advancements={mob_manager:entity_finder/check_entity_hurt_player={0-0=true}}] if entity @s[tag=FindFlag0.0] run function mob_manager:entity_finder/entity_hurt_player/fetch_entity
 execute if entity @p[tag=DamagedPlayer,advancements={mob_manager:entity_finder/check_entity_hurt_player={0-1=true}}] if entity @s[tag=FindFlag0.1] run function mob_manager:entity_finder/entity_hurt_player/fetch_entity
 ```
+
+
 Still taking the above mob with UUID number 9328 as an example, assuming it causes damage to the player, the workflow of this advancement is as follows
 
 1. advancement trigger
     1. The mob has tag FindFlag0.0, and the player reaches the criterion 0-0
     2. The mob has tag FindFlag1.0, and the player reaches the criterion 1-0
-    3. The mob has tag FindFlag2.1, and the player reaches the criterion 2-1
+    3. mob has tag FindFlag2.1, player reaches criterion 2-1
     4. (and so on)
-    5. The mob has tag FindFlag15.0, and the player reaches the criterion 15-0
-2. The filters function is triggered, and the execution subject is the player.
+    5. mob has tag FindFlag15.0, player reaches criterion 15-0
+2. filters function is triggered, and the execution subject is the player
 3. Select all mobs within 150 blocks around the player to perform the filtering function
-    1. The player reaches the criterion 0-0. If the mob has tag FindFlag0.0, continue to the next step of filtering.
+    1. The player reaches the criterion 0-0. If the mob has the tag FindFlag0.0, continue to the next step of filtering.
     2. The player reaches the criterion 1-0. If the mob has the tag FindFlag1.0, continue to the next step of filtering.
     3. The player reaches criterion 2-1. If the mob has tag FindFlag2.1, continue to the next step of filtering.
     4. (and so on)
-    5. The player reaches the criterion 15-0. If the mob has the tag FindFlag15.0, it means that this is the mob that causes damage to the player in the first step, and it is the executor to execute the fetch_entity function.
-4. Remove player’s advancement
+    5. The player reaches the criterion 15-0. If the mob has the tag FindFlag15.0, it means that this is the mob that causes damage to the player in the first step and uses it as the executor to execute the fetch_entity function.
+4. Remove player's advancement
 
-## Operations after finding the target mob
+## What to do after finding the target mob
 
 At this point, the subsequent steps are already very clear, because we have found the mob that caused damage to the player near it, and can also use the target selector to execute a function on it as the executor. It is very simple to detect the mob type through other methods and achieve effects such as debuff attached to the attack. As a conclusion, here is part of the fetch_entity function as a functional reference. It doesn’t matter if you don’t understand it, because I don’t know how many analyzes are needed to fully explain these contents (
 
-1. **Send the damage of the player this time and the UUID of the mob that caused the damage to the damage calculation module. Through the UUID, you can find the attack damage and attack attributes of the mob in the asset library, calculate the final value of the damage and set the player's health (score_to_health is a wheel data pack that supports modifying the player's health through scores. Damage calculations in the map are all implemented by modifying the player's health). This bypasses the vanilla damage mechanism and no longer requires setting the mob attack power through vanillacommand**
+1. **Send information such as the player's current injury and the UUID of the mob that caused the damage to the damage calculation module. Through the UUID, you can find the mob's attack damage and attack attributes in the asset library, calculate the final value of the damage and set the player's health (score_to_health is a wheel data pack that supports modifying the player's health through scores. Damage calculations in the map are all implemented by modifying the player's health). This bypasses the vanilla damage mechanism and no longer requires setting the mob attack power through vanillacommand**
 
-```
+    ```
     scoreboard players set $Damage Temporary 0
     scoreboard players operation $Damage Temporary += @p[tag=DamagedPlayer] TakenDamage
     scoreboard players operation $Damage Temporary += @p[tag=DamagedPlayer] AbsorbedDamage
@@ -336,18 +356,22 @@ At this point, the subsequent steps are already very clear, because we have foun
     data modify storage api: Argument.DisableLog set value true
     execute as @p[tag=DamagedPlayer] at @s run function lib:score_to_health_wrapper/fluctuation
     ```
+
+
 2. **Storage the event information of the player's current injury (such as whether it is melee and whether it is blocked) into the artifact events (ArtifactEvents) of the player's OhMyDat data space, so that the player's artifact with the corresponding effect can receive the event and trigger its effect (such as an artifact with a rebound effect when injured)**
 
-```
+    ```
     data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].ArtifactEvents.Damage append value {IsVanilla:true}
     data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].ArtifactEvents.Damage[-1].Type set from storage mob_manager:entity_finder DamageType
     data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].ArtifactEvents.Damage[-1].Blocked set from storage mob_manager:entity_finder Blocked
     execute store result storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].ArtifactEvents.Damage[-1].From int 1 run scoreboard players get @s MobUUID
     execute store result storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].ArtifactEvents.Damage[-1].Amount double 0.01 run scoreboard players get $Damage Temporary
     ```
+
+
 3. **Save the mob's attack event information into the mob's data space (such as whether it was blocked and the damage value caused), so that the attack event information can be called in other locations (such as the mob's tick function or attack function)**
 
-```
+    ```
     function oh_my_dat:please
     data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].MobEvents.Attack append value {IsVanilla:true}
     data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].MobEvents.Attack[-1].Type set from storage mob_manager:entity_finder DamageType
@@ -357,7 +381,9 @@ At this point, the subsequent steps are already very clear, because we have foun
     data modify storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].MobEvents.Attack[-1].Amounts append value -1d
     execute store result storage oh_my_dat: _[-4][-4][-4][-4][-4][-4][-4][-4].MobEvents.Attack[-1].Amounts[-1] double 0.01 run scoreboard players get $Damage Temporary
     ```
-## Appendix
+
+
+## appendix
 
 TheSkyBlessing project official website
 

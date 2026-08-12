@@ -1,6 +1,11 @@
 ---
 title: 'A solo-level MC mini-game? "Tightrope Rider"'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <FeaturedHead
     title="A solo-level MC mini-game? &quot;Tightrope Rider&quot;"
     authorName="CR_019"
@@ -18,7 +23,7 @@ This map contains features:
 - Exquisite models and scenes
 - 4 types of birds, 3 types of obstacles and 3 types of props
 - Upgrade and hat selection system
-- Achievements system
+- achievement system
 
 ![](../../../../../feature/archive/202603/1/poster1.png)
 ![](../../../../../feature/archive/202603/1/poster2.png)
@@ -33,14 +38,18 @@ This map contains features:
 ![](../../../../../feature/archive/202603/1/6.png)
 ![](../../../../../feature/archive/202603/1/7.png)
 
-## Promotional videohttps://www.bilibili.com/video/BV1MENPzsExT
+## Promotional video
+
+https://www.bilibili.com/video/BV1MENPzsExT
+
 ## Map download
 
 Map download: dl.16bits.work
-Alternate link (Baidu Netdisk):https://pan.baidu.com/s/17bb0h82_KnJFaVW8yJ1Sow?pwd=5688The map supports single player play.
+Alternate link (Baidu Netdisk):https://pan.baidu.com/s/17bb0h82_KnJFaVW8yJ1Sow?pwd=5688
+The map supports single player play.
 Only supports Minecraft version Java 1.21.11
 
----
+--- 
 
 16-bit Samurai communication group: 964165648
 

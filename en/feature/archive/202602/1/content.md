@@ -1,16 +1,23 @@
 ---
 title: 'Shader Practice: Building a Simple 2D Scene'
 ---
+
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeaturedHead
     title="Shader Practice: Construction of a Simple 2D Scene"
     authorName="Xuanyu 1725"
     cover = '../../../../../feature/archive/202602/_assets/1.png'
 />
 
+
 > [Those who make 2Dvanillablock maps are all fashionable men](https://www.bilibili.com/video/BV1L44y1L7wD/)
 > —— Qingluka
 
-## Summary
+## Overview
 
 Many maps in Minecraft are controlled from a native 3D perspective, and there are also some maps with a fixed-angle third-person perspective, but few maps are designed and played from a pure 2D perspective. This document will introduce how to use Minecraft's resource pack and data pack functions, combined with some common atomic operations, to implement a simple 2D scene.
 
@@ -24,7 +31,7 @@ MVP transformation related (principles and derivation of ModelViewMat, ProjMat):
 - [shader02 core shader workflow (Part 1), Feature, 2025, 09](/en/feature/archive/202509/3/content)
 
 Lighting and fog related (intensity calculation process):
-- [shader03 core shader workflow (Part 2), Feature, 2025, 11](/en/feature/archive/202511/2/content)
+- [shader03 core shader workflow (Part 2), Feature, 2025, 11](feature/archive/202511/2/content)
 
 
 ## resource pack preparation
@@ -45,6 +52,8 @@ mat4 ProjMat = mat4(
                 0          ,        0      , (2*n*f)/(n-f), 0
 );
 ```
+
+
 Orthographic projection only cares about the aspect ratio of the near plane, far plane and view frustum, so we can replace it with the following form:
 
 ```glsl
@@ -55,6 +64,8 @@ mat4 OrthoProjMat = mat4(
                0            ,        0        , -(f+n)/(f-n), 1
 );
 ```
+
+
 The necessary information can be obtained directly from`ProjMat`obtained from.
 
 ```glsl
@@ -70,6 +81,8 @@ mat4 OrthoProjMat = mat4(
     0.0, 0.0, -(f + n) / (f - n), 1.0
 );
 ```
+
+
 > This is only a demonstration of the principle. In actual use, we can use [vsh_util.glsl]( provided by Onnowherehttps://github.com/onnowhere/core_shaders/blob/master/.shader_utils/vsh_util.glsl) includes shader tool functionality to simplify operations.
 > The method provided by Onnowhere uses a fixed near plane and a ZOOM parameter to control the left, right, top and bottom margins, which is more practical in engineering.
 
@@ -90,7 +103,9 @@ We first remove the environment fog (spherical fog) by setting the sphericalVert
 ```glsl
     fragColor = apply_fog(color, 0.0, cylindricalVertexDistance, FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd, FogColor);
 ```
-![Original Mist](../../../../../feature/archive/202602/1/c5b287d98a255d30c749f408a7605e75.png)
+
+
+![Primal Mist](../../../../../feature/archive/202602/1/c5b287d98a255d30c749f408a7605e75.png)
 
 ![Cancel environmental fog](../../../../../feature/archive/202602/1/f4fa3539e78461faf38d74bdd34392f1.png)
 
@@ -101,34 +116,40 @@ Our next example will not use fog, but here is a fog calculation method based on
 After perspective projection, the depth value of the vertex is stored in`gl_Position.z`, we can use it to calculate the fog effect, but before that we need to do a perspective division manually:
 
 ```glsl
-//Calculate in vsh
-float z_ndc = gl_Position.z / gl_Position.w; //The z value in the normalized device coordinate system, range [-1, 1]
+// 在 vsh 中计算
+float z_ndc = gl_Position.z / gl_Position.w; // 归一化设备坐标系下的 z 值，范围 [-1, 1]
 ```
+
+
 Here, the points where z_ndc is -1 all fall on the near plane, and the points where z_ndc is 1 all fall on the far plane. We can linearly map it to the [near, far] range (use vsh_utils to obtain the far plane position, and the near plane takes a constant value of 0.05):
 
 ```glsl
-//Calculate in vsh
+// 在 vsh 中计算
 float far = getFarClippingPlane(ProjMat);
 float near = 0.05;
-float z_view = ((z_ndc + 1.0) / 2.0) * (far - near) + near; //z value in view space, range [near, far]
+float z_view = ((z_ndc + 1.0) / 2.0) * (far - near) + near; // 视图空间下的 z 值，范围 [near, far]
 ```
+
+
 Finally, we modify the fog calculation call,`sphericalVertexDistance`Using our calculated`z_view`, `FogEnvironmentalStart`and`FogEnvironmentalEnd`Then set it according to actual needs (the original value is used in the sample code):
 
 ```glsl
-//Calculate in vsh
+// 在 vsh 中计算
 sphericalVertexDistance = z_view;
 ```
 
 
 ```glsl
-//Compute in fsh
+// 在 fsh 中计算
     fragColor = apply_fog(color, sphericalVertexDistance, cylindricalVertexDistance, FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd, FogColor);
 ```
+
+
 After the modification, the fog is no longer a spherical fog with the camera as the origin, but a parallel fog with the isosurface always parallel to the camera's viewing plane.
 
 ### Lock perspective
 
-Likewise, if you need to dynamically adjust the viewing angle, you can skip this step.
+Likewise, if you need to dynamically adjust the perspective, you can skip this step.
 
 We modify`ModelViewMat`to control the perspective,`ModelViewMat`The format stored in video memory is a 4x4 matrix in column-major order:
 
@@ -140,7 +161,9 @@ mat4 ModelViewMat = mat4(
         0    ,          0          ,         0           ,  1
 );
 ```
-The form here differs slightly from a standard rotation matrix because the perspective viewed in F3 is 180 degrees off from the actual camera perspective. Here yaw and pitch represent the horizontal and vertical rotation angles displayed in the F3 information respectively.
+
+
+The form here differs slightly from the standard rotation matrix because the perspective viewed in F3 is 180 degrees off from the actual camera perspective. The yaw and pitch here represent the horizontal and vertical rotation angles displayed in the F3 information respectively.
 
 In order to lock the perspective, we need to fix yaw and pitch to constant values. For example, if we want the viewing angle to be facing diagonally downward, we can set yaw to 45 degrees and pitch to -30 degrees (note that the angle needs to be converted to radians):
 
@@ -154,53 +177,58 @@ mat4 FixedModelViewMat = mat4(
         0    ,          0          ,         0           ,  1
 );
 ```
+
+
 ::: tip
-You can also directly use a pre-calculated matrix constant to replace`ModelViewMat`Variables:
+You can also directly use a pre-calculated matrix constant to replace`ModelViewMat`variable:
 :::
 
 In this way, the perspective is locked from the client level. No matter how the player moves and rotates the camera, the rendered picture will always remain unchanged. However, when the player's offset is too high, some faces will still be eliminated, so the data pack layer still needs to reset the player's orientation after detection.
 
-### Surface transmission
+### surface transmission
 
-Since we are from God's perspective, sometimes we want to observe the objects inside the block through it. To do this we need to achieve a surface transmission effect.
+Since we are from a God's perspective, sometimes we want to observe the objects inside the block through it. To do this we need to achieve a surface transmission effect.
 
 The core idea of ​​surface transmission is to use depth and the angle with the line of sight to achieve a translucent effect. That is, for each fragment, if it is close enough to the center of the picture and the depth is smaller than the target we observe, the transparency is calculated based on the angle with the line of sight. Following the calculation method of linear fog value, within a certain range, the opacity is the lowest, and then gradually increases until the original opacity is reached outside a certain range.
 
 We have already introduced how to get the z value in view space`z_view`, but this value is not convenient for us to perform surface projection calculations, so we directly use the z value under the normalized device coordinate system`z_ndc`To compare:
 
 ```glsl
-//Calculate in vsh
+// 在 vsh 中计算
 out float z_ndc;
-float z_ndc = gl_Position.z / gl_Position.w; //The z value in the normalized device coordinate system, range [-1, 1]
+float z_ndc = gl_Position.z / gl_Position.w; // 归一化设备坐标系下的 z 值，范围 [-1, 1]
 ```
-We use the distance relative to the middle of the screen to measure the distance between the fragment and the center of the screen:
+
+
+We use the distance relative to the middle of the screen to measure the distance of the fragment from the center of the screen:
 
 ```glsl
-//in fsh
+// 在 fsh 中
 #moj_import <minecraft:globals.glsl>
 
 float max_component = max(gl_FragCoord.x, gl_FragCoord.y);
 float dist = distance(gl_FragCoord.xy/max_component, ScreenSize / (2.0 * max_component));
 ```
+
 here,`gl_FragCoord`It is the coordinate of the fragment on the screen, in screen pixels.`ScreenSize`is the screen resolution size (width and height), a uniform global quantity (from the Globals block).
 
 By calculating max_component, we normalize the screen coordinates to the range [0, 1] while preserving the aspect ratio.`dist`The value represents the relative distance of the fragment from the center of the screen, and the range is approximately between [0, 0.5]. That is to say`gl_FragCoord.xy`and`ScreenSize / 2.0`Divide the distance by max_component.
 
 Finally we based on`z_view`and`dist`To calculate transparency:
 
+```glsl
+// 在 fsh 中
+    float target_z = -0.941; // 目标物体的 z_view 值, 此项由数据包层面传递给着色器，后文介绍
+    float distance_min = 0.05; // 距离阈值，低于该距离完全透射
+    float distance_max = 0.15; // 距离衰减范围，高于该距离完全不投射
 ```
-glsl
-//in fsh
-    float target_z = -0.941; //The z_view value of the target object. This item is passed to the shader at the data pack level and will be introduced later.
-    float distance_min = 0.05; //distance threshold below which full transmission occurs
-    float distance_max = 0.15; //Distance attenuation range, above which no projection occurs at all
-```
+
+
 The target_z here is the depth value of the target object described in NDC, and the value is between [-1, 1]. When the camera is 32 blocks away from the target and the FOV is 110, this value is approximately 0.941.
 
 Note that translucent output is not supported in many shaders, so we need an algorithm to simulate the translucency effect. A simple way is to randomly discard fragments with a certain probability to achieve a visual effect similar to translucency. The basic code structure is as follows:
 
-```
-glsl
+```glsl
 if (depth < target_z) {
     float alpha_factor = getAlphaFactor(dist, distance_min, distance_max);
     if (random_chance(alpha_factor)) {
@@ -208,16 +236,18 @@ if (depth < target_z) {
     }
 }
 ```
+
+
 Here's`getAlphaFactor`The function calculates a transparency factor based on the fragment distance, ranging from [0, 1]:
 
 ```glsl
 float getAlphaFactor(float dist, float distance_min, float distance_max) {
     if (dist >= distance_max) {
-        return 0.0; //completely transparent
+        return 0.0; // 完全透明
     } else if (dist <= distance_min) {
-        return 1.0; //completely opaque
+        return 1.0; // 完全不透明
     } else {
-        //Linear interpolation to calculate transparency factor
+        // 线性插值计算透明度因子
         return (distance_max - dist) / (distance_max - distance_min);
     }
 }
@@ -228,11 +258,13 @@ float getAlphaFactor(float dist, float distance_min, float distance_max) {
 
 ```glsl
 bool random_chance(float alpha_factor) {
-    //A simple pseudo-random number generation method is used here
+    // 这里使用一个简单的伪随机数生成方法
     float rand_value = fract(sin(dot(gl_FragCoord.xy ,vec2(12.9898,78.233))) * 43758.5453);
     return rand_value < alpha_factor;
 }
 ```
+
+
 In this way, when the observation point is blocked by the target object, the fragments that are close to the center of the picture and have a small angle with the line of sight will have a higher probability of being discarded, thereby achieving the surface transmission effect.
 
 ![alt text](../../../../../feature/archive/202602/1/QQ_1770161816441.png)
@@ -243,41 +275,44 @@ At the same time, if we want a specific surface not to transmit, we can control 
 
 Many of the above contents require users to make some adjustments in the video settings to obtain the best results. The main parameters to be adjusted are:
 
-1. ZOOM parameters for orthographic projection
+1. Zoom ZOOM parameter for orthographic projection
 
 2. Transmissive z_view target value
 
 We can only obtain these parameters through the passed in global variables, but fortunately, Minecraft provides some global variables that we can use. The global variables that are convenient for users to modify are listed below. Readers can choose at their own discretion:
 
+
 ```glsl
-//Globals block from globals.glsl
+// 来自 globals.glsl 中的 Globals 块
 int MenuBlurRadius;
 int UseRgss;
 ```
 
 
-- `MenuBlurRadius`:correspond`Options -> Video Settings -> Menu Background Blur`, an integer with a value ranging from 0-10.
--`UseRgss`:when`Options -> Video Settings -> Texture Filtering`When set to **RGSS** mode, this global quantity is 1, otherwise it is 0.
+- `MenuBlurRadius`:correspond`选项 -> 视频设置 -> 菜单背景模糊程度`, an integer with a value ranging from 0-10.
+- `UseRgss`:when`选项 -> 视频设置 -> 纹理过滤`When set to **RGSS** mode, this global quantity is 1, otherwise it is 0.
 
 ```
-//Fog block from fog.glsl
+// 来自 fog.glsl 中的 Fog 块
 float FogRenderDistanceEnd;
 ```
 
 
-- `FogRenderDistanceEnd`:correspond`Options -> Video Settings -> Render Distance`, the value range is (2-32)*16.0, that is, the value is the result of multiplying the set value by 16.0. 16.0 is the size of a chunk.
+- `FogRenderDistanceEnd`:correspond`选项 -> 视频设置 -> 渲染距离`, the value range is (2-32)*16.0, that is, the value is the result of multiplying the set value by 16.0. 16.0 is the size of a chunk.
 
 ```
-//From the Projection block in projection.glsl
+// 来自 projection.glsl 中的 Projection 块
 mat4 ProjMat;
 ```
 
 
-- `ProjMat`: Projection matrix, we can use it to calculate FOV, corresponding to`Options -> FOV`, the range is 30-110 degrees. The specific calculation method is`float FOV = atan(1.0 / ProjMat[1][1]) * 2.0 * (180.0 / 3.1415926);`Based on the preset default parameters, we can allow users to fine-tune the final effect by changing the values ​​of these global quantities to adapt to different screen resolutions and personal preferences.
+- `ProjMat`: Projection matrix, we can use it to calculate FOV, corresponding to`选项 -> 视场角`, the range is 30-110 degrees. The specific calculation method is`float FOV = atan(1.0 / ProjMat[1][1]) * 2.0 * (180.0 / 3.1415926);`
+
+Based on the preset default parameters, we can allow users to fine-tune the final effect by changing the values ​​of these global quantities to adapt to different screen resolutions and personal preferences.
 
 ## data pack preparation
 
-### Camera Lock
+### camera lock
 
 In order to ensure that the player's perspective is consistent, we need to reset the player's orientation at the data pack level. We can achieve this through a simple loop function. If you need to let the player control the perspective, you can skip this step.
 
@@ -286,17 +321,19 @@ Cyclically changing the player's orientation will occupy a lot of bandwidth in m
 :::
 
 ```mcfunction
-#Called cyclically in #tick function
+# 在 #tick 函数中循环调用
 execute at 观察目标 rotated -135.0 -30.0 positioned ^ ^ ^32 run tp 摄像机标记点 ~ ~ ~ ~ ~
 data merge entity 摄像机标记点 {teleport_duration:5}
 ride 摄像机 mount 摄像机标记点
 rotate 摄像机 45 30
 execute as 摄像机 at @s run rotate @s 45 30
 ```
+
+
 here,`观察目标`Indicates the entity to be observed. In the example where the camera is controlled by the data pack, half is not the player (because the player must act as the camera entity).`摄像机标记点`is a presentation entity, because presentation entities allow controlled interpolation,`摄像机`Is the actual camera entity, that is, player. Each rotation angle and distance in the instruction can be adjusted according to actual needs. Here is just an example.
 
 Since we previously locked the perspective in the shader, resetting the player's orientation cyclically here will not cause the jitter of the traditional solution.
 
-## Summary
+## Summarize
 
-At this point, we have built a God's perspective scene from a rendering perspective by modifying the projection matrix, resetting fog calculations, locking the perspective, implementing surface transmission, and establishing a camera tracking system. Next, we also need to use data pack to implement some interactive logic, such as target control, UI implementation, etc., but this is not the focus of this article. Readers can design and implement it according to actual needs.
+At this point, we have built a God's perspective scene from a rendering perspective by modifying the projection matrix, resetting the fog calculation, locking the perspective, implementing surface transmission, and establishing a camera tracking system. Next, we also need to use data pack to implement some interactive logic, such as target control, UI implementation, etc., but this is not the focus of this article. Readers can design and implement it according to actual needs.

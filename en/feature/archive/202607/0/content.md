@@ -2,15 +2,20 @@
 title: 'Using data pack for DES-like encryption and decryption'
 ---
 
-<FeaturedHead
-    title="Using data pack for DES-like encryption and decryption"
-    authorName="Hong Qi"
-    resourceLink = 'https://wwbip.lanzoum.com/iovDh3tpew1a'/>
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
 
+
+<FeaturedHead
+title='Using data pack for DES-like encryption and decryption'
+authorName='Hong Qi'
+    resourceLink = 'https://wwbip.lanzoum.com/iovDh3tpew1a'
+/>
 
 ***
 
-**Summary**
+**summary**
 This article introduces an implementation plan for simulating the DES encryption and decryption algorithm in the "Minecraft" data pack. In view of the limitation in the number of instructions of the 16-round Feistel network of the original DES algorithm, this scheme simplifies it to 2 rounds of iteration, removes the compressed transposition operation, uniformly adopts the key scheduling strategy of shifting one bit to the left, and specializes the round functionF into the XOR operation of the right half and the sub-key. In order to adapt to the in-game data storage format, an encoding scheme containing 64 characters (numbers, upper and lower case letters, spaces, and newlines) was designed. The characters were mapped into 6-bit binary through base64, and the XOR operation was cleverly implemented using the return value feature of the execute store success command. The decryption process takes full advantage of the reversibility of the Feistel network and only needs to use the subkeys in reverse order to restore the plaintext. In addition, this article also implements functions such as random key generation, custom key input, and variable length keys, and provides corresponding UI interfaces. Although the encryption strength of this project is limited, as a data pack programming exercise, it demonstrates the feasibility and creativity of implementing cryptographic algorithms in a restricted environment.
 
 ## 1. Introduction
@@ -28,8 +33,7 @@ In addition to the Feistel network, the DES algorithm also has a well-designed k
 Due to the limitation in the number of instructions, it is difficult to produce encryption and decryption strictly according to the DES algorithm. Therefore, here, 16 rounds are simplified to 2 rounds, the compressed transposition is removed, and the movement of the cycle is uniformly changed to a left shift by one position. At the same time, specialize processing F as RE⊕K.
 
 ### 2.1 Encoding processing
-Since XOR processing is involved, the characters need to be converted into binary form for calculation. After confirming that it contains at least 0-9 uppercase and lowercase letters, two characters, a space and a newline character, were added to fill the number of supported characters to 64. At this time, base64 encoding is performed again, and the 64 characters are represented in 6-bit binary form to complete the character binarization.
-
+Since XOR processing is involved, the characters need to be converted into binary form for calculation. After confirming that it contains at least 0-9 uppercase and lowercase letters, two characters, a space and a newline character, were added to fill the number of supported characters to 64. At this time, base64 encoding is performed again, and these 64 characters are expressed in 6-bit binary form to complete the character binarization.
 ```mcfunction
 data modify storage code:base place set value \
 [\
@@ -39,8 +43,8 @@ data modify storage code:base place set value \
     " ","\n"\
 ]
 ```
-Considering that spaces and newlines are not very beautiful when printed and displayed, add the following array for printing the key ciphertext (the original array is used for printing plaintext)
 
+Considering that spaces and newlines are not very beautiful when printed and displayed, add the following array for printing the key ciphertext (the original array is used for printing plaintext)
 ```mcfunction
 data modify storage code:base place_pass set value \
 [\
@@ -50,61 +54,60 @@ data modify storage code:base place_pass set value \
     "_","#"\
 ]
 ```
-In this array,` `replaced by`_`, newline character`\n`replaced by`#`.
+
+In this array,` `replaced by`_`, newline character`\n`replaced by`#`。
 The first line is numbers, corresponding to numbers 0-9; the second line is lowercase letters, corresponding to numbers 10-35; the third line is capital letters, corresponding numbers are 36-61; the fourth line is spaces and newlines, corresponding to 62 and 63 respectively.
 
 ### 2.2 Writing plain text
-Considering convenience and capacity, books and pens are good carriers of plain text, and their content can be obtained by reading the player’s handheld object data:
-
-```
-mcfunction
+Considering convenience and capacity, books and pens are good carriers of plain text, and their content can be obtained by reading the player's handheld object data:
+```mcfunction
 data modify storage code:code raw set from entity @s SelectedItem.components."minecraft:written_book_content".pages[0].raw
 ```
-at this time,`raw`The string inside is the initial state of the plaintext. In order to facilitate subsequent processing, it needs to be converted into an encoded binary form and saved in`list`in array
 
+at this time,`raw`The string inside is the initial state of the plaintext. In order to facilitate subsequent processing, it needs to be converted into an encoded binary form and saved in`list`in array
 ```mcfunction
-##If there is no more, terminate
+##如果已经没有,则终止
 execute if data storage code:code {raw:""} run return fail
-##If there is more, continue the process
-#Get the first character
+##如果还有,则继续进程
+#获取首个字符
 data modify storage code:code code set string storage code:code raw 0 1
-#Convert to 6 digits
+#转化为6位
 data modify storage code:code bit set from storage code:base model
 function code:data_get/change/list
-#Save to list
+#存入list
 data modify storage code:code list append from storage code:code bit
-##After that, remove the first bit of raw
+##之后,去除raw的首位
 data modify storage code:code raw set string storage code:code raw 1
-##Check if there is more, if so, repeat the process
+##检查是否还有,若有,重复该流程
 execute unless data storage code:code {raw:""} run return run function code:data_get/change/start
 ```
+
 Each time this instruction is executed, the`raw`The first character of is matched with the encoded content. If the match is successful, the corresponding binary form is passed in.`list`In the array, if there is no match, it will be forced to a space and the binary form corresponding to the space will be passed in. After this,`raw`The first position will be removed, and the original second position will be used as the new first position to go through the same process until`raw`until it becomes an empty string
 
 ### 2.3 Key generation
 The key can be formed by randomly generating a certain number of times between 0 and 1 through the random command. Here, the default key length is 12 characters, which is 72 0s and 1s.
-
 ```mcfunction
-#Random 1,0
+#随机1,0
 execute store result storage code:code bit int 1 run random value 0..1
-#Insert password
+#插入password
 data modify storage code:code password append from storage code:code bit
-#Each time it is inserted, the remaining times are reduced by one
+#每插入一次,剩余次数减一
 scoreboard players remove #password code_use 1
-#If there are still more, continue to insert
+#如果还有,继续插入
 execute if score #password code_use matches 1.. run return run function code:data_get/password/create
 ```
+
 here,`#password`exist`code_use`The initial value in is 72, determined by the instruction`scoreboard players set #password code_use 72`control
 
 ### 2.4 Encryption
 As mentioned before, due to the limitation of the number of instructions, the 16 rounds were simplified to 2 rounds, the compressed transposition was removed, and the movement of the cycle was uniformly changed to a left shift by one position. At the same time, specialize processing F as RE⊕K.
 ![alt text](https://i-blog.csdnimg.cn/blog_migrate/993220ae629eac6f8dca407fa3c9dbe8.png)
 According to the structure of the single-round Feistel and the simplification, each character needs to be divided into 3 bits on the left and right sides. At the same time, K also takes the first three bits each time for XOR calculation.
-
 ```mcfunction
-#initialize array
+#初始化数组
 data modify storage code:code LE set value [0,0,0]
 data modify storage code:code RE set value [0,0,0]
-#Load data
+#载入数据
 data modify storage code:code LE[0] set from storage code:code list[0][0]
 data modify storage code:code LE[1] set from storage code:code list[0][1]
 data modify storage code:code LE[2] set from storage code:code list[0][2]
@@ -112,11 +115,12 @@ data modify storage code:code RE[0] set from storage code:code list[0][3]
 data modify storage code:code RE[1] set from storage code:code list[0][4]
 data modify storage code:code RE[2] set from storage code:code list[0][5]
 ```
+
 - here,`LE`are the first three bits,`RE`for the last three bits
 
 Get initial key`k`:
 ```mcfunction
-#Initial key (first three digits of password)
+#初始密钥(password前三位)
 data modify storage code:code k set value [0,0,0]
 data modify storage code:code k[0] set from storage code:code password[0]
 data modify storage code:code k[1] set from storage code:code password[1]
@@ -124,39 +128,42 @@ data modify storage code:code k[2] set from storage code:code password[2]
 ```
 
 `k`and`RE`Perform XOR[^1] operation
-
 ```mcfunction
-#XOR with RE to get f
+#与RE异或,得到f
 data modify storage code:code f set value [0,0,0]
 execute store success storage code:code f[0] int 1 run data modify storage code:code k[0] set from storage code:code RE[0]
 execute store success storage code:code f[1] int 1 run data modify storage code:code k[1] set from storage code:code RE[1]
 execute store success storage code:code f[2] int 1 run data modify storage code:code k[2] set from storage code:code RE[2]
 ```
-Extract the first XOR for discussion`execute store success storage code:code f[0] int 1 run data modify storage code:code k[0] set from storage code:code RE[0]`In "Minecraft", if you try to modify a value to itself, a success value of 0 will be returned; otherwise, a success value of 1 will be returned. Here, if`k[0]`and`RE[0]`are the same, then`f[0]`Will be recorded as 0; otherwise it will be 1.
+
+Extract the first XOR for discussion
+`execute store success storage code:code f[0] int 1 run data modify storage code:code k[0] set from storage code:code RE[0]`
+In "Minecraft", if you try to modify a value to itself, a success value of 0 will be returned; otherwise, a success value of 1 will be returned. Here, if`k[0]`and`RE[0]`are the same, then`f[0]`Will be recorded as 0; otherwise it will be 1.
 This is the XOR calculation.
 Will`f`and`LE`Perform XOR operation and save`RE1`middle
-
 ```mcfunction
-#Execute XOR between f and LE to get RE1
+#f与LE进行异或,得到RE1
 data modify storage code:code RE1 set value [0,0,0]
 execute store success storage code:code RE1[0] int 1 run data modify storage code:code f[0] set from storage code:code LE[0]
 execute store success storage code:code RE1[1] int 1 run data modify storage code:code f[1] set from storage code:code LE[1]
 execute store success storage code:code RE1[2] int 1 run data modify storage code:code f[2] set from storage code:code LE[2]
 ```
+
 Will again`LE1`set to`RE`, and use`LE1`and`RE1`Replace respectively`LE`and`RE`
 ```mcfunction
 data modify storage code:code LE1 set from storage code:code RE
 data modify storage code:code LE set from storage code:code LE1
 data modify storage code:code RE set from storage code:code RE1
 ```
+
 At this point, we have obtained what we need for the next round of Feistel`LE`and`RE`,Will`password`Shift left one bit to get new`password`
 ```mcfunction
 data modify storage code:code password append from storage code:code password[0]
 data remove storage code:code password[0]
 ```
+
 Repeat the above process again to complete two rounds of Feistel operations.
 Finally, add`LE`and`RE`Swap and concatenate into a new 6-bit binary
-
 ```mcfunction
 data modify storage code:code bit set value [0,0,0,0,0,0]
 data modify storage code:code bit[0] set from storage code:code RE[0]
@@ -166,7 +173,8 @@ data modify storage code:code bit[3] set from storage code:code LE[0]
 data modify storage code:code bit[4] set from storage code:code LE[1]
 data modify storage code:code bit[5] set from storage code:code LE[2]
 ```
-- Fill in directly here
+
+- Here we directly fill in the
 
 At this point, the encryption process ends
 
@@ -174,11 +182,10 @@ At this point, the encryption process ends
 After the encryption is completed, the key and ciphertext need to be printed, and they need to be converted into string form first.
 Let’s look at the key printing process first.
 At this time, the key is still a 72-bit one-dimensional array. In order to change its format to the same as the ciphertext, it needs to be converted into a 12*6 two-dimensional array.
-
 ```mcfunction
-#initial array
+#初始数组
 data modify storage code:code bit set from storage code:base model
-#Get the first six and delete them
+#前六位获取并删除
 data modify storage code:code bit[0] set from storage code:code password[0]
 data remove storage code:code password[0]
 data modify storage code:code bit[1] set from storage code:code password[0]
@@ -191,18 +198,18 @@ data modify storage code:code bit[4] set from storage code:code password[0]
 data remove storage code:code password[0]
 data modify storage code:code bit[5] set from storage code:code password[0]
 data remove storage code:code password[0]
-#Insert the last digit of password
+#插入password末位
 data modify storage code:code password append from storage code:code bit
-#If there are still times left, repeat the process
+#如果还有次数,重复该过程
 execute unless data storage code:code password[0][0] run return run function code:data_get/transcode/password/change
 ```
-After this operation, password is successfully converted into a two-dimensional array.
-When performing base64 operations,`code:base`in`place`Already arranged according to number, we calculate each 6-digit binary value and replace it with the corresponding character
 
+After this operation, password was successfully converted into a two-dimensional array.
+When performing base64 operations,`code:base`in`place`Already arranged according to number, we calculate each 6-digit binary value and replace it with the corresponding character
 ```mcfunction
-#take the first one
+#取第一个
 data modify storage code:code bit set from storage code:code to_trans[0]
-#Calculate the corresponding serial number
+#计算对应的序号
 scoreboard players set #place code_use 0
 execute store result score #add code_use run data get storage code:code bit[0] 32
 scoreboard players operation #place code_use += #add code_use
@@ -216,19 +223,20 @@ execute store result score #add code_use run data get storage code:code bit[4] 2
 scoreboard players operation #place code_use += #add code_use
 execute store result score #add code_use run data get storage code:code bit[5] 1
 scoreboard players operation #place code_use += #add code_use
-#Determine serial number
+#确定序号
 execute store result storage code:code place int 1 run scoreboard players get #place code_use
 function code:data_get/transcode/transcode/add with storage code:code
-#If there are more, repeat the process
+#如果还有,重复该流程
 execute if data storage code:code to_trans[0] run return run function code:data_get/transcode/transcode/place
 ```
+
 here,`to_trans`is the two-dimensional array to be converted, function`code:data_get/transcode/transcode/add`It is used to add new characters to the end of the string. During the encryption process,` `replaced by`_`, newline character`\n`replaced by`#`Guaranteed to look more comfortable.
 For cipher text`ciphertext`, itself is a two-dimensional array, and this operation can be performed directly:
-
 ```mcfunction
 data modify storage code:code to_trans set from storage code:code ciphertext
 function code:data_get/transcode/transcode/start
 ```
+
 Omit it here.
 Then print the two to get the key ciphertext.
 ![Content to be encrypted](https://i1.hdslb.com/bfs/album/f1bf713f3e7d19d19006ceb23efd712b1808971083.png@1052w_!web-dynamic.avif)
@@ -244,35 +252,35 @@ The picture above is the encrypted key
 Due to the reversibility of the Feistel network, the decryption process is quite simple
 
 ### 3.1 Read the key and ciphertext
-This part and`2.2 Writing plaintext`The operation is basically the same, except that the key needs to be written into`password_en`and then encode and store it in`password`as the key.
-Because at this time`password`It is still a two-dimensional array and needs to be`2.5 Encoding`middle pair`password`The inverse operation of , disassemble it into a one-dimensional array:
-
+This part and`2.2 写入明文`The operation is basically the same, except that the key needs to be written into`password_en`and then encode and store it in`password`as the key.
+Because at this time`password`It is still a two-dimensional array and needs to be`2.5 编码`middle pair`password`The inverse operation of , disassemble it into a one-dimensional array:
 ```mcfunction
-#Decompose the first group to the end of password
+#分解第一组至password末端
 data modify storage code:code password append from storage code:code password[0][0]
 data modify storage code:code password append from storage code:code password[0][1]
 data modify storage code:code password append from storage code:code password[0][2]
 data modify storage code:code password append from storage code:code password[0][3]
 data modify storage code:code password append from storage code:code password[0][4]
 data modify storage code:code password append from storage code:code password[0][5]
-#Remove password[0]
+#去除password[0]
 data remove storage code:code password[0]
-#If there are more, repeat the process
+#如果还有,重复该流程
 execute if data storage code:code password[0][0] run return run function code:decode/passwword/de_group
 ```
-### 3.2 Decoding
-Knowing Feistel's reversibility, we only need to find the key in reverse order
 
+### 3.2 Decoding
+Knowing Feistel's reversibility, we only need to find the reverse key
 ```mcfunction
-#Key shifted one bit to the right
+#密钥右移一位
 data modify storage code:code password prepend from storage code:code password[-1]
 data remove storage code:code password[-1]
-#Initial key (first three digits of password)
+#初始密钥(password前三位)
 data modify storage code:code k set value [0,0,0]
 data modify storage code:code k[0] set from storage code:code password[0]
 data modify storage code:code k[1] set from storage code:code password[1]
 data modify storage code:code k[2] set from storage code:code password[2]
 ```
+
 Due to the encryption at the end,`password`Another left shift is performed, so the right shift`password`The operation is placed before obtaining the first three digits.
 Then, perform exactly the same operation as encryption to recover the plaintext of each character.
 Then convert and print in the same way (of course, when printing the plain text, the` `Replace with`_`, newline character`\n`Replace with`#`) to obtain visible plaintext
@@ -285,7 +293,6 @@ Since the two essentially only affect the generation of keys, only this part is 
 
 ### 4.1 Random key length
 This part is relatively simple, converting the original`scoreboard players set #password code_use 72`Modify to:
-
 ```mcfunction
 scoreboard players operation #password code_use = @s code_trigger
 scoreboard players operation #password code_use += #password code_use
@@ -293,33 +300,34 @@ scoreboard players operation #password code_use += #password code_use
 scoreboard players operation #password code_use += @s code_trigger
 scoreboard players operation #password code_use += @s code_trigger
 ```
+
 can be controlled`#password`The value of
 
-### 4.2 Custom Key
+### 4.2 Custom keys
 Since the custom key conflicts with the original function, a separate function needs to be used. In the dialog, you can enter the desired key, which will be passed in as a macro parameter:
-
 ```mcfunction
-##Record key
+##记录密钥
 $data modify storage code:code password_en set value "$(password)"
 data modify storage code:code password set value []
 function code:decode/change/password
-##Adjust the key from a second-order array to a first-order array
+##将密钥从二阶数组调整为一阶数组
 function code:decode/password/de_group
 ```
+
 of which`code:decode/change/password`It is the function that converts the key into a two-dimensional array.
 However, during the encryption process, the key will be shifted to the left twice the length of the plaintext. In order for the final key to be the input content, the key needs to be shifted to the right an equal number of times in advance.
-
 ```mcfunction
-#Shift key right twice
+#右移密钥两次
 data modify storage code:code password prepend from storage code:code password[-1]
 data remove storage code:code password[-1]
 data modify storage code:code password prepend from storage code:code password[-1]
 data remove storage code:code password[-1]
-#Remaining times
+#剩余次数
 scoreboard players remove #length code_use 1
-#If there are still times left, repeat this process
+#如果还有次数,重复此流程
 execute if score #length code_use matches 1.. run return run function code:data_get/wind
 ```
+
 in,`length`by instruction`execute store result score #length code_use run data get storage code:code list`get
 
 ## 5 Conclusion

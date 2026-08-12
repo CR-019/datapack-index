@@ -14,13 +14,17 @@ repo: Dahesor/DFH
 cover: /datapack-index/wheel/dfh.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 Big Waste is a library that uses actionbar to draw playerHUD. It can also use virtual health in the form of a scoreboard and retains the ability to accept vanilla health signals.
 
 This allows you to use the scoreboardcommand to arbitrarily change the player's health, and at the same time intercept vanilla health changes and modify them arbitrarily before they take effect.
 
-## Dependencies
+## rely
 
 > [!IMPORTANT]
 > Large waste requires version v1.3.2 or higher [Actionbar Mixer Mixer](https://github.com/Dahesor/Actionbar-Mixer-for-Minecraft) as a prepend to manage multiple status bar text fragments.

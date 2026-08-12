@@ -18,7 +18,7 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
     "buildWheel": "python .vitepress/scripts/build_formatters.py",
-    "translate:en": "node scripts/translate-markdown.mjs && node scripts/normalize-english-components.mjs",
+    "translate:en": "node scripts/translate-markdown.mjs && node scripts/normalize-english-components.mjs && node scripts/repair-english-structure.mjs",
     "translate:en:comments": "node scripts/translate-english-comments.mjs"
   },
   "dependencies": {

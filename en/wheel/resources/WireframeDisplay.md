@@ -14,6 +14,10 @@ repo: Triton365/BlockState
 cover: /datapack-index/wheel/WireframeDisplay.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 A small resource pack that allows display of entity display wireframes.
@@ -21,17 +25,16 @@ A small resource pack that allows display of entity display wireframes.
 Read its official documentation ([Github](https://github.com/HalbFettKaese/WireframeDisplay)) for details.
 
 Example:
-
 ```mcfunction
-#Generate white wireframe (similar to F3 + B):
+# 生成白色线框(类似F3 + B):
 /execute align xyz run summon item_display ~ ~ ~ {item: {id:"coal",components: {"minecraft:item_model":"wireframe:wireframe_white"}}, transformation:{scale:[1f,1f,1f],left_rotation:[0f,0f,0f, 1f],right_rotation:[0f,0f,0f,1f],translation:[0.5,0.5,0.5]}}
 
-#Use custom_model_data to generate red wireframe:
+# 使用custom_model_data生成红色线框:
 /execute align xyz run summon item_display ~ ~ ~ {item: {id:"coal",components: {"minecraft:item_model":"wireframe:wireframe_white",custom_model_data:{colors:[[1,0,0]]}}}, transformation:{scale:[1f,1f,1f],left_rotation:[0f,0f,0f, 1f],right_rotation:[0f,0f,0f,1f],translation:[0.5,0.5,0.5]}}
 
-#Generates a thicker white wireframe
+# 生成较粗的白色线框
 /execute align xyz run summon item_display ~ ~ ~ {item: {id:"coal",components: {"minecraft:item_model":"wireframe:wireframe_white_thick"}} ,transformation:{scale:[1f,1f,1f],left_rotation:[0f,0f,0f, 1f],right_rotation:[0f,0f,0f,1f],translation:[0.5,0.5,0.5]}}
 
-#Generate a black wireframe (similar to the indicator when the player selects a block)
+# 生成黑色线框(类似玩家选择方块时的指示器)
 /execute align xyz run summon item_display ~ ~ ~ {item: {id:"coal",components: {"minecraft:item_model":"wireframe:wireframe_black"}}, transformation:{scale:[1f,1f,1f],left_rotation:[0f,0f,0f, 1f],right_rotation:[0f,0f,0f,1f],translation:[0.5,0.5,0.5]}}
 ```

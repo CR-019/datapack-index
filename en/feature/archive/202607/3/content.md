@@ -2,15 +2,19 @@
 title: 'Shader Practice - Grayscale and Dither'
 ---
 
-<FeatureHead
-    title="Shader Practice - Grayscale and Dither"
-    authorName="Xuanyu1725"
-/>
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
 
+
+<FeatureHead
+title='Shader Practice - Grayscale and Dither'
+authorName='Xuanyu1725'
+/>
 
 # Shader Practice - Grayscale and Dithering
 
-## Summary
+## summary
 
 This article introduces the concept of grayscale and a common binarization method-dithering. Common noise types, the use of procedural generation and precomputed textures, and methods to fix NEAREST sampling failures are introduced.
 
@@ -30,7 +34,7 @@ Jitter is not necessarily binary, there are also higher-order jitters, but binar
 
 In this tutorial, we encourage readers to use [shadertoy](https://www.shadertoy.com/new) implement and modify the algorithm, and then put it into the minecraft shader. There are also dither noise generation algorithms shared by many users on shadertoy.
 
-## Type of jitter
+## Types of jitter
 
 When we discuss types of jitter, we are actually discussing types of noise.
 
@@ -41,6 +45,8 @@ float whiteNoise(vec2 p){
     return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453);
 }
 ```
+
+
 ![64^2 white noise](../../../../../feature/archive/202607/3/white_noise.png)
 
 This is the simplest kind of noise, characterized by uniform energy at each frequency, completely random in space/time, and without any structure. Because white light is a uniform mixture of visible light of all frequencies, it is named "white noise."
@@ -49,13 +55,13 @@ However, the human eye is sensitive to low-frequency noise. Although white noise
 
 2. Blue Noise
 
-The energy of blue noise increases with frequency - low energy at low frequencies and high energy at high frequencies. Visually more pure and natural. It is also named after its optical properties, that is, blue light has a higher frequency.
+The energy of blue noise increases with frequency - low energy at low frequencies and high energy at high frequencies. Visually more pure and natural. It is also named from its optical properties, that is, blue light has a higher frequency.
 
 Blue noise is more difficult to generate than white noise. Generally, pre-generated images are downloaded and used.
 
 ![64^2 blue noise](../../../../../feature/archive/202607/3/blue_noise.png)
 
-3. “Color Noise”
+3. "color noise"
 
 From the first two examples, we can predict that there is some other color noise, and in fact there is.
 
@@ -63,11 +69,11 @@ We define the spectral power density function (Spectral Power Density Function, 
 
 | Noise type | SPD |
 | -------------- | ------------------- |
-| Brown noise (red noise) |$S(f) \propto 1/f^2$|
-| pink noise |$S(f) \propto 1/f$|
-| white noise |$C$|
-| blue noise |$S(f) \propto f$|
-| Purple Noise |$S(f) \propto f^2$|
+| Brown noise (red noise) |$S(f) \propto 1/f^2$ |
+| pink noise |$S(f) \propto 1/f$   |
+| white noise |$C$                 |
+| blue noise |$S(f) \propto f$     |
+| Purple Noise |$S(f) \propto f^2$   |
 
 4. Orderly dithering
 
@@ -78,7 +84,7 @@ In fact, Minecraft already has a built-in dither, which we can call "Notch dithe
 This texture has 16 different gray levels (evenly divided from the original 256 gray levels) and is used in a post-processing pipeline called notch.
 
 ```json
-//post/notch.json in 1.17
+// 1.17 中的 post/notch.json
 {
     "targets": [
         "swap"
@@ -136,20 +142,26 @@ void main() {
     fragColor = vec4(r, g, b, 1.0);
 }
 ```
+
+
 In fact, this image is a 4x4 Bayer matrix. The Bayer matrix is ​​the most common ordered dither matrix.
 
-Bayer matrices of different orders can be generated recursively:$$
+Bayer matrices of different orders can be generated recursively:
+
+$$
 B_2 = \begin{pmatrix} 0 & 2 \\ 3 & 1 \end{pmatrix}, \quad
 B_{2n} = \begin{pmatrix} 4B_n & 4B_n + 2 \\ 4B_n + 3 & 4B_n + 1 \end{pmatrix}
-$$It is easy to verify that Notch jitter is a 4th order Bayer matrix.
+$$
 
-5. Error diffusion
+It is easy to verify that Notch jitter is a 4th order Bayer matrix.
+
+5. error diffusion
 
 Error diffusion is a serial dithering method that is not suitable for real-time rendering shader implementation. This concept is only proposed here. Interested readers can search for Floyd–Steinberg dithering.
 
-## Implementation of dithering
+## Implementation of jitter
 
-1. Additive jitter
+1. additive jitter
 
 No matter what kind of noise we use, the operation is to add noise to the pixels and then quantize them (here we quantize them into two colors, pure black and pure white) to achieve the effect of dithering.
 
@@ -197,15 +209,17 @@ float quantize(float value, float levels) {
     return floor(value * (levels - 1.0)) / (levels - 1.0);
 }
 ```
+
+
 The picture below is the effect of using blue noise 4th order color quantization:
 
 ![alt text](../../../../../feature/archive/202607/3/image-5.png)
 
-2. Noise threshold jitter
+2. noise threshold jitter
 
 The above noise can also be used directly as a threshold, and the actual effect is similar to additive jitter. Readers can implement it by themselves. For threshold jitter, we introduce the threshold jitter based on Bayer matrix in detail below.
 
-3. Bayer matrix dithering
+3. Bayer matrix jitter
 
 Bayer matrix dithering does not use addition, but uses the value of the Bayer matrix as a threshold to directly compare whether the pixel value is greater than the threshold, thereby deciding whether to output black or white.
 
@@ -244,7 +258,7 @@ You can also dither the three RGB channels separately.
 
 ![alt text](../../../../../feature/archive/202607/3/image-6.png)
 
-## Application
+## application
 
 The above dithering method can be applied in many scenarios, such as optimizing the transmission effect in the previous "Shader Practice - Construction of a Simple 2D Scene".
 
@@ -278,9 +292,9 @@ void main() {
     vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator;
     float max_component = max(gl_FragCoord.x, gl_FragCoord.y);
     float dist = distance(gl_FragCoord.xy/max_component, ScreenSize / (2.0 * max_component));
-    float target_z = -0.97; //The z_view value of the target object. This item is passed to the shader at the data pack level and will be introduced later.
-    float distance_min = 0.03; //distance threshold below which full transmission occurs
-    float distance_max = 0.50; //Distance attenuation range above which no transmission occurs
+    float target_z = -0.97; // 目标物体的 z_view 值, 此项由数据包层面传递给着色器，后文介绍
+    float distance_min = 0.03; // 距离阈值，低于该距离完全透射
+    float distance_max = 0.50; // 距离衰减范围，高于该距离完全不透射
     if (depth < target_z) {
         float t = bayerThreshold(ivec2(gl_FragCoord.xy));
         float normalized_dist = (dist - distance_min) / (distance_max - distance_min);
@@ -312,17 +326,23 @@ float t = bayerThreshold(ivec2(gl_FragCoord.xy));
 float normalized_dist = (dist - distance_min) / (distance_max - distance_min);
 float dithered = step(t, normalized_dist);
 ```
+
+
 Similar to the previous dithering implementation.
 
->In fact, dealing with the problem of transmission naturally returns to the essence of the jitter problem. Solid type objects (although now merged into the terrainshader) do not output semi-transparent pixels. So there are only two cases of retaining pixels and discarding them. Using dithering to approximate translucency is a natural choice. In fact, here`normalized_dist`It's the alpha value of solid.
+> In fact, dealing with the problem of transmission naturally returns to the essence of the jitter problem. Solid type objects (although now merged into the terrainshader) do not output semi-transparent pixels. So there are only two cases of retaining pixels and discarding them. Using dithering to approximate translucency is a natural choice. In fact, here`normalized_dist`It's the alpha value of solid.
 
-## Precomputed noise
+## precomputed noise
 
 In some scenes we will still choose color noise, but the cost of calculating blue noise or other color noise in each fragment shader is relatively high, so we can choose the pre-computation method to embed the noise into the texture.
 
 ![alt text](../../../../../feature/archive/202607/3/QQ_1782916594518.png)
 
-Here we have packed one$16*16$texture and a$64*64$noise in a$128*128$in the image. When sampling, the normalized texture coordinates correspond to:`[0, 0]`arrive`[1/8, 1/8]`for$16*16$texture`[1/8, 1/8]`arrive`[5/8, 5/8]`for$64*64$noise
+Here we have packed one$16*16$texture and a$64*64$noise in a$128*128$in the image. When sampling, the normalized texture coordinates correspond to:
+
+`[0, 0]`arrive`[1/8, 1/8]`for$16*16$texture
+
+`[1/8, 1/8]`arrive`[5/8, 5/8]`for$64*64$noise
 
 In "Shader Basics - Accurate Sampling of Textures" we introduced how to accurately sample textures in the shader. Here we can use the same method to sample noise.
 
@@ -333,6 +353,8 @@ vec2 atlasSize = textureSize(Sampler0, 0);
 vec2 scale = imgSize / atlasSize;
 vec2 sampleCoord = texCoord0 + (imgCoord - normalizedUV) * scale;
 ```
+
+
 Here we can define an additional one on the vertex data`vec2 noiseCoord`, its range is`[1/8, 1/8]`arrive`[5/8, 5/8]`, and then use it in the fragment shader`noiseCoord`to sample noise.
 
 ```glsl
@@ -354,29 +376,34 @@ if(gl_VertexID % 4 == 0){
     noiseCoord = vec2(5.0/8.0, 1.0/8.0);
 }
 ```
+
+
 Let’s encapsulate the function
 
 ```glsl
-vec4 textureImg(sampler2D sampler, vec2 imgCoord, float definition) { //Note that definition here is the resolution of the entire texture.
+vec4 textureImg(sampler2D sampler, vec2 imgCoord, float definition) { // 注意这里的 definition 是整张纹理的分辨率.
     vec2 atlasSize = textureSize(sampler, 0);
     vec2 scale = vec2(definition) / atlasSize;
     vec2 sampleCoord = texCoord0 + (imgCoord - normalizedUV) * scale;
-    ivec2 correctedCoord = ivec2(floor(sampleCoord * atlasSize)); //There may be accuracy issues after scaling coordinates. Use integer coordinates to directly sample texels to force NEAREST.
+    ivec2 correctedCoord = ivec2(floor(sampleCoord * atlasSize)); // 缩放坐标后可能有精度问题，使用整数坐标直接采样纹素以强制 NEAREST.
     return texelFetch(sampler, correctedCoord, 0);
 }
 ```
+
+
 This allows you to directly sample color and noise
 
 ```glsl
 vec4 color = textureImg(Sampler0, colorCoord, 128.0);
 vec4 noise = textureImg(Sampler0, noiseCoord, 128.0);
 ```
+
+
 If only the upper left corner texture is attached to the model, then a texture coordinate greater than 1 must be used when sampling noise, that is, the coordinate of the color part is`[0, 0]`arrive`[1, 1]`, the noise part is`[1, 1]`arrive`[5, 5]`, if the sizes of the two textures are not divisible, aliasing problems may occur. So we choose to paste the entire picture here (actually just replace the file).
 
 In addition, we add to the four corners`alpha`Pixels with channel 254 are used as criteria for special surfaces. Passed in the core shader`flat`keyword outgoing`bool isTargetFace`
 
-```
-glsl
+```glsl
 flat out int isTargetFace;
 
 void main() {
@@ -385,12 +412,15 @@ void main() {
     isTargetFace = (abs(rawAlpha - 254.0/255.0) < 0.001) ? 1 : 0;
 }
 ```
-> There is no need to use semi-texel correction here, because Minecraft's texture filtering is of the NEAREST type.`flat`The purpose of the keyword here is to use only the value of the first vertex, thus making the non-interpolable`int`Types are passed around and remain consistent across fragment shaders.
+
+
+> There is no need to use semi-texel correction here, because Minecraft's texture filtering is of the NEAREST type.
+
+`flat`The purpose of the keyword here is to use only the value of the first vertex, thus making the non-interpolable`int`Types are passed around and remain consistent across fragment shaders.
 
 Verify that both color and noise can be sampled independently
 
-```
-glsl
+```glsl
 if(isTargetFace == 1) {
     vec4 color = textureImg(Sampler0, colorCoord, 128.0);
     vec4 noise = textureImg(Sampler0, noiseCoord, 128.0);
@@ -402,8 +432,7 @@ if(isTargetFace == 1) {
 
 ![alt text](../../../../../feature/archive/202607/3/QQ_1782924449681.png)
 
-```
-glsl
+```glsl
 if(isTargetFace == 1) {
     vec4 color = textureImg(Sampler0, colorCoord, 128.0);
     vec4 noise = textureImg(Sampler0, noiseCoord, 128.0);
@@ -417,8 +446,7 @@ if(isTargetFace == 1) {
 
 Complete light and shadow calculations and dithering are added below
 
-```
-glsl
+```glsl
 if(isTargetFace == 1) {
     vec4 color = textureImg(Sampler0, colorCoord, 128.0);
 #ifdef ALPHA_CUTOUT
@@ -441,8 +469,7 @@ if(isTargetFace == 1) {
 
 Or dither the brightness
 
-```
-glsl
+```glsl
 if(isTargetFace == 1) {
     vec4 color = textureImg(Sampler0, colorCoord, 128.0);
 #ifdef ALPHA_CUTOUT

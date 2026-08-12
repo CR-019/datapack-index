@@ -2,11 +2,15 @@
 title: 'Vanilla connected texture based on face culling'
 ---
 
-<FeatureHead
-    title="Vanilla connected texture based on face culling"
-    authorName="Xuanyu1725"
-/>
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
 
+
+<FeatureHead
+title='Vanilla connected texture based on face culling'
+authorName='Xuanyu1725'
+/>
 
 ## Preface
 
@@ -14,7 +18,7 @@ Connected textures are a mechanism that automatically changes the appearance of 
 
 ## Brief description of principle
 
-Our basic idea is to use`face culling (Culling)`To determine whether there are complete faces around the block, by selectively removing faces, we can let the block hide the corresponding faces when adjacent blocks exist, thereby achieving a visual effect similar to connected textures.
+Our basic idea is to use`面剔除 (Culling)`To determine whether there are complete faces around the block, by selectively removing faces, we can let the block hide the corresponding faces when adjacent blocks exist, thereby achieving a visual effect similar to connected textures.
 
 This also directly determines the compatibility range of this solution: it is impossible to connect textures to non-all blocks, and it is impossible to distinguish whether the surrounding blocks are of the same type as itself, which cannot be fully realized.$64$a completely unrelated model. Still, this solution works very well on custom maps.
 
@@ -29,19 +33,20 @@ In the baking model, each voxel (elements) can define the attributes of its six 
 <div class="nbttree">
 
 <node type="compound" name="face"/> This is the definition of a model face.
-- <node type="string" name="texture" required=true />Specifies the texture variable to use (starting with`#`beginning).
+- <node type="string" name="texture" required=true />Specifies the texture variable used (starting with`#`beginning).
 - <node type="list" name="uv"/>Set texture mapping.
-  - <node type="float" name=""/>The texture coordinate bound to the starting point of the texture`u1`.
-  - <node type="float" name=""/>The texture coordinate bound to the starting point of the texture`v1`.
-  - <node type="float" name=""/>The texture horizontal coordinate bound to the texture end point`u2`.
-  - <node type="float" name=""/>The texture coordinate bound to the end point of the texture`v2`.
-- <node type="int" name="rotation"/> (default is`0`) to rotate the texture according to a specific angle, which can be`0`、`90`、`180`or`270`.
-- <node type="int" name="tintindex"/> (default is`-1`) recolors the texture using a hardcoded shading index. If it is an item model, it can be specified as itemmodel mapping`tints`subscript to refer to non-hardcoded coloring.
+  - <node type="float" name=""/>The texture horizontal coordinate bound to the starting point of the texture`u1`。
+  - <node type="float" name=""/>The texture coordinate bound to the starting point of the texture`v1`。
+  - <node type="float" name=""/>The texture horizontal coordinate bound to the texture end point`u2`。
+  - <node type="float" name=""/>The texture coordinate bound to the texture end point`v2`。
+- <node type="int" name="rotation"/> (default is`0`) to rotate the texture according to a specific angle, which can be`0`、`90`、`180`or`270`。
+- <node type="int" name="tintindex"/> (default is`
+- 1`) recolors the texture using a hardcoded shading index. If it is an item model, it can be specified as itemmodel mapping`tints`subscript to refer to non-hardcoded coloring.
 - <node type="string" name="cullface"/>Specifies the occlusion direction used to cull this model face.
 
 </div>
 
-Among them`cullface`The field is an enumeration that specifies in which direction this face will be removed when there is a complete face. Optional values ​​include`"up"`、`"down"`、`"north"`、`"south"`、`"west"`and`"east"`.
+in`cullface`The field is an enumeration that specifies in which direction this face will be removed when there is a complete face. Optional values ​​include`"up"`、`"down"`、`"north"`、`"south"`、`"west"`and`"east"`。
 
 ## Implementation method
 
@@ -61,7 +66,7 @@ Figure 1 is suitable for borders that are a solid color, have no rotation on the
 
 ![img](../../../../../feature/archive/202605/3/img/3.png)
 
-This process is suitable for general corner processing, and the overlay method is the same as above. The purpose is to cover the z-flighting part. When the north direction is eliminated, only (a) and (d) remain, leaving a complete boundary in the west direction. In the same way, when the west direction is eliminated, only (b) and (e) are retained, leaving a complete boundary in the north direction.
+This process is suitable for general corner processing, and the overlay method is the same as above. The purpose is to cover the z-flighting part. When the north direction is eliminated, only (a) and (d) remain, thus leaving a complete boundary in the west direction. Similarly, when the west direction is eliminated, only (b) and (e) are retained, leaving a complete boundary in the north direction.
 
 ## Example: Diamond block connection texture
 
@@ -69,8 +74,7 @@ We first analyze the connection texture requirements of diamond blocks: diamond 
 
 Here is an example of a complete diamond block corner treatment model definition:
 
-::: details model definition format
-
+::: details Model definition format
 ```json
 {
 	"format_version": "1.21.11",
@@ -191,7 +195,7 @@ Here is an example of a complete diamond block corner treatment model definition
 ![img](../../../../../feature/archive/202605/3/img/4.png)
 
 > [Download resource pack](https://github.com/CR-019/datapack-index/raw/refs/heads/lib-hosting/prod/feature_2026.05.diamond_resources.zip)\
->[mirror link](https://gitee.com/Dahesor/server_resourcepacks/raw/lib/prod/feature_2026.05.diamond_resources.zip)
+> [Mirror link](https://gitee.com/Dahesor/server_resourcepacks/raw/lib/prod/feature_2026.05.diamond_resources.zip)
 
 ## Quote
 

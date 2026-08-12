@@ -1,14 +1,19 @@
 ---
-title: 'data pack passes parameters to resource packshader'
+title: 'data pack passes parameters to resource pack shader'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
-    title = "data pack passes parameters to resource packshader"
+    title = "data pack passes parameters to resource pack shader"
     authorName = "MC is seeking death for the Wolf King"
 />
 
-
-## Part 1 - The Power of My Thoughts
+## Part 1
+- I am looking for the power of thinking
 
 First create a mcresource pack
 
@@ -44,9 +49,13 @@ To customize and judge a special particle, we need some properties of the partic
 
 [Particle Data Format](https://zh.minecraft.wiki/w/%E7%B2%92%E5%AD%90%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F)
 
-Color particle options can customize RGBA,`entity_effect`and`tinted_leaves`Color particle options are available for particles, but unfortunately there is a bug.`tinted_leaves`The A value of is actually always 1.0, so you can only use`entity_effect`## 1. Basics of particle vertex shader modification
+Color particle options can customize RGBA,`entity_effect`and`tinted_leaves`Color particle options are available for particles, but unfortunately there is a bug.`tinted_leaves`The A value of is actually always 1.0, so you can only use`entity_effect`
 
-Unzip the mc jar file and find it in the directory`assets/minecraft/shaders/core/`turn up`particle.vsh`and`particle.fsh`, copy it into your own resource pack.
+## 1. Basics of particle vertex shader modification
+
+Unzip the mc jar file and find it in the directory`assets/minecraft/shaders/core/`
+
+turn up`particle.vsh`and`particle.fsh`, copy it into your own resource pack.
 
 This is`particle.vsh`, the vertex shader of the particle
 
@@ -78,11 +87,17 @@ void main() {
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
 }
 ```
+
+
 If you don’t understand mcshader, you can check out mcwiki.
 
 [mcwikishader part](https://zh.minecraft.wiki/w/%E7%9D%80%E8%89%B2%E5%99%A8)
 
-`Position`It is the coordinate with the player as the origin of the coordinate system.`ModelViewMat * vec4(Position, 1.0)`What is obtained is the coordinate of the particle in the eye coordinate system`ProjMat * ModelViewMat * vec4(Position, 1.0)`What is finally obtained is the particle coordinate under the NDC coordinate system, which is to be clipped.
+`Position`It is the coordinate with the player as the origin of the coordinate system.
+
+`ModelViewMat * vec4(Position, 1.0)`What is obtained is the coordinate of the particle in the eye coordinate system
+
+`ProjMat * ModelViewMat * vec4(Position, 1.0)`What is finally obtained is the particle coordinate under the NDC coordinate system, which is to be clipped.
 
 gl_VertexID is built into glsl, which can obtain the current vertex index, and particles are all quadrilaterals, so the vertex index can determine which point of the particle the current vertex is on.
 
@@ -124,6 +139,8 @@ void main() {
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
 }
 ```
+
+
 This string of code maps particles to a fixed position in front of you, ensuring that subsequent particles will not be clipped.
 
 Then pin the particles to the upper right corner of the screen.
@@ -158,19 +175,19 @@ const vec2 quadCorners[4] = vec2[4](
 );
 
 void main() {
-    //Initialize the clipping space position, located in the center of the view
+    // 初始化裁剪空间位置，位于视图中心
     vec4 clipSpacePos = vec4(0.0, 0.0, -1.0, 1.0);
     
-    //Get the corresponding angular offset based on the current vertex index
+    // 根据当前顶点索引获取对应的角偏移量
     vec2 cornerOffset = quadCorners[gl_VertexID % 4];
     
-    //Apply angular offset to xycoordinate
+    // 将角偏移量应用到xy坐标上
     clipSpacePos.xy += cornerOffset;
     
-    //Calculate the offset (0 to 1) used to adjust the projection, mapping (-1,1) to (1,0)
+    // 计算用于调整投影的偏移量 (0 到 1),将 (-1,1) 映射到 (1,0)
     vec2 ndcCornerOffset = (vec2(1.0) - cornerOffset) * 0.5; 
     
-    //Calculate screen space offset (in pixels)
+    // 计算屏幕空间的偏移 (像素单位)
     vec2 screenOffset = ndcCornerOffset / ScreenSize;
     
     gl_Position = ProjMat * clipSpacePos;
@@ -183,6 +200,8 @@ void main() {
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
 }
 ```
+
+
 Here we join`#moj_import &lt;minecraft:globals.glsl&gt;`,can be used`ScreenSize`Get screen resolution,`RESOLUTION_FACTOR`is the resolution factor at which particles are rendered in the upper right corner. This piece of code allows you to render particles in a fixed area of ​​​​500x500 resolution in the upper right corner of the screen. If it is only used for transmission, 2x2 resolution is sufficient. 1 pixel may not be drawn due to loss of accuracy.
 
 But we hope that only the marked particles will be moved to the upper right corner of the screen. We can generate special particles through data pack.`entity_effect`Particles, for example, pass in a value of 0.114 and pass it through the shader`Color.a`judge.
@@ -193,7 +212,9 @@ But we hope that only the marked particles will be moved to the upper right corn
 
 This chapter assumes that you already have basic knowledge of data pack production.
 
-Write this in the mcfunction file that will be executed every tick in the data pack`execute as @a at @s run particle entity_effect{color:[1.0,1.0,1.0,0.114]} ~ ~ ~`Then change the particle vertex shader to the following code
+Write this in the mcfunction file that will be executed every tick in the data pack`execute as @a at @s run particle entity_effect{color:[1.0,1.0,1.0,0.114]} ~ ~ ~`
+
+Then change the particle vertex shader to the following code
 
 ```glsl
 #version 150
@@ -226,19 +247,19 @@ const vec2 quadCorners[4] = vec2[4](
 
 void main() {
     if (Color.a > 0.113 && Color.a < 0.115) {
-        //Initialize the clipping space position, located in the center of the view
+        // 初始化裁剪空间位置，位于视图中心
         vec4 clipSpacePos = vec4(0.0, 0.0, -1.0, 1.0);
     
-        //Get the corresponding angular offset based on the current vertex index
+        // 根据当前顶点索引获取对应的角偏移量
         vec2 cornerOffset = quadCorners[gl_VertexID % 4];
     
-        //Apply angular offset to xycoordinate
+        // 将角偏移量应用到xy坐标上
         clipSpacePos.xy += cornerOffset;
     
-        //Calculate the offset (0 to 1) used to adjust the projection, mapping (-1,1) to (1,0)
+        // 计算用于调整投影的偏移量 (0 到 1),将 (-1,1) 映射到 (1,0)
         vec2 ndcCornerOffset = (vec2(1.0) - cornerOffset) * 0.5; 
     
-        //Calculate screen space offset (in pixels)
+        // 计算屏幕空间的偏移 (像素单位)
         vec2 screenOffset = ndcCornerOffset / ScreenSize;
     
         gl_Position = ProjMat * clipSpacePos;
@@ -254,24 +275,29 @@ void main() {
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
 }
 ```
+
+
 Due to floating point precision issues, in the vertex shader, we have to use Color.a > 0.113 && Color.a &lt; 0.115 as an interval to judge special particles.
 
 But there are still two questions before us at this time:
 
-1. The particle color display in the upper right corner will change according to the lighting.
+1. The particle color display in the upper right corner changes depending on the lighting.
 
-2. Particles are not pure colors
+2. Particles are not solid colors
 
-3. Fog will affect particle color
+3. Fog affects particle color
 
 It is not conducive for us to use particles to pass parameters.
 
 The first question is`vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);`in`texelFetch(Sampler2, UV2 / 16, 0)`, which is the color under light.
 
-The second question is`particle.fsh`middle`vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator`of`texture(Sampler0, texCoord0)`The third question is`particle.fsh`middle`fragColor = apply_fog(color, sphericalVertexDistance, cylindricalVertexDistance, FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd, FogColor);`used`apply_fog`method
+The second question is`particle.fsh`middle`vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator`of`texture(Sampler0, texCoord0)`
 
-In this regard, all special judgments and special treatments will be made.`particle.vsh`as follows
+The third question is`particle.fsh`middle`fragColor = apply_fog(color, sphericalVertexDistance, cylindricalVertexDistance, FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd, FogColor);`used`apply_fog`method
 
+In this regard, all special judgments and special treatments will be made.
+
+`particle.vsh`as follows
 ```glsl
 #version 150
 
@@ -304,19 +330,19 @@ const vec2 quadCorners[4] = vec2[4](
 
 void main() {
     if (Color.a > 0.113 && Color.a < 0.115) {
-        //Initialize the clipping space position, located in the center of the view
+        // 初始化裁剪空间位置，位于视图中心
         vec4 clipSpacePos = vec4(0.0, 0.0, -1.0, 1.0);
     
-        //Get the corresponding angular offset based on the current vertex index
+        // 根据当前顶点索引获取对应的角偏移量
         vec2 cornerOffset = quadCorners[gl_VertexID % 4];
     
-        //Apply angular offset to xycoordinate
+        // 将角偏移量应用到xy坐标上
         clipSpacePos.xy += cornerOffset;
     
-        //Calculate the offset (0 to 1) used to adjust the projection, mapping (-1,1) to (1,0)
+        // 计算用于调整投影的偏移量 (0 到 1),将 (-1,1) 映射到 (1,0)
         vec2 ndcCornerOffset = (vec2(1.0) - cornerOffset) * 0.5; 
     
-        //Calculate screen space offset (in pixels)
+        // 计算屏幕空间的偏移 (像素单位)
         vec2 screenOffset = ndcCornerOffset / ScreenSize;
     
         gl_Position = ProjMat * clipSpacePos;
@@ -335,7 +361,6 @@ void main() {
 
 
 `particle.fsh`as follows
-
 ```glsl
 #version 150
 
@@ -365,11 +390,13 @@ void main() {
     }
 }
 ```
+
+
 At this point, we have successfully passed the solid color with rgb 1.0 to the shader and rendered it in the upper right corner of the screen.
 
 ## 3. Post-processing shader reading and passing to participate in actual combat
 
-In picture quality`Fabulous!`hour,`transparency.fsh`Enabled, this chapter does not introduce or operate the rendering pipeline part, only`transparency.fsh`to operate.
+In picture quality`极佳`hour,`transparency.fsh`Enabled, this chapter does not introduce or operate the rendering pipeline part, only`transparency.fsh`to operate.
 
 exist`transparency.fsh`in, containing`ParticlesSampler`, the pixel information in the upper right corner can be obtained through sampling, in`int main() {}`write inside`vec4 particleInput = texture(ParticlesSampler, vec2(1.0, 1.0));`You can get the RGB data passed in by the particles and add the last line`fragColor = particleInput;`, if nothing else happens, the entire screen will become a solid color. The color is the color of the potion particles in your run command every tick.
 
@@ -377,7 +404,7 @@ exist`transparency.fsh`in, containing`ParticlesSampler`, the pixel information i
 
 1.21.6 introduced dialog, which can be used with function macros to implement built-in light and shadow settings.
 
-in`namespace/dialog`Write something inside`example.json`
+exist`namespace/dialog`Write something inside`example.json`
 
 ```json
 {
@@ -426,8 +453,9 @@ in`namespace/dialog`Write something inside`example.json`
   ]
 }
 ```
-then in`minecraft/tags/dialog/pause_screen_additions.json`Write inside
 
+
+then in`minecraft/tags/dialog/pause_screen_additions.json`Write inside
 ```json
 {
     "values": [
@@ -435,19 +463,21 @@ then in`minecraft/tags/dialog/pause_screen_additions.json`Write inside
     ]
 }
 ```
-exist`custom_shader:shader_options_input`written inside
 
+
+exist`custom_shader:shader_options_input`written inside
 ```
 $scoreboard players set @s custom_shader.filter.red $(red)
 $scoreboard players set @s custom_shader.filter.green $(green)
 $scoreboard players set @s custom_shader.filter.blue $(blue)
 ```
+
+
 In the load phase, register all scoreboards and assign a value of 255 to all player scoreboards.
 
 Then the tick stage is to divide the scoreboard by 255 and store it in storage, and then the function macro runs the patchle command. I believe you can figure out how to write it.
 
 then`transparency.fsh`The code is as follows:
-
 ```glsl
 #version 150
 
@@ -522,9 +552,12 @@ void main() {
     fragColor = mix(vec4( texelAccum.rgb, 1.0 ), particleInput, 0.5);
 }
 ```
+
 Finally, if you are careful, you will find that when the perspective shake is turned on, the particles are actually rendered lower when walking and the color cannot be read normally. This is because of the magical rendering mechanism of MC, and the perspective shake is not included.`ModelViewMat`Inside, it’s a lie~
 
-In short, the bug can be fixed by changing the projection offset (I am thinking about it)`particle.vsh`as follows
+In short, the bug can be fixed by changing the projection offset (I am thinking about it)
+
+`particle.vsh`as follows
 
 ```glsl
 #version 150
@@ -558,19 +591,19 @@ const vec2 quadCorners[4] = vec2[4](
 
 void main() {
     if (Color.a > 0.113 && Color.a < 0.115) {
-        //Initialize the clipping space position, located in the center of the view
+        // 初始化裁剪空间位置，位于视图中心
         vec4 clipSpacePos = vec4(0.0, 0.0, -0.05, 1.0);
     
-        //Get the corresponding angular offset based on the current vertex index
+        // 根据当前顶点索引获取对应的角偏移量
         vec2 cornerOffset = quadCorners[gl_VertexID % 4];
     
-        //Apply angular offset to xycoordinate
+        // 将角偏移量应用到xy坐标上
         clipSpacePos.xy += cornerOffset;
     
-        //Calculate the offset to adjust the projection (-1.5 to 0.5), mapping (-1,1) to (0.5,-1.5)
+        // 计算用于调整投影的偏移量 (-1.5 到 0.5),将 (-1,1) 映射到 (0.5,-1.5)
         vec2 ndcCornerOffset = -cornerOffset-0.5; 
     
-        //Calculate screen space offset (in pixels)
+        // 计算屏幕空间的偏移 (像素单位)
         vec2 screenOffset = ndcCornerOffset / ScreenSize;
     
         gl_Position = ProjMat * clipSpacePos;
@@ -586,6 +619,8 @@ void main() {
     baseColor = Color;
 }
 ```
+
+
 So far we have completed the available filters + filter settings written based on vanilla
 
 ![](../../../../../feature/archive/202509/7/1.png)

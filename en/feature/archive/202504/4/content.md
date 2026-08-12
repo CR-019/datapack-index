@@ -2,11 +2,15 @@
 title: 'NeKoCustomSpawn-demo'
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
+
 <FeatureHead
     title = "NeKoCustomSpawn-demo"
     authorName = "Qi Bai"
 />
-
 
 > Reference video: [[data pack]pseudo-natural generation based on spreadplayers](https://www.bilibili.com/video/BV1FGRSYnELb/).
 >
@@ -23,11 +27,11 @@ Currently, the package body has only completed the rough generation process, and
 
 Created to solve the problem that vanilla mods cannot naturally add custom mobs to the game. You can use this package to make your world richer by allowing custom mobs or entities to be generated naturally in the world at all times!
 
-## Implementation
+## accomplish
 
 Regarding the implementation of the package body function, I will divide it into two modules: **Generation module** and **Feedback module** to discuss.
 
-### Feedback
+### feedback
 
 We hope to stop the generation of mobs after the category reaches the corresponding generation limit, so we need to obtain the maximum generation limit of the entity. This upper limit is determined by the effective generation chunk and the mob category upper limit multiplier.
 
@@ -41,7 +45,7 @@ Regarding how to calculate the number of chunks, two feasible solutions were ini
 
 During execution, **traverse** the 17*17 chunkcoordinates around each player, store them in storage with key names, and finally use execute store ... data get to read the number of chunks that can be generated.
 
-#### Scan line
+#### scan line
 
 The scan line method needs to obtain the diagonal chunkcoordinates of the 17*17 rectangular range around the player as source data, and sequentially use sorting, interval merging, and scanning operations to read the number of chunks that can be generated. The execution logic is as follows:
 
@@ -52,20 +56,20 @@ The scan line method needs to obtain the diagonal chunkcoordinates of the 17*17 
 *This function is responsible for counting the effective monster spawning chunks centered on the player 17\*17*#
 
 ```mcfunction
-#Get PlayerPos
+#获取 PlayerPos
 execute store result score #CustomSpawn.Pos_x .NEKOTEMP run data get entity @s Pos[0]
 execute store result score #CustomSpawn.Pos_z .NEKOTEMP run data get entity @s Pos[2]
-#Scoring items for calculation
+#运算用计分项
 scoreboard players set #CustomSpawn.Calculate .NEKOTEMP 16
-#Get ChunkPos
-##Operation
+#获取 ChunkPos
+##运算
 scoreboard players operation #CustomSpawn.Pos_x .NEKOTEMP /= #CustomSpawn.Calculate .NEKOTEMP
 scoreboard players operation #CustomSpawn.Pos_z .NEKOTEMP /= #CustomSpawn.Calculate .NEKOTEMP
-##initialization
+##初始化
 data modify storage nkcustomspawn:data EffectiveChunk.left set value [0,0,0,0]
 data modify storage nkcustomspawn:data EffectiveChunk.right set value [0,0,0,1]
-##chunk diagonal vertex determines (x,z)
-###Left vertex (upper left)
+##区块对角顶点确定(x,z)
+###左顶点(左上)
 scoreboard players set #CustomSpawn.Calculate .NEKOTEMP 8
 scoreboard players operation #CustomSpawn.Pos_x .NEKOTEMP -= #CustomSpawn.Calculate .NEKOTEMP
 scoreboard players operation #CustomSpawn.Pos_z .NEKOTEMP += #CustomSpawn.Calculate .NEKOTEMP
@@ -73,7 +77,7 @@ execute store result storage nkcustomspawn:data EffectiveChunk.left[0] int 1 run
     scoreboard players get #CustomSpawn.Pos_x .NEKOTEMP
 execute store result storage nkcustomspawn:data EffectiveChunk.left[1] int 1 run \
     scoreboard players get #CustomSpawn.Pos_z .NEKOTEMP
-###Right vertex (lower right)
+###右顶点(右下)
 scoreboard players set #CustomSpawn.Calculate .NEKOTEMP 16
 scoreboard players operation #CustomSpawn.Pos_x .NEKOTEMP += #CustomSpawn.Calculate .NEKOTEMP
 scoreboard players operation #CustomSpawn.Pos_z .NEKOTEMP -= #CustomSpawn.Calculate .NEKOTEMP
@@ -81,17 +85,19 @@ execute store result storage nkcustomspawn:data EffectiveChunk.right[0] int 1 ru
     scoreboard players get #CustomSpawn.Pos_x .NEKOTEMP
 execute store result storage nkcustomspawn:data EffectiveChunk.right[2] int 1 run \
     scoreboard players get #CustomSpawn.Pos_z .NEKOTEMP
-#tidy
+#整理
 data modify storage nkcustomspawn:data EffectiveChunk.right[1] set from storage nkcustomspawn:data EffectiveChunk.left[1]
 data modify storage nkcustomspawn:data EffectiveChunk.left[2] set from storage nkcustomspawn:data EffectiveChunk.right[2]
-#Store in nktoolkit:array sorting operation
+#存入 nktoolkit:array 整理运算
 data modify storage nktoolkit:array input.source append from storage nkcustomspawn:data EffectiveChunk.left
 data modify storage nktoolkit:array input.source append from storage nkcustomspawn:data EffectiveChunk.right
-#Reset scoring
+#重置计分项
 scoreboard players reset #CustomSpawn.Pos_x
 scoreboard players reset #CustomSpawn.Pos_z
 scoreboard players reset #CustomSpawn.Calculate
 ```
+
+
 :::
 
 - **Data preprocessing (interval division)**
@@ -99,32 +105,32 @@ scoreboard players reset #CustomSpawn.Calculate
 :::details nkcustomspawn:main/effective_chunk/0.mcfunction
 
 ```mcfunction
-#Call bubble sort to sort the input data according to x from small to large
+#调用冒泡排序对input data依据x由小到大排序
 scoreboard players set #nktoolkit_arr .NEKOTEMP 1
 function nktoolkit:list/bubble_store/0
 scoreboard players reset #nktoolkit_arr .NEKOTEMP
-#Endpoint x0 initialization
+#端点x0初始化
 data modify storage nkcustomspawn:data input.source set from storage nktoolkit:array output
 data remove storage nktoolkit:array output
-##z direction interval collection
-##input.zarray
+##z向区间采集
+##input.z数组
 data modify storage nkcustomspawn:data input.z set value [0,0]
 data modify storage nkcustomspawn:data input.z[0] set from storage nkcustomspawn:data input.source[0][2]
 data modify storage nkcustomspawn:data input.z[1] set from storage nkcustomspawn:data input.source[0][1]
 data modify storage nkcustomspawn:data input.interval append from storage nkcustomspawn:data input.z
-#Boundary coordinate reading
+#边界坐标读取
 execute store result score #CustomSpawn.Calculate_x0 .NEKOTEMP run \
     data get storage nkcustomspawn:data input.source[0][0]
-#Boundary type reading
+#边界类型读取
 execute store result score #CustomSpawn.Calculate_lorr0 .NEKOTEMP run \
     data get storage nkcustomspawn:data input.source[0][3]
-#collinear boundary count
+#共线边界计数
 scoreboard players set #CustomSpawn.Calculate_CollinearCount .NEKOTEMP 1
 #remove source[0]
 data remove storage nkcustomspawn:data input.source[0]
-#Call main function
+#调用主函数
 function nkcustomspawn:main/effective_chunk/main
-#Post-processing
+#后处理
 scoreboard players reset #CustomSpawn.Calculate_CollinearCount .NEKOTEMP
 scoreboard players reset #CustomSpawn.Calculate_lengthx .NEKOTEMP
 scoreboard players reset #CustomSpawn.Calculate_lengthz .NEKOTEMP
@@ -135,6 +141,8 @@ scoreboard players reset #CustomSpawn.Calculate_x1 .NEKOTEMP
 data remove storage nkcustomspawn:data input
 data remove storage nkcustomspawn:data EffectiveChunk
 ```
+
+
 :::
 
 - **Boundary Classification Processing**
@@ -145,40 +153,42 @@ data remove storage nkcustomspawn:data EffectiveChunk
 #---------------------------#
 #                  0                   #
 #---------------------------#
-#Boundary type identification
+#边界类型识别
 execute store result score #CustomSpawn.Calculate_lorr .NEKOTEMP run \
     data get storage nkcustomspawn:data input.source[0][3]
-#left border
-##Get boundary coordinate
+#左边界
+##获取边界坐标
 execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 0 \
     store result score #CustomSpawn.Calculate_x1 .NEKOTEMP run \
     data get storage nkcustomspawn:data input.source[0][0]
-##colinear
+##共线
 execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 0 \
     if score #CustomSpawn.Calculate_x1 .NEKOTEMP = #CustomSpawn.Calculate_x0 .NEKOTEMP run \
     function nkcustomspawn:main/effective_chunk/left/collinear
-##noncollinear
+##非共线
 execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 0 \
     unless score #CustomSpawn.Calculate_x1 .NEKOTEMP = #CustomSpawn.Calculate_x0 .NEKOTEMP run \
     function nkcustomspawn:main/effective_chunk/boundary
-#Boundary type identification
+#边界类型识别
 execute store result score #CustomSpawn.Calculate_lorr .NEKOTEMP run \
     data get storage nkcustomspawn:data input.source[0][3]
-#right border
-##Get boundary coordinate
+#右边界
+##获取边界坐标
 execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 1 \
     store result score #CustomSpawn.Calculate_x1 .NEKOTEMP run \
     data get storage nkcustomspawn:data input.source[0][0]
-##data processing
+##数据处理
 execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 1 run \
     function nkcustomspawn:main/effective_chunk/boundary
-#Circulation criterion
+#循环判据
 execute store result score #CustomSpawn.Calculate_temp .NEKOTEMP run \
     data get storage nkcustomspawn:data input.source
 execute if score #CustomSpawn.Calculate_temp .NEKOTEMP matches 0 run return fail
-#cycle
+#循环
 function nkcustomspawn:main/effective_chunk/main
 ```
+
+
 :::
 
 - **Collinear boundary processing (left)**
@@ -189,17 +199,19 @@ function nkcustomspawn:main/effective_chunk/main
 #---------------------------#
 #                main                #
 #---------------------------#
-##zAdd to range
+##z向区间添置
 data modify storage nkcustomspawn:data input.z[0] set from storage nkcustomspawn:data input.source[0][2]
 data modify storage nkcustomspawn:data input.z[1] set from storage nkcustomspawn:data input.source[0][1]
 data modify storage nkcustomspawn:data input.interval append from storage nkcustomspawn:data input.z
 #remove source[0]
 data remove storage nkcustomspawn:data input.source[0]
-#collinear boundary count
+#共线边界计数
 scoreboard players add #CustomSpawn.Calculate_CollinearCount .NEKOTEMP 1
-#reset right border
+#重置右边界
 scoreboard players reset #CustomSpawn.Calculate_x1 .NEKOTEMP
 ```
+
+
 :::
 
 - **Non-collinear processing**
@@ -210,39 +222,41 @@ scoreboard players reset #CustomSpawn.Calculate_x1 .NEKOTEMP
 #---------------------------#
 #                main                #
 #---------------------------#
-#Get the x-direction interval length #CustomSpawn.Calculate_lengthx .NEKOTEMP
+#获取x向区间长 #CustomSpawn.Calculate_lengthx .NEKOTEMP
 scoreboard players operation #CustomSpawn.Calculate_lengthx .NEKOTEMP += #CustomSpawn.Calculate_x1 .NEKOTEMP
 scoreboard players operation #CustomSpawn.Calculate_lengthx .NEKOTEMP -= #CustomSpawn.Calculate_x0 .NEKOTEMP
-#Differential boundary correction
+#异向边界修正
 execute unless score #CustomSpawn.Calculate_lorr0 .NEKOTEMP = #CustomSpawn.Calculate_lorr .NEKOTEMP run \
     scoreboard players add #CustomSpawn.Calculate_lengthx .NEKOTEMP 1
-#Get the z-direction interval length #CustomSpawn.Calculate_lengthz .NEKOTEMP
-##Interval union
+#获取z向区间长 #CustomSpawn.Calculate_lengthz .NEKOTEMP
+##区间求并
 data modify storage nktoolkit:array input.source set from storage nkcustomspawn:data input.interval
 function nktoolkit:list/interval_union/0
-#Length operation
+#长度运算
 function nkcustomspawn:main/effective_chunk/left/lengthz
 data remove storage nktoolkit:array output
-#Valid Count #CustomSpawn.CalCulate_ChunkCount .NEKOTEMP
+#有效计数 #CustomSpawn.CalCulate_ChunkCount .NEKOTEMP
 scoreboard players operation #CustomSpawn.Calculate_lengthz .NEKOTEMP *= #CustomSpawn.Calculate_lengthx .NEKOTEMP
 scoreboard players operation #CustomSpawn.Calculate_ChunkCount .NEKOTEMP += #CustomSpawn.Calculate_lengthz .NEKOTEMP
-#Reset scoreboard
+#重置计分板
 scoreboard players reset #CustomSpawn.Calculate_lengthx .NEKOTEMP
 scoreboard players reset #CustomSpawn.Calculate_lengthz .NEKOTEMP
-#boundary swap
+#边界调换
 scoreboard players operation #CustomSpawn.Calculate_x0 .NEKOTEMP = #CustomSpawn.Calculate_x1 .NEKOTEMP
 scoreboard players reset #CustomSpawn.Calculate_x1 .NEKOTEMP
 scoreboard players operation #CustomSpawn.Calculate_lorr0 .NEKOTEMP = #CustomSpawn.Calculate_lorr .NEKOTEMP
-#Classification processing
-##Left border is non-collinear
+#分类处理
+##左边界非共线
 execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 0 run \
     function nkcustomspawn:main/effective_chunk/left/noncollinear
-##right border
+##右边界
 execute if score #CustomSpawn.Calculate_lorr .NEKOTEMP matches 1 run \
     function nkcustomspawn:main/effective_chunk/right/0
 #remove source[0]
 data remove storage nkcustomspawn:data input.source[0]
 ```
+
+
 :::
 
 - **z-direction length operation**
@@ -253,7 +267,7 @@ data remove storage nkcustomspawn:data input.source[0]
 #---------------------------#
 #            boundary            #
 #---------------------------#
-#Find the length of a single interval
+#单一区间求长
 execute store result score #CustomSpawn.Calculate_temp .NEKOTEMP run \
     data get storage nktoolkit:array output[0][1]
 scoreboard players operation #CustomSpawn.Calculate_lengthz .NEKOTEMP += #CustomSpawn.Calculate_temp .NEKOTEMP
@@ -261,16 +275,18 @@ execute store result score #CustomSpawn.Calculate_temp .NEKOTEMP run \
     data get storage nktoolkit:array output[0][0]
 scoreboard players operation #CustomSpawn.Calculate_lengthz .NEKOTEMP -= #CustomSpawn.Calculate_temp .NEKOTEMP
 scoreboard players add #CustomSpawn.Calculate_lengthz .NEKOTEMP 1
-#First item removed
+#首项移除
 data remove storage nktoolkit:array output[0]
-#Circulation criterion
+#循环判据
 execute store result score #CustomSpawn.Calculate_temp .NEKOTEMP run \
     data get storage nktoolkit:array output
 execute if score #CustomSpawn.Calculate_temp .NEKOTEMP matches 0 run return run \
     scoreboard players reset #CustomSpawn.Calculate_temp
-#cycle
+#循环
 function nkcustomspawn:main/effective_chunk/left/lengthz
 ```
+
+
 :::
 
 - **Left boundary non-collinear processing**
@@ -281,19 +297,21 @@ function nkcustomspawn:main/effective_chunk/left/lengthz
 #---------------------------#
 #               boundary              #
 #---------------------------#
-#zAdd to range
+#z向区间添置
 data modify storage nkcustomspawn:data input.z[0] set from storage nkcustomspawn:data input.source[0][2]
 data modify storage nkcustomspawn:data input.z[1] set from storage nkcustomspawn:data input.source[0][1]
 data modify storage nkcustomspawn:data input.interval append from storage nkcustomspawn:data input.z
-#Boundary collinear number processing
+#边界共线数处理
 execute store result storage nkcustomspawn:data input.collinear_temp int 1 run \
     scoreboard players get #CustomSpawn.Calculate_CollinearCount .NEKOTEMP
 data modify storage nkcustomspawn:data input.collinear append from storage nkcustomspawn:data input.collinear_temp
 data remove storage nkcustomspawn:data input.collinear_temp
-#Boundary count reset
+#边界计数重置
 scoreboard players set #CustomSpawn.Calculate_CollinearCount .NEKOTEMP 1
 scoreboard players reset #CustomSpawn.Calculate_lorr .NEKOTEMP
 ```
+
+
 :::
 
 - **Right border processing**
@@ -304,32 +322,32 @@ scoreboard players reset #CustomSpawn.Calculate_lorr .NEKOTEMP
 #---------------------------#
 #         boundary          #
 #---------------------------#
-#If collinear does not exist, the scoring item #CustomSpawn.Calculate_CollinearCount will be inserted
+#若collinear不存在则将计分项#CustomSpawn.Calculate_CollinearCount置入
 execute unless data storage nkcustomspawn:data input.collinear \
     store result storage nkcustomspawn:data input.collinear_temp int 1 run \
     scoreboard players get #CustomSpawn.Calculate_CollinearCount .NEKOTEMP
-#Clear Scoring Item #CustomSpawn.Calculate_CollinearCount
+#清除计分项#CustomSpawn.Calculate_CollinearCount
 execute if data storage nkcustomspawn:data input.collinear_temp run \
     scoreboard players reset #CustomSpawn.Calculate_CollinearCount
-#Place list
+#置入列表
 execute if data storage nkcustomspawn:data input.collinear_temp run \
     data modify storage nkcustomspawn:data input.collinear append from storage nkcustomspawn:data input.collinear_temp
-#Clearcollinear_temp
+#清除collinear_temp
 execute if data storage nkcustomspawn:data input.collinear_temp run \
     data remove storage nkcustomspawn:data input.collinear_temp
-#Read the first collinear list
+#读取collinear列表首位
 execute if data storage nkcustomspawn:data input.collinear \
     store result score #CustomSpawn.Calculate_temp .NEKOTEMP run \
     data get storage nkcustomspawn:data input.collinear[0]
-#Delete the first position in the collinear list
+#删除collinear列表首位
 data remove storage nkcustomspawn:data input.collinear[0]
-#If collinear is empty, clear
+#若collinear为空, 则清除
 execute store result score #CustomSpawn.Calculate_temp2 .NEKOTEMP run \
     data get storage nkcustomspawn:data input.collinear
 execute if score #CustomSpawn.Calculate_temp2 .NEKOTEMP matches 0 run \
     data remove storage nkcustomspawn:data input.collinear
 scoreboard players reset #CustomSpawn.Calculate_temp2
-#Right border event call
+#右边界事件调用
 function nkcustomspawn:main/effective_chunk/right/main
 ```
 
@@ -342,27 +360,29 @@ function nkcustomspawn:main/effective_chunk/right/main
 #---------------------------#
 #          right/0          #
 #---------------------------#
-#z-direction interval deletion
+#z向区间删除
 data remove storage nkcustomspawn:data input.interval[0]
-#Circulation criterion
+#循环判据
 scoreboard players remove #CustomSpawn.Calculate_temp .NEKOTEMP 1
 execute if score #CustomSpawn.Calculate_temp .NEKOTEMP matches 0 run return run \
     scoreboard players reset #CustomSpawn.Calculate_temp .NEKOTEMP
-#cycle
+#循环
 function nkcustomspawn:main/effective_chunk/right/main
 ```
+
+
 :::
 
-**Additional:**
+**Replenish:**
 
-storage data storage structure`nkcustomspawn:data`
+storage data storage structure `nkcustomspawn:data`
 
 ```snbt
 {
     "input": {
         "source": [[x1,y1,y2,1],[x2,y1,y2,1],[r1,t1,t2,0],[r2,t1,t2,1],...],
-        "interval":[[x-z interval],[r-z interval]],
-        "collinear": [(collinear count 1),(collinear count 2),...]
+        "interval":[[x-z区间],[r-z区间]],
+        "collinear": [(共线计数1),(共线计数2),...]
     }
 }
 ```
@@ -371,20 +391,22 @@ storage data storage structure`nkcustomspawn:data`
 scoreboard
 
 ```
-#CollinearCount — Collinear boundary count
-#x0 - left border
-#x1 - right border
-#lengthx - x-direction interval length
-#lengthz - z-direction interval length
-#ChunkCount - can generate chunk count
+#CollinearCount -共线边界计数
+#x0				-左边界
+#x1				-右边界
+#lengthx		-x向区间长度
+#lengthz		-z向区间长度
+#ChunkCount		-可生成区块计数
 ------------------------------------------
-temporary variables
-#temp - called when calculating #lengthz
+临时变量
+#temp			-计算#lengthz时调用
 #temp2
-#lorr - left and right boundary judgment
-#lorr1 - Opposite sex boundary judgment
+#lorr			-左右边界判断
+#lorr1			-异性边界判断
 ```
-### Generate
+
+
+### generate
 
 Regarding the generation of custom mob/entity, in view of the excellent properties of the spreadplayers command (the spread range can be customized and there is no need to perform large-scale data operations in the package), the package body simulates natural generation based on this command.
 
@@ -398,7 +420,7 @@ In each build cycle, we should handle the following events
 Let's take the zombie class as an example. First, let's deal with the generation limit
 
 ```mcfunction
-#Effective chunk number calculation
+#有效区块数计算
 execute store result score #CustomSpawn.Player .NEKOTEMP run \
     execute if entity @a
 execute if score #CustomSpawn.Player .NEKOTEMP matches 2.. as @a at @s run \
@@ -408,43 +430,48 @@ execute if score #CustomSpawn.Player .NEKOTEMP matches 2.. run \
 execute if score #CustomSpawn.Player .NEKOTEMP matches 1 run \
     scoreboard players set #CustomSpawn.Calculate_ChunkCount .NEKOTEMP 289
 
-#Zombie spawn limit
+#僵尸生成上限
 scoreboard players operation #CustomSPawn.MobCap .NEKOTEMP = #CustomSpawn.Calculate_ChunkCount .NEKOTEMP
 scoreboard players reset #CustomSpawn.Calculate_ChunkCount .NEKOTEMP
 scoreboard players operation #CustomSPawn.MobCap .NEKOTEMP *= #ChunkMobCap CustomSpawn_Factor
 scoreboard players operation #CustomSPawn.MobCap .NEKOTEMP /= #BasicSpawn CustomSpawn_Factor
 
-#Reading the number of monsters
+#怪物数量读取
 execute store result score #CustomSpawn.Mob .NEKOTEMP run \
     execute if entity @e[type=#undead]
 ```
+
+
 After processing the generation upper limit, if the number of counted entities is lower than the upper limit, a generation plan will be executed.
 
 ```mcfunction
-#generate
+#生成
 execute if score #CustomSpawn.Mob .NEKOTEMP < #CustomSPawn.MobCap .NEKOTEMP as @a at @s run \
     function nkcustomspawn:main/spawn/temp
 ```
-Due to Java version spreadplayers`maxHeight`Parameters do not support relative positions`~`input, so we use macros to standardize the generated height.
+
+
+Since the `maxHeight`parameter of Java version spreadplayers does not support the input of relative position`~`, we use macros to standardize the generated height.
 
 :::tip Note
 The purpose of limiting the generation height here is for cave generation. If the height is not restricted, the generation point can only be selected on the surface.
 :::
 
-Yes`maxHeight`The parameters are calculated and passed into the macro
+Calculate the `maxHeight` parameter and pass it into the macro
 
-```
-mcfunction
+```mcfunction
 execute store result score #CustomSpawn.Calculate_temp .NEKOTEMP run data get entity @s Pos[1]
 scoreboard players add #CustomSpawn.Calculate_temp .NEKOTEMP 20
 execute store result storage nkcustomspawn:data temp int 1 run scoreboard players get #CustomSpawn.Calculate_temp .NEKOTEMP
 scoreboard players reset #CustomSpawn.Calculate_temp
 function nkcustomspawn:main/spawn/0 with storage nkcustomspawn:data
 ```
+
+
 Execute the generated main function
 
 ```mcfunction
-#Spread generation origin
+#散布生成原点
 summon minecraft:marker ~ ~ ~ {Tags:["nkcustomspawn"]}
 summon minecraft:marker ~ ~ ~ {Tags:["nkcustomspawn"]}
 summon minecraft:marker ~ ~ ~ {Tags:["nkcustomspawn"]}
@@ -456,35 +483,36 @@ summon minecraft:marker ~ ~ ~ {Tags:["nkcustomspawn"]}
 summon minecraft:marker ~ ~ ~ {Tags:["nkcustomspawn"]}
 summon minecraft:marker ~ ~ ~ {Tags:["nkcustomspawn"]}
 $spreadplayers ~ ~ 24.0 110.0 under $(temp) false @e[distance=..0.5,type=minecraft:marker,tag=nkcustomspawn]
-#generate walks
-##Distance parameter
+#生成游走
+##距离参数
 scoreboard players set #CustomSpawn.DistanceFactor .NEKOTEMP 80
-##WanderingHeight
+##游走高度
 execute as @n[type=minecraft:marker,tag=nkcustomspawn] run \
     data modify entity @s data.Posy set from entity @s Pos[1]
-##Travel times
+##游走次数
 scoreboard players set #CustomSpawn.WanderingChance .NEKOTEMP 4
 execute as @n[type=minecraft:marker,tag=nkcustomspawn] run \
     function nkcustomspawn:main/spawn/wandering
-#reset
-##Clear mark (there is a strange BUG, ​​but it does not affect the main logic)
+#重置
+##清除标记 (有一个奇怪的BUG,但是不影响主体逻辑)
 kill @e[type=minecraft:marker,tag=nkcustomspawn]
 ```
+
+
 generate walks
 
 :::tip Note
 This function seems to have some logical bugs, but I haven't found any.
 
-Specifically about line 30`kill @s`, the marker used for marking cannot be completely cleared after execution. If you comment out the`kill @e[type=minecraft:marker,tag=nkcustomspawn]`It can be discovered.
+Specifically, regarding the `kill @s`on line 30, the marker used for marking cannot be completely cleared after execution. You can find out if you comment out the`kill @e[type=minecraft:marker,tag=nkcustomspawn]` in the previous function.
 :::
-
 ```mcfunction
-#Reduce the number of walks by one
+#游走次数减一
 scoreboard players remove #CustomSpawn.WanderingChance .NEKOTEMP 1
-#Random number generation
+#随机数生成
 execute store result score #CustomSpawn.Roll .NEKOTEMP run \
     random value 0..100
-#Generate judgment (probability, distance, spatial judgment)
+#生成判定(几率, 距离, 空间判定)
 execute at @s \
     if score #CustomSpawn.Roll .NEKOTEMP <= #CustomSpawn.DistanceFactor .NEKOTEMP \
     unless entity @a[distance=..24] \
@@ -492,36 +520,38 @@ execute at @s \
     if predicate nkcustomspawn:general/allow_spawn run \
     function nkcustomspawn:main/spawn/main
 
-#generate walks
+#生成游走
 execute unless score #CustomSpawn.SuccessSpawn .NEKOTEMP matches 1 \
     unless score #CustomSpawn.WanderingChance .NEKOTEMP matches ..0 run \
     spreadplayers ~ ~ 0.0 5.0 under 256 false @s
-#Altitude reset
+#高度重置
 execute unless score #CustomSpawn.SuccessSpawn .NEKOTEMP matches 1 \
     unless score #CustomSpawn.WanderingChance .NEKOTEMP matches ..0 run \
     data modify entity @s Pos[1] set from entity @s data.Posy
 
-#Carry out next round of tour
+#进行下一轮游走
 execute unless score #CustomSpawn.SuccessSpawn .NEKOTEMP matches 1 \
     unless score #CustomSpawn.WanderingChance .NEKOTEMP matches ..0 run \
     return run function nkcustomspawn:main/spawn/wandering
 
-#Generate successfully or exit when there are no remaining walks.
-##Clear mark (there is a strange BUG, ​​but it does not affect the main logic)
+#成功生成 or 无剩余游走时退出
+##清除标记 (有一个奇怪的BUG,但是不影响主体逻辑)
 kill @s
-##successmark
+##成功标记
 scoreboard players reset #CustomSpawn.SuccessSpawn .NEKOTEMP
-##Reset the number of walks
+##重置游走次数
 scoreboard players set #CustomSpawn.WanderingChance .NEKOTEMP 4
-##Decrease distance parameter
+##减距离参数
 scoreboard players remove #CustomSpawn.DistanceFactor .NEKOTEMP 20
-##WanderingHeight
+##游走高度
 execute as @n[type=minecraft:marker,tag=nkcustomspawn] run \
     data modify entity @s data.Posy set from entity @s Pos[1]
 execute if entity @e[distance=..128,type=marker,tag=nkcustomspawn] \
     as @n[type=minecraft:marker,tag=nkcustomspawn] run \
     function nkcustomspawn:main/spawn/wandering
 ```
+
+
 About the processing of generation
 
 :::tip Note
@@ -529,50 +559,56 @@ I originally wanted to include aquatic and lava generation, but after writing it
 :::
 
 ```mcfunction
-#ground
+#地面
 execute if predicate nkcustomspawn:general/ground run \
     function nkcustomspawn:main/spawn/sub/ground
-#water
+#水
 #execute if predicate nkcustomspawn:general/water run \
     function nkcustomspawn:main/spawn/sub/water
-#lava
+#熔岩
 #execute if predicate nkcustomspawn:general/lava run \
     function nkcustomspawn:main/spawn/sub/lava
 ```
+
+
 :::tip Note
 This function is used to manage the generated entities, using random numbers to randomly extract entities from the table (this is an example, so only one is written). You can also write a generation predicate for a specific entity here to limit the generation.
 :::
 
 ```mcfunction
-#Random number generation
+#随机数生成
 execute store result score #CustomSpawn.Roll .NEKOTEMP run \
     random value 0..1
 
-#Custom entity data
+#自定义实体数据
 ##test1
 execute if score #CustomSpawn.Roll .NEKOTEMP matches 0 run return run \
     function nkcustomspawn:data/test1
 ```
+
+
 :::tip Note
 Determination of the last step of generation (density determination, that is, the same type of mobs within 9*9chunk cannot exceed a threshold. If successfully generated, the scoring item SuccessSpawn will be marked)
 :::
 
 ```
-#Density determination
+#密度判定
 execute store result score #CustomSpawn.Density .NEKOTEMP run \
     execute if entity @e[distance=..72,type=minecraft:armor_stand]
-#Tag generated successfully
+#成功生成标记
 execute unless score #CustomSpawn.Density .NEKOTEMP matches 9.. run \
     scoreboard players set #CustomSpawn.SuccessSpawn .NEKOTEMP 1
-#generate
+#生成
 #execute unless score #CustomSpawn.Density .NEKOTEMP matches 9.. run \
     summon armor_stand ~ ~ ~ {Glowing:1b}
 execute unless score #CustomSpawn.Density .NEKOTEMP matches 9.. run \
     summon husk ~ ~ ~ {NoAI:1b,Glowing:1b}
-#Density judgment value clear
+#密度判定值清除
 scoreboard players reset #CustomSpawn.Density .NEKOTEMP
 ```
-## End
+
+
+## ending
 
 In short, the general process is as above. I wrote it intermittently for a week, and the test results are still good.
 

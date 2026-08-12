@@ -2,41 +2,45 @@
 title: 'How to detect which key the player pressed'
 ---
 
-<FeatureHead
-    title="How to detect which key the player pressed"
-    authorName="Esan Sang Sang Sang"
-/>
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
 
+
+<FeatureHead
+title='How to detect which key the player pressed'
+authorName='Esan Sang Sang Sang'
+/>
 
 ## 1. F key detection (swap the off-hand item key)
 
-### Special features of F key
+### Special features of F keys
 
 F key (default binding`Swap Item with Offhand`)**not in**vanillapredicate`input`in the system. The following fields are all supported by predicate:
-
 ```
 forward, backward, left, right, jump, sneak, sprint
 ```
-The F keys are not among them. source:`InputPredicate`(yarn 1.21.11+build.4).
+
+The F keys are not among them. source:`InputPredicate` (yarn 1.21.11+build.4)。
 
 ### item exchange notation
 Applicable version: 1.20.5+
 Principle: F key triggers main hand/off hand item exchange → Pass`inventory_changed`Advancement detects changes in item position.
 Core ideas (from Inventory Rotate data pack, Modrinth):
 
-1. Tag the deputy item (via`item_modifier`write`custom_data`)
+1. Tag the off-hand item (via`item_modifier`write`custom_data`）
 2. Give different tags to the off-hand items
-3. When the F key is pressed → item swap → the tags of the two items swap positions.
-4. Detect the change of tag position to determine whether the F key is pressed.
+3. When the F key is pressed → item swap → the tags of the two items swap positions
+4. Detect the change of tag position to determine whether the F key is pressed
 
-Preparation: Preload the worldentity in load, and revoke the player's advancement (to prevent the player from already owning the advancement after restarting and causing it to fail to trigger next time)
-
+Preparation: Preload the world entity in load, and revoke the player's advancement (to prevent the player from already owning the advancement after restarting and causing it to fail to trigger next time)
 ```mcfunction
 advancement revoke @a only <namespace>:fkey_detect
 ```
+
+
 Step 1: Mark the main/deputy item in the tick
 tick:
-
 ```mcfunction
 execute as @a at @s run function <namespace>:player/tick
 ```
@@ -44,7 +48,7 @@ execute as @a at @s run function <namespace>:player/tick
 
 `&lt;namespace&gt;/function/player/tick.mcfunction`
 ```mcfunction
-#Write custom_data tag with item modifier
+# 用 item modifier 写入 custom_data 标记
 item modify entity @s weapon.mainhand <namespace>:tag_mainhand
 item modify entity @s weapon.offhand <namespace>:tag_offhand
 ```
@@ -67,7 +71,10 @@ item modify entity @s weapon.offhand <namespace>:tag_offhand
     "conditions": []
 }
 ```
-Step 2: Advancement automatically monitors. Any change in the item column will trigger this advancement.`&lt;namespace&gt;/advancement/fkey_detect.json`
+
+
+Step 2: Advancement automatically monitors. Any change in the item column will trigger this advancement.
+`&lt;namespace&gt;/advancement/fkey_detect.json`
 ```json
 {
   "criteria": {
@@ -76,14 +83,17 @@ Step 2: Advancement automatically monitors. Any change in the item column will t
   "rewards": { "function": "<namespace>:fkey/check" }
 }
 ```
+
+
 Step 3: Implementation 1: If the main and deputy hand marks are misplaced, trigger; then clear the custom_data mark on the mouse pointer
-> Recommended, it works most of the time. There is a problem that the player item cannot be stacked back after being created in the offhand hand (the data is different and it cannot be stacked with the original same type of item)`&lt;namespace&gt;/function/fkey/check.mcfunction`
+> Recommended, it works most of the time. There is a problem that after creating a player item in the offhand hand, it cannot be stacked back (the data is different and it cannot be stacked with the original item of the same type).
+`&lt;namespace&gt;/function/fkey/check.mcfunction`
 ```mcfunction
 function <namespace>:fkey/check/is_swap
 
 execute if items entity @s player.cursor *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/cursor
 
-#It cannot be removed at the beginning to prevent the check from being triggered within the logic.
+# 不能在一开始移除，防止逻辑内触发check
 advancement revoke @s only <namespace>:fkey_detect
 ```
 
@@ -99,31 +109,34 @@ item replace entity a-b-c-d-2 contents from entity @s player.cursor
 data remove entity a-b-c-d-2 item.components."minecraft:custom_data".<namespace>.offhand
 item replace entity @s player.cursor from entity a-b-c-d-2 contents
 ```
-The third step is to implement the second step: If the main and deputy hand marks are misplaced, it will be triggered; then clear all custom_data marks in the backpack.
-> It is safer than the first implementation. There is also the problem that the player item cannot be stacked back after being created in the secondary hand (the data is different and it cannot be stacked with the original same type of item), but the items can be stacked with 2 clicks.
-> But the performance consumption will be slightly higher`&lt;namespace&gt;/function/fkey/check.mcfunction`
+
+
+The third step is to implement the second step: if the main and deputy hand marks are misplaced, it will be triggered; then clear all custom_data marks in the backpack.
+> It is safer than the first implementation. There is also the problem that the player item cannot be stacked back after it is created in the secondary hand (the data is different and it cannot be stacked with the original same type of item), but it can be stacked with 2 clicks.
+> But the performance consumption will be slightly higher
+`&lt;namespace&gt;/function/fkey/check.mcfunction`
 ```mcfunction
 function <namespace>:fkey/check/is_swap
 
-#Check everything in the item column of the backpack and remove the main and deputy data flags (unfortunately, exhaustive performance is the best)
-#It is legal to add a dot in the function name, feel free to add it
-## item column (inventory.0~26)
+# 把背包物品栏里的所有东西都查一遍，移除主副手数据标志（很遗憾，穷举的性能是最好的）
+# 函数名里加点是合法的，可放心加
+## 物品栏（inventory.0~26）
 execute if items entity @s inventory.0 *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/inventory.0
-##...omit the middle
+##...省略中间
 execute if items entity @s inventory.26 *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/inventory.26
-## Hotbar (hotbar.0~8)
+## 快捷栏（hotbar.0~8）
 execute if items entity @s hotbar.0 *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/hotbar.0
-##...omit the middle
+##...省略中间
 execute if items entity @s hotbar.8 *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/hotbar.8
-## Armor (armor.head, armor.chest, armor.legs, armor.feet)
+## 盔甲（armor.head，armor.chest，armor.legs，armor.feet）
 execute if items entity @s armor.head *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/armor.head
-##...After omitting
-## deputy
+##...省略之后
+## 副手
 execute if items entity @s weapon.offhand *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/weapon.offhand
-## mouse
+## 鼠标
 execute if items entity @s player.cursor *[custom_data~{<namespace>:{offhand:0b}}|custom_data~{<namespace>:{offhand:1b}}] run function <namespace>:fkey/check/enum/cursor
 
-#Finally, remove the advancement to prevent the check from being triggered within the logic.
+# 最后移除进度，防止逻辑内触发check
 advancement revoke @s only <namespace>:fkey_detect
 ```
 
@@ -148,19 +161,22 @@ item replace entity a-b-c-d-2 contents from entity @s inventory.26
 data remove entity a-b-c-d-2 item.components."minecraft:custom_data".<namespace>.offhand
 item replace entity @s inventory.26 from entity a-b-c-d-2 contents
 ```
+
 ...(Other functions have similar formats and can be created in batches by writing python or other scripts)
 
 
 
 ### Pre- and post-frame storage method (Storage comparison version, not verified, may not be used)
 
-Principle: Use`inventory_changed`advancement triggers. Store the last moment's main and deputy NBT in Storage. When the item column changes, compare "the current deputy hand vs the past main hand" and "the current main hand vs the past deputy hand". If the two are exactly the same, it is judged as an F key exchange.
+Principle: Use`inventory_changed`advancement triggers. Store the last moment's main and deputy hands NBT in Storage. When the item column changes, compare "the current deputy hand vs the past main hand" and "the current main hand vs the past deputy hand". If the two are exactly the same, it is judged as an F key exchange.
 
-Disadvantages: When the main and deputy items are exactly the same (NBT is completely the same), the status before and after the exchange is indistinguishable, and the F key cannot be detected. To cover this scenario, fall back to "item exchange notation".
+Disadvantages: When the items of the main and deputy hands are exactly the same (NBT is completely the same), the status before and after the exchange is indistinguishable, and the F key cannot be detected. To cover this scenario, fall back to "item exchange notation".
 
 #### 1. Initialization (Load)
 
-When the data pack is loaded, score items and persistent entities are prepared.`&lt;namespace&gt;/function/load.mcfunction`
+When the data pack is loaded, prepare scoring items and persistent entities.
+
+`&lt;namespace&gt;/function/load.mcfunction`
 ```mcfunction
 scoreboard objectives add <namespace> dummy
 scoreboard objectives add <namespace>.id dummy
@@ -175,85 +191,107 @@ execute in overworld run function <namespace>:load/item_display
 execute if entity a-b-c-d-2 run return 0
 execute in overworld run return run summon item_display 0 0 0 {Tags:["<namespace>.persistent"],UUID:uuid("a-b-c-d-2"),view_range:0}
 ```
-#### 2. Trigger (Advancement)`data/&lt;namespace&gt;/advancement/fkey_detect.json`
+
+
+#### 2. Trigger (Advancement)
+
+`data/&lt;namespace&gt;/advancement/fkey_detect.json`
 ```json
 {
   "criteria": { "a": { "trigger": "minecraft:inventory_changed" } },
   "rewards": { "function": "<namespace>:fkey/check" }
 }
 ```
-#### 3. Core detection logic`&lt;namespace&gt;:fkey/check.mcfunction`
+
+
+#### 3. Core detection logic
+
+`&lt;namespace&gt;:fkey/check.mcfunction`
 ```mcfunction
-#1. Empty-handed special judgment (1.20.5+ items subcommand)
+# 1. 空手特判（1.20.5+ items 子命令）
 execute unless items entity @s weapon.mainhand * unless items entity @s weapon.offhand * run return run advancement revoke @s only <namespace>:fkey_detect
 
-#2. Prepare ID
+# 2. 准备 ID
 execute unless score @s <namespace>.id matches -2147483648.. store result score @s <namespace>.id run scoreboard players add id <namespace> 1
 execute store result storage <namespace>:io id int 1 run scoreboard players get @s id
 
-#3. "Open" data: read player data from the array into temporary space
+# 3. "打开"数据：将玩家数据从数组读入临时空间
 function <namespace>:fkey/open with storage <namespace>:io
 
-#4. Execute comparison logic
+# 4. 执行比较逻辑
 function <namespace>:fkey/compare
 
-#5. "Save" data: write the modified temporary space back to the array
+# 5. "保存"数据：将修改后的临时空间写回数组
 function <namespace>:fkey/close with storage <namespace>:io
 
-#6. Cancel advancement (put it at the end to prevent internal items from re-triggering the check function)
+# 6. 撤销进度（放在最后，防止内部item重新触发check函数）
 advancement revoke @s only <namespace>:fkey_detect
 ```
+
+
 #### 4. Core access and performance optimization
 Reading player NBT is extremely expensive (about 160 units), while operating Storage is extremely fast (about 5~8 units). Therefore, we first save the current item into`io temp`Then proceed with the subsequent operations.
 
-**Data Reading (Macro):**`&lt;namespace&gt;:fkey/open.mcfunction`
+**Data Reading (Macro):**
+`&lt;namespace&gt;:fkey/open.mcfunction`
 ```mcfunction
 $data modify storage <namespace>:io player set from storage <namespace>:data player[{id:$(id)}]
 ```
-**Logical comparison (normal function):**`&lt;namespace&gt;:fkey/compare.mcfunction`
+
+
+**Logical comparison (normal function):**
+`&lt;namespace&gt;:fkey/compare.mcfunction`
 ```mcfunction
-#Performance optimization: first read the player's current item into the io temp cache
+# 性能优化：先将玩家当前物品读入 io temp 缓存
 data modify storage <namespace>:io temp set value {now_main:{},now_off:{}}
 data modify storage <namespace>:io temp.now_main set from entity @s SelectedItem
 data modify storage <namespace>:io temp.now_off set from entity @s equipment.offhand
 
-#Comparative logic: try to use "current off-hand" to cover "past main hand"
-#Note: The comparison is between two nodes in io and does not involve player NBT reading, which is extremely fast.
+# 比较逻辑：尝试用"现在的副手"去覆盖"过去的主手"
+# 注意：对比的是 io 中的两个节点，不涉及玩家 NBT 读取，速度极快
 execute store success score #main_match <namespace> run data modify storage <namespace>:io player.prev_main set from storage <namespace>:io temp.now_off
-#Try to overwrite the "past stored off-hand" with the "current main hand"
+# 尝试用"现在的主手"去覆盖"过去存储的副手"
 execute store success score #off_match <namespace> run data modify storage <namespace>:io player.prev_off set from storage <namespace>:io temp.now_main
-#Check to see if they are the same
+# 查看一下是否相同
 execute store success score #diff_match <namespace> run data modify storage <namespace>:io player.prev_off set from storage <namespace>:io player.prev_main
 
-#If store success returns 0, it means that the main and deputy hands are completely swapped, and it is determined that the F key is pressed.
-#And the main and deputy items must be different
+# 如果 store success 返回 0，说明主副手完全对调，判定为按下 F 键
+# 并且主副手物品必须不同
 execute if score #main_match <namespace> matches 0 if score #off_match <namespace> matches 0 if score #diff_match <namespace> matches 1 run function <namespace>:fkey/on_press
 
-#Regardless of whether it is exchanged or not, the player data must be updated to the current state for comparison in the next frame.
+# 无论是否交换，都要更新 player 数据为当前状态，供下一帧比较
 data modify storage <namespace>:io player.prev_main set from storage <namespace>:io temp.now_main
 data modify storage <namespace>:io player.prev_off set from storage <namespace>:io temp.now_off
 ```
-**Processing after pressing the F key (demonstration exchange logic):**`&lt;namespace&gt;:fkey/on_press.mcfunction`
+
+
+**Processing after pressing the F key (demonstration exchange logic):**
+`&lt;namespace&gt;:fkey/on_press.mcfunction`
 ```mcfunction
-#If you need to intercept the F keys and restore them (or swap them manually in the program):
-#1. Physical restoration (using register entity)
+# 如果需要拦截 F 键并还原（或者在程序中手动交换）：
+# 1. 物理还原（利用寄存器实体）
 item replace entity a-b-c-d-2 contents from entity @s weapon.mainhand
 item replace entity @s weapon.mainhand from entity @s weapon.offhand
 item replace entity @s weapon.offhand from entity a-b-c-d-2 contents
 
-#2. Storage restore (swap prev_main and prev_off)
+# 2. Storage 还原 (交换 prev_main 和 prev_off)
 data modify storage <namespace>:io temp.swap set from storage <namespace>:io player.prev_main
 data modify storage <namespace>:io player.prev_main set from storage <namespace>:io player.prev_off
 data modify storage <namespace>:io player.prev_off set from storage <namespace>:io temp.swap
 ```
-**Data writeback (macro):**`&lt;namespace&gt;:fkey/close.mcfunction`
+
+
+**Data writeback (macro):**
+`&lt;namespace&gt;:fkey/close.mcfunction`
 ```mcfunction
 $data modify storage <namespace>:data player[{id:$(id)}] set from storage <namespace>:io player
 ```
+
+
 **Performance Reference**:
 - Directly read the player's main and deputy hands: ~160 units/time
 - Storage internal operations: ~5-8 units/time
-- Pass`io temp`After caching, the total consumption of subsequent complex logical judgments (even with multiple NBT comparisons) is much lower than repeated reading of playerentity data.
+- pass`io temp`After caching, the total consumption of subsequent complex logical judgments (even with multiple NBT comparisons) is much lower than repeated reading of playerentity data.
 
 
 ## 2. WASD key, shift, ctrl, space key detection (no additional tools required)
@@ -273,32 +311,36 @@ use`entity_properties`predicate can be detected:
   }
 }
 ```
-Available fields:`forward`, `backward`, `left`, `right`（WASD）
+
+
+Available fields:
+`forward`, `backward`, `left`, `right`（WASD）
 `jump`（space）
 `sneak`（shift）
-`sprint`(ctrl)
+`sprint`（ctrl）
 
-Usage:
-
+usage:
 ```mcfunction
 execute as @a if predicate <namespace>:is_jumping run ...
 execute as @a[predicate=<namespace>:is_jumping] run ...
 ```
+
+
 Community data pack [WASD Detection](https://modrinth.com/datapack/wasd-detection) (Modrinth) provides encapsulated predicate:`wasd:w`, `wasd:a`, `wasd:s`, `wasd:d`, `wasd:space`, `wasd:shift`wait.
 
 
 ## 3. Right-click detection (`use`key)
 
-### 1. Traditional solution: carrot fishing rod method
-Applicable: 1.13+. Currently the most versatile click detection method with the lowest performance overhead.
-
+### 1. Traditional Solution: Carrot Fishing Rod Method
+Applicable: 1.13+. Currently the most versatile and lowest performance overhead click detection method.
 ```mcfunction
-#initialization
+# 初始化
 scoreboard objectives add click_rmb used:carrot_on_a_stick
-#circular logic
+# 循环逻辑
 execute as @a[score={click_rmb=1..}] run function <namespace>:on_right_click
 scoreboard players set @a click_rmb 0
 ```
+
 *Note*: Can also be used`used:warped_fungus_on_a_stick`(Weird fungus fishing rod) avoids logical conflicts with the carrot fishing rod item.
 
 ### 2. Interaction entity solution: Interaction Entity
@@ -306,35 +348,36 @@ Applicable: 1.19.4+. Intercept and handle click events by placing an invisible e
 *Advantages*: Can distinguish between left and right keys, supports click coordinate positioning.
 
 ### 3. Component solution: Consumable (1.21.5+ recommended)
-take advantage of`consumable`Component features support full state detection of click, long press, and release. See details`right-click detection example`three subfolders in .
+use`consumable`Component features support full state detection of click, long press, and release. See details`右键检测示例`three subfolders in .
 
 #### A. Click detection (Click)
-settings`consume_seconds: 0`causing it to be "eaten" instantly and pass`use_remainder`Return yourself.
-
+set up`consume_seconds: 0`causing it to be "eaten" instantly and pass`use_remainder`Return yourself.
 ```mcfunction
 give @s firework_star[consumable={consume_seconds:0,animation:"none",sound:{sound_id:"none"},has_consume_particles:false},use_remainder={id:firework_star,components:{...}}]
 ```
+
 *Logic*: Cooperation`used:firework_star`scoring item or`consume_item`advancement triggers.
 
 #### B. Long press detection (Hold)
-settings`consume_seconds`is the desired duration (e.g. 2 seconds), with`using_item`and`consume_item`Double advancement detection.
-
+set up`consume_seconds`is the desired duration (e.g. 2 seconds), with`using_item`and`consume_item`Double advancement detection.
 ```mcfunction
-#Give item (press and hold for 2 seconds to trigger)
+# 给予物品（长按2秒触发）
 give @s firework_star[consumable={animation:"none",has_consume_particles:false,consume_seconds:2,sound:{sound_id:"none"}},custom_data={sample:1b},use_remainder={id:firework_star,components:{custom_data:{sample_remainder:1b}}}]
 ```
-- **Long press**:`using_item` advancement → `consumable_hold:using`, executed every tick (such as particle effects)
-- **Long press to complete**:`consume_item` advancement → `consumable_hold:trigger`, after triggering`use_remainder`Return item
+
+- **Long press**:`using_item`advancement →`consumable_hold:using`, executed every tick (such as particle effects)
+- **Long press to complete**:`consume_item`advancement →`consumable_hold:trigger`, after triggering`use_remainder`Return item
 - **Return item**:`schedule`Detection after 1t`sample_remainder`and replace it with the original item
 
 #### C. Release detection (Release)
-settings`consume_seconds`is a maximum value (such as 9999),`using_item`Advancement sets the scoreboard mark, and the tick function detects when the mark is released from 1→0.
-
+set up`consume_seconds`is a maximum value (such as 9999),`using_item`Advancement sets the scoreboard mark, and the tick function detects when the mark is released from 1→0.
 ```mcfunction
-#Give item (press and release to trigger)
+# 给予物品（长按后松开触发）
 give @s firework_star[consumable={animation:"none",has_consume_particles:false,consume_seconds:9999,sound:{sound_id:"none"}},custom_data={sample:1b},use_remainder={id:firework_star,components:{custom_data:{sample_remainder:1b}}}]
 ```
-- **When pressed**:`using_item`advancement set scoreboard`consume_use = 1`- **When released**: tick function detection`consume_use`The change from 1→0 triggers the release logic
+
+- **When pressed**:`using_item`advancement set scoreboard`consume_use = 1`
+- **When released**: tick function detection`consume_use`The change from 1→0 triggers the release logic
 
 #### D. Full state detection (halved state machine method)
 
@@ -346,7 +389,11 @@ scoreboard objectives add <namespace>.state dummy
 scoreboard objectives add <namespace> dummy
 scoreboard players set 2 <namespace> 2
 ```
-**advancement file**——`using_item`Triggered every tick when a press and hold is detected; the namespace ID is consistent with the rewards function:`data/&lt;namespace&gt;/advancement/right_click/using.json`
+
+
+**advancement file**——`using_item`Triggered every tick when a press and hold is detected; the namespace ID is consistent with the rewards function:
+
+`data/&lt;namespace&gt;/advancement/right_click/using.json`
 ```json
 {
   "criteria": {
@@ -355,23 +402,32 @@ scoreboard players set 2 <namespace> 2
   "rewards": { "function": "<namespace>:right_click/using" }
 }
 ```
-**Award function** (same name as advancement):`data/&lt;namespace&gt;/function/right_click/using.mcfunction`
+
+
+**Award function** (same name as advancement):
+
+`data/&lt;namespace&gt;/function/right_click/using.mcfunction`
 ```mcfunction
 advancement revoke @s only <namespace>:right_click/using
 scoreboard players add @s <namespace>.state 4
 ```
+
+
 **tick function** (registered to`#tick`）：
 `data/&lt;namespace&gt;/function/right_click/tick.mcfunction`
 ```mcfunction
-#State decay every tick
+# 每 tick 状态衰减
 scoreboard players operation @s <namespace>.state /= 2 <namespace>
 
-#Three-state detection
+# 三态检测
 execute if score @s <namespace>.state matches 2 run function <namespace>:right_click/on_press
 execute if score @s <namespace>.state matches 3 run function <namespace>:right_click/while_hold
 execute if score @s <namespace>.state matches 1 run function <namespace>:right_click/on_release
 ```
-**Response function** (example, implemented on demand):`data/&lt;namespace&gt;/function/right_click/on_press.mcfunction`
+
+
+**Response function** (example, implemented on demand):
+`data/&lt;namespace&gt;/function/right_click/on_press.mcfunction`
 ```mcfunction
 say 刚按下右键
 ```
@@ -397,18 +453,23 @@ say 松开右键
 | 1 | Just released (falling edge) |
 
 **State Transfer**:
-
 ```
 0 → [+4] → 2(刚按下) → [/2] → 3(按住中) → [/2] → 3 → ... → [/2] → 1(刚松开) → [/2] → 0(空闲)
 ```
-**Anti-shake variant (+6)**: When adding 6 instead of 4, an additional intermediate state 4~5 is generated as an anti-shake buffer. When the signal is briefly interrupted, the state will not immediately fall to the judgment threshold:`data/&lt;namespace&gt;/function/right_click/using_debounce.mcfunction`
+
+
+**Anti-shake variant (+6)**: When adding 6 instead of 4, an additional intermediate state 4~5 is generated as an anti-shake buffer. When the signal is briefly interrupted, the state will not immediately fall to the judgment threshold:
+
+`data/&lt;namespace&gt;/function/right_click/using_debounce.mcfunction`
 ```mcfunction
 advancement revoke @s only <namespace>:right_click/using
 scoreboard players add @s <namespace>.state 6
 ```
+
+
 When switching, just change the function name of advancement reward to`right_click/using_debounce`. The status table at this time:
 
-|`&lt;namespace&gt;.state`| Meaning |
+| `&lt;namespace&gt;.state`| Meaning |
 |---------------------|------|
 | 0 | Idle |
 | 3 | Just pressed |
@@ -456,13 +517,14 @@ scoreboard objectives add <namespace> dummy
 scoreboard objectives add <namespace>.id dummy
 scoreboard objectives add <namespace>.owner dummy
 
-#Revoke the granted advancement to ensure it can be triggered again after restart
+# 撤销已授予的进度，确保重启后可重复触发
 advancement revoke @a only <namespace>:left_click/using
 advancement revoke @a only <namespace>:right_click/using
 ```
 
 
-`&lt;namespace&gt;`Used as a global incrementing counter,`&lt;namespace&gt;.id`Stores the binding ID of the player/entity.`data/&lt;namespace&gt;/function/tick.mcfunction`
+`&lt;namespace&gt;`Used as a global incrementing counter,`&lt;namespace&gt;.id`Stores the binding ID of the player/entity.
+`data/&lt;namespace&gt;/function/tick.mcfunction`
 ```mcfunction
 execute as @a[gamemode=!creative,gamemode=!spectator] at @s run function <namespace>:player/tick
 execute as @e[type=interaction,tag=click_detector,limit=1,sort=random] at @s run function <namespace>:click_detector/choice_tick
@@ -471,17 +533,17 @@ execute as @e[type=interaction,tag=click_detector,limit=1,sort=random] at @s run
 
 `data/&lt;namespace&gt;/function/player/tick.mcfunction`
 ```mcfunction
-#If no ID is assigned
+# 无 ID 则分配
 execute unless score @s <namespace>.id matches -2147483648.. store result score @s <namespace>.id run scoreboard players add id <namespace> 1
 
-#Initialize match tag
+# 初始化匹配标记
 scoreboard players set #has_entity <namespace> 0
 
-#Match entities with temporary scores
+# 用临时分数匹配实体
 scoreboard players operation #id <namespace> = @s <namespace>.id
 execute as @e[type=interaction,tag=click_detector] if score @s <namespace>.owner = #id <namespace> run function <namespace>:click_detector/tp_and_keep_single
 
-#Not matched → Summon new entity
+# 未匹配到 → 召唤新实体
 execute if score #has_entity <namespace> matches 0 anchored eyes positioned ^ ^ ^ run function <namespace>:click_detector/summon
 ```
 
@@ -495,7 +557,7 @@ tag @e[tag=init,limit=1] remove init
 
 `data/&lt;namespace&gt;/function/click_detector/choice_tick.mcfunction`
 ```mcfunction
-#dxyz is 0 0 0 indicating size 1 1 1
+# dxyz是0 0 0表示尺寸1 1 1
 execute positioned ~-0.5 ~-0.5 ~-0.5 unless entity @a[dx=0,dy=0,dz=0,limit=1] run kill @s
 ```
 
@@ -572,9 +634,11 @@ say 右键触发
 execute on target as @s[tag=<namespace>.self] run return 1
 return 0
 ```
+
+
 ### Solution 2: piercing_weapon + post_piercing_attack (1.21.11+ recommended)
 
-> are mutually exclusive with option 1. Only one of them can be selected during actual deployment.
+> It is mutually exclusive with option 1. Only one of them can be selected during actual deployment.
 
 
 **Directory structure**
@@ -588,13 +652,17 @@ data/<namespace>/
     └── left_click/
         └── using.mcfunction
 ```
+
+
 **Mechanism Principle**
 
-1. **Motion Transformation**: Handheld Belt`piercing_weapon`Click the left button on the item (including air swing) → the game determines it as "Piercing Attack"
-2. **Event capture**: Custom spell`post_piercing_attack`Effect binding function, triggered by each piercing attack.
-3. **Release Cooling**:`minimum_attack_charge=0.0f`Reduce the attack cooldown ratio to zero and support extremely fast connection points
+1. **Action Transformation**: Handheld Belt`piercing_weapon`Click the left button on the item (including air swing) → the game determines it as "Piercing Attack"
+2. **Event Capture**: Custom Enchantment`post_piercing_attack`Effect binding function, triggered by each piercing attack.
+3. **Release Cooldown**:`minimum_attack_charge=0.0f`Reduce the attack cooldown ratio to zero and support extremely fast connection points
 
-#### Custom spell`data/&lt;namespace&gt;/enchantment/left_click/using.json`
+#### Custom enchantments
+
+`data/&lt;namespace&gt;/enchantment/left_click/using.json`
 ```json
 {
   "anvil_cost": 4,
@@ -632,13 +700,17 @@ data/<namespace>/
 
 `supported_items`suggestion`recovery_compass`——Zero-interaction basic items. Also available`music_disc_4[!jukebox_playable]`(1.21.5+), but additionally needs to block record player playback.
 
-#### Response function`data/&lt;namespace&gt;/function/left_click/using.mcfunction`
+#### response function
+
+`data/&lt;namespace&gt;/function/left_click/using.mcfunction`
 ```mcfunction
-#When left-clicking (including air swiping), the player will automatically run as the execution source.
-#Use say instead of title when debugging, because say can retain historical records to facilitate troubleshooting continuous triggering problems.
+# 左键点击（含空挥）时自动以该玩家为执行源运行
+# 调试时用 say 而非 title，因为 say 可保留历史记录方便排查连续触发问题
 say 检测到左键点击！
 playsound minecraft:entity.experience_orb.pickup player @s ~ ~ ~ 1 1.5
 ```
+
+
 #### Give detection item (SNBT format)
 
 ```mcfunction
@@ -653,23 +725,26 @@ give @s minecraft:recovery_compass[\
   minecraft:item_name={"translate":"item.<namespace>.detector","fallback":"左键检测器"}\
 ]
 ```
+
+
 #### Component Description
 
 | Component | Function |
 |---|---|
-|`piercing_weapon`| Activate the piercing click mechanism to legalize air swing; optional`deals_knockback:true`With knockback |
-|`minimum_attack_charge=0.0f`| Lift the attack cooldown restriction and support extremely fast connection points |
-|`enchantments={...}`| Enchantment trigger`post_piercing_attack` |
+| `piercing_weapon`| Activate the piercing click mechanism to legalize air swing; optional`deals_knockback:true`With knockback |
+| `minimum_attack_charge=0.0f`| Lift the attack cooldown restriction and support extremely fast connection points |
+| `enchantments={...}`| Enchantment trigger`post_piercing_attack` |
 | `enchantment_glint_override=false`| Hidden Magic Purple Light |
-|`tooltip_display`| Hide redundant information such as attack damage, enchantments, etc. |
-|`rarity="common"`| Normal quality, avoid item name display color |
-|`item_model`| Custom model, covering the vanilla compass appearance |
-|`item_name`| Modify item base name (optional; yes`custom_name`The latter is displayed first) |
-|`custom_name`| Only affects the name displayed in the backpack (optional; does not affect the entity name of the dropped object, the same as renaming the anvil) |
+| `tooltip_display`| Hide redundant information such as attack damage, enchantments, etc. |
+| `rarity="common"`| Normal quality, avoid item name display color |
+| `item_model`| Custom model, covering the vanilla compass appearance |
+| `item_name`| Modify item base name (optional; yes`custom_name`The latter is displayed first) |
+| `custom_name`| Only affects the name displayed in the backpack (optional; does not affect the entity name of the dropped object, the same as renaming the anvil) |
 
-#### Notes
+#### Things to note
 
-1. **version requirement**: **1.21.11 (25w41a)**+ (`post_piercing_attack` + `piercing_weapon`)
-2. **Survival Mode Restrictions**: With`piercing_weapon`The item** cannot destroy the block** and is only applicable to staffs/interactive props.
-3. **Main Hand Binding**: Must be held in **Main Hand** to take effect (`slots: ["mainhand"]`)
-4. **Hunger value limit**: It may fail when the hunger is lower than 6 points in early snapshots (fixed in 26w1 Snapshot 1)
+1. **version requirement**: **1.21.11 (25w41a)**+ (`post_piercing_attack`+`piercing_weapon`）
+2. **Survival Mode Limitation**: With`piercing_weapon`The item** cannot destroy the block** and is only applicable to staffs/interactive props.
+3. **Main Hand Binding**: Must be held in **Main Hand** to take effect (`slots: ["mainhand"]`）
+4. **Hunger value limit**: may fail when hunger is below 6 points in early snapshots (fixed in 26w1 Snapshot 1)
+

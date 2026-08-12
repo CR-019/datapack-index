@@ -14,6 +14,10 @@ repo: Dahesor/DaBsu
 cover: /datapack-index/wheel/dabsu.png
 ---
 
+::: tip Translation notice
+This page was translated with machine translation and may contain inaccuracies. If you can help improve it, please open an issue or submit a pull request.
+:::
+
 <InfoCard />
 
 The Big Villa is a heavyweight monster spawner management front-end that can be quickly and batch modified to manage monster spawners in the world. It has a visual editing interface and also allows editing of monster spawners in the world as a frontend.
