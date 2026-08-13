@@ -1,0 +1,6 @@
+你可以在这个文件夹里附上文章头图、作者的信息等附加信息。
+注意，在文章中直接引用的图片和文件请不要放在这个文件夹中！
+
+作者：小豆8593
+bilibili账号：https://space.bilibili.com/206987540
+github账号：https://github.com/xiaodou8593
