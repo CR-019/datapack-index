@@ -5,18 +5,18 @@ pageClass: h2-no-border
 
 hero:
   name: "Vanilla Library"
-  tagline: vanilla mod development resource index site
+  tagline: Vanilla development resource index site
   image:
     src: /icons/bg5.png
   actions:
     - theme: brand
-      text: Enter the site
+      text: Get Started
       link: /index/Introduction
     - theme: brand
-      text: pre-search
+      text: Wheel Search
       link: /wheel/
     - theme: alt
-      text: format preview
+      text: Format Preview
       link: /preview/
 features:
   - icon:
@@ -27,10 +27,10 @@ features:
     link: /index/quick_start/mod
   - icon:
       src: /icons/echo_prism.png
-    title: 《Feature》
-    details: data pack short article monthly
+    title: "Feature"
+    details: Data pack Monthly Journal
     linkText: The latest issue has been released!
-    link: /feature/index/202607
+    link: /feature/index/202608
   - icon:
       src: /icons/totem_of_recovery.png
     title: toolbox

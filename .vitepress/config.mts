@@ -153,7 +153,7 @@ export default defineConfig({
                 outlineTitle: "On this page",
                 sidebar: sidebar_en,
                 announcementBar: {
-                    enabled: true,
+                    enabled: false,
                     content: "🎉 Vanilla Library's Markdown previewer is now available",
                     link: siteBase + "en/preview",
                     linkText: "[Open]",
