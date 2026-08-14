@@ -12,8 +12,8 @@ importers:
         specifier: ^7.1.1
         version: 7.1.2
       '@datapack-sandbox/vitepress-playground':
-        specifier: 0.2.1
-        version: 0.2.1(vue@3.5.29(typescript@5.9.3))
+        specifier: 0.2.2
+        version: 0.2.2(vue@3.5.29(typescript@5.9.3))
       '@giscus/vue':
         specifier: ^3.1.1
         version: 3.1.1(vue@3.5.29(typescript@5.9.3))
@@ -223,8 +223,8 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@datapack-sandbox/vitepress-playground@0.2.1':
-    resolution: {integrity: sha512-Vkwu/ZTyw3yo7ErmgY/SLudtH6r9ANCtGQ9Y4iNnY6FIP8F0kfqX2xAttUzTUV1MSk5f7Jt3PVlCENBajB/XGw==}
+  '@datapack-sandbox/vitepress-playground@0.2.2':
+    resolution: {integrity: sha512-L3vfQKQQ8pmfBnuPZVOb7gbs1oF3cnaJqCoosp4BS9Aj+qXLK18q0iECxMk08sOEDg9WQ1GdSIuNp99CzfOSIg==}
     engines: {node: '>=20'}
     peerDependencies:
       vue: ^3.5.0
@@ -2493,7 +2493,7 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@datapack-sandbox/vitepress-playground@0.2.1(vue@3.5.29(typescript@5.9.3))':
+  '@datapack-sandbox/vitepress-playground@0.2.2(vue@3.5.29(typescript@5.9.3))':
     dependencies:
       '@codemirror/autocomplete': 6.20.3
       '@codemirror/commands': 6.10.4

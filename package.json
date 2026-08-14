@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.1",
-    "@datapack-sandbox/vitepress-playground": "0.2.1",
+    "@datapack-sandbox/vitepress-playground": "0.2.2",
     "@giscus/vue": "^3.1.1",
     "badge-maker": "^5.0.2",
     "cytoscape": "^3.32.1",
