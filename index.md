@@ -30,7 +30,7 @@ features:
     title: 《Feature》
     details: 数据包短文月刊
     linkText: 最新一期已发布！
-    link: /feature/index/202607
+    link: /feature/index/202608
   - icon:
       src: /icons/totem_of_recovery.png
     title: 工具箱

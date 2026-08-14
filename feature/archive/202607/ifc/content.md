@@ -228,7 +228,7 @@ $$\begin{bmatrix}
     category="闲聊 Chats"
     categoryId="DIC_kwDONRhuq84CkchW"
     mapping="number"
-    term="71"
+    term="76"
     :strict="false"
     :reactionsEnabled="true"
     emitMetadata="0"

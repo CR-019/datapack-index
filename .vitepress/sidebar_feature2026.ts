@@ -322,6 +322,7 @@ export const sidebar_202607: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202607' },
       { text: '上一刊', link: '/feature/index/202606' },
+      { text: '下一刊', link: '/feature/index/202608' },
     ]
   },
   {
@@ -354,6 +355,56 @@ export const sidebar_202607: DefaultTheme.Sidebar = [
     items: [
       { text: '蟑螂必须死！Pest Cant Pass！', link: '/feature/archive/202607/5/content' },
       { text: '渐变文本生成器', link: '/feature/archive/202607/6/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202608: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.08',
+    items: [
+      { text: '目录', link: '/feature/index/202608' },
+      { text: '上一刊', link: '/feature/index/202607' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202608/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: 'VVE3 引擎教程——自定义物理小车', link: '/feature/archive/202608/0/content' }
+    ]
+  },
+  {
+    text: '香草快讯 ojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年8月', link: '/feature/archive/202608/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '数据包测试终极答案——Datapack Sandbox', link: '/feature/archive/202608/1/content' },
+      { text: '一条命令值多少钱：原版数据包性能优化的源码级参考', link: '/feature/archive/202608/2/content' },
+      { text: '可视化多噪声型生物群系源编辑网站使用方法概述', link: '/feature/archive/202608/3/content' },
+      { text: '简易原版敌人', link: '/feature/archive/202608/6/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '沉默乐章：错位音', link: '/feature/archive/202607/4/content' },
+      { text: '简单NPC', link: '/feature/archive/202607/5/content' },
     ]
   },
   {
