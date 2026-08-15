@@ -1,7 +1,7 @@
 <FeatureHead
   title="沉默乐章：错位音"
   authorName="Dawn_dust"
-  cover="../assets_/4.png"
+  cover="../_assets/4.png"
   resourceLink = "https://www.bilibili.com/video/BV1M8NQ6GE8M"
 />
 
