@@ -10,6 +10,7 @@ This page was translated with machine translation and may contain inaccuracies. 
 <FeaturedHead
     title="How to adapt single-player games to multiplayer - taking Xu Muxian's Pipes as an example"
     authorName="Xuanyu1725"
+    :extraAuthors="['徐木弦']"
 />
 
 

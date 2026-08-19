@@ -5,6 +5,7 @@ title: '如何将单人游戏适配多人'
 <FeaturedHead
     title='如何将单人游戏适配多人 - 以徐木弦的 Pipes 为例'
     authorName='轩宇1725'
+    :extraAuthors="['徐木弦']"
 />
 
 
