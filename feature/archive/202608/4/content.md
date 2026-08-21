@@ -44,7 +44,7 @@
 ![Image](https://s41.ax1x.com/2026/07/26/pmRP9kq.png)
 ![Image](https://s41.ax1x.com/2026/07/26/pmRPPhV.png)
 ![Image](https://s41.ax1x.com/2026/07/26/pmRPFpT.png)
-::: 
+:::
 
 ## 作者信息
 **剧本创作** RainSwallow Yulu_Flash Dawn_dust\
@@ -63,7 +63,7 @@
 
 **欢迎您尝试一场全新的MC剧本杀～**\
 **期待各类录制及反馈，感谢您的支持和游玩！**\
-**——寄语团队出品** 
+**——寄语团队出品**
 
 ::: details 下载方式
 
@@ -73,4 +73,4 @@
 
 **[https://pan.quark.cn/s/b828faeb6d7a](https://pan.quark.cn/s/b828faeb6d7a)**
 
-::: 
+:::

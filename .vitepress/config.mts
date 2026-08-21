@@ -214,7 +214,7 @@ export default defineConfig({
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",
         outline: [2, 6],
-        i18nRouting(data, route, targetLocale) {
+        i18nRouting(data: any, route: any, targetLocale: any) {
             const target = data.site.value.locales[targetLocale]
             const targetLink = target.link || (targetLocale === "root" ? "/" : `/${targetLocale}/`)
             const relativePath = route.data.relativePath.replace(/^en\//, "").replace(/\.md$/, "")

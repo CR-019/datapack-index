@@ -438,7 +438,7 @@ const notebook: PlaygroundNotebook = {
 
 ```vue
 <DpsPlayground
-    :notebook="notebook"    
+    :notebook="notebook"
     :allow-import="false"
     :render="{ auto: false }"
     theme="auto"

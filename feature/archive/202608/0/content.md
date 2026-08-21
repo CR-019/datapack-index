@@ -9,22 +9,22 @@ cover = '../_assets/0.png'
 
 ## 一、下载依赖
 
-- **VVE 本体 3.0.2**  
+- **VVE 本体 3.0.2**
   https://github.com/xiaodou8593/vve3.0
 
-- **VVE3 资源包**  
+- **VVE3 资源包**
   https://github.com/xiaodou8593/vve3.0_rp
 
-- **数学库 3.1.3**  
+- **数学库 3.1.3**
   https://github.com/xiaodou8593/math3.1
 
-- **线性代数库 3.1.3**  
+- **线性代数库 3.1.3**
   https://github.com/xiaodou8593/math3.1_lalib
 
-- **图形库 3.1.3**  
+- **图形库 3.1.3**
   https://github.com/xiaodou8593/math3.1_gelib
 
-- **模块构建器 MOT 2.0.1**  
+- **模块构建器 MOT 2.0.1**
   https://github.com/xiaodou8593/mot_2.0
 
 > **注意**：MOT 需要 Python 和 AutoHotkey 的运行环境。如果您的系统里没有，可以使用仓库内的安装包进行安装。
@@ -54,7 +54,7 @@ cover = '../_assets/0.png'
 
 > 资源包制作教程本文略，可参考：
 > - https://zh.minecraft.wiki/w/Tutorial:%E5%88%B6%E4%BD%9C%E8%B5%84%E6%BA%90%E5%8C%85
-> - 【复刻计划】爆肝3000字！阿乔也能看懂的物品模型映射教程（MC1.21.4）  
+> - 【复刻计划】爆肝3000字！阿乔也能看懂的物品模型映射教程（MC1.21.4）
 >   https://www.bilibili.com/video/BV1w5FEejEra/
 
 在新版本资源包中，您需要为物品模型创建一个**物品模型映射**，可以参考教程示例数据包 `model_practice/assets/xiaodou123/items/blue_car.json` 的写法：
@@ -456,7 +456,7 @@ function vve_tutor:blue_car/_del_nearest
 
 开头追加一个 `wheel_state` 字段，其余字段保持不变（省略号代表其余字段）：
 
-```mcfo
+```txt
 #vve_tutor:blue_car/doc.mcfo
 
 # blue_car临时对象

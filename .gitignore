@@ -8,3 +8,5 @@ cache
 *.local
 **/.vscode/**
 /worker/worker.js
+**/.pnpm-store/**
+**/noinclude/**

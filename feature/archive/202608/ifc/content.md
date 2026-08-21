@@ -21,27 +21,27 @@ const { isDark } = useData()
 ## 我问你答 Quizs
 
 :::warning 本栏目不是“你问我答”！
-在这一栏目中，我们将会提出几道题目，读者可以在评论区给出自己的解答（标明题号）。  
-答案会在下一期Feature公布。  
+在这一栏目中，我们将会提出几道题目，读者可以在评论区给出自己的解答（标明题号）。
+答案会在下一期Feature公布。
 
 本期出题人：徐木弦
 :::
 
 ---
 
-1. Realms 的实质是：   
-A. 专用服务器  
-B. 物理客户端  
-C. 内置服务器  
-D. 物理服务端  
+1. Realms 的实质是：
+A. 专用服务器
+B. 物理客户端
+C. 内置服务器
+D. 物理服务端
 
 ---
 
-2. 以下execute子命令无法创建新分支的是：    
-A. summon  
-B. at  
-C. positioned  
-D. rotated  
+2. 以下execute子命令无法创建新分支的是：
+A. summon
+B. at
+C. positioned
+D. rotated
 
 ---
 
@@ -55,10 +55,10 @@ III. 若游戏刻步进 40 刻，则进度在步进时会触发 40 次。
 
 IV. 若游戏刻忽略速率快进执行，则快进期间进度每秒仍触发 20 次。
 
-A. III、IV  
-B. I、III  
-C. I、II、III  
-D. I、II、IV  
+A. III、IV
+B. I、III
+C. I、II、III
+D. I、II、IV
 
 ---
 
