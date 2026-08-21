@@ -485,11 +485,24 @@ function buildIndexFromData(data) {
 }
 
 .page-btn {
-	background: #fff;
-	border: 1px solid #e6e6e6;
+	color: var(--vp-c-text-1);
+	background: var(--vp-c-bg-soft);
+	border: 1px solid var(--vp-c-divider);
 	padding: 8px 12px;
 	border-radius: 8px;
 	cursor: pointer;
+	transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+.page-btn:not(:disabled):hover {
+	color: var(--vp-c-brand-1);
+	background: var(--vp-c-bg-alt);
+	border-color: var(--vp-c-brand-1);
+}
+
+.page-btn:focus-visible {
+	outline: 2px solid var(--vp-c-brand-1);
+	outline-offset: 2px;
 }
 
 .page-btn:disabled {
@@ -498,7 +511,7 @@ function buildIndexFromData(data) {
 }
 
 .page-info {
-	color: #666;
+	color: var(--vp-c-text-2);
 }
 
 .empty {

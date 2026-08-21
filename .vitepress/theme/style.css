@@ -424,7 +424,7 @@
   top: -1.6em;
 }
 
-.wheel-layout aside {
+.wheel-layout aside:not(:where(.site-announcement-bar)) {
   width: 420px !important;
   min-width: 320px !important;
   flex: 0 0 420px !important;
@@ -432,7 +432,7 @@
 
 /* 小屏幕上避免影响太大，仍保持响应性 */
 @media (max-width: 900px) {
-  .wheel-layout aside {
+  .wheel-layout aside:not(:where(.site-announcement-bar)) {
     width: auto !important;
     min-width: 0 !important;
     flex: initial !important;
@@ -443,7 +443,7 @@
 }
 
 /* 明确设定侧边与主内容的 flex 行为，确保主内容收缩以让出侧边空间 */
-.wheel-layout aside,
+.wheel-layout aside:not(:where(.site-announcement-bar)),
 .wheel-layout .sidebar,
 .wheel-layout .theme-default-sidebar,
 .wheel-layout .vp-doc .sidebar {
@@ -510,7 +510,7 @@
 }
 
 /* Ensure aside in wheel-layout is not sticky/fixed — allow it to scroll with the page */
-.wheel-layout aside,
+.wheel-layout aside:not(:where(.site-announcement-bar)),
 .wheel-layout .aside,
 .wheel-layout .theme-default-sidebar,
 .wheel-layout .vp-doc .sidebar,
