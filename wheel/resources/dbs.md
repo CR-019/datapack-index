@@ -7,7 +7,7 @@ author:
 description: 保留上下文的定时任务，并灵活处理执行时实体不存在的问题
 tags: [定时任务]
 version: 1.3.0
-gameversion: [1.21.5~26.2]
+gameversion: [1.21.5~26.3]
 aside: left
 wheel: true
 repo: Dahesor/D-Better-Schedule

@@ -16,43 +16,23 @@
     </aside>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue';
 import RepoCard from './RepoCard.vue';
 import { useData, useRoute } from "vitepress";
 
-export default { 
-    name: 'SideCard',
-    components: { RepoCard },
-    data() {
-        return {
-            repo: "",
-            info: null,
-            route: ""
-        }
-    },
+const route = useRoute();
+const { frontmatter, lang } = useData();
 
-    mounted() {
-        const { frontmatter } = useData();
-        this.info = frontmatter.value || {};
-        this.repo = this.info.repo;
-    },
-
-    setup() {
-        const route = useRoute();
-        const { lang } = useData();
-        const githubPath = route.path.replace(/^\/datapack-index\//, '').replace(/\.html$/, '.md').replace(/^\/+/, '')
-        return { route: githubPath, lang };
-    },
-
-    computed: {
-        isEnglish() {
-            return String(this.lang || '').startsWith('en');
-        },
-        githubPath() {
-            return `https://github.com/CR-019/datapack-index/blob/master/${this.route}` 
-        } 
-    }
-}
+const repo = computed(() => frontmatter.value?.repo || '');
+const isEnglish = computed(() => String(lang.value || '').startsWith('en'));
+const githubPath = computed(() => {
+    const sourcePath = route.path
+        .replace(/^\/datapack-index\//, '')
+        .replace(/\.html$/, '.md')
+        .replace(/^\/+/, '');
+    return `https://github.com/CR-019/datapack-index/blob/master/${sourcePath}`;
+});
 </script>
 
 <style scoped>
