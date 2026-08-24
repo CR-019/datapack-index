@@ -1,0 +1,42 @@
+[
+    {
+        "id": "307449",
+        "cn_title": "夜晚时，地下刷怪笼的自定义光照规则不再生效",
+        "version": "26.1+",
+        "description": "现在custom_spawn_rules.sky_light_limit会导致怪物无法在夜晚的地下生成，因为Mojang在修复MC-264187时更改了天空光照的逻辑使得在地下的夜晚光照可能是负数，而sky_light_limit只接受0到15。",
+        "title": "Spawners with their light limits set no longer spawn mobs underground at night time",
+        "status": "Confirmed"
+    },
+    {
+        "id": "277837",
+        "cn_title": "自定义装备叠加层使用后不会从内存中清除",
+        "description": "使用装备的overlay组件向玩家的屏幕显示叠加层时，该内存不会在使用后释放，导致泄露和性能问题。",
+        "status": "Confirmed",
+        "version": "1.21+",
+        "title": "Custom overlay textures are not cleared out of the memory"
+    },
+    {
+        "id": "305766",
+        "cn_title": "使用place命令放置结构时，会在日志中大量打印警告信息",
+        "description": "",
+        "version": "1.21+",
+        "title": "Using /place to place certain structures logs \"Trying to mark a block for PostProcessing but this operation is not supported\" for every non-full block",
+        "status": "Confirmed"
+    },
+    {
+        "id": "310602",
+        "cn_title": "spectate命令旁观距离很远的实体会导致异常状态",
+        "version": "26.1+",
+        "description": "使用/spectate命令旁观距离很远的实体时，客户端会出现异常状态。玩家可以自由移动，但还被认为在旁观状态，因此无法使用右键旁观其他实体，也会在按shift时“脱离旁观”并被传送回该实体旁边。",
+        "title": "Using /spectate to spectate an entity far away causes strange behavior",
+        "status": "Confirmed"
+    },
+    {
+        "id": "298893",
+        "cn_title": "对话框的多行文本输入的max_lines属性不限制有几个换行符而是限制显示的行数",
+        "version": "1.21.6+",
+        "description": "在对话框的多行文本输入中，如果规定的max_lines，那么玩家将只能输入到文本框的尽头而无法自动wrap到下一行。这意味着无法要求使用者输入一串很长但又不包含换行符的文本。如果您需要这么做，可以考虑不限制最大行数，并在获取输入后使用如DNT的库删掉字符串中的换行符。",
+        "title": "The \"max_lines\" field of the multi-line dialog input limits the number of visible lines, rather than the number of newlines",
+        "status": "wont_fix"
+    }
+]

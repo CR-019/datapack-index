@@ -108,7 +108,8 @@ export const sidebar: DefaultTheme.Sidebar = [
     items: [
       { text: '工具', link: '/index/工具' },
       { text: '参考', link: '/index/参考' },
-      { text: '友情链接', link: '/index/友链' }
+      { text: '友情链接', link: '/index/友链' },
+      { text: '游戏漏洞', link: '/index/misc/bugs' }
     ]
   },
   {
