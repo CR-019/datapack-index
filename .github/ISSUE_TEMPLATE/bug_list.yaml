@@ -1,7 +1,7 @@
 name: "提交相关游戏漏洞"
 description: 向香草前置馆提交一个已经在Mojira上存在的，和原版开发相关的游戏漏洞
 labels: [mojira]
-fields:
+body:
 - type: "checkboxes"
   attributes:
     label: "Checkboxes"
