@@ -472,11 +472,11 @@ onMounted(loadBugs)
 }
 
 .bug-card-wont-fix {
-  --bug-accent: #8b5cf6;
+  --bug-accent: #c26a1d;
 }
 
 .bug-card-intended {
-  --bug-accent: #0891b2;
+  --bug-accent: #c528cd;
 }
 
 .bug-card-invalid {
@@ -484,7 +484,7 @@ onMounted(loadBugs)
 }
 
 .bug-card-fixed {
-  --bug-accent: #16a34a;
+  --bug-accent: #0d9c41;
 }
 
 .bug-pagination {

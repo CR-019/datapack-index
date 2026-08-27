@@ -1,7 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
 import { defineComponent, h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import './process-polyfill.js' 
+import './process-polyfill.js'
 import './style.css'
 import '@datapack-sandbox/vitepress-playground/style.css'
 import './playground-feature.css'
@@ -25,6 +25,7 @@ import AnnouncementBar from '../vue/AnnouncementBar.vue'
 import mediumZoom from 'medium-zoom'
 import RepoCard from '../vue/wheel/RepoCard.vue'
 import MarkdownPreviewer from '../vue/MarkdownPreviewer.vue'
+import BugList from '../vue/BugList.vue'
 
 
 
@@ -41,7 +42,7 @@ export default {
     name: 'CustomLayoutWrapper',
     setup() {
       const { frontmatter } = useData()
-      
+
       return () => {
         //如果frontmatter.wheel为真，则渲染wheel自定义侧边栏
         if (frontmatter.value && frontmatter.value.wheel) {
@@ -75,6 +76,7 @@ export default {
     app.component('InfoCard', InfoCard)
     app.component('node', Node)
     app.component('AllPage', AllPage)
+    app.component('BugList', BugList)
     app.component('RepoCard', RepoCard)
     app.component('MarkdownPreviewer', MarkdownPreviewer)
 

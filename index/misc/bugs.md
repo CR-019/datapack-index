@@ -3,10 +3,6 @@ title: 游戏漏洞
 description: 可能影响原版数据包与资源包开发的 Minecraft Java Edition 漏洞。
 ---
 
-<script setup lang="ts">
-import BugList from '../../.vitepress/vue/BugList.vue'
-</script>
-
 # 游戏漏洞
 
 
