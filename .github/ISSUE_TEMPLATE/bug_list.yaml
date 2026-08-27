@@ -1,44 +1,39 @@
 name: "提交相关游戏漏洞"
-description: 向香草前置馆提交一个已经在Mojira上存在的，和原版开发相关的游戏漏洞
-labels: [mojira]
-fields:
-- type: "checkboxes"
-  attributes:
-    label: "Checkboxes"
-    description: "我清楚这不是Minecraft漏洞的报告位置，而是向图书馆提交已有的相关报告"
-    options:
-  validations:
-    required: true
-- type: "checkboxes"
-  attributes:
-    label: "Checkboxes"
-    description: "我想要提交的漏洞已经在Mojira上存在"
-    options:
-  validations:
-    required: true
-- type: "checkboxes"
-  attributes:
-    label: "Checkboxes"
-    description: "我已检查想要提交的漏洞并未收录"
-    options:
-  validations:
-    required: true
-- type: "input"
-  attributes:
-    label: "Input"
-    description: "该漏洞的编号"
-    placeholder: "例：307449"
-  validations:
-    required: true
-- type: "input"
-  attributes:
-    label: "Input"
-    description: "该漏洞的中文名称"
-  validations:
-    required: false
-- type: "textarea"
-  attributes:
-    label: "Text area"
-    description: "为什么该漏洞和数据包或资源包开发相关，以及为什么它很重要"
-  validations:
-    required: true
+description: "向香草前置馆提交一个已经在 Mojira 上存在的、与原版开发相关的游戏漏洞"
+labels:
+  - mojira
+
+body:
+  - type: checkboxes
+    attributes:
+      label: "提交前确认"
+      options:
+        - label: "我清楚这里不是 Minecraft 漏洞的报告位置，而是向图书馆提交已有的相关漏洞报告。"
+          required: true
+        - label: "我想要提交的漏洞已经在 Mojira 上存在。"
+          required: true
+        - label: "我已检查过图书馆现有内容，确认想要提交的漏洞尚未被收录。"
+          required: true
+
+  - type: input
+    attributes:
+      label: "Mojira 漏洞编号"
+      description: "请输入该漏洞在 Mojira 上的编号。"
+      placeholder: "例如：MC-307449"
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: "漏洞中文名称"
+      description: "如果已有合适的中文名称，请填写。"
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "相关性说明"
+      description: "请说明该漏洞为什么与数据包或资源包开发相关，以及为什么值得收录。"
+      placeholder: "例如：该漏洞会影响……，在数据包开发中可能导致……"
+    validations:
+      required: true
