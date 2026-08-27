@@ -17,4 +17,3 @@ import BugList from '../../.vitepress/vue/BugList.vue'
 ---
 
 <BugList />
-::
