@@ -1,0 +1,44 @@
+name: "提交相关游戏漏洞"
+description: 向香草前置馆提交一个已经在Mojira上存在的，和原版开发相关的游戏漏洞
+labels: [mojira]
+fields:
+- type: "checkboxes"
+  attributes:
+    label: "Checkboxes"
+    description: "我清楚这不是Minecraft漏洞的报告位置，而是向图书馆提交已有的相关报告"
+    options:
+  validations:
+    required: true
+- type: "checkboxes"
+  attributes:
+    label: "Checkboxes"
+    description: "我想要提交的漏洞已经在Mojira上存在"
+    options:
+  validations:
+    required: true
+- type: "checkboxes"
+  attributes:
+    label: "Checkboxes"
+    description: "我已检查想要提交的漏洞并未收录"
+    options:
+  validations:
+    required: true
+- type: "input"
+  attributes:
+    label: "Input"
+    description: "该漏洞的编号"
+    placeholder: "例：307449"
+  validations:
+    required: true
+- type: "input"
+  attributes:
+    label: "Input"
+    description: "该漏洞的中文名称"
+  validations:
+    required: false
+- type: "textarea"
+  attributes:
+    label: "Text area"
+    description: "为什么该漏洞和数据包或资源包开发相关，以及为什么它很重要"
+  validations:
+    required: true
