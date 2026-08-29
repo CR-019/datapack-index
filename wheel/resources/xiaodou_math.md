@@ -6,8 +6,8 @@ author:
         char: 作者
 description: 小豆的数学库
 tags: [数学]
-version: 3.1
-gameversion: [1.18+]
+version: 3.1.4
+gameversion: [1.18~26.2]
 aside: left
 wheel: true
 repo: xiaodou8593/math3.1

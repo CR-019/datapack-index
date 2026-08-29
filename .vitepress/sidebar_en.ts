@@ -55,6 +55,7 @@ const groupLabels: Record<string, string> = {
   '香草快讯 Mojang Spotlight': 'Vanilla Spotlight',
   '香草快讯 ojang Spotlight': 'Vanilla Spotlight',
   '巧匠 Masterpieces': 'Masterpieces',
+  '游戏漏洞': 'Related Mojira Bugs',
 }
 
 const itemLabels: Record<string, string> = {

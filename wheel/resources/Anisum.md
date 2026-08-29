@@ -10,7 +10,7 @@ author:
 description: 从战利品表中收集物品并同步到客户端的自定义创造模式标签页
 tags: [外部软件,模组]
 version: 0.0.1
-gameversion: [1.21.11]
+gameversion: [1.21.11-26.1]
 aside: left
 wheel: true
 repo: Anvil-Dev/Anisum

@@ -7,10 +7,10 @@ author:
     -
         name: BigPapi
         char: 原作者
-description: 使用精确爆炸操控玩家动量
+description: 使用魔咒精确操控玩家动量
 tags: [动量]
 version: 1.4.4
-gameversion: [1.21.2~1.21.8]
+gameversion: [1.21.2~26.2]
 aside: left
 wheel: true
 repo: MulverineX/player_motion
@@ -19,7 +19,11 @@ cover: /datapack-index/wheel/Player_Motion.png
 
 <InfoCard />
 
-本库通过精确地在高空制造爆炸的方式修改玩家的动量。阅读仓库内的说明文件以获取详细信息。
+在1.21.10以及之前，本库通过精确地在高空制造爆炸的方式修改玩家的动量。
+
+在1.21.11之后，本库使用魔咒的`apply_impulse`效果为玩家施加动量。
+
+阅读仓库内的说明文件以获取详细信息。
 
 简易的使用方法：
 

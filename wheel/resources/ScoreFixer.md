@@ -9,8 +9,8 @@ author:
         char: 团体
 description: 在玩家变更ID时为其保留记分板上的分数
 tags: [记分板]
-version: 1.2.1
-gameversion: [1.21.2~1.21.8]
+version: 1.3.1
+gameversion: [1.21.2~26.2]
 aside: left
 wheel: true
 repo: CMDred/ScoreFixer

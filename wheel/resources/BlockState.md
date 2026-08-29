@@ -7,7 +7,7 @@ author:
 description: 使用超长战利品表获取当前位置的方块与方块状态
 tags: [方块, 环境读取, 方块状态]
 version: 1.1.0
-gameversion: [1.19.2-1.21.11]
+gameversion: [1.19.2-26.2]
 aside: left
 wheel: true
 repo: Triton365/BlockState

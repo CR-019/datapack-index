@@ -7,7 +7,7 @@ author:
 description: 使用记分板显示槽位sidebar来提供一个加强版本的侧边栏UI
 tags: [UI, 侧边栏]
 version: 1.0.0
-gameversion: [1.21.11]
+gameversion: [1.21.11-26.2]
 aside: left
 wheel: true
 repo: Dahesor/Sidebar-UI

@@ -154,14 +154,14 @@ export default defineConfig({
                 sidebar: sidebar_en,
                 announcementBar: {
                     enabled: false,
-                    content: "🎉 Vanilla Library's Markdown previewer is now available",
-                    link: siteBase + "en/preview",
+                    content: "🎉 Vanilla Library's Mojira bugs page is now available",
+                    link: siteBase + "en/index/misc/bugs",
                     linkText: "[Open]",
                     background: "#ffa05a",
                     color: "#ffffff",
                     dismissible: true,
-                    doNotShowAgainText: "Don't show again",
-                    storageKey: "datapack-index-announcement-202606-v2-en",
+                    doNotShowAgainText: "Dismiss",
+                    storageKey: "datapack-index-announcement-202609-v1-en",
                 },
                 search: {
                     provider: "local",
@@ -202,14 +202,14 @@ export default defineConfig({
     themeConfig: {
         announcementBar: {
             enabled: true,
-            content: "🎉 香草图书馆特供 Markdown 预览器已上线",
-            link: siteBase + "preview",
+            content: "🎉 香草图书馆Mojira漏洞页面已上线",
+            link: siteBase + "index/misc/bugs",
             linkText: "【传送门】",
             background: "#ffa05a",
             color: "#ffffff",
             dismissible: true,
             doNotShowAgainText: "不再提示",
-            storageKey: "datapack-index-announcement-202606-v2",
+            storageKey: "datapack-index-announcement-202609-v1",
         },
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",

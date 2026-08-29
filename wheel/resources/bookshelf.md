@@ -6,8 +6,8 @@ author:
         char: 团体
 description: 以模块化的方式支持大量不同的可选功能
 tags: [多功能]
-version: 3.2.0
-gameversion: [1.21~1.21.11]
+version: 4.1.1
+gameversion: [1.21~26.2]
 aside: left
 wheel: true
 repo: mcbookshelf/bookshelf
