@@ -83,8 +83,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  deploy_sftp:
-    name: SFTP Deploy
+  deploy_mcfpp:
+    name: MCFPP Deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -118,21 +118,11 @@ jobs:
           overwrite: true
           strip_components: 2
 
-  deploy_mcfpp:
-    name: MCFPP Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download shared artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-files
-          path: .vitepress/dist
-
   deploy_repeater:
     name: Redstone Repeater Deploy
     needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Download shared artifact
         uses: actions/download-artifact@v4
