@@ -5,6 +5,9 @@ import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
 // @ts-ignore
 import anchor from "markdown-it-footnote";
+import { useKatex } from "./markdown/katex.mjs";
+import { renderSearchIndex, splitSearchIndex } from "./markdown/search-index.mjs";
+import { createShikiCache } from "./markdown/shiki-cache.mjs";
 
 import {
     sidebar_feature,
@@ -21,7 +24,6 @@ import {
     sidebar_202511,
     sidebar_202512,
 } from "./sidebar_feature2025"
-import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 // @ts-ignore
 import fs from "node:fs";
 // @ts-ignore
@@ -112,11 +114,23 @@ function htmlImagePlugin(): Plugin {
 }
 
 const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
+const configuredBuildConcurrency = Number(process.env.VITEPRESS_BUILD_CONCURRENCY || 8)
+const buildConcurrency = Number.isSafeInteger(configuredBuildConcurrency) && configuredBuildConcurrency > 0
+    ? configuredBuildConcurrency
+    : 8
+const shikiCache = createShikiCache()
 
 
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+    // VitePress defaults to 64 simultaneous page/search renders. Eight keeps
+    // enough work in flight for CI while avoiding dozens of large page trees
+    // being retained at once. Override only when benchmarking larger runners.
+    buildConcurrency,
+    buildEnd() {
+        shikiCache.report()
+    },
     locales: {
         root: {
             label: "简体中文",
@@ -233,6 +247,13 @@ export default defineConfig({
             options: {
                 // @ts-ignore
                 showDetailedList:true,
+                // Build the local index from Markdown tokens instead of fully
+                // rendering every page (syntax highlighting, KaTeX, and Vue
+                // HTML are unnecessary for plain-text search records).
+                _render: renderSearchIndex,
+                miniSearch: {
+                    _splitIntoSections: splitSearchIndex,
+                },
                 translations: {
                     button: {
                         buttonText: "搜索",
@@ -295,15 +316,16 @@ export default defineConfig({
 
     markdown: {
         languages: [mcfunction, mcdoc, snbt],
-        math: true,
 
         shikiSetup: async (shiki) => {
             await shiki.loadLanguage(mcfunction);
             await shiki.loadLanguage(mcdoc);
+            shikiCache.install(shiki);
         },
 
         config: (md) => {
             md.use(anchor);
+            useKatex(md);
 
             // 自动适配硬编码的 /datapack-index/ 链接前缀：当 siteBase 变化时同步替换
             const normalizedBase = siteBase === '/' ? '/' : siteBase.replace(/\/$/, '');
@@ -419,22 +441,7 @@ export default defineConfig({
             },
         },
         plugins: [
-            htmlImagePlugin(),
-            ViteImageOptimizer({
-                png: {
-                    quality: 80
-                },
-                jpeg: {
-                    quality: 80   
-                },
-                webp: {
-                    quality: 80,
-                    lossless: false
-                },
-                avif: { quality: 75 }, 
-                include: /\.(png|jpe?g|svg)$/i,
-                exclude: /node_modules/
-            })
+            htmlImagePlugin()
         ]
     },
 })

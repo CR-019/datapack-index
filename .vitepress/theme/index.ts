@@ -1,5 +1,5 @@
 // https://vitepress.dev/guide/custom-theme
-import { defineComponent, h } from 'vue'
+import { defineAsyncComponent, defineComponent, h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import './process-polyfill.js'
 import './style.css'
@@ -22,19 +22,13 @@ import Node from '../vue/Node.vue'
 import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
 import AnnouncementBar from '../vue/AnnouncementBar.vue'
-import mediumZoom from 'medium-zoom'
 import RepoCard from '../vue/wheel/RepoCard.vue'
-import MarkdownPreviewer from '../vue/MarkdownPreviewer.vue'
 import BugList from '../vue/BugList.vue'
 
 
 
 import 'katex/dist/katex.min.css'
-import { reactive, watch } from 'vue'
 import { useData } from 'vitepress'
-
-
-const globalDataStore = reactive({})
 
 export default {
   extends: DefaultTheme,
@@ -60,7 +54,7 @@ export default {
       }
     }
   }),
-  enhanceApp({ app, router, siteData }) {
+  enhanceApp({ app, router }) {
     // 注册全局组件
     app.component('GiscusComment', Giscus)
     app.component('FeaturedHead', FeaturedHead)
@@ -78,7 +72,10 @@ export default {
     app.component('AllPage', AllPage)
     app.component('BugList', BugList)
     app.component('RepoCard', RepoCard)
-    app.component('MarkdownPreviewer', MarkdownPreviewer)
+    app.component(
+      'MarkdownPreviewer',
+      defineAsyncComponent(() => import('../vue/MarkdownPreviewer.vue'))
+    )
 
     // 只在浏览器环境中执行 zoom 初始化
     if (typeof window !== 'undefined') {

@@ -14,44 +14,87 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build_github:
+  build:
+    name: Build site
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
           version: 9.13.2
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Build for github pages
+      - name: Restore image optimizer cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/image-optimizer/v1
+          key: image-optimizer-v1-${{ hashFiles('**/*.[pP][nN][gG]', '**/*.[jJ][pP][gG]', '**/*.[jJ][pP][eE][gG]', '**/*.[sS][vV][gG]', '!node_modules/**', '!.cache/**', '!.vitepress/dist/**') }}
+          restore-keys: |
+            image-optimizer-v1-
+
+      - name: Restore syntax highlighting cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/shiki/v1
+          key: shiki-v1-${{ hashFiles('**/*.md', '.vitepress/config.mts', '.vitepress/highlights/**', '.vitepress/markdown/shiki-cache.mjs', 'package.json', 'pnpm-lock.yaml', '!node_modules/**', '!.cache/**', '!.vitepress/dist/**') }}
+          restore-keys: |
+            shiki-v1-
+
+      - name: Build site
         run: pnpm run docs:build
         env:
           VITEPRESS_BASE: /datapack-index/
-          NODE_OPTIONS: --max-old-space-size=4096
+          NODE_OPTIONS: --max-old-space-size=3584
 
-      # --- GitHub Pages 上传 ---
-      - name: Upload GitHub artifact
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .vitepress/dist
 
-      # --- 在修复之前，暂时放在这里，防止链接爆炸 ---
-      # --- SFTP 备份 ---
-      - name: Upload mirror artifact
+      - name: Upload shared deployment artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+          path: .vitepress/dist
+          include-hidden-files: true
+
+  deploy_github:
+    name: Deploy GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy_sftp:
+    name: SFTP Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download shared artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: .vitepress/dist
+
+      - name: Upload mirror
         uses: appleboy/scp-action@v0.1.0
         with:
           host: ${{ secrets.SFTP_HOST }}
@@ -62,6 +105,7 @@ jobs:
           target: /www/wwwroot/vanillalibrary.mcfpp.top/datapack-index/
           overwrite: true
           strip_components: 2
+
       - name: Copy index
         uses: appleboy/scp-action@v0.1.0
         with:
@@ -74,96 +118,36 @@ jobs:
           overwrite: true
           strip_components: 2
 
-  deploy_github:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build_github
-    runs-on: ubuntu-latest
-    name: Deploy
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  build_3party:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9.13.2
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-
-      - name: Build for github pages
-        run: pnpm run docs:build
-        env:
-          NODE_OPTIONS: --max-old-space-size=4096
-
-      # --- 通用 artifact 上传
-      - name: Upload generic artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-files
-          path: .vitepress/dist
-
-
   deploy_mcfpp:
-    runs-on: ubuntu-latest
-    needs: build_3party
     name: MCFPP Deploy
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-      # 下载 artifact
-      - name: Download artifact
+      - name: Download shared artifact
         uses: actions/download-artifact@v4
         with:
           name: dist-files
           path: .vitepress/dist
-
-
-
 
   deploy_repeater:
-    runs-on: ubuntu-latest
-    needs: build_3party
     name: Redstone Repeater Deploy
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-      # 下载 artifact
-      - name: Download artifact
+      - name: Download shared artifact
         uses: actions/download-artifact@v4
         with:
           name: dist-files
           path: .vitepress/dist
 
-      # 压缩 artifact
       - name: Compress artifact
-        run: |
-          # 进入构建目录
-          cd .vitepress/dist
-          # 将当前目录下的所有文件打包成 artifact.zip (放在项目根目录)
-          zip -r ../../artifact.zip .
-          # 验证文件是否存在
-          ls -lh ../../artifact.zip
+        working-directory: .vitepress/dist
+        run: zip -r ../../artifact.zip .
 
-      # --- 红石中继站部署 ---
-      - name: Deploy to Server
+      - name: Deploy to server
         uses: redstone-ore/actions-docs-deploy@v1.0.3
         with:
           file: artifact.zip
           resource_id: ${{ secrets.RESOURCE_ID }}
           bearer_token: ${{ secrets.BEARER_TOKEN }}
-          poll_timeout: '6000'
+          poll_timeout: "6000"

@@ -1,12 +1,13 @@
 {
   "name": "datapack-index",
   "devDependencies": {
+    "@mdit/plugin-katex": "^0.24.2",
     "@types/markdown-it-footnote": "^3.0.4",
     "@types/node": "^22.20.1",
     "@vue/compiler-dom": "3.5.29",
     "katex": "^0.16.47",
+    "markdown-it": "^14.1.0",
     "markdown-it-footnote": "3.0.3",
-    "markdown-it-mathjax3": "^4.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "unenv": "^1.10.0",
@@ -15,8 +16,11 @@
   },
   "scripts": {
     "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "docs:build": "vitepress build && node scripts/optimize-images.mjs",
     "docs:preview": "vitepress preview",
+    "test": "node --test tests/*.test.mjs",
+    "test:image-optimizer": "node --test tests/image-optimizer.test.mjs",
+    "test:math": "node --test tests/math-renderer.test.mjs",
     "buildWheel": "python .vitepress/scripts/build_formatters.py",
     "buglist:fetch": "python .vitepress/scripts/make_bug_list.py",
     "buglist:gui": "python .vitepress/scripts/bug_list_gui.py",
@@ -41,7 +45,6 @@
     "sharp": "^0.34.5",
     "shiki": "2.5.0",
     "svgo": "4.0.2",
-    "vite-plugin-image-optimizer": "^2.0.3",
     "vue": "^3.5.42"
   }
 }
