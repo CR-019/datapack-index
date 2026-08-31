@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /index/Introduction
+      link: /en/index/绪论
     - theme: brand
       text: Wheel Search
       link: /wheel/
@@ -30,12 +30,12 @@ features:
     title: "Feature"
     details: Data pack Monthly Journal
     linkText: The latest issue has been released!
-    link: /feature/index/202608
+    link: /en/feature/index/202607
   - icon:
       src: /icons/totem_of_recovery.png
     title: toolbox
     details: Tool index that facilitates data pack development
-    link: /index/tools
+    link: /en/index/工具
   - icon:
       src: /icons/ocean_clock.png
     title: Newsstand
@@ -45,7 +45,7 @@ features:
       src: /icons/green_apple.png
     title: data pack practice
     details: practical and example tutorials
-    link: "/index/data pack practice"
+    link: "/en/index/数据包实践"
   - icon:
       src: /icons/sweetbarry_stew.png
     title: Quick review of update changes

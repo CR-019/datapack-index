@@ -21,7 +21,7 @@ Readers should be aware: for knowledge about data pack and resource pack, please
 
 
 
-[~~data pack/resource pack FAQ index and some resources (JE~~](/datapack-index/save/1233623.html){target="_blank"}
+~~data pack/resource pack FAQ index and some resources (JE~~
 
 ## data pack architecture
 
@@ -85,7 +85,7 @@ Readers should be aware: for knowledge about data pack and resource pack, please
       - [[CBL|SYL]NBTtag practical tutorial—index post (basically completed)](/datapack-index/save/78479.html){target="_blank"}
       - [~~2.2 NBT and structure · command advanced (oschina.io)~~](https://mc-command.oschina.io/command-tutorial/output/common-format/nbt/nbt.html){target="_blank"} (suspected to be inaccessible)
     - (Not so) modern tutorial
-      - [~~(/datapack-index/save/1190947.html){target="_blank"}
+      - ~~Unavailable archived NBT tutorial~~
       - [Tutorial/NBTcommandtag](https://zh.minecraft.wiki/w/教程/NBT命令标签)
       - [(11)NBT Popular Romance (Fog)](https://www.bilibili.com/opus/947507675726348296)
     - ~~itemNBT~~ [item component](https://zh.minecraft.wiki/w/%E7%89%A9%E5%93%81%E5%A0%86%E5%8F%A0%E7%BB%84%E4%BB%B6)
@@ -101,7 +101,7 @@ Readers should be aware: for knowledge about data pack and resource pack, please
     - [/data](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/data) The following tutorials complement each other
       - [[Tutorial][1.15] Common data manipulation methods: introductory tutorial](/datapack-index/save/993805.html){target="_blank"}
       - [(12) One of the three data operation methods to modify NBT/data](https://www.bilibili.com/read/cv36068052)
-      - [~~Filtering of data in data command~~](/datapack-index/save/1220434.html){target="_blank"}
+      - ~~Filtering of data in data command~~
 
     - `/data storage`
       - ~~(https://www.mcbbs.net/thread-1143275-1-1.html){target="_blank"}~~
@@ -192,13 +192,13 @@ Readers should be aware: for knowledge about data pack and resource pack, please
       - subtitle `subtitle`
 
       - Activity bar `actionbar`
-        - [~~[vanilla mod][front]1.16.X player bar~~](/datapack-index/save/1156574.html){target="_blank"}
-        - [~~[1.16+] Numerical bar display in the status bar data pack - digitize your blood volume~~](/datapack-index/save/1209691.html){target="_blank"}
+        - ~~[vanilla mod][front]1.16.X player bar~~
+        - ~~[1.16+] Numerical bar display in the status bar data pack - digitize your blood volume~~
         - [Ma Daha - I can see the kitten clearly! ! ! ](/datapack-index/save/1047712.html){target="_blank"}`(intangible cultural heritage)`
 
     - Boss bar [/bossbar](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/bossbar)
       - [1.13Full usage of Bossbar command](/datapack-index/save/781746.html){target="_blank"}
-      - [~~The player separates the bossbar, and each player can be edited independently~~](/datapack-index/save/1179992.html){target="_blank"}
+      - ~~The player separates the bossbar, and each player can be edited independently~~
       - [[1.14]How to connect bossbar and scoreboard](/datapack-index/save/864877.html){target="_blank"}
         - /execute store result bossbar &lt;boss column id&gt; value run scoreboard players get &lt;entity&gt; &lt;scoreboard id&gt;
       - [[18w05a] New command/bossbar Customize boss health bar to achieve pointing effect [Stabilized]](/datapack-index/save/778336.html){target="_blank"}
@@ -213,7 +213,7 @@ Readers should be aware: for knowledge about data pack and resource pack, please
 
     - Book and pen (the value will not be parsed and is a String)
       - {pages:["first page","second page",'["",JSON text]']}
-      - [~~command book~~](/datapack-index/save/1190418.html){target="_blank"}
+      - ~~command book~~
 
     - Notice board (value will be parsed)
       - {Text1:"The first line of text",Text2:'{"text":"The second line of text"},Text3:"",Text4:""}
@@ -288,12 +288,12 @@ Readers should be aware: for knowledge about data pack and resource pack, please
       - `spreadplayers &lt;*x*> &lt;*z*> &lt;*Spread spacing*> &lt;*Maximum range*> [*under* *Maximum height*] &lt;*Consider team*> &lt;*Teleport target...*>`
 
     - Teleport [/teleport](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/teleport) [/tp](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/tp)
-      - [~~teleport relative coordinate local coordinate omit selector~~](/datapack-index/save/1114273.html){target="_blank"}
+      - ~~teleport relative coordinate local coordinate omit selector~~
   - Rotate [/rotate](https://zh.minecraft.wiki/w/命令/rotate)
 
   - status effect [/effect](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/effect)
     - [[1.13+] Status effects - detailed introduction to effectcommand - Game skills - Minecraft (my world) Chinese forum - (mcbbs.net)](/datapack-index/save/1068146.html){target="_blank"}
-    - [~~How to adjust the negative level command in effect~~](/datapack-index/save/1201497.html){target="_blank"}
+    - ~~How to adjust the negative level command in effect~~
 
   - attribute [/attribute](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/attribute)
     - [[20w17a]Detailed explanation of attribute command](/datapack-index/save/1026841.html){target="_blank"}
@@ -403,13 +403,13 @@ Source: can be " * "
 
 #### item decorator
   - [item modifier - Minecraft Wiki](https://zh.minecraft.wiki/w/物品修饰器)
-  - [~~A brief introduction to item modifiers~~](/datapack-index/save/1187947.html){target="_blank"}
+  - ~~A brief introduction to item modifiers~~
   - [Minecraft vanilla mod getting started tutorial - item modifier](https://zhangshenxing.github.io/VanillaModTutorial/#物品修饰器)
   - [inline item modifier](#inline)
 
 #### advancement
 - tool
-  - VSCode plug-in: [~~Minecarft Json Viewer——data packadvancement simulation plug-in based on vscode~~](/datapack-index/save/1109032.html){target="_blank"}。
+  - VSCode plug-in: ~~Minecarft Json Viewer——data pack advancement simulation plug-in based on VSCode~~.
 - [advancement - Minecraft Wiki](https://zh.minecraft.wiki/w/进度)
 - [[Enfang’s theory] A custom advancement that even a monkey can learn! ](/datapack-index/save/685310.html){target="_blank"}
 - [[Tutorial][1.14] Custom advancement: from entry to abandonment](/datapack-index/save/892563.html){target="_blank"}
@@ -429,7 +429,7 @@ Source: can be " * "
 
 #### recipe
 - tool:
-  - [~~mc-recipe-editor——data packrecipe editor~~](/datapack-index/save/1222437.html){target="_blank"}
+  - ~~mc-recipe-editor——data pack recipe editor~~
 - [recipe - Minecraft Wiki](https://zh.minecraft.wiki/w/配方)
 - [Minecraft vanilla mod getting started tutorial-recipe](https://zhangshenxing.github.io/VanillaModTutorial/#配方)
 
@@ -473,8 +473,8 @@ Source: can be " * "
 - **puzzle**
     - [Puzzle block - Minecraft Wiki](https://zh.minecraft.wiki/w/%E6%8B%BC%E5%9B%BE%E6%96%B9%E5%9D%97)
     - [[VCS] Puzzle block and puzzle pool tutorial (1.16.2+)](/datapack-index/save/1093331.html){target="_blank"}
-    - [~~[1.17.1] Use of puzzle pool and structure generation~~](/datapack-index/save/1273515.html){target="_blank"}
-    - [~~[Reprint][1.17+]How to make good use of puzzle blocks, puzzle pools, and template pools~~](/datapack-index/save/1231185.html){target="_blank"}
+    - ~~[1.17.1] Use of puzzle pool and structure generation~~
+    - ~~[Reprint][1.17+]How to make good use of puzzle blocks, puzzle pools, and template pools~~
 
 
 
@@ -511,7 +511,7 @@ Source: can be " * "
   - [Minecraft GLSL Shadershader basic tutorial series](https://www.bilibili.com/read/readlist/rl738651)
   - [MCJEshader Tutorial: From Getting Started with Development to Game Crash](#aopshader)
   - [Vanilla shader introductory tutorial! (4/21)](https://etis.vcsofficial.site/d/17-xiang-cao-zhao-se-qi-ru-men-jiao-cheng-421)
-  - [~~A brief analysis of core shaders~~](/datapack-index/save/1181123.html){target="_blank"}
+  - ~~A brief analysis of core shaders~~
   - [Minecraft-Shaders-Wiki](https://github.com/McTsts/Minecraft-Shaders-Wiki/tree/main)
   - [A few vanilla shader examples](/datapack-index/save/917679.html){target="_blank"}
   - [Research experience on vanilla resource pack shader and animation](/datapack-index/save/863730.html){target="_blank"}
@@ -668,6 +668,5 @@ Just choose the right tool and use it appropriately.
   - [(3)——shader program JSON](https://alumopper.top/minecraftshader3/)
   - [(4)——Post-processing shader (Post Json)](https://alumopper.top/minecraftshader4/)
   - [（五）——Many chestnuts](https://alumopper.top/minecraftshader5/)
-
 
 

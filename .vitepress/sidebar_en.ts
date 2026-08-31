@@ -114,15 +114,24 @@ function translateLabel(text: string | undefined, link?: string) {
 }
 
 function translateSidebar(items: DefaultTheme.Sidebar): DefaultTheme.Sidebar {
-  return items.map((item) => {
-    if (typeof item === 'string') return item
-    return {
-      ...item,
-      link: prefixLink(item.link),
-      text: translateLabel(item.text, item.link),
-      items: item.items ? translateSidebar(item.items) : undefined,
+  const translated: DefaultTheme.Sidebar = []
+  for (const item of items) {
+    if (typeof item === 'string') {
+      translated.push(item)
+      continue
     }
-  })
+    const link = prefixLink(item.link)
+    const childItems = item.items ? translateSidebar(item.items) : undefined
+    const missingEnglishPage = link?.startsWith('/en/') && !fs.existsSync(pageSourcePath(link))
+    if (missingEnglishPage && !childItems?.length) continue
+    translated.push({
+      ...item,
+      link: missingEnglishPage ? undefined : link,
+      text: translateLabel(item.text, item.link),
+      items: childItems,
+    })
+  }
+  return translated
 }
 
 const sourceArchiveSidebars = {

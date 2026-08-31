@@ -228,18 +228,14 @@ export default defineConfig({
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",
         outline: [2, 6],
-        i18nRouting(data: any, route: any, targetLocale: any) {
-            const target = data.site.value.locales[targetLocale]
-            const targetLink = target.link || (targetLocale === "root" ? "/" : `/${targetLocale}/`)
-            const relativePath = route.data.relativePath.replace(/^en\//, "").replace(/\.md$/, "")
-            const pagePath = relativePath === "index" ? "" : `/${relativePath}`
-            return `${targetLink.replace(/\/$/, "")}${pagePath}${route.hash}` || "/"
-        },
+        // VitePress 1.x only supports a boolean here. Disable corresponding-page
+        // routing so untranslated pages switch to the locale home instead of a 404.
+        i18nRouting: false,
         nav: [
             { text: "文档", link: "/index/绪论" },
-            { text: "前置馆", link: "/wheel" },
+            { text: "前置馆", link: "/wheel/" },
             { text: "《Feature》", link: "/feature/_index" },
-            { text: "预览", link: "/preview" },
+            { text: "预览", link: "/preview/" },
             { text: "Wiki", link: "https://zh.minecraft.wiki/" },
         ],
         search: {

@@ -17,7 +17,7 @@
 
 
 
-[~~数据包/资源包常见问题索引以及一点资源(JE~~](/datapack-index/save/1233623.html){target="_blank"}
+~~数据包/资源包常见问题索引以及一点资源(JE~~
 
 ## 数据包体系结构
 
@@ -81,7 +81,7 @@
       - [【CBL|SYL】NBT标签实战教程—索引贴(基本完工) ](/datapack-index/save/78479.html){target="_blank"}
       - [~~2.2 NBT及结构 · 命令进阶 (oschina.io)~~](https://mc-command.oschina.io/command-tutorial/output/common-format/nbt/nbt.html){target="_blank"}（疑似无法访问）
     - （不太）现代教程
-      - [~~( X ) 我就不信不能用大白话讲清楚NBT~~](/datapack-index/save/1190947.html){target="_blank"}
+      - ~~( X ) 我就不信不能用大白话讲清楚NBT~~
       - [教程/NBT命令标签](https://zh.minecraft.wiki/w/教程/NBT命令标签)
       - [(十一)NBT通俗演义（雾）](https://www.bilibili.com/opus/947507675726348296)
     - ~~物品NBT~~ [物品组件](https://zh.minecraft.wiki/w/%E7%89%A9%E5%93%81%E5%A0%86%E5%8F%A0%E7%BB%84%E4%BB%B6)
@@ -97,7 +97,7 @@
     - [/data](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/data) 以下教程互为补充
       - [【教程】[1.15] 常见的数据操作方法：入门教程](/datapack-index/save/993805.html){target="_blank"}
       - [(十二) 数据运算三方法之一修改NBT/data](https://www.bilibili.com/read/cv36068052)
-      - [~~data 命令中数据的筛选~~](/datapack-index/save/1220434.html){target="_blank"}
+      - ~~data 命令中数据的筛选~~
 
     - `/data storage`
       - ~~(https://www.mcbbs.net/thread-1143275-1-1.html){target="_blank"}~~
@@ -188,13 +188,13 @@
       - 副标题 `subtitle`
 
       - 活动栏 `actionbar`
-        - [~~【原版模组】【前置】1.16.X 玩家栏~~](/datapack-index/save/1156574.html){target="_blank"}
-        - [~~[1.16+]状态栏数值化条形显示数据包 - 让你的血量数字化~~](/datapack-index/save/1209691.html){target="_blank"}
+        - ~~【原版模组】【前置】1.16.X 玩家栏~~
+        - ~~[1.16+]状态栏数值化条形显示数据包 - 让你的血量数字化~~
         - [马大哈——小猫咪被我看得一清二楚！！！](/datapack-index/save/1047712.html){target="_blank"}`（非物质文化遗产）`
 
     - Boss栏 [/bossbar](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/bossbar)
       - [1.13Bossbar指令全用法](/datapack-index/save/781746.html){target="_blank"}
-      - [~~玩家分离bossbar，每个玩家可以单独编辑了~~](/datapack-index/save/1179992.html){target="_blank"}
+      - ~~玩家分离bossbar，每个玩家可以单独编辑了~~
       - [[1.14]如何把bossbar和scoreboard联系在一起](/datapack-index/save/864877.html){target="_blank"}
         - /execute store result bossbar <boss栏id> value run scoreboard players get <实体> <计分板id>
       - [[18w05a]新命令/bossbar 自定义boss血条实现指向效果 [已稳定]](/datapack-index/save/778336.html){target="_blank"}
@@ -209,7 +209,7 @@
 
     - 书与笔(值不会被解析，为String)
       - {pages:["first page","second page",'["",JSON文本]']}
-      - [~~命令书~~](/datapack-index/save/1190418.html){target="_blank"}
+      - ~~命令书~~
 
     - 告示牌(值会被解析)
       - {Text1:"第一行文本",Text2:'{"text":"第二行文本"},Text3:"",Text4:""}
@@ -283,12 +283,12 @@
       - `spreadplayers <*x*> <*z*> <*分散间距*> <*最大范围*> [*under* *最大高度*] <*考虑队伍*> <*传送目标…*>`
 
     - 传送 [/teleport](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/teleport) [/tp](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/tp)
-      - [~~teleport 相对坐标 本地坐标 省略选择器~~](/datapack-index/save/1114273.html){target="_blank"}
+      - ~~teleport 相对坐标 本地坐标 省略选择器~~
   - 旋转 [/rotate](https://zh.minecraft.wiki/w/命令/rotate)
 
   - 状态效果 [/effect](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/effect)
     - [[1.13+]状态效果——effect命令详细介绍 - 游戏技巧 - Minecraft(我的世界)中文论坛 - (mcbbs.net)](/datapack-index/save/1068146.html){target="_blank"}
-    - [~~请问effect 里面负级指令怎么调~~](/datapack-index/save/1201497.html){target="_blank"}
+    - ~~请问effect 里面负级指令怎么调~~
 
   - 属性 [/attribute](https://zh.minecraft.wiki/w/%E5%91%BD%E4%BB%A4/attribute)
     - [ [20w17a]attribute指令详解](/datapack-index/save/1026841.html){target="_blank"}
@@ -398,13 +398,13 @@
 
 #### 物品修饰器
   - [物品修饰器 - Minecraft Wiki](https://zh.minecraft.wiki/w/物品修饰器)
-  - [~~物品修饰器的简单介绍~~](/datapack-index/save/1187947.html){target="_blank"}
+  - ~~物品修饰器的简单介绍~~
   - [Minecraft 原版模组入门教程 - 物品修饰器](https://zhangshenxing.github.io/VanillaModTutorial/#物品修饰器)
   - [内联物品修饰器](#inline)
 
 #### 进度
 - 工具
-  - VSCode插件：[~~Minecarft Json Viewer——基于vscode的数据包进度仿真插件~~](/datapack-index/save/1109032.html){target="_blank"}。
+  - VSCode插件：~~Minecarft Json Viewer——基于vscode的数据包进度仿真插件~~。
 - [进度 - Minecraft Wiki](https://zh.minecraft.wiki/w/进度)
 - [【烯方的那一套理论】猴子都能学会的自定义advancement！](/datapack-index/save/685310.html){target="_blank"}
 - [【教程】[1.14] 自定义进度：从入门到弃坑](/datapack-index/save/892563.html){target="_blank"}
@@ -424,7 +424,7 @@
 
 #### 配方
 - 工具：
-  - [~~mc-recipe-editor——数据包配方编辑器~~](/datapack-index/save/1222437.html){target="_blank"}
+  - ~~mc-recipe-editor——数据包配方编辑器~~
 - [配方 - Minecraft Wiki](https://zh.minecraft.wiki/w/配方)
 - [Minecraft 原版模组入门教程-配方](https://zhangshenxing.github.io/VanillaModTutorial/#配方)
 
@@ -468,8 +468,8 @@
 - **拼图**
     - [拼图方块 - Minecraft Wiki](https://zh.minecraft.wiki/w/%E6%8B%BC%E5%9B%BE%E6%96%B9%E5%9D%97)
     - [[VCS] 拼图方块与拼图池教程（1.16.2+）](/datapack-index/save/1093331.html){target="_blank"}
-    - [~~[1.17.1] 拼图池运用与结构生成~~](/datapack-index/save/1273515.html){target="_blank"}
-    - [~~[转载][1.17+]如何用好拼图方块、拼图池、模板池~~](/datapack-index/save/1231185.html){target="_blank"}
+    - ~~[1.17.1] 拼图池运用与结构生成~~
+    - ~~[转载][1.17+]如何用好拼图方块、拼图池、模板池~~
 
 
 
@@ -506,7 +506,7 @@
   - [Minecraft GLSL Shader着色器基础教程系列](https://www.bilibili.com/read/readlist/rl738651)
   - [MCJE着色器教程：从开发入门到游戏崩溃](#aopshader)
   - [香草着色器入门教程！(4/21)](https://etis.vcsofficial.site/d/17-xiang-cao-zhao-se-qi-ru-men-jiao-cheng-421)
-  - [~~核心着色器浅析~~](/datapack-index/save/1181123.html){target="_blank"}
+  - ~~核心着色器浅析~~
   - [Minecraft-Shaders-Wiki](https://github.com/McTsts/Minecraft-Shaders-Wiki/tree/main)
   - [几个原版着色器示例](/datapack-index/save/917679.html){target="_blank"}
   - [原版资源包着色器与动画研究心得](/datapack-index/save/863730.html){target="_blank"}
@@ -662,5 +662,4 @@
   - [（三）—— 着色器程序JSON](https://alumopper.top/minecraftshader3/)
   - [（四）——后处理着色器（Post Json）](https://alumopper.top/minecraftshader4/)
   - [（五）——很多的栗子](https://alumopper.top/minecraftshader5/)
-
 
