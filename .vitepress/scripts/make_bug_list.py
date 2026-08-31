@@ -2,7 +2,8 @@
 
 The public Mojira website exposes a small read-only API used by its own issue
 browser.  This script queries that API for every Minecraft: Java Edition issue
-in the JSON list, then updates only the ``title`` and ``status`` fields.
+in the JSON list, updates the ``title`` and ``status`` fields, and keeps fixed
+issues at the end of the list.
 """
 
 from __future__ import annotations
@@ -277,6 +278,15 @@ def update_bug_list(
         print(f"[{index}/{total}] {issue_key}: {status} — {title}")
 
 
+def sort_bug_list(entries: list[dict[str, Any]]) -> None:
+    """Stably move fixed issues after every issue that is not fixed."""
+
+    entries.sort(
+        key=lambda entry: str(entry.get("status", "")).strip().casefold()
+        == STATUS_FIXED
+    )
+
+
 def write_bug_list(path: Path, entries: list[dict[str, Any]]) -> None:
     """Atomically replace the JSON file only after every item has succeeded."""
 
@@ -311,6 +321,7 @@ def main() -> int:
     try:
         entries = load_bug_list(path)
         update_bug_list(entries, timeout=args.timeout, retries=args.retries)
+        sort_bug_list(entries)
 
         if args.dry_run:
             print(f"Dry run complete; {path} was not changed.")

@@ -23,13 +23,14 @@
         :href="bugUrl(bug.id)"
         target="_blank"
         rel="noopener noreferrer"
-        :aria-label="`${bug.cn_title}：${statusInfo(bug.status).label}，影响版本 ${bug.version}`"
+        :aria-label="`${bug.cn_title}：影响版本 ${bug.version}，${statusInfo(bug.status).label}`"
       >
         <span class="bug-card-main">
           <span class="bug-title-row">
             <span class="bug-cn-title">{{ bug.cn_title }}</span>
 
             <span class="bug-tags">
+              <span class="bug-tag bug-version">{{ bug.version }}</span>
               <span
                 class="bug-tag bug-status"
                 :class="`bug-status-${statusInfo(bug.status).key}`"
@@ -38,7 +39,6 @@
               >
                 {{ statusInfo(bug.status).label }}
               </span>
-              <span class="bug-tag bug-version">{{ bug.version }}</span>
             </span>
           </span>
 
@@ -218,7 +218,7 @@ function issueKey(id: string): string {
 }
 
 function bugUrl(id: string): string {
-  return `https://mojira.dev/${encodeURIComponent(issueKey(id))}`
+  return `https://bugs.mojang.com/browse/MC/issues/${encodeURIComponent(issueKey(id))}`
 }
 
 function goToPage(page: number) {

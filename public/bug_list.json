@@ -38,5 +38,117 @@
         "description": "在对话框的多行文本输入中，如果规定的max_lines，那么玩家将只能输入到文本框的尽头而无法自动wrap到下一行。这意味着无法要求使用者输入一串很长但又不包含换行符的文本。如果您需要这么做，可以考虑不限制最大行数，并在获取输入后使用如DNT的库删掉字符串中的换行符。",
         "title": "The \"max_lines\" field of the multi-line dialog input limits the number of visible lines, rather than the number of newlines",
         "status": "wont_fix"
+    },
+    {
+        "id": "311525",
+        "cn_title": "/damage命令无法触发荆棘魔咒",
+        "version": "26.2+",
+        "description": "",
+        "title": "/damage does not trigger Thorns",
+        "status": "Confirmed"
+    },
+    {
+        "id": "311435",
+        "cn_title": "/clear命令无法使用charged_projectiles组件筛选弩",
+        "version": "26.2+",
+        "description": "使用[charged_projectiles]总会选中弩，不管有没有上弦，而[!charged_projectiles]将不会选中任何弩，不管有没有上弦",
+        "title": "/clear command cannot filter crossbows by charged_projectiles",
+        "status": "Confirmed"
+    },
+    {
+        "id": "311428",
+        "cn_title": "/compute命令数值提供器在integer模式下无法精确读取整数",
+        "version": "26.3 Snapshot 10+",
+        "description": "即使在integer模式下，compute的数值提供器也会以float读取整数再转换回整数导致精度丢失",
+        "title": "Number providers lose precision when reading the initial values in integer mode",
+        "status": "Confirmed"
+    },
+    {
+        "id": "311326",
+        "cn_title": "火球，小火球，风弹等弹射物不会击中{NoGravity:true}的盔甲架",
+        "version": "26.2+",
+        "description": "",
+        "title": "Fireballs pass through armor stands with the `NoGravity` NBT tag set to true",
+        "status": "Confirmed"
+    },
+    {
+        "id": "85340",
+        "cn_title": "entity_data组件中的Passengers标签无效",
+        "version": "古早至今",
+        "description": "这使得无法获得一个可以生成有骑行行为实体的刷怪蛋",
+        "title": "Passengers Tag doesn't work with entity_data component on items",
+        "status": "Confirmed"
+    },
+    {
+        "id": "106167",
+        "cn_title": "/title actionbar不使用/title times规定的时间",
+        "version": "1.10.2+",
+        "description": "",
+        "title": "/title actionbar does not respect /title times",
+        "status": "Confirmed"
+    },
+    {
+        "id": "268183",
+        "cn_title": "试炼宝库的item_key需要钥匙物品的组件和它全等",
+        "version": "1.21+",
+        "description": "",
+        "title": "Vaults item_key checks for all components instead of only defined components",
+        "status": "Confirmed"
+    },
+    {
+        "id": "269746",
+        "cn_title": "伤害标签bypasses_effects的伤害类型不会无视伤害吸收",
+        "version": "1.20.4+",
+        "description": "本行为已经成为特型",
+        "title": "Tag \"bypasses_effects\" doesn't bypass absorption effect",
+        "status": "wont_fix"
+    },
+    {
+        "id": "278352",
+        "cn_title": "箭矢或三叉戟在频繁修改Motion时会出现在错误的位置",
+        "version": "1.21.3",
+        "description": "箭矢和三叉戟的Motion是很经典的问题，数据包很难处理",
+        "title": "Arrows and tridents appear at the wrong position when their Motion tag is modified every tick",
+        "status": "wont_fix"
+    },
+    {
+        "id": "279197",
+        "cn_title": "不同的命令的返回值的取整逻辑不同",
+        "version": "1.21.4+",
+        "description": "data命令的返回值总会向下取整，而attribute，execute store，worldborder则会向零取整",
+        "title": "Some commands have inconsistent results for rounding negative numbers",
+        "status": "wont_fix"
+    },
+    {
+        "id": "143214",
+        "cn_title": "除了工作台以外的所有合成配方都无法被limited_crafting游戏规则限制",
+        "version": "古早至今",
+        "description": "26.3已经修复了特殊工作台合成配方的相关漏洞，但其他配方仍然不受限制",
+        "title": "All new crafting stations ignore the DoLimitedCrafting gamerule",
+        "status": "intended"
+    },
+    {
+        "id": "236544",
+        "cn_title": "物品修饰器copy_custom_data无法在物品的custom_data根标签使用replace操作",
+        "version": "1.17.1+",
+        "description": "从旧版的copy_nbt到现在的copy_custom_data，都无法直接设置整个custom_data数据，只能merge",
+        "title": "\"replace\" operation of \"copy_custom_data\" item modifier does not work on root tag",
+        "status": "Confirmed"
+    },
+    {
+        "id": "200786",
+        "cn_title": "进度选项卡会随机排序",
+        "version": "1.16.3+",
+        "description": "进度的选项卡的顺序会被随机排列",
+        "title": "Advancement tab ordering is arbitrary",
+        "status": "Confirmed"
+    },
+    {
+        "id": "299582",
+        "cn_title": "特殊工作台合成配方无法被limited_crafting游戏规则限制",
+        "version": "1.21.7~26.2",
+        "description": "特殊工作台合成配方是指类似染色，地图复制等特殊的合成配方。其他配方，如切石机，锻造台等请见MC-143214（有意为之）",
+        "title": "Special crafting recipes behave differently than other recipe types with /recipe and the `limited_crafting` game rule",
+        "status": "fixed"
     }
 ]

@@ -18,7 +18,8 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
     "buildWheel": "python .vitepress/scripts/build_formatters.py",
-    "fetchBugList": "python .vitepress/scripts/make_bug_list.py",
+    "buglist:fetch": "python .vitepress/scripts/make_bug_list.py",
+    "buglist:gui": "python .vitepress/scripts/bug_list_gui.py",
     "translate:en": "node scripts/translate-markdown.mjs && node scripts/normalize-english-components.mjs && node scripts/repair-english-structure.mjs",
     "translate:en:comments": "node scripts/translate-english-comments.mjs"
   },
