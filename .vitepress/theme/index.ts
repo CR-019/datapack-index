@@ -21,6 +21,7 @@ import InfoCard from '../vue/wheel/InfoCard.vue'
 import Node from '../vue/Node.vue'
 import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
+import PackagePage from '../vue/wheel/PackagePage.vue'
 import AnnouncementBar from '../vue/AnnouncementBar.vue'
 import RepoCard from '../vue/wheel/RepoCard.vue'
 import BugList from '../vue/BugList.vue'
@@ -70,6 +71,7 @@ export default {
     app.component('InfoCard', InfoCard)
     app.component('node', Node)
     app.component('AllPage', AllPage)
+    app.component('PackagePage', PackagePage)
     app.component('BugList', BugList)
     app.component('RepoCard', RepoCard)
     app.component(

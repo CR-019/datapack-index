@@ -21,7 +21,6 @@
     "test": "node --test tests/*.test.mjs",
     "test:image-optimizer": "node --test tests/image-optimizer.test.mjs",
     "test:math": "node --test tests/math-renderer.test.mjs",
-    "buildWheel": "python .vitepress/scripts/build_formatters.py",
     "buglist:fetch": "python .vitepress/scripts/make_bug_list.py",
     "buglist:gui": "python .vitepress/scripts/bug_list_gui.py",
     "translate:en": "node scripts/translate-markdown.mjs && node scripts/normalize-english-components.mjs && node scripts/repair-english-structure.mjs",

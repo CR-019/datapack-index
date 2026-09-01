@@ -15,11 +15,7 @@
       <div class="featured-color-line">
         <div class="color-segment orange"></div>
         <div class="image-container">
-          <img
-            src="/feature/cover/command_block_front.png"
-            class="base-image"
-            alt="Command Block Front"
-          />
+          <div class="base-image command-block-face" aria-hidden="true"></div>
           <img
             src="/feature/cover/featured.png"
             class="overlay-image"
@@ -82,6 +78,14 @@ export default {
   left: 50%;
   transform: translate(-50%, -80%) rotate(45deg);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.command-block-face {
+  border: 1px solid rgba(73, 42, 24, 0.65);
+  border-radius: 2px;
+  background:
+    radial-gradient(circle at center, #3f2720 0 18%, transparent 19%),
+    conic-gradient(from 45deg, #d49a6a, #8b5b3b, #d49a6a, #8b5b3b, #d49a6a);
 }
 
 .featured-color-line {
