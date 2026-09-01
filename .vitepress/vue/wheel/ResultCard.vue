@@ -62,7 +62,12 @@ export default {
     methods: {
         onClick() {
             const dest = this.item.path ?? this.item.id ?? null;
-            if (dest) this.$emit("select", "/datapack-index" + dest);
+            if (!dest || typeof dest !== "string") return;
+            if (/^https:\/\//i.test(dest)) {
+                this.$emit("select", dest);
+                return;
+            }
+            this.$emit("select", "/datapack-index" + dest);
         },
 
         tagStyle(tag) {

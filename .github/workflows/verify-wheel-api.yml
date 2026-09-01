@@ -1,0 +1,45 @@
+name: Verify wheel package API integration
+
+on:
+  pull_request:
+    paths:
+      - ".vitepress/vue/wheel/**"
+      - "tests/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/verify-wheel-api.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Enable the pinned package manager
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.13.2 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build VitePress
+        run: pnpm exec vitepress build
+        env:
+          VITEPRESS_BASE: /datapack-index/
+          NODE_OPTIONS: --max-old-space-size=3584

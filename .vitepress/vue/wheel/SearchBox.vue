@@ -455,7 +455,7 @@ export default {
 		submit() {
 			// 在新标签页中打开投稿页面
 			const url =
-				"https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml";
+				"https://github.com/Alumopper/datapack-index-mcfpm-staging/issues/new?template=new_wheel.yaml";
 			try {
 				const win = window.open(url, "_blank");
 				if (win) win.opener = null;

@@ -35,12 +35,13 @@
 <script>
 import FlexSearch from "flexsearch";
 import ResultCard from "./ResultCard.vue";
+import { fetchMcfpmPackages } from "./mcfpmPackages.mjs";
 import { useData } from "vitepress";
 
 // simple localStorage cache configuration
-const CACHE_KEY = "datapack_formatters_cache_v1";
-// default TTL: 24 hours
-const CACHE_TTL = 24 * 60 * 60 * 1000;
+const CACHE_KEY = "datapack_formatters_and_mcfpm_cache_v2";
+// The package API refreshes frequently, so keep the browser cache short.
+const CACHE_TTL = 15 * 60 * 1000;
 
 // IndexedDB helpers
 function openIndexedDB() {
@@ -118,6 +119,11 @@ function sanitizeDataForCache(data, fields = [
 	"cover",
 	"gameversion",
 	"author",
+	"external",
+	"coordinate",
+	"latestVersion",
+	"source",
+	"trust",
 ]) {
 	if (!Array.isArray(data)) return [];
 	return data.map((d) => {
@@ -226,10 +232,25 @@ export default {
 					console.warn("Failed to read IDB cache for formatters.json", e);
 				}
 
-				// fetch fresh if cache missing/expired
-				const response = await fetch("../formatters.json");
-				const data = await response.json();
-				this.data = data;
+				// Fetch the historical static library and the Mcfpm package API independently.
+				// One source can still render when the other is temporarily unavailable.
+				const [staticResult, mcfpmResult] = await Promise.allSettled([
+					fetch("../formatters.json").then((response) => {
+						if (!response.ok) throw new Error(`formatters.json returned HTTP ${response.status}`);
+						return response.json();
+					}),
+					fetchMcfpmPackages(),
+				]);
+				const staticData = staticResult.status === "fulfilled" && Array.isArray(staticResult.value)
+					? staticResult.value
+					: [];
+				const mcfpmData = mcfpmResult.status === "fulfilled" ? mcfpmResult.value : [];
+				if (staticResult.status === "rejected") console.warn("Static library fetch failed", staticResult.reason);
+				if (mcfpmResult.status === "rejected") console.warn("Mcfpm package API fetch failed", mcfpmResult.reason);
+				if (!staticData.length && !mcfpmData.length && staticResult.status === "rejected" && mcfpmResult.status === "rejected") {
+					throw new Error("Both package index sources are unavailable");
+				}
+				this.data = [...mcfpmData, ...staticData];
 				this.index = buildIndexFromData(this.data);
 
 				// write to IndexedDB cache (only plain data)
@@ -264,7 +285,7 @@ export default {
 		submit() {
 			// 在新标签页中打开投稿页面
 			const url =
-				"https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml";
+				"https://github.com/Alumopper/datapack-index-mcfpm-staging/issues/new?template=new_wheel.yaml";
 			try {
 				const win = window.open(url, "_blank");
 				if (win) win.opener = null;
