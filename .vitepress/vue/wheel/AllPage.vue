@@ -126,7 +126,7 @@ function sanitizeDataForCache(data, fields = [
 	"trust",
 ]) {
 	if (!Array.isArray(data)) return [];
-	return data.map((d) => {
+	const sanitized = data.map((d) => {
 		const out = {};
 		for (const f of fields) {
 			// support nested fields 'a.b'
@@ -162,6 +162,11 @@ function sanitizeDataForCache(data, fields = [
 		}
 		return out;
 	});
+	// Vue makes component data reactive. Nested arrays and objects can therefore
+	// still be Proxy instances even though the outer object above is plain.
+	// IndexedDB's structured-clone algorithm rejects Proxy values, while a JSON
+	// round trip produces the plain data structures this cache is intended to hold.
+	return JSON.parse(JSON.stringify(sanitized));
 }
 
 export default {
