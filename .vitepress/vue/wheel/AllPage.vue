@@ -29,7 +29,7 @@
 <script>
 import { useData } from "vitepress";
 import ResultCard from "./ResultCard.vue";
-import { fetchPackageCards } from "./mcfpmPackages.mjs";
+import { fetchPackageCards, localizePackageCards } from "./mcfpmPackages.mjs";
 
 export default {
 	components: { ResultCard },
@@ -61,7 +61,7 @@ export default {
 			this.loading = true;
 			this.error = "";
 			try {
-					this.data = await fetchPackageCards();
+					this.data = localizePackageCards(await fetchPackageCards(), this.lang);
 			} catch (error) {
 					this.error = this.isEnglish ? "The package catalogs are temporarily unavailable." : "动态索引和静态资料暂时均不可用，请稍后重试。";
 				console.warn("Mcfpm package index fetch failed", error);

@@ -26,15 +26,15 @@ Read its [official documentation](https://github.com/Dahesor/D-Better-Schedule) 
 
 Example:
 ```mcfunction
-# 1秒后将执行者传送回当前位置。
+# Teleport the executor back to this position after one second.
 data modify storage dah.sch:new new set value {run:"tp ~ ~ ~",time:20}
 function dah.sch:new
 
-# 1秒后将当前位置设置为石头。尝试获取维度，且输出日志。
+# Place stone at this position after one second, resolving the dimension and writing a debug log.
 data modify storage dah.sch:new new set value {run:"setblock ~ ~ ~ stone",time:20,flags:["debug","try_dimension"]}
 function dah.sch:new
 
-# 在10秒或移除该玩家的属性修饰器。若玩家在10秒内下线，则等到玩家上线后再移除。
+# Remove the player's attribute modifier after ten seconds. If the player is offline, wait until they return.
 data modify storage dah.sch:new new set value {run:"attribute @s attack_damage modifier remove foo:bar",time:200,offline:"delay"}
 function dah.sch:new
 ```

@@ -21,10 +21,10 @@ const SAFE_HTML_TAGS = new Set([
 	"a", "abbr", "address", "article", "aside", "b", "blockquote", "br", "caption", "cite", "code",
 	"col", "colgroup", "dd", "del", "details", "dfn", "div", "dl", "dt", "em", "figcaption", "figure",
 	"h1", "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "ins", "kbd", "li", "mark", "ol", "p",
-	"picture", "pre", "q", "s", "samp", "small", "span", "strong", "sub", "summary", "sup", "table",
+	"picture", "pre", "q", "s", "samp", "small", "source", "span", "strong", "sub", "summary", "sup", "table",
 	"tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul", "var", "wbr",
 ]);
-const VOID_HTML_TAGS = new Set(["br", "col", "hr", "img", "wbr"]);
+const VOID_HTML_TAGS = new Set(["br", "col", "hr", "img", "source", "wbr"]);
 const BLOCKED_HTML_TAGS = new Set([
 	"base", "button", "component", "embed", "form", "iframe", "input", "keep-alive", "link", "math", "meta",
 	"object", "option", "script", "select", "style", "suspense", "svg", "teleport", "textarea", "transition",
@@ -239,9 +239,34 @@ function useGitHubAlerts(markdown) {
 	};
 }
 
-function rewriteUrl(raw, documentPath, baseUrl) {
+function githubDocumentRoot(documentUrl) {
+	if (!["github.com", "www.github.com"].includes(documentUrl.hostname.toLowerCase())) return null;
+	const parts = documentUrl.pathname.split("/").filter(Boolean);
+	if (parts.length < 5 || parts[2] !== "blob") return null;
+	return `${documentUrl.origin}/${parts.slice(0, 4).join("/")}/`;
+}
+
+function githubRawImageUrl(url) {
+	if (!["github.com", "www.github.com"].includes(url.hostname.toLowerCase())) return url.toString();
+	const parts = url.pathname.split("/").filter(Boolean);
+	if (parts.length < 5 || parts[2] !== "blob") return url.toString();
+	return `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join("/")}${url.search}${url.hash}`;
+}
+
+function rewriteUrl(raw, documentPath, baseUrl, image = false) {
 	if (!raw || /^(?:[a-z][a-z\d+.-]*:)?\/\//i.test(raw) || /^(?:#|mailto:|tel:)/i.test(raw)) return raw;
 	if (/^(?:javascript|data|vbscript):/i.test(raw)) return "#";
+	if (/^https:\/\//i.test(documentPath)) {
+		try {
+			const documentUrl = new URL(documentPath);
+			if (documentUrl.protocol !== "https:") return "#";
+			const root = raw.startsWith("/") ? githubDocumentRoot(documentUrl) : null;
+			const resolved = new URL(raw.replace(/^\/+/, ""), root || documentUrl);
+			return image ? githubRawImageUrl(resolved) : resolved.toString();
+		} catch {
+			return "#";
+		}
+	}
 	const base = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
 	if (raw.startsWith(base)) return raw;
 	if (raw.startsWith("/")) return `${base}${raw.replace(/^\/+/, "")}`;
@@ -330,7 +355,7 @@ export function renderRuntimeMarkdown(source, { highlighter = null, english = fa
 	};
 	const defaultImage = markdown.renderer.rules.image;
 	markdown.renderer.rules.image = (tokens, index, options, env, self) => {
-		tokens[index].attrSet("src", rewriteUrl(tokens[index].attrGet("src"), documentPath, baseUrl));
+		tokens[index].attrSet("src", rewriteUrl(tokens[index].attrGet("src"), documentPath, baseUrl, true));
 		tokens[index].attrSet("data-md-img", "");
 		return defaultImage(tokens, index, options, env, self);
 	};

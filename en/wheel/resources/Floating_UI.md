@@ -30,7 +30,7 @@ To create a UI, the easiest way is to use functions`floating_ui:.player_new_ui`.
 
 ```mcfunction
 
-# 玩家执行
+# Run as the player.
 
 data modify floating_ui:input data set value {\
     "type":"panel",\

@@ -60,12 +60,24 @@ function staticPage(relativePath) {
 	if (!fs.existsSync(englishSource)) {
 		throw new Error(`Static wheel page is missing its English route: en/${relativePath}`);
 	}
+	const englishParsed = matter(fs.readFileSync(englishSource, "utf8"));
+	const englishData = englishParsed.data || {};
+	const englishName = typeof englishData.name === "string" && englishData.name.trim()
+		? englishData.name.trim()
+		: name;
+	const englishDescription = typeof englishData.description === "string"
+		? englishData.description.trim()
+		: description;
+	const englishTags = strings(englishData.tags);
 	const englishPath = `/en/${relativePath.replace(/\.md$/i, ".html")}`;
 	const card = {
 		id: `static:${relativePath}`,
 		name,
 		description,
 		tokens: [name, description, ...cardAuthors.map((author) => author.name), ...semanticTags, ...gameVersions, repository || ""].join(" "),
+		englishName,
+		englishDescription,
+		englishTokens: [englishName, englishDescription, ...cardAuthors.map((author) => author.name), ...englishTags, ...gameVersions, repository || ""].join(" "),
 		tags: [],
 		path: legacyPath,
 		englishPath,
@@ -81,11 +93,22 @@ function staticPage(relativePath) {
 	const markdown = parsed.content
 		.replace(/^\s*<InfoCard\s*\/>\s*/i, "")
 		.trim();
+	const englishMarkdown = englishParsed.content
+		.replace(/^\s*<InfoCard\s*\/>\s*/i, "")
+		.trim();
 	return {
 		card,
 		content: {
 			legacyPath,
+			englishPath,
+			name,
+			description,
+			englishName,
+			englishDescription,
+			englishTags,
+			githubRepository: repository,
 			markdown,
+			englishMarkdown,
 		},
 	};
 }

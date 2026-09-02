@@ -44,6 +44,10 @@ test("renders VitePress GitHub alerts with the site's classes", () => {
 test("allows only registered components and inert bound values", () => {
 	assert.equal(validateRuntimeMarkdown("<RepoCard repo=\"Example/Pack\" />"), "<RepoCard repo=\"Example/Pack\" />");
 	assert.equal(validateRuntimeMarkdown("<node type=\"string\" name=\"value\" required=true />"), "<node type=\"string\" name=\"value\" required=true />");
+	assert.equal(
+		validateRuntimeMarkdown('<picture><source media="(prefers-color-scheme: dark)" srcset="dark.png"><img src="light.png"></picture>'),
+		'<picture><source media="(prefers-color-scheme: dark)" srcset="dark.png"><img src="light.png"></picture>',
+	);
 	assert.throws(() => validateRuntimeMarkdown("<UnknownWidget />"), /unsupported component/);
 	assert.throws(() => validateRuntimeMarkdown("<ColorLine :height=\"globalThis.fetch('https:\/\/evil.test')\" />"), /unsafe bound property/);
 	assert.throws(() => validateRuntimeMarkdown("<ColorLine :height=globalThis />"), /unsafe bound property/);
@@ -96,4 +100,14 @@ test("renders fenced code with the same single wrapper structure as VitePress", 
 	assert.match(html, /^<div class="language-mcfunction vp-adaptive-theme">/);
 	assert.match(html, /<pre v-pre class="shiki vp-code"><code>say hi<\/code><\/pre><\/div>$/);
 	assert.doesNotMatch(html, /<pre><code class="language-mcfunction">/);
+});
+
+test("resolves GitHub README links and images against the repository", () => {
+	const html = renderRuntimeMarkdown(
+		"[Guide](docs/guide.md) ![Diagram](assets/diagram.png) [License](/LICENSE)",
+		{ documentPath: "https://github.com/Example/Demo/blob/main/README.md" },
+	);
+	assert.match(html, /href="https:\/\/github\.com\/Example\/Demo\/blob\/main\/docs\/guide\.md"/);
+	assert.match(html, /src="https:\/\/raw\.githubusercontent\.com\/Example\/Demo\/main\/assets\/diagram\.png"/);
+	assert.match(html, /href="https:\/\/github\.com\/Example\/Demo\/blob\/main\/LICENSE"/);
 });
