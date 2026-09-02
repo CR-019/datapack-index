@@ -1,5 +1,6 @@
 export const PACKAGE_API_BASE = "https://package.afox.moe/v1/packages";
 export const PACKAGE_PAGE_PATH = "/wheel/package";
+export const STATIC_INDEX_URL = "/datapack-index/wheel-static-index.json";
 
 function requireString(value, field, maximum = 512) {
 	if (typeof value !== "string" || !value || value.length > maximum) {
@@ -54,13 +55,16 @@ export function mapMcfpmPackage(item) {
 	const sources = stringArray(item.sources, "sources");
 	const types = stringArray(item.types, "types");
 	const licenses = stringArray(item.licenses, "licenses");
+	const minecraftRequirements = item.minecraftRequirements == null
+		? []
+		: stringArray(item.minecraftRequirements, "minecraftRequirements");
 	const display = displaySummary(item.display);
 	const sourceLabel = sources.includes("nexus") ? "Nexus" : "Maven Central";
 	const displayName = display?.name || artifactName;
 	const authors = display?.authors?.length ? display.authors : [{ name: group }];
 	const semanticTags = display?.tags ?? [];
 	const tags = [sourceLabel];
-	const gameVersions = display?.gameVersions?.length ? display.gameVersions : [`Mcfpm ${latestVersion}`];
+	const gameVersions = display?.gameVersions?.length ? display.gameVersions : minecraftRequirements;
 	return {
 		id: `mcfpm:${coordinate}`,
 		coordinate,
@@ -77,7 +81,92 @@ export function mapMcfpmPackage(item) {
 		source: sources,
 		trust: item.trust,
 		licenses,
+		legacyPath: display?.legacyPath || null,
 	};
+}
+
+export function packageRepositoryPageUrl(coordinate, version) {
+	const separator = coordinate.indexOf(":");
+	if (separator < 1 || !version || typeof version.version !== "string") return null;
+	const group = coordinate.slice(0, separator);
+	const name = coordinate.slice(separator + 1);
+	if (version.source === "central") {
+		return `https://central.sonatype.com/artifact/${encodeURIComponent(group)}/${encodeURIComponent(name)}/${encodeURIComponent(version.version)}`;
+	}
+	if (version.source !== "nexus" || typeof version.repositoryUrl !== "string") return null;
+	let repository;
+	try {
+		repository = new URL(version.repositoryUrl);
+	} catch {
+		return null;
+	}
+	if (repository.protocol !== "https:") return null;
+	const match = repository.pathname.match(/\/repository\/([^/]+)\/?$/);
+	if (!match) return repository.toString();
+	const groupPath = group.split(".").map(encodeURIComponent).join("/");
+	const artifactPath = `${groupPath}/${encodeURIComponent(name)}/${encodeURIComponent(version.version)}`;
+	return `${repository.origin}/#browse/browse:${encodeURIComponent(match[1])}:${artifactPath}`;
+}
+
+export function mapStaticPackage(item) {
+	if (!item || typeof item !== "object" || item.static !== true) throw new Error("Static wheel entry is invalid");
+	const name = requireString(item.name, "static name");
+	const path = requireString(item.path, "static path");
+	if (!path.startsWith("/wheel/resources/") || !path.endsWith(".html") || path.includes("..")) {
+		throw new Error("Static wheel entry has an invalid path");
+	}
+	const author = Array.isArray(item.author)
+		? item.author.filter((entry) => entry && typeof entry.name === "string" && entry.name).slice(0, 20)
+		: [];
+	const gameVersions = stringArray(item.gameversion || [], "static gameversion");
+	return {
+		id: requireString(item.id, "static id"),
+		name,
+		description: typeof item.description === "string" ? item.description : "",
+		tokens: typeof item.tokens === "string" ? item.tokens : "",
+		tags: [],
+		path,
+		external: false,
+		cover: typeof item.cover === "string" ? item.cover : null,
+		gameversion: gameVersions,
+		author,
+		static: true,
+		legacyPath: path,
+	};
+}
+
+export async function fetchStaticPackages(fetchImpl = fetch, staticIndexUrl = STATIC_INDEX_URL) {
+	const response = await fetchImpl(staticIndexUrl, { headers: { Accept: "application/json" } });
+	if (!response?.ok) throw new Error(`Static wheel index returned HTTP ${response?.status ?? "unknown"}`);
+	const payload = await response.json();
+	if (!payload || payload.schema !== 1 || !Array.isArray(payload.items)) throw new Error("Static wheel index returned invalid data");
+	return payload.items.map(mapStaticPackage);
+}
+
+export function mergePackageCards(dynamicPackages, staticPackages) {
+	const dynamicLegacyPaths = new Set(dynamicPackages.map((item) => item.legacyPath).filter(Boolean));
+	return [
+		...dynamicPackages,
+		...staticPackages.filter((item) => !dynamicLegacyPaths.has(item.legacyPath)),
+	].sort((left, right) => left.name.localeCompare(right.name, "zh-CN"));
+}
+
+export async function fetchPackageCards(
+	fetchImpl = fetch,
+	apiBase = PACKAGE_API_BASE,
+	staticIndexUrl = STATIC_INDEX_URL,
+) {
+	const [dynamic, staticEntries] = await Promise.allSettled([
+		fetchMcfpmPackages(fetchImpl, apiBase),
+		fetchStaticPackages(fetchImpl, staticIndexUrl),
+	]);
+	if (dynamic.status === "rejected" && staticEntries.status === "rejected") {
+		throw new AggregateError([dynamic.reason, staticEntries.reason], "Dynamic and static package indexes are unavailable");
+	}
+	return mergePackageCards(
+		dynamic.status === "fulfilled" ? dynamic.value : [],
+		staticEntries.status === "fulfilled" ? staticEntries.value : [],
+	);
 }
 
 export async function fetchMcfpmPackages(fetchImpl = fetch, apiBase = PACKAGE_API_BASE) {

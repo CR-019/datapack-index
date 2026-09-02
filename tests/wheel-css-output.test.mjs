@@ -8,11 +8,13 @@ test("Vite config does not collapse every component stylesheet into base.css", (
 	assert.doesNotMatch(config, /assetFileNames[\s\S]{0,500}base\.\[ext\]/);
 });
 
-test("wheel runtime no longer references the generated static formatter database", () => {
+test("wheel runtime uses the generated static fallback without restoring the old formatter database", () => {
 	const root = path.join(import.meta.dirname, "..", ".vitepress", "vue", "wheel");
-	for (const file of ["SearchBox.vue", "AllPage.vue", "mcfpmPackages.mjs", "PackagePage.vue"]) {
-		const content = fs.readFileSync(path.join(root, file), "utf8");
-		assert.doesNotMatch(content, /formatters\.json|datapack_formatters_cache/);
-	}
+	const runtime = fs.readFileSync(path.join(root, "mcfpmPackages.mjs"), "utf8");
+	assert.match(runtime, /wheel-static-index\.json/);
+	assert.doesNotMatch(runtime, /formatters\.json|datapack_formatters_cache/);
 	assert.equal(fs.existsSync(path.join(import.meta.dirname, "..", "public", "formatters.json")), false);
+	const fallback = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "..", "public", "wheel-static-index.json"), "utf8"));
+	assert.equal(fallback.schema, 1);
+	assert.equal(fallback.items.length, 55);
 });

@@ -70,7 +70,7 @@
 
 			<div class="detail-grid">
 				<main class="readme-panel">
-					<div v-if="detailsHtml" class="package-markdown" v-html="detailsHtml"></div>
+					<div v-if="detailsHtml" class="vp-doc package-markdown" v-html="detailsHtml"></div>
 					<div v-else class="metadata-fallback">
 						<h2>关于这个软件包</h2>
 						<p>{{ description }}</p>
@@ -89,6 +89,7 @@
 					</dl>
 					<div class="metadata-links">
 						<a v-if="site?.projectUrl" :href="site.projectUrl" target="_blank" rel="noopener noreferrer">项目主页</a>
+						<a v-if="repositoryPageUrl" :href="repositoryPageUrl" target="_blank" rel="noopener noreferrer">{{ repositoryPageLabel }}</a>
 						<a :href="selectedVersion.descriptorUrl" target="_blank" rel="noopener noreferrer">查看 .mcfpkg 描述符</a>
 					</div>
 				</aside>
@@ -101,7 +102,7 @@
 import MarkdownIt from "markdown-it";
 import { computed, onMounted, ref } from "vue";
 
-import { fetchMcfpmPackage } from "./mcfpmPackages.mjs";
+import { fetchMcfpmPackage, packageRepositoryPageUrl } from "./mcfpmPackages.mjs";
 
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: false });
 const defaultLinkOpen = markdown.renderer.rules.link_open || ((tokens, index, options, env, self) => self.renderToken(tokens, index, options));
@@ -109,6 +110,11 @@ markdown.renderer.rules.link_open = (tokens, index, options, env, self) => {
 	tokens[index].attrSet("target", "_blank");
 	tokens[index].attrSet("rel", "noopener noreferrer");
 	return defaultLinkOpen(tokens, index, options, env, self);
+};
+const defaultImageRender = markdown.renderer.rules.image;
+markdown.renderer.rules.image = (tokens, index, options, env, self) => {
+	tokens[index].attrSet("data-md-img", "");
+	return defaultImageRender(tokens, index, options, env, self);
 };
 
 const packageData = ref(null);
@@ -127,13 +133,19 @@ const site = computed(() => selectedVersion.value?.site || packageData.value?.di
 const displayName = computed(() => site.value?.name || packageData.value?.name || packageData.value?.coordinate || "Mcfpm 软件包");
 const description = computed(() => site.value?.description || selectedVersion.value?.description || packageData.value?.description || `${packageData.value?.coordinate} 的 Mcfpm 软件包`);
 const authors = computed(() => Array.isArray(site.value?.authors) ? site.value.authors : []);
-const gameVersions = computed(() => Array.isArray(site.value?.gameVersions) ? site.value.gameVersions : []);
+const gameVersions = computed(() => Array.isArray(site.value?.gameVersions) && site.value.gameVersions.length
+	? site.value.gameVersions
+	: selectedVersion.value?.minecraftRequirements || []);
 const tags = computed(() => Array.isArray(site.value?.tags) ? site.value.tags : []);
 const initials = computed(() => displayName.value.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").slice(0, 2).toUpperCase());
 const installCommand = computed(() => `mcfpm install ${packageData.value.coordinate}@${selectedVersion.value.version}`);
 const copyLabel = computed(() => copied.value ? "安装命令已复制" : "复制安装命令");
 const detailsHtml = computed(() => site.value?.detailsMarkdown ? markdown.render(site.value.detailsMarkdown) : "");
 const sourceLabel = computed(() => selectedVersion.value?.source === "nexus" ? "Nexus" : "Maven Central");
+const repositoryPageUrl = computed(() => packageData.value && selectedVersion.value
+	? packageRepositoryPageUrl(packageData.value.coordinate, selectedVersion.value)
+	: null);
+const repositoryPageLabel = computed(() => selectedVersion.value?.source === "nexus" ? "在 Nexus 中查看" : "在 Maven Central 中查看");
 
 function selectVersion(version) {
 	if (!packageData.value.versions.some((entry) => entry.version === version)) return;
@@ -207,9 +219,28 @@ onMounted(async () => {
 
 .detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 36px; align-items: start; }
 .readme-panel { min-width: 0; }
-.package-markdown :deep(h1), .package-markdown :deep(h2), .package-markdown :deep(h3) { scroll-margin-top: 90px; }
-.package-markdown :deep(img) { max-width: 100%; border-radius: 10px; }
-.package-markdown :deep(pre) { overflow-x: auto; }
+.package-markdown { color: var(--vp-c-text-1); font-size: 16px; line-height: 1.75; }
+.package-markdown :deep(h1), .package-markdown :deep(h2), .package-markdown :deep(h3), .package-markdown :deep(h4) { position: relative; scroll-margin-top: 90px; color: var(--vp-c-text-1); font-weight: 700; line-height: 1.3; }
+.package-markdown :deep(h1) { margin: 0 0 24px; font-size: 32px; }
+.package-markdown :deep(h2) { margin: 36px 0 18px; padding-top: 22px; border-top: 1px solid var(--vp-c-divider); font-size: 24px; }
+.package-markdown :deep(h3) { margin: 28px 0 14px; font-size: 20px; }
+.package-markdown :deep(h4) { margin: 22px 0 12px; font-size: 17px; }
+.package-markdown :deep(p) { margin: 16px 0; line-height: 1.8; }
+.package-markdown :deep(a) { color: var(--vp-c-brand-1); font-weight: 500; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--vp-c-brand-1) 35%, transparent); text-underline-offset: 3px; }
+.package-markdown :deep(a:hover) { color: var(--vp-c-brand-2); text-decoration-color: currentColor; }
+.package-markdown :deep(ul), .package-markdown :deep(ol) { margin: 16px 0; padding-left: 1.6rem; }
+.package-markdown :deep(li) { margin: 7px 0; line-height: 1.75; }
+.package-markdown :deep(blockquote) { margin: 20px 0; padding: 10px 18px; border-left: 4px solid var(--vp-c-brand-1); border-radius: 0 8px 8px 0; background: var(--vp-c-bg-soft); color: var(--vp-c-text-2); }
+.package-markdown :deep(blockquote p) { margin: 6px 0; }
+.package-markdown :deep(code) { padding: 3px 6px; border-radius: 5px; background: var(--vp-code-bg); color: var(--vp-code-color); font-family: var(--vp-font-family-mono); font-size: 0.875em; }
+.package-markdown :deep(pre) { margin: 20px 0; overflow-x: auto; padding: 18px 20px; border-radius: 10px; background: var(--vp-code-block-bg); line-height: 1.7; white-space: pre !important; }
+.package-markdown :deep(pre code) { display: block; padding: 0; background: transparent; color: var(--vp-code-block-color); font-size: 14px; white-space: pre !important; word-break: normal; }
+.package-markdown :deep(table) { display: block; width: 100%; margin: 20px 0; overflow-x: auto; border-collapse: collapse; font-size: 14px; }
+.package-markdown :deep(th), .package-markdown :deep(td) { min-width: 110px; padding: 10px 14px; border: 1px solid var(--vp-c-divider); text-align: left; vertical-align: top; }
+.package-markdown :deep(th) { background: var(--vp-c-bg-soft); font-weight: 700; }
+.package-markdown :deep(tr:nth-child(2n) td) { background: color-mix(in srgb, var(--vp-c-bg-soft) 65%, transparent); }
+.package-markdown :deep(hr) { margin: 32px 0; border: 0; border-top: 1px solid var(--vp-c-divider); }
+.package-markdown :deep(img) { max-width: 100%; border-radius: 10px; box-shadow: 0 6px 22px rgba(12, 24, 40, 0.08); }
 .metadata-panel { position: sticky; top: 90px; padding: 18px; border: 1px solid var(--vp-c-divider); border-radius: 14px; background: var(--vp-c-bg-soft); }
 .metadata-panel h2 { margin: 0 0 12px; border: 0; padding: 0; font-size: 17px; }
 .metadata-panel dl { margin: 0; }
@@ -218,7 +249,9 @@ onMounted(async () => {
 .metadata-panel dd { margin: 3px 0 0; overflow-wrap: anywhere; }
 .metadata-panel dd code { display: block; margin-top: 4px; font-size: 11px; }
 .metadata-links { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
-.metadata-links a { color: var(--vp-c-brand-1); text-decoration: none; }
+.metadata-links a { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 11px; border: 1px solid var(--vp-c-divider); border-radius: 8px; background: var(--vp-c-bg); color: var(--vp-c-brand-1); text-decoration: none; }
+.metadata-links a::after { content: "↗"; color: var(--vp-c-text-3); }
+.metadata-links a:hover { border-color: var(--vp-c-brand-1); background: var(--vp-c-brand-soft); }
 
 @media (max-width: 800px) {
 	.package-page { padding: 10px 16px 48px; }

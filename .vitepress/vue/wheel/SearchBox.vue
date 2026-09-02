@@ -67,7 +67,7 @@
 <script>
 import { useData } from "vitepress";
 import ResultCard from "./ResultCard.vue";
-import { fetchMcfpmPackages, filterPackageCards } from "./mcfpmPackages.mjs";
+import { fetchPackageCards, filterPackageCards } from "./mcfpmPackages.mjs";
 
 export default {
 	components: { ResultCard },
@@ -98,7 +98,7 @@ export default {
 			return this.isEnglish ? "Vanilla Prerequisite Library" : "香草前置馆";
 		},
 		siteSubtitle() {
-			return this.isEnglish ? "Live packages from Mcfpm repositories" : "由 Mcfpm 软件仓库实时提供";
+				return this.isEnglish ? "Repository packages with the legacy catalog as a fallback" : "软件仓库动态索引，原有资料静态兜底";
 		},
 		searchPlaceholder() {
 			return this.isEnglish ? "Search name, author, tag, or coordinate" : "搜索名称、作者、标签或 Maven 坐标";
@@ -128,9 +128,9 @@ export default {
 			this.loading = true;
 			this.error = "";
 			try {
-				this.data = await fetchMcfpmPackages();
+					this.data = await fetchPackageCards();
 			} catch (error) {
-				this.error = this.isEnglish ? "The package index is temporarily unavailable." : "软件包索引暂时不可用，请稍后重试。";
+					this.error = this.isEnglish ? "The package catalogs are temporarily unavailable." : "动态索引和静态资料暂时均不可用，请稍后重试。";
 				console.warn("Mcfpm package index fetch failed", error);
 			} finally {
 				this.loading = false;
