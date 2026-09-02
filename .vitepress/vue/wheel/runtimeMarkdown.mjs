@@ -33,7 +33,9 @@ const EVENT_ATTRIBUTE = /\son[a-z]+\s*=/i;
 const VUE_DIRECTIVE = /\s(?:v-(?!pre\b)|@|#)[\w:[\].-]*(?:\s*=|\s|(?=\/?>))/i;
 const BOUND_ATTRIBUTE = /\s:([A-Za-z_][\w-]*)\s*=\s*(["'])(.*?)\2/gs;
 const SAFE_BOUND_VALUE = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?|"[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*')$/s;
-const DANGEROUS_URL_ATTRIBUTE = /\s(?:href|src)\s*=\s*["']\s*(?:javascript|data|vbscript):/i;
+const DANGEROUS_URL_ATTRIBUTE = /\s(?:href|src|srcset)\s*=\s*(?:["']\s*)?(?:javascript|data|vbscript):/i;
+const QUOTED_URL_ATTRIBUTE = /\s(href|src|srcset)\s*=\s*(["'])(.*?)\2/gis;
+const DANGEROUS_URL_SCHEME = /^(?:javascript|data|vbscript):/i;
 const GITHUB_ALERT_MARKER = /^\[!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i;
 
 function escapeHtml(value) {
@@ -117,6 +119,14 @@ function validateAndSanitizeHtmlTag(rawTag) {
 	if (EVENT_ATTRIBUTE.test(remaining) || VUE_DIRECTIVE.test(remaining) || DANGEROUS_URL_ATTRIBUTE.test(remaining)) {
 		throw new Error("Package documentation contains unsafe HTML or Vue directives");
 	}
+	for (const [, name, , value] of remaining.matchAll(QUOTED_URL_ATTRIBUTE)) {
+		const urls = name.toLowerCase() === "srcset"
+			? value.split(",").map((candidate) => candidate.trim().split(/\s+/, 1)[0])
+			: [value.trim()];
+		if (urls.some((url) => DANGEROUS_URL_SCHEME.test(url))) {
+			throw new Error("Package documentation contains an unsafe URL");
+		}
+	}
 	if (html && VOID_HTML_TAGS.has(lowerName) && !selfClosing) {
 		return rawTag.replace(/>$/, " />");
 	}
@@ -128,8 +138,33 @@ function validateAndSanitizeHtmlTag(rawTag) {
 	return rawTag;
 }
 
-function sanitizeHtmlFragment(fragment) {
-	return transformHtmlTags(fragment, validateAndSanitizeHtmlTag);
+function rewriteHtmlUrlAttributes(rawTag, documentPath, baseUrl) {
+	const tag = rawTag.match(/^<\s*([A-Za-z][A-Za-z0-9-]*)\b/);
+	if (!tag || !SAFE_HTML_TAGS.has(tag[1].toLowerCase())) return rawTag;
+	const lowerName = tag[1].toLowerCase();
+	return rawTag.replace(QUOTED_URL_ATTRIBUTE, (attribute, name, quote, value) => {
+		const lowerAttribute = name.toLowerCase();
+		if (lowerAttribute === "href" && lowerName !== "a") return attribute;
+		if ((lowerAttribute === "src" || lowerAttribute === "srcset") && !["img", "source"].includes(lowerName)) {
+			return attribute;
+		}
+		const rewritten = lowerAttribute === "srcset"
+			? value.split(",").map((candidate) => {
+				const parts = candidate.trim().split(/\s+/);
+				const url = parts.shift();
+				return [rewriteUrl(url, documentPath, baseUrl, true), ...parts].join(" ");
+			}).join(", ")
+			: rewriteUrl(value, documentPath, baseUrl, lowerAttribute === "src");
+		return ` ${name}=${quote}${escapeAttribute(rewritten)}${quote}`;
+	});
+}
+
+function sanitizeHtmlFragment(fragment, documentPath = "", baseUrl = "/") {
+	return transformHtmlTags(fragment, (rawTag) => rewriteHtmlUrlAttributes(
+		validateAndSanitizeHtmlTag(rawTag),
+		documentPath,
+		baseUrl,
+	));
 }
 
 function walkHtmlTokens(tokens, visitor) {
@@ -139,14 +174,14 @@ function walkHtmlTokens(tokens, visitor) {
 	}
 }
 
-function useTrustedHtml(markdown) {
+function useTrustedHtml(markdown, documentPath, baseUrl) {
 	for (const ruleName of ["html_inline", "html_block"]) {
 		const defaultRenderer = markdown.renderer.rules[ruleName];
 		markdown.renderer.rules[ruleName] = (tokens, index, options, env, self) => {
 			const rendered = defaultRenderer
 				? defaultRenderer(tokens, index, options, env, self)
 				: tokens[index].content;
-			return sanitizeHtmlFragment(rendered);
+			return sanitizeHtmlFragment(rendered, documentPath, baseUrl);
 		};
 	}
 }
@@ -336,7 +371,7 @@ export function renderRuntimeMarkdown(source, { highlighter = null, english = fa
 	markdown.use(footnote);
 	useKatex(markdown);
 	useGitHubAlerts(markdown);
-	useTrustedHtml(markdown);
+	useTrustedHtml(markdown, documentPath, baseUrl);
 
 	const defaultHeading = markdown.renderer.rules.heading_open;
 	markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {
