@@ -17,4 +17,9 @@ test("wheel runtime uses the generated static fallback without restoring the old
 	const fallback = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "..", "public", "wheel-static-index.json"), "utf8"));
 	assert.equal(fallback.schema, 1);
 	assert.equal(fallback.items.length, 55);
+	const repositoryEntries = fallback.items.filter((item) => item.githubRepository);
+	assert.equal(repositoryEntries.length, 53);
+	for (const item of repositoryEntries) {
+		assert.equal(item.projectUrl, `https://github.com/${item.githubRepository}`);
+	}
 });

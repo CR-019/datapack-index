@@ -44,32 +44,31 @@
 				</div>
 			</section>
 
-			<section class="install-panel" aria-labelledby="install-title">
-				<div class="install-heading">
-					<div>
-						<span class="eyebrow">安装</span>
-						<h2 id="install-title">在项目目录中使用 Mcfpm</h2>
-					</div>
-					<label>
-						<span>版本</span>
-						<select :value="selectedVersion.version" @change="selectVersion($event.target.value)">
-							<option v-for="version in packageData.versions" :key="version.version" :value="version.version">{{ version.version }}</option>
-						</select>
-					</label>
-				</div>
-				<div class="command-tabs" role="tablist" aria-label="包管理器">
-					<span class="command-tab command-tab--active">mcfpm</span>
-				</div>
-				<div class="command-row">
-					<code>{{ installCommand }}</code>
-					<button type="button" :aria-label="copyLabel" @click="copyInstallCommand">
-						{{ copied ? "已复制" : "复制" }}
-					</button>
-				</div>
-			</section>
-
 			<div class="detail-grid">
 				<main class="readme-panel">
+					<section class="install-panel" aria-labelledby="install-title">
+						<div class="install-heading">
+							<div>
+								<span class="eyebrow">安装</span>
+								<h2 id="install-title">在项目目录中使用 Mcfpm</h2>
+							</div>
+							<label>
+								<span>版本</span>
+								<select :value="selectedVersion.version" @change="selectVersion($event.target.value)">
+									<option v-for="version in packageData.versions" :key="version.version" :value="version.version">{{ version.version }}</option>
+								</select>
+							</label>
+						</div>
+						<div class="command-tabs" role="tablist" aria-label="包管理器">
+							<span class="command-tab command-tab--active">mcfpm</span>
+						</div>
+						<div class="command-row">
+							<code>{{ installCommand }}</code>
+							<button type="button" :aria-label="copyLabel" @click="copyInstallCommand">
+								{{ copied ? "已复制" : "复制" }}
+							</button>
+						</div>
+					</section>
 					<div v-if="detailsHtml" class="vp-doc package-markdown" v-html="detailsHtml"></div>
 					<div v-else class="metadata-fallback">
 						<h2>关于这个软件包</h2>
@@ -78,21 +77,24 @@
 					</div>
 				</main>
 
-				<aside class="metadata-panel">
-					<h2>软件包信息</h2>
-					<dl>
-						<div><dt>来源</dt><dd>{{ sourceLabel }}</dd></div>
-						<div><dt>许可证</dt><dd>{{ selectedVersion.license }}</dd></div>
-						<div><dt>制品类型</dt><dd>{{ selectedVersion.types?.join("、") || "未知" }}</dd></div>
-						<div v-if="selectedVersion.minecraftRequirements?.length"><dt>Minecraft</dt><dd>{{ selectedVersion.minecraftRequirements.join("；") }}</dd></div>
-						<div v-if="selectedVersion.dependencies?.length"><dt>Mcfpm 依赖</dt><dd><code v-for="dependency in selectedVersion.dependencies" :key="dependency">{{ dependency }}</code></dd></div>
-					</dl>
-					<div class="metadata-links">
-						<a v-if="site?.projectUrl" :href="site.projectUrl" target="_blank" rel="noopener noreferrer">项目主页</a>
-						<a v-if="repositoryPageUrl" :href="repositoryPageUrl" target="_blank" rel="noopener noreferrer">{{ repositoryPageLabel }}</a>
-						<a :href="selectedVersion.descriptorUrl" target="_blank" rel="noopener noreferrer">查看 .mcfpkg 描述符</a>
-					</div>
-				</aside>
+				<div class="package-sidebar" role="complementary" aria-label="软件包补充信息">
+					<section class="metadata-panel">
+						<h2>软件包信息</h2>
+						<dl>
+							<div><dt>来源</dt><dd>{{ sourceLabel }}</dd></div>
+							<div><dt>许可证</dt><dd>{{ selectedVersion.license }}</dd></div>
+							<div><dt>制品类型</dt><dd>{{ selectedVersion.types?.join("、") || "未知" }}</dd></div>
+							<div v-if="selectedVersion.minecraftRequirements?.length"><dt>Minecraft</dt><dd>{{ selectedVersion.minecraftRequirements.join("；") }}</dd></div>
+							<div v-if="selectedVersion.dependencies?.length"><dt>Mcfpm 依赖</dt><dd><code v-for="dependency in selectedVersion.dependencies" :key="dependency">{{ dependency }}</code></dd></div>
+						</dl>
+						<div class="metadata-links">
+							<a v-if="site?.projectUrl" :href="site.projectUrl" target="_blank" rel="noopener noreferrer">项目主页</a>
+							<a v-if="repositoryPageUrl" :href="repositoryPageUrl" target="_blank" rel="noopener noreferrer">{{ repositoryPageLabel }}</a>
+							<a :href="selectedVersion.descriptorUrl" target="_blank" rel="noopener noreferrer">查看 .mcfpkg 描述符</a>
+						</div>
+					</section>
+					<RepoCard v-if="githubRepository" :repo="githubRepository" />
+				</div>
 			</div>
 		</article>
 	</div>
@@ -102,7 +104,8 @@
 import MarkdownIt from "markdown-it";
 import { computed, onMounted, ref } from "vue";
 
-import { fetchMcfpmPackage, packageRepositoryPageUrl } from "./mcfpmPackages.mjs";
+import RepoCard from "./RepoCard.vue";
+import { fetchMcfpmPackage, githubRepositoryFromUrl, packageRepositoryPageUrl } from "./mcfpmPackages.mjs";
 
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: false });
 const defaultLinkOpen = markdown.renderer.rules.link_open || ((tokens, index, options, env, self) => self.renderToken(tokens, index, options));
@@ -146,6 +149,17 @@ const repositoryPageUrl = computed(() => packageData.value && selectedVersion.va
 	? packageRepositoryPageUrl(packageData.value.coordinate, selectedVersion.value)
 	: null);
 const repositoryPageLabel = computed(() => selectedVersion.value?.source === "nexus" ? "在 Nexus 中查看" : "在 Maven Central 中查看");
+const githubRepository = computed(() => {
+	const candidates = [
+		site.value?.projectUrl,
+		...(Array.isArray(selectedVersion.value?.upstreamUrls) ? selectedVersion.value.upstreamUrls : []),
+	];
+	for (const candidate of candidates) {
+		const repository = githubRepositoryFromUrl(candidate);
+		if (repository) return repository;
+	}
+	return null;
+});
 
 function selectVersion(version) {
 	if (!packageData.value.versions.some((entry) => entry.version === version)) return;
@@ -217,8 +231,9 @@ onMounted(async () => {
 .command-row code { overflow-x: auto; padding: 0; background: transparent; color: inherit; white-space: nowrap; }
 .command-row button { flex: 0 0 auto; padding: 7px 12px; border: 1px solid #475569; border-radius: 8px; background: #1e293b; color: #f8fafc; cursor: pointer; }
 
-.detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 36px; align-items: start; }
+.detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; align-items: start; }
 .readme-panel { min-width: 0; }
+.package-sidebar { position: sticky; top: 90px; display: flex; min-width: 0; margin-top: 28px; flex-direction: column; gap: 18px; }
 .package-markdown { color: var(--vp-c-text-1); font-size: 16px; line-height: 1.75; }
 .package-markdown :deep(h1), .package-markdown :deep(h2), .package-markdown :deep(h3), .package-markdown :deep(h4) { position: relative; scroll-margin-top: 90px; color: var(--vp-c-text-1); font-weight: 700; line-height: 1.3; }
 .package-markdown :deep(h1) { margin: 0 0 24px; font-size: 32px; }
@@ -241,7 +256,7 @@ onMounted(async () => {
 .package-markdown :deep(tr:nth-child(2n) td) { background: color-mix(in srgb, var(--vp-c-bg-soft) 65%, transparent); }
 .package-markdown :deep(hr) { margin: 32px 0; border: 0; border-top: 1px solid var(--vp-c-divider); }
 .package-markdown :deep(img) { max-width: 100%; border-radius: 10px; box-shadow: 0 6px 22px rgba(12, 24, 40, 0.08); }
-.metadata-panel { position: sticky; top: 90px; padding: 18px; border: 1px solid var(--vp-c-divider); border-radius: 14px; background: var(--vp-c-bg-soft); }
+.metadata-panel { padding: 18px; border: 1px solid var(--vp-c-divider); border-radius: 14px; background: var(--vp-c-bg-soft); }
 .metadata-panel h2 { margin: 0 0 12px; border: 0; padding: 0; font-size: 17px; }
 .metadata-panel dl { margin: 0; }
 .metadata-panel dl > div { padding: 10px 0; border-bottom: 1px solid var(--vp-c-divider); }
@@ -258,7 +273,7 @@ onMounted(async () => {
 	.package-hero { gap: 16px; }
 	.cover { width: 78px; height: 78px; }
 	.detail-grid { grid-template-columns: 1fr; }
-	.metadata-panel { position: static; }
+	.package-sidebar { position: static; margin-top: 0; }
 }
 
 @media (max-width: 560px) {

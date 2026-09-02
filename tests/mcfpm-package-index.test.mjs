@@ -6,6 +6,7 @@ import {
 	fetchMcfpmPackage,
 	fetchMcfpmPackages,
 	filterPackageCards,
+	githubRepositoryFromUrl,
 	mapMcfpmPackage,
 	mapStaticPackage,
 	mergePackageCards,
@@ -103,6 +104,7 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 		cover: null,
 		gameversion: ["1.20"],
 		author: [{ name: "Legacy" }],
+		githubRepository: "Legacy/example",
 		static: true,
 	});
 	const fallback = mapStaticPackage({ ...duplicate, id: "static:other", name: "Other", path: "/wheel/resources/other.html" });
@@ -110,6 +112,8 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 	assert.equal(merged.length, 2);
 	assert.equal(merged.filter((item) => item.legacyPath === "/wheel/resources/demo.html").length, 1);
 	assert.deepEqual(fallback.tags, []);
+	assert.equal(fallback.githubRepository, "Legacy/example");
+	assert.equal(fallback.projectUrl, "https://github.com/Legacy/example");
 });
 
 
@@ -154,10 +158,27 @@ test("builds repository browser links for Nexus and Maven Central", () => {
 			source: "nexus",
 			repositoryUrl: "https://nexus.example/repository/maven-releases/",
 		}),
-		"https://nexus.example/#browse/browse:maven-releases:org/example/demo/1.2.3",
+		"https://nexus.example/#browse/browse:maven-releases:org%2Fexample%2Fdemo%2F1.2.3",
 	);
 	assert.equal(
 		packageRepositoryPageUrl("org.example:demo", { version: "1.2.3", source: "central" }),
 		"https://central.sonatype.com/artifact/org.example/demo/1.2.3",
 	);
+});
+
+
+test("extracts GitHub repositories from project and archive URLs", () => {
+	assert.equal(githubRepositoryFromUrl("https://github.com/Bybycyann/BetterCustomTools"), "Bybycyann/BetterCustomTools");
+	assert.equal(githubRepositoryFromUrl("https://github.com/example/demo/archive/refs/tags/v1.0.0.zip"), "example/demo");
+	assert.equal(githubRepositoryFromUrl("https://codeload.github.com/example/demo/zip/abc123"), "example/demo");
+	assert.equal(githubRepositoryFromUrl("https://raw.githubusercontent.com/example/demo/main/pack.mcmeta"), "example/demo");
+});
+
+
+test("rejects unsafe or malformed GitHub repository URLs", () => {
+	assert.equal(githubRepositoryFromUrl("http://github.com/example/demo"), null);
+	assert.equal(githubRepositoryFromUrl("https://github.com.evil.example/example/demo"), null);
+	assert.equal(githubRepositoryFromUrl("https://github.com/example"), null);
+	assert.equal(githubRepositoryFromUrl("https://github.com/example/%2Fdemo"), null);
+	assert.equal(githubRepositoryFromUrl("https://github.com/example/.."), null);
 });

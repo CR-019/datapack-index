@@ -35,6 +35,14 @@ function authors(value) {
 	});
 }
 
+function githubRepository(value) {
+	if (typeof value !== "string" || value.length > 200) return null;
+	const repository = value.trim();
+	const parts = repository.split("/");
+	const validPart = /^[A-Za-z0-9_.-]+$/;
+	return parts.length === 2 && parts.every((part) => validPart.test(part) && part !== "." && part !== "..") ? repository : null;
+}
+
 function staticCard(relativePath) {
 	const parsed = matter(fs.readFileSync(path.join(root, relativePath), "utf8"));
 	const data = parsed.data || {};
@@ -45,18 +53,21 @@ function staticCard(relativePath) {
 	const cardAuthors = authors(data.author);
 	const semanticTags = strings(data.tags);
 	const gameVersions = strings(data.gameversion);
+	const repository = githubRepository(data.repo);
 	const legacyPath = `/${relativePath.replace(/\.md$/i, ".html")}`;
 	return {
 		id: `static:${relativePath}`,
 		name,
 		description,
-		tokens: [name, description, ...cardAuthors.map((author) => author.name), ...semanticTags, ...gameVersions, data.repo || ""].join(" "),
+		tokens: [name, description, ...cardAuthors.map((author) => author.name), ...semanticTags, ...gameVersions, repository || ""].join(" "),
 		tags: [],
 		path: legacyPath,
 		legacyPath,
 		cover: typeof data.cover === "string" && data.cover ? data.cover : null,
 		gameversion: gameVersions,
 		author: cardAuthors,
+		githubRepository: repository,
+		projectUrl: repository ? `https://github.com/${repository}` : null,
 		packageVersion: typeof data.version === "string" || typeof data.version === "number" ? String(data.version) : null,
 		static: true,
 	};

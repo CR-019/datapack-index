@@ -103,9 +103,39 @@ export function packageRepositoryPageUrl(coordinate, version) {
 	if (repository.protocol !== "https:") return null;
 	const match = repository.pathname.match(/\/repository\/([^/]+)\/?$/);
 	if (!match) return repository.toString();
-	const groupPath = group.split(".").map(encodeURIComponent).join("/");
-	const artifactPath = `${groupPath}/${encodeURIComponent(name)}/${encodeURIComponent(version.version)}`;
-	return `${repository.origin}/#browse/browse:${encodeURIComponent(match[1])}:${artifactPath}`;
+	const artifactPath = `${group.replaceAll(".", "/")}/${name}/${version.version}`;
+	return `${repository.origin}/#browse/browse:${encodeURIComponent(match[1])}:${encodeURIComponent(artifactPath)}`;
+}
+
+export function githubRepositoryFromUrl(value) {
+	if (typeof value !== "string" || !value) return null;
+	let url;
+	try {
+		url = new URL(value);
+	} catch {
+		return null;
+	}
+	if (url.protocol !== "https:") return null;
+	const hostname = url.hostname.toLowerCase();
+	if (!["github.com", "www.github.com", "codeload.github.com", "raw.githubusercontent.com"].includes(hostname)) return null;
+	const parts = url.pathname.split("/").filter(Boolean);
+	if (parts.length < 2) return null;
+	let owner;
+	let repository;
+	try {
+		owner = decodeURIComponent(parts[0]);
+		repository = decodeURIComponent(parts[1]).replace(/\.git$/i, "");
+	} catch {
+		return null;
+	}
+	return githubRepositoryName(`${owner}/${repository}`);
+}
+
+function githubRepositoryName(value) {
+	if (typeof value !== "string" || value.length > 200) return null;
+	const parts = value.split("/");
+	const validPart = /^[A-Za-z0-9_.-]+$/;
+	return parts.length === 2 && parts.every((part) => validPart.test(part) && part !== "." && part !== "..") ? value : null;
 }
 
 export function mapStaticPackage(item) {
@@ -119,6 +149,7 @@ export function mapStaticPackage(item) {
 		? item.author.filter((entry) => entry && typeof entry.name === "string" && entry.name).slice(0, 20)
 		: [];
 	const gameVersions = stringArray(item.gameversion || [], "static gameversion");
+	const githubRepository = githubRepositoryName(item.githubRepository);
 	return {
 		id: requireString(item.id, "static id"),
 		name,
@@ -130,6 +161,8 @@ export function mapStaticPackage(item) {
 		cover: typeof item.cover === "string" ? item.cover : null,
 		gameversion: gameVersions,
 		author,
+		githubRepository,
+		projectUrl: githubRepository ? `https://github.com/${githubRepository}` : null,
 		static: true,
 		legacyPath: path,
 	};
