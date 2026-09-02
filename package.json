@@ -6,7 +6,7 @@
     "@types/node": "^22.20.1",
     "@vue/compiler-dom": "3.5.29",
     "katex": "^0.16.47",
-    "markdown-it": "^14.1.0",
+    "markdown-it": "^14.3.1",
     "markdown-it-footnote": "3.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
