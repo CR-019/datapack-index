@@ -120,6 +120,11 @@ function validateAndSanitizeHtmlTag(rawTag) {
 	if (html && VOID_HTML_TAGS.has(lowerName) && !selfClosing) {
 		return rawTag.replace(/>$/, " />");
 	}
+	if (tagName === "node") {
+		return rawTag.replace(/\s(required|store|colon)=(true|false)(?=\s|\/?>)/gi, (_attribute, name, value) => (
+			value.toLowerCase() === "true" ? ` ${name}` : ` :${name}="false"`
+		));
+	}
 	return rawTag;
 }
 
@@ -156,7 +161,7 @@ function slugify(value) {
 		.replace(/^-+|-+$/g, "") || "section";
 }
 
-function transformContainers(source, english) {
+function transformContainers(source, english, renderTitle = escapeHtml) {
 	const labels = english
 		? { info: "Info", tip: "Tip", warning: "Warning", danger: "Danger", details: "Details" }
 		: { info: "信息", tip: "提示", warning: "警告", danger: "危险", details: "详细信息" };
@@ -177,7 +182,7 @@ function transformContainers(source, english) {
 			const open = line.match(/^(:{3,})\s*(info|tip|warning|danger|details)\b\s*(.*?)\s*$/);
 			if (open) {
 				const type = open[2];
-				const title = escapeHtml(open[3] || labels[type]);
+				const title = renderTitle(open[3] || labels[type]);
 				if (type === "details") {
 					output.push(`<details class="details custom-block"><summary>${title}</summary>`, "");
 					stack.push("details");
@@ -242,6 +247,21 @@ function rewriteUrl(raw, documentPath, baseUrl) {
 	if (raw.startsWith("/")) return `${base}${raw.replace(/^\/+/, "")}`;
 	const folder = String(documentPath || "").replaceAll("\\", "/").replace(/[^/]*$/, "");
 	return new URL(raw, `https://runtime.invalid${base}${folder.replace(/^\/+/, "")}`).pathname;
+}
+
+function renderContainerTitle(value, documentPath, baseUrl) {
+	const markdown = new MarkdownIt({ html: false, linkify: true, typographer: false });
+	const defaultLinkOpen = markdown.renderer.rules.link_open || ((tokens, index, options, env, self) => self.renderToken(tokens, index, options));
+	markdown.renderer.rules.link_open = (tokens, index, options, env, self) => {
+		const href = rewriteUrl(tokens[index].attrGet("href"), documentPath, baseUrl);
+		tokens[index].attrSet("href", href);
+		if (/^https:\/\//i.test(href)) {
+			tokens[index].attrSet("target", "_blank");
+			tokens[index].attrSet("rel", "noopener noreferrer");
+		}
+		return defaultLinkOpen(tokens, index, options, env, self);
+	};
+	return markdown.renderInline(String(value || ""));
 }
 
 function codeBlock(code, language, highlighter, english) {
@@ -312,7 +332,11 @@ export function renderRuntimeMarkdown(source, { highlighter = null, english = fa
 		return defaultLinkOpen(tokens, index, options, env, self);
 	};
 
-	return markdown.render(transformContainers(trusted, english))
+	return markdown.render(transformContainers(
+		trusted,
+		english,
+		(title) => renderContainerTitle(title, documentPath, baseUrl),
+	))
 		.replaceAll("{{", "&#123;&#123;")
 		.replaceAll("}}", "&#125;&#125;");
 }

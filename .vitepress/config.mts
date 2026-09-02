@@ -159,7 +159,7 @@ export default defineConfig({
             themeConfig: {
                 nav: [
                     { text: "Documentation", link: "/en/index/绪论" },
-                    { text: "Prerequisite Library", link: "/en/wheel/" },
+                    { text: "Wheel", link: "/en/wheel/" },
                     { text: "Feature", link: "/en/feature/_index" },
                     { text: "Preview", link: "/en/preview/" },
                     { text: "Wiki", link: "https://minecraft.wiki/" },
@@ -228,9 +228,8 @@ export default defineConfig({
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",
         outline: [2, 6],
-        // VitePress 1.x only supports a boolean here. Disable corresponding-page
-        // routing so untranslated pages switch to the locale home instead of a 404.
-        i18nRouting: false,
+        // Keep users on the corresponding document when switching languages.
+        i18nRouting: true,
         nav: [
             { text: "文档", link: "/index/绪论" },
             { text: "前置馆", link: "/wheel/" },

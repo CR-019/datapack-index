@@ -1,6 +1,7 @@
 export const PACKAGE_API_BASE = "https://package.afox.moe/v1/packages";
 export const PACKAGE_PAGE_PATH = "/wheel/package";
 export const STATIC_INDEX_URL = "/datapack-index/wheel-static-index.json";
+export const STATIC_CONTENT_URL = "/datapack-index/wheel-static-content.json";
 const STATIC_INDEX_CACHE_KEY = "mcfpm-wheel-static-index-v1";
 
 function requireString(value, field, maximum = 512) {
@@ -234,6 +235,30 @@ export async function fetchStaticPackages(
 		if (cached) return mapStaticPayload(cached);
 		throw error;
 	}
+}
+
+export async function fetchStaticPackageContent(
+	legacyPath,
+	fetchImpl = fetch,
+	contentUrl = STATIC_CONTENT_URL,
+) {
+	if (
+		typeof legacyPath !== "string"
+		|| !legacyPath.startsWith("/wheel/resources/")
+		|| !legacyPath.endsWith(".html")
+		|| legacyPath.includes("..")
+	) throw new Error("Static wheel content path is invalid");
+	const response = await fetchImpl(contentUrl, { headers: { Accept: "application/json" } });
+	if (!response?.ok) throw new Error(`Static wheel content returned HTTP ${response?.status ?? "unknown"}`);
+	const payload = await response.json();
+	if (!payload || payload.schema !== 1 || !Array.isArray(payload.items) || payload.items.length > 1000) {
+		throw new Error("Static wheel content returned invalid data");
+	}
+	const entry = payload.items.find((item) => item?.legacyPath === legacyPath);
+	if (!entry || typeof entry.markdown !== "string" || entry.markdown.length > 1_000_000) {
+		throw new Error("Static wheel content was not found");
+	}
+	return entry.markdown;
 }
 
 export function mergePackageCards(dynamicPackages, staticPackages) {

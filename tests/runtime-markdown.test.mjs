@@ -70,3 +70,18 @@ test("escapes prose placeholders while preserving trusted raw HTML", () => {
 	const html = renderRuntimeMarkdown("Use <INPUT1> and <value> here.<br><InfoCard />");
 	assert.match(html, /Use &lt;INPUT1&gt; and &lt;value&gt; here\.<br \/><InfoCard \/>/);
 });
+
+test("preserves the NBT tree wrapper and node controls", () => {
+	const html = renderRuntimeMarkdown(`::: details View [mcdoc](/feature/mcdoc)
+<div class="nbttree">
+
+<node type="compound" name="root" /> Root value
+- <node type="string" name="name" required=true /> Required name
+</div>
+:::`, { baseUrl: "/datapack-index/" });
+	assert.match(html, /<details class="details custom-block"><summary>View <a href="\/datapack-index\/feature\/mcdoc">mcdoc<\/a><\/summary>/);
+	assert.match(html, /<div class="nbttree">/);
+	assert.match(html, /<node type="compound" name="root" \/>/);
+	assert.match(html, /<node type="string" name="name" required \/>/);
+	assert.match(html, /<ul>/);
+});

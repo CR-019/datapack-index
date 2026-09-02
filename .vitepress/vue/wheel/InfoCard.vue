@@ -176,7 +176,7 @@ onMounted(() => {
         const originalTitle = document.title || '';
 
         const updateTitle = (name) => {
-            if (name) document.title = `${name} | ${isEnglish.value ? 'Vanilla Prerequisite Library' : '香草前置馆'}`;
+            if (name) document.title = `${name} | ${isEnglish.value ? 'Vanilla Wheel' : '香草前置馆'}`;
         };
 
         // initial set

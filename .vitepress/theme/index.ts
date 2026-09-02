@@ -23,6 +23,7 @@ import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
 import PackagePage from '../vue/wheel/PackagePage.vue'
 import AnnouncementBar from '../vue/AnnouncementBar.vue'
+import LocaleLinkSync from '../vue/LocaleLinkSync.vue'
 import RepoCard from '../vue/wheel/RepoCard.vue'
 import BugList from '../vue/BugList.vue'
 
@@ -43,14 +44,14 @@ export default {
         if (frontmatter.value && frontmatter.value.wheel) {
           return h('div', { class: 'wheel-layout' }, [
             h(DefaultTheme.Layout, null, {
-              'layout-top': () => h(AnnouncementBar),
+              'layout-top': () => [h(LocaleLinkSync), h(AnnouncementBar)],
               'aside-outline-before': () => h(SideCard)
             })
           ])
         }
         //否则返回默认的
         return h(DefaultTheme.Layout, null, {
-          'layout-top': () => h(AnnouncementBar)
+          'layout-top': () => [h(LocaleLinkSync), h(AnnouncementBar)]
         })
       }
     }

@@ -22,4 +22,16 @@ test("wheel runtime uses the generated static fallback without restoring the old
 	for (const item of repositoryEntries) {
 		assert.equal(item.projectUrl, `https://github.com/${item.githubRepository}`);
 	}
+	const content = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "..", "public", "wheel-static-content.json"), "utf8"));
+	assert.equal(content.schema, 1);
+	assert.equal(content.items.length, fallback.items.length);
+	const nbtTree = content.items.find((item) => item.legacyPath === "/wheel/resources/ChestMinecartGUI.html");
+	assert.match(nbtTree.markdown, /<div class="nbttree">/);
+	assert.match(nbtTree.markdown, /<node type="compound"/);
+	assert.doesNotMatch(nbtTree.markdown, /<InfoCard/);
+});
+
+test("runtime code blocks do not add margins inside their language wrapper", () => {
+	const packagePage = fs.readFileSync(path.join(import.meta.dirname, "..", ".vitepress", "vue", "wheel", "PackagePage.vue"), "utf8");
+	assert.match(packagePage, /div\[class\*="language-"\] > pre\) \{ margin: 0; \}/);
 });

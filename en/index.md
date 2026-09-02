@@ -14,17 +14,17 @@ hero:
       link: /en/index/绪论
     - theme: brand
       text: Wheel Search
-      link: /wheel/
+      link: /en/wheel/
     - theme: alt
       text: Format Preview
-      link: /preview/
+      link: /en/preview/
 features:
   - icon:
       src: /icons/vt.png
     title: Quick start
     details: A brief introduction to the concept of vanilla development and how to get started quickly
     linkText: First time coming into contact with vanilla mod? Click here
-    link: /index/quick_start/mod
+    link: /en/index/quick_start/mod
   - icon:
       src: /icons/echo_prism.png
     title: "Feature"
@@ -40,7 +40,7 @@ features:
       src: /icons/ocean_clock.png
     title: Newsstand
     details: Browse past issues of "Feature"
-    link: /feature/_index
+    link: /en/feature/_index
   - icon:
       src: /icons/green_apple.png
     title: data pack practice
@@ -50,7 +50,7 @@ features:
       src: /icons/sweetbarry_stew.png
     title: Quick review of update changes
     details: See what breaks after updating your data pack
-    link: /index/changelog_breaking
+    link: /en/index/changelog_breaking
 ---
 
 ::: tip Translation notice

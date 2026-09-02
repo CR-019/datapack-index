@@ -43,7 +43,7 @@ cover: /datapack-index/wheel/ChestMinecartGUI.jpg
       - <node type="string" name="action" required=true /> 行为。可以为run_command( 执行任意命令 )/show_ui( 显示GUI )。
       - <node type="string" name="value" required=true /> 值。如果为run_command此处应为一条指令。如果为show_ui应该填写配置名称。
    - <node type="string" name="2" required=true /> 槽位编号
-     - <node type="" name="2" required=true /> 格式与"1"相同。
+     - <node type="any" name="2" required=true /> 格式与"1"相同。
 </div>
 :::
 

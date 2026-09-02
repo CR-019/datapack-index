@@ -8,6 +8,7 @@ import matter from "gray-matter";
 
 const root = process.cwd();
 const outputPath = path.join(root, "public", "wheel-static-index.json");
+const contentOutputPath = path.join(root, "public", "wheel-static-content.json");
 
 function strings(value) {
 	if (Array.isArray(value)) return value.filter((entry) => typeof entry === "string" && entry.trim()).map((entry) => entry.trim());
@@ -43,7 +44,7 @@ function githubRepository(value) {
 	return parts.length === 2 && parts.every((part) => validPart.test(part) && part !== "." && part !== "..") ? repository : null;
 }
 
-function staticCard(relativePath) {
+function staticPage(relativePath) {
 	const parsed = matter(fs.readFileSync(path.join(root, relativePath), "utf8"));
 	const data = parsed.data || {};
 	const name = typeof data.name === "string" && data.name.trim()
@@ -60,7 +61,7 @@ function staticCard(relativePath) {
 		throw new Error(`Static wheel page is missing its English route: en/${relativePath}`);
 	}
 	const englishPath = `/en/${relativePath.replace(/\.md$/i, ".html")}`;
-	return {
+	const card = {
 		id: `static:${relativePath}`,
 		name,
 		description,
@@ -77,14 +78,33 @@ function staticCard(relativePath) {
 		packageVersion: typeof data.version === "string" || typeof data.version === "number" ? String(data.version) : null,
 		static: true,
 	};
+	const markdown = parsed.content
+		.replace(/^\s*<InfoCard\s*\/>\s*/i, "")
+		.trim();
+	return {
+		card,
+		content: {
+			legacyPath,
+			markdown,
+		},
+	};
 }
 
 const files = await fg("wheel/resources/**/*.md", { cwd: root, onlyFiles: true });
-const items = files.map((file) => staticCard(file.replaceAll("\\", "/")))
+const pages = files.map((file) => staticPage(file.replaceAll("\\", "/")));
+const items = pages.map((page) => page.card)
 	.sort((left, right) => left.name.localeCompare(right.name, "zh-CN"));
-const output = `${JSON.stringify({ schema: 1, items })}\n`;
-fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-const temporary = `${outputPath}.${process.pid}.tmp`;
-fs.writeFileSync(temporary, output, { encoding: "utf8", mode: 0o644 });
-fs.renameSync(temporary, outputPath);
-process.stdout.write(`Wrote ${items.length} static wheel definitions to ${path.relative(root, outputPath)}.\n`);
+const content = pages.map((page) => page.content)
+	.sort((left, right) => left.legacyPath.localeCompare(right.legacyPath));
+
+function writeJson(target, value) {
+	const output = `${JSON.stringify(value)}\n`;
+	fs.mkdirSync(path.dirname(target), { recursive: true });
+	const temporary = `${target}.${process.pid}.tmp`;
+	fs.writeFileSync(temporary, output, { encoding: "utf8", mode: 0o644 });
+	fs.renameSync(temporary, target);
+}
+
+writeJson(outputPath, { schema: 1, items });
+writeJson(contentOutputPath, { schema: 1, items: content });
+process.stdout.write(`Wrote ${items.length} static wheel definitions and source documents.\n`);
