@@ -2,7 +2,7 @@
 name: PlayerDataExpansion
 author:
     -
-        name: Qipai
+        name: 七柏
         char: author
 description: Create a player-specific data space in storage
 tags: [player data, data]

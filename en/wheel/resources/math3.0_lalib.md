@@ -2,7 +2,7 @@
 name: math3.0_lalib
 author:
     -
-        name: Xiaodou8593
+        name: 小豆8593
         char: author
 description: Linear algebra math library
 tags: [mathematics, linear algebra, vectors]

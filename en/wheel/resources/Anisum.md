@@ -2,7 +2,7 @@
 name: Anisum
 author:
     -
-        name: Guzhen Tiangugle
+        name: 古镇天Gugle
         char: author
     -
         name: AnvilDev

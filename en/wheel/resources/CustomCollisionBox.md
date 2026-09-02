@@ -2,7 +2,7 @@
 name: sbox
 author:
     -
-        name: BanHaiAwa
+        name: 斑海awa
         char: Author
 description: Create and manage custom collision and interaction boxes
 tags: [collision box, interaction box]

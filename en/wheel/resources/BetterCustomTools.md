@@ -2,7 +2,7 @@
 name: BetterCustomTools
 author:
     -
-        name: Qipai
+        name: 七柏
         char: author
 description: Allows users to more easily configure the interactive effects of items
 tags: [item, custom]

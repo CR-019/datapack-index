@@ -2,7 +2,7 @@
 name: math3.1_dslib
 author:
     -
-        name: Xiaodou8593
+        name: 小豆8593
         char: author
 description: Data structure mathematics library
 tags: [mathematics, data structure]

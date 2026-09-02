@@ -2,7 +2,7 @@
 name: math3.1_gelib
 author:
     -
-        name: Xiaodou8593
+        name: 小豆8593
         char: author
 description: Generate, manipulate, or draw geometric shapes
 tags: [mathematics, geometry, graphics]

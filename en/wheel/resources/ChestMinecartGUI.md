@@ -2,7 +2,7 @@
 name: Chest-Minecart-GUI
 author:
     -
-        name: WindWavesSea
+        name: 洛风澜_Sea
         char: Author
 description: Configure and create chest minecart GUIs through storage
 tags: [GUI]
