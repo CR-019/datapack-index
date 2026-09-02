@@ -7,6 +7,7 @@ import {
 	fetchMcfpmPackages,
 	filterPackageCards,
 	githubRepositoryFromUrl,
+	localizedPackagePath,
 	mapMcfpmPackage,
 	mapStaticPackage,
 	mergePackageCards,
@@ -101,19 +102,24 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 		tokens: "Legacy demo",
 		tags: [],
 		path: "/wheel/resources/demo.html",
+		englishPath: "/en/wheel/resources/demo.html",
 		cover: null,
 		gameversion: ["1.20"],
 		author: [{ name: "Legacy" }],
 		githubRepository: "Legacy/example",
 		static: true,
 	});
-	const fallback = mapStaticPackage({ ...duplicate, id: "static:other", name: "Other", path: "/wheel/resources/other.html" });
+	const fallback = mapStaticPackage({ ...duplicate, id: "static:other", name: "Other", path: "/wheel/resources/other.html", englishPath: null });
 	const merged = mergePackageCards([dynamic], [duplicate, fallback]);
 	assert.equal(merged.length, 2);
 	assert.equal(merged.filter((item) => item.legacyPath === "/wheel/resources/demo.html").length, 1);
 	assert.deepEqual(fallback.tags, []);
 	assert.equal(fallback.githubRepository, "Legacy/example");
 	assert.equal(fallback.projectUrl, "https://github.com/Legacy/example");
+	assert.equal(localizedPackagePath(dynamic, "en-US"), "/en/wheel/package?package=org.example%3Ademo");
+	assert.equal(localizedPackagePath(duplicate, "en-US"), "/en/wheel/resources/demo.html");
+	assert.equal(localizedPackagePath(fallback, "en-US"), "/wheel/resources/other.html");
+	assert.equal(localizedPackagePath(dynamic, "zh-CN"), dynamic.path);
 });
 
 

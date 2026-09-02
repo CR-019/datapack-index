@@ -55,6 +55,8 @@ function staticCard(relativePath) {
 	const gameVersions = strings(data.gameversion);
 	const repository = githubRepository(data.repo);
 	const legacyPath = `/${relativePath.replace(/\.md$/i, ".html")}`;
+	const englishSource = path.join(root, "en", relativePath);
+	const englishPath = fs.existsSync(englishSource) ? `/en/${relativePath.replace(/\.md$/i, ".html")}` : null;
 	return {
 		id: `static:${relativePath}`,
 		name,
@@ -62,6 +64,7 @@ function staticCard(relativePath) {
 		tokens: [name, description, ...cardAuthors.map((author) => author.name), ...semanticTags, ...gameVersions, repository || ""].join(" "),
 		tags: [],
 		path: legacyPath,
+		englishPath,
 		legacyPath,
 		cover: typeof data.cover === "string" && data.cover ? data.cover : null,
 		gameversion: gameVersions,

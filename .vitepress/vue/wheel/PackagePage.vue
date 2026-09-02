@@ -1,20 +1,20 @@
 <template>
 	<div class="package-page">
-		<nav class="package-nav" aria-label="前置馆导航">
-			<a href="/datapack-index/wheel">返回搜索</a>
+		<nav class="package-nav" :aria-label="copy.navigation">
+			<a :href="searchUrl">{{ copy.backToSearch }}</a>
 			<span>/</span>
-			<a href="/datapack-index/wheel/all">全部资源</a>
+			<a :href="allUrl">{{ copy.allPackages }}</a>
 		</nav>
 
-		<div v-if="loading" class="page-state">正在获取软件包信息…</div>
+		<div v-if="loading" class="page-state">{{ copy.loading }}</div>
 		<div v-else-if="error" class="page-state page-state--error">
-			<h1>无法显示软件包</h1>
+			<h1>{{ copy.loadErrorTitle }}</h1>
 			<p>{{ error }}</p>
 		</div>
 		<article v-else-if="packageData && selectedVersion" class="package-content">
 			<section class="package-hero">
 				<div class="cover-wrap">
-					<img v-if="site?.coverUrl" :src="site.coverUrl" :alt="`${displayName} 图标`" class="cover" />
+					<img v-if="site?.coverUrl" :src="site.coverUrl" :alt="`${displayName} ${copy.icon}`" class="cover" />
 					<div v-else class="cover cover--placeholder">{{ initials }}</div>
 				</div>
 				<div class="hero-main">
@@ -49,48 +49,52 @@
 					<section class="install-panel" aria-labelledby="install-title">
 						<div class="install-heading">
 							<div>
-								<span class="eyebrow">安装</span>
-								<h2 id="install-title">在项目目录中使用 Mcfpm</h2>
+								<span class="eyebrow">{{ copy.install }}</span>
+								<h2 id="install-title">{{ copy.installTitle }}</h2>
 							</div>
 							<label>
-								<span>版本</span>
+								<span>{{ copy.version }}</span>
 								<select :value="selectedVersion.version" @change="selectVersion($event.target.value)">
 									<option v-for="version in packageData.versions" :key="version.version" :value="version.version">{{ version.version }}</option>
 								</select>
 							</label>
 						</div>
-						<div class="command-tabs" role="tablist" aria-label="包管理器">
+						<div class="command-tabs" role="tablist" :aria-label="copy.packageManager">
 							<span class="command-tab command-tab--active">mcfpm</span>
 						</div>
 						<div class="command-row">
 							<code>{{ installCommand }}</code>
 							<button type="button" :aria-label="copyLabel" @click="copyInstallCommand">
-								{{ copied ? "已复制" : "复制" }}
+								{{ copied ? copy.copied : copy.copy }}
 							</button>
 						</div>
 					</section>
-					<div v-if="detailsHtml" class="vp-doc package-markdown" v-html="detailsHtml"></div>
+					<PackageMarkdown
+						v-if="detailsMarkdown"
+						:source="detailsMarkdown"
+						:document-path="site?.legacyPath || ''"
+					/>
 					<div v-else class="metadata-fallback">
-						<h2>关于这个软件包</h2>
+						<h2>{{ copy.about }}</h2>
 						<p>{{ description }}</p>
-						<p>该软件包来自 {{ sourceLabel }}。发布者尚未提供额外的介绍文档。</p>
+						<p>{{ copy.noDocumentation(sourceLabel) }}</p>
 					</div>
 				</main>
 
-				<div class="package-sidebar" role="complementary" aria-label="软件包补充信息">
+				<div class="package-sidebar" role="complementary" :aria-label="copy.sidebar">
 					<section class="metadata-panel">
-						<h2>软件包信息</h2>
+						<h2>{{ copy.packageInformation }}</h2>
 						<dl>
-							<div><dt>来源</dt><dd>{{ sourceLabel }}</dd></div>
-							<div><dt>许可证</dt><dd>{{ selectedVersion.license }}</dd></div>
-							<div><dt>制品类型</dt><dd>{{ selectedVersion.types?.join("、") || "未知" }}</dd></div>
-							<div v-if="selectedVersion.minecraftRequirements?.length"><dt>Minecraft</dt><dd>{{ selectedVersion.minecraftRequirements.join("；") }}</dd></div>
-							<div v-if="selectedVersion.dependencies?.length"><dt>Mcfpm 依赖</dt><dd><code v-for="dependency in selectedVersion.dependencies" :key="dependency">{{ dependency }}</code></dd></div>
+							<div><dt>{{ copy.source }}</dt><dd>{{ sourceLabel }}</dd></div>
+							<div><dt>{{ copy.license }}</dt><dd>{{ selectedVersion.license }}</dd></div>
+							<div><dt>{{ copy.artifactType }}</dt><dd>{{ selectedVersion.types?.join(listSeparator) || copy.unknown }}</dd></div>
+							<div v-if="selectedVersion.minecraftRequirements?.length"><dt>Minecraft</dt><dd>{{ selectedVersion.minecraftRequirements.join(requirementSeparator) }}</dd></div>
+							<div v-if="selectedVersion.dependencies?.length"><dt>{{ copy.dependencies }}</dt><dd><code v-for="dependency in selectedVersion.dependencies" :key="dependency">{{ dependency }}</code></dd></div>
 						</dl>
 						<div class="metadata-links">
-							<a v-if="site?.projectUrl" :href="site.projectUrl" target="_blank" rel="noopener noreferrer">项目主页</a>
+							<a v-if="site?.projectUrl" :href="site.projectUrl" target="_blank" rel="noopener noreferrer">{{ copy.projectHome }}</a>
 							<a v-if="repositoryPageUrl" :href="repositoryPageUrl" target="_blank" rel="noopener noreferrer">{{ repositoryPageLabel }}</a>
-							<a :href="selectedVersion.descriptorUrl" target="_blank" rel="noopener noreferrer">查看 .mcfpkg 描述符</a>
+							<a :href="selectedVersion.descriptorUrl" target="_blank" rel="noopener noreferrer">{{ copy.descriptor }}</a>
 						</div>
 					</section>
 					<RepoCard v-if="githubRepository" :repo="githubRepository" />
@@ -101,24 +105,80 @@
 </template>
 
 <script setup>
-import MarkdownIt from "markdown-it";
 import { computed, onMounted, ref } from "vue";
+import { useData } from "vitepress";
 
+import PackageMarkdown from "./PackageMarkdown.vue";
 import RepoCard from "./RepoCard.vue";
 import { fetchMcfpmPackage, githubRepositoryFromUrl, packageRepositoryPageUrl } from "./mcfpmPackages.mjs";
 
-const markdown = new MarkdownIt({ html: false, linkify: true, typographer: false });
-const defaultLinkOpen = markdown.renderer.rules.link_open || ((tokens, index, options, env, self) => self.renderToken(tokens, index, options));
-markdown.renderer.rules.link_open = (tokens, index, options, env, self) => {
-	tokens[index].attrSet("target", "_blank");
-	tokens[index].attrSet("rel", "noopener noreferrer");
-	return defaultLinkOpen(tokens, index, options, env, self);
-};
-const defaultImageRender = markdown.renderer.rules.image;
-markdown.renderer.rules.image = (tokens, index, options, env, self) => {
-	tokens[index].attrSet("data-md-img", "");
-	return defaultImageRender(tokens, index, options, env, self);
-};
+const { lang } = useData();
+const isEnglish = computed(() => String(lang.value || "").startsWith("en"));
+const copy = computed(() => isEnglish.value ? {
+	navigation: "Prerequisite library navigation",
+	backToSearch: "Back to search",
+	allPackages: "All packages",
+	loading: "Loading package information…",
+	loadErrorTitle: "Unable to display package",
+	loadError: "Unable to load this package. Please try again later.",
+	icon: "icon",
+	install: "Install",
+	installTitle: "Use Mcfpm in your project directory",
+	version: "Version",
+	packageManager: "Package manager",
+	copied: "Copied",
+	copy: "Copy",
+	copyCommand: "Copy install command",
+	copiedCommand: "Install command copied",
+	about: "About this package",
+	noDocumentation: (source) => `This package comes from ${source}. The publisher has not provided additional documentation.`,
+	sidebar: "Additional package information",
+	packageInformation: "Package information",
+	source: "Source",
+	license: "License",
+	artifactType: "Artifact type",
+	unknown: "Unknown",
+	dependencies: "Mcfpm dependencies",
+	projectHome: "Project homepage",
+	nexusPage: "View on Nexus",
+	centralPage: "View on Maven Central",
+	descriptor: "View .mcfpkg descriptor",
+	fallbackName: "Mcfpm package",
+	fallbackDescription: (coordinate) => `${coordinate} Mcfpm package`,
+	siteTitle: "Vanilla Prerequisite Library",
+} : {
+	navigation: "前置馆导航",
+	backToSearch: "返回搜索",
+	allPackages: "全部资源",
+	loading: "正在获取软件包信息…",
+	loadErrorTitle: "无法显示软件包",
+	loadError: "无法加载这个软件包，请稍后重试。",
+	icon: "图标",
+	install: "安装",
+	installTitle: "在项目目录中使用 Mcfpm",
+	version: "版本",
+	packageManager: "包管理器",
+	copied: "已复制",
+	copy: "复制",
+	copyCommand: "复制安装命令",
+	copiedCommand: "安装命令已复制",
+	about: "关于这个软件包",
+	noDocumentation: (source) => `该软件包来自 ${source}。发布者尚未提供额外的介绍文档。`,
+	sidebar: "软件包补充信息",
+	packageInformation: "软件包信息",
+	source: "来源",
+	license: "许可证",
+	artifactType: "制品类型",
+	unknown: "未知",
+	dependencies: "Mcfpm 依赖",
+	projectHome: "项目主页",
+	nexusPage: "在 Nexus 中查看",
+	centralPage: "在 Maven Central 中查看",
+	descriptor: "查看 .mcfpkg 描述符",
+	fallbackName: "Mcfpm 软件包",
+	fallbackDescription: (coordinate) => `${coordinate} 的 Mcfpm 软件包`,
+	siteTitle: "香草前置馆",
+});
 
 const packageData = ref(null);
 const selectedVersionName = ref("");
@@ -133,8 +193,8 @@ const selectedVersion = computed(() => {
 		|| packageData.value.versions[0];
 });
 const site = computed(() => selectedVersion.value?.site || packageData.value?.display || null);
-const displayName = computed(() => site.value?.name || packageData.value?.name || packageData.value?.coordinate || "Mcfpm 软件包");
-const description = computed(() => site.value?.description || selectedVersion.value?.description || packageData.value?.description || `${packageData.value?.coordinate} 的 Mcfpm 软件包`);
+const displayName = computed(() => site.value?.name || packageData.value?.name || packageData.value?.coordinate || copy.value.fallbackName);
+const description = computed(() => site.value?.description || selectedVersion.value?.description || packageData.value?.description || copy.value.fallbackDescription(packageData.value?.coordinate || ""));
 const authors = computed(() => Array.isArray(site.value?.authors) ? site.value.authors : []);
 const gameVersions = computed(() => Array.isArray(site.value?.gameVersions) && site.value.gameVersions.length
 	? site.value.gameVersions
@@ -142,13 +202,17 @@ const gameVersions = computed(() => Array.isArray(site.value?.gameVersions) && s
 const tags = computed(() => Array.isArray(site.value?.tags) ? site.value.tags : []);
 const initials = computed(() => displayName.value.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").slice(0, 2).toUpperCase());
 const installCommand = computed(() => `mcfpm install ${packageData.value.coordinate}@${selectedVersion.value.version}`);
-const copyLabel = computed(() => copied.value ? "安装命令已复制" : "复制安装命令");
-const detailsHtml = computed(() => site.value?.detailsMarkdown ? markdown.render(site.value.detailsMarkdown) : "");
+const copyLabel = computed(() => copied.value ? copy.value.copiedCommand : copy.value.copyCommand);
+const detailsMarkdown = computed(() => site.value?.detailsMarkdown || "");
 const sourceLabel = computed(() => selectedVersion.value?.source === "nexus" ? "Nexus" : "Maven Central");
+const listSeparator = computed(() => isEnglish.value ? ", " : "、");
+const requirementSeparator = computed(() => isEnglish.value ? "; " : "；");
+const searchUrl = computed(() => isEnglish.value ? "/datapack-index/en/wheel" : "/datapack-index/wheel");
+const allUrl = computed(() => isEnglish.value ? "/datapack-index/en/wheel/all" : "/datapack-index/wheel/all");
 const repositoryPageUrl = computed(() => packageData.value && selectedVersion.value
 	? packageRepositoryPageUrl(packageData.value.coordinate, selectedVersion.value)
 	: null);
-const repositoryPageLabel = computed(() => selectedVersion.value?.source === "nexus" ? "在 Nexus 中查看" : "在 Maven Central 中查看");
+const repositoryPageLabel = computed(() => selectedVersion.value?.source === "nexus" ? copy.value.nexusPage : copy.value.centralPage);
 const githubRepository = computed(() => {
 	const candidates = [
 		site.value?.projectUrl,
@@ -167,7 +231,7 @@ function selectVersion(version) {
 	const url = new URL(window.location.href);
 	url.searchParams.set("version", version);
 	window.history.replaceState(null, "", url);
-	document.title = `${displayName.value} ${version} | 香草前置馆`;
+	document.title = `${displayName.value} ${version} | ${copy.value.siteTitle}`;
 }
 
 async function copyInstallCommand() {
@@ -186,9 +250,9 @@ onMounted(async () => {
 		selectedVersionName.value = packageData.value.versions.some((entry) => entry.version === requestedVersion)
 			? requestedVersion
 			: packageData.value.latestVersion;
-		document.title = `${displayName.value} | 香草前置馆`;
+		document.title = `${displayName.value} | ${copy.value.siteTitle}`;
 	} catch (caught) {
-		error.value = caught instanceof Error ? caught.message : String(caught);
+		error.value = isEnglish.value ? copy.value.loadError : (caught instanceof Error ? caught.message : String(caught));
 	} finally {
 		loading.value = false;
 	}

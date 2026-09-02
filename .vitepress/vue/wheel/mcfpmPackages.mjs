@@ -45,6 +45,15 @@ export function packagePageUrl(coordinate, version = null) {
 	return `${PACKAGE_PAGE_PATH}?${query}`;
 }
 
+export function localizedPackagePath(item, language = "") {
+	if (!item || typeof item !== "object") return null;
+	const path = typeof item.path === "string" ? item.path : null;
+	if (!path) return null;
+	if (!String(language).startsWith("en")) return path;
+	if (item.static === true) return typeof item.englishPath === "string" ? item.englishPath : path;
+	return path.startsWith("/en/") ? path : `/en${path}`;
+}
+
 export function mapMcfpmPackage(item) {
 	if (!item || typeof item !== "object") throw new Error("Mcfpm API package is not an object");
 	const group = requireString(item.group, "group");
@@ -150,6 +159,10 @@ export function mapStaticPackage(item) {
 		: [];
 	const gameVersions = stringArray(item.gameversion || [], "static gameversion");
 	const githubRepository = githubRepositoryName(item.githubRepository);
+	const englishPath = item.englishPath == null ? null : requireString(item.englishPath, "static English path");
+	if (englishPath && (!englishPath.startsWith("/en/wheel/resources/") || !englishPath.endsWith(".html") || englishPath.includes(".."))) {
+		throw new Error("Static wheel entry has an invalid English path");
+	}
 	return {
 		id: requireString(item.id, "static id"),
 		name,
@@ -157,6 +170,7 @@ export function mapStaticPackage(item) {
 		tokens: typeof item.tokens === "string" ? item.tokens : "",
 		tags: [],
 		path,
+		englishPath,
 		external: false,
 		cover: typeof item.cover === "string" ? item.cover : null,
 		gameversion: gameVersions,
