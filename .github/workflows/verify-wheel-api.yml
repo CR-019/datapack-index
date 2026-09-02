@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - ".vitepress/vue/wheel/**"
+      - "wheel/resources/**"
+      - "en/wheel/resources/**"
+      - "public/authors/**"
+      - "scripts/build-wheel-static-index.mjs"
       - "tests/**"
       - "package.json"
       - "pnpm-lock.yaml"
@@ -36,6 +40,11 @@ jobs:
 
       - name: Run tests
         run: pnpm test
+
+      - name: Build and verify the static Wheel index
+        run: |
+          node scripts/build-wheel-static-index.mjs
+          git diff --exit-code -- public/wheel-static-index.json public/wheel-static-content.json
 
       - name: Build VitePress
         run: pnpm exec vitepress build
