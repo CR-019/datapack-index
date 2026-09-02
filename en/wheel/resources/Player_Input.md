@@ -1,5 +1,5 @@
 ---
-name: Player Input
+name: player_input
 author:
     -
         name: MulverineX

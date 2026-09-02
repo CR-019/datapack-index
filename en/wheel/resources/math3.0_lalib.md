@@ -1,5 +1,5 @@
 ---
-name: Adzuki Bean Line Algebra Library
+name: math3.0_lalib
 author:
     -
         name: Xiaodou8593

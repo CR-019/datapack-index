@@ -1,5 +1,5 @@
 ---
-name: Xiaodou Math Library
+name: math3.1
 author:
     -
         name: Xiaodou8593

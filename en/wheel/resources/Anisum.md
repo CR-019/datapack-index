@@ -1,5 +1,5 @@
 ---
-name: star anise
+name: Anisum
 author:
     -
         name: Guzhen Tiangugle

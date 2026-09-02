@@ -1,5 +1,5 @@
 ---
-name: Player Data Expansion
+name: PlayerDataExpansion
 author:
     -
         name: Qipai

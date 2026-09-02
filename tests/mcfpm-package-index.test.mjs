@@ -11,6 +11,7 @@ import {
 	fetchStaticPackageDocument,
 	filterPackageCards,
 	githubRepositoryFromUrl,
+	githubRepositoryTitle,
 	isPredominantlyEnglishMarkdown,
 	localizePackageCards,
 	localizedPackagePath,
@@ -112,6 +113,7 @@ test("loads the original static document for a migrated package", async () => {
 				englishName: "Demo Wheel",
 				englishDescription: "English summary",
 				englishTags: ["library"],
+				githubRepository: "Example/demo-repository",
 				markdown,
 				englishMarkdown,
 			}],
@@ -122,11 +124,11 @@ test("loads the original static document for a migrated package", async () => {
 		await fetchStaticPackageDocument("/wheel/resources/demo.html", "en-US", fetchImpl),
 		{
 			markdown: englishMarkdown,
-			name: "Demo Wheel",
+			name: "demo-repository",
 			description: "English summary",
 			documentPath: "/en/wheel/resources/demo.html",
 			tags: ["library"],
-			githubRepository: null,
+			githubRepository: "Example/demo-repository",
 		},
 	);
 	await assert.rejects(() => fetchStaticPackageContent("/../secret.html", fetchImpl), /path is invalid/);
@@ -160,7 +162,7 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 	const merged = mergePackageCards([dynamic], [duplicate, fallback]);
 	assert.equal(merged.length, 2);
 	assert.equal(merged.filter((item) => item.legacyPath === "/wheel/resources/demo.html").length, 1);
-	assert.equal(merged.find((item) => item.legacyPath === "/wheel/resources/demo.html").englishName, "English demo");
+	assert.equal(merged.find((item) => item.legacyPath === "/wheel/resources/demo.html").englishDescription, "English legacy summary");
 	assert.deepEqual(fallback.tags, []);
 	assert.equal(fallback.githubRepository, "Legacy/example");
 	assert.equal(fallback.projectUrl, "https://github.com/Legacy/example");
@@ -172,18 +174,23 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 });
 
 
-test("localizes and sorts English titles before Chinese titles", () => {
+test("uses GitHub repository names without translating titles and groups English titles first", () => {
 	const cards = [
-		{ id: "zh", name: "中文工具", description: "中文", tokens: "中文" },
-		{ id: "z", name: "原名 Z", englishName: "Zoo", englishDescription: "Z summary", englishTokens: "Zoo" },
-		{ id: "a", name: "原名 A", englishName: "alpha", englishDescription: "A summary", englishTokens: "alpha" },
+		{ id: "zh-y", name: "中文乙", englishName: "Translated Y", englishDescription: "Y summary", tokens: "中文" },
+		{ id: "z", name: "原名 Z", githubRepository: "Example/Zoo", englishName: "Translated Zoo", englishDescription: "Z summary", englishTokens: "Zoo" },
+		{ id: "zh-j", name: "中文甲", englishName: "Translated J", englishDescription: "J summary", tokens: "中文" },
+		{ id: "a", name: "原名 A", githubRepository: "Example/alpha", englishName: "Translated Alpha", englishDescription: "A summary", englishTokens: "alpha" },
 	];
-	assert.deepEqual(localizePackageCards(cards, "en-US").map((item) => item.name), ["alpha", "Zoo", "中文工具"]);
+	const localized = localizePackageCards(cards, "en-US");
+	assert.deepEqual(localized.map((item) => item.name), ["alpha", "Zoo", "中文甲", "中文乙"]);
+	assert.deepEqual(localized.map((item) => item.description), ["A summary", "Z summary", "J summary", "Y summary"]);
 	assert.deepEqual(sortPackageCards([
 		{ id: "z", name: "Zoo" },
 		{ id: "zh", name: "中文工具" },
 		{ id: "a", name: "alpha" },
 	], "en-US").map((item) => item.id), ["a", "z", "zh"]);
+	assert.equal(githubRepositoryTitle("Example/repository-name"), "repository-name");
+	assert.equal(githubRepositoryTitle("invalid"), null);
 });
 
 

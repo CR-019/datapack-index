@@ -1,5 +1,5 @@
 ---
-name: Better Custom Tools
+name: BetterCustomTools
 author:
     -
         name: Qipai

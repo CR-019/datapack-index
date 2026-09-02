@@ -1,5 +1,5 @@
 ---
-name: Nutlet (small nut)
+name: Nutlet-MCDatapack
 author:
     -
         name: PickLeaf

@@ -1,5 +1,5 @@
 ---
-name: Fast Bitwise OPs
+name: fast_bitwise_ops
 author:
     -
         name: Triton365

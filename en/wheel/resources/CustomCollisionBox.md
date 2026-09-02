@@ -1,5 +1,5 @@
 ---
-name: Custom Collision Box
+name: sbox
 author:
     -
         name: BanHaiAwa

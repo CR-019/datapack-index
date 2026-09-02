@@ -1,5 +1,5 @@
 ---
-name: Xiaodou Graphics Library
+name: math3.1_gelib
 author:
     -
         name: Xiaodou8593

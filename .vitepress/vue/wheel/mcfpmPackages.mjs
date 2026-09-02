@@ -68,7 +68,11 @@ function isEnglishLanguage(language) {
 
 export function sortPackageCards(items, language = "") {
 	const english = isEnglishLanguage(language);
-	const collator = new Intl.Collator(english ? "en" : "zh-CN", {
+	const englishCollator = new Intl.Collator("en", {
+		numeric: true,
+		sensitivity: "base",
+	});
+	const chineseCollator = new Intl.Collator("zh-CN", {
 		numeric: true,
 		sensitivity: "base",
 	});
@@ -76,10 +80,15 @@ export function sortPackageCards(items, language = "") {
 		const leftName = String(left?.name || "");
 		const rightName = String(right?.name || "");
 		if (english) {
-			const scriptOrder = Number(HAN_CHARACTER.test(leftName)) - Number(HAN_CHARACTER.test(rightName));
+			const leftIsChinese = HAN_CHARACTER.test(leftName);
+			const rightIsChinese = HAN_CHARACTER.test(rightName);
+			const scriptOrder = Number(leftIsChinese) - Number(rightIsChinese);
 			if (scriptOrder) return scriptOrder;
+			const collator = leftIsChinese ? chineseCollator : englishCollator;
+			return collator.compare(leftName, rightName)
+				|| String(left?.id || "").localeCompare(String(right?.id || ""), "en");
 		}
-		return collator.compare(leftName, rightName)
+		return chineseCollator.compare(leftName, rightName)
 			|| String(left?.id || "").localeCompare(String(right?.id || ""), "en");
 	});
 }
@@ -88,7 +97,7 @@ export function localizePackageCards(items, language = "") {
 	if (!isEnglishLanguage(language)) return sortPackageCards(items, language);
 	return sortPackageCards(items.map((item) => ({
 		...item,
-		name: item.englishName || item.name,
+		name: githubRepositoryTitle(item.githubRepository) || item.name,
 		description: item.englishDescription ?? item.description,
 		tokens: [item.tokens, item.englishTokens].filter(Boolean).join(" "),
 	})), language);
@@ -190,6 +199,11 @@ function githubRepositoryName(value) {
 	return parts.length === 2 && parts.every((part) => validPart.test(part) && part !== "." && part !== "..") ? value : null;
 }
 
+export function githubRepositoryTitle(repository) {
+	const validRepository = githubRepositoryName(repository);
+	return validRepository ? validRepository.slice(validRepository.indexOf("/") + 1) : null;
+}
+
 export function isPredominantlyEnglishMarkdown(source) {
 	const prose = String(source || "")
 		.replace(/^---\s*[\s\S]*?\s---\s*/u, " ")
@@ -258,7 +272,6 @@ export function mapStaticPackage(item) {
 		: [];
 	const gameVersions = stringArray(item.gameversion || [], "static gameversion");
 	const githubRepository = githubRepositoryName(item.githubRepository);
-	const englishName = item.englishName == null ? name : requireString(item.englishName, "static English name");
 	const englishDescription = item.englishDescription == null
 		? (typeof item.description === "string" ? item.description : "")
 		: item.englishDescription;
@@ -278,7 +291,6 @@ export function mapStaticPackage(item) {
 		name,
 		description: typeof item.description === "string" ? item.description : "",
 		tokens: typeof item.tokens === "string" ? item.tokens : "",
-		englishName,
 		englishDescription,
 		englishTokens,
 		tags: [],
@@ -374,9 +386,10 @@ export async function fetchStaticPackageDocument(
 		? entry.englishMarkdown
 		: entry.markdown;
 	if (markdown.length > 1_000_000) throw new Error("Static wheel content exceeds the rendering limit");
+	const githubRepository = githubRepositoryName(entry.githubRepository);
 	return {
 		markdown,
-		name: english && typeof entry.englishName === "string" ? entry.englishName : (entry.name ?? null),
+		name: english ? (githubRepositoryTitle(githubRepository) || entry.name || null) : (entry.name ?? null),
 		description: english && typeof entry.englishDescription === "string"
 			? entry.englishDescription
 			: (entry.description ?? null),
@@ -384,7 +397,7 @@ export async function fetchStaticPackageDocument(
 		tags: english && Array.isArray(entry.englishTags)
 			? entry.englishTags.filter((tag) => typeof tag === "string").slice(0, 64)
 			: [],
-		githubRepository: githubRepositoryName(entry.githubRepository),
+		githubRepository,
 	};
 }
 
@@ -404,7 +417,6 @@ export function mergePackageCards(dynamicPackages, staticPackages) {
 		if (!fallback) return item;
 		return {
 			...item,
-			englishName: fallback.englishName,
 			englishDescription: fallback.englishDescription,
 			englishTokens: fallback.englishTokens,
 			githubRepository: item.githubRepository || fallback.githubRepository,

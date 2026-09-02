@@ -1,5 +1,5 @@
 ---
-name: Simple NPC
+name: Simple-NPC
 author:
     -
         name: Luo Fenglan_Sea

@@ -1,5 +1,5 @@
 ---
-name: Vanilla Video Player
+name: Minecraft-Vanilla-Video-Player
 author:
     -
         name: Luo Fenglan_Sea
