@@ -6,7 +6,7 @@ author:
         char: author
 description: Easily create vanillaNPC
 tags: [NPC, entity]
-version: 1.0.0
+version: 1.1.0
 gameversion: [1.21.9+]
 aside: left
 wheel: true

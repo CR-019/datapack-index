@@ -43,10 +43,30 @@ test("renders VitePress GitHub alerts with the site's classes", () => {
 
 test("allows only registered components and inert bound values", () => {
 	assert.equal(validateRuntimeMarkdown("<RepoCard repo=\"Example/Pack\" />"), "<RepoCard repo=\"Example/Pack\" />");
+	assert.equal(validateRuntimeMarkdown("<node type=\"string\" name=\"value\" required=true />"), "<node type=\"string\" name=\"value\" required=true />");
 	assert.throws(() => validateRuntimeMarkdown("<UnknownWidget />"), /unsupported component/);
 	assert.throws(() => validateRuntimeMarkdown("<ColorLine :height=\"globalThis.fetch('https:\/\/evil.test')\" />"), /unsafe bound property/);
 	assert.throws(() => validateRuntimeMarkdown("<ColorLine :height=globalThis />"), /unsafe bound property/);
 	assert.throws(() => validateRuntimeMarkdown("<img src=x onerror=alert(1)>"), /unsafe HTML/);
-	assert.throws(() => validateRuntimeMarkdown("<ColorLine @click=\"attack\" />"), /unsafe HTML/);
+	assert.match(renderRuntimeMarkdown("<ColorLine @click=\"attack\" />"), /&lt;ColorLine @click=/);
 	assert.throws(() => validateRuntimeMarkdown("<a href=\"javascript:alert(1)\">x</a>"), /unsafe HTML/);
+});
+
+test("does not interpret Minecraft syntax in prose or code as Vue directives", () => {
+	const html = renderRuntimeMarkdown(`Selectors such as \`@e[tag=\`<tag>\`]\` can appear in imperfect upstream Markdown.
+
+\`\`\`mcfunction
+execute as @s if score #input value matches 1 run function #example:tick
+scoreboard players set #input value <INPUT1>
+\`\`\``);
+	assert.match(html, /@e\[tag=/);
+	assert.match(html, /&lt;tag&gt;/);
+	assert.match(html, /@s/);
+	assert.match(html, /#example:tick/);
+	assert.match(html, /&lt;INPUT1&gt;/);
+});
+
+test("escapes prose placeholders while preserving trusted raw HTML", () => {
+	const html = renderRuntimeMarkdown("Use <INPUT1> and <value> here.<br><InfoCard />");
+	assert.match(html, /Use &lt;INPUT1&gt; and &lt;value&gt; here\.<br \/><InfoCard \/>/);
 });

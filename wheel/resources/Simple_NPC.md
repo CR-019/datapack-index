@@ -6,7 +6,7 @@ author:
         char: 作者
 description: 简便地制作原版NPC
 tags: [NPC, 实体]
-version: 1.0.0
+version: 1.1.0
 gameversion: [1.21.9+]
 aside: left
 wheel: true
