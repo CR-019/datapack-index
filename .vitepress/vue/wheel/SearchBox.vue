@@ -95,7 +95,7 @@ export default {
 			return String(this.lang || "").startsWith("en");
 		},
 		siteTitle() {
-			return this.isEnglish ? "Vanilla Prerequisite Library" : "香草前置馆";
+			return this.isEnglish ? "Vanilla Wheel" : "香草前置馆";
 		},
 		siteSubtitle() {
 				return this.isEnglish ? "Repository packages with the legacy catalog as a fallback" : "软件仓库动态索引，原有资料静态兜底";
@@ -186,7 +186,7 @@ export default {
 			window.location.assign(this.isEnglish ? "/datapack-index/en/wheel/all" : "/datapack-index/wheel/all");
 		},
 		submit() {
-			window.open("https://github.com/Alumopper/datapack-index-mcfpm-staging/issues/new?template=new_wheel.yaml", "_blank", "noopener,noreferrer");
+			window.open("https://github.com/Alumopper/datapack-index-mcfpm-staging/issues/new?template=new_wheel.yml", "_blank", "noopener,noreferrer");
 		},
 	},
 	async mounted() {

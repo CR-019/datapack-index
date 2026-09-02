@@ -6,6 +6,7 @@ import {
 	fetchPackageCards,
 	fetchMcfpmPackage,
 	fetchMcfpmPackages,
+	fetchStaticPackageContent,
 	filterPackageCards,
 	githubRepositoryFromUrl,
 	localizedPackagePath,
@@ -88,6 +89,22 @@ test("fetches a package detail and filters cards", async () => {
 	assert.match(card.tokens, /工具/);
 	assert.deepEqual(filterPackageCards([card], "Example 1.21"), [card]);
 	assert.deepEqual(filterPackageCards([card], "missing"), []);
+});
+
+
+test("loads the original static document for a migrated package", async () => {
+	const markdown = '<div class="nbttree">\n\n<node type="compound" name="root" />\n</div>';
+	const fetchImpl = async () => ({
+		ok: true,
+		status: 200,
+		json: async () => ({
+			schema: 1,
+			items: [{ legacyPath: "/wheel/resources/demo.html", markdown }],
+		}),
+	});
+	assert.equal(await fetchStaticPackageContent("/wheel/resources/demo.html", fetchImpl), markdown);
+	await assert.rejects(() => fetchStaticPackageContent("/../secret.html", fetchImpl), /path is invalid/);
+	await assert.rejects(() => fetchStaticPackageContent("/wheel/resources/missing.html", fetchImpl), /not found/);
 });
 
 

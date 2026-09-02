@@ -110,12 +110,12 @@ import { useData } from "vitepress";
 
 import PackageMarkdown from "./PackageMarkdown.vue";
 import RepoCard from "./RepoCard.vue";
-import { fetchMcfpmPackage, githubRepositoryFromUrl, packageRepositoryPageUrl } from "./mcfpmPackages.mjs";
+import { fetchMcfpmPackage, fetchStaticPackageContent, githubRepositoryFromUrl, packageRepositoryPageUrl } from "./mcfpmPackages.mjs";
 
 const { lang } = useData();
 const isEnglish = computed(() => String(lang.value || "").startsWith("en"));
 const copy = computed(() => isEnglish.value ? {
-	navigation: "Prerequisite library navigation",
+	navigation: "Wheel navigation",
 	backToSearch: "Back to search",
 	allPackages: "All packages",
 	loading: "Loading package information…",
@@ -145,7 +145,7 @@ const copy = computed(() => isEnglish.value ? {
 	descriptor: "View .mcfpkg descriptor",
 	fallbackName: "Mcfpm package",
 	fallbackDescription: (coordinate) => `${coordinate} Mcfpm package`,
-	siteTitle: "Vanilla Prerequisite Library",
+	siteTitle: "Vanilla Wheel",
 } : {
 	navigation: "前置馆导航",
 	backToSearch: "返回搜索",
@@ -185,6 +185,8 @@ const selectedVersionName = ref("");
 const loading = ref(true);
 const error = ref("");
 const copied = ref(false);
+const legacyDetailsMarkdown = ref("");
+let legacyContentRequest = 0;
 
 const selectedVersion = computed(() => {
 	if (!packageData.value) return null;
@@ -203,7 +205,7 @@ const tags = computed(() => Array.isArray(site.value?.tags) ? site.value.tags : 
 const initials = computed(() => displayName.value.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").slice(0, 2).toUpperCase());
 const installCommand = computed(() => `mcfpm install ${packageData.value.coordinate}@${selectedVersion.value.version}`);
 const copyLabel = computed(() => copied.value ? copy.value.copiedCommand : copy.value.copyCommand);
-const detailsMarkdown = computed(() => site.value?.detailsMarkdown || "");
+const detailsMarkdown = computed(() => legacyDetailsMarkdown.value || site.value?.detailsMarkdown || "");
 const sourceLabel = computed(() => selectedVersion.value?.source === "nexus" ? "Nexus" : "Maven Central");
 const listSeparator = computed(() => isEnglish.value ? ", " : "、");
 const requirementSeparator = computed(() => isEnglish.value ? "; " : "；");
@@ -232,6 +234,22 @@ function selectVersion(version) {
 	url.searchParams.set("version", version);
 	window.history.replaceState(null, "", url);
 	document.title = `${displayName.value} ${version} | ${copy.value.siteTitle}`;
+	void loadLegacyDetails();
+}
+
+async function loadLegacyDetails() {
+	const request = ++legacyContentRequest;
+	const legacyPath = site.value?.legacyPath;
+	legacyDetailsMarkdown.value = "";
+	if (!legacyPath) return;
+	try {
+		const markdown = await fetchStaticPackageContent(legacyPath);
+		if (request === legacyContentRequest) legacyDetailsMarkdown.value = markdown;
+	} catch (caught) {
+		if (request === legacyContentRequest) {
+			console.warn("Static wheel source document is unavailable; using repository metadata", caught);
+		}
+	}
 }
 
 async function copyInstallCommand() {
@@ -250,6 +268,7 @@ onMounted(async () => {
 		selectedVersionName.value = packageData.value.versions.some((entry) => entry.version === requestedVersion)
 			? requestedVersion
 			: packageData.value.latestVersion;
+		await loadLegacyDetails();
 		document.title = `${displayName.value} | ${copy.value.siteTitle}`;
 	} catch (caught) {
 		error.value = isEnglish.value ? copy.value.loadError : (caught instanceof Error ? caught.message : String(caught));
@@ -313,6 +332,7 @@ onMounted(async () => {
 .package-markdown :deep(blockquote p) { margin: 6px 0; }
 .package-markdown :deep(code) { padding: 3px 6px; border-radius: 5px; background: var(--vp-code-bg); color: var(--vp-code-color); font-family: var(--vp-font-family-mono); font-size: 0.875em; }
 .package-markdown :deep(pre) { margin: 20px 0; overflow-x: auto; padding: 18px 20px; border-radius: 10px; background: var(--vp-code-block-bg); line-height: 1.7; white-space: pre !important; }
+.package-markdown :deep(div[class*="language-"] > pre) { margin: 0; }
 .package-markdown :deep(pre code) { display: block; padding: 0; background: transparent; color: var(--vp-code-block-color); font-size: 14px; white-space: pre !important; word-break: normal; }
 .package-markdown :deep(table) { display: block; width: 100%; margin: 20px 0; overflow-x: auto; border-collapse: collapse; font-size: 14px; }
 .package-markdown :deep(th), .package-markdown :deep(td) { min-width: 110px; padding: 10px 14px; border: 1px solid var(--vp-c-divider); text-align: left; vertical-align: top; }

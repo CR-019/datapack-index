@@ -29,7 +29,7 @@ title: '图书馆最新力作：香草前置馆 现已上线！'
 
 想要将你做的前置添加到前置馆中？又或者你看到什么好用的工具想推荐到前置馆？都可以来投稿！
 
-点击搜索页面的 **投稿** 按钮，或者直接访问Github的Issue页面填写表单就好啦。（<https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml>）。
+点击搜索页面的 **投稿** 按钮，或者直接访问 Github 的 Issue 页面填写表单就好啦。（<https://github.com/Alumopper/datapack-index-mcfpm-staging/issues/new?template=new_wheel.yml>）。
 
 ---
 
