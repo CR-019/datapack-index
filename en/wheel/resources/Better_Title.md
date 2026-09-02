@@ -1,5 +1,5 @@
 ---
-name: Better Title
+name: BetterTitle
 author:
     -
         name: Huoyu Flame

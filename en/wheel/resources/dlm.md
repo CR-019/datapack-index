@@ -1,5 +1,5 @@
 ---
-name: Big-faced cat
+name: Leopard-Cat
 author:
     -
         name: Dahesor

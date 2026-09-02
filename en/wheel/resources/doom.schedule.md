@@ -1,5 +1,5 @@
 ---
-name: Doom.Schedule
+name: doom.schedule
 author:
     -
         name: doom_decapitator

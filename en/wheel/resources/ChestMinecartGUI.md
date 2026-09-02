@@ -1,5 +1,5 @@
 ---
-name: Chest Minecart GUI
+name: Chest-Minecart-GUI
 author:
     -
         name: WindWavesSea

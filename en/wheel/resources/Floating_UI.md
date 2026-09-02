@@ -1,5 +1,5 @@
 ---
-name: Floating UI
+name: Floating-UI
 author:
     -
         name: Alumopper

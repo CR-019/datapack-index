@@ -1,5 +1,5 @@
 ---
-name: large villa
+name: DaBsu-Batch-Spawner-Utils
 author:
     -
         name: Dahesor

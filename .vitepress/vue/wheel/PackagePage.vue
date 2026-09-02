@@ -115,6 +115,7 @@ import {
 	fetchMcfpmPackage,
 	fetchStaticPackageDocument,
 	githubRepositoryFromUrl,
+	githubRepositoryTitle,
 	packageRepositoryPageUrl,
 } from "./mcfpmPackages.mjs";
 
@@ -202,11 +203,12 @@ const selectedVersion = computed(() => {
 		|| packageData.value.versions[0];
 });
 const site = computed(() => selectedVersion.value?.site || packageData.value?.display || null);
-const displayName = computed(() => (isEnglish.value ? localizedStaticDocument.value?.name : null)
-	|| site.value?.name
+const originalDisplayName = computed(() => site.value?.name
 	|| packageData.value?.name
 	|| packageData.value?.coordinate
 	|| copy.value.fallbackName);
+const displayName = computed(() => (isEnglish.value ? githubRepositoryTitle(resolveGitHubRepository()) : null)
+	|| originalDisplayName.value);
 const description = computed(() => (isEnglish.value ? localizedStaticDocument.value?.description : null)
 	|| site.value?.description
 	|| selectedVersion.value?.description

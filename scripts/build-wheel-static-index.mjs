@@ -62,9 +62,13 @@ function staticPage(relativePath) {
 	}
 	const englishParsed = matter(fs.readFileSync(englishSource, "utf8"));
 	const englishData = englishParsed.data || {};
-	const englishName = typeof englishData.name === "string" && englishData.name.trim()
+	const englishName = repository ? repository.slice(repository.indexOf("/") + 1) : name;
+	const configuredEnglishName = typeof englishData.name === "string" && englishData.name.trim()
 		? englishData.name.trim()
 		: name;
+	if (configuredEnglishName !== englishName) {
+		throw new Error(`English wheel title must use the GitHub repository name or original title: en/${relativePath}`);
+	}
 	const englishDescription = typeof englishData.description === "string"
 		? englishData.description.trim()
 		: description;

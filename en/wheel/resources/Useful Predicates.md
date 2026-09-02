@@ -1,5 +1,5 @@
 ---
-name: Useful Predicates
+name: Useful-Predicates
 author:
     -
         name: HereAfterDestruction

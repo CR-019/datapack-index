@@ -1,5 +1,5 @@
 ---
-name: Xiaodou data structure library
+name: math3.1_dslib
 author:
     -
         name: Xiaodou8593

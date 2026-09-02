@@ -1,5 +1,5 @@
 ---
-name: lightweight scene dialog
+name: TL_lite
 author:
     -
         name: Xuanyu1725

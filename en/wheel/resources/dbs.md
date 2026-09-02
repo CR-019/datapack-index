@@ -1,5 +1,5 @@
 ---
-name: DBetter Schedule
+name: D-Better-Schedule
 author:
     -
         name: Dahesor
