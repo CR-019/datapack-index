@@ -80,8 +80,20 @@ test("preserves the NBT tree wrapper and node controls", () => {
 </div>
 :::`, { baseUrl: "/datapack-index/" });
 	assert.match(html, /<details class="details custom-block"><summary>View <a href="\/datapack-index\/feature\/mcdoc">mcdoc<\/a><\/summary>/);
-	assert.match(html, /<div class="nbttree">/);
+	assert.match(html, /<div class="nbttree">\s*<node type="compound" name="root" \/>/);
+	assert.doesNotMatch(html, /<div class="nbttree">\s*<p>/);
 	assert.match(html, /<node type="compound" name="root" \/>/);
 	assert.match(html, /<node type="string" name="name" required \/>/);
 	assert.match(html, /<ul>/);
+});
+
+test("renders fenced code with the same single wrapper structure as VitePress", () => {
+	const highlighter = {
+		getLoadedLanguages: () => ["mcfunction"],
+		codeToHtml: (code) => `<pre class="shiki"><code>${code}</code></pre>`,
+	};
+	const html = renderRuntimeMarkdown("```mcfunction\nsay hi\n```", { highlighter });
+	assert.match(html, /^<div class="language-mcfunction vp-adaptive-theme">/);
+	assert.match(html, /<pre v-pre class="shiki vp-code"><code>say hi<\/code><\/pre><\/div>$/);
+	assert.doesNotMatch(html, /<pre><code class="language-mcfunction">/);
 });

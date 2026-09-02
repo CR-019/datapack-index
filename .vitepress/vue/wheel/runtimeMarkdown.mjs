@@ -264,18 +264,26 @@ function renderContainerTitle(value, documentPath, baseUrl) {
 	return markdown.renderInline(String(value || ""));
 }
 
+function normalizeNbtTreeMarkup(html) {
+	return String(html).replace(
+		/(<div\b[^>]*\bclass=(['"])[^'"]*\bnbttree\b[^'"]*\2[^>]*>\s*)<p>((?:(?!<\/?div\b)[\s\S])*?)<\/p>/gi,
+		"$1$3",
+	);
+}
+
 function codeBlock(code, language, highlighter, english) {
 	const requested = String(language || "text").split(/[\s{[]/, 1)[0].toLowerCase() || "text";
 	const aliases = { js: "javascript", ts: "typescript", yml: "yaml", sh: "bash", text: "plaintext", txt: "plaintext" };
 	const normalized = aliases[requested] || requested;
 	const loaded = highlighter?.getLoadedLanguages?.() || [];
 	const resolved = loaded.includes(normalized) ? normalized : "plaintext";
-	if (!highlighter) return "";
-	const highlighted = highlighter.codeToHtml(code.trimEnd(), {
-		lang: resolved,
-		themes: { light: "github-light", dark: "github-dark" },
-		defaultColor: false,
-	}).replace(/<pre class="([^"]*)"/, '<pre v-pre class="$1 vp-code"');
+	const highlighted = highlighter
+		? highlighter.codeToHtml(code.trimEnd(), {
+			lang: resolved,
+			themes: { light: "github-light", dark: "github-dark" },
+			defaultColor: false,
+		}).replace(/<pre class="([^"]*)"/, '<pre v-pre class="$1 vp-code"')
+		: `<pre v-pre class="shiki vp-code"><code>${escapeHtml(code.trimEnd())}</code></pre>`;
 	return `<div class="language-${escapeAttribute(requested)} vp-adaptive-theme"><button title="${english ? "Copy code" : "复制代码"}" class="copy" type="button"></button><span class="lang">${escapeHtml(requested)}</span>${highlighted}</div>`;
 }
 
@@ -293,8 +301,13 @@ export function renderRuntimeMarkdown(source, { highlighter = null, english = fa
 		html: true,
 		linkify: true,
 		typographer: false,
-		highlight: (code, language) => codeBlock(code, language, highlighter, english),
 	});
+	markdown.renderer.rules.fence = (tokens, index) => codeBlock(
+		tokens[index].content,
+		tokens[index].info,
+		highlighter,
+		english,
+	);
 	markdown.use(footnote);
 	useKatex(markdown);
 	useGitHubAlerts(markdown);
@@ -332,11 +345,11 @@ export function renderRuntimeMarkdown(source, { highlighter = null, english = fa
 		return defaultLinkOpen(tokens, index, options, env, self);
 	};
 
-	return markdown.render(transformContainers(
+	return normalizeNbtTreeMarkup(markdown.render(transformContainers(
 		trusted,
 		english,
 		(title) => renderContainerTitle(title, documentPath, baseUrl),
-	))
+	)))
 		.replaceAll("{{", "&#123;&#123;")
 		.replaceAll("}}", "&#125;&#125;");
 }
