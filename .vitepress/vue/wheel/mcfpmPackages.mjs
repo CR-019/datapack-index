@@ -1,6 +1,7 @@
 export const PACKAGE_API_BASE = "https://package.afox.moe/v1/packages";
 export const PACKAGE_PAGE_PATH = "/wheel/package";
 export const STATIC_INDEX_URL = "/datapack-index/wheel-static-index.json";
+const STATIC_INDEX_CACHE_KEY = "mcfpm-wheel-static-index-v1";
 
 function requireString(value, field, maximum = 512) {
 	if (typeof value !== "string" || !value || value.length > maximum) {
@@ -49,8 +50,9 @@ export function localizedPackagePath(item, language = "") {
 	if (!item || typeof item !== "object") return null;
 	const path = typeof item.path === "string" ? item.path : null;
 	if (!path) return null;
-	if (!String(language).startsWith("en")) return path;
-	if (item.static === true) return typeof item.englishPath === "string" ? item.englishPath : path;
+	const languageValue = language && typeof language === "object" && "value" in language ? language.value : language;
+	if (!String(languageValue || "").startsWith("en")) return path;
+	if (item.static === true) return typeof item.englishPath === "string" ? item.englishPath : `/en${path}`;
 	return path.startsWith("/en/") ? path : `/en${path}`;
 }
 
@@ -182,12 +184,56 @@ export function mapStaticPackage(item) {
 	};
 }
 
-export async function fetchStaticPackages(fetchImpl = fetch, staticIndexUrl = STATIC_INDEX_URL) {
-	const response = await fetchImpl(staticIndexUrl, { headers: { Accept: "application/json" } });
-	if (!response?.ok) throw new Error(`Static wheel index returned HTTP ${response?.status ?? "unknown"}`);
-	const payload = await response.json();
+function browserSessionStorage() {
+	try {
+		return typeof window !== "undefined" ? window.sessionStorage : null;
+	} catch {
+		return null;
+	}
+}
+
+function readStaticPackageCache(storage, staticIndexUrl) {
+	if (!storage) return null;
+	try {
+		const cached = JSON.parse(storage.getItem(STATIC_INDEX_CACHE_KEY) || "null");
+		if (!cached || cached.url !== staticIndexUrl || !cached.payload) return null;
+		return cached.payload;
+	} catch {
+		return null;
+	}
+}
+
+function writeStaticPackageCache(storage, staticIndexUrl, payload) {
+	if (!storage) return;
+	try {
+		storage.setItem(STATIC_INDEX_CACHE_KEY, JSON.stringify({ url: staticIndexUrl, payload }));
+	} catch {
+		// Browsers can disable session storage. A successful response is still usable.
+	}
+}
+
+function mapStaticPayload(payload) {
 	if (!payload || payload.schema !== 1 || !Array.isArray(payload.items)) throw new Error("Static wheel index returned invalid data");
 	return payload.items.map(mapStaticPackage);
+}
+
+export async function fetchStaticPackages(
+	fetchImpl = fetch,
+	staticIndexUrl = STATIC_INDEX_URL,
+	storage = browserSessionStorage(),
+) {
+	try {
+		const response = await fetchImpl(staticIndexUrl, { headers: { Accept: "application/json" } });
+		if (!response?.ok) throw new Error(`Static wheel index returned HTTP ${response?.status ?? "unknown"}`);
+		const payload = await response.json();
+		const packages = mapStaticPayload(payload);
+		writeStaticPackageCache(storage, staticIndexUrl, payload);
+		return packages;
+	} catch (error) {
+		const cached = readStaticPackageCache(storage, staticIndexUrl);
+		if (cached) return mapStaticPayload(cached);
+		throw error;
+	}
 }
 
 export function mergePackageCards(dynamicPackages, staticPackages) {
@@ -202,10 +248,11 @@ export async function fetchPackageCards(
 	fetchImpl = fetch,
 	apiBase = PACKAGE_API_BASE,
 	staticIndexUrl = STATIC_INDEX_URL,
+	storage = browserSessionStorage(),
 ) {
 	const [dynamic, staticEntries] = await Promise.allSettled([
 		fetchMcfpmPackages(fetchImpl, apiBase),
-		fetchStaticPackages(fetchImpl, staticIndexUrl),
+		fetchStaticPackages(fetchImpl, staticIndexUrl, storage),
 	]);
 	if (dynamic.status === "rejected" && staticEntries.status === "rejected") {
 		throw new AggregateError([dynamic.reason, staticEntries.reason], "Dynamic and static package indexes are unavailable");

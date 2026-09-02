@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+	STATIC_INDEX_URL,
 	fetchPackageCards,
 	fetchMcfpmPackage,
 	fetchMcfpmPackages,
@@ -117,8 +118,9 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 	assert.equal(fallback.githubRepository, "Legacy/example");
 	assert.equal(fallback.projectUrl, "https://github.com/Legacy/example");
 	assert.equal(localizedPackagePath(dynamic, "en-US"), "/en/wheel/package?package=org.example%3Ademo");
+	assert.equal(localizedPackagePath(dynamic, { value: "en-US" }), "/en/wheel/package?package=org.example%3Ademo");
 	assert.equal(localizedPackagePath(duplicate, "en-US"), "/en/wheel/resources/demo.html");
-	assert.equal(localizedPackagePath(fallback, "en-US"), "/wheel/resources/other.html");
+	assert.equal(localizedPackagePath(fallback, "en-US"), "/en/wheel/resources/other.html");
 	assert.equal(localizedPackagePath(dynamic, "zh-CN"), dynamic.path);
 });
 
@@ -154,6 +156,46 @@ test("keeps static definitions available when the dynamic API is unavailable", a
 	);
 	assert.equal(cards.length, 1);
 	assert.equal(cards[0].id, "static:available");
+});
+
+test("restores the static catalog from session cache after returning to the listing", async () => {
+	const values = new Map();
+	const storage = {
+		getItem: (key) => values.get(key) ?? null,
+		setItem: (key, value) => values.set(key, value),
+	};
+	let staticAvailable = true;
+	const fetchImpl = async (url) => {
+		if (String(url).startsWith("https://packages.example/")) {
+			return { ok: true, status: 200, json: async () => ({ items: [PACKAGE], nextCursor: null }) };
+		}
+		if (!staticAvailable) return { ok: false, status: 503 };
+		return {
+			ok: true,
+			status: 200,
+			json: async () => ({
+				schema: 1,
+				items: [{
+					id: "static:cached",
+					name: "Cached static page",
+					description: "Static fallback",
+					tokens: "Cached static page",
+					path: "/wheel/resources/cached.html",
+					englishPath: "/en/wheel/resources/cached.html",
+					cover: null,
+					gameversion: ["1.21"],
+					author: [{ name: "Example" }],
+					static: true,
+				}],
+			}),
+		};
+	};
+
+	const first = await fetchPackageCards(fetchImpl, "https://packages.example/v1/packages", STATIC_INDEX_URL, storage);
+	staticAvailable = false;
+	const afterReturn = await fetchPackageCards(fetchImpl, "https://packages.example/v1/packages", STATIC_INDEX_URL, storage);
+	assert.ok(first.some((item) => item.id === "static:cached"));
+	assert.ok(afterReturn.some((item) => item.id === "static:cached"));
 });
 
 

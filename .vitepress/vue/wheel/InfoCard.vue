@@ -90,10 +90,13 @@ onMounted(async () => {
                 if (res.ok) {
                     const data = await res.json();
                     const finalName = data.name || name;
+                    const fetchedAvatar = typeof data.avatar === 'string' && data.avatar
+                        ? `/datapack-index/${data.avatar.replace(/^\/+/, '')}`
+                        : (orig && (orig.avatarUrl || orig.avatar)) || '';
                     return {
                         name: finalName,
                         char: char || (orig && orig.char) || '',
-                        avatar: '/datapack-index/' + data.avatar || (orig && (orig.avatarUrl || orig.avatar)) || '',
+                        avatar: fetchedAvatar,
                         socialLinks: data.socialLinks || (orig && orig.socialLinks) || []
                     };
                 }

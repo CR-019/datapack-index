@@ -56,7 +56,10 @@ function staticCard(relativePath) {
 	const repository = githubRepository(data.repo);
 	const legacyPath = `/${relativePath.replace(/\.md$/i, ".html")}`;
 	const englishSource = path.join(root, "en", relativePath);
-	const englishPath = fs.existsSync(englishSource) ? `/en/${relativePath.replace(/\.md$/i, ".html")}` : null;
+	if (!fs.existsSync(englishSource)) {
+		throw new Error(`Static wheel page is missing its English route: en/${relativePath}`);
+	}
+	const englishPath = `/en/${relativePath.replace(/\.md$/i, ".html")}`;
 	return {
 		id: `static:${relativePath}`,
 		name,

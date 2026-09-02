@@ -4,7 +4,9 @@ import footnote from "markdown-it-footnote";
 import { useKatex } from "../../markdown/katex.mjs";
 
 const ALLOWED_COMPONENTS = new Set([
+	"Badge",
 	"BugList",
+	"ClientOnly",
 	"ColorLine",
 	"FeatureHead",
 	"FeaturedHead",
@@ -13,8 +15,20 @@ const ALLOWED_COMPONENTS = new Set([
 	"JournalIndex",
 	"RepoCard",
 	"SpotlightHead",
+	"node",
 ]);
-const BLOCKED_HTML_TAGS = /<\/?(?:script|style|iframe|object|embed|form|input|button|textarea|select|option|meta|link|base|svg|math|component|teleport|suspense|keep-alive|transition)\b/i;
+const SAFE_HTML_TAGS = new Set([
+	"a", "abbr", "address", "article", "aside", "b", "blockquote", "br", "caption", "cite", "code",
+	"col", "colgroup", "dd", "del", "details", "dfn", "div", "dl", "dt", "em", "figcaption", "figure",
+	"h1", "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "ins", "kbd", "li", "mark", "ol", "p",
+	"picture", "pre", "q", "s", "samp", "small", "span", "strong", "sub", "summary", "sup", "table",
+	"tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul", "var", "wbr",
+]);
+const VOID_HTML_TAGS = new Set(["br", "col", "hr", "img", "wbr"]);
+const BLOCKED_HTML_TAGS = new Set([
+	"base", "button", "component", "embed", "form", "iframe", "input", "keep-alive", "link", "math", "meta",
+	"object", "option", "script", "select", "style", "suspense", "svg", "teleport", "textarea", "transition",
+]);
 const EVENT_ATTRIBUTE = /\son[a-z]+\s*=/i;
 const VUE_DIRECTIVE = /\s(?:v-(?!pre\b)|@|#)[\w:[\].-]*(?:\s*=|\s|(?=\/?>))/i;
 const BOUND_ATTRIBUTE = /\s:([A-Za-z_][\w-]*)\s*=\s*(["'])(.*?)\2/gs;
@@ -32,6 +46,104 @@ function escapeHtml(value) {
 
 function escapeAttribute(value) {
 	return escapeHtml(value).replaceAll("'", "&#39;");
+}
+
+function transformHtmlTags(fragment, transform) {
+	const source = String(fragment || "");
+	let output = "";
+	let cursor = 0;
+	while (cursor < source.length) {
+		const start = source.indexOf("<", cursor);
+		if (start < 0) return output + source.slice(cursor);
+		output += source.slice(cursor, start);
+		if (source.startsWith("<!--", start)) {
+			const end = source.indexOf("-->", start + 4);
+			if (end < 0) throw new Error("Package documentation contains an unterminated HTML comment");
+			output += source.slice(start, end + 3);
+			cursor = end + 3;
+			continue;
+		}
+		let quote = "";
+		let end = start + 1;
+		for (; end < source.length; end += 1) {
+			const character = source[end];
+			if (quote) {
+				if (character === quote) quote = "";
+			} else if (character === '"' || character === "'") {
+				quote = character;
+			} else if (character === ">") {
+				break;
+			}
+		}
+		if (end === source.length) throw new Error("Package documentation contains an unterminated HTML tag");
+		output += transform(source.slice(start, end + 1));
+		cursor = end + 1;
+	}
+	return output;
+}
+
+function validateAndSanitizeHtmlTag(rawTag) {
+	const match = rawTag.match(/^<\s*(\/?)\s*([A-Za-z][A-Za-z0-9-]*)([\s\S]*?)(\/?)\s*>$/);
+	if (!match) throw new Error("Package documentation contains unsupported HTML syntax");
+	const [, closing, tagName, rawAttributes, selfClosing] = match;
+	const lowerName = tagName.toLowerCase();
+	const component = ALLOWED_COMPONENTS.has(tagName);
+	const html = SAFE_HTML_TAGS.has(lowerName);
+
+	if (BLOCKED_HTML_TAGS.has(lowerName)) {
+		throw new Error(`Package documentation uses blocked HTML element ${tagName}`);
+	}
+	if (!component && !html) {
+		const placeholder = !rawAttributes.trim()
+			&& !selfClosing
+			&& (/^[a-z][a-z0-9_-]*$/.test(tagName) || /^[A-Z][A-Z0-9_]*$/.test(tagName));
+		if (placeholder) return escapeHtml(rawTag);
+		throw new Error(`Package documentation uses unsupported component ${tagName}`);
+	}
+	if (closing) {
+		if (rawAttributes.trim() || selfClosing) throw new Error("Package documentation contains malformed closing HTML");
+		return rawTag;
+	}
+
+	const remaining = ` ${rawAttributes}`.replace(BOUND_ATTRIBUTE, (attribute, name, _quote, expression) => {
+		if (!SAFE_BOUND_VALUE.test(expression.trim())) {
+			throw new Error(`Package documentation has an unsafe bound property :${name}`);
+		}
+		return "";
+	});
+	if (/\s:[^\s=>/]+/.test(remaining) || /\s\.[A-Za-z_][\w-]*(?:\s*=|\s|$)/.test(remaining)) {
+		throw new Error("Package documentation has an unsafe bound property");
+	}
+	if (EVENT_ATTRIBUTE.test(remaining) || VUE_DIRECTIVE.test(remaining) || DANGEROUS_URL_ATTRIBUTE.test(remaining)) {
+		throw new Error("Package documentation contains unsafe HTML or Vue directives");
+	}
+	if (html && VOID_HTML_TAGS.has(lowerName) && !selfClosing) {
+		return rawTag.replace(/>$/, " />");
+	}
+	return rawTag;
+}
+
+function sanitizeHtmlFragment(fragment) {
+	return transformHtmlTags(fragment, validateAndSanitizeHtmlTag);
+}
+
+function walkHtmlTokens(tokens, visitor) {
+	for (const token of tokens) {
+		if (token.type === "html_inline" || token.type === "html_block") visitor(token);
+		if (token.children) walkHtmlTokens(token.children, visitor);
+	}
+}
+
+function useTrustedHtml(markdown) {
+	for (const ruleName of ["html_inline", "html_block"]) {
+		const defaultRenderer = markdown.renderer.rules[ruleName];
+		markdown.renderer.rules[ruleName] = (tokens, index, options, env, self) => {
+			const rendered = defaultRenderer
+				? defaultRenderer(tokens, index, options, env, self)
+				: tokens[index].content;
+			return sanitizeHtmlFragment(rendered);
+		};
+	}
 }
 
 function slugify(value) {
@@ -150,21 +262,8 @@ function codeBlock(code, language, highlighter, english) {
 export function validateRuntimeMarkdown(source) {
 	const value = String(source || "");
 	if (value.length > 1_000_000) throw new Error("Package documentation exceeds the rendering limit");
-	if (BLOCKED_HTML_TAGS.test(value) || EVENT_ATTRIBUTE.test(value) || VUE_DIRECTIVE.test(value) || DANGEROUS_URL_ATTRIBUTE.test(value)) {
-		throw new Error("Package documentation contains unsafe HTML or Vue directives");
-	}
-	for (const match of value.matchAll(/<\/?([A-Z][A-Za-z0-9]*)\b/g)) {
-		if (!ALLOWED_COMPONENTS.has(match[1])) throw new Error(`Package documentation uses unsupported component ${match[1]}`);
-	}
-	for (const tag of value.matchAll(/<[^>]+>/gs)) {
-		const remaining = tag[0].replace(BOUND_ATTRIBUTE, (attribute, name, _quote, expression) => {
-			if (!SAFE_BOUND_VALUE.test(expression.trim())) {
-				throw new Error(`Package documentation has an unsafe bound property :${name}`);
-			}
-			return "";
-		});
-		if (/\s:[^\s=>/]+/.test(remaining)) throw new Error("Package documentation has an unsafe bound property");
-	}
+	const markdown = new MarkdownIt({ html: true });
+	walkHtmlTokens(markdown.parse(value, {}), (token) => sanitizeHtmlFragment(token.content));
 	return value;
 }
 
@@ -179,6 +278,7 @@ export function renderRuntimeMarkdown(source, { highlighter = null, english = fa
 	markdown.use(footnote);
 	useKatex(markdown);
 	useGitHubAlerts(markdown);
+	useTrustedHtml(markdown);
 
 	const defaultHeading = markdown.renderer.rules.heading_open;
 	markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {
