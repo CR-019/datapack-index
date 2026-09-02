@@ -2,7 +2,7 @@
 name: TL_lite
 author:
     -
-        name: Xuanyu1725
+        name: 轩宇1725
         char: author
 description: lightweight scene dialog frontend
 tags: [dialog,dialog,animation]

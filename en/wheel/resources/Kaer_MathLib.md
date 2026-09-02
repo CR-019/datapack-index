@@ -2,7 +2,7 @@
 name: large_number
 author:
     -
-        name: Carl3058
+        name: 卡儿3058
         char: program
 description: A mathematical library with complete functions and continuous updates. In addition to commonly used elementary mathematics tools, it also involves a lot of encryption, decryption, and image rendering. It is the best choice for data pack authors to perform fast calculations or high-precision calculations.
 tags: [mathematics, computing, high performance]

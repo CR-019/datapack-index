@@ -2,7 +2,7 @@
 name: Minecraft-Vanilla-Video-Player
 author:
     -
-        name: Luo Fenglan_Sea
+        name: 洛风澜_Sea
         char: author
 description: Video playback front-end based on data pack and resource pack
 tags: [video,GUI]

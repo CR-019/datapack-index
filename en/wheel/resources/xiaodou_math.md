@@ -2,7 +2,7 @@
 name: math3.1
 author:
     -
-        name: Xiaodou8593
+        name: 小豆8593
         char: author
 description: Xiaodou’s math library
 tags: [mathematics]

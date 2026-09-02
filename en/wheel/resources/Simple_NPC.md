@@ -2,7 +2,7 @@
 name: Simple-NPC
 author:
     -
-        name: Luo Fenglan_Sea
+        name: 洛风澜_Sea
         char: author
 description: Easily create vanillaNPC
 tags: [NPC, entity]

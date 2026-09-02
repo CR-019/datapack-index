@@ -36,6 +36,29 @@ function authors(value) {
 	});
 }
 
+function authorKeys(value) {
+	const values = Array.isArray(value) ? value : value == null ? [] : [value];
+	return values.flatMap((entry) => {
+		if (typeof entry === "string" && entry.trim()) return [entry.trim()];
+		if (entry && typeof entry === "object" && typeof entry.name === "string" && entry.name.trim()) {
+			return [entry.name.trim()];
+		}
+		return [];
+	});
+}
+
+function assertAuthorMetadata(keys, relativePath) {
+	for (const key of keys) {
+		if (key.includes("/") || key.includes("\\")) {
+			throw new Error(`Wheel author key must not contain a path separator: ${relativePath}`);
+		}
+		const authorPath = path.join(root, "public", "authors", `${key}.json`);
+		if (!fs.existsSync(authorPath)) {
+			throw new Error(`Wheel author metadata is missing for "${key}": ${relativePath}`);
+		}
+	}
+}
+
 function githubRepository(value) {
 	if (typeof value !== "string" || value.length > 200) return null;
 	const repository = value.trim();
@@ -51,6 +74,8 @@ function staticPage(relativePath) {
 		? data.name.trim()
 		: path.posix.basename(relativePath, ".md");
 	const description = typeof data.description === "string" ? data.description.trim() : "";
+	const sourceAuthorKeys = authorKeys(data.author);
+	assertAuthorMetadata(sourceAuthorKeys, relativePath);
 	const cardAuthors = authors(data.author);
 	const semanticTags = strings(data.tags);
 	const gameVersions = strings(data.gameversion);
@@ -62,6 +87,10 @@ function staticPage(relativePath) {
 	}
 	const englishParsed = matter(fs.readFileSync(englishSource, "utf8"));
 	const englishData = englishParsed.data || {};
+	const englishAuthorKeys = authorKeys(englishData.author);
+	if (JSON.stringify(englishAuthorKeys) !== JSON.stringify(sourceAuthorKeys)) {
+		throw new Error(`English wheel author keys must preserve the original identities: en/${relativePath}`);
+	}
 	const englishName = repository ? repository.slice(repository.indexOf("/") + 1) : name;
 	const configuredEnglishName = typeof englishData.name === "string" && englishData.name.trim()
 		? englishData.name.trim()

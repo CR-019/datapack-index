@@ -2,7 +2,7 @@
 name: vve3.0
 author:
     -
-        name: xiaodou8593
+        name: 小豆8593
         char: Author
 description: A high-performance vanilla physics engine
 tags: [physics engine]
