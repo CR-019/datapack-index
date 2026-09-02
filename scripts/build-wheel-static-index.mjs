@@ -67,6 +67,13 @@ function githubRepository(value) {
 	return parts.length === 2 && parts.every((part) => validPart.test(part) && part !== "." && part !== "..") ? repository : null;
 }
 
+function normalizeMarkdown(value) {
+	return value
+		.replace(/\r\n?/g, "\n")
+		.replace(/^\s*<InfoCard\s*\/>\s*/i, "")
+		.trim();
+}
+
 function staticPage(relativePath) {
 	const parsed = matter(fs.readFileSync(path.join(root, relativePath), "utf8"));
 	const data = parsed.data || {};
@@ -123,12 +130,8 @@ function staticPage(relativePath) {
 		packageVersion: typeof data.version === "string" || typeof data.version === "number" ? String(data.version) : null,
 		static: true,
 	};
-	const markdown = parsed.content
-		.replace(/^\s*<InfoCard\s*\/>\s*/i, "")
-		.trim();
-	const englishMarkdown = englishParsed.content
-		.replace(/^\s*<InfoCard\s*\/>\s*/i, "")
-		.trim();
+	const markdown = normalizeMarkdown(parsed.content);
+	const englishMarkdown = normalizeMarkdown(englishParsed.content);
 	return {
 		card,
 		content: {
