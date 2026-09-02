@@ -150,5 +150,13 @@
         "description": "特殊工作台合成配方是指类似染色，地图复制等特殊的合成配方。其他配方，如切石机，锻造台等请见MC-143214（有意为之）",
         "title": "Special crafting recipes behave differently than other recipe types with /recipe and the `limited_crafting` game rule",
         "status": "fixed"
+    },
+    {
+        "id": "254370",
+        "cn_title": "entity_scores谓词在数值过大时会出现精度丢失而无法判断",
+        "version": "1.15-26.2",
+        "description": "entity_scores判断超过16777217的数值会因为浮点数精度问题造成误判",
+        "title": "The `entity_scores` predicate type cannot check all possible scores",
+        "status": "fixed"
     }
 ]
