@@ -15,8 +15,8 @@
     "vitepress": "^1.6.4"
   },
   "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build && node scripts/optimize-images.mjs",
+    "docs:dev": "node scripts/build-wheel-static-index.mjs && vitepress dev",
+    "docs:build": "node scripts/build-wheel-static-index.mjs && vitepress build && node scripts/optimize-images.mjs",
     "docs:preview": "vitepress preview",
     "test": "node --test tests/*.test.mjs",
     "test:image-optimizer": "node --test tests/image-optimizer.test.mjs",

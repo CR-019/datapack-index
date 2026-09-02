@@ -2,10 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+	fetchPackageCards,
 	fetchMcfpmPackage,
 	fetchMcfpmPackages,
 	filterPackageCards,
 	mapMcfpmPackage,
+	mapStaticPackage,
+	mergePackageCards,
+	packageRepositoryPageUrl,
 } from "../.vitepress/vue/wheel/mcfpmPackages.mjs";
 
 
@@ -18,6 +22,7 @@ const PACKAGE = {
 	sources: ["nexus"],
 	types: ["minecraft.datapack"],
 	licenses: ["MIT"],
+	minecraftRequirements: ["1.21+"],
 	description: null,
 	display: {
 		name: "演示前置",
@@ -40,6 +45,14 @@ test("maps a package summary to an internal dynamic library page", () => {
 	assert.equal(card.name, "演示前置");
 	assert.deepEqual(card.author, [{ name: "Example", avatarUrl: null, links: [] }]);
 	assert.deepEqual(card.tags, ["Nexus"]);
+	assert.deepEqual(card.gameversion, ["1.21"]);
+});
+
+
+test("uses only Minecraft requirements for the card version badge", () => {
+	const withoutSite = { ...PACKAGE, display: null, minecraftRequirements: ["1.20.5~1.21.8"] };
+	assert.deepEqual(mapMcfpmPackage(withoutSite).gameversion, ["1.20.5~1.21.8"]);
+	assert.deepEqual(mapMcfpmPackage({ ...withoutSite, minecraftRequirements: [] }).gameversion, []);
 });
 
 
@@ -64,7 +77,7 @@ test("rejects a mismatched API coordinate", () => {
 });
 
 
-test("fetches a package detail and filters cards without the static formatter database", async () => {
+test("fetches a package detail and filters cards", async () => {
 	const detail = { ...PACKAGE, versions: [{ version: "1.2.3", source: "nexus" }] };
 	const fetchImpl = async () => ({ ok: true, status: 200, json: async () => detail });
 	assert.equal((await fetchMcfpmPackage("org.example:demo", fetchImpl, "https://packages.example/v1/packages")).coordinate, PACKAGE.coordinate);
@@ -72,4 +85,79 @@ test("fetches a package detail and filters cards without the static formatter da
 	assert.match(card.tokens, /工具/);
 	assert.deepEqual(filterPackageCards([card], "Example 1.21"), [card]);
 	assert.deepEqual(filterPackageCards([card], "missing"), []);
+});
+
+
+test("merges static definitions as a fallback and removes migrated duplicates", () => {
+	const dynamic = mapMcfpmPackage({
+		...PACKAGE,
+		display: { ...PACKAGE.display, legacyPath: "/wheel/resources/demo.html" },
+	});
+	const duplicate = mapStaticPackage({
+		id: "static:demo",
+		name: "Legacy demo",
+		description: "legacy",
+		tokens: "Legacy demo",
+		tags: [],
+		path: "/wheel/resources/demo.html",
+		cover: null,
+		gameversion: ["1.20"],
+		author: [{ name: "Legacy" }],
+		static: true,
+	});
+	const fallback = mapStaticPackage({ ...duplicate, id: "static:other", name: "Other", path: "/wheel/resources/other.html" });
+	const merged = mergePackageCards([dynamic], [duplicate, fallback]);
+	assert.equal(merged.length, 2);
+	assert.equal(merged.filter((item) => item.legacyPath === "/wheel/resources/demo.html").length, 1);
+	assert.deepEqual(fallback.tags, []);
+});
+
+
+test("keeps static definitions available when the dynamic API is unavailable", async () => {
+	const fetchImpl = async (url) => {
+		if (String(url).startsWith("https://packages.example/")) {
+			return { ok: false, status: 503 };
+		}
+		return {
+			ok: true,
+			status: 200,
+			json: async () => ({
+				schema: 1,
+				items: [{
+					id: "static:available",
+					name: "Available",
+					description: "Static fallback",
+					tokens: "Available",
+					path: "/wheel/resources/available.html",
+					cover: null,
+					gameversion: ["1.21"],
+					author: [{ name: "Example" }],
+					static: true,
+				}],
+			}),
+		};
+	};
+	const cards = await fetchPackageCards(
+		fetchImpl,
+		"https://packages.example/v1/packages",
+		"/datapack-index/wheel-static-index.json",
+	);
+	assert.equal(cards.length, 1);
+	assert.equal(cards[0].id, "static:available");
+});
+
+
+test("builds repository browser links for Nexus and Maven Central", () => {
+	assert.equal(
+		packageRepositoryPageUrl("org.example:demo", {
+			version: "1.2.3",
+			source: "nexus",
+			repositoryUrl: "https://nexus.example/repository/maven-releases/",
+		}),
+		"https://nexus.example/#browse/browse:maven-releases:org/example/demo/1.2.3",
+	);
+	assert.equal(
+		packageRepositoryPageUrl("org.example:demo", { version: "1.2.3", source: "central" }),
+		"https://central.sonatype.com/artifact/org.example/demo/1.2.3",
+	);
 });

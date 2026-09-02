@@ -29,7 +29,7 @@
 <script>
 import { useData } from "vitepress";
 import ResultCard from "./ResultCard.vue";
-import { fetchMcfpmPackages } from "./mcfpmPackages.mjs";
+import { fetchPackageCards } from "./mcfpmPackages.mjs";
 
 export default {
 	components: { ResultCard },
@@ -43,7 +43,7 @@ export default {
 	computed: {
 		isEnglish() { return String(this.lang || "").startsWith("en"); },
 		siteTitle() { return this.isEnglish ? "Vanilla Prerequisite Library · All Packages" : "香草前置馆 · 全部资源"; },
-		siteSubtitle() { return this.isEnglish ? "Live packages from Nexus and Maven Central" : "实时展示 Nexus 与 Maven Central 中的 Mcfpm 软件包"; },
+			siteSubtitle() { return this.isEnglish ? "Repository packages with the legacy catalog as a fallback" : "软件仓库动态索引，原有资料静态兜底"; },
 		backLabel() { return this.isEnglish ? "Back to search" : "返回搜索页面"; },
 		submitLabel() { return this.isEnglish ? "Submit" : "投稿"; },
 		loadingLabel() { return this.isEnglish ? "Loading the package index…" : "正在获取软件包索引…"; },
@@ -61,9 +61,9 @@ export default {
 			this.loading = true;
 			this.error = "";
 			try {
-				this.data = await fetchMcfpmPackages();
+					this.data = await fetchPackageCards();
 			} catch (error) {
-				this.error = this.isEnglish ? "The package index is temporarily unavailable." : "软件包索引暂时不可用，请稍后重试。";
+					this.error = this.isEnglish ? "The package catalogs are temporarily unavailable." : "动态索引和静态资料暂时均不可用，请稍后重试。";
 				console.warn("Mcfpm package index fetch failed", error);
 			} finally {
 				this.loading = false;

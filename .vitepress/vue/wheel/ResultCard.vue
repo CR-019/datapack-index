@@ -16,8 +16,8 @@
         </div>
         <div class="card-right">
             <div class="gameversion">
-                <span v-for="(version, index) in item.gameversion" :key="index" class="version-badge">
-                    {{ version }}
+				<span v-for="(version, index) in item.gameversion" :key="index" class="version-badge" :title="`Minecraft ${version}`">
+					MC {{ version }}
                 </span>
             </div>
             <div class="tags" aria-hidden="false">
@@ -357,7 +357,11 @@ export default {
     color: #1e90ff;
     padding: 3px 8px;
     border-radius: 999px;
-    font-size: 12px;
+	font-size: 12px;
+	max-width: 150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
     box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.02);
 }
 
