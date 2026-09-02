@@ -31,7 +31,8 @@ test("wheel runtime uses the generated static fallback without restoring the old
 	assert.doesNotMatch(nbtTree.markdown, /<InfoCard/);
 });
 
-test("runtime code blocks do not add margins inside their language wrapper", () => {
+test("runtime documentation inherits the library's native Markdown styles", () => {
 	const packagePage = fs.readFileSync(path.join(import.meta.dirname, "..", ".vitepress", "vue", "wheel", "PackagePage.vue"), "utf8");
-	assert.match(packagePage, /div\[class\*="language-"\] > pre\) \{ margin: 0; \}/);
+	assert.doesNotMatch(packagePage, /\.package-markdown\s*:deep/);
+	assert.doesNotMatch(packagePage, /\.package-sidebar\s*\{[^}]*position:\s*sticky/);
 });
