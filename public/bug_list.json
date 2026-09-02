@@ -45,7 +45,7 @@
         "version": "26.2+",
         "description": "",
         "title": "/damage does not trigger Thorns",
-        "status": "Confirmed"
+        "status": "wont_fix"
     },
     {
         "id": "311435",
@@ -53,15 +53,7 @@
         "version": "26.2+",
         "description": "使用[charged_projectiles]总会选中弩，不管有没有上弦，而[!charged_projectiles]将不会选中任何弩，不管有没有上弦",
         "title": "/clear command cannot filter crossbows by charged_projectiles",
-        "status": "Confirmed"
-    },
-    {
-        "id": "311428",
-        "cn_title": "/compute命令数值提供器在integer模式下无法精确读取整数",
-        "version": "26.3 Snapshot 10+",
-        "description": "即使在integer模式下，compute的数值提供器也会以float读取整数再转换回整数导致精度丢失",
-        "title": "Number providers lose precision when reading the initial values in integer mode",
-        "status": "Confirmed"
+        "status": "invalid"
     },
     {
         "id": "311326",
@@ -142,6 +134,14 @@
         "description": "进度的选项卡的顺序会被随机排列",
         "title": "Advancement tab ordering is arbitrary",
         "status": "Confirmed"
+    },
+    {
+        "id": "311428",
+        "cn_title": "/compute命令数值提供器在integer模式下无法精确读取整数",
+        "version": "26.3 Snapshot 10+",
+        "description": "即使在integer模式下，compute的数值提供器也会以float读取整数再转换回整数导致精度丢失",
+        "title": "Number providers lose precision when reading the initial values in integer mode",
+        "status": "fixed"
     },
     {
         "id": "299582",
