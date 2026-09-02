@@ -48,6 +48,7 @@ test("allows only registered components and inert bound values", () => {
 		validateRuntimeMarkdown('<picture><source media="(prefers-color-scheme: dark)" srcset="dark.png"><img src="light.png"></picture>'),
 		'<picture><source media="(prefers-color-scheme: dark)" srcset="dark.png"><img src="light.png"></picture>',
 	);
+	assert.throws(() => validateRuntimeMarkdown('<source srcset="safe.png 1x, javascript:alert(1) 2x">'), /unsafe URL/);
 	assert.throws(() => validateRuntimeMarkdown("<UnknownWidget />"), /unsupported component/);
 	assert.throws(() => validateRuntimeMarkdown("<ColorLine :height=\"globalThis.fetch('https:\/\/evil.test')\" />"), /unsafe bound property/);
 	assert.throws(() => validateRuntimeMarkdown("<ColorLine :height=globalThis />"), /unsafe bound property/);
@@ -104,10 +105,14 @@ test("renders fenced code with the same single wrapper structure as VitePress", 
 
 test("resolves GitHub README links and images against the repository", () => {
 	const html = renderRuntimeMarkdown(
-		"[Guide](docs/guide.md) ![Diagram](assets/diagram.png) [License](/LICENSE)",
+		`[Guide](docs/guide.md) ![Diagram](assets/diagram.png) [License](/LICENSE)
+
+<picture><source srcset="assets/dark.png 1x, assets/dark@2x.png 2x"><img src="assets/light.png"></picture>`,
 		{ documentPath: "https://github.com/Example/Demo/blob/main/README.md" },
 	);
 	assert.match(html, /href="https:\/\/github\.com\/Example\/Demo\/blob\/main\/docs\/guide\.md"/);
 	assert.match(html, /src="https:\/\/raw\.githubusercontent\.com\/Example\/Demo\/main\/assets\/diagram\.png"/);
 	assert.match(html, /href="https:\/\/github\.com\/Example\/Demo\/blob\/main\/LICENSE"/);
+	assert.match(html, /srcset="https:\/\/raw\.githubusercontent\.com\/Example\/Demo\/main\/assets\/dark\.png 1x, https:\/\/raw\.githubusercontent\.com\/Example\/Demo\/main\/assets\/dark@2x\.png 2x"/);
+	assert.match(html, /src="https:\/\/raw\.githubusercontent\.com\/Example\/Demo\/main\/assets\/light\.png"/);
 });
