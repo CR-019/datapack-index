@@ -3,7 +3,7 @@
         <div class="card-left">
             <!-- cover thumbnail on the left: image or generated placeholder -->
             <div class="card-thumb">
-                <img v-if="coverLoaded" :src="coverSrc" alt="cover" />
+                <img v-if="coverLoaded" :src="coverSrc" :alt="coverAlt" />
                 <div v-else class="thumb-placeholder" :style="placeholderStyle">{{ initials }}</div>
             </div>
             <div class="left-content">
@@ -31,12 +31,18 @@
 </template>
 
 <script>
+import { useData } from "vitepress";
 import { stringToBadgeColors } from '../../scripts/badgeColor';
+import { localizedPackagePath } from './mcfpmPackages.mjs';
 
 export default {
     name: "ResultCard",
     props: {
         item: { type: Object, required: true },
+    },
+    setup() {
+        const { lang } = useData();
+        return { lang };
     },
     data() {
         return { coverLoaded: false, coverSrc: "", nameFontSize: 18, _resizeTimer: null };
@@ -61,7 +67,7 @@ export default {
     },
     methods: {
         onClick() {
-            const dest = this.item.path ?? this.item.id ?? null;
+            const dest = localizedPackagePath(this.item, this.lang);
             if (!dest || typeof dest !== "string") return;
             if (/^https:\/\//i.test(dest)) {
                 this.$emit("select", dest);
@@ -146,6 +152,9 @@ export default {
         },
     },
     computed: {
+        coverAlt() {
+            return `${this.item?.name || ""} ${String(this.lang || "").startsWith("en") ? "cover" : "封面"}`.trim();
+        },
         initials() {
             const name = (this.item && this.item.name) || "";
             if (!name) return "";
