@@ -20,6 +20,7 @@ const VUE_DIRECTIVE = /\s(?:v-(?!pre\b)|@|#)[\w:[\].-]*(?:\s*=|\s|(?=\/?>))/i;
 const BOUND_ATTRIBUTE = /\s:([A-Za-z_][\w-]*)\s*=\s*(["'])(.*?)\2/gs;
 const SAFE_BOUND_VALUE = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?|"[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*')$/s;
 const DANGEROUS_URL_ATTRIBUTE = /\s(?:href|src)\s*=\s*["']\s*(?:javascript|data|vbscript):/i;
+const GITHUB_ALERT_MARKER = /^\[!(TIP|NOTE|INFO|IMPORTANT|WARNING|CAUTION|DANGER)\]([^\n\r]*)/i;
 
 function escapeHtml(value) {
 	return String(value)
@@ -85,6 +86,42 @@ function transformContainers(source, english) {
 	return output.join("\n");
 }
 
+function useGitHubAlerts(markdown) {
+	const titles = {
+		tip: "TIP",
+		note: "NOTE",
+		info: "INFO",
+		important: "IMPORTANT",
+		warning: "WARNING",
+		caution: "CAUTION",
+		danger: "DANGER",
+	};
+	markdown.core.ruler.after("block", "github-alerts", (state) => {
+		for (let index = 0; index < state.tokens.length; index += 1) {
+			const open = state.tokens[index];
+			if (open.type !== "blockquote_open") continue;
+			let end = index + 1;
+			while (end < state.tokens.length && (state.tokens[end].type !== "blockquote_close" || state.tokens[end].level !== open.level)) end += 1;
+			if (end === state.tokens.length) continue;
+			const firstContent = state.tokens.slice(index, end + 1).find((token) => token.type === "inline");
+			const match = firstContent?.content.match(GITHUB_ALERT_MARKER);
+			if (!match) continue;
+			const type = match[1].toLowerCase();
+			const title = match[2].trim() || titles[type];
+			firstContent.content = firstContent.content.slice(match[0].length).trimStart();
+			open.type = "github_alert_open";
+			open.tag = "div";
+			open.meta = { title, type };
+			state.tokens[end].type = "github_alert_close";
+			state.tokens[end].tag = "div";
+		}
+	});
+	markdown.renderer.rules.github_alert_open = (tokens, index) => {
+		const { title, type } = tokens[index].meta;
+		return `<div class="${type} custom-block github-alert"><p class="custom-block-title">${escapeHtml(title)}</p>\n`;
+	};
+}
+
 function rewriteUrl(raw, documentPath, baseUrl) {
 	if (!raw || /^(?:[a-z][a-z\d+.-]*:)?\/\//i.test(raw) || /^(?:#|mailto:|tel:)/i.test(raw)) return raw;
 	if (/^(?:javascript|data|vbscript):/i.test(raw)) return "#";
@@ -141,6 +178,7 @@ export function renderRuntimeMarkdown(source, { highlighter = null, english = fa
 	});
 	markdown.use(footnote);
 	useKatex(markdown);
+	useGitHubAlerts(markdown);
 
 	const defaultHeading = markdown.renderer.rules.heading_open;
 	markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {

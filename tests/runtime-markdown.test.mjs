@@ -29,6 +29,18 @@ test("keeps package prose in its source language", () => {
 	assert.match(renderRuntimeMarkdown("这是前置原文。", { english: true }), /这是前置原文。/);
 });
 
+test("renders VitePress GitHub alerts with the site's classes", () => {
+	const html = renderRuntimeMarkdown(`> [!IMPORTANT]
+> Install the dependency first.
+
+> [!TIP] Custom title
+> Keep the ordinary source prose.`);
+	assert.match(html, /<div class="important custom-block github-alert"><p class="custom-block-title">IMPORTANT<\/p>/);
+	assert.match(html, /Install the dependency first\./);
+	assert.match(html, /<div class="tip custom-block github-alert"><p class="custom-block-title">Custom title<\/p>/);
+	assert.doesNotMatch(html, /\[!IMPORTANT\]|\[!TIP\]/);
+});
+
 test("allows only registered components and inert bound values", () => {
 	assert.equal(validateRuntimeMarkdown("<RepoCard repo=\"Example/Pack\" />"), "<RepoCard repo=\"Example/Pack\" />");
 	assert.throws(() => validateRuntimeMarkdown("<UnknownWidget />"), /unsupported component/);
