@@ -3,17 +3,22 @@ import test from "node:test";
 
 import {
 	STATIC_INDEX_URL,
+	fetchEnglishGitHubReadme,
 	fetchPackageCards,
 	fetchMcfpmPackage,
 	fetchMcfpmPackages,
 	fetchStaticPackageContent,
+	fetchStaticPackageDocument,
 	filterPackageCards,
 	githubRepositoryFromUrl,
+	isPredominantlyEnglishMarkdown,
+	localizePackageCards,
 	localizedPackagePath,
 	mapMcfpmPackage,
 	mapStaticPackage,
 	mergePackageCards,
 	packageRepositoryPageUrl,
+	sortPackageCards,
 } from "../.vitepress/vue/wheel/mcfpmPackages.mjs";
 
 
@@ -94,15 +99,36 @@ test("fetches a package detail and filters cards", async () => {
 
 test("loads the original static document for a migrated package", async () => {
 	const markdown = '<div class="nbttree">\n\n<node type="compound" name="root" />\n</div>';
+	const englishMarkdown = "# English documentation";
 	const fetchImpl = async () => ({
 		ok: true,
 		status: 200,
 		json: async () => ({
 			schema: 1,
-			items: [{ legacyPath: "/wheel/resources/demo.html", markdown }],
+			items: [{
+				legacyPath: "/wheel/resources/demo.html",
+				englishPath: "/en/wheel/resources/demo.html",
+				name: "演示前置",
+				englishName: "Demo Wheel",
+				englishDescription: "English summary",
+				englishTags: ["library"],
+				markdown,
+				englishMarkdown,
+			}],
 		}),
 	});
 	assert.equal(await fetchStaticPackageContent("/wheel/resources/demo.html", fetchImpl), markdown);
+	assert.deepEqual(
+		await fetchStaticPackageDocument("/wheel/resources/demo.html", "en-US", fetchImpl),
+		{
+			markdown: englishMarkdown,
+			name: "Demo Wheel",
+			description: "English summary",
+			documentPath: "/en/wheel/resources/demo.html",
+			tags: ["library"],
+			githubRepository: null,
+		},
+	);
 	await assert.rejects(() => fetchStaticPackageContent("/../secret.html", fetchImpl), /path is invalid/);
 	await assert.rejects(() => fetchStaticPackageContent("/wheel/resources/missing.html", fetchImpl), /not found/);
 });
@@ -116,6 +142,9 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 	const duplicate = mapStaticPackage({
 		id: "static:demo",
 		name: "Legacy demo",
+		englishName: "English demo",
+		englishDescription: "English legacy summary",
+		englishTokens: "English demo summary",
 		description: "legacy",
 		tokens: "Legacy demo",
 		tags: [],
@@ -131,6 +160,7 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 	const merged = mergePackageCards([dynamic], [duplicate, fallback]);
 	assert.equal(merged.length, 2);
 	assert.equal(merged.filter((item) => item.legacyPath === "/wheel/resources/demo.html").length, 1);
+	assert.equal(merged.find((item) => item.legacyPath === "/wheel/resources/demo.html").englishName, "English demo");
 	assert.deepEqual(fallback.tags, []);
 	assert.equal(fallback.githubRepository, "Legacy/example");
 	assert.equal(fallback.projectUrl, "https://github.com/Legacy/example");
@@ -139,6 +169,46 @@ test("merges static definitions as a fallback and removes migrated duplicates", 
 	assert.equal(localizedPackagePath(duplicate, "en-US"), "/en/wheel/resources/demo.html");
 	assert.equal(localizedPackagePath(fallback, "en-US"), "/en/wheel/resources/other.html");
 	assert.equal(localizedPackagePath(dynamic, "zh-CN"), dynamic.path);
+});
+
+
+test("localizes and sorts English titles before Chinese titles", () => {
+	const cards = [
+		{ id: "zh", name: "中文工具", description: "中文", tokens: "中文" },
+		{ id: "z", name: "原名 Z", englishName: "Zoo", englishDescription: "Z summary", englishTokens: "Zoo" },
+		{ id: "a", name: "原名 A", englishName: "alpha", englishDescription: "A summary", englishTokens: "alpha" },
+	];
+	assert.deepEqual(localizePackageCards(cards, "en-US").map((item) => item.name), ["alpha", "Zoo", "中文工具"]);
+	assert.deepEqual(sortPackageCards([
+		{ id: "z", name: "Zoo" },
+		{ id: "zh", name: "中文工具" },
+		{ id: "a", name: "alpha" },
+	], "en-US").map((item) => item.id), ["a", "z", "zh"]);
+});
+
+
+test("uses an English GitHub README and rejects a Chinese README", async () => {
+	const english = "# Demo\n\nThis package provides useful tools for Minecraft data pack authors.";
+	const chinese = "# 演示\n\n这个前置为数据包作者提供实用工具。";
+	assert.equal(isPredominantlyEnglishMarkdown(english), true);
+	assert.equal(isPredominantlyEnglishMarkdown(chinese), false);
+	const responseFor = (markdown) => async (url) => {
+		assert.equal(url, "https://api.github.test/repos/Example/Demo/readme");
+		return {
+			ok: true,
+			status: 200,
+			json: async () => ({
+				encoding: "base64",
+				content: Buffer.from(markdown, "utf8").toString("base64"),
+				html_url: "https://github.com/Example/Demo/blob/main/README.md",
+			}),
+		};
+	};
+	assert.deepEqual(
+		await fetchEnglishGitHubReadme("Example/Demo", responseFor(english), "https://api.github.test"),
+		{ markdown: english, documentPath: "https://github.com/Example/Demo/blob/main/README.md" },
+	);
+	assert.equal(await fetchEnglishGitHubReadme("Example/Demo", responseFor(chinese), "https://api.github.test"), null);
 });
 
 

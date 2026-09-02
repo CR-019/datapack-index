@@ -72,7 +72,7 @@
 					<PackageMarkdown
 						v-if="detailsMarkdown"
 						:source="detailsMarkdown"
-						:document-path="site?.legacyPath || ''"
+						:document-path="detailsDocumentPath"
 					/>
 					<div v-else class="metadata-fallback">
 						<h2>{{ copy.about }}</h2>
@@ -110,7 +110,13 @@ import { useData } from "vitepress";
 
 import PackageMarkdown from "./PackageMarkdown.vue";
 import RepoCard from "./RepoCard.vue";
-import { fetchMcfpmPackage, fetchStaticPackageContent, githubRepositoryFromUrl, packageRepositoryPageUrl } from "./mcfpmPackages.mjs";
+import {
+	fetchEnglishGitHubReadme,
+	fetchMcfpmPackage,
+	fetchStaticPackageDocument,
+	githubRepositoryFromUrl,
+	packageRepositoryPageUrl,
+} from "./mcfpmPackages.mjs";
 
 const { lang } = useData();
 const isEnglish = computed(() => String(lang.value || "").startsWith("en"));
@@ -185,7 +191,8 @@ const selectedVersionName = ref("");
 const loading = ref(true);
 const error = ref("");
 const copied = ref(false);
-const legacyDetailsMarkdown = ref("");
+const localizedStaticDocument = ref(null);
+const documentationSource = ref(null);
 let legacyContentRequest = 0;
 
 const selectedVersion = computed(() => {
@@ -195,17 +202,28 @@ const selectedVersion = computed(() => {
 		|| packageData.value.versions[0];
 });
 const site = computed(() => selectedVersion.value?.site || packageData.value?.display || null);
-const displayName = computed(() => site.value?.name || packageData.value?.name || packageData.value?.coordinate || copy.value.fallbackName);
-const description = computed(() => site.value?.description || selectedVersion.value?.description || packageData.value?.description || copy.value.fallbackDescription(packageData.value?.coordinate || ""));
+const displayName = computed(() => (isEnglish.value ? localizedStaticDocument.value?.name : null)
+	|| site.value?.name
+	|| packageData.value?.name
+	|| packageData.value?.coordinate
+	|| copy.value.fallbackName);
+const description = computed(() => (isEnglish.value ? localizedStaticDocument.value?.description : null)
+	|| site.value?.description
+	|| selectedVersion.value?.description
+	|| packageData.value?.description
+	|| copy.value.fallbackDescription(packageData.value?.coordinate || ""));
 const authors = computed(() => Array.isArray(site.value?.authors) ? site.value.authors : []);
 const gameVersions = computed(() => Array.isArray(site.value?.gameVersions) && site.value.gameVersions.length
 	? site.value.gameVersions
 	: selectedVersion.value?.minecraftRequirements || []);
-const tags = computed(() => Array.isArray(site.value?.tags) ? site.value.tags : []);
+const tags = computed(() => isEnglish.value && localizedStaticDocument.value?.tags?.length
+	? localizedStaticDocument.value.tags
+	: (Array.isArray(site.value?.tags) ? site.value.tags : []));
 const initials = computed(() => displayName.value.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").slice(0, 2).toUpperCase());
 const installCommand = computed(() => `mcfpm install ${packageData.value.coordinate}@${selectedVersion.value.version}`);
 const copyLabel = computed(() => copied.value ? copy.value.copiedCommand : copy.value.copyCommand);
-const detailsMarkdown = computed(() => legacyDetailsMarkdown.value || site.value?.detailsMarkdown || "");
+const detailsMarkdown = computed(() => documentationSource.value?.markdown || site.value?.detailsMarkdown || "");
+const detailsDocumentPath = computed(() => documentationSource.value?.documentPath || site.value?.legacyPath || "");
 const sourceLabel = computed(() => selectedVersion.value?.source === "nexus" ? "Nexus" : "Maven Central");
 const listSeparator = computed(() => isEnglish.value ? ", " : "、");
 const requirementSeparator = computed(() => isEnglish.value ? "; " : "；");
@@ -215,7 +233,7 @@ const repositoryPageUrl = computed(() => packageData.value && selectedVersion.va
 	? packageRepositoryPageUrl(packageData.value.coordinate, selectedVersion.value)
 	: null);
 const repositoryPageLabel = computed(() => selectedVersion.value?.source === "nexus" ? copy.value.nexusPage : copy.value.centralPage);
-const githubRepository = computed(() => {
+function resolveGitHubRepository(staticDocument = localizedStaticDocument.value) {
 	const candidates = [
 		site.value?.projectUrl,
 		...(Array.isArray(selectedVersion.value?.upstreamUrls) ? selectedVersion.value.upstreamUrls : []),
@@ -224,8 +242,9 @@ const githubRepository = computed(() => {
 		const repository = githubRepositoryFromUrl(candidate);
 		if (repository) return repository;
 	}
-	return null;
-});
+	return staticDocument?.githubRepository || null;
+}
+const githubRepository = computed(() => resolveGitHubRepository());
 
 function selectVersion(version) {
 	if (!packageData.value.versions.some((entry) => entry.version === version)) return;
@@ -240,16 +259,32 @@ function selectVersion(version) {
 async function loadLegacyDetails() {
 	const request = ++legacyContentRequest;
 	const legacyPath = site.value?.legacyPath;
-	legacyDetailsMarkdown.value = "";
-	if (!legacyPath) return;
-	try {
-		const markdown = await fetchStaticPackageContent(legacyPath);
-		if (request === legacyContentRequest) legacyDetailsMarkdown.value = markdown;
-	} catch (caught) {
-		if (request === legacyContentRequest) {
+	localizedStaticDocument.value = null;
+	documentationSource.value = null;
+	let staticDocument = null;
+	if (legacyPath) {
+		try {
+			staticDocument = await fetchStaticPackageDocument(legacyPath, isEnglish.value ? "en" : "zh-CN");
+		} catch (caught) {
 			console.warn("Static wheel source document is unavailable; using repository metadata", caught);
 		}
 	}
+	if (request !== legacyContentRequest) return;
+	localizedStaticDocument.value = staticDocument;
+	let githubReadme = null;
+	const repository = resolveGitHubRepository(staticDocument);
+	if (isEnglish.value && repository) {
+		try {
+			githubReadme = await fetchEnglishGitHubReadme(repository);
+		} catch (caught) {
+			console.warn("GitHub README is unavailable; using the localized Wheel document", caught);
+		}
+	}
+	if (request !== legacyContentRequest) return;
+	documentationSource.value = githubReadme || (staticDocument ? {
+		markdown: staticDocument.markdown,
+		documentPath: staticDocument.documentPath,
+	} : null);
 }
 
 async function copyInstallCommand() {

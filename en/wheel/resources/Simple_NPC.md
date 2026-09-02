@@ -47,7 +47,7 @@ The following instructions may be out of date, please refer to [Official Documen
     - <node type="float" name="x" required=true /> xcoordinate。
     - <node type="float" name="y" required=true /> ycoordinate。
     - <node type="float" name="z" required=true /> zcoordinate。
-  - <node type="list" name="text" required=true /> contains [text component](https://zh.minecraft.wiki/w/文本组件)。
+  - <node type="list" name="text" required=true /> Contains [text components](https://minecraft.wiki/w/Text_component_format).
 - <node type="compound" name="npc" required=true />player model configuration.
   - <node type="compound" name="pos" required=true />coordinate。
     - <node type="float" name="x" required=true /> xcoordinate。
@@ -76,13 +76,13 @@ The following instructions may be out of date, please refer to [Official Documen
     - <node type="float" name="x" required=true /> xcoordinate。
     - <node type="float" name="y" required=true /> ycoordinate。
     - <node type="float" name="z" required=true /> zcoordinate。
-  - <node type="compound" name="data" required=true /> See the text showing the entity's [entity data](https://zh.minecraft.wiki/w/展示实体#实体数据) configuration
+  - <node type="compound" name="data" required=true /> Configuration from the text display's [entity data](https://minecraft.wiki/w/Display#Entity_data).
 - <node type="compound" name="npc" required=true />player model configuration.
   - <node type="compound" name="pos" required=true />coordinate。
     - <node type="float" name="x" required=true /> xcoordinate。
     - <node type="float" name="y" required=true /> ycoordinate。
     - <node type="float" name="z" required=true /> zcoordinate。
-  - <node type="compound" name="data" required=true /> See player model [entity data](https://zh.minecraft.wiki/w/玩家模型#实体数据) configuration
+  - <node type="compound" name="data" required=true /> Configuration from the player model's entity data.
 - <node type="compound" name="right_click"/>Right-click NPC to execute.
   - <node type="string" name="command" />The command executed by right-clicking (choose one configuration with function).
   - <node type="string" name="function" />The function to be executed by right-clicking (choose one with command to configure).

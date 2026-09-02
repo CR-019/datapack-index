@@ -2,10 +2,10 @@
 name: Custom Collision Box
 author:
     -
-        name: 斑海awa
+        name: BanHaiAwa
         char: Author
-description: 创建自定义碰撞箱和交互箱，同时提供基本的管理功能
-tags: [碰撞箱, 交互箱]
+description: Create and manage custom collision and interaction boxes
+tags: [collision box, interaction box]
 version: 0.3.1
 gameversion: [1.21.6~26.2]
 aside: left
@@ -14,18 +14,19 @@ repo: 4tubborn/sbox
 cover: /datapack-index/wheel/customcollisionbox.png
 ---
 
-> [!NOTE]
-> The package documentation below is kept in its original language.
+::: tip Translation notice
+This page is maintained in English from the original project documentation. Please report any inaccurate technical wording.
+:::
 
 <InfoCard />
 
-## 依赖
+## Dependencies
 
 > [!IMPORTANT]
-> 本库需要[Bookshelf](./bookshelf)的[Link](https://modrinth.com/datapack/bookshelf-link)模块作为前置。
+> This library requires the [Link](https://modrinth.com/datapack/bookshelf-link) module from [Bookshelf](./bookshelf).
 
-# 简述
+# Overview
 
-封装了一些简易的API以快速创建和管理AABB轴对齐碰撞箱/交互箱。
+This library provides a small API for quickly creating and managing axis-aligned AABB collision and interaction boxes.
 
-阅读其官方说明文件 ([Github](https://github.com/4tubborn/sbox/wiki)) 以获取更多信息。
+See the [official GitHub wiki](https://github.com/4tubborn/sbox/wiki) for more information.
