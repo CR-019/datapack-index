@@ -15,7 +15,7 @@
     </p>
 
     <div v-else class="bug-list-items">
-      <a
+      <article
         v-for="(bug, index) in paginatedBugs"
         :key="`${bug.id}-${index}`"
         class="bug-card"
@@ -24,40 +24,63 @@
           { 'is-bug-target': highlightedBug === issueKey(bug.id) },
         ]"
         :data-bug-key="issueKey(bug.id)"
-        :href="bugUrl(bug.id)"
-        target="_blank"
-        rel="noopener noreferrer"
-        :aria-label="`${bug.cn_title}：影响版本 ${bug.version}，${statusInfo(bug.status).label}`"
       >
-        <span class="bug-card-main">
-          <span class="bug-title-row">
-            <span class="bug-cn-title">{{ bug.cn_title }}</span>
+        <a
+          class="bug-card-link"
+          :href="bugUrl(bug.id)"
+          target="_blank"
+          rel="noopener noreferrer"
+          :aria-label="`${bug.cn_title}：影响版本 ${bug.version}，${statusInfo(bug.status).label}`"
+        >
+          <span class="bug-card-main">
+            <span class="bug-title-row">
+              <span class="bug-cn-title">{{ bug.cn_title }}</span>
 
-            <span class="bug-tags">
-              <span class="bug-tag bug-version">{{ bug.version }}</span>
-              <span
-                class="bug-tag bug-status"
-                :class="`bug-status-${statusInfo(bug.status).key}`"
-                :data-tooltip="statusInfo(bug.status).description"
-                :title="statusInfo(bug.status).description"
-              >
-                {{ statusInfo(bug.status).label }}
+              <span class="bug-tags">
+                <span class="bug-tag bug-version">{{ bug.version }}</span>
+                <span
+                  class="bug-tag bug-status"
+                  :class="`bug-status-${statusInfo(bug.status).key}`"
+                  :data-tooltip="statusInfo(bug.status).description"
+                  @mouseenter="positionStatusTooltip"
+                >
+                  {{ statusInfo(bug.status).label }}
+                </span>
+              </span>
+            </span>
+
+            <span class="bug-details">
+              <span class="bug-details-inner">
+                <span class="bug-en-title" lang="en">{{ issueKey(bug.id) }} {{ bug.title }}</span>
+                <span v-if="bug.description.trim()" class="bug-description">
+                  {{ bug.description }}
+                </span>
               </span>
             </span>
           </span>
 
-          <span class="bug-details">
-            <span class="bug-details-inner">
-              <span class="bug-en-title" lang="en">{{ issueKey(bug.id) }} {{ bug.title }}</span>
-              <span v-if="bug.description.trim()" class="bug-description">
-                {{ bug.description }}
-              </span>
-            </span>
-          </span>
-        </span>
-
-        <span class="bug-external" aria-hidden="true">↗</span>
-      </a>
+          <span class="bug-external" aria-hidden="true">↗</span>
+        </a>
+        <button
+          type="button"
+          class="bug-copy-button"
+          :aria-label="`复制 ${issueKey(bug.id)} 的页面链接`"
+          :aria-busy="copyFeedback?.key === issueKey(bug.id) && copyFeedback.state === 'copying'"
+          @click.stop.prevent="copyBugLink(bug.id)"
+        >
+          <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="8" y="8" width="12" height="13" rx="2" />
+            <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" />
+          </svg>
+          复制链接
+        </button>
+        <span
+          v-if="copyFeedback?.key === issueKey(bug.id)"
+          class="bug-copy-feedback"
+          :class="{ 'is-error': copyFeedback.state === 'error' }"
+          role="status"
+        >{{ copyFeedback.state === 'copied' ? '已复制' : copyFeedback.state === 'error' ? '复制失败，请重试' : '正在复制…' }}</span>
+      </article>
 
       <nav v-if="totalPages > 1" class="bug-pagination" aria-label="漏洞列表分页">
         <button
@@ -102,7 +125,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter, withBase } from 'vitepress'
-import { findBugTarget } from './bugTarget.mjs'
+import { bugPermalink, findBugTarget } from './bugTarget.mjs'
 
 interface BugEntry {
   id: string
@@ -171,6 +194,9 @@ const errorMessage = ref('')
 const currentPage = ref(1)
 const listElement = ref<HTMLElement | null>(null)
 const highlightedBug = ref('')
+const copyFeedback = ref<{ key: string; state: 'copying' | 'copied' | 'error' } | null>(null)
+let copyTimer: ReturnType<typeof setTimeout> | undefined
+let copyAttempt = 0
 const router = useRouter()
 let previousRouteChange: typeof router.onAfterRouteChange
 let highlightTimer: ReturnType<typeof setTimeout> | undefined
@@ -224,6 +250,13 @@ function statusInfo(status: string): StatusInfo {
   return statuses[normalizeStatus(status)] ?? unknownStatus
 }
 
+function positionStatusTooltip(event: MouseEvent) {
+  const tag = event.currentTarget as HTMLElement
+  // Reserve room for the card's hover expansion and the viewport edge.
+  const availableWidth = document.documentElement.clientWidth - tag.getBoundingClientRect().left - 32
+  tag.style.setProperty('--bug-tooltip-max-width', `${Math.max(1, availableWidth)}px`)
+}
+
 function issueKey(id: string): string {
   const normalized = String(id ?? '').trim().toUpperCase()
   return normalized.startsWith('MC-') ? normalized : `MC-${normalized}`
@@ -234,8 +267,50 @@ function bugUrl(id: string): string {
 }
 
 function goToPage(page: number) {
+  clearCopyFeedback()
   clearHighlight()
   currentPage.value = Math.min(Math.max(page, 1), totalPages.value)
+}
+
+function clearCopyFeedback() {
+  copyAttempt += 1
+  clearTimeout(copyTimer)
+  copyFeedback.value = null
+}
+
+async function copyBugLink(id: string) {
+  if (copyFeedback.value?.key === issueKey(id) && copyFeedback.value.state === 'copying') return
+  clearCopyFeedback()
+  const attempt = copyAttempt
+  const key = issueKey(id)
+  copyFeedback.value = { key, state: 'copying' }
+  try {
+    const link = bugPermalink(window.location.href, id)
+    try {
+      await navigator.clipboard.writeText(link)
+    } catch {
+      // Support HTTP mirrors and browsers without the Clipboard API.
+      const previousFocus = document.activeElement
+      const textarea = document.createElement('textarea')
+      textarea.value = link
+      textarea.readOnly = true
+      textarea.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0'
+      document.body.append(textarea)
+      try {
+        textarea.select()
+        if (!document.execCommand('copy')) throw new Error('Copy failed')
+      } finally {
+        textarea.remove()
+        if (previousFocus instanceof HTMLElement) previousFocus.focus({ preventScroll: true })
+      }
+    }
+    if (!disposed && attempt === copyAttempt) copyFeedback.value = { key, state: 'copied' }
+  } catch {
+    if (!disposed && attempt === copyAttempt) copyFeedback.value = { key, state: 'error' }
+  }
+  if (!disposed && attempt === copyAttempt) {
+    copyTimer = setTimeout(clearCopyFeedback, 2500)
+  }
 }
 
 function clearHighlight() {
@@ -287,6 +362,7 @@ function isBugEntry(value: unknown): value is BugEntry {
 }
 
 async function loadBugs() {
+  clearCopyFeedback()
   clearHighlight()
   loading.value = true
   errorMessage.value = ''
@@ -324,6 +400,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   disposed = true
+  clearCopyFeedback()
   clearHighlight()
   if (router.onAfterRouteChange === afterRouteChange) {
     router.onAfterRouteChange = previousRouteChange
@@ -357,7 +434,6 @@ onBeforeUnmount(() => {
   width: calc(100% - 28px);
   min-height: 70px;
   margin-inline: auto;
-  padding: 18px 46px 18px 20px;
   border: 1px solid var(--vp-c-divider);
   border-left: 4px solid var(--bug-accent);
   border-radius: 12px;
@@ -373,8 +449,22 @@ onBeforeUnmount(() => {
     transform 220ms ease;
 }
 
+.bug-card-link {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 18px 46px 18px 20px;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+.bug-card-link:hover {
+  color: inherit;
+}
+
 .bug-card:hover,
-.bug-card:focus-visible {
+.bug-card:focus-within {
   width: 100%;
   border-color: color-mix(in srgb, var(--bug-accent) 58%, var(--vp-c-divider));
   background: var(--vp-c-bg);
@@ -398,7 +488,7 @@ onBeforeUnmount(() => {
   }
 }
 
-.bug-card:focus-visible {
+.bug-card:focus-within {
   box-shadow:
     0 0 0 3px var(--vp-c-brand-soft),
     0 10px 28px rgb(0 0 0 / 12%);
@@ -462,9 +552,11 @@ onBeforeUnmount(() => {
   position: absolute;
   z-index: 10;
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
+  box-sizing: border-box;
   width: max-content;
-  max-width: min(330px, 75vw);
+  max-width: min(330px, var(--bug-tooltip-max-width, 75vw));
+  overflow-wrap: anywhere;
   padding: 8px 10px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
@@ -500,8 +592,14 @@ onBeforeUnmount(() => {
   overflow: hidden;
 }
 
+.bug-details-inner::after {
+  display: block;
+  height: 40px;
+  content: '';
+}
+
 .bug-card:hover .bug-details,
-.bug-card:focus-visible .bug-details {
+.bug-card:focus-within .bug-details {
   grid-template-rows: 1fr;
   opacity: 1;
 }
@@ -536,9 +634,64 @@ onBeforeUnmount(() => {
 }
 
 .bug-card:hover .bug-external,
-.bug-card:focus-visible .bug-external {
+.bug-card:focus-within .bug-external {
   color: var(--bug-accent);
   transform: translate(2px, -2px);
+}
+
+.bug-copy-button {
+  position: absolute;
+  right: 43px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  padding: 4px 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg);
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+.bug-card:hover .bug-copy-button,
+.bug-card:focus-within .bug-copy-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bug-copy-button:hover,
+.bug-copy-button:focus-visible {
+  color: var(--bug-accent);
+  border-color: var(--bug-accent);
+}
+
+.bug-copy-button:focus-visible {
+  outline: 2px solid var(--bug-accent);
+  outline-offset: 2px;
+}
+
+.bug-copy-feedback {
+  position: absolute;
+  right: 143px;
+  bottom: 16px;
+  padding: 0 5px;
+  border-radius: 4px;
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg);
+  font-size: 12px;
+  line-height: 22px;
+  pointer-events: none;
+}
+
+.bug-copy-feedback.is-error {
+  color: var(--vp-c-danger-1);
 }
 
 .bug-card-unconfirmed,
@@ -664,8 +817,11 @@ onBeforeUnmount(() => {
 @media (max-width: 640px) {
   .bug-card,
   .bug-card:hover,
-  .bug-card:focus-visible {
+  .bug-card:focus-within {
     width: 100%;
+  }
+
+  .bug-card-link {
     padding: 16px 42px 16px 16px;
   }
 
@@ -694,6 +850,18 @@ onBeforeUnmount(() => {
   }
 }
 
+@media (hover: none), (max-width: 640px) {
+  .bug-copy-button {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .bug-details {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bug-card.is-bug-target {
     animation: none;
@@ -704,6 +872,7 @@ onBeforeUnmount(() => {
   .bug-card,
   .bug-details,
   .bug-external,
+  .bug-copy-button,
   .bug-status::after {
     transition: none;
   }
