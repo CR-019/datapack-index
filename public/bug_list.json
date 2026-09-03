@@ -91,7 +91,7 @@
         "id": "269746",
         "cn_title": "伤害标签bypasses_effects的伤害类型不会无视伤害吸收",
         "version": "1.20.4+",
-        "description": "本行为已经成为特型",
+        "description": "本行为已经成为特性",
         "title": "Tag \"bypasses_effects\" doesn't bypass absorption effect",
         "status": "wont_fix"
     },
@@ -136,6 +136,46 @@
         "status": "Confirmed"
     },
     {
+        "id": "138887",
+        "cn_title": "/locate命令不一定返回最近的目标",
+        "version": "古早至今",
+        "description": "由于locate命令以mca为单位搜索目标，因此返回的结果不一定是距离最近的",
+        "title": "/locate does not always locate the nearest structure",
+        "status": "Confirmed"
+    },
+    {
+        "id": "309623",
+        "cn_title": "盔甲纹饰无法再使用动态纹理",
+        "version": "26.3+",
+        "description": "26.3以后，盔甲纹饰不再支持动态纹理",
+        "title": "Armor trims can no longer be animated",
+        "status": "invalid"
+    },
+    {
+        "id": "310992",
+        "cn_title": "即使end_of_frame后处理着色器不存在，游戏也会尝试启用它",
+        "version": "26.3+",
+        "description": "",
+        "title": "The game tries to load the `end_of_frame` post effect even when it is not defined",
+        "status": "Confirmed"
+    },
+    {
+        "id": "275796",
+        "cn_title": "use_cooldown数据组件对和方块交互的物品无效",
+        "version": "1.21.2+",
+        "description": "如：书与雕纹书架交互，罗盘和磁石交互，染料和告示牌交互等",
+        "title": "The use_cooldown component does not work for item usage interactions on blocks",
+        "status": "Confirmed"
+    },
+    {
+        "id": "278439",
+        "cn_title": "嘎吱的home_pos NBT无法使用data remove移除",
+        "version": "1.21.4+",
+        "description": "",
+        "title": "'/data remove' command does not remove creaking \"home_pos\"",
+        "status": "Confirmed"
+    },
+    {
         "id": "311428",
         "cn_title": "/compute命令数值提供器在integer模式下无法精确读取整数",
         "version": "26.3快照",
@@ -157,6 +197,14 @@
         "version": "1.15-26.2",
         "description": "entity_scores判断超过16777217的数值会因为浮点数精度问题造成误判",
         "title": "The `entity_scores` predicate type cannot check all possible scores",
+        "status": "fixed"
+    },
+    {
+        "id": "88967",
+        "cn_title": "生物在转换成另一种生物时会丢失其绝大部分的NBT",
+        "version": "1.21.2之前",
+        "description": "当生物转换成另一种生物时（如僵尸村民->村民）时，会丢失其绝大部分NBT数据。",
+        "title": "Most NBT tags are not kept when a mob converts to another mob",
         "status": "fixed"
     }
 ]

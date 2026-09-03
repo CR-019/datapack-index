@@ -1,5 +1,5 @@
 <template>
-  <section class="bug-list" aria-label="Minecraft Java Edition 漏洞列表">
+  <section ref="listElement" class="bug-list" aria-label="Minecraft Java Edition 漏洞列表">
     <p v-if="loading" class="bug-list-message" role="status">
       正在加载漏洞列表……
     </p>
@@ -19,7 +19,11 @@
         v-for="(bug, index) in paginatedBugs"
         :key="`${bug.id}-${index}`"
         class="bug-card"
-        :class="`bug-card-${statusInfo(bug.status).key}`"
+        :class="[
+          `bug-card-${statusInfo(bug.status).key}`,
+          { 'is-bug-target': highlightedBug === issueKey(bug.id) },
+        ]"
+        :data-bug-key="issueKey(bug.id)"
         :href="bugUrl(bug.id)"
         target="_blank"
         rel="noopener noreferrer"
@@ -96,8 +100,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { withBase } from 'vitepress'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useRouter, withBase } from 'vitepress'
+import { findBugTarget } from './bugTarget.mjs'
 
 interface BugEntry {
   id: string
@@ -119,7 +124,7 @@ interface PageItem {
   page: number | null
 }
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 15
 
 const statuses: Record<string, StatusInfo> = {
   unconfirmed: {
@@ -164,6 +169,13 @@ const bugs = ref<BugEntry[]>([])
 const loading = ref(true)
 const errorMessage = ref('')
 const currentPage = ref(1)
+const listElement = ref<HTMLElement | null>(null)
+const highlightedBug = ref('')
+const router = useRouter()
+let previousRouteChange: typeof router.onAfterRouteChange
+let highlightTimer: ReturnType<typeof setTimeout> | undefined
+let revealRequest = 0
+let disposed = false
 
 const totalPages = computed(() => Math.max(1, Math.ceil(bugs.value.length / PAGE_SIZE)))
 
@@ -222,7 +234,45 @@ function bugUrl(id: string): string {
 }
 
 function goToPage(page: number) {
+  clearHighlight()
   currentPage.value = Math.min(Math.max(page, 1), totalPages.value)
+}
+
+function clearHighlight() {
+  revealRequest += 1
+  clearTimeout(highlightTimer)
+  highlightedBug.value = ''
+}
+
+async function revealQueryBug() {
+  clearHighlight()
+  if (disposed || loading.value || errorMessage.value) return
+
+  const target = findBugTarget(bugs.value, window.location.search, PAGE_SIZE)
+  if (!target) return
+
+  const request = revealRequest
+  currentPage.value = target.page
+  await nextTick()
+  // Let VitePress finish its own route scroll before positioning the card.
+  await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()))
+  if (disposed || request !== revealRequest) return
+
+  const card = Array.from(
+    listElement.value?.querySelectorAll<HTMLElement>('[data-bug-key]') ?? [],
+  ).find((element) => element.dataset.bugKey === target.key)
+  if (!card) return
+
+  // Jump first so the whole highlight is visible, even for a distant target.
+  card.scrollIntoView({ behavior: 'instant', block: 'center' })
+  highlightedBug.value = target.key
+  highlightTimer = setTimeout(() => { highlightedBug.value = '' }, 2200)
+}
+
+async function afterRouteChange(to: string) {
+  // Preserve the theme's route hook, including its legacy medium-zoom hook.
+  await (previousRouteChange ?? router.onAfterRouteChanged)?.(to)
+  if (!disposed) await revealQueryBug()
 }
 
 function isBugEntry(value: unknown): value is BugEntry {
@@ -237,6 +287,7 @@ function isBugEntry(value: unknown): value is BugEntry {
 }
 
 async function loadBugs() {
+  clearHighlight()
   loading.value = true
   errorMessage.value = ''
   currentPage.value = 1
@@ -262,9 +313,22 @@ async function loadBugs() {
   } finally {
     loading.value = false
   }
+  await revealQueryBug()
 }
 
-onMounted(loadBugs)
+onMounted(() => {
+  previousRouteChange = router.onAfterRouteChange
+  router.onAfterRouteChange = afterRouteChange
+  void loadBugs()
+})
+
+onBeforeUnmount(() => {
+  disposed = true
+  clearHighlight()
+  if (router.onAfterRouteChange === afterRouteChange) {
+    router.onAfterRouteChange = previousRouteChange
+  }
+})
 </script>
 
 <style scoped>
@@ -317,6 +381,21 @@ onMounted(loadBugs)
   box-shadow: 0 10px 28px rgb(0 0 0 / 12%);
   outline: none;
   transform: translateY(-1px);
+}
+
+.bug-card.is-bug-target {
+  animation: bug-target-highlight 2200ms ease-out;
+}
+
+@keyframes bug-target-highlight {
+  0%, 100% {
+    outline: 3px solid transparent;
+    outline-offset: 2px;
+  }
+  15%, 45% {
+    outline: 3px solid var(--bug-accent);
+    outline-offset: 5px;
+  }
 }
 
 .bug-card:focus-visible {
@@ -616,6 +695,12 @@ onMounted(loadBugs)
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bug-card.is-bug-target {
+    animation: none;
+    outline: 3px solid var(--bug-accent);
+    outline-offset: 4px;
+  }
+
   .bug-card,
   .bug-details,
   .bug-external,
