@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isMobile">
+    <div v-if="!isStaticPackageLayout && isMobile">
         <div class="card actions-card">
             <div class="actions">
 
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="info-card" v-if="hasInfo">
+    <div class="info-card" v-if="!isStaticPackageLayout && hasInfo">
         <div class="info-cover-wrapper" aria-hidden>
             <img v-if="info.cover" :src="info.cover" class="info-cover" />
             <div v-else class="info-cover-spacer">
@@ -55,9 +55,9 @@
             </div>
         </div>
     </div>
-    <div class="info-card empty" v-else>{{ isEnglish ? 'No information available' : '无可用信息' }}</div>
+    <div class="info-card empty" v-else-if="!isStaticPackageLayout">{{ isEnglish ? 'No information available' : '无可用信息' }}</div>
     <!-- show repo card under this component only on mobile -->
-    <RepoCard v-if="isMobile && info.repo" :repo="info.repo" style="margin-top: 10px;" />
+    <RepoCard v-if="!isStaticPackageLayout && isMobile && info.repo" :repo="info.repo" style="margin-top: 10px;" />
 </template>
 
 <script setup>
@@ -73,10 +73,12 @@ const isEnglish = computed(() => String(lang.value || '').startsWith('en'));
 const info = computed(() => {
     return frontmatter.value || {};
 });
+const isStaticPackageLayout = computed(() => info.value.layout === 'StaticPackagePage');
 
 // authors metadata loaded from public/authors.json
 const authorsData = ref([])
 onMounted(async () => {
+    if (isStaticPackageLayout.value) return;
     try {
         const raw = info.value.author || [];
         const list = Array.isArray(raw) ? raw : [raw];
@@ -158,6 +160,7 @@ function normalizeAvatar(av){
 // mobile detection (match CSS breakpoint used earlier)
 const isMobile = ref(false);
 onMounted(() => {
+    if (isStaticPackageLayout.value) return;
     try {
         const mq = window.matchMedia('(max-width: 720px)');
         const update = () => { isMobile.value = !!mq.matches };
@@ -172,6 +175,7 @@ onMounted(() => {
 // Set the document title when info.name is present.
 onMounted(() => {
     try {
+        if (isStaticPackageLayout.value) return;
         if (typeof document === 'undefined') return;
         const originalTitle = document.title || '';
 
