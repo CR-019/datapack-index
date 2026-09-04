@@ -1,13 +1,5 @@
 [
     {
-        "id": "307449",
-        "cn_title": "夜晚时，地下刷怪笼的自定义光照规则不再生效",
-        "version": "26.1+",
-        "description": "现在custom_spawn_rules.sky_light_limit会导致怪物无法在夜晚的地下生成，因为Mojang在修复MC-264187时更改了天空光照的逻辑使得在地下的夜晚光照可能是负数，而sky_light_limit只接受0到15。",
-        "title": "Spawners with their light limits set no longer spawn mobs underground at night time",
-        "status": "Confirmed"
-    },
-    {
         "id": "277837",
         "cn_title": "自定义装备叠加层使用后不会从内存中清除",
         "description": "使用装备的overlay组件向玩家的屏幕显示叠加层时，该内存不会在使用后释放，导致泄露和性能问题。",
@@ -174,6 +166,38 @@
         "description": "",
         "title": "'/data remove' command does not remove creaking \"home_pos\"",
         "status": "Confirmed"
+    },
+    {
+        "id": "311655",
+        "cn_title": "pack.mcmeta的filter现在会导致数据无法加载",
+        "version": "26.3+",
+        "description": "在pack.mcmeta中使用filter过滤任何来自原版数据包中的文件都会导致数据包无法加载",
+        "title": "Data pack pack.mcmeta filters now fail the world's data reloading",
+        "status": "Unconfirmed"
+    },
+    {
+        "id": "271761",
+        "cn_title": "pack.mcmeta中filter的namespace项会泄露",
+        "version": "1.20.6+",
+        "description": "在filter中定义多个过滤项时，其中的namespace有可能泄漏到下一个过滤项目中导致过滤掉不想过滤的内容。如\n{\n  \"namespace\": \"&NONEXISTENT$\",\n  \"path\": \"^recipes/\"\n},\n{\n  \"namespace\": \"^minecraft$\",\n  \"path\": \"&NONEXISTENT$\"\n}\n会过滤掉原版的所有配方，尽管这并非想要的",
+        "title": "The \"namespace\" field of filter in pack.mcmeta leaks through definitions",
+        "status": "Confirmed"
+    },
+    {
+        "id": "311607",
+        "cn_title": "破盾数据组件失效",
+        "version": "26.3快照",
+        "description": "disable_blocing_for_seconds无法再破盾",
+        "title": "\"disable_blocking_for_seconds\" no longer disables items with the \"blocks_attacks\" component",
+        "status": "Confirmed"
+    },
+    {
+        "id": "307449",
+        "cn_title": "夜晚时，地下刷怪笼的自定义光照规则不再生效",
+        "version": "26.1-26.2",
+        "description": "现在custom_spawn_rules.sky_light_limit会导致怪物无法在夜晚的地下生成，因为Mojang在修复MC-264187时更改了天空光照的逻辑使得在地下的夜晚光照可能是负数，而sky_light_limit只接受0到15。",
+        "title": "Spawners with their light limits set no longer spawn mobs underground at night time",
+        "status": "fixed"
     },
     {
         "id": "311428",
