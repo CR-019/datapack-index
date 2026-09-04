@@ -8,6 +8,7 @@ import anchor from "markdown-it-footnote";
 import { useKatex } from "./markdown/katex.mjs";
 import { renderSearchIndex, splitSearchIndex } from "./markdown/search-index.mjs";
 import { createShikiCache } from "./markdown/shiki-cache.mjs";
+import { staticWheelPageLayout } from "./wheelPageLayout.mjs";
 
 import {
     sidebar_feature,
@@ -130,6 +131,10 @@ export default defineConfig({
     buildConcurrency,
     buildEnd() {
         shikiCache.report()
+    },
+    transformPageData(pageData) {
+        const layout = staticWheelPageLayout(pageData.relativePath, pageData.frontmatter)
+        if (layout) pageData.frontmatter.layout = layout
     },
     locales: {
         root: {

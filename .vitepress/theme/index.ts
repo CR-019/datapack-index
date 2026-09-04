@@ -22,6 +22,7 @@ import Node from '../vue/Node.vue'
 import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
 import PackagePage from '../vue/wheel/PackagePage.vue'
+import StaticPackagePage from '../vue/wheel/StaticPackagePage.vue'
 import AnnouncementBar from '../vue/AnnouncementBar.vue'
 import LocaleLinkSync from '../vue/LocaleLinkSync.vue'
 import RepoCard from '../vue/wheel/RepoCard.vue'
@@ -73,6 +74,7 @@ export default {
     app.component('node', Node)
     app.component('AllPage', AllPage)
     app.component('PackagePage', PackagePage)
+    app.component('StaticPackagePage', StaticPackagePage)
     app.component('BugList', BugList)
     app.component('RepoCard', RepoCard)
     app.component(
