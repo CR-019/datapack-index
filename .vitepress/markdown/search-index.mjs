@@ -108,5 +108,7 @@ export function renderSearchIndex(source, env, md) {
  * @param {string} serializedSections
  */
 export function splitSearchIndex(_file, serializedSections) {
+  // VitePress returns an empty string when a source file no longer exists.
+  if (!serializedSections.trim()) return []
   return JSON.parse(serializedSections)
 }

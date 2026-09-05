@@ -8,6 +8,7 @@ import anchor from "markdown-it-footnote";
 import { useKatex } from "./markdown/katex.mjs";
 import { renderSearchIndex, splitSearchIndex } from "./markdown/search-index.mjs";
 import { createShikiCache } from "./markdown/shiki-cache.mjs";
+import { useChangelog } from "./markdown/changelog.mjs";
 
 import {
     sidebar_feature,
@@ -124,6 +125,11 @@ const shikiCache = createShikiCache()
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+    transformPageData(pageData) {
+        if (pageData.relativePath === 'index/changelog_breaking.md') {
+            pageData.frontmatter.outline = [3, 3]
+        }
+    },
     // VitePress defaults to 64 simultaneous page/search renders. Eight keeps
     // enough work in flight for CI while avoiding dozens of large page trees
     // being retained at once. Override only when benchmarking larger runners.
@@ -322,6 +328,7 @@ export default defineConfig({
         config: (md) => {
             md.use(anchor);
             useKatex(md);
+            useChangelog(md);
 
             // 自动适配硬编码的 /datapack-index/ 链接前缀：当 siteBase 变化时同步替换
             const normalizedBase = siteBase === '/' ? '/' : siteBase.replace(/\/$/, '');

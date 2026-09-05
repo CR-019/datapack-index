@@ -3,6 +3,8 @@ import { defineAsyncComponent, defineComponent, h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import './process-polyfill.js'
 import './style.css'
+import './changelog.css'
+import { useChangelogNavigation } from './changelog'
 import '@datapack-sandbox/vitepress-playground/style.css'
 import './playground-feature.css'
 import Giscus from '@giscus/vue'
@@ -19,6 +21,7 @@ import ColorLine from '../vue/ColorLine.vue'
 import SearchBox from '../vue/wheel/SearchBox.vue'
 import InfoCard from '../vue/wheel/InfoCard.vue'
 import Node from '../vue/Node.vue'
+import NbtIcon from '../vue/NbtIcon.vue'
 import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
 import AnnouncementBar from '../vue/AnnouncementBar.vue'
@@ -35,7 +38,8 @@ export default {
   Layout: defineComponent({
     name: 'CustomLayoutWrapper',
     setup() {
-      const { frontmatter } = useData()
+      useChangelogNavigation()
+      const { frontmatter, page } = useData()
 
       return () => {
         //如果frontmatter.wheel为真，则渲染wheel自定义侧边栏
@@ -48,7 +52,9 @@ export default {
           ])
         }
         //否则返回默认的
-        return h(DefaultTheme.Layout, null, {
+        return h(DefaultTheme.Layout, {
+          class: { 'changelog-layout': page.value.relativePath === 'index/changelog_breaking.md' }
+        }, {
           'layout-top': () => h(AnnouncementBar)
         })
       }
@@ -69,6 +75,7 @@ export default {
     app.component('SearchBox', SearchBox)
     app.component('InfoCard', InfoCard)
     app.component('node', Node)
+    app.component('NbtIcon', NbtIcon)
     app.component('AllPage', AllPage)
     app.component('BugList', BugList)
     app.component('RepoCard', RepoCard)

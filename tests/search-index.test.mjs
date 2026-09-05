@@ -60,3 +60,9 @@ test('honors search: false frontmatter populated by Markdown plugins', () => {
 
   assert.equal(renderSearchIndex('# Hidden\n\nSecret', {}, md), '[]')
 })
+
+test('accepts empty search output for missing files without masking malformed JSON', () => {
+  assert.deepEqual(splitSearchIndex('missing.md', ''), [])
+  assert.deepEqual(splitSearchIndex('missing.md', ' \n'), [])
+  assert.throws(() => splitSearchIndex('broken.md', '[broken'), SyntaxError)
+})
