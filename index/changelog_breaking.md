@@ -1,3 +1,18 @@
+<script setup>
+import int from '../.vitepress/vue/nbt/int.vue'
+import byte from '../.vitepress/vue/nbt/byte.vue'
+import str from '../.vitepress/vue/nbt/string.vue'
+import short from '../.vitepress/vue/nbt/short.vue'
+import float from '../.vitepress/vue/nbt/float.vue'
+import double from '../.vitepress/vue/nbt/double.vue'
+import long from '../.vitepress/vue/nbt/long.vue'
+import ns from '../.vitepress/vue/nbt/namespace.vue'
+import list from '../.vitepress/vue/nbt/list.vue'
+import obj from '../.vitepress/vue/nbt/object.vue'
+import homolist from '../.vitepress/vue/nbt/homolist.vue'
+import bool from '../.vitepress/vue/nbt/boolean.vue'
+</script>
+
 # 破坏性技术更新日志
 
 :::danger 又名“升级你的数据包后什么东西会坏掉”
@@ -22,85 +37,86 @@
 ### 26.3
 #### 数据包：
 - 通用
-  - 所有涉及到方块状态的定义，其原本的<NbtIcon type="string" />**Name**和<NbtIcon type="object" />**Properties**字段被重命名为<NbtIcon type="string" />**id**和<NbtIcon type="object" />**properties**。
-- 物品修饰器
-  - 在物品修饰器定义文件中，不允许再使用列表定义多个串联的修饰器，而是需要显式地使用`sequence`修饰器。
-  - `function`字段被重命名为`type`
-  - 移除了`reference`修饰器。需要引用物品修饰器可直接填入要引用的ID。
-  - `set_loot_table`修饰器移除了`type`字段，并重命名`name`为`loot_table_id`。
-  - `exploration_map`修饰器中的`destination`字段现在是必须的。
-- 谓词
-  - 在任何使用谓词的地方，不允许再使用谓词列表，只能使用`all_of`谓词。
-  - `condition`字段被重命名为`type`
-  - 移除了`reference`谓词。需要引用谓词可直接填入要引用的ID。
-  - 移除了`block_state_property`谓词，使用`match_block`谓词代替。
-- 数值提供器
-  - 现在分为了上下文整数提供器和上下文浮点数提供器，分别使用`context_int_provider`和`context_float_provider`注册表。
-  - 部分提供器类型，比如`score`或`binomial`，现在只有在整数或浮点数提供器中的一方有定义。想要在另一方使用需要使用`from_int`或`from_float`提供器转换。
-  - 在整数提供器器中使用`storage`提供器提供<NbtIcon type="int" />int以外的数据类型，或是在浮点数提供器使用`storage`提供器提供<NbtIcon type="float" />float以外的数据类型现在是未定义行为。
+  - 数据包的验证变的更加严格了。现在，只要有任意无法解析的JSON文件就会导致整个数据包加载失败，而不是像之前一样静默失败。
+  - 所有涉及到方块状态的定义，其原本的<str t="Name"/>和<obj t="Properties"/>字段被重命名为<str t="id"/>和<obj t="properties"/>。
+- 命令
+  - `publish`：移除了`gamemode`参数。
+  - `team`：现在`team (join|leave)`的返回值被更改为实际受影响的人数而非选择器选择的人数。
+- 数据组件
+  - 组件<ns t="swing_animation"/>重命名为<ns t="attack_animation"/>。
+  - 移除了<ns t="map_color"/>组件，因为不同的探险家地图现在是不同的物品。
+- 文本组件
+  - 现在NBT组件最多被解析`64000`次。
 - 世界
     - 探险家地图
       - 删除了原本的探险家地图物品。现在指向不同结构的探险家地图使用不同的物品ID。
       - 探险家地图无法再缩放。
     - 告示牌与悬挂告示牌
-      - 添加了新字段`allow_op_features`，默认为`false`。为`false`时游戏不会再解析其上的动态文本组件和点击事件。之前就存在的告示牌在升级版本后会自动设置此字段为`true`。
+      - 添加了新字段 <bool t="allow_op_features"/>，默认为`false`。为`false`时游戏不会再解析其上的动态文本组件和点击事件。之前就存在的告示牌在升级版本后会自动设置此字段为`true`。
     - 酿造台
-      - `BrewTime`和`Fuel`类型从<NbtIcon type="short" />short改为<NbtIcon type="int" />int。
+      - <short t="BrewTime"/>和<short t="Fuel"/>类型从<short />**short**更改为<int />**int**。
     - 熔炉，烟熏炉，和高炉
-      - `cooking_time_spent`，`cooking_total_time`，`lit_time_remaining`，和`lit_total_time`从<NbtIcon type="short" />short改为<NbtIcon type="int" />int。
+      - <short t="cooking_time_spent"/>，<short t="cooking_total_time"/>，<short t="lit_time_remaining"/>，和<short t="lit_total_time"/>从<short/>**short**改为<int />**int**。
     - 饰纹陶罐
-      - 现在其方块实体的`sherds`字段从<NbtIcon type="homolist" />列表变更为<NbtIcon type="object" />复合标签。内部分别有`back`，`left`，`right`，和`front`字段定义其各个方向的陶片。
-- 命令
-  - `publish`：移除了`gamemode`参数。
-  - `team`：现在`team (join|leave)`的返回值被更改为实际受影响的人数而非选择器选择的人数。
-- 数据组件
-  - 组件`swing_animation`重命名为`attack_animation`。
-  - 移除了`map_color`组件，因为不同的探险家地图现在是不同的物品。
-- 文本组件
-  - 现在NBT组件最多被解析`64000`次。
+      - 现在其方块实体的<obj t="sherds"/>字段从<nbt type="homolist" />**列表**变更为<obj />**复合标签**。内部分别有<nbt :i="['str','o']" t="back"/>，<nbt :i="['str','o']" t="left"/>，<nbt :i="['str','o']" t="right"/>，和<nbt :i="['str','o']" t="front"/>字段定义其各个方向的陶片。
+- 物品修饰器
+  - 在物品修饰器定义文件中，不允许再使用列表定义多个串联的修饰器，而是需要显式地使用<ns t="sequence"/>修饰器。
+  - <str t="function"/>字段被重命名为<str t="type"/>。
+  - 移除了<ns t="reference"/>修饰器。需要引用物品修饰器可直接填入要引用的ID。
+  - <ns t="set_loot_table"/>修饰器移除了<str t="type"/>字段，并重命名<str t="name"/>为<str t="loot_table_id"/>。
+  - <ns t="exploration_map"/>修饰器中的<str t="destination"/>字段现在是必须的。
+- 谓词
+  - 在任何使用谓词的地方，不允许再使用谓词列表，只能使用<ns t="all_of"/>谓词。
+  - <str t="condition"/>字段被重命名为<str t="type"/>。
+  - 移除了<ns t="reference"/>谓词。需要引用谓词可直接填入要引用的ID。
+  - 移除了<ns t="block_state_property"/>谓词，使用<ns t="match_block"/>谓词代替。
+- 数值提供器
+  - 现在分为了上下文整数提供器和上下文浮点数提供器，分别使用<ns t="context_int_provider"/>和<ns t="context_float_provider"/>注册表。
+  - 部分提供器类型，比如<ns t="score"/>或<ns t="binomial"/>，现在只有在整数或浮点数提供器中的一方有定义。想要在另一方使用需要使用<ns t="from_int"/>或<ns t="from_float"/>提供器转换。
+  - 在整数提供器器中使用<ns t="storage"/>提供器提供<int />**int**以外的数据类型，或是在浮点数提供器使用<ns t="storage"/>提供器提供<float />**float**以外的数据类型现在是未定义行为。
 - 进度
-  - 现在根进度必须提供`background`，非根进度禁止提供`background`。
-  - `brewed_potion`触发器的`potion`字段现在检查药水是匹配`potion_contents`数据组件谓词。
-  - `player_generates_container_loot`触发器的`loot_table`字段被重命名为`loot_tables`。
-  - `crafter_recipe_crafted`，`recipe_crafted`，和`recipe_unlocked`触发器的`recipe_id`字段被重命名为`recipes`。
-  - `slide_down_block`触发器的`block`字段被重命名为`blocks`。
+  - 现在根进度必须提供<str t="background"/>，非根进度禁止提供<str t="background"/>。
+  - <ns t="brewed_potion"/>触发器的<str t="potion"/>字段现在检查药水是否匹配<ns t="potion_contents"/>数据组件谓词。
+  - <ns t="player_generates_container_loot"/>触发器的<str t="loot_table"/>字段被重命名为<ns t="loot_tables"/>。
+  - <ns t="crafter_recipe_crafted"/>，<ns t="recipe_crafted"/>，和<ns t="recipe_unlocked"/>触发器的<str t="recipe_id"/>字段被重命名为<nbt :i="['str','list']" t="recipes"/>。
+  - <ns t="slide_down_block"/>触发器的<str text="block"/>字段被重命名为<nbt :i="['str','list']" t="blocks"/>。
 - 战利品表
-  - 重命名`conditions`为`condition`，`functions`为`modifier`。
-    - 如上“谓词”部分所述，`condition`不再允许使用谓词列表。想要检查多个谓词必须使用`all_of`。
-  - `tag`抽取类型中的`name`重命名为`items`。
+  - 重命名<list t="conditions"/>为<nbt :i="['str','o']" t="condition"/>，<obj t="functions"/>为<nbt :i="['str','o','list']" t="modifier"/>。
+    - 如上“谓词”部分所述，<nbt :i="['str','o']" t="condition"/>不再允许使用谓词列表。想要检查多个谓词必须使用<ns t="all_of"/>。
+  - <ns t="tag"/>抽取类型中的<str t="name"/>重命名为<nbt :i="['str','list']" t="items"/>。
 - 配方
-  - 熔炉，烟熏炉，高炉，和篝火配方的`cookingtime`不再根据工作方块的不同而变化。现在默认的`cookingtime`被统一为200。不同方块的速度差异由数据组件和数值提供器决定。
+  - 熔炉，烟熏炉，高炉，和篝火配方的<int t="cookingtime"/>不再根据工作方块的不同而变化。现在默认的<int t="cookingtime"/>被统一为200。不同方块的速度差异由数据组件和数值提供器决定。
 - 魔咒
   - 现在当亡灵生物的装备因保护其免受阳光伤害而消耗耐久度时，装备上的魔咒可以正常发挥作用。
 - 世界生成
-  - 原本已配置的地物`worldgen/configured_feature`和已配置的雕刻器`worldgen/configured_carver`注册表被重命名为地物`worldgen/feature`和雕刻器`worldgen/carver`。
+  - 原本**已配置的地物**<ns t="worldgen/configured_feature"/>和**已配置的雕刻器**<ns t="worldgen/configured_carver"/>注册表被重命名为**地物**<ns t="worldgen/feature"/>和**雕刻器**<ns t="worldgen/carver"/>。
   - 雕刻器
-     - 移除了`config`字段。原本config的内容整体向上一层移动到根标签中。
-     - 移除了`debug_settings`字段。
-     - 移除了`replaceable`字段。现在雕刻器会覆盖任何方块。
-     - 移除了`lava_level`字段。液体现在总是由噪声设置控制。
-     - 在洞穴和峡谷雕刻器中，`yScale`字段被分别重命名为`room_vertical_radius_multiplier`和`y_scale`。
+     - 移除了<obj t="config"/>字段。原本<obj t="config"/>的内容整体向上一层移动到根标签中。
+     - 移除了<obj t="debug_settings"/>字段。
+     - 移除了<nbt :i="['str','list']" t="replaceable"/>字段。现在雕刻器会覆盖任何方块。
+     - 移除了<obj t="lava_level"/>字段。液体现在总是由噪声设置控制。
+     - 在洞穴和峡谷雕刻器中，<nbt :i="['f','o']" t="yScale"/>字段被分别重命名为<nbt :i="['f','o']" t="room_vertical_radius_multiplier"/>和<nbt :i="['f','o']" t="y_scale"/>。
   - 地物
-    - 移除了`config`字段。原本config的内容整体向上一层移动到根标签中。
-    - 地物类型`desert_well`被移除。现在沙漠水井使用`template`类型。
-    - 以下地物类型被移除：`coral_mushroom`，`kelp`，`seagrass`，`sea_pickle`，`nether_forest_vegetation`，`twisting_vines`，和`weeping_vines`。
-    - 地物类型`basalt_columns`重命名为`stepped_column_cluster`，字段`reach`重命名为`column_reach`。
-    - 地物类型`basalt_pillar`重命名为`single_block_pillar`，且现在需要额外的字段，可定义更自由的内容。
-    - 地物类型`glowstone_blob`重命名为`random_neighbor_spread`，且现在需要额外的字段，可定义更自由的内容。。
+    - 移除了<obj t="config"/>字段。原本config的内容整体向上一层移动到根标签中。
+    - 地物类型<ns t="desert_well"/>被移除。现在沙漠水井使用<ns t="template"/>类型。
+    - 以下地物类型被移除：<ns t="coral_mushroom"/>，<ns t="kelp"/>，<ns t="seagrass"/>，<ns t="sea_pickle"/>，<ns t="nether_forest_vegetation"/>，<ns t="twisting_vines"/>，和<ns t="weeping_vines"/>。
+    - 地物类型<ns t="basalt_columns"/>重命名为<ns t="stepped_column_cluster"/>，字段<nbt :i="['i','o']" t="reach"/>重命名为<nbt :i="['i','o']" t="column_reach"/>。
+    - 地物类型<ns t="basalt_pillar"/>重命名为<ns t="single_block_pillar"/>，且现在需要额外的字段，可定义更自由的内容。
+    - 地物类型<ns t="glowstone_blob"/>重命名为<ns t="random_neighbor_spread"/>，且现在需要额外的字段，可定义更自由的内容。。
   - 已放置的地物
-    - `random_offset`被移除，以`offset`取代。
+    - <ns t="random_offset"/>被移除，以<ns t="offset"/>取代。
   - 噪声设置
     - 整体变更了噪声设置的定义格式，[详见wiki](https://zh.minecraft.wiki/w/%E5%99%AA%E5%A3%B0)。
   - 噪声
-    - 现在使用<NbtIcon type="float" />float而不是<NbtIcon type="double" />double计算。
+    - 现在使用<float />**float**而不是<double />**double**计算。
     - 整体变更了噪声的定义格式，[详见wiki](https://zh.minecraft.wiki/w/噪声设置)。
   - 密度函数
-    - 现在使用<NbtIcon type="float" />float而不是<NbtIcon type="double" />double计算。
+    - 现在使用<float />**float**而不是<double />**double**计算。
     - 大幅修改了多个密度函数，[详见wiki](https://zh.minecraft.wiki/w/密度函数)。
   - 生物群系
-    - 移除了`spawners`，`​spawn_costs`，和`​creature_spawn_probability`字段。它们现在由环境属性决定。
+    - 移除了<obj t="spawners"/>，<obj t="​spawn_costs"/>，和<float t="​creature_spawn_probability"/>字段。它们现在由环境属性决定。
 - 环境属性
-  - `minecraft:gameplay/bed_rule`的`explodes`字段被重命名为`destroy_on_use`。
+  - <ns t="gameplay/bed_rule"/>的<bool t="explodes"/>字段被重命名为<bool t="destroy_on_use"/>。
 - 标签
   - 移除了以下标签
     - `block/overworld_carver_replaceables`，`block/nether_carver_replaceables`。因为雕刻器现在可以覆盖任何方块。
@@ -112,19 +128,17 @@
     - `#on_swamp_explorer_maps` → `#on_swamp_hut_maps`
     - `#on_trial_explorer_maps` → `#on_buried_trial_chambers_maps`
 - 杂项
-  - 盔甲纹饰定义格式
-    - `asset_name`字段被删除，以`palette`代替。
-    - 移除了`override_armor_assets`字段，因为功能被资源包的盔甲纹理代替。
+  - 盔甲纹饰材料定义格式
+    - <str t="asset_name"/>字段被删除，以<str t="palette"/>代替。现在使用调色板而非纹理。
+    - 移除了<obj t="override_armor_assets"/>字段，因为功能被资源包的盔甲纹理代替。
   - 村民交易定义格式
-    - `given_item_modifiers`重命名为`given_item_modifier`。
+    - <nbt :i="['o','list']" t="given_item_modifiers"/>重命名为<nbt :i="['o','list']" t="given_item_modifier"/>。
 
 #### 资源包：
 - 纹理
   - 更改了焦骸的纹理。
   - 更改了地图和探险家地图的纹理。
   - 由于漏洞[MC-309623](./misc/bugs.html?bug=309623)，盔甲纹饰无法再使用动态纹理。
-- 装备模型
-  - `trim_palette_replacements`被移除，以更强大的`trim_overrides`字段取代。
 - 着色器
   - 移除了`core/text_background.fsh`和`​core/text_background.vsh`核心着色器。
   - 移除了`OIT_FORCE_ZERO_DEPTH`定义项。
@@ -138,9 +152,9 @@
     - `ore/rendertype_world_border.vsh` -> `core/world_border.vsh`
     - `core/rendertype_world_border.fsh` -> `core/world_border.fsh`
 - 物品模型映射
-  - 移除了`map_color`着色来源，因为不同探险家地图现在是独立的物品（见上）。
+  - 移除了<ns t="map_color"/>着色来源，因为不同探险家地图现在是独立的物品（见上）。
 - 模型
-  - 移除了`shade`字段。若要保持旧版`shade: false`的行为，需要定义`"shade_direction_override": "up"`。
+  - 移除了<bool t="shade"/>字段。若要保持旧版`shade: false`的行为，需要定义`"shade_direction_override": "up"`。
 
 ### 26.2
 #### 数据包：
@@ -161,33 +175,33 @@
   - 将方块标签`#mineable/pickaxe`和`​#happy_ghast_avoids`中的滴水石锥替换为`#speleothems`。
   - 实体类型标签`#cannot_be_pushed_onto_boats`中加入了硫方怪。
 - NBT
-  - 生物的`HurtByTimestamp`变更为`ticks_since_last_hurt_by_mob`。记录距离上次受伤时长而不是时间戳。
-  - `charged_projectiles`数组组件现在只接受最多1024个物品堆叠。
+  - 生物的<int t="HurtByTimestamp"/>变更为<int t="ticks_since_last_hurt_by_mob"/>。记录距离上次受伤时长而不是时间戳。
+  - <ns t="charged_projectiles"/>数据组件现在只接受最多1024个物品堆叠。
 - 谓词
-  - 实体谓词`entity_properties`中的所有字段均被拓展为类似数据组件的形式。
-    - 这意味着顶层字段名现在是命名空间ID的形式（`effects` -> `minecraft:effects`，可省略minecraft）。
-    - 实体子谓词`type_sepcific`被移动到顶层（`"type_sepcific":{"minecraft:lightning":{...}}` -> `"minecraft:type_specific/lightning":{...}`）。
-    - 重命名`type `-> `minecraft:entity_type`。
+  - 实体谓词<ns t="entity_properties"/>中的所有字段均被拓展为类似数据组件的形式。
+    - 这意味着顶层字段名现在是命名空间ID的形式（<obj t="effects"/> -> <ns t="minecraft:effects"/>，可省略minecraft）。
+    - 实体子谓词<obj t="type_sepcific"/>被移动到顶层（`"type_sepcific":{"minecraft:lightning":{...}}` -> `"minecraft:type_specific/lightning":{...}`）。
+    - 重命名<str t="type"/> -> <ns t="minecraft:entity_type"/>。
 - 世界生成
   - 已配置的地物
     - 破坏性地重命名并/或修改了以下地物。请以Wiki为准
-      - `pointed_dripstone` -> `speleothem`
-      - `dripstone_cluster` -> `speleothem_cluster`
-      - `large_dripstone`
-      - `tree`
-      - `multiface_growth`
+      - <ns t="pointed_dripstone"/> -> <ns t="speleothem"/>
+      - <ns t="dripstone_cluster"/> -> <ns t="speleothem_cluster"/>
+      - <ns t="large_dripstone"/>
+      - <ns t="tree"/>
+      - <ns t="multiface_growth"/>
   - 处理器列表
-    - `block_rot`现在会评估上一个方块处理器链处理后的方块状态，而不是总是使用结构的原始方块。
+    - <ns t="block_rot"/>现在会评估上一个方块处理器链处理后的方块状态，而不是总是使用结构的原始方块。
   - 密度函数
-    - 移除了`weird_scaled_sampler`，由新加入的`interval_select`取代。
+    - 移除了<ns t="weird_scaled_sampler"/>，由新加入的<ns t="interval_select"/>取代。
 
 #### 资源包：
 - 模型
   - 告示牌和悬挂式告示牌现在使用方块模型，而不是内置的实体模型。
 - 物品模型映射
-  - 移除了特殊模型类型`bed`，`standing_sign`，和`hanging_sign`。
+  - 移除了特殊模型类型<ns t="bed"/>，<ns t="standing_sign"/>，和<ns t="hanging_sign"/>。
 - 纹理
-  - `minecraft:signs`和`minecraft:beds`纹理集已被移除。
+  - <ns t="minecraft:signs"/>和<ns t="minecraft:beds"/>纹理集已被移除。
   - 变更了幼年疣猪兽，幼年僵尸疣猪兽，和幼年白色狐狸的纹理。
 - 着色器
   - Minecraft即将完成从OpenGL到Vulkan的迁移。当前版本中同时支持两者，允许玩家自由切换。默认仍使用OpenGL，但它会在不久的将来被完全废弃。
@@ -196,38 +210,38 @@
 ### 26.1
 #### 数据包：
 - 时间线
-  - 增加了必选字段`clock`，规定本时间线以哪个世界时钟为准。想要获得原本的行为，应该将`clock`定义为`minecraft:overworld`。
+  - 增加了必选字段<str t="clock"/>，规定本时间线以哪个世界时钟为准。想要获得原本的行为，应该将<str t="clock"/>定义为<ns t="minecraft:overworld"/>。
 - 命令
   - `time`命令使用的诸如`day`，`night`等选项代表的时间点不再是硬编码的，而是可以在世界时钟中调整。这意味着诸如`time set day`命令的行为可能会被数据包改变。
   - 移除了槽位`villager.*`。现在村民与猪灵的物品栏都可以使用`mob.inventory.*`来访问。
 - 配方
-  - 部分特殊配方类型都被移除，并以新的，更灵活的配方类型替换。包括`minecraft:crafting_special_armordye`，`minecraft:crafting_special_tippedarrow`，`minecraft:crafting_special_mapcloning`。请[查阅wiki](https://zh.minecraft.wiki/w/?curid=29253)获取详细信息。
-  - 以下配方类型的格式被更改为更灵活的形式。包括`minecraft:crafting_transmute`，`minecraft:crafting_special_bannerduplicate`，`crafting_special_bookcloning`，`minecraft:crafting_decorated_pot`，`minecraft:crafting_special_firework_rocket`，`minecraft:crafting_special_firework_star_fade`，`minecraft:crafting_special_firework_star`，`minecraft:crafting_special_mapextending`，`minecraft:crafting_special_shielddecoration`。请[查阅wiki](https://zh.minecraft.wiki/w/?curid=29253)获取详细信息。
+  - 部分特殊配方类型都被移除，并以新的，更灵活的配方类型替换。包括<ns t="crafting_special_armordye"/>，<ns t="crafting_special_tippedarrow"/>，<ns t="crafting_special_mapcloning"/>。请[查阅wiki](https://zh.minecraft.wiki/w/?curid=29253)获取详细信息。
+  - 以下配方类型的格式被更改为更灵活的形式。包括<ns t="crafting_transmute"/>，<ns t="crafting_special_bannerduplicate"/>，<ns t="crafting_special_bookcloning"/>，<ns t="crafting_decorated_pot"/>，<ns t="crafting_special_firework_rocket"/>，<ns t="crafting_special_firework_star_fade"/>，<ns t="crafting_special_firework_star"/>，<ns t="crafting_special_mapextending"/>，和<ns t="crafting_special_shielddecoration"/>。请[查阅wiki](https://zh.minecraft.wiki/w/?curid=29253)获取详细信息。
   - 同时，部分切石机配方被重命名。
 - 文本组件
-  - 现在使用`nbt`动态类型时，若`interpret`为`false`，解析的结果不再是扁平的字符串，而是经过颜色高亮的复杂文本。
-    - 使用新的字段`plain`可以移除颜色高亮，但解析的结果不是如之前版本一样的扁平字符串。
+  - 现在使用`nbt`动态类型时，若<bool t="interpret"/>为`false`，解析的结果不再是扁平的字符串，而是经过颜色高亮的复杂文本。
+  - 使用新的字段<bool t="plain"/>可以移除颜色高亮，但解析的结果不是如之前版本一样的扁平字符串。
 - 世界
   - 部分幼年生物的碰撞箱发生了变化。包括牛、绵羊、豹猫、哞菇、鱿鱼、发光鱿鱼、僵尸、尸壳、溺尸、猪灵、僵尸猪灵、村民、僵尸村民、猫、鸡、马、狼、猪、兔子、美西螈、骷髅马。
   - 自然生成的僵尸现在有可能拥有比20点更高的生命值。
   - 骆驼尸壳未使用的幼年个体被移除。
   - 村民交易的刷新现在取决于随机序列。
   - 告示牌和旗帜的`rotation`方块属性的默认值从`0`改为`8`。
-- 数据格式
-  - 移除了玩家的NBT标签`ignore_fall_damage_from_current_explosion`。
-- 维度类型
-  - 加入了字段`default_clock`指定用于`/time`的默认世界时钟。
-  - 加入了字段`has_ender_dragon_fight`控制此维度是否有末影龙战斗。
-  - `ambient_light`不再能完全控制维度的环境光照。环境光照的视觉部分现在由环境属性的`visual/ambient_light_color`控制
+  - 移除了玩家的NBT标签<bool t="ignore_fall_damage_from_current_explosion"/>。
 - 环境属性
-  - `gameplay/turtle_egg_hatch_chance`的默认值变更为`0.002`。
-- 已配置的地物
-  - 下列地物类型被重命名
-    - `forest_rock` -> `block_blob`, `ice_spike` -> `spike`
-  - 移除了`flower`, `flower_no_bonemeal`, 和`random_patch`地物类型。
-  - `tree`地物的字段`force_dirt`和`dirt_provider`别合并为`below_trunk_provider`。
+  - <ns t="gameplay/turtle_egg_hatch_chance"/>的默认值变更为`0.002`。
+- 世界生成
+  - 维度类型
+    - 加入了字段<str t="gameplay/default_clock"/>指定用于`/time`的默认世界时钟。
+    - 加入了字段<bool t="has_ender_dragon_fight"/>控制此维度是否有末影龙战斗。
+    - <float t="ambient_light"/>不再能完全控制维度的环境光照。环境光照的视觉部分现在由环境属性的<ns t="visual/ambient_light_color"/>控制
+  - 已配置的地物
+    - 下列地物类型被重命名
+      - <ns t="forest_rock"/> -> <ns t="block_blob"/>, <ns t="ice_spike"/> -> <ns t="spike"/>
+    - 移除了<ns t="flower"/>, <ns t="flower_no_bonemeal"/>, 和<ns t="random_patch"/>地物类型。
+    - <ns t="tree"/>地物的字段<bool t="force_dirt"/>和<nbt :i="['str','o']" t="dirt_provider"/>合并为<nbt :i="['str','o','ns']" t="below_trunk_provider"/>。
 - 魔咒
-  - `post_piercing_attack`组件默认不再检查玩家的饥饿度等级。
+  - <ns t="post_piercing_attack"/>组件默认不再检查玩家的饥饿度等级。
 - 标签
   - 部分标签被重命名：
     - `#dry_vegetation_may_place_on` → `#supports_dry_vegetation`
@@ -264,10 +278,10 @@
   - 移除了`core/rendertype_translucent_moving_block`，以支持`core/block`。
   - UI和世界中的物品渲染现在由`core/entity`拆分到新着色器`core/item`。
 - 物品模型映射
-  - 部分模型类型现在拥有了新增的`transformation`字段，类似展示实体，可以对模型做变换。因此，部分特殊类型的变换现在不再是硬编码的，而是需要在物品模型映射中指定。
-    - 包括`minecraft:bed`, `minecraft:banner`, `minecraft:conduit`, `minecraft:copper_colem_statue`, `minecraft:head`, `minecraft:player_head`, `minecraft:shulker_box`, `minecraft:shield`, `minecraft:trident`, `minecraft:standing_sign`, `minecraft:hanging_sign`
-  - `minecraft:bed`模型现在只渲染一半的床，可以使用`part`字段控制显示哪一半。为了显示完整的床需要将两个模型拼接起来。
-  - `minecraft:shulker_box`模型移除了`orientation`字段。
+  - 部分模型类型现在拥有了新增的<obj t="transformation"/>字段，类似展示实体，可以对模型做变换。因此，部分特殊类型的变换现在不再是硬编码的，而是需要在物品模型映射中指定。
+    - 包括`bed`, `banner`, `conduit`, `copper_colem_statue`, `head`, `player_head`, `shulker_box`, `shield`, `trident`, `standing_sign`, `hanging_sign`
+  - `bed`模型现在只渲染一半的床，可以使用`part`字段控制显示哪一半。为了显示完整的床需要将两个模型拼接起来。
+  - `shulker_box`模型移除了`orientation`字段。
 
 ### 1.21.11
 #### 数据包：
@@ -827,7 +841,7 @@
 
 * NBT
   * 将刷怪笼的`SpawnPotentials`格式更改为
-    ```snbt
+    `snbt
     {
         weight: <int>,
         data: {
@@ -835,7 +849,7 @@
     		custom_spawn_rules: {...}
     	}
     }
-    ```
+    `
   * 将刷怪笼的`SpawnData`字段的内容移动到`SpawnData.entity`；
 * 进度
   * 将进度谓词中的`nether_travel`的`entered`重命名为`start_position`，移除了字段`exit`；

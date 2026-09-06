@@ -33,7 +33,8 @@
   content: attr(data-changelog-icons);
   margin-left: auto;
   flex-shrink: 0;
-  align-self: center;
+  align-self: flex-end;
+  margin-bottom: 4px;
   font-size: 14px;
   line-height: 16px;
 }
@@ -45,7 +46,7 @@
 .vp-doc .changelog-leaf::after {
   content: attr(data-changelog-icons);
   position: absolute;
-  top: 5px;
+  bottom: 5px;
   right: 10px;
   font-size: 14px;
   line-height: 16px;
@@ -72,6 +73,7 @@
 .vp-doc ul.changelog-topics { list-style: none; padding: 0; margin: 6px 0 0; }
 .vp-doc ul.changelog-topics > li { margin: 0; padding: 5px 10px; border-bottom: 1px solid var(--vp-c-divider); }
 .vp-doc ul.changelog-topics > li:last-child { border-bottom: 0; }
+.vp-doc ul.changelog-topics > li.changelog-leaf::after { bottom: 10px; }
 .vp-doc ul.changelog-topics > li.changelog-topic { padding: 0; }
 .vp-doc .changelog-item > summary { padding: 5px 10px; line-height: 24px; font-weight: 600; border-radius: 6px; }
 .vp-doc .changelog-item-title { min-width: 0; overflow-wrap: anywhere; }

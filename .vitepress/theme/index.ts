@@ -76,6 +76,7 @@ export default {
     app.component('InfoCard', InfoCard)
     app.component('node', Node)
     app.component('NbtIcon', NbtIcon)
+    app.component('nbt', NbtIcon)
     app.component('AllPage', AllPage)
     app.component('BugList', BugList)
     app.component('RepoCard', RepoCard)
