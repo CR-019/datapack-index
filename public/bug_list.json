@@ -168,14 +168,6 @@
         "status": "Confirmed"
     },
     {
-        "id": "311655",
-        "cn_title": "pack.mcmeta的filter现在会导致数据无法加载",
-        "version": "26.3+",
-        "description": "在pack.mcmeta中使用filter过滤任何来自原版数据包中的文件都会导致数据包无法加载",
-        "title": "Data pack pack.mcmeta filters now fail the world's data reloading",
-        "status": "Unconfirmed"
-    },
-    {
         "id": "271761",
         "cn_title": "pack.mcmeta中filter的namespace项会泄露",
         "version": "1.20.6+",
@@ -188,7 +180,7 @@
         "cn_title": "破盾数据组件失效",
         "version": "26.3快照",
         "description": "disable_blocing_for_seconds无法再破盾",
-        "title": "\"disable_blocking_for_seconds\" no longer disables items with the \"blocks_attacks\" component",
+        "title": "Items with the `weapon` component with `disable_blocking_for_seconds` set no longer disable items with the `blocks_attacks` component",
         "status": "Confirmed"
     },
     {

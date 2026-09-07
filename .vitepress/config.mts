@@ -1,4 +1,4 @@
-import { defineConfig } from "vitepress";
+import { defineConfig, type Plugin } from "vitepress";
 import { sidebar } from "./sidebar";
 import { mcfunction } from "./highlights/mcfuntion";
 import { mcdoc } from "./highlights/mcdoc/mcdoc";
@@ -9,6 +9,8 @@ import { useKatex } from "./markdown/katex.mjs";
 import { renderSearchIndex, splitSearchIndex } from "./markdown/search-index.mjs";
 import { createShikiCache } from "./markdown/shiki-cache.mjs";
 import { staticWheelPageLayout } from "./wheelPageLayout.mjs";
+import { useChangelog } from "./markdown/changelog.mjs";
+import { useNbtTree } from "./markdown/nbt-tree.mjs";
 
 import {
     sidebar_feature,
@@ -29,8 +31,6 @@ import {
 import fs from "node:fs";
 // @ts-ignore
 import path from "node:path";
-// @ts-ignore
-import type { Plugin } from "vite";
 
 import{
     sidebar_202601,
@@ -125,16 +125,19 @@ const shikiCache = createShikiCache()
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+    transformPageData(pageData) {
+        if (pageData.relativePath === 'index/changelog_breaking.md') {
+            pageData.frontmatter.outline = [3, 3]
+        }
+        const layout = staticWheelPageLayout(pageData.relativePath, pageData.frontmatter)
+        if (layout) pageData.frontmatter.layout = layout
+    },
     // VitePress defaults to 64 simultaneous page/search renders. Eight keeps
     // enough work in flight for CI while avoiding dozens of large page trees
     // being retained at once. Override only when benchmarking larger runners.
     buildConcurrency,
     buildEnd() {
         shikiCache.report()
-    },
-    transformPageData(pageData) {
-        const layout = staticWheelPageLayout(pageData.relativePath, pageData.frontmatter)
-        if (layout) pageData.frontmatter.layout = layout
     },
     locales: {
         root: {
@@ -272,7 +275,6 @@ export default defineConfig({
         },
 
         sidebar: {
-            // @ts-ignore
             "/index/": sidebar,
             "/resources/": sidebar,
             "/feature/archive/202504": sidebar_202504,
@@ -326,6 +328,8 @@ export default defineConfig({
         config: (md) => {
             md.use(anchor);
             useKatex(md);
+            useChangelog(md);
+            useNbtTree(md);
 
             // 自动适配硬编码的 /datapack-index/ 链接前缀：当 siteBase 变化时同步替换
             const normalizedBase = siteBase === '/' ? '/' : siteBase.replace(/\/$/, '');

@@ -1,6 +1,44 @@
 ---
 title: '数据包测试终极答案——大沙包（Datapack Sandbox）'
 ---
+<script setup lang="ts">
+import DpsPlayground, {
+  type PlaygroundNotebook,
+} from '@datapack-sandbox/vitepress-playground'
+
+import DpsCell from '@datapack-sandbox/vitepress-playground/cell'
+import { ref } from 'vue'
+
+const source = ref('')
+const notebook: PlaygroundNotebook = {
+  version: '26.2',
+  cells: [
+    {
+      id: 'welcome',
+      type: 'markdown',
+      source: '### 测试沙盒\n\两个编辑器共享一个沙盒。',
+    },
+    {
+      id: 'setup',
+      type: 'code',
+      source: [
+        'scoreboard objectives add feature_reads dummy',
+        'scoreboard players set #visitor feature_reads 1',
+        'say Feature sandbox is ready',
+      ].join('\n'),
+    },
+    {
+      id: 'inspect',
+      type: 'code',
+      source: 'execute if score #visitor feature_reads matches 1 run say Welcome to Feature',
+    },
+  ],
+}
+
+import str from '../../../../.vitepress/vue/nbt/string.vue'
+import ns from '../../../../.vitepress/vue/nbt/namespace.vue'
+import list from '../../../../.vitepress/vue/nbt/list.vue'
+</script>
 
 <FeatureHead
     title='数据包测试终极答案——大沙包（Datapack Sandbox）'
@@ -10,9 +48,13 @@ title: '数据包测试终极答案——大沙包（Datapack Sandbox）'
 
 ## I. Introduction
 
-长期以来，数据包的测试一直是一个令人头疼的问题。数据包作者们通常需要不断的在自己的函数中插入 say hi 判断函数是否可达，或者使用 tellraw 对自己的数据包运行中的某些过程量进行输出。为了解决这样的问题，已经有不少相关的工具出现了。例如，由我和bookshelf共同开发的[Sniffer](https://github.com/mcbookshelf/Sniffer)提供了一个Fabric Mod以及VSCode插件，允许用户在VSCode中设置函数断点，控制游戏中函数的进行，查看断点时期游戏的各种状态。然而，Mod的维护成本较大，对游戏的侵入性较大，使得这个项目目前开发较为困难。
+长期以来，数据包的测试一直是一个令人头疼的问题。数据包作者们通常需要不断的在自己的函数中插入`say hi`判断函数是否可达，或者使用`tellraw`对自己的数据包运行中的某些过程量进行输出。\
+为了解决这样的问题，已经有不少相关的工具出现了。例如，由我和Bookshelf共同开发的[Sniffer](https://github.com/mcbookshelf/Sniffer)提供了一个Fabric Mod以及VSCode插件，允许用户在VSCode中设置函数断点，控制游戏中函数的进行，查看断点时期游戏的各种状态。然而，Mod的维护成本较大，对游戏的侵入性较大，使得这个项目目前开发较为困难。
 
-因此，我们决定大胆开发一个全新的工具——Datapack Sandbox，简称DSB（大沙包）。它从0开始，构建了一个和Minecraft环境类似的纯净沙箱，为数据包提供了一个本地的、轻量级的、可控的虚拟运行时。和Minecraft庞大的代码库不同，大沙包只需要维护基本的运行时环境，提供数据包运行所需的最基本的功能，因此其维护工作比Mod简单得多，可以轻易兼容从1.20.4到26.2的所有正式版本的数据包运行环境。同时，大沙包作为一个测试运行时，从底层即支持**断点调试**、获取快照等功能，允许用户精细捕捉各种运行时状态，可以极大提高调试效率。此外，借助大沙包运行时，我们还开发了一系列的工具链，包括单元测试工具、**配套的VSCode插件**。更令人振奋的还有**纯前端**的在线运行时，允许开发者在编写数据包文档的时候直接将大沙包嵌入自己的网站，读者可以在阅读文档的时候直接在网页中编辑、运行mcfunction，查看运行结果，极大提高了文档的可读性和交互性。目前，香草图书馆已经开放提供了大沙包的使用，本文除了介绍大沙包的功能，也会介绍如何在香草图书馆中使用大沙包。
+因此，我们决定大胆开发一个全新的工具——Datapack Sandbox，简称DSB（大沙包）。\
+它从零开始，构建了一个和Minecraft环境类似的纯净沙箱，为数据包提供了一个本地的、轻量级的、可控的虚拟运行环境。\
+和Minecraft庞大的代码库不同，大沙包只需要维护基本的运行时环境，提供数据包运行所需的最基本的功能，因此其维护工作比Mod简单得多，可以轻易兼容从1.20.4到26.2的所有正式版本的数据包运行环境。同时，大沙包作为一个测试运行时，从底层即支持**断点调试**、获取快照等功能，允许用户精细捕捉各种运行时状态，可以极大提高调试效率。\
+此外，借助大沙包运行时，我们还开发了一系列的工具链，包括单元测试工具、**配套的VSCode插件**。更令人振奋的还有**纯前端**的在线运行时，允许开发者在编写数据包文档的时候直接将大沙包嵌入自己的网站，读者可以在阅读文档的时候直接在网页中编辑、运行mcfunction，查看运行结果，极大提高了文档的可读性和交互性。目前，香草图书馆已经开放提供了大沙包的使用，本文除了介绍大沙包的功能，也会介绍如何在香草图书馆中使用大沙包。
 
 :::warning ATTENTION
 对于绝大多数数据包开发者，建议先阅读DSB VSCode Plugin和DSB Playground部分
@@ -20,7 +62,9 @@ title: '数据包测试终极答案——大沙包（Datapack Sandbox）'
 
 ## II. ~~Materials and methods~~ DSB Core
 
-沙盒，顾名思义，一个封闭的纯净环境。大沙包提供了一个和Minecraft环境类似的纯净沙箱，从而能运行、调试数据包。但是，大沙包并不是Minecraft的一个完整实现，它只提供了数据包运行所需的最基本的功能。无论是网页端，还是JVM端，大沙包都只是一个轻量级的运行时环境。当然，我们也在致力于让大沙包尽可能完整的模拟原版Minecraft中的各种特性，如果你发现了任何不一致，欢迎来到我们的仓库中提出Issue。
+沙盒，顾名思义，一个封闭的纯净环境。大沙包提供了一个和Minecraft环境类似的纯净沙箱，从而能运行、调试数据包。\
+但是，大沙包并不是Minecraft的一个完整实现，它只提供了数据包运行所需的最基本的功能。\
+无论是网页端，还是JVM端，大沙包都只是一个轻量级的运行时环境。当然，我们也在致力于让大沙包尽可能完整的模拟原版Minecraft中的各种特性，如果你发现了任何不一致，欢迎来到我们的仓库中提出Issue。
 
 ### DSB CLI
 
@@ -77,7 +121,7 @@ CLI提供的是一些最基本的功能，来帮助用户快速验证某些想�
 }
 ```
 
-以上是一个最小测试样例。`version`定义了游戏版本，`packs`定义了数据包的相对路径，`steps`为测试的执行步骤，`assertions`为测试的断言。在这个例子中，测试的步骤是执行一个函数`<example>`，这个函数中包含了一个命令`say manifest ok`。随后，测试会检查输出中是否包含了`say`命令，并且输出中是否包含了`manifest ok`，并且输出的数量为1。
+以上是一个最小测试样例。<str t="version"/>定义了游戏版本，<list t="packs"/>定义了数据包的相对路径，<list t="steps"/>为测试的执行步骤，<list t="assertions"/>为测试的断言。在这个例子中，测试的步骤是执行一个函数`<example>`，这个函数中包含了一个命令`say manifest ok`。随后，测试会检查输出中是否包含了`say`命令，并且输出中是否包含了`manifest ok`，并且输出的数量为1。
 
 配合VSCode插件，开发者可以在VSCode中直接运行Manifest测试，并查看测试结果。
 
@@ -333,41 +377,6 @@ DBS Web 运行时将DBS带到了浏览器。DBS Web运行时是一个纯前端�
 啦啦啦终于到最后的压轴环节了——也就是本次随着本月刊的发布已经同步部署在香草图书馆的 **DSB Playground**！
 
 先看看效果（下面这个可不是图片喵！）：
-
-<script setup lang="ts">
-import DpsPlayground, {
-  type PlaygroundNotebook,
-} from '@datapack-sandbox/vitepress-playground'
-
-import DpsCell from '@datapack-sandbox/vitepress-playground/cell'
-import { ref } from 'vue'
-
-const source = ref('')
-const notebook: PlaygroundNotebook = {
-  version: '26.2',
-  cells: [
-    {
-      id: 'welcome',
-      type: 'markdown',
-      source: '### 测试沙盒\n\两个编辑器共享一个沙盒。',
-    },
-    {
-      id: 'setup',
-      type: 'code',
-      source: [
-        'scoreboard objectives add feature_reads dummy',
-        'scoreboard players set #visitor feature_reads 1',
-        'say Feature sandbox is ready',
-      ].join('\n'),
-    },
-    {
-      id: 'inspect',
-      type: 'code',
-      source: 'execute if score #visitor feature_reads matches 1 run say Welcome to Feature',
-    },
-  ],
-}
-</script>
 
 <DpsPlayground
     :notebook="notebook"

@@ -4,6 +4,7 @@ import { computed, defineComponent, markRaw, onMounted, onUnmounted, provide, re
 import { dataSymbol, useData } from 'vitepress'
 import { compile as compileTemplate, errorMessages as vueCompilerErrorMessages } from '@vue/compiler-dom'
 import { Marked, Renderer } from 'marked'
+import { transformNbtTree } from '../markdown/nbt-tree.mjs'
 import katex from 'katex'
 import { mcfunction } from '../highlights/mcfuntion'
 import { mcdoc } from '../highlights/mcdoc/mcdoc'
@@ -375,7 +376,7 @@ function renderPreviewMarkdown(markdown, highlighter) {
 
 function renderPreviewHtml(markdown, highlighter) {
   try {
-    return rewriteTemplateUrls(renderMarkdown(markdown, highlighter))
+    return rewriteTemplateUrls(transformNbtTree(renderMarkdown(markdown, highlighter)))
   } catch (error) {
     throw createRenderError(t('Markdown 渲染', 'Markdown rendering'), error, { markdown })
   }

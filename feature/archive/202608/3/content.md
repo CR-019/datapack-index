@@ -2,6 +2,12 @@
 title: '可视化多噪声型生物群系源编辑网站使用方法概述'
 ---
 
+<script setup>
+import str from '/.vitepress/vue/nbt/string.vue'
+import ns from '/.vitepress/vue/nbt/namespace.vue'
+import list from '/.vitepress/vue/nbt/list.vue'
+</script>
+
 <FeatureHead
   title="可视化多噪声型生物群系源编辑网站使用方法概述"
   authorName="徐木弦"
@@ -28,7 +34,7 @@ title: '可视化多噪声型生物群系源编辑网站使用方法概述'
 }
 ```
 
-该多噪声参数列表是硬编码的 `minecraft:overworld`，此部分内容需要通过源码获取底层的映射数据。如果尝试内联定义生物群系源，其树状结构如下所示：
+该多噪声参数列表是硬编码的<ns t="minecraft:overworld"/>，此部分内容需要通过源码获取底层的映射数据。如果尝试内联定义生物群系源，其树状结构如下所示：
 
 <div class="nbttree">
 

@@ -113,8 +113,8 @@ function translateLabel(text: string | undefined, link?: string) {
   return text
 }
 
-function translateSidebar(items: DefaultTheme.Sidebar): DefaultTheme.Sidebar {
-  const translated: DefaultTheme.Sidebar = []
+function translateSidebar(items: DefaultTheme.SidebarItem[]): DefaultTheme.SidebarItem[] {
+  const translated: DefaultTheme.SidebarItem[] = []
   for (const item of items) {
     if (typeof item === 'string') {
       translated.push(item)

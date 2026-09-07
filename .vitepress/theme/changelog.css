@@ -1,0 +1,111 @@
+.vp-doc .changelog-version {
+  margin: 12px 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--vp-c-bg);
+}
+.vp-doc .changelog-version > summary,
+.vp-doc .changelog-item > summary {
+  display: flex;
+  margin: 0;
+  align-items: baseline;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.vp-doc .changelog-version > summary::-webkit-details-marker,
+.vp-doc .changelog-item > summary::-webkit-details-marker { display: none; }
+.vp-doc .changelog-version > summary::before,
+.vp-doc .changelog-item > summary::before {
+  content: '';
+  flex: 0 0 6px;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid var(--vp-c-text-3);
+  border-bottom: 2px solid var(--vp-c-text-3);
+  transform: rotate(-45deg);
+  align-self: center;
+}
+.vp-doc .changelog-version[open] > summary::before,
+.vp-doc .changelog-item[open] > summary::before { transform: rotate(45deg); }
+.vp-doc .changelog-item > summary[data-changelog-icons]::after {
+  content: attr(data-changelog-icons);
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin-bottom: 4px;
+  font-size: 14px;
+  line-height: 16px;
+}
+/* Reserve an icon gutter without changing list markers or inline text flow. */
+.vp-doc .changelog-version li.changelog-leaf {
+  position: relative;
+  padding-right: calc(20px + 20px * var(--changelog-icon-count, 1));
+}
+.vp-doc .changelog-leaf::after {
+  content: attr(data-changelog-icons);
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  font-size: 14px;
+  line-height: 16px;
+}
+.vp-doc .changelog-version > summary {
+  padding: 12px 18px;
+  background: var(--vp-c-bg-soft);
+}
+.vp-doc .changelog-version > summary h3 { margin: 0; border: 0; font-size: 21px; }
+.vp-doc .changelog-version > summary:hover,
+.vp-doc .changelog-item > summary:hover { background: var(--vp-c-default-soft); }
+.vp-doc .changelog-version summary:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: -3px; }
+.vp-doc .changelog-version-body { padding: 0 18px 12px; }
+.vp-doc .changelog-section { --changelog-accent: var(--vp-c-brand-1); margin-top: 14px; }
+.vp-doc .changelog-resourcepack { --changelog-accent: var(--vp-c-green-1); }
+.vp-doc .changelog-mcmeta { --changelog-accent: var(--vp-c-yellow-1); }
+.vp-doc .changelog-section-title {
+  border-left: 3px solid var(--changelog-accent);
+  padding-left: 10px;
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: var(--vp-c-text-2);
+}
+.vp-doc ul.changelog-topics { list-style: none; padding: 0; margin: 6px 0 0; }
+.vp-doc ul.changelog-topics > li { margin: 0; padding: 5px 10px; border-bottom: 1px solid var(--vp-c-divider); }
+.vp-doc ul.changelog-topics > li:last-child { border-bottom: 0; }
+.vp-doc ul.changelog-topics > li.changelog-leaf::after { bottom: 10px; }
+.vp-doc ul.changelog-topics > li.changelog-topic { padding: 0; }
+.vp-doc .changelog-item > summary { padding: 5px 10px; line-height: 24px; font-weight: 600; border-radius: 6px; }
+.vp-doc .changelog-item-title { min-width: 0; overflow-wrap: anywhere; }
+.vp-doc .changelog-item-body { padding: 0 12px 8px 20px; overflow-wrap: anywhere; }
+.vp-doc .changelog-item-body > ul,
+.vp-doc .changelog-item-body > ol { margin: 0; padding-left: 20px; }
+/* A disclosure replaces the list marker, so its arrow belongs in the marker
+   gutter. Reset li + li spacing at every depth, including mixed lists. */
+.vp-doc .changelog-item-body li.changelog-topic {
+  list-style: none;
+  margin: 0 0 0 -20px;
+  padding: 0;
+}
+.vp-doc .changelog-item-body .changelog-item { margin: 0; }
+.vp-doc .changelog-item-body .changelog-item > summary { padding-left: 4px; }
+/* Keep the native anchor navigation, with only h3 versions in this page's outline. */
+.changelog-layout .VPDoc .aside {
+  flex: 0 0 96px;
+  width: 96px;
+  max-width: 96px;
+  padding-left: 12px;
+}
+.changelog-layout .VPDoc .aside-container,
+.changelog-layout .VPDoc .aside-curtain { width: 84px; }
+.changelog-layout .VPDocAsideOutline .content { padding-left: 10px; }
+.changelog-layout .VPDocAsideOutline .outline-link { line-height: 24px; font-size: 12px; }
+.changelog-layout .VPDoc.has-aside .content-container { max-width: none; }
+@media (min-width: 960px) {
+  .changelog-layout .VPDoc > .container > .content { padding-left: 16px; padding-right: 16px; }
+}
+@media (max-width: 640px) {
+  .vp-doc .changelog-version > summary { padding: 10px 12px; }
+  .vp-doc .changelog-version-body { padding: 2px 12px 14px; }
+  .vp-doc .changelog-item-body { padding-left: 8px; padding-right: 0; }
+}

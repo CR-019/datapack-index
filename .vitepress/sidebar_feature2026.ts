@@ -1,6 +1,6 @@
-import { DefaultTheme } from "vitepress";
+import type { DefaultTheme } from "vitepress";
 
-export const sidebar_202601: DefaultTheme.Sidebar = [
+export const sidebar_202601: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.01',
     items: [
@@ -58,7 +58,7 @@ export const sidebar_202601: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202602: DefaultTheme.Sidebar = [
+export const sidebar_202602: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.02',
     items: [
@@ -110,7 +110,7 @@ export const sidebar_202602: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202603: DefaultTheme.Sidebar = [
+export const sidebar_202603: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.03',
     items: [
@@ -162,7 +162,7 @@ export const sidebar_202603: DefaultTheme.Sidebar = [
 ];
 
 
-export const sidebar_202604: DefaultTheme.Sidebar = [
+export const sidebar_202604: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.04',
     items: [
@@ -213,7 +213,7 @@ export const sidebar_202604: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202605: DefaultTheme.Sidebar = [
+export const sidebar_202605: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.05',
     items: [
@@ -265,7 +265,7 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
 ];
 
 
-export const sidebar_202606: DefaultTheme.Sidebar = [
+export const sidebar_202606: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.06',
     items: [
@@ -316,7 +316,7 @@ export const sidebar_202606: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202607: DefaultTheme.Sidebar = [
+export const sidebar_202607: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.07',
     items: [
@@ -367,7 +367,7 @@ export const sidebar_202607: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202608: DefaultTheme.Sidebar = [
+export const sidebar_202608: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.08',
     items: [
@@ -403,8 +403,8 @@ export const sidebar_202608: DefaultTheme.Sidebar = [
   {
     text: '巧匠 Masterpieces',
     items: [
-      { text: '沉默乐章：错位音', link: '/feature/archive/202607/4/content' },
-      { text: '简单NPC', link: '/feature/archive/202607/5/content' },
+      { text: '沉默乐章：错位音', link: '/feature/archive/202608/4/content' },
+      { text: '简单NPC', link: '/feature/archive/202608/5/content' },
     ]
   },
   {
