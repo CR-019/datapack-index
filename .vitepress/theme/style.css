@@ -251,20 +251,6 @@
   box-sizing: border-box;
 }
 
-/* Bridge from the preceding parent row to the first child. */
-.nbttree ul::before {
-  content: '';
-  position: absolute;
-  left: var(--nbt-tree-axis);
-  top: -0.8em;
-  height: 0.8em;
-  border-left: 1px solid var(--nbt-tree-line);
-}
-
-.nbttree > ul:first-child::before {
-  content: none;
-}
-
 .nbttree li {
   position: relative;
   padding: 0.4em 0 0 var(--nbt-tree-indent);

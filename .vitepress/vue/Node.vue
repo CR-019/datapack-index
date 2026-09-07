@@ -33,14 +33,15 @@ export default {
   },
   props: {
     type: {
-      type: String,
+      type: [String, Array],
       required: true,
       validator(value) {
-        return [
+        const types = Array.isArray(value) ? value : [value];
+        return types.length > 0 && types.every(type => [
           'any', 'bool', 'byte_list', 'byte', 'list', 'double',
           'float', 'homolist', 'int_list', 'int', 'long_list', 'long',
           'compound', 'short', 'string'
-        ].includes(value);
+        ].includes(type));
       }
     },
     name: {

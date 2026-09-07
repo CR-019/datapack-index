@@ -9,6 +9,7 @@ import { useKatex } from "./markdown/katex.mjs";
 import { renderSearchIndex, splitSearchIndex } from "./markdown/search-index.mjs";
 import { createShikiCache } from "./markdown/shiki-cache.mjs";
 import { useChangelog } from "./markdown/changelog.mjs";
+import { useNbtTree } from "./markdown/nbt-tree.mjs";
 
 import {
     sidebar_feature,
@@ -329,6 +330,7 @@ export default defineConfig({
             md.use(anchor);
             useKatex(md);
             useChangelog(md);
+            useNbtTree(md);
 
             // 自动适配硬编码的 /datapack-index/ 链接前缀：当 siteBase 变化时同步替换
             const normalizedBase = siteBase === '/' ? '/' : siteBase.replace(/\/$/, '');
