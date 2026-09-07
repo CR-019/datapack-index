@@ -1,3 +1,8 @@
+<script setup>
+import ns from '/datapack-index/.vitepress/vue/nbt/namespace.vue'
+import obj from '/datapack-index/.vitepress/vue/nbt/object.vue'
+</script>
+
 <FeaturedHead
 title='VVE3 引擎教程——自定义物理小车'
 authorName='小豆8593'
@@ -9,27 +14,21 @@ cover = '../_assets/0.png'
 
 ## 一、下载依赖
 
-- **VVE 本体 3.0.2**
-  https://github.com/xiaodou8593/vve3.0
+- **VVE 本体 3.0.2**：https://github.com/xiaodou8593/vve3.0
 
-- **VVE3 资源包**
-  https://github.com/xiaodou8593/vve3.0_rp
+- **VVE3 资源包**：https://github.com/xiaodou8593/vve3.0_rp
 
-- **数学库 3.1.3**
-  https://github.com/xiaodou8593/math3.1
+- **数学库 3.1.3**：https://github.com/xiaodou8593/math3.1
 
-- **线性代数库 3.1.3**
-  https://github.com/xiaodou8593/math3.1_lalib
+- **线性代数库 3.1.3**：https://github.com/xiaodou8593/math3.1_lalib
 
-- **图形库 3.1.3**
-  https://github.com/xiaodou8593/math3.1_gelib
+- **图形库 3.1.3**：https://github.com/xiaodou8593/math3.1_gelib
 
-- **模块构建器 MOT 2.0.1**
-  https://github.com/xiaodou8593/mot_2.0
+- **模块构建器 MOT 2.0.1**：https://github.com/xiaodou8593/mot_2.0
 
 > **注意**：MOT 需要 Python 和 AutoHotkey 的运行环境。如果您的系统里没有，可以使用仓库内的安装包进行安装。
 
-双击运行 `mot2.0.ahk`，系统右下角托盘出现绿色 **H** 图标表明 MOT 已运行。
+双击运行`mot2.0.ahk`，系统右下角托盘出现绿色 **H** 图标表明 MOT 已运行。
 
 ![alt text](image-1.png)
 
@@ -57,7 +56,7 @@ cover = '../_assets/0.png'
 > - 【复刻计划】爆肝3000字！阿乔也能看懂的物品模型映射教程（MC1.21.4）
 >   https://www.bilibili.com/video/BV1w5FEejEra/
 
-在新版本资源包中，您需要为物品模型创建一个**物品模型映射**，可以参考教程示例数据包 `model_practice/assets/xiaodou123/items/blue_car.json` 的写法：
+在新版本资源包中，您需要为物品模型创建一个**物品模型映射**，可以参考教程示例数据包`model_practice/assets/xiaodou123/items/blue_car.json`的写法：
 
 ```json
 {
@@ -73,26 +72,26 @@ cover = '../_assets/0.png'
 }
 ```
 
-使用 `custom_model_data` 索引三个不同状态的模型：
-- `0.0` → 前进状态
-- `1.0` → 左转方向盘状态
-- `2.0` → 右转方向盘状态
+使用<obj t="custom_model_data" />索引三个不同状态的模型：
+ - `0.0`→ 前进状态
+ - `1.0`→ 左转方向盘状态
+ - `2.0`→ 右转方向盘状态
 
 ---
 
 ## 三、安装数据包
 
-将 `vve3`, `math3`, `math3` 线性代数库, `math3` 图形库放入存档 `datapacks` 文件夹下。
+将`vve3`,`math3`,`math3`线性代数库,`math3`图形库放入存档`datapacks`文件夹下。
 
 在 MC 游戏中进入存档，聊天栏输入命令：
 
-```
+```mcfunction
 /reload
 ```
 
 然后初始化各个数据包：
 
-```
+```mcfunction
 function math:_init
 function math:_init_la
 function math:_init_ge
@@ -102,7 +101,7 @@ function vve:_init
 
 寻找一个空旷的位置作为 VVE 测试坐标：
 
-```
+```mcfunction
 function vve:test_coord/_set_here_align
 ```
 
@@ -110,17 +109,17 @@ function vve:test_coord/_set_here_align
 
 ## 四、构建模块
 
-在存档的 `datapacks` 文件夹下创建一个新数据包。本文使用的包名和命名空间均为 `vve_tutor`，您也可以使用自定义名称。
+在存档的`datapacks`文件夹下创建一个新数据包。本文使用的包名和命名空间均为<ns t="vve_tutor" />，您也可以使用自定义名称。
 
-可以在 `datapacks` 文件夹窗口下，也可以使用 MOT 快捷键 `Ctrl+P` 快捷创建数据包，输入包名和命名空间即可。
+可以在`datapacks`文件夹窗口下，也可以使用 MOT 快捷键`Ctrl+P`快捷创建数据包，输入包名和命名空间即可。
 
 ![alt text](image-3.png)
 
-在新建好的数据包 `function` 文件夹内，新建一个文件夹 `blue_car`（可自定义名称），这个文件夹被我们称之为一个**模块**。
+在新建好的数据包`function`文件夹内，新建一个文件夹`blue_car`（可自定义名称），这个文件夹被我们称之为一个**模块**。
 
-在 `blue_car` 文件夹窗口下，使用 MOT 快捷键 `Ctrl+M` 运行记忆栈（终端窗口）。
+在`blue_car`文件夹窗口下，使用 MOT 快捷键`Ctrl+M`运行记忆栈（终端窗口）。
 
-推送 `vve_vehicle_lite_1.0` 模板：
+推送`vve_vehicle_lite_1.0`模板：
 
 ```
 push vve_vehicle_lite_1.0
@@ -128,7 +127,7 @@ push vve_vehicle_lite_1.0
 
 ![alt text](image-4.png)
 
-然后回到文件夹窗口，使用 MOT 快捷键 `Ctrl+O` 创建对象格式文档（**请注意：本步骤一定要在推送模板之后，下文的构建模块之前**）。
+然后回到文件夹窗口，使用 MOT 快捷键`Ctrl+O`创建对象格式文档（**请注意：本步骤一定要在推送模板之后，下文的构建模块之前**）。
 
 ![alt text](image-5.png)
 
@@ -146,9 +145,9 @@ pop
 
 可以检查函数前缀是否相符，如果出现问题请参考 [MOT 2.0 仓库](https://github.com/xiaodou8593/mot_2.0) 内的注意事项。
 
-接下来继续在 MOT 记忆栈内为 `blue_car` 模块构建自动测试。
+接下来继续在 MOT 记忆栈内为`blue_car`模块构建自动测试。
 
-首先推送自动测试模板 `vve_test_1.0`：
+首先推送自动测试模板`vve_test_1.0`：
 
 ```
 push vve_test_1.0
@@ -174,7 +173,7 @@ stop
 
 ## 五、模型对齐
 
-打开模块下的 `set_operation` 函数，将物体的模型引用制作的小车模型。
+打开模块下的<ns t="set_operation" />函数，将物体的模型引用制作的小车模型。
 
 第 8 行修改为：
 
@@ -182,11 +181,11 @@ stop
 item replace entity @s container.0 with minecraft:clay_ball[minecraft:item_model="xiaodou123:blue_car",minecraft:custom_model_data={floats:[0.0f]}]
 ```
 
-其中 `minecraft:item_model=""` 内部应填写您的物品模型映射路径。
+其中`minecraft:item_model=""`内部应填写您的物品模型映射路径。
 
 进入游戏，重新加载数据包，并启动显示测试：
 
-```
+```mcfunction
 reload
 function vve_tutor:blue_car/test/cp/start
 ```
@@ -195,17 +194,17 @@ function vve_tutor:blue_car/test/cp/start
 
 可以看到小车被压扁了。使用以下命令结束测试：
 
-```
+```mcfunction
 scoreboard players set test int 1
 ```
 
-打开 `_update_display` 函数，将第 5 行添加注释不执行，关闭模型缩放：
+打开<ns t="_update_display" />函数，将第 5 行添加注释不执行，关闭模型缩放：
 
 ```mcfunction
 #function vve:box_object/_update_display
 ```
 
-打开 `test/cp/start` 函数，将第 41 行添加注释不执行，关闭物体旋转：
+打开<ns t="test/cp/start" />函数，将第 41 行添加注释不执行，关闭物体旋转：
 
 ```mcfunction
 #execute as @e[tag=result,limit=1] at @s positioned ~5.0 ~5.0 ~5.0 run function vve:object/_rotate_here_as
@@ -213,7 +212,7 @@ scoreboard players set test int 1
 
 回到游戏重新运行测试：
 
-```
+```mcfunction
 reload
 function vve_tutor:blue_car/test/cp/start
 ```
@@ -222,7 +221,7 @@ function vve_tutor:blue_car/test/cp/start
 
 观察到小车旁边有八个红色的粒子，它们标识的是物理模型的碰撞点。我们需要调整物体的显示模型，使其与实际的红色碰撞点对齐。
 
-由于笔者建模时选择了 X 轴作为前后方向，没有与红色碰撞点前后方向一致，这里为 `_update_display` 函数添加一个四元数设置，旋转模型：
+由于笔者建模时选择了 X 轴作为前后方向，没有与红色碰撞点前后方向一致，这里为<ns t="_update_display" />函数添加一个四元数设置，旋转模型：
 
 ```mcfunction
 #vve_tutor:blue_car/_update_display
@@ -235,7 +234,7 @@ data modify entity @s transformation.right_rotation set value [0.0f,0.7071f,0.0f
 
 回到游戏重新加载，重新运行测试：
 
-```
+```mcfunction
 scoreboard players set test int 1
 reload
 function vve_tutor:blue_car/test/cp/start
@@ -247,9 +246,9 @@ function vve_tutor:blue_car/test/cp/start
 
 ![alt text](image-10.png)
 
-如果设置正确，那么车头应该为 `(0.0, 0.0)` 朝向。
+如果设置正确，那么车头应该为`(0.0, 0.0)`朝向。
 
-继续打开模块下的 `_class` 函数，调整物理模型尺寸，使得红色碰撞点与车轮底部对齐。
+继续打开模块下的<ns t="_class" />函数，调整物理模型尺寸，使得红色碰撞点与车轮底部对齐。
 
 笔者将第 6 到 10 行修改为以下内容：
 
@@ -262,11 +261,11 @@ function vve:cubox/_calc_shift
 ```
 
 其中：
-- `scale_u` 代表物理模型在**左右方向**的缩放，倍率为 `10000`（例如 `11500` 代表缩放 1.15 倍）
-- `scale_v` 代表**上下方向**的缩放
-- `scale_w` 代表**前后方向**的缩放
+ - `scale_u`代表物理模型在**左右方向**的缩放，倍率为`10000`（例如`11500`代表缩放 1.15 倍）
+ - `scale_v`代表**上下方向**的缩放
+ - `scale_w`代表**前后方向**的缩放
 
-`_class` 函数中包含对载具各项参数的设置，这里调整一下发动机的运行功率和最大速度。
+<ns t="_class" />函数中包含对载具各项参数的设置，这里调整一下发动机的运行功率和最大速度。
 
 将第 17 到 26 行修改为以下内容：
 
@@ -285,7 +284,7 @@ scoreboard players set v_max int 3000
 
 回到游戏重新加载和运行测试：
 
-```
+```mcfunction
 scoreboard players set test int 1
 reload
 function vve_tutor:blue_car/test/cp/start
@@ -295,7 +294,7 @@ function vve_tutor:blue_car/test/cp/start
 
 碰撞点大致对齐到车轮底部即可，如果没有对齐请反复调整。
 
-打开 `test/fall/start`，取消落地测试的旋转。将第 40 行添加注释：
+打开<ns t="test/fall/start" />，取消落地测试的旋转。将第 40 行添加注释：
 
 ```mcfunction
 #execute as @e[tag=result,limit=1] at @s positioned ~5.0 ~5.0 ~5.0 run function vve:object/_rotate_here_as
@@ -303,7 +302,7 @@ function vve_tutor:blue_car/test/cp/start
 
 接下来可以结束显示测试，运行落地测试，观察物理效果是否正确：
 
-```
+```mcfunction
 scoreboard players set test int 1
 reload
 function vve_tutor:blue_car/test/fall/start
@@ -319,9 +318,9 @@ function vve_tutor:blue_car/test/fall/start
 execute as @n[tag=test] on passengers run ride @p mount @s
 ```
 
-根据玩家乘坐位置，在 `set_operation` 函数中调整座椅参数。这里将座椅高度调整为 `1000`（0.1 格）。
+根据玩家乘坐位置，在<ns t="set_operation" />函数中调整座椅参数。这里将座椅高度调整为`1000`（0.1 格）。
 
-修改 `set_operation` 函数第 12 行：
+修改<ns t="set_operation" />函数第 12 行：
 
 ```mcfunction
 scoreboard players set height int 1000
@@ -329,7 +328,7 @@ scoreboard players set height int 1000
 
 结束落地测试：
 
-```
+```mcfunction
 reload
 scoreboard players set test int 1
 ```
@@ -346,17 +345,17 @@ scoreboard players set test int 1
 
 如果您安装了 VVE3 资源包，可以使用白桦木活板门搭建斜坡。
 
-来到 `function` 目录，新建一个 `simulator` 文件夹作为模拟器模块（可自定义名称）。
+来到`function`目录，新建一个`simulator`文件夹作为模拟器模块（可自定义名称）。
 
 ![alt text](image-14.png)
 
-进入 `simulator` 模块，`Ctrl+M` 运行 MOT 记忆栈，推送模拟器模板：
+进入`simulator`模块，`Ctrl+M`运行 MOT 记忆栈，推送模拟器模板：
 
 ```
 push vve_simulator_1.0
 ```
 
-回到文件夹目录，`Ctrl+O` 创建对象格式文档：
+回到文件夹目录，`Ctrl+O`创建对象格式文档：
 
 ![alt text](image-15.png)
 
@@ -376,13 +375,13 @@ pop
 stop
 ```
 
-打开 `_class` 函数，修改模拟器参数。修改第 5 行，将模拟速率调整为 2：
+打开<ns t="_class" />函数，修改模拟器参数。修改第 5 行，将模拟速率调整为 2：
 
 ```mcfunction
 scoreboard players set global_rate int 2
 ```
 
-打开 `_class` 函数，为模拟器设置以下常量：
+打开<ns t="_class" />函数，为模拟器设置以下常量：
 
 ```mcfunction
 #vve_tutor:simulator/_consts
@@ -400,7 +399,7 @@ scoreboard players set vve_solid_friction_tan int 9800
 scoreboard players set vve_solid_bounce_inv int 6896
 ```
 
-打开 `main_loop` 函数，调度小车主程序。将第 8 行修改为：
+打开<ns t="main_loop" />函数，调度小车主程序。将第 8 行修改为：
 
 ```mcfunction
 execute as @e[tag=vve_tutor_blue_car] run function vve_tutor:blue_car/main_c
@@ -408,31 +407,31 @@ execute as @e[tag=vve_tutor_blue_car] run function vve_tutor:blue_car/main_c
 
 回到游戏重新加载：
 
-```
+```mcfunction
 reload
 ```
 
 初始化模拟器：
 
-```
+```mcfunction
 function vve_tutor:simulator/init
 ```
 
 启动模拟器：
 
-```
+```mcfunction
 function vve_tutor:simulator/_start
 ```
 
 生成小车测试：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_summon_here
 ```
 
 骑乘小车：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_ride_on_nearest
 ```
 
@@ -442,7 +441,7 @@ function vve_tutor:blue_car/_ride_on_nearest
 
 删除小车：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_del_nearest
 ```
 
@@ -452,9 +451,9 @@ function vve_tutor:blue_car/_del_nearest
 
 模板已经写好了一套简易的控制程序，我们添加方向盘转动车轮的模型动画即可。
 
-打开 `blue_car/.doc.mcfo`，修改对象格式，增加一个字段用于记录轮胎状态。
+打开`blue_car/.doc.mcfo`，修改对象格式，增加一个字段用于记录轮胎状态。
 
-开头追加一个 `wheel_state` 字段，其余字段保持不变（省略号代表其余字段）：
+开头追加一个`wheel_state`字段，其余字段保持不变（省略号代表其余字段）：
 
 ```txt
 #vve_tutor:blue_car/doc.mcfo
@@ -466,7 +465,7 @@ _this:{
 }
 ```
 
-在 `blue_car` 文件夹下按 `Ctrl+M` 重新运行 MOT 记忆栈。
+在`blue_car`文件夹下按`Ctrl+M`重新运行 MOT 记忆栈。
 
 首先推送标准数据接口模板：
 
@@ -490,7 +489,7 @@ pop
 stop
 ```
 
-打开 `blue_car/control/main_surface` 函数，在下文追加以下代码（上文代码保持不变，省略号代表其余代码）：
+打开<ns t="blue_car/control/main_surface" />函数，在下文追加以下代码（上文代码保持不变，省略号代表其余代码）：
 
 ```mcfunction
 ...
@@ -510,19 +509,19 @@ reload
 
 重新初始化载具模块：
 
-```
+```mcfunction
 function vve_tutor:blue_car/init
 ```
 
 生成载具：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_summon_here
 ```
 
 骑乘载具：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_ride_on_nearest
 ```
 
@@ -532,7 +531,7 @@ function vve_tutor:blue_car/_ride_on_nearest
 
 删除载具：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_del_nearest
 ```
 
@@ -540,9 +539,9 @@ function vve_tutor:blue_car/_del_nearest
 
 ## 八、声音程序
 
-直接调用 VVE 示例仓库 `vve_examples:green_car` 的声音程序。
+直接调用 VVE 示例仓库`vve_examples:green_car`的声音程序。
 
-打开 `blue_car/main_c` 函数，从第 36 行开始（即坐标安全的代码之前），追加以下代码：
+打开<ns t="blue_car/main_c" />函数，从第 36 行开始（即坐标安全的代码之前），追加以下代码：
 
 ```mcfunction
 # 声音程序
@@ -557,7 +556,7 @@ function vve:sound/_store
 
 为载具追加伤害机制。
 
-打开 `main_c` 函数，在声音程序代码后面追加以下代码：
+打开<ns t="main_c" />函数，在声音程序代码后面追加以下代码：
 
 ```mcfunction
 # 获取速度L无穷范数
@@ -577,7 +576,7 @@ execute if score temp_max int matches 500.. as 0-0-0-0-0 run function math:uvw/_
 execute if score temp_max int matches 500.. as 0-0-0-0-0 at @s run function vve_tutor:blue_car/main_damage
 ```
 
-创建 `blue_car/main_damage` 函数：
+创建<ns t="blue_car/main_damage" />函数：
 
 ```mcfunction
 #vve_tutor:blue_car/main_damage
@@ -589,7 +588,7 @@ execute positioned ~-0.5 ~-0.5 ~-0.5 as @e[dx=0,dy=0,dz=0,type=!minecraft:player
 tp @s 0 0 0
 ```
 
-创建 `blue_car/damage` 函数：
+创建<ns t="blue_car/damage" />函数：
 
 ```mcfunction
 #vve_tutor:blue_car/damage
@@ -599,7 +598,7 @@ damage @s 5 vve_tutor:damage
 execute at @s anchored eyes positioned ^ ^-0.5 ^ run particle minecraft:block{block_state:{Name:"minecraft:redstone_block"}} ~ ~ ~ 0.0 0.0 0.0 0.2 15 force @a
 ```
 
-回到命名空间 `vve_tutor`，创建 `damage_type` 文件夹，在 `damage_type` 文件夹下创建一个新的伤害类型 `damage.json`：
+回到命名空间`vve_tutor`，创建`damage_type`文件夹，在`damage_type`文件夹下创建一个新的伤害类型`damage.json`：
 
 ```json
 {
@@ -609,7 +608,7 @@ execute at @s anchored eyes positioned ^ ^-0.5 ^ run particle minecraft:block{bl
 }
 ```
 
-回到 `data` 文件夹，创建新的命名空间 `minecraft`，创建 `minecraft/tags/damage_type/bypasses_cooldown.json`：
+回到`data`文件夹，创建新的命名空间`minecraft`，创建`minecraft/tags/damage_type/bypasses_cooldown.json`：
 
 ```json
 {
@@ -624,7 +623,7 @@ execute at @s anchored eyes positioned ^ ^-0.5 ^ run particle minecraft:block{bl
 
 生成载具并骑乘：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_summon_here
 function vve_tutor:blue_car/_ride_on_nearest
 ```
@@ -635,6 +634,6 @@ function vve_tutor:blue_car/_ride_on_nearest
 
 删除载具命令：
 
-```
+```mcfunction
 function vve_tutor:blue_car/_del_nearest
 ```

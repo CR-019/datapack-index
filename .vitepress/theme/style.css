@@ -231,98 +231,83 @@
  * Component: NBT structure tree
  * -------------------------------------------------------------------------- */
 
-.nbt-icon {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  display: inline-block;
-  margin: 0.3em -0.1em 0 0;
-}
-
+/* Share branch coordinates; padding keeps stems continuous across wrapped rows. */
 .nbttree {
-  line-height:1.6em;
+  --nbt-tree-indent: 1.8em;
+  --nbt-tree-axis: 0.65em;
+  --nbt-tree-row-center: 1.2em;
+  --nbt-tree-line: var(--vp-c-text-2);
+  line-height: 1.6;
   margin-bottom: 1.6em;
 }
 
-.nbttree span{
-  line-height:1.6em;
-  display: inline-block;
-  /* 使用负 text-indent 控制首行对齐连接符 */
-  text-indent: -20px;
-  padding-left: 20px;
-}
-
-.nbttree img {
-    float: left; 
-    margin: 3px;
-    width: 18px;
-}
-
-
+.vp-doc .nbttree ul,
 .nbttree ul {
+  position: relative;
   list-style: none;
-  padding: 0 0 0 0.7em;
-  margin-top: 0.4em;
-  margin-bottom: 0;
-  line-height: 1.6; /* 控制行高一致 */
+  padding: 0 0 0 var(--nbt-tree-axis);
+  margin: 0;
+  line-height: inherit;
   box-sizing: border-box;
+}
+
+/* Bridge from the preceding parent row to the first child. */
+.nbttree ul::before {
+  content: '';
+  position: absolute;
+  left: var(--nbt-tree-axis);
+  top: -0.8em;
+  height: 0.8em;
+  border-left: 1px solid var(--nbt-tree-line);
+}
+
+.nbttree > ul:first-child::before {
+  content: none;
 }
 
 .nbttree li {
   position: relative;
-  padding-left: 20px; /* 为连接符和缩进留空间 */
+  padding: 0.4em 0 0 var(--nbt-tree-indent);
   margin: 0;
   box-sizing: border-box;
+  overflow-wrap: anywhere;
 }
 
+.vp-doc .nbttree li + li,
+.nbttree li + li {
+  margin-top: 0;
+}
 
+.vp-doc .nbttree p,
+.nbttree p {
+  margin: 0;
+  line-height: inherit;
+}
 
-/* 绘制连接线：从当前 li 顶部到底部的竖线 */
-.nbttree li::after{
+.nbttree li::before,
+.nbttree li::after {
   content: '';
   position: absolute;
   left: 0;
-  border-left: 1px solid #000;
+  pointer-events: none;
   box-sizing: border-box;
 }
 
-.dark .nbttree li::after{
-  border-left: 1px solid #fff;
+.nbttree li::before {
+  top: var(--nbt-tree-row-center);
+  width: var(--nbt-tree-indent);
+  border-top: 1px solid var(--nbt-tree-line);
 }
 
-.nbttree li:not(:last-child)::after {
-  top: -0.8em;
-  bottom: -0.8em;
+.nbttree li::after {
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid var(--nbt-tree-line);
 }
 
 .nbttree li:last-child::after {
-  top: -0.8em;
-  height: 1.5em;
-}
-
-
-/* 连接符：├─ 或 └─ */
-.nbttree li::before {
-  content: '──';
-  position: absolute;
-  left: -8px;
-  top: 0;
-  width: 40px;
-  height: 1.6em; /* 与 line-height 对应 */
-  line-height: 1.6em;
-  text-align: center;
-  background-color: inherit;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-/* 确保文本换行后也能缩进对齐 */
-.nbttree li > span {
-  word-break: break-word;
-  
-  /* 保证换行后其他行正常缩进 */
-  margin-left: 0;
-  box-sizing: border-box;
+  bottom: auto;
+  height: var(--nbt-tree-row-center);
 }
 
 /* 基础样式 */
@@ -378,50 +363,7 @@
 
 /* 展开内容的样式 */
 .nbttree details[open] > :not(summary) {
-  margin-top: 4px;
-}
-
-/* 连接线 */
-.nbttree details::after{
-  content: '';
-  position: absolute;
-  left: 0.7em;
-  top: 0;
-  height: 1.8em;
-  border-left: 1px solid #000;
-  box-sizing: border-box;
-}
-
-.nbttree details + details::after{
-  content: '';
-  position: absolute;
-  left: 10pxem;
-  top: -1em;
-  height: 2.8em;
-  border-left: 1px solid #000;
-  box-sizing: border-box;
-}
-
-
-.nbttree details:not([open]):last-child::after{
-  top: 0;
-  height: 1.8em;
-  border-left: 1px dashed #000;
-}
-
-.dark .nbttree details::after{
-  border-left: 1px solid #fff;
-}
-
-/* 处理nbt树空开的一行 */
-.nbttree details + ul > li:first-child::after {
-  top: -2.2em;
-  bottom: -0.8em;
-}
-
-
-.nbttree ul + details > ul > li:first-child::after {
-  top: -1.6em;
+  margin-top: 0;
 }
 
 .wheel-layout aside:not(:where(.site-announcement-bar)) {
@@ -523,4 +465,3 @@
   will-change: auto !important;
   overflow: visible !important;
 }
-

@@ -1,6 +1,6 @@
 <template>
 
-    <img :src="iconSrc" :alt="type" class="nbt-icon" />
+    <NbtIcon :type="type" :text="name" />
     <!-- Required indicator -->
     <span
       v-if="required"
@@ -17,15 +17,16 @@
     >
       *
     </span>
-    <strong>{{ name }}</strong
-    ><span v-if="shouldShowColon">:</span>
+    <span v-if="shouldShowColon" class="nbt-node-colon">:</span>
 </template>
 
 <script>
 import { useData } from 'vitepress'
+import NbtIcon from './NbtIcon.vue'
 
 export default {
   name: "NbtTypeTag",
+  components: { NbtIcon },
   setup() {
     const { lang } = useData()
     return { lang }
@@ -67,27 +68,6 @@ export default {
     storeTitle() {
       return String(this.lang || '').startsWith('en') ? 'Always present when stored' : '存储时必存在'
     },
-    iconSrc() {
-      const typeToIconMap = {
-        any: 'any',
-        bool: 'bool',
-        byte_list: 'byte_array',
-        byte: 'byte',
-        list: 'Data_node_list',
-        double: 'double',
-        float: 'float',
-        homolist: 'homolist',
-        int_list: 'int_array',
-        int: 'int',
-        long_list: 'long_array',
-        long: 'long',
-        compound: 'object',
-        short: 'short',
-        string: 'string'
-      };
-      const iconName = typeToIconMap[this.type] || 'any';
-      return `/datapack-index/nbt_sprites/${iconName}.svg`;
-    },
     shouldShowColon() {
       return (this.name !== undefined && this.name !== null && this.name.trim() !== '') && this.colon == true;
     }
@@ -99,15 +79,15 @@ export default {
 <style scoped>
 
 
-.nbt-type-icon {
-  margin-right: 0.3em; 
+.nbt-node-colon {
+  margin-right: 0.3em;
 }
 
 .indicator {
   position: relative;
   font-weight: bold;
-  margin-left: -0.3em;
-  margin-right: -1.2em;
+  margin-left: 0.1em;
+  margin-right: 0.1em;
   display: inline-block;
   cursor: help;
 }

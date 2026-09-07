@@ -403,8 +403,8 @@ export const sidebar_202608: DefaultTheme.Sidebar = [
   {
     text: '巧匠 Masterpieces',
     items: [
-      { text: '沉默乐章：错位音', link: '/feature/archive/202607/4/content' },
-      { text: '简单NPC', link: '/feature/archive/202607/5/content' },
+      { text: '沉默乐章：错位音', link: '/feature/archive/202608/4/content' },
+      { text: '简单NPC', link: '/feature/archive/202608/5/content' },
     ]
   },
   {
