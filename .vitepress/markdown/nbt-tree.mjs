@@ -1,3 +1,5 @@
+import { parse } from '@vue/compiler-dom'
+
 // Only merge static legacy tags. Keep directives and attributes on icon-only
 // nodes untouched rather than discarding their individual behavior.
 function attributes(source) {
@@ -34,55 +36,82 @@ function legacyNode(token) {
   return { attrs, source: match[1], type: type.value, name }
 }
 
-export function useNbtTree(md) {
-  md.core.ruler.push('nbt_tree_groups', state => {
-    const divs = []
-    const trackDivs = html => {
-      // HTML comments cannot open or close a tree.
-      for (const match of html.matchAll(/<!--[\s\S]*?-->|<\/div\s*>|<div\b((?:"[^"]*"|'[^']*'|[^'">])*)>/gi)) {
-        if (match[0].startsWith('<!--')) continue
-        if (/^<\//.test(match[0])) divs.pop()
-        else {
-          const classes = attributes(match[1])?.get('class')?.value ?? ''
-          divs.push(divs.at(-1) === true || classes.split(/\s+/).includes('nbttree'))
-        }
-      }
+// Transform the rendered Vue template, independent of the Markdown engine.
+// Edit source ranges instead of serializing HTML: preserve Vue bindings and spelling.
+export function transformNbtTree(html) {
+  if (!html.includes('nbttree')) return html
+  let ast
+  const errors = []
+  try {
+    ast = parse(html, { onError: error => errors.push(error) })
+  } catch {
+    return html
+  }
+  // Preview recovers from malformed HTML elsewhere in an article. Do not let
+  // an unrelated diagnostic disable every valid NBT group in that article.
+  const edits = []
+  const asLegacy = node => node?.type === 1 && node.tag === 'node'
+    ? legacyNode({ type: 'html_inline', content: node.loc.source }) : null
+  const visit = (parent, inTree = false) => {
+    if (parent.type === 1) {
+      const opening = parent.loc.source.match(/^<(?:(?:"[^"]*"|'[^']*')|[^'">])*>/)?.[0] || ''
+      if (['pre', 'code', 'script', 'style'].includes(parent.tag) || /\sv-pre(?:[\s=>/])/.test(opening)) return
+      const isTree = parent.tag === 'div' && parent.props.some(prop =>
+        prop.type === 6 && prop.name === 'class' && prop.value?.content.split(/\s+/).includes('nbttree'))
+      if (isTree && errors.some(error => error.loc?.start.offset === parent.loc.start.offset)) return
+      inTree ||= isTree
     }
-    for (const [blockIndex, block] of state.tokens.entries()) {
-      if (block.type === 'html_block' || block.type === 'html_inline') trackDivs(block.content)
-      if (block.type !== 'inline' || !block.children) continue
-      const tokens = block.children
-      // VitePress extracts a component at the beginning of a list row into
-      // a top-level html_inline token. Rejoin only the same source line and
-      // nesting level; never merge across paragraphs or list items.
-      if (divs.at(-1)) {
-        const previous = state.tokens[blockIndex - 1]
-        const leading = legacyNode(previous)
-        if (leading && !leading.name && previous.level === block.level &&
-            previous.map && block.map && previous.map[0] === block.map[0]) {
-          tokens.unshift({ ...previous, block: false, map: null })
-          previous.content = ''
-        }
-      }
-      for (let i = 0; i < tokens.length; i++) {
-        if (tokens[i].type === 'html_inline') trackDivs(tokens[i].content)
-        if (!divs.at(-1)) continue
-        const first = legacyNode(tokens[i])
+    const children = parent.children || []
+    if (inTree) {
+      for (let i = 0; i < children.length; i++) {
+        const first = asLegacy(children[i])
         if (!first || first.name) continue
         const types = [first.type]
-        for (let j = i + 1; j < tokens.length; j++) {
-          if (tokens[j].type === 'text' && /^[\t ]*$/.test(tokens[j].content)) continue
-          const next = legacyNode(tokens[j])
+        let end = children[i].loc.end.offset
+        for (let j = i + 1; j < children.length; j++) {
+          const child = children[j]
+          if (child.type === 2 && /^[\t ]*$/.test(child.loc.source)) continue
+          if (!/^[\t ]*$/.test(html.slice(end, child.loc.start.offset))) break
+          const next = asLegacy(child)
           if (!next) break
           types.push(next.type)
+          end = child.loc.end.offset
           if (!next.name) continue
+          if (errors.some(error => error.loc && error.loc.start.offset >= children[i].loc.start.offset &&
+              error.loc.start.offset < end)) break
           const typeAttr = next.attrs.get('type')
           const binding = JSON.stringify(types).replaceAll('"', '&quot;')
-          tokens[j].content = `<node${next.source.slice(0, typeAttr.start)} :type="${binding}"${next.source.slice(typeAttr.end)} />`
-          tokens.splice(i, j - i)
+          const replacement = '<node' + next.source.slice(0, typeAttr.start) + ' :type="' + binding + '"' + next.source.slice(typeAttr.end) + ' />'
+          edits.push({ start: children[i].loc.start.offset, end, replacement })
+          i = j
           break
         }
       }
     }
-  })
+    for (const child of children) visit(child, inTree)
+  }
+  visit(ast)
+  for (const edit of edits.sort((a, b) => b.start - a.start)) {
+    html = html.slice(0, edit.start) + edit.replacement + html.slice(edit.end)
+  }
+  return html
+}
+
+export function useNbtTree(md) {
+  const renderInline = md.renderer.rules.html_inline
+  md.renderer.rules.html_inline = function (tokens, index, ...args) {
+    const token = tokens[index]
+    let nextIndex = index + 1
+    while (tokens[nextIndex]?.type === 'inline' && !tokens[nextIndex].content) nextIndex++
+    const next = tokens[nextIndex]
+    const html = renderInline ? renderInline.call(this, tokens, index, ...args) : token.content
+    // VitePress drops the source newline after a standalone component token.
+    // Preserve that boundary so both engines agree about adjacent node groups.
+    return token.block && token.map && next?.map && next.map[0] > token.map[0] &&
+      legacyNode(token) && ['inline', 'html_inline'].includes(next.type) ? html + '\n' : html
+  }
+  const render = md.renderer.render
+  md.renderer.render = function (...args) {
+    return transformNbtTree(render.apply(this, args))
+  }
 }

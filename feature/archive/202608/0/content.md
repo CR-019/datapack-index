@@ -1,6 +1,6 @@
 <script setup>
-import ns from '/datapack-index/.vitepress/vue/nbt/namespace.vue'
-import obj from '/datapack-index/.vitepress/vue/nbt/object.vue'
+import ns from '../../../../.vitepress/vue/nbt/namespace.vue'
+import obj from '../../../../.vitepress/vue/nbt/object.vue'
 </script>
 
 <FeaturedHead

@@ -35,9 +35,9 @@ const notebook: PlaygroundNotebook = {
   ],
 }
 
-import str from '/datapack-index/.vitepress/vue/nbt/string.vue'
-import ns from '/datapack-index/.vitepress/vue/nbt/namespace.vue'
-import list from '/datapack-index/.vitepress/vue/nbt/list.vue'
+import str from '../../../../.vitepress/vue/nbt/string.vue'
+import ns from '../../../../.vitepress/vue/nbt/namespace.vue'
+import list from '../../../../.vitepress/vue/nbt/list.vue'
 </script>
 
 <FeatureHead
