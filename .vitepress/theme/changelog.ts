@@ -19,6 +19,19 @@ export function useChangelogNavigation() {
   }
   const onHash = () => { reveal()?.scrollIntoView({ block: 'start' }) }
   const onClick = (event: MouseEvent) => {
+    const button = (event.target as Element)?.closest<HTMLButtonElement>('.changelog-expand')
+    if (button) {
+      const version = button.closest<HTMLDetailsElement>('.changelog-version')
+      if (!version) return
+      // Avoid the enclosing summary toggling the version back shut.
+      event.preventDefault()
+      event.stopPropagation()
+      version.open = true
+      for (const item of version.querySelectorAll<HTMLDetailsElement>('.changelog-item')) {
+        item.open = !item.parentElement?.closest('.changelog-item') || item.hasAttribute('data-default-open')
+      }
+      return
+    }
     const link = (event.target as Element)?.closest('a[href]') as HTMLAnchorElement | null
     if (link && link.origin === location.origin && link.pathname === location.pathname) reveal(link.hash)
   }

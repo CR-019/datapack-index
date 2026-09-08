@@ -48,17 +48,17 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 - 文本组件
   - 现在NBT组件最多被解析`64000`次。
 - 世界
-    - 探险家地图
-      - 删除了原本的探险家地图物品。现在指向不同结构的探险家地图使用不同的物品ID。
-      - 探险家地图无法再缩放。
-    - 告示牌与悬挂告示牌
-      - 添加了新字段 <bool t="allow_op_features"/>，默认为`false`。为`false`时游戏不会再解析其上的动态文本组件和点击事件。之前就存在的告示牌在升级版本后会自动设置此字段为`true`。
-    - 酿造台
-      - <short t="BrewTime"/>和<short t="Fuel"/>类型从<short />**short**更改为<int />**int**。
-    - 熔炉，烟熏炉，和高炉
-      - <short t="cooking_time_spent"/>，<short t="cooking_total_time"/>，<short t="lit_time_remaining"/>，和<short t="lit_total_time"/>从<short/>**short**改为<int />**int**。
-    - 饰纹陶罐
-      - 现在其方块实体的<obj t="sherds"/>字段从<nbt type="homolist" />**列表**变更为<obj />**复合标签**。内部分别有<nbt :i="['str','o']" t="back"/>，<nbt :i="['str','o']" t="left"/>，<nbt :i="['str','o']" t="right"/>，和<nbt :i="['str','o']" t="front"/>字段定义其各个方向的陶片。
+  1. 探险家地图
+    - 删除了原本的探险家地图物品。现在指向不同结构的探险家地图使用不同的物品ID。
+    - 探险家地图无法再缩放。
+  2. 告示牌与悬挂告示牌
+    - 添加了新字段 <bool t="allow_op_features"/>，默认为`false`。为`false`时游戏不会再解析其上的动态文本组件和点击事件。之前就存在的告示牌在升级版本后会自动设置此字段为`true`。
+  3. 酿造台
+    - <short t="BrewTime"/>和<short t="Fuel"/>类型从<short />**short**更改为<int />**int**。
+  4. 熔炉，烟熏炉，和高炉
+    - <short t="cooking_time_spent"/>，<short t="cooking_total_time"/>，<short t="lit_time_remaining"/>，和<short t="lit_total_time"/>从<short/>**short**改为<int />**int**。
+  5. 饰纹陶罐
+    - 现在其方块实体的<obj t="sherds"/>字段从<nbt type="homolist" />**列表**变更为<obj />**复合标签**。内部分别有<nbt :i="['str','o']" t="back"/>，<nbt :i="['str','o']" t="left"/>，<nbt :i="['str','o']" t="right"/>，和<nbt :i="['str','o']" t="front"/>字段定义其各个方向的陶片。
 - 物品修饰器
   - 在物品修饰器定义文件中，不允许再使用列表定义多个串联的修饰器，而是需要显式地使用<ns t="sequence"/>修饰器。
   - <str t="function"/>字段被重命名为<str t="type"/>。
@@ -73,7 +73,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 - 数值提供器
   - 现在分为了上下文整数提供器和上下文浮点数提供器，分别使用<ns t="context_int_provider"/>和<ns t="context_float_provider"/>注册表。
   - 部分提供器类型，比如<ns t="score"/>或<ns t="binomial"/>，现在只有在整数或浮点数提供器中的一方有定义。想要在另一方使用需要使用<ns t="from_int"/>或<ns t="from_float"/>提供器转换。
-  - 在整数提供器器中使用<ns t="storage"/>提供器提供<int />**int**以外的数据类型，或是在浮点数提供器使用<ns t="storage"/>提供器提供<float />**float**以外的数据类型现在是未定义行为。
+  - 在整数提供器中使用<ns t="storage"/>提供器提供<int />**int**以外的数据类型，或是在浮点数提供器使用<ns t="storage"/>提供器提供<float />**float**以外的数据类型现在是未定义行为。
 - 进度
   - 现在根进度必须提供<str t="background"/>，非根进度禁止提供<str t="background"/>。
   - <ns t="brewed_potion"/>触发器的<str t="potion"/>字段现在检查药水是否匹配<ns t="potion_contents"/>数据组件谓词。
@@ -81,11 +81,11 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - <ns t="crafter_recipe_crafted"/>，<ns t="recipe_crafted"/>，和<ns t="recipe_unlocked"/>触发器的<str t="recipe_id"/>字段被重命名为<nbt :i="['str','list']" t="recipes"/>。
   - <ns t="slide_down_block"/>触发器的<str text="block"/>字段被重命名为<nbt :i="['str','list']" t="blocks"/>。
 - 战利品表
-  - 重命名<list t="conditions"/>为<nbt :i="['str','o']" t="condition"/>，<obj t="functions"/>为<nbt :i="['str','o','list']" t="modifier"/>。
+  1. 重命名<list t="conditions"/>为<nbt :i="['str','o']" t="condition"/>，<list t="functions"/>为<nbt :i="['str','o','list']" t="modifier"/>。
     - 如上“谓词”部分所述，<nbt :i="['str','o']" t="condition"/>不再允许使用谓词列表。想要检查多个谓词必须使用<ns t="all_of"/>。
   - <ns t="tag"/>抽取类型中的<str t="name"/>重命名为<nbt :i="['str','list']" t="items"/>。
 - 配方
-  - 熔炉，烟熏炉，高炉，和篝火配方的<int t="cookingtime"/>不再根据工作方块的不同而变化。现在默认的<int t="cookingtime"/>被统一为200。不同方块的速度差异由数据组件和数值提供器决定。
+  - 熔炉，烟熏炉，高炉，和篝火配方的<int t="cookingtime"/>不再根据工作方块的不同而变化。现在默认的<int t="cookingtime"/>被统一为200。不同方块的速度差异现在由数据组件和数值提供器决定。
 - 魔咒
   - 现在当亡灵生物的装备因保护其免受阳光伤害而消耗耐久度时，装备上的魔咒可以正常发挥作用。
 - 世界生成
@@ -120,7 +120,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 - 标签
   - 移除了以下标签
     - `block/overworld_carver_replaceables`，`block/nether_carver_replaceables`。因为雕刻器现在可以覆盖任何方块。
-    - `item/brewing_fuel`。因为添加了新的物品组件`brewing_fuel`。
+    - `item/brewing_fuel`。因为添加了新的物品组件<ns t="brewing_fuel"/>。
   - 重命名以下结构标签
     - `#on_woodland_explorer_maps` → `#on_woodland_mansion_maps`
     - `#on_ocean_explorer_maps` → `#on_ocean_monument_maps`
@@ -154,7 +154,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 - 物品模型映射
   - 移除了<ns t="map_color"/>着色来源，因为不同探险家地图现在是独立的物品（见上）。
 - 模型
-  - 移除了<bool t="shade"/>字段。若要保持旧版`shade: false`的行为，需要定义`"shade_direction_override": "up"`。
+  - 移除了<bool t="shade"/>字段。若要保持旧版`"shade": false`的行为，需要定义`"shade_direction_override": "up"`。
 
 ### 26.2
 #### 数据包：

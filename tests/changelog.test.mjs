@@ -40,6 +40,7 @@ test('versions and nested topics collapse while prose and other pages stay intac
   const html = md.render(sample, { ...env })
   assert.equal((html.match(/class="changelog-version" open/g) || []).length, 1)
   assert.equal((html.match(/class="changelog-version"/g) || []).length, 2)
+  assert.equal((html.match(/class="changelog-expand"/g) || []).length, 2)
   assert.equal((html.match(/<details class="changelog-item">/g) || []).length, 3)
   assert.doesNotMatch(html, /changelog-item" open/)
   assert.match(html, /changelog-mcmeta/)
@@ -51,9 +52,70 @@ test('versions and nested topics collapse while prose and other pages stay intac
   assert.equal(md.render(sample, { relativePath: 'en/index/changelog_breaking.md' }), new MarkdownIt({ html: true }).render(sample))
 })
 
-test('entire existing changelog retains every inline, code and HTML content token', async () => {
+test('numbered nested topics open by default while unordered and top-level topics stay closed', () => {
+  const source = `## 正文
+### **26.3**
+#### 数据包：
+- 世界
+  1. 探险家地图
+     - 地图内容
+     - 更多分类
+       1. 深层项目
+          - 深层内容
+  2. 告示牌
+     - 告示牌内容
+
+  - 无序项目
+    - 无序内容
+
+### **26.2**
+1. 顶层数字项目
+   - 子项目
+     - 子项目内容
+`
+  const html = md.render(source, { ...env })
+  const topics = [...html.matchAll(/<details class="changelog-item"( open data-default-open)?><summary><span class="changelog-item-title">([^<]+)/g)]
+    .map(([, open, title]) => [title.trim(), Boolean(open)])
+  assert.deepEqual(topics, [
+    ['世界', false], ['探险家地图', true], ['更多分类', false],
+    ['深层项目', true], ['告示牌', true], ['无序项目', false],
+    ['顶层数字项目', false], ['子项目', false],
+  ])
+  // Ordered topics receive the same marker-free topic class and summary.
+  assert.match(html, /<ol>\s*<li class="changelog-topic">\s*<details class="changelog-item" open data-default-open>/)
+  assert.match(html, /<ol class="changelog-topics">/)
+  assert.equal((html.match(/class="changelog-version" open/g) || []).length, 1)
+  assert.doesNotThrow(() => baseParse(html))
+  assert.equal(md.render(source, { relativePath: 'index/other.md' }), new MarkdownIt({ html: true }).render(source))
+})
+
+test('marker-only edits retain bullet indentation and expand only the numbered topic', () => {
+  const source = `## 正文
+### 26.3
+- 世界
+    1. 探险家地图
+      - 删除了原本的探险家地图物品。现在指向不同结构的探险家地图使用不同的物品ID。
+      - 探险家地图无法再缩放。
+    - 告示牌与悬挂告示牌
+      - 添加了新字段 <bool t="allow_op_features"/>，默认为\`false\`。
+`
+  const html = md.render(source, { ...env })
+  assert.match(html, /<details class="changelog-item" open data-default-open><summary><span class="changelog-item-title">探险家地图<\/span>/)
+  assert.match(html, /<details class="changelog-item"><summary><span class="changelog-item-title">告示牌与悬挂告示牌<\/span>/)
+  assert.match(html, /<li>探险家地图无法再缩放。<\/li>/)
+  assert.doesNotMatch(html, /<ol|1\. 探险家地图/)
+  assert.match(html, /<bool t="allow_op_features"\/>/)
+  assert.doesNotThrow(() => baseParse(html))
+  const baseline = new MarkdownIt({ html: true }).render(source.replace('1. 探险家地图', '- 探险家地图'))
+  const text = value => value.replace(/<button\b[^>]*class="changelog-expand"[^>]*>[\s\S]*?<\/button>/g, '').replace(/<[^>]+>/g, '').replace(/\s+/g, '')
+  assert.equal(text(html), text(baseline))
+})
+
+test('entire existing changelog retains every normalized inline, code and HTML content token', async () => {
   const source = await readFile(new URL('../index/changelog_breaking.md', import.meta.url), 'utf8')
-  const original = new MarkdownIt({ html: true }).parse(source, {})
+  const baseline = new MarkdownIt({ html: true }).use(useChangelog)
+  baseline.core.ruler.disable('breaking_changelog')
+  const original = baseline.parse(source, { ...env })
   const transformed = md.parse(source, { ...env })
   const content = tokens => tokens.filter(t => ['inline', 'fence', 'code_block', 'html_inline'].includes(t.type)).map(t => [t.type, t.content])
   assert.deepEqual(content(transformed), content(original))

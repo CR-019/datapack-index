@@ -56,6 +56,53 @@
   background: var(--vp-c-bg-soft);
 }
 .vp-doc .changelog-version > summary h3 { margin: 0; border: 0; font-size: 21px; }
+.vp-doc .changelog-expand {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 7px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 22px;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background-color .15s;
+}
+.vp-doc .changelog-expand:hover {
+  color: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+}
+.vp-doc .changelog-expand:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+.changelog-expand-icon {
+  width: 12px;
+  height: 12px;
+  border-top: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  position: relative;
+}
+.changelog-expand-icon::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  top: 1px;
+  left: 3px;
+  transform: rotate(45deg);
+}
 .vp-doc .changelog-version > summary:hover,
 .vp-doc .changelog-item > summary:hover { background: var(--vp-c-default-soft); }
 .vp-doc .changelog-version summary:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: -3px; }
@@ -70,11 +117,11 @@
   font-size: 15px;
   color: var(--vp-c-text-2);
 }
-.vp-doc ul.changelog-topics { list-style: none; padding: 0; margin: 6px 0 0; }
-.vp-doc ul.changelog-topics > li { margin: 0; padding: 5px 10px; border-bottom: 1px solid var(--vp-c-divider); }
-.vp-doc ul.changelog-topics > li:last-child { border-bottom: 0; }
-.vp-doc ul.changelog-topics > li.changelog-leaf::after { bottom: 10px; }
-.vp-doc ul.changelog-topics > li.changelog-topic { padding: 0; }
+.vp-doc :is(ul, ol).changelog-topics { list-style: none; padding: 0; margin: 6px 0 0; }
+.vp-doc :is(ul, ol).changelog-topics > li { margin: 0; padding: 5px 10px; border-bottom: 1px solid var(--vp-c-divider); }
+.vp-doc :is(ul, ol).changelog-topics > li:last-child { border-bottom: 0; }
+.vp-doc :is(ul, ol).changelog-topics > li.changelog-leaf::after { bottom: 10px; }
+.vp-doc :is(ul, ol).changelog-topics > li.changelog-topic { padding: 0; }
 .vp-doc .changelog-item > summary { padding: 5px 10px; line-height: 24px; font-weight: 600; border-radius: 6px; }
 .vp-doc .changelog-item-title { min-width: 0; overflow-wrap: anywhere; }
 .vp-doc .changelog-item-body { padding: 0 12px 8px 20px; overflow-wrap: anywhere; }
