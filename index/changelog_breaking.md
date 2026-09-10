@@ -76,6 +76,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - 在整数提供器中使用<ns t="storage"/>提供器提供<int />**int**以外的数据类型，或是在浮点数提供器使用<ns t="storage"/>提供器提供<float />**float**以外的数据类型现在是未定义行为。
 - 进度
   - 现在根进度必须提供<str t="background"/>，非根进度禁止提供<str t="background"/>。
+  - 所有触发器中原有的<nbt :i="['list','o']" t="player"/>字段更改为<nbt :i="['str','o']" t="player"/>。接受一个谓词ID，或是一个内联谓词定义。不再接受谓词列表或实体谓词。
   - <ns t="brewed_potion"/>触发器的<str t="potion"/>字段现在检查药水是否匹配<ns t="potion_contents"/>数据组件谓词。
   - <ns t="player_generates_container_loot"/>触发器的<str t="loot_table"/>字段被重命名为<ns t="loot_tables"/>。
   - <ns t="crafter_recipe_crafted"/>，<ns t="recipe_crafted"/>，和<ns t="recipe_unlocked"/>触发器的<str t="recipe_id"/>字段被重命名为<nbt :i="['str','list']" t="recipes"/>。
