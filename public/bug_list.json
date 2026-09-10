@@ -181,7 +181,7 @@
         "version": "26.3快照",
         "description": "disable_blocing_for_seconds无法再破盾",
         "title": "Items with the `weapon` component with `disable_blocking_for_seconds` set no longer disable items with the `blocks_attacks` component",
-        "status": "Confirmed"
+        "status": "fixed"
     },
     {
         "id": "307449",
