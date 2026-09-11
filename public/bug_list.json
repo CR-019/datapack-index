@@ -204,7 +204,7 @@
         "cn_title": "特殊工作台合成配方无法被limited_crafting游戏规则限制",
         "version": "1.21.7~26.2",
         "description": "特殊工作台合成配方是指类似染色，地图复制等特殊的合成配方。其他配方，如切石机，锻造台等请见MC-143214（有意为之）",
-        "title": "Special crafting recipes behave differently than other recipe types with /recipe and the `limited_crafting` game rule",
+        "title": "Special crafting recipes cannot be given or taken with `/recipe` and do not respect the `limited_crafting` game rule",
         "status": "fixed"
     },
     {

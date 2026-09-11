@@ -68,6 +68,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 - 谓词
   - 在任何使用谓词的地方，不允许再使用谓词列表，只能使用<ns t="all_of"/>谓词。
   - <str t="condition"/>字段被重命名为<str t="type"/>。
+  - <ns t="damage_source_properties"/>谓词中，原检测伤害类型标签的<homolist t="tags"/>字段中的<str t="id"/>字段，现在同时接受ID和以`#`开头的标签ID。这意味着，若想要维持之前的行为，需要给所有标签ID加上`#`。
   - 移除了<ns t="reference"/>谓词。需要引用谓词可直接填入要引用的ID。
   - 移除了<ns t="block_state_property"/>谓词，使用<ns t="match_block"/>谓词代替。
 - 数值提供器
@@ -76,15 +77,15 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - 在整数提供器中使用<ns t="storage"/>提供器提供<int />**int**以外的数据类型，或是在浮点数提供器使用<ns t="storage"/>提供器提供<float />**float**以外的数据类型现在是未定义行为。
 - 进度
   - 现在根进度必须提供<str t="background"/>，非根进度禁止提供<str t="background"/>。
-  - 所有触发器中原有的<nbt :i="['list','o']" t="player"/>字段更改为<nbt :i="['str','o']" t="player"/>。接受一个谓词ID，或是一个内联谓词定义。不再接受谓词列表或实体谓词。
+  - 所有触发器中原有的<nbt :i="['homolist','o']" t="player"/>字段更改为<nbt :i="['str','o']" t="player"/>。接受一个谓词ID，或是一个内联谓词定义。不再接受谓词列表或实体谓词。
   - <ns t="brewed_potion"/>触发器的<str t="potion"/>字段现在检查药水是否匹配<ns t="potion_contents"/>数据组件谓词。
   - <ns t="player_generates_container_loot"/>触发器的<str t="loot_table"/>字段被重命名为<ns t="loot_tables"/>。
-  - <ns t="crafter_recipe_crafted"/>，<ns t="recipe_crafted"/>，和<ns t="recipe_unlocked"/>触发器的<str t="recipe_id"/>字段被重命名为<nbt :i="['str','list']" t="recipes"/>。
-  - <ns t="slide_down_block"/>触发器的<str text="block"/>字段被重命名为<nbt :i="['str','list']" t="blocks"/>。
+  - <ns t="crafter_recipe_crafted"/>，<ns t="recipe_crafted"/>，和<ns t="recipe_unlocked"/>触发器的<str t="recipe_id"/>字段被重命名为<nbt :i="['str','homolist']" t="recipes"/>。
+  - <ns t="slide_down_block"/>触发器的<str text="block"/>字段被重命名为<nbt :i="['str','homolist']" t="blocks"/>。
 - 战利品表
-  1. 重命名<list t="conditions"/>为<nbt :i="['str','o']" t="condition"/>，<list t="functions"/>为<nbt :i="['str','o','list']" t="modifier"/>。
+  1. 重命名<homolist t="conditions"/>为<nbt :i="['str','o']" t="condition"/>，<homolist t="functions"/>为<nbt :i="['str','o','homolist']" t="modifier"/>。
     - 如上“谓词”部分所述，<nbt :i="['str','o']" t="condition"/>不再允许使用谓词列表。想要检查多个谓词必须使用<ns t="all_of"/>。
-  - <ns t="tag"/>抽取类型中的<str t="name"/>重命名为<nbt :i="['str','list']" t="items"/>。
+  - <ns t="tag"/>抽取类型中的<str t="name"/>重命名为<nbt :i="['str','homolist']" t="items"/>。
 - 配方
   - 熔炉，烟熏炉，高炉，和篝火配方的<int t="cookingtime"/>不再根据工作方块的不同而变化。现在默认的<int t="cookingtime"/>被统一为200。不同方块的速度差异现在由数据组件和数值提供器决定。
 - 魔咒
@@ -94,7 +95,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - 雕刻器
      - 移除了<obj t="config"/>字段。原本<obj t="config"/>的内容整体向上一层移动到根标签中。
      - 移除了<obj t="debug_settings"/>字段。
-     - 移除了<nbt :i="['str','list']" t="replaceable"/>字段。现在雕刻器会覆盖任何方块。
+     - 移除了<nbt :i="['str','homolist']" t="replaceable"/>字段。现在雕刻器会覆盖任何方块。
      - 移除了<obj t="lava_level"/>字段。液体现在总是由噪声设置控制。
      - 在洞穴和峡谷雕刻器中，<nbt :i="['f','o']" t="yScale"/>字段被分别重命名为<nbt :i="['f','o']" t="room_vertical_radius_multiplier"/>和<nbt :i="['f','o']" t="y_scale"/>。
   - 地物
@@ -133,7 +134,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
     - <str t="asset_name"/>字段被删除，以<str t="palette"/>代替。现在使用调色板而非纹理。
     - 移除了<obj t="override_armor_assets"/>字段，因为功能被资源包的盔甲纹理代替。
   - 村民交易定义格式
-    - <nbt :i="['o','list']" t="given_item_modifiers"/>重命名为<nbt :i="['o','list']" t="given_item_modifier"/>。
+    - <nbt :i="['o','homolist']" t="given_item_modifiers"/>重命名为<nbt :i="['o','homolist']" t="given_item_modifier"/>。
 
 #### 资源包：
 - 纹理
