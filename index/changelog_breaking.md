@@ -90,8 +90,19 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - 熔炉，烟熏炉，高炉，和篝火配方的<int t="cookingtime"/>不再根据工作方块的不同而变化。现在默认的<int t="cookingtime"/>被统一为200。不同方块的速度差异现在由数据组件和数值提供器决定。
 - 魔咒
   - 现在当亡灵生物的装备因保护其免受阳光伤害而消耗耐久度时，装备上的魔咒可以正常发挥作用。
+  - 由于方块状态提供器的更改，<ns t="replace_block"/>和<ns t="replace_disk"/>魔咒效果受到了影响。见下**世界生成/方块状态提供器**部分。
 - 世界生成
   - 原本**已配置的地物**<ns t="worldgen/configured_feature"/>和**已配置的雕刻器**<ns t="worldgen/configured_carver"/>注册表被重命名为**地物**<ns t="worldgen/feature"/>和**雕刻器**<ns t="worldgen/carver"/>。
+  - 方块状态提供器
+     1. 大部分方块提供器类型ID被重命名：
+       - <ns t="simple_state_provider"/> -> <ns t="simple"/>。同时如上所述，其中的<str t="Name"/>和<obj t="Properties"/>字段被重命名为<str t="id"/>和<obj t="properties"/>
+       - <ns t="rotated_block_provider"/> -> <ns t="rotated"/>。
+       - <ns t="weighted_state_provider"/> -> <ns t="weighted"/>
+       - <ns t="randomized_int_state_provider"/> -> <ns t="randomized_int"/>
+       - <ns t="noise_provider"/> -> <ns t="noise"/>
+       - <ns t="dual_noise_provider"/> -> <ns t="dual_noise"/>
+       - <ns t="noise_threshold_provider"/> -> <ns t="noise_threshold"/>
+       - <ns t="rule_based_state_provider"/> -> <ns t="rule_based"/>
   - 雕刻器
      - 移除了<obj t="config"/>字段。原本<obj t="config"/>的内容整体向上一层移动到根标签中。
      - 移除了<obj t="debug_settings"/>字段。
