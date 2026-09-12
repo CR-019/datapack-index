@@ -1,3 +1,6 @@
+---
+title: 'VVE3 引擎教程——自定义物理小车'
+---
 <script setup>
 import ns from '../../../../.vitepress/vue/nbt/namespace.vue'
 import obj from '../../../../.vitepress/vue/nbt/object.vue'

@@ -373,6 +373,7 @@ export const sidebar_202608: DefaultTheme.SidebarItem[] = [
     items: [
       { text: '目录', link: '/feature/index/202608' },
       { text: '上一刊', link: '/feature/index/202607' },
+      { text: '下一刊', link: '/feature/index/202609' },
     ]
   },
   {
@@ -405,6 +406,53 @@ export const sidebar_202608: DefaultTheme.SidebarItem[] = [
     items: [
       { text: '沉默乐章：错位音', link: '/feature/archive/202608/4/content' },
       { text: '简单NPC', link: '/feature/archive/202608/5/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202609: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.09',
+    items: [
+      { text: '目录', link: '/feature/index/202609' },
+      { text: '上一刊', link: '/feature/index/202608' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202609/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '从宏到 NBT：Minecraft 26.3数据包性能实测', link: '/feature/archive/202609/0/content' }
+    ]
+  },
+  {
+    text: '香草快讯 ojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年9月', link: '/feature/archive/202609/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '核心着色器覆盖的“太阳跟随视线·全屏天空盒”技术实现', link: '/feature/archive/202609/1/content' },
+      { text: '光照贴图生成原理和修改', link: '/feature/archive/202609/2/content' },
+      { text: '后处理着色器工作流程', link: '/feature/archive/202609/3/content' },
+      { text: '魔咒数据组件教程', link: '/feature/archive/202609/4/content' },
+      { text: '第一人称视角下自身背饰的隐藏方法', link: '/feature/archive/202609/5/content' },
+      { text: '全实体“乘骑座位高度”探究', link: '/feature/archive/202609/6/content' },
+      { text: '浅谈原版地图常见的一些问题', link: '/feature/archive/202609/7/content' },
+      
     ]
   },
   {

@@ -12,8 +12,8 @@ export const sidebar_feature: DefaultTheme.SidebarItem[] = [
     text: '最新',
     items: [
       {
-        text: '🌟2026.08',
-        link: '/feature/index/202608'
+        text: '🌟2026.09',
+        link: '/feature/index/202609'
       }
     ]
   },
@@ -21,12 +21,12 @@ export const sidebar_feature: DefaultTheme.SidebarItem[] = [
     text: '往期',
     items: [
       {
-        text: '2026.07',
-        link: '/feature/index/202607'
+        text: '2026.08',
+        link: '/feature/index/202608'
       },
       {
-        text: '2026.06',
-        link: '/feature/index/202606'
+        text: '2026.07',
+        link: '/feature/index/202607'
       },
     ]
   },
@@ -34,6 +34,10 @@ export const sidebar_feature: DefaultTheme.SidebarItem[] = [
     text: '更早',
     collapsed: true,
     items: [
+      {
+        text: '2026.06',
+        link: '/feature/index/202606'
+      },
       {
         text: '2026.05',
         link: '/feature/index/202605'

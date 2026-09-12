@@ -1,3 +1,7 @@
+---
+title: '简易原版敌人'
+---
+
 <FeatureHead
   title="简易原版敌人"
   authorName="张小叉"

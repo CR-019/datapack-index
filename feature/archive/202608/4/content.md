@@ -1,3 +1,7 @@
+---
+title: '沉默乐章：错位音'
+---
+
 <FeatureHead
   title="沉默乐章：错位音"
   authorName="Dawn_dust"
