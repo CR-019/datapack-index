@@ -1,3 +1,7 @@
+---
+title: '简单NPC'
+---
+
 <FeatureHead
   title="简单NPC"
   authorName="洛风澜_Sea"
