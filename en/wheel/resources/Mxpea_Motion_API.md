@@ -1,5 +1,5 @@
 ---
-name: Mxpea's Multiplayer Motion API
+name: Mxpea-s-Multiplayer-Motion-API
 author:
     -
         name: Mxpea

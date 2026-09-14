@@ -1,5 +1,5 @@
 ---
-name: Chinese traditional to simplified font
+name: Traditional-to-Simplified
 author:
     -
         name: Rain_G

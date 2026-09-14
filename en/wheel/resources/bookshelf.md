@@ -1,5 +1,5 @@
 ---
-name: Bookshelf
+name: bookshelf
 author:
     -
         name: bookshelf

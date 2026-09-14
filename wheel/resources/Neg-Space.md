@@ -6,7 +6,7 @@ author:
         char: 作者
 description: 便捷地在文本中添加负空格
 tags: [资源包,字体,负空格]
-version: 1.0.7
+version: 5.2.0
 gameversion: [1.13+]
 aside: left
 wheel: true

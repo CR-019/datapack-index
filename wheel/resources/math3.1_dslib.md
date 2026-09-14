@@ -6,8 +6,8 @@ author:
         char: 作者
 description: 数据结构数学库
 tags: [数学, 数据结构]
-version: 3.1.0
-gameversion: [1.21.4]
+version: 3.1.4
+gameversion: [1.21.4-26.2]
 aside: left
 wheel: true
 repo: xiaodou8593/math3.1_dslib

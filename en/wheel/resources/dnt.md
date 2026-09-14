@@ -1,5 +1,5 @@
 ---
-name: DNT - NBT operation library
+name: DNT-Dahesor-NBT-Transformer
 author:
     -
         name: Dahesor

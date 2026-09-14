@@ -1,5 +1,5 @@
 ---
-name: Negative Space Font
+name: NegativeSpaceFont
 author:
     -
         name: Amber

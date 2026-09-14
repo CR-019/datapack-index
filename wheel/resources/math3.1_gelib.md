@@ -6,8 +6,8 @@ author:
         char: 作者
 description: 生成，操作，或绘制几何图形
 tags: [数学, 几何, 图形]
-version: 3.1.0
-gameversion: [1.21.4]
+version: 3.1.4
+gameversion: [1.21.4~26.2]
 aside: left
 wheel: true
 repo: xiaodou8593/math3.1_gelib

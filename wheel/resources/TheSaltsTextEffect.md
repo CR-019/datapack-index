@@ -6,8 +6,8 @@ author:
         char: 作者
 description: 着色器制作的动态文字效果
 tags: [字体, 着色器, 资源包]
-version: 1.0.0
-gameversion: [1.21.10]
+version: 1.1.5
+gameversion: [1.21.10-26.1]
 aside: left
 wheel: true
 repo: TheSalts/Text_Effects

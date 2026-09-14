@@ -204,7 +204,7 @@ float light1 = max(0.0, dot(lightDir1, normal));
 ```
 
 
-The first two lines of the function obtain the intensity of the reflected light through a dot product operation. Since the lighting direction and normal vector input here are both unit vectors, the definition of the vector dot product is$\boldsymbol{v_1} \cdot \boldsymbol{v_2} = \|\boldsymbol{v_1}\|\|\boldsymbol{v_2}\| \cos &lt;\boldsymbol{v_1},\boldsymbol{v_2}>$, here$\|\boldsymbol{v_1}\|, \|\boldsymbol{v_2}\|$all for$1$, so the result of the dot product is the cosine between the two vectors.
+The first two lines of the function obtain the intensity of the reflected light through a dot product operation. Since the lighting direction and normal vector input here are both unit vectors, the definition of the vector dot product is$\boldsymbol{v_1} \cdot \boldsymbol{v_2} = \|\boldsymbol{v_1}\|\|\boldsymbol{v_2}\| \cos <\boldsymbol{v_1},\boldsymbol{v_2}>$, here$\|\boldsymbol{v_1}\|, \|\boldsymbol{v_2}\|$all for$1$, so the result of the dot product is the cosine between the two vectors.
 
 #### Mixture of lighting
 
@@ -403,4 +403,3 @@ For sampling, we introduced the corresponding content of different samplers, as 
 One thing that needs to be emphasized is that the introduction to the workflow does not require readers to fully understand the intermediate calculation process, because many parameters are calculated within the game and are not transparent within the shader. At the same time, readers are not currently required to create their own custom rendering process, but readers can also change some key parameters in the rendering process to see what changes will occur after the modification (such as the coordinates of vertices in each space, the color of vertices, etc.). Moreover, this tutorial does not focus on the teaching of GLSL language features, syntax, and linear algebra. These contents are very important. Readers can learn them when they encounter related concepts or problems. However, I recommend a certain degree of systematic learning first, so that the understanding of shaders (or even computer graphics) will be further advanced.
 
 There is actually a lot more to talk about in the shading process of Minecraft. Since this chapter is about the workflow, only a rough introduction is given for each part. Some **specific and quantitative calculation content** will be introduced in detail in a single article in the remaining pages from the principle chapter (shader workflow is a part of it) to the practical chapter, including end portal rendering, light map creation and parameter influencing factors, fog color parameter influencing factors, etc.
-

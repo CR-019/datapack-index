@@ -6,7 +6,7 @@ author:
         char: 作者
 description: 提供带上下文与离线检测的任务队列
 tags: [定时任务]
-version: 2.0.0
+version: 2.1.0
 gameversion: [1.20.5+]
 aside: left
 wheel: true

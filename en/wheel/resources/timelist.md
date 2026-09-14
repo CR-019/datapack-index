@@ -1,8 +1,8 @@
 ---
-name: Xiaodou’s event queue
+name: timelist
 author:
     -
-        name: Xiaodou8593
+        name: 小豆8593
         char: author
 description: Execute any command after the specified time
 tags: [scheduled task]

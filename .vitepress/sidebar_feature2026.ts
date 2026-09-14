@@ -1,6 +1,6 @@
-import { DefaultTheme } from "vitepress";
+import type { DefaultTheme } from "vitepress";
 
-export const sidebar_202601: DefaultTheme.Sidebar = [
+export const sidebar_202601: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.01',
     items: [
@@ -58,7 +58,7 @@ export const sidebar_202601: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202602: DefaultTheme.Sidebar = [
+export const sidebar_202602: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.02',
     items: [
@@ -110,7 +110,7 @@ export const sidebar_202602: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202603: DefaultTheme.Sidebar = [
+export const sidebar_202603: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.03',
     items: [
@@ -162,7 +162,7 @@ export const sidebar_202603: DefaultTheme.Sidebar = [
 ];
 
 
-export const sidebar_202604: DefaultTheme.Sidebar = [
+export const sidebar_202604: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.04',
     items: [
@@ -213,7 +213,7 @@ export const sidebar_202604: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202605: DefaultTheme.Sidebar = [
+export const sidebar_202605: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.05',
     items: [
@@ -242,8 +242,8 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
     text: '洞见 Insights',
     items: [
       { text: '基于新版本模型及模型映射的动画控制器', link: '/feature/archive/202605/1/content' },
-      {text: '杂谈 - 着色器的应用与滥用', link: '/feature/archive/202605/2/content'},
-      {text: '基于面剔除的原版连接纹理', link: '/feature/archive/202605/3/content'},
+      { text: '杂谈 - 着色器的应用与滥用', link: '/feature/archive/202605/2/content' },
+      { text: '基于面剔除的原版连接纹理', link: '/feature/archive/202605/3/content' },
     ]
   },
   {
@@ -251,7 +251,7 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
     items: [
       { text: '挖掘在地下', link: '/feature/archive/202605/4/content' },
       { text: 'Fast Motion', link: '/feature/archive/202605/5/content' },
-      {text: 'Sequencer Helper', link: '/feature/archive/202605/6/content'},
+      { text: 'Sequencer Helper', link: '/feature/archive/202605/6/content' },
     ]
   },
   {
@@ -265,7 +265,7 @@ export const sidebar_202605: DefaultTheme.Sidebar = [
 ];
 
 
-export const sidebar_202606: DefaultTheme.Sidebar = [
+export const sidebar_202606: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.06',
     items: [
@@ -316,7 +316,7 @@ export const sidebar_202606: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202607: DefaultTheme.Sidebar = [
+export const sidebar_202607: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.07',
     items: [
@@ -367,7 +367,7 @@ export const sidebar_202607: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202608: DefaultTheme.Sidebar = [
+export const sidebar_202608: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2026.08',
     items: [
@@ -433,7 +433,7 @@ export const sidebar_202609: DefaultTheme.Sidebar = [
   {
     text: '精选 Featured',
     items: [
-      { text: '从宏到 NBT：Minecraft 26.3数据包性能实测', link: '/feature/archive/202609/0/content' }
+      { text: '核心着色器覆盖的“太阳跟随视线·全屏天空盒”技术实现', link: '/feature/archive/202609/1/content' },
     ]
   },
   {
@@ -445,14 +445,13 @@ export const sidebar_202609: DefaultTheme.Sidebar = [
   {
     text: '洞见 Insights',
     items: [
-      { text: '核心着色器覆盖的“太阳跟随视线·全屏天空盒”技术实现', link: '/feature/archive/202609/1/content' },
       { text: '光照贴图生成原理和修改', link: '/feature/archive/202609/2/content' },
       { text: '后处理着色器工作流程', link: '/feature/archive/202609/3/content' },
       { text: '魔咒数据组件教程', link: '/feature/archive/202609/4/content' },
       { text: '第一人称视角下自身背饰的隐藏方法', link: '/feature/archive/202609/5/content' },
       { text: '全实体“乘骑座位高度”探究', link: '/feature/archive/202609/6/content' },
       { text: '浅谈原版地图常见的一些问题', link: '/feature/archive/202609/7/content' },
-      
+      { text: '从宏到 NBT：Minecraft 26.3数据包性能实测', link: '/feature/archive/202609/0/content' }
     ]
   },
   {

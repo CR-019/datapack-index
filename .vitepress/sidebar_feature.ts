@@ -1,5 +1,5 @@
-import { DefaultTheme } from "vitepress";
-export const sidebar_feature: DefaultTheme.Sidebar = [
+import type { DefaultTheme } from "vitepress";
+export const sidebar_feature: DefaultTheme.SidebarItem[] = [
   {
     text: '月刊《Feature》',
     link: '/feature/_index',

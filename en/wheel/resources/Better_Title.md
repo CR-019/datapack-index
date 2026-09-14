@@ -1,8 +1,8 @@
 ---
-name: Better Title
+name: BetterTitle
 author:
     -
-        name: Huoyu Flame
+        name: 火昱Flame
         char: author
 description: A multi-text manipulation library based on negative spaces and shaders.
 tags: [resource pack, shader, negative space, UI]

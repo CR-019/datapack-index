@@ -7,7 +7,7 @@ author:
 description: 简易的UUID数组至十六进制字符串转换器
 tags: [数学, UUID]
 version: 1.0.0
-gameversion: [1.21~1.21.11]
+gameversion: [1.21~26.3]
 aside: left
 wheel: true
 repo: gibbsly/gu

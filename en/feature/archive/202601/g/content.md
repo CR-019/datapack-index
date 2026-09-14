@@ -34,7 +34,7 @@ At the bottom of the front-end library search page, you can see a "View all reso
 
 Want to add your pre-processor to the pre-processor library? Or do you see any useful tools that you would like to recommend to the front-end library? Anyone can contribute!
 
-Click the **Submit** button on the search page, or directly visit Github's Issue page to fill out the form. (&lt;https://github.com/CR-019/datapack-index/issues/new?template=new_wheel.yaml&gt;）。
+Click the **Submit** button on the search page, or open the GitHub Issue form directly. (<https://github.com/Alumopper/datapack-index-mcfpm-staging/issues/new?template=new_wheel.yml>).
 
 ---
 

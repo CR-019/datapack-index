@@ -1,8 +1,10 @@
 // https://vitepress.dev/guide/custom-theme
-import { defineComponent, h } from 'vue'
+import { defineAsyncComponent, defineComponent, h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import './process-polyfill.js' 
+import './process-polyfill.js'
 import './style.css'
+import './changelog.css'
+import { useChangelogNavigation } from './changelog'
 import '@datapack-sandbox/vitepress-playground/style.css'
 import './playground-feature.css'
 import Giscus from '@giscus/vue'
@@ -19,47 +21,50 @@ import ColorLine from '../vue/ColorLine.vue'
 import SearchBox from '../vue/wheel/SearchBox.vue'
 import InfoCard from '../vue/wheel/InfoCard.vue'
 import Node from '../vue/Node.vue'
+import NbtIcon from '../vue/NbtIcon.vue'
+import Cmd from '../vue/Cmd.vue'
 import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
+import PackagePage from '../vue/wheel/PackagePage.vue'
+import StaticPackagePage from '../vue/wheel/StaticPackagePage.vue'
 import AnnouncementBar from '../vue/AnnouncementBar.vue'
-import mediumZoom from 'medium-zoom'
+import LocaleLinkSync from '../vue/LocaleLinkSync.vue'
 import RepoCard from '../vue/wheel/RepoCard.vue'
-import MarkdownPreviewer from '../vue/MarkdownPreviewer.vue'
+import BugList from '../vue/BugList.vue'
 
 
 
 import 'katex/dist/katex.min.css'
-import { reactive, watch } from 'vue'
 import { useData } from 'vitepress'
-
-
-const globalDataStore = reactive({})
 
 export default {
   extends: DefaultTheme,
   Layout: defineComponent({
     name: 'CustomLayoutWrapper',
     setup() {
-      const { frontmatter } = useData()
-      
+      useChangelogNavigation()
+      const { frontmatter, page } = useData()
+
       return () => {
         //如果frontmatter.wheel为真，则渲染wheel自定义侧边栏
         if (frontmatter.value && frontmatter.value.wheel) {
           return h('div', { class: 'wheel-layout' }, [
             h(DefaultTheme.Layout, null, {
-              'layout-top': () => h(AnnouncementBar),
+              'layout-top': () => [h(LocaleLinkSync), h(AnnouncementBar)],
               'aside-outline-before': () => h(SideCard)
             })
           ])
         }
         //否则返回默认的
-        return h(DefaultTheme.Layout, null, {
-          'layout-top': () => h(AnnouncementBar)
+        return h(DefaultTheme.Layout, {
+          class: { 'changelog-layout': page.value.relativePath === 'index/changelog_breaking.md' }
+        }, {
+          'layout-top': () => [h(LocaleLinkSync), h(AnnouncementBar)]
         })
       }
     }
   }),
-  enhanceApp({ app, router, siteData }) {
+  enhanceApp({ app, router }) {
     // 注册全局组件
     app.component('GiscusComment', Giscus)
     app.component('FeaturedHead', FeaturedHead)
@@ -74,9 +79,18 @@ export default {
     app.component('SearchBox', SearchBox)
     app.component('InfoCard', InfoCard)
     app.component('node', Node)
+    app.component('NbtIcon', NbtIcon)
+    app.component('nbt', NbtIcon)
+    app.component('cmd', Cmd)
     app.component('AllPage', AllPage)
+    app.component('PackagePage', PackagePage)
+    app.component('StaticPackagePage', StaticPackagePage)
+    app.component('BugList', BugList)
     app.component('RepoCard', RepoCard)
-    app.component('MarkdownPreviewer', MarkdownPreviewer)
+    app.component(
+      'MarkdownPreviewer',
+      defineAsyncComponent(() => import('../vue/MarkdownPreviewer.vue'))
+    )
 
     // 只在浏览器环境中执行 zoom 初始化
     if (typeof window !== 'undefined') {

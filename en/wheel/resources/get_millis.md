@@ -30,13 +30,13 @@ Example:
 scoreboard objectives add example dummy
 
 execute store result score #start example run function get_millis:api/get_and_resolve
-  # 执行任意花费时间的任务，如:
+  # Run any operation whose duration should be measured, for example:
   reload
   reload
   reload
 execute store result score #end example run function get_millis:api/get_and_resolve
 
 scoreboard players operation #end example -= #start example
-# 输出经过的时间
+# Display the elapsed time.
 tellraw @a ["Elapsed time: ", {score: {name: "#end", objective: "example"}, color: "gold"}, " ms"]
 ```

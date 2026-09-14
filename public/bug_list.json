@@ -1,0 +1,218 @@
+[
+    {
+        "id": "277837",
+        "cn_title": "自定义装备叠加层使用后不会从内存中清除",
+        "description": "使用装备的overlay组件向玩家的屏幕显示叠加层时，该内存不会在使用后释放，导致泄露和性能问题。",
+        "status": "Confirmed",
+        "version": "1.21+",
+        "title": "Custom overlay textures are not cleared out of the memory"
+    },
+    {
+        "id": "305766",
+        "cn_title": "使用place命令放置结构时，会在日志中大量打印警告信息",
+        "description": "",
+        "version": "1.21+",
+        "title": "Using /place to place certain structures logs \"Trying to mark a block for PostProcessing but this operation is not supported\" for every non-full block",
+        "status": "Confirmed"
+    },
+    {
+        "id": "310602",
+        "cn_title": "spectate命令旁观距离很远的实体会导致异常状态",
+        "version": "26.1+",
+        "description": "使用/spectate命令旁观距离很远的实体时，客户端会出现异常状态。玩家可以自由移动，但还被认为在旁观状态，因此无法使用右键旁观其他实体，也会在按shift时“脱离旁观”并被传送回该实体旁边。",
+        "title": "Using /spectate to spectate an entity far away causes strange behavior",
+        "status": "Confirmed"
+    },
+    {
+        "id": "298893",
+        "cn_title": "对话框的多行文本输入的max_lines属性不限制有几个换行符而是限制显示的行数",
+        "version": "1.21.6+",
+        "description": "在对话框的多行文本输入中，如果规定的max_lines，那么玩家将只能输入到文本框的尽头而无法自动wrap到下一行。这意味着无法要求使用者输入一串很长但又不包含换行符的文本。如果您需要这么做，可以考虑不限制最大行数，并在获取输入后使用如DNT的库删掉字符串中的换行符。",
+        "title": "The \"max_lines\" field of the multi-line dialog input limits the number of visible lines, rather than the number of newlines",
+        "status": "wont_fix"
+    },
+    {
+        "id": "311525",
+        "cn_title": "/damage命令无法触发荆棘魔咒",
+        "version": "26.2+",
+        "description": "",
+        "title": "/damage does not trigger Thorns",
+        "status": "wont_fix"
+    },
+    {
+        "id": "311435",
+        "cn_title": "/clear命令无法使用charged_projectiles组件筛选弩",
+        "version": "26.2+",
+        "description": "使用[charged_projectiles]总会选中弩，不管有没有上弦，而[!charged_projectiles]将不会选中任何弩，不管有没有上弦",
+        "title": "/clear command cannot filter crossbows by charged_projectiles",
+        "status": "invalid"
+    },
+    {
+        "id": "311326",
+        "cn_title": "火球，小火球，风弹等弹射物不会击中{NoGravity:true}的盔甲架",
+        "version": "26.2+",
+        "description": "",
+        "title": "Fireballs pass through armor stands with the `NoGravity` NBT tag set to true",
+        "status": "Confirmed"
+    },
+    {
+        "id": "85340",
+        "cn_title": "entity_data组件中的Passengers标签无效",
+        "version": "古早至今",
+        "description": "这使得无法获得一个可以生成有骑行行为实体的刷怪蛋",
+        "title": "Passengers Tag doesn't work with entity_data component on items",
+        "status": "Confirmed"
+    },
+    {
+        "id": "106167",
+        "cn_title": "/title actionbar不使用/title times规定的时间",
+        "version": "1.10.2+",
+        "description": "",
+        "title": "/title actionbar does not respect /title times",
+        "status": "Confirmed"
+    },
+    {
+        "id": "268183",
+        "cn_title": "试炼宝库的item_key需要钥匙物品的组件和它全等",
+        "version": "1.21+",
+        "description": "",
+        "title": "Vaults item_key checks for all components instead of only defined components",
+        "status": "Confirmed"
+    },
+    {
+        "id": "269746",
+        "cn_title": "伤害标签bypasses_effects的伤害类型不会无视伤害吸收",
+        "version": "1.20.4+",
+        "description": "本行为已经成为特性",
+        "title": "Tag \"bypasses_effects\" doesn't bypass absorption effect",
+        "status": "wont_fix"
+    },
+    {
+        "id": "278352",
+        "cn_title": "箭矢或三叉戟在频繁修改Motion时会出现在错误的位置",
+        "version": "1.21.3",
+        "description": "箭矢和三叉戟的Motion是很经典的问题，数据包很难处理",
+        "title": "Arrows and tridents appear at the wrong position when their Motion tag is modified every tick",
+        "status": "wont_fix"
+    },
+    {
+        "id": "279197",
+        "cn_title": "不同的命令的返回值的取整逻辑不同",
+        "version": "1.21.4+",
+        "description": "data命令的返回值总会向下取整，而attribute，execute store，worldborder则会向零取整",
+        "title": "Some commands have inconsistent results for rounding negative numbers",
+        "status": "wont_fix"
+    },
+    {
+        "id": "143214",
+        "cn_title": "除了工作台以外的所有合成配方都无法被limited_crafting游戏规则限制",
+        "version": "古早至今",
+        "description": "26.3已经修复了特殊工作台合成配方的相关漏洞，但其他配方仍然不受限制",
+        "title": "All new crafting stations ignore the DoLimitedCrafting gamerule",
+        "status": "intended"
+    },
+    {
+        "id": "236544",
+        "cn_title": "物品修饰器copy_custom_data无法在物品的custom_data根标签使用replace操作",
+        "version": "1.17.1+",
+        "description": "从旧版的copy_nbt到现在的copy_custom_data，都无法直接设置整个custom_data数据，只能merge",
+        "title": "\"replace\" operation of \"copy_custom_data\" item modifier does not work on root tag",
+        "status": "Confirmed"
+    },
+    {
+        "id": "200786",
+        "cn_title": "进度选项卡会随机排序",
+        "version": "1.16.3+",
+        "description": "进度的选项卡的顺序会被随机排列",
+        "title": "Advancement tab ordering is arbitrary",
+        "status": "Confirmed"
+    },
+    {
+        "id": "138887",
+        "cn_title": "/locate命令不一定返回最近的目标",
+        "version": "古早至今",
+        "description": "由于locate命令以mca为单位搜索目标，因此返回的结果不一定是距离最近的",
+        "title": "/locate does not always locate the nearest structure",
+        "status": "Confirmed"
+    },
+    {
+        "id": "309623",
+        "cn_title": "盔甲纹饰无法再使用动态纹理",
+        "version": "26.3+",
+        "description": "26.3以后，盔甲纹饰不再支持动态纹理",
+        "title": "Armor trims can no longer be animated",
+        "status": "invalid"
+    },
+    {
+        "id": "310992",
+        "cn_title": "即使end_of_frame后处理着色器不存在，游戏也会尝试启用它",
+        "version": "26.3+",
+        "description": "",
+        "title": "The game tries to load the `end_of_frame` post effect even when it is not defined",
+        "status": "Confirmed"
+    },
+    {
+        "id": "275796",
+        "cn_title": "use_cooldown数据组件对和方块交互的物品无效",
+        "version": "1.21.2+",
+        "description": "如：书与雕纹书架交互，罗盘和磁石交互，染料和告示牌交互等",
+        "title": "The use_cooldown component does not work for item usage interactions on blocks",
+        "status": "Confirmed"
+    },
+    {
+        "id": "278439",
+        "cn_title": "嘎吱的home_pos NBT无法使用data remove移除",
+        "version": "1.21.4+",
+        "description": "",
+        "title": "'/data remove' command does not remove creaking \"home_pos\"",
+        "status": "Confirmed"
+    },
+    {
+        "id": "271761",
+        "cn_title": "pack.mcmeta中filter的namespace项会泄露",
+        "version": "1.20.6+",
+        "description": "在filter中定义多个过滤项时，其中的namespace有可能泄漏到下一个过滤项目中导致过滤掉不想过滤的内容。如\n{\n  \"namespace\": \"&NONEXISTENT$\",\n  \"path\": \"^recipes/\"\n},\n{\n  \"namespace\": \"^minecraft$\",\n  \"path\": \"&NONEXISTENT$\"\n}\n会过滤掉原版的所有配方，尽管这并非想要的",
+        "title": "The \"namespace\" field of filter in pack.mcmeta leaks through definitions",
+        "status": "Confirmed"
+    },
+    {
+        "id": "273376",
+        "cn_title": "在魔咒定义文件中使用structures子谓词会导致世界加载时出现网络协议错误",
+        "version": "1.21",
+        "description": "例如，判断某位置或实体是否位于指定的结构中，就会出现此问题",
+        "title": "Custom enchantments with \"structures\" subpredicate cause worlds to have 'Network Protocol Error' on attempted load",
+        "status": "Confirmed"
+    },
+    {
+        "id": "307449",
+        "cn_title": "夜晚时，地下刷怪笼的自定义光照规则不再生效",
+        "version": "26.1-26.2",
+        "description": "现在custom_spawn_rules.sky_light_limit会导致怪物无法在夜晚的地下生成，因为Mojang在修复MC-264187时更改了天空光照的逻辑使得在地下的夜晚光照可能是负数，而sky_light_limit只接受0到15。",
+        "title": "Spawners with their light limits set no longer spawn mobs underground at night time",
+        "status": "fixed"
+    },
+    {
+        "id": "299582",
+        "cn_title": "特殊工作台合成配方无法被limited_crafting游戏规则限制",
+        "version": "1.21.7~26.2",
+        "description": "特殊工作台合成配方是指类似染色，地图复制等特殊的合成配方。其他配方，如切石机，锻造台等请见MC-143214（有意为之）",
+        "title": "Special crafting recipes cannot be given or taken with `/recipe` and do not respect the `limited_crafting` game rule",
+        "status": "fixed"
+    },
+    {
+        "id": "254370",
+        "cn_title": "entity_scores谓词在数值过大时会出现精度丢失而无法判断",
+        "version": "1.15-26.2",
+        "description": "entity_scores判断超过16777217的数值会因为浮点数精度问题造成误判",
+        "title": "The `entity_scores` predicate type cannot check all possible scores",
+        "status": "fixed"
+    },
+    {
+        "id": "88967",
+        "cn_title": "生物在转换成另一种生物时会丢失其绝大部分的NBT",
+        "version": "1.21.2之前",
+        "description": "当生物转换成另一种生物时（如僵尸村民->村民）时，会丢失其绝大部分NBT数据。",
+        "title": "Most NBT tags are not kept when a mob converts to another mob",
+        "status": "fixed"
+    }
+]

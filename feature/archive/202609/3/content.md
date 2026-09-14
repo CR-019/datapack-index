@@ -2,6 +2,11 @@
 title: '后处理着色器工作流程'
 ---
 
+<script setup>
+import ns from '/.vitepress/vue/nbt/namespace.vue'
+import homolist from '/.vitepress/vue/nbt/homolist.vue'
+import float from '/.vitepress/vue/nbt/float.vue'
+</script>
 
 <FeatureHead
 title='后处理着色器工作流程'
@@ -14,11 +19,21 @@ authorName='轩宇1725'
 
 ## 前言
 
+<<<<<<< HEAD
 没想到后处理篇目拖到现在居然等到了 26.3 给后处理增加接口，由于后处理的结构改过，本文直接讲 26.3 版本下的后处理管线，并在附录中简单介绍一下 1.7 起的旧版后处理管线。方便读者适应中间几个不同版本的情况。（即使你是旧版本开发者，也推荐先看新版本的格式，再看后面的旧版本格式，因为新版本的信息更加丰富，反而能帮助你理解旧版本的逻辑）
 
 核心着色器用于控制画面上的一切东西如何渲染，但它是局域的，即只能获取当前渲染的这个面相关的信息，因此也不知道周围场景的几何形状。
 
 而后处理则是当所有东西渲染完毕之后，把整个画面作为纹理输入，再生成一个新画面的过程，因此可以获取到场景的更多信息，但被遮挡的内容、屏幕外的内容就完全访问不了了。另外，Minecraft 没有让 GUI 渲染参与后处理阶段，因此后处理也“看不到” GUI，如聊天栏、背包等。
+=======
+没想到后处理篇目拖到现在居然等到了 26.3 给后处理增加接口，由于后处理的结构改过，本文直接讲 26.3 版本下的后处理管线，并在附录中简单介绍一下 1.7 起的旧版后处理管线，方便读者适应中间几个不同版本的情况。\
+即使你是旧版本开发者，也推荐先看新版本的格式，再看后面的旧版本格式，因为新版本的信息更加丰富，反而能帮助你理解旧版本的逻辑。
+
+核心着色器用于控制画面上的一切东西如何渲染，但它是局域的，即只能获取当前渲染的这个面相关的信息，因此也不知道周围场景的几何形状。
+
+而后处理则是当所有东西渲染完毕之后，把整个画面作为纹理输入，再生成一个新画面的过程，因此可以获取到场景的更多信息，但被遮挡的内容、屏幕外的内容就完全访问不了了。\
+另外，Minecraft 没有让 GUI 渲染参与后处理阶段，因此后处理也“看不到”GUI，如聊天栏、背包等。
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 
 ## 缓冲
 
@@ -32,11 +47,19 @@ authorName='轩宇1725'
 
 深度缓冲只有在 1.16 引入极佳管线后才可用
 
+<<<<<<< HEAD
 从深度缓冲采样得到的值是一个vec4，采样得到的结果中只有 r 通道是深度，格式是 vec4(depth, 0.0, 0.0, 1.0)，1.17前为 vec4(depth, depth, depth, 1.0)
 
 26.2 以下，近平面对应的深度是 0.0，而远平面对应的深度是 1.0. 而自 26.2 起使用反向深度，即近平面对应 1.0, 远平面对应 0.0.
 
 > 26.2-snapshot-1：现在渲染使用反向深度缓冲，这有助于在大部分硬件上改善深度冲突。修复了 MC-190728 (https://bugs.mojang.com/browse/MC-190728)。
+=======
+从深度缓冲采样得到的值是一个vec4，采样得到的结果中只有 r 通道是深度，格式是 `vec4(depth, 0.0, 0.0, 1.0)`，1.17前为 `vec4(depth, depth, depth, 1.0)`
+
+26.2 以下，近平面对应的深度是 0.0，而远平面对应的深度是 1.0. 而自 26.2 起使用反向深度，即近平面对应 1.0, 远平面对应 0.0.
+
+> 26.2-snapshot-1：现在渲染使用反向深度缓冲，这有助于在大部分硬件上改善深度冲突。修复了[MC-190728](https://bugs.mojang.com/browse/MC-190728)。
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 > 但他为什么要这么做呢？
 
 ## 管线
@@ -49,7 +72,11 @@ authorName='轩宇1725'
 
 <node type="compound" name=""/> 根标签
  - <node type="compound" name="targets"/> 渲染目标
+<<<<<<< HEAD
  - <node type="list" name="passes"/> 渲染过程
+=======
+ - <node type="homolist" name="passes"/> 渲染过程
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 
 </div>
 
@@ -61,7 +88,11 @@ authorName='轩宇1725'
  - <node type="int" name="width"/> 帧缓冲的宽度，不指定时为视口宽度
  - <node type="int" name="height"/> 帧缓冲的高度，不指定时为视口高度
  - <node type="bool" name="persistent"/> 切换帧时保留数据，不指定时为假，即每帧清除
+<<<<<<< HEAD
  - <node type="list" name=""/><node type="int" name="clear_color"/> 如果为列表，每个成员分别是归一化的 RGBA 值，如果为整数，则是格式为 ARGB 的 24 位颜色值（每通道占 8 位）不指定时默认为 `[0.0, 0.0, 0.0, 0.0]`
+=======
+ - <node type="homolist" name=""/><node type="int" name="clear_color"/> 如果为列表，每个成员分别是归一化的 RGBA 值，如果为整数，则是格式为 ARGB 的 24 位颜色值（每通道占 8 位）不指定时默认为 `[0.0, 0.0, 0.0, 0.0]`
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 
 </div>
 
@@ -84,6 +115,7 @@ authorName='轩宇1725'
 <node type="compound" name=""/> 一个pass
  - <node type="string" name="vertex_shader"/> 顶点着色器相对于 `assets/namespace/shaders` 的命名空间路径
  - <node type="string" name="fragment_shader"/> 片元着色器相对于 `assets/namespace/shaders` 的命名空间路径
+<<<<<<< HEAD
  - <node type="list" name="inputs"/> 输入，详见后文
  - <node type="string" name="output"/> 输出目标的id
  - <node type="compound" name="uniforms"/> uniform 的定义
@@ -91,6 +123,16 @@ authorName='轩宇1725'
         - <node type="string"  name="name"/> uniform 变量名
         - <node type="string"  name="type"/> uniform 变量类型，可选值为 `int`, `float`, `ivec3`, `vec2`, `vec3`, `vec4`, `matrix4x4`
         - <node type="int" name=""/><node type="float" name=""/><node type="list" name=""/> uniform 的值，根据 uniform 的类型决定该键的类型。
+=======
+ - <node type="homolist" name="inputs"/> 输入，详见后文
+ - <node type="string" name="output"/> 输出目标的id
+ - <node type="compound" name="uniforms"/> uniform 的定义
+    - <node type="homolist" name="<分组名称>"/> 键名为 uniform 块的名称
+      - <node type="compound" name=""/> 设置一个Uniform
+          - <node type="string"  name="name"/> uniform 变量名
+          - <node type="string"  name="type"/> uniform 变量类型，可选值为 `int`, `float`, `ivec3`, `vec2`, `vec3`, `vec4`, `matrix4x4`
+          - <node type="int" name=""/><node type="float" name=""/><node type="list" name="value"/> uniform 的值，根据 uniform 的类型决定该键的类型。
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 
 </div>
 
@@ -117,6 +159,7 @@ pass有两种输入，分别是渲染目标输入和纹理输入。
 
 ### 管线的使用
 
+<<<<<<< HEAD
 26.3 起可以通过 /posteffect 按顺序应用特定的管线。但原版有如下几个管线会被自动开启（按应用顺序）：
 
 0. (自26.3) minecraft:end_of_frame 只要资源包被加载就会使用，无法用 /posteffect 关闭
@@ -141,6 +184,32 @@ pass有两种输入，分别是渲染目标输入和纹理输入。
 管线结束后，旧版的超级秘密选项/旁观/极佳以及自定义管线都是将最后 minecraft:main 的结果写入屏幕上。而 entity_outline 是由 java 端将 minecraft:entity_outline 拷贝到 minecraft:main 里再上屏。
 
 > 注意在 entity_outline 管线里如果向 minecraft:main 写入颜色会破坏深度缓存，这个bug最晚在2021年前就被发现了，但是mojira上居然没有报告？！
+=======
+26.3 起可以通过<cmd c='posteffect'/>按顺序应用特定的管线。但原版有如下几个管线会被自动开启（按应用顺序）：
+
+1. (自26.3) <ns t="end_of_frame"/>只要资源包被加载就会使用，无法用<cmd c='posteffect'/>关闭。
+2. (仅1.16-26.2)当玩家的 `视频设置`>`品质与性能` 的预设为“极佳！”时，应用<ns t="transparency"/>管线，将不同元素的缓冲重新叠加。内置的特殊渲染目标有：
+- <ns t="minecraft:main"/> 不透明世界（实心/镂空地形、不透明实体、天空等）
+- <ns t="minecraft:translucent"/> 水、染色玻璃等半透明方块
+- <ns t="minecraft:item_entity"/> 掉落物、经验球等
+- <ns t="minecraft:particles"/> 粒子
+- <ns t="minecraft:clouds"/> 云
+- <ns t="minecraft:weather"/> 雨雪
+
+1. 当屏幕内有发光轮廓时，应用<ns t="entity_outline"/>管线，作用是将核心着色器<ns t="rendertype_outline"/>渲染好的发光部分模糊扩张后重新叠加。内置的特殊渲染目标有：
+- <ns t="minecraft:main"/>： 不含发光轮廓部分的渲染结果
+- <ns t="minecraft:entity_outline"/>： <ns t="rendertype_outline"/>的绘制结果
+
+最终由 java 端将<ns t="entity_outline"/>的内容用 <ns t="blit"/>着色器拷贝到 main 并显示到屏幕上。（）
+
+1. 当旁观苦力怕、蜘蛛、末影人时，分别应用<ns t="creeper"/>，<ns t="spider"/>，和<ns t="invert"/>管线，对画面起滤镜效果。
+
+### 上屏逻辑
+
+管线结束后，旧版的超级秘密选项/旁观/极佳以及自定义管线都是将最后<ns t="main"/>的结果写入屏幕上。而<ns t="entity_outline"/>是由 java 端将<ns t="entity_outline"/>拷贝到<ns t="main"/>里再上屏。
+
+> 注意在<ns t="entity_outline"/>管线里如果向<ns t="main"/>写入颜色会破坏深度缓存，这个bug最晚在2021年前就被发现了，但是mojira上居然没有报告？！
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 
 ## 后处理的着色器
 
@@ -148,7 +217,11 @@ GLSL着色器本身的结构都相似，因此我们主要说的是这些着色�
 
 自 1.21.9 起，原版的后处理着色器程序统一使用 `core/screenquad.vsh` 作为顶点着色器，我们只关心片元着色器的修改。
 
+<<<<<<< HEAD
 管线中定义的 uniform 块都需要声明才能让着色器通过编译。如果声明了一个输入采样器名称为 In，一个自定义 uniform 快 BlurConfig，内含两个变量 vec2 BlurDir, float Radius.
+=======
+管线中定义的 uniform 块都需要声明才能让着色器通过编译。如果声明了一个输入采样器名称为 In，一个自定义 uniform 快 BlurConfig，内含两个变量，vec2的<homolist t="BlurDir" />和<float t="Radius" />。
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 
 ```glsl
 layout(std140) uniform SamplerInfo {
@@ -244,6 +317,7 @@ uniform sampler2D InSampler
 <div class="nbttree">
 
 <node type="compound" name=""/> JSON文件根元素
+<<<<<<< HEAD
  - <node type="list" name="targets"/> 指定后处理管线中需要创建以使用的自定义渲染目标。列表里每一项可以是：
   - <node type="string" name=""/> 渲染目标名称，宽度和高度为当前窗口大小
   - <node type="compound" name=""/> 带固定尺寸的后处理渲染目标
@@ -268,6 +342,31 @@ uniform sampler2D InSampler
      - <node type="string" name="name"/> Uniform变量名
      - <node type="list" name="values"/> 浮点数数组，长度须与程序定义的 `count` 一致
 
+=======
+   - <node type="list" name="targets"/> 指定后处理管线中需要创建以使用的自定义渲染目标。列表里每一项可以是：
+     - <node type="string" name=""/> 渲染目标名称，宽度和高度为当前窗口大小
+     - <node type="compound" name=""/> 带固定尺寸的后处理渲染目标
+     - <node type="string" name="name"/> 渲染目标名称
+     - <node type="int" name="width"/> 渲染目标内帧缓冲的宽度
+     - <node type="int" name="height"/> 渲染目标内帧缓冲的高度
+   - <node type="list" name="passes"/> 渲染过程列表
+     - <node type="compound" name=""/> 一个渲染过程
+       - <node type="string" name="name"/> 程序定义名称，对应 `shaders/program/<名称>.json`，不写命名空间
+       - <node type="string" name="intarget"/> 输入渲染目标。输入渲染目标固定使用 `DiffuseSampler` 采样器和 `InSize` Uniform
+       - <node type="string" name="outtarget"/> 输出渲染目标。不能和 `intarget` 相同
+       - <node type="bool" name="use_linear_filter"/> （1.20.5 起）为 true 时，此过程的纹理采样模式由最近邻采样切换到线性插值。不写为假
+       - <node type="list" name="auxtargets"/> 纹理输入，可选
+         - <node type="compound" name=""/> 一项纹理输入
+           - <node type="string" name="name"/> 着色器里的采样器全名（例如 `DiffuseDepthSampler`），不是前缀
+           - <node type="string" name="id"/> 输入渲染目标绑定的后处理帧缓冲名称；或 `textures/effect` 下 png 的路径（不含 `.png`）。在渲染目标ID后加 `:depth` 后缀则使用该目标的深度缓冲而不是颜色缓冲（如 `minecraft:main:depth`）
+           - <node type="int" name="width"/> `id` 指向纹理时必填，纹理的宽度，单位为像素，用来填 `AuxSize<序号>`
+           - <node type="int" name="height"/> 指向纹理时必填，纹理的高度，单位为像素
+           - <node type="bool" name="bilinear"/> 指向纹理时必填。为 true 时用线性过滤进行采样，否则将使用邻近过滤
+       - <node type="list" name="uniforms"/> 覆盖程序定义里的默认值，可选
+         - <node type="compound" name=""/>
+           - <node type="string" name="name"/> Uniform变量名
+           - <node type="list" name="values"/> 浮点数数组，长度须与程序定义的 `count` 一致
+>>>>>>> 244a2bbafaef8b9bb1bd276e40edd1872ef213e7
 </div>
 
 特殊的渲染目标：

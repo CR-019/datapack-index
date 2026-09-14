@@ -1,5 +1,5 @@
 ---
-name: FIREWORK!
+name: FIREWORK--datapacks
 author:
     -
         name: Mxpea

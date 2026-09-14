@@ -1,5 +1,5 @@
 ---
-name: Player Motion
+name: player_motion
 author:
     -
         name: MulverineX

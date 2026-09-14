@@ -2,6 +2,9 @@
 title: '光照贴图生成原理和修改'
 ---
 
+<script setup>
+import bool from '/.vitepress/vue/nbt/boolean.vue'
+</script>
 
 <FeatureHead
 title='光照贴图生成原理和修改'
@@ -75,7 +78,7 @@ $$I_{\text{flash}}(T, d) = \sin\left(\frac{\tau - o}{p} \cdot \pi\right),\quad \
 
 否则为 $0$。$s \mathrel{+}= I_{\text{flash}}$（Boss 雾存在时 $I_{\text{flash}}/3$）。
 
-Boss雾是被 bossbar 带来的一种雾。原版没有指令可以为自定义的 bossbar 开启此效果，但凋灵等 bossbar 有 `CreateWorldFog=true`（自定义 bossbar 也可以通过修改 NBT 文件来开启此效果。）
+Boss雾是由Boss血条带来的一种雾。原版没有指令可以为自定义的<cmd c="bossbar"/>开启此效果，但凋灵等 bossbar 有<bool t="CreateWorldFog: true"/>（自定义 bossbar 也可以通过修改 NBT 文件来开启此效果）。
 
 ![alt text](image/QQ_1786361367628.png)
 
@@ -236,7 +239,7 @@ vec3 notGamma(vec3 color) {
 
 修改光照贴图主要是为了在其他核心着色器中获取更多的渲染上下文，也就是在16*16的光照贴图中存储变量，而非用作光照贴图。
 
-在未经修改的原版管线中, 虽然采样和合成时使用了全部的rgba四个通道，但光照贴图的生成其实总是会输出 alpha = 1.0。我们可以在 `lightmap.fsh` 中修改 alpha 通道的输出，存储更多的变量（256个浮点数）。同时需要修改 sample_lightmap.glsl 来避免 alpha 通道被合成到片元颜色上。
+在未经修改的原版管线中, 虽然采样和合成时使用了全部的rgba四个通道，但光照贴图的生成其实总是会输出 alpha = 1.0。我们可以在 `lightmap.fsh` 中修改 alpha 通道的输出，存储更多的变量（256个浮点数）。同时需要修改 `sample_lightmap.glsl` 来避免 alpha 通道被合成到片元颜色上。
 
 ```glsl
 void main(){

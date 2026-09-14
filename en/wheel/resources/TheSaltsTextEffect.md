@@ -1,5 +1,5 @@
 ---
-name: The Salt's Text Effect
+name: Text_Effects
 author:
     -
         name: The_Salts

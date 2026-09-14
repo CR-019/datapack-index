@@ -1,5 +1,5 @@
 ---
-name: Per Player Displays
+name: Per-Player-Displays
 author:
     -
         name: SilicatYT

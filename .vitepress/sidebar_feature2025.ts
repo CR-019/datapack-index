@@ -1,5 +1,5 @@
-import { DefaultTheme } from "vitepress";
-export const sidebar_202504: DefaultTheme.Sidebar = [
+import type { DefaultTheme } from "vitepress";
+export const sidebar_202504: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.04',
     items: [
@@ -37,7 +37,7 @@ export const sidebar_202504: DefaultTheme.Sidebar = [
 ];
 
 
-export const sidebar_202505: DefaultTheme.Sidebar = [
+export const sidebar_202505: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.05',
     items: [
@@ -83,7 +83,7 @@ export const sidebar_202505: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202506: DefaultTheme.Sidebar = [
+export const sidebar_202506: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.06',
     items: [
@@ -124,7 +124,7 @@ export const sidebar_202506: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202507: DefaultTheme.Sidebar = [
+export const sidebar_202507: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.07',
     items: [
@@ -173,7 +173,7 @@ export const sidebar_202507: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202508: DefaultTheme.Sidebar = [
+export const sidebar_202508: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.08',
     items: [
@@ -225,7 +225,7 @@ export const sidebar_202508: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202509: DefaultTheme.Sidebar = [
+export const sidebar_202509: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.09',
     items: [
@@ -272,7 +272,7 @@ export const sidebar_202509: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202510: DefaultTheme.Sidebar = [
+export const sidebar_202510: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.10',
     items: [
@@ -325,7 +325,7 @@ export const sidebar_202510: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202511: DefaultTheme.Sidebar = [
+export const sidebar_202511: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.11',
     items: [
@@ -371,7 +371,7 @@ export const sidebar_202511: DefaultTheme.Sidebar = [
   }
 ];
 
-export const sidebar_202512: DefaultTheme.Sidebar = [
+export const sidebar_202512: DefaultTheme.SidebarItem[] = [
   {
     text: 'Feature 2025.12',
     items: [

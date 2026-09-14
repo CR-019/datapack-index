@@ -1,5 +1,5 @@
 ---
-name: Deco Creater kit
+name: dc
 author:
     -
         name: CR_019

@@ -1,13 +1,13 @@
 ---
-name: DAM文本混合管理器
+name: Actionbar Mixer
 author:
     -
         name: Dahesor
         char: 作者
 description: 允许组合不同的文本组件片段一起显示在actionbar上
-tags: [文本组件, UI]
-version: 1.3.2
-gameversion: [1.21~1.21.11]
+tags: [文本组件, UI, actionbar]
+version: 1.3.3
+gameversion: [1.21~26.3]
 aside: left
 wheel: true
 repo: Dahesor/Actionbar-Mixer-for-Minecraft

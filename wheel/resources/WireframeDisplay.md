@@ -10,7 +10,7 @@ version: 1.1.0
 gameversion: [1.21-1.21.4]
 aside: left
 wheel: true
-repo: Triton365/BlockState
+repo: HalbFettKaese/WireframeDisplay
 cover: /datapack-index/wheel/WireframeDisplay.png
 ---
 

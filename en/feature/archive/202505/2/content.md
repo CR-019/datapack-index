@@ -160,8 +160,8 @@ $$
 \end{matrix}\right]
 $$
 
-in$m&lt;0$. The same principle can be followed$y$axis mirror, along$z$axis mirror matrix$\boldsymbol{M}_{y}(n)$、$\boldsymbol{M}_{z}(p)$. Mirror transformations in multiple directions also
-It is easy to derive, for example, in$x$axis,$y$axis, and$z$The matrix required to apply mirror transformation simultaneously in the axis direction ($m&lt;0$，$n&lt;0$，$p&lt;0$)for
+in$m<0$. The same principle can be followed$y$axis mirror, along$z$axis mirror matrix$\boldsymbol{M}_{y}(n)$、$\boldsymbol{M}_{z}(p)$. Mirror transformations in multiple directions also
+It is easy to derive, for example, in$x$axis,$y$axis, and$z$The matrix required to apply mirror transformation simultaneously in the axis direction ($m<0$，$n<0$，$p<0$)for
 
 $$
 \boldsymbol{M}_{x,y,z}(m,n,p)=\left[\begin{matrix}
@@ -486,4 +486,3 @@ schedule function minecraft:animation/180 20t
 [3] [https://blog.csdn.net/YiYeZhiNian/article/details/106750302](https://blog.csdn.net/YiYeZhiNian/article/details/106750302)\
 [4] [https://zhuanlan.zhihu.com/p/45404840](https://zhuanlan.zhihu.com/p/45404840)\
 [5] [https://zhuanlan.zhihu.com/p/183973440](https://zhuanlan.zhihu.com/p/183973440)
-

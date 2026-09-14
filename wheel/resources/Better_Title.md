@@ -7,7 +7,7 @@ author:
 description: 一个基于负空格和着色器实现的多文本操作库
 tags: [资源包,着色器,负空格, UI]
 version: 0.0.43
-gameversion: [1.20.2~1.21.11]
+gameversion: [1.20.2~26.1]
 aside: left
 wheel: true
 repo: Huoyuyuyu/BetterTitle

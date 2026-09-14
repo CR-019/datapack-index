@@ -1,5 +1,5 @@
 ---
-name: ObjMC
+name: objmc
 author:
     -
         name: Godlander

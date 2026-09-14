@@ -1,5 +1,5 @@
 ---
-name: DAM Text Mix Manager
+name: Actionbar-Mixer-for-Minecraft
 author:
     -
         name: Dahesor

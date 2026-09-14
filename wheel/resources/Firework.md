@@ -6,7 +6,7 @@ author:
         char: 作者
 description: 烟花与粒子效果特效库
 tags: [视效,粒子]
-version: 0.0.2
+version: 1.2.1
 gameversion: [1.21.11]
 aside: left
 wheel: true

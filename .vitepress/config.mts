@@ -1,10 +1,16 @@
-import { defineConfig } from "vitepress";
+import { defineConfig, type Plugin } from "vitepress";
 import { sidebar } from "./sidebar";
 import { mcfunction } from "./highlights/mcfuntion";
 import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
 // @ts-ignore
 import anchor from "markdown-it-footnote";
+import { useKatex } from "./markdown/katex.mjs";
+import { renderSearchIndex, splitSearchIndex } from "./markdown/search-index.mjs";
+import { createShikiCache } from "./markdown/shiki-cache.mjs";
+import { staticWheelPageLayout } from "./wheelPageLayout.mjs";
+import { useChangelog } from "./markdown/changelog.mjs";
+import { useNbtTree } from "./markdown/nbt-tree.mjs";
 
 import {
     sidebar_feature,
@@ -21,13 +27,10 @@ import {
     sidebar_202511,
     sidebar_202512,
 } from "./sidebar_feature2025"
-import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 // @ts-ignore
 import fs from "node:fs";
 // @ts-ignore
 import path from "node:path";
-// @ts-ignore
-import type { Plugin } from "vite";
 
 import{
     sidebar_202601,
@@ -113,11 +116,30 @@ function htmlImagePlugin(): Plugin {
 }
 
 const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
+const configuredBuildConcurrency = Number(process.env.VITEPRESS_BUILD_CONCURRENCY || 8)
+const buildConcurrency = Number.isSafeInteger(configuredBuildConcurrency) && configuredBuildConcurrency > 0
+    ? configuredBuildConcurrency
+    : 8
+const shikiCache = createShikiCache()
 
 
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+    transformPageData(pageData) {
+        if (pageData.relativePath === 'index/changelog_breaking.md') {
+            pageData.frontmatter.outline = [3, 3]
+        }
+        const layout = staticWheelPageLayout(pageData.relativePath, pageData.frontmatter)
+        if (layout) pageData.frontmatter.layout = layout
+    },
+    // VitePress defaults to 64 simultaneous page/search renders. Eight keeps
+    // enough work in flight for CI while avoiding dozens of large page trees
+    // being retained at once. Override only when benchmarking larger runners.
+    buildConcurrency,
+    buildEnd() {
+        shikiCache.report()
+    },
     locales: {
         root: {
             label: "简体中文",
@@ -146,7 +168,7 @@ export default defineConfig({
             themeConfig: {
                 nav: [
                     { text: "Documentation", link: "/en/index/绪论" },
-                    { text: "Prerequisite Library", link: "/en/wheel/" },
+                    { text: "Wheel", link: "/en/wheel/" },
                     { text: "Feature", link: "/en/feature/_index" },
                     { text: "Preview", link: "/en/preview/" },
                     { text: "Wiki", link: "https://minecraft.wiki/" },
@@ -155,14 +177,14 @@ export default defineConfig({
                 sidebar: sidebar_en,
                 announcementBar: {
                     enabled: false,
-                    content: "🎉 Vanilla Library's Markdown previewer is now available",
-                    link: siteBase + "en/preview",
+                    content: "🎉 Vanilla Library's Mojira bugs page is now available",
+                    link: siteBase + "en/index/misc/bugs",
                     linkText: "[Open]",
                     background: "#ffa05a",
                     color: "#ffffff",
                     dismissible: true,
-                    doNotShowAgainText: "Don't show again",
-                    storageKey: "datapack-index-announcement-202606-v2-en",
+                    doNotShowAgainText: "Dismiss",
+                    storageKey: "datapack-index-announcement-202609-v1-en",
                 },
                 search: {
                     provider: "local",
@@ -203,30 +225,25 @@ export default defineConfig({
     themeConfig: {
         announcementBar: {
             enabled: true,
-            content: "🎉 香草图书馆特供 Markdown 预览器已上线",
-            link: siteBase + "preview",
+            content: "🎉 香草图书馆Mojira漏洞页面已上线",
+            link: siteBase + "index/misc/bugs",
             linkText: "【传送门】",
             background: "#ffa05a",
             color: "#ffffff",
             dismissible: true,
             doNotShowAgainText: "不再提示",
-            storageKey: "datapack-index-announcement-202606-v2",
+            storageKey: "datapack-index-announcement-202609-v1",
         },
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",
         outline: [2, 6],
-        i18nRouting(data, route, targetLocale) {
-            const target = data.site.value.locales[targetLocale]
-            const targetLink = target.link || (targetLocale === "root" ? "/" : `/${targetLocale}/`)
-            const relativePath = route.data.relativePath.replace(/^en\//, "").replace(/\.md$/, "")
-            const pagePath = relativePath === "index" ? "" : `/${relativePath}`
-            return `${targetLink.replace(/\/$/, "")}${pagePath}${route.hash}` || "/"
-        },
+        // Keep users on the corresponding document when switching languages.
+        i18nRouting: true,
         nav: [
             { text: "文档", link: "/index/绪论" },
-            { text: "前置馆", link: "/wheel" },
+            { text: "前置馆", link: "/wheel/" },
             { text: "《Feature》", link: "/feature/_index" },
-            { text: "预览", link: "/preview" },
+            { text: "预览", link: "/preview/" },
             { text: "Wiki", link: "https://zh.minecraft.wiki/" },
         ],
         search: {
@@ -234,6 +251,13 @@ export default defineConfig({
             options: {
                 // @ts-ignore
                 showDetailedList:true,
+                // Build the local index from Markdown tokens instead of fully
+                // rendering every page (syntax highlighting, KaTeX, and Vue
+                // HTML are unnecessary for plain-text search records).
+                _render: renderSearchIndex,
+                miniSearch: {
+                    _splitIntoSections: splitSearchIndex,
+                },
                 translations: {
                     button: {
                         buttonText: "搜索",
@@ -252,7 +276,6 @@ export default defineConfig({
         },
 
         sidebar: {
-            // @ts-ignore
             "/index/": sidebar,
             "/resources/": sidebar,
             "/feature/archive/202504": sidebar_202504,
@@ -297,15 +320,18 @@ export default defineConfig({
 
     markdown: {
         languages: [mcfunction, mcdoc, snbt],
-        math: true,
 
         shikiSetup: async (shiki) => {
             await shiki.loadLanguage(mcfunction);
             await shiki.loadLanguage(mcdoc);
+            shikiCache.install(shiki);
         },
 
         config: (md) => {
             md.use(anchor);
+            useKatex(md);
+            useChangelog(md);
+            useNbtTree(md);
 
             // 自动适配硬编码的 /datapack-index/ 链接前缀：当 siteBase 变化时同步替换
             const normalizedBase = siteBase === '/' ? '/' : siteBase.replace(/\/$/, '');
@@ -400,43 +426,8 @@ export default defineConfig({
             'process.env': JSON.stringify({}), // 将 process.env 替换为空对象
             'global': 'globalThis',            // 将 global 替换为 globalThis
         },
-        css: {
-            // 提取 CSS 到单独文件
-            // 这会为所有 CSS 生成文件，但我们只关心基础样式
-            // 你可能需要进一步配置 Rollup 选项来精确控制
-        },
-        build: {
-            rollupOptions: {
-                output: {
-                    assetFileNames: (assetInfo) => {
-                        if (assetInfo.name.endsWith('.css')) {
-                            // 尝试将主要的站点样式命名为 base.css
-                            // 注意：Vitepress 的 CSS 文件名可能包含 hash
-                            // 你可能需要检查构建输出或使用更复杂的逻辑
-                            return 'assets/base.[ext]'; // 尝试强制命名为 base.css
-                        }
-                        return 'assets/[name].[hash].[ext]';
-                    },
-                },
-            },
-        },
         plugins: [
-            htmlImagePlugin(),
-            ViteImageOptimizer({
-                png: {
-                    quality: 80
-                },
-                jpeg: {
-                    quality: 80   
-                },
-                webp: {
-                    quality: 80,
-                    lossless: false
-                },
-                avif: { quality: 75 }, 
-                include: /\.(png|jpe?g|svg)$/i,
-                exclude: /node_modules/
-            })
+            htmlImagePlugin()
         ]
     },
 })

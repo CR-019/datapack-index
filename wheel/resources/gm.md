@@ -7,7 +7,7 @@ author:
 description: 浮点数与三角函数数学库
 tags: [浮点数, 三角函数, 数学]
 version: 1.0.0
-gameversion: [1.21~1.21.11]
+gameversion: [1.21~26.3]
 aside: left
 wheel: true
 repo: gibbsly/gm

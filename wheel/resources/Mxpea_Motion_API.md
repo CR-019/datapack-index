@@ -6,7 +6,7 @@ author:
         char: 作者
 description: 简单的修改非玩家实体动量的数据包
 tags: [动量,Motion]
-version: 1.3.0
+version: 1.3.1
 gameversion: [1.20.2-1.21.11]
 aside: left
 wheel: true

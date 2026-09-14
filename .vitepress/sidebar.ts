@@ -1,5 +1,5 @@
-import { DefaultTheme } from "vitepress";
-export const sidebar: DefaultTheme.Sidebar = [
+import type { DefaultTheme } from "vitepress";
+export const sidebar: DefaultTheme.SidebarItem[] = [
   {
     text: '香草图书馆',
     collapsed: false,
@@ -51,17 +51,17 @@ export const sidebar: DefaultTheme.Sidebar = [
         link: '/index/数据包2-数据结构',
         collapsed: true,
         items: [
-          { text: '战利品表', link: '/index/数据包2-数据结构/#战利品表' },
-          { text: '谓词', link: '/index/数据包2-数据结构/#谓词' },
-          { text: '物品修饰器', link: '/index/数据包2-数据结构/#物品修饰器' },
-          { text: '进度', link: '/index/数据包2-数据结构/#进度' },
-          { text: '附魔', link: '/index/数据包2-数据结构/#附魔' },
-          { text: '标签', link: '/index/数据包2-数据结构/#标签' },
-          { text: '配方', link: '/index/数据包2-数据结构/#配方' },
-          { text: '对话框', link: '/index/数据包2-数据结构/#对话框' },
-          { text: '伤害类型', link: '/index/数据包2-数据结构/#伤害类型' },
-          { text: '变种', link: '/index/数据包2-数据结构/#变种' },
-          { text: '测试', link: '/index/数据包2-数据结构/#测试' }
+          { text: '战利品表', link: '/index/数据包2-数据结构#战利品表' },
+          { text: '谓词', link: '/index/数据包2-数据结构#谓词' },
+          { text: '物品修饰器', link: '/index/数据包2-数据结构#物品修饰器' },
+          { text: '进度', link: '/index/数据包2-数据结构#进度' },
+          { text: '附魔', link: '/index/数据包2-数据结构#附魔' },
+          { text: '标签', link: '/index/数据包2-数据结构#标签' },
+          { text: '配方', link: '/index/数据包2-数据结构#配方' },
+          { text: '对话框', link: '/index/数据包2-数据结构#对话框' },
+          { text: '伤害类型', link: '/index/数据包2-数据结构#伤害类型' },
+          { text: '变种', link: '/index/数据包2-数据结构#变种' },
+          { text: '测试', link: '/index/数据包2-数据结构#测试' }
         ]
       },
       {
@@ -69,11 +69,11 @@ export const sidebar: DefaultTheme.Sidebar = [
         link: '/index/数据包3-世界生成',
         collapsed: true,
         items: [
-          { text: '自定义世界生成', link: '/index/数据包3-世界生成/#自定义世界生成' },
-          { text: '结构', link: '/index/数据包3-世界生成/#结构' },
-          { text: '维度和维度类型', link: '/index/数据包3-世界生成/#维度和维度类型' },
-          { text: '环境属性与时间线', link: '/index/数据包3-世界生成/#环境属性与时间线' },
-          { text: '拼图方块', link: '/index/数据包3-世界生成/#拼图方块' },
+          { text: '自定义世界生成', link: '/index/数据包3-世界生成#自定义世界生成' },
+          { text: '结构', link: '/index/数据包3-世界生成#结构' },
+          { text: '维度和维度类型', link: '/index/数据包3-世界生成#维度和维度类型' },
+          { text: '环境属性与时间线', link: '/index/数据包3-世界生成#环境属性与时间线' },
+          { text: '拼图方块', link: '/index/数据包3-世界生成#拼图方块' },
         ]
       },
       { text: '数据包常用技术性实体', link: '/index/数据包4-技术性实体' }
@@ -84,11 +84,11 @@ export const sidebar: DefaultTheme.Sidebar = [
     collapsed: true,
     link: '/index/资源包体系结构',
     items: [
-      { text: '模型', link: '/index/资源包体系结构/#模型' },
-      { text: '纹理', link: '/index/资源包体系结构/#纹理' },
-      { text: '声音', link: '/index/资源包体系结构/#声音' },
-      { text: '字体', link: '/index/资源包体系结构/#字体' },
-      { text: '着色器', link: '/index/资源包体系结构/#着色器' }
+      { text: '模型', link: '/index/资源包体系结构#模型' },
+      { text: '纹理', link: '/index/资源包体系结构#纹理' },
+      { text: '声音', link: '/index/资源包体系结构#声音' },
+      { text: '字体', link: '/index/资源包体系结构#字体' },
+      { text: '着色器', link: '/index/资源包体系结构#着色器' }
     ]
   },
   { text: '破坏性技术更新日志', link: '/index/changelog_breaking' },
@@ -108,7 +108,8 @@ export const sidebar: DefaultTheme.Sidebar = [
     items: [
       { text: '工具', link: '/index/工具' },
       { text: '参考', link: '/index/参考' },
-      { text: '友情链接', link: '/index/友链' }
+      { text: '友情链接', link: '/index/友链' },
+      { text: '游戏漏洞', link: '/index/misc/bugs' }
     ]
   },
   {
@@ -121,8 +122,7 @@ export const sidebar: DefaultTheme.Sidebar = [
       { text: '附录4：杂项', link: '/index/附录4' },
       { text: '附录5：《拾尘》系列原版模组图文教程', link: '/index/附录5' },
       { text: '附录6：失效索引链接整理', link: '/index/附录6' },
-      { text: '附录7：轩宇1725的着色器入门教程', link: '/index/附录7' },
-      { text: '技术性更新日志', link: '/index/changelog' }
+      { text: '附录7：轩宇1725的着色器入门教程', link: '/index/附录7' }
     ]
   },
   {

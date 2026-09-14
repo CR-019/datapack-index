@@ -6,8 +6,8 @@ author:
         char: 作者
 description: 用于创建简单多方块机器的API与杂项前置
 tags: [多方块结构,投影,机器]
-version: 1.1.2
-gameversion: [1.21.1~1.21.11]
+version: 2.1.1
+gameversion: [1.21.1~26.2]
 aside: left
 wheel: true
 repo: PickLeaf/Nutlet-MCDatapack

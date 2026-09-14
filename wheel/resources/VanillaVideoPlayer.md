@@ -6,7 +6,7 @@ author:
         char: 作者
 description: 基于数据包与资源包的视频播放前置
 tags: [视频,GUI]
-version: "2.0"
+version: 1.0.0
 gameversion: [1.21.11+]
 aside: left
 wheel: true
