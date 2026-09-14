@@ -20,8 +20,8 @@ const { isDark } = useData()
 
 ## 命令快闪 Command Flashlight
 
-### 警告- item指令的危险性
-用一条战利品表交换主手 ⇄ 副手  只需 1 条命令！  核心是利用 slot_source。由于你可以引用槽位并对每个槽位做条件逻辑判断，因此只需检测一个槽位，同时引用另一个槽位；而 mainhand 和 offhand 在槽位编号上是连续的，所以执行下面这条命令就能直接生效：  loot replace entity @s weapon.mainhand loot lib:swap_mainhand_offhand 🎉。
+### 用一条战利品表交换主手 ⇄ 副手
+核心是利用 slot_source。由于你可以引用槽位并对每个槽位做条件逻辑判断，因此只需检测一个槽位，同时引用另一个槽位；而 mainhand 和 offhand 在槽位编号上是连续的，所以执行下面这条命令就能直接生效：  loot replace entity @s weapon.mainhand loot lib:swap_mainhand_offhand 🎉。
 
 主副手置换战利品表  
 
