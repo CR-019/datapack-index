@@ -31,16 +31,12 @@ const { isDark } = useData()
 <ColorLine :height="2"/>
 
 ## 命令快闪 Command Flashlight
-单精度浮点数floor   
-``` -0.25 +6291456 -0.25 -6291456 ```  
 
-获取坐标 //16*16
+获取区块xz最小值点： //16*16
 ```mcfunction
-positioned ~ ~ ~-4 
-positioned ~ ~ ~54043195528445952 
-positioned ~ ~ ~-4 
-positioned ~ ~ ~-54043195528445952
+execute positioned ~ ~ ~-4 positioned ~ ~ ~54043195528445952 positioned ~ ~ ~-4 positioned ~ ~ ~-54043195528445952 run particle cloud ~ ~ ~
 ```
+
 
 <ColorLine :height="2"/>
 
