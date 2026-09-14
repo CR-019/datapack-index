@@ -2,26 +2,38 @@
 title: '从宏到 NBT：Minecraft 26.3数据包性能实测'
 ---
 
+<script setup>
+import float from '/.vitepress/vue/nbt/float.vue'
+import double from '/.vitepress/vue/nbt/double.vue'
+import ns from '/.vitepress/vue/nbt/namespace.vue'
+import obj from '/.vitepress/vue/nbt/object.vue'
+import homolist from '/.vitepress/vue/nbt/homolist.vue'
+import bool from '/.vitepress/vue/nbt/boolean.vue'
+</script>
 
-<FeaturedHead
+<FeatureHead
 title='从宏到 NBT：Minecraft 26.3数据包性能实测'
 authorName='伊桑桑桑桑桑'
 />
 
 
-## 摘要
+本文将函数宏、<cmd c="execute"/>、实体NBT、storage和物品修饰器放在同一套框架里做了性能对照。\
+主要结论：宏缓存命中对性能的影响比比宏命令的长短更重要；实体的主要花销来自于其序列化过程；物品修饰器是否划算，则取决于如何从记分板或storage中读取数据。
 
-在 26.3-snapshot-9 上，我把宏、execute、实体 NBT、storage 和 item modifier 放在同一套框架里做了对照。主要结论：宏缓存命中比宏长短更重要；实体 NBT 贵在整段序列化；modifier 是否划算，要看数据在 score 和 storage 之间怎么走。
+**关键词：** 数据包性能、函数宏、execute、NBT、物品修饰器、命令基准测试
 
-**关键词：** 数据包性能、函数宏、execute、NBT、item modifier、命令基准测试
+> [!TIP]编者注
+> 由于本文撰写于26.3快照版本，<cmd c="compute"/>命令加入之前，因此其中部分方案和内容已过时。读者应当自行分辨
 
 ## 测试背景
 
 26.3-snapshot-9 出了一堆核弹爆炸级别的新的运算器，然后想看看是不是真的有那么核弹级别，然后顺便把一些老古董命令也一起拉出来测一遍。
 
+所有性能的单位均为`score-add unit`。即为该开销约等于多少条`scoreboard players add #target ...`记分板命令。
+
 ## 宏
 
-这个版本的宏函数有 8 项参数缓存。测了两端：同一参数持续命中，以及 16 组参数循环制造未命中。
+宏函数有**8**项参数缓存。同时测试了两种情况：同一参数持续命中，以及 16 组参数循环制造未命中。
 
 | 写法 | 缓存状态 | score-add unit |
 | --- | --- | ---: |
@@ -39,7 +51,7 @@ authorName='伊桑桑桑桑桑'
 | `at UUID` | 36.04 | 4.16 |
 | `at @s` | 36.30 | 4.42 |
 
-`@s` 和 UUID 差别在噪声内，多一次 `at` 约 4 score-add unit。
+`@s` 和 UUID 差别在噪声内，多一次 `at` 约4 `score-add unit`。
 
 ## execute 子命令
 
@@ -56,7 +68,7 @@ authorName='伊桑桑桑桑桑'
 | `positioned ^ ^ ^` | 0.80 |
 | `facing entity UUID feet` | 1.49 |
 
-纯世界坐标最便宜，局部坐标贵一点，UUID/facing 更贵一点，不过差别不是很大。
+最便宜的是`positioned <世界坐标>`。局部坐标要贵一点，而UUID和`facing`则更贵一写，不过差别不是很大。
 
 另外还测了一些常见的execute小技巧的消耗：
 
@@ -68,49 +80,55 @@ authorName='伊桑桑桑桑桑'
 | 通过归零坐标捕获位置 | 2.30 |
 | 物理引擎中的完整 facing 链 | 4.07 |
 
-## 实体 NBT
+## NBT
 
-NBT 测试用新召唤的白板 marker 和 item_display。结果：
+NBT 测试包含了Storage，以及<ns t="marker"/>和<ns t="item_display"/>实体。结果：
 
-| 数据来源与宽度 | score-add unit |
+| 数据来源与类型 | score-add unit |
 | --- | ---: |
-| storage 单 float | 5.47 |
-| storage float 列表 | 6.78 |
-| marker 单值 | 23.15 |
-| marker 列表 | 25.37 |
-| marker compound | 25.80 |
-| item_display 的 CMD 单 float | 35.56 |
-| item_display 的 CMD floats | 37.01 |
-| item_display 的完整 CMD component | 37.55 |
+| **`storage`**; <float t="float"/> | 5.47 |
+| **`storage`**; <homolist t="floats"/> | 6.78 |
+| <ns t="marker"/>; <nbt :i="['byte','short','int','long','float','double']" t="单值" /> | 23.15 |
+| <ns t="marker"/>; <homolist t="列表"/> | 25.37 |
+| <ns t="marker"/>; <obj t="复合标签"/> | 25.80 |
+| <ns t="item_display"/>; <obj t="custom_model_data"/>单float | 35.56 |
+| <ns t="item_display"/>; <obj t="custom_model_data"/>列表 | 37.01 |
+| <ns t="item_display"/>; <obj t="custom_model_data"/>复合标签 | 37.55 |
 
-## item modifier 算子（核弹？）
+## 物品修饰器
 
-“1、3、25”指一次写入 `custom_model_data.floats` 的元素数，不是执行次数。3 个直接常量：
+测试内容为将不同来源的数据写入<obj t="custom_model_data"/>**.**<float t="floats"/>。
 
-```json
-"floats": {
-  "values": [1.0, 2.0, 3.0],
-  "mode": "replace_all"
-}
-```
+首先是直接输入硬编码的常量。
 
-| modifier 测试 | 实际改变的变量 | score-add unit |
-| --- | --- | ---: |
-| 输出 1 / 3 / 25 个直接常量 | CMD floats 列表宽度为 1 / 3 / 25，不读取 storage | 8.59 / 9.01 / 10.77 |
-| 输出 1 / 3 / 25 个 storage 值 | 列表宽度相同，但每个 float 都运行一个 storage provider | 9.93 / 11.13 / 25.52 |
-| 8 个常量做 flat / nested sum | 都只输出 1 个 float；比较同一批操作数的 provider 树形 | 8.56 / 9.85 |
-| 8 次相同 / 不同 storage path | 都只输出 1 个 float；比较重复路径能否被复用 | 14.30 / 14.24 |
+| 写入数量 | score-add unit |
+| --- | --- |
+| 1 | $8.59$ |
+| 3 | $9.01$ |
+| 25 | $10.77$ |
+
+其次是来自storage的数值
+
+| 写入数量/来源 | score-add unit |
+| --- | --- |
+| 1 | $9.93$ |
+| 3 | $11.13$ |
+| 25 | $25.52$ |
+| 8（浅层路径）| $8.56$ |
+| 8（深层路径） | $9.85$ |
+| 8（路径重复）| $14.30$ |
+| 8（路径不同） | $14.24$ |
+
+*可以注意到读取重复路径的数值没有优化。*
 
 实际上表现平平，没我想象中那么好。虽然本身性能还行，但是实际计算的时候，主要的消耗都浪费在数值读取上了。
 
 
 ## 常见的两个线性运算的不同实现路径的性能比较
 
-modifier 的 number provider 可以直接读分数，所以实际不只有 `storage -> 算法 -> storage` 一种路子。输入和输出各可能是 score 或 storage，组合起来有四种。
+物品修饰器的数值提供器可以直接读分数。输入和输出各可能是记分板或storage，因此组合起来共有四种可能的路径。
 
-#### modifier 怎么读分数
-
-score 输入用 `minecraft:score`，不需要先转 storage：
+数值提供器<ns t="minecraft:score"/>可以直接读取分数：
 
 ```json
 {
@@ -123,7 +141,7 @@ score 输入用 `minecraft:score`，不需要先转 storage：
 
 #### modifier 的输出路径
 
-modifier 只能把计算结果先写进实体物品的 `custom_model_data`，再整体读回 storage。
+modifier 只能把计算结果先写进实体物品的<obj t="custom_model_data"/>，再整体读回 storage。
 
 如果最后要 score，还要再转一次：
 
@@ -190,9 +208,9 @@ world_to_local((1.25, -2.5, 3.75))
 1. 分数进分数出的时候，直接用 scoreboard。modifier 虽然能读分数，但结果要先写回实体再读出来，绕一圈一般不划算。
 2. storage 进 storage 出的时候，modifier 只在计算树比较宽的时候才有明显优势。局部转换能快约 25.6%，叉乘上基本没差别。
 
-## `#xx` 的性能优势（几乎没有）
+## `#xx` 的性能优势
 
-普通长窗口差距约 1%，ABBA 后 `#xx add` 净低约 **2.2%**，这点差异几乎可以忽略。如果自己有什么习惯之类的，遵守原来的习惯就好。
+经过测试，类似于`#xx`的分数持有者略有性能优势，约1%到2%，这点差异几乎可以忽略。如果自己有什么习惯之类的，遵守原来的习惯就好。
 
 ## 测试方法
 

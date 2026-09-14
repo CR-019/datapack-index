@@ -92,6 +92,20 @@ img.nbt-inline-icon {
   margin: 0 0.25em 0 0;
 }
 
+/* Table columns must reserve enough width for the complete tag. */
+:is(td, th) .nbt-inline {
+  max-width: none;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+:is(td, th) .nbt-inline > code.nbt-inline-text {
+  /* Override the site's !important pre-wrap rule for Markdown code. */
+  white-space: nowrap !important;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
 .nbt-inline > code.nbt-inline-text {
   padding: 0;
   margin: 0;

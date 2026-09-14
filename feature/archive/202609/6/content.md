@@ -48,7 +48,7 @@ protected void positionRider(Entity passenger, MoveFunction move) {
 }
 ```
 
-展示实体（`item_display` 这类）自己的参考点就在脚底（0），于是它**正好落在载体的乘客点上**。所以问题只剩一个：每种实体的乘客点到底是多少？
+展示实体自己的参考点就在脚底（`0`），于是它**正好落在载体的乘客点上**。所以问题只剩一个：每种实体的乘客点到底是多少？
 
 一部分怪没特别设，就用“身高顶端”（例如骷髅、村民）。但**很多实体，不只是坐骑，连僵尸、尸壳这些普通怪也硬编码了自定义值**。这个数写死在代码里，跟碰撞箱没有固定关系，甚至可能**高过头顶**。比如尸壳：
 
@@ -86,11 +86,9 @@ WOLF = register("wolf", EntityType.Builder.of(Wolf::new, MobCategory.ANIMAL)
     .passengerAttachments(new Vec3(0.0, 0.81875, -0.0625)));  // Y=0.81875 才是座位高,-0.0625 是前后偏移
 ```
 
-（灾厄村民传的是**空**乘客点，属特殊情况，表里按“坐头顶”近似。矿车 `0.1875` 几乎贴轨道、骆驼是前后双座，也都各自写死。）
+（灾厄村民传的是**空**乘客点，属特殊情况，表里按“坐头顶”近似。矿车 `0.1875` 几乎贴轨道、骆驼是前后双座，也都各自写死）。
 
-当你骑上去，你的脚就被挪到 `载体位置 + 座位高度 × scale`。总结出来就是，**你被抬多高 = 那个载体的“座位高度”。** 剩下的就是把每种实体的这个数字读出来。
-
-> 数据取自 Minecraft 26.1.2。为排除魔改可能性，用了两份**官方 Mojang 映射**的类：Purpur 服务端里的，和官方 bundler 里**未打任何补丁的原版** `server-26.1.2.jar`，把全部 57 个自定义乘客点**逐个对比，完全一致**。
+当你骑上去，你的脚就被挪到 `载体位置 + 座位高度 × scale`。总结出来就是，玩家被抬的高度 = 那个载体的“座位高度”。剩下的就是把每种实体的这个数字读出来。
 
 ## 常见实体的座位高度
 
@@ -123,8 +121,7 @@ WOLF = register("wolf", EntityType.Builder.of(Wolf::new, MobCategory.ANIMAL)
 
 下面是26.1版本中所有能确定数值的实体（157 个，含飞行物/掉落物等一切有乘客点的实体）。按高度从高到低。`0（无碰撞）` = 标记/展示实体这类没有体积的，乘客坐在原点。
 
-<details>
-<summary>点开查看完整表格</summary>
+::: details 点开查看完整表格
 
 | 实体 id | 座位高度 |
 |---|---|
@@ -235,7 +232,7 @@ WOLF = register("wolf", EntityType.Builder.of(Wolf::new, MobCategory.ANIMAL)
 | `lightning_bolt` | 0.0625 |
 | `marker` / `item_display` / `block_display` / `text_display` / `interaction` | 0（无碰撞） |
 
-</details>
+::: 
 
 ## 结语
 

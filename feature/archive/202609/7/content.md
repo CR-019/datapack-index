@@ -27,11 +27,11 @@ authorName='轩宇1725'
 因此绝对不推荐在发布时还将命令方块作为逻辑主体，应该使用数据包完成绝大部分的操作，命令方块最多作为一些按钮的入口（或完全不使用）
 
 > 参考：
-> - Doom_Decapitator - [数据包和命令入门学习-初学者如何快速适应](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202505/4/content.html)
-> - 轩宇1725 - [为什么不推荐使用命令方块开发](https://vanillalibrary.mcfpp.top/datapack-index/resources/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E6%96%B9%E5%9D%97%E5%BC%80%E5%8F%91.html)
-> - Dahesor - [数据包优化原则以及分析方式简述](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202504/3/content)
-> - 创小业- [minecraft指令烹饪指南：凉拌实体选择器](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202507/2/content)
-> - 我吃大白菜 - [一条命令值多少钱](https://vanillalibrary.mcfpp.top/datapack-index/feature/archive/202608/2/content)
+> - Doom_Decapitator - [数据包和命令入门学习-初学者如何快速适应](/feature/archive/202505/4/content.html)
+> - 轩宇1725 - [为什么不推荐使用命令方块开发](/resources/为什么不推荐使用命令方块开发)
+> - Dahesor - [数据包优化原则以及分析方式简述](/feature/archive/202504/3/content)
+> - 创小业- [minecraft指令烹饪指南：凉拌实体选择器](/feature/archive/202507/2/content)
+> - 我吃大白菜 - [一条命令值多少钱](/feature/archive/202608/2/content)
 
 ## 缺失受击反馈
 

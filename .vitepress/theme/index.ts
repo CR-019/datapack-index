@@ -22,6 +22,7 @@ import SearchBox from '../vue/wheel/SearchBox.vue'
 import InfoCard from '../vue/wheel/InfoCard.vue'
 import Node from '../vue/Node.vue'
 import NbtIcon from '../vue/NbtIcon.vue'
+import Cmd from '../vue/Cmd.vue'
 import SideCard from '../vue/wheel/SideCard.vue'
 import AllPage from '../vue/wheel/AllPage.vue'
 import PackagePage from '../vue/wheel/PackagePage.vue'
@@ -80,6 +81,7 @@ export default {
     app.component('node', Node)
     app.component('NbtIcon', NbtIcon)
     app.component('nbt', NbtIcon)
+    app.component('cmd', Cmd)
     app.component('AllPage', AllPage)
     app.component('PackagePage', PackagePage)
     app.component('StaticPackagePage', StaticPackagePage)
