@@ -437,7 +437,7 @@ export const sidebar_202609: DefaultTheme.Sidebar = [
     ]
   },
   {
-    text: '香草快讯 ojang Spotlight',
+    text: '香草快讯 Mojang Spotlight',
     items: [
       { text: '香草快讯 - 2026年9月', link: '/feature/archive/202609/spotlight/content' },
     ]

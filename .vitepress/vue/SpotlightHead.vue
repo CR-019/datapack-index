@@ -15,7 +15,11 @@
       <div class="featured-color-line">
         <div class="color-segment orange"></div>
         <div class="image-container">
-          <div class="base-image spotlight-outline" aria-hidden="true"></div>
+          <img
+            src="/feature/cover/outline.png"
+            class="base-image"
+            alt="Outline"
+          />
           <img
             :src="spotlightSrcComputed"
             class="overlay-image"
@@ -129,12 +133,6 @@ export default {
   left: 50%;
   transform: translate(-50%, -70%);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
-
-.spotlight-outline {
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  background: radial-gradient(circle, transparent 42%, rgba(255, 255, 255, 0.32) 43% 48%, transparent 49%);
 }
 
 .overlay-image {
