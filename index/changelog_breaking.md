@@ -64,7 +64,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - <str t="function"/>字段被重命名为<str t="type"/>。
   - 移除了<ns t="reference"/>修饰器。需要引用物品修饰器可直接填入要引用的ID。
   - <ns t="set_loot_table"/>修饰器移除了<str t="type"/>字段，并重命名<str t="name"/>为<str t="loot_table_id"/>。
-  - <ns t="exploration_map"/>修饰器中的<str t="destination"/>字段现在是必须的。
+  - <ns t="exploration_map"/>修饰器中的<str t="destination"/>字段现在是必须的，且现在可以使用列表ID而不再只允许标签。这意味着想要获得之前的行为需要额外添加`#`。
 - 谓词
   - 在任何使用谓词的地方，不允许再使用谓词列表，只能使用<ns t="all_of"/>谓词。
   - <str t="condition"/>字段被重命名为<str t="type"/>。

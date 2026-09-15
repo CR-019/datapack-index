@@ -92,6 +92,7 @@ export const sidebar: DefaultTheme.SidebarItem[] = [
     ]
   },
   { text: '破坏性技术更新日志', link: '/index/changelog_breaking' },
+  { text: '游戏漏洞', link: '/index/misc/bugs' },
   {
     text: '原版模组实践',
     collapsed: false,
@@ -108,8 +109,7 @@ export const sidebar: DefaultTheme.SidebarItem[] = [
     items: [
       { text: '工具', link: '/index/工具' },
       { text: '参考', link: '/index/参考' },
-      { text: '友情链接', link: '/index/友链' },
-      { text: '游戏漏洞', link: '/index/misc/bugs' }
+      { text: '友情链接', link: '/index/友链' }
     ]
   },
   {
