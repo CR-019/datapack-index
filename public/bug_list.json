@@ -184,6 +184,14 @@
         "status": "Confirmed"
     },
     {
+        "id": "295859",
+        "cn_title": "展示实体变换和粒子和游戏刻不同步",
+        "version": "1.21.5",
+        "description": "",
+        "title": "Display entity transformation and particles are not synchronized with tick",
+        "status": "Confirmed"
+    },
+    {
         "id": "307449",
         "cn_title": "夜晚时，地下刷怪笼的自定义光照规则不再生效",
         "version": "26.1-26.2",

@@ -43,7 +43,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - `publish`：移除了`gamemode`参数。
   - `team`：现在`team (join|leave)`的返回值被更改为实际受影响的人数而非选择器选择的人数。
 - 数据组件
-  - 组件<ns t="swing_animation"/>重命名为<ns t="attack_animation"/>。
+  - 组件<ns t="swing_animation"/>被分为<ns t="attack_animation"/>和<ns t="interact_animation"/>，分别对应攻击和交互的动画。
   - 移除了<ns t="map_color"/>组件，因为不同的探险家地图现在是不同的物品。
 - 文本组件
   - 现在NBT组件最多被解析`64000`次。
@@ -76,7 +76,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - 部分提供器类型，比如<ns t="score"/>或<ns t="binomial"/>，现在只有在整数或浮点数提供器中的一方有定义。想要在另一方使用需要使用<ns t="from_int"/>或<ns t="from_float"/>提供器转换。
   - 在整数提供器中使用<ns t="storage"/>提供器提供<int />**int**以外的数据类型，或是在浮点数提供器使用<ns t="storage"/>提供器提供<float />**float**以外的数据类型现在是未定义行为。
 - 进度
-  - 现在根进度必须提供<str t="background"/>，非根进度禁止提供<str t="background"/>。
+  - 现在需要显示（有<obj t="display"/>标签）的根进度必须提供<str t="background"/>，非根进度禁止提供<str t="background"/>。
   - 所有触发器中原有的<nbt :i="['homolist','o']" t="player"/>字段更改为<nbt :i="['str','o']" t="player"/>。接受一个谓词ID，或是一个内联谓词定义。不再接受谓词列表或实体谓词。
   - <ns t="brewed_potion"/>触发器的<str t="potion"/>字段现在检查药水是否匹配<ns t="potion_contents"/>数据组件谓词。
   - <ns t="player_generates_container_loot"/>触发器的<str t="loot_table"/>字段被重命名为<ns t="loot_tables"/>。
