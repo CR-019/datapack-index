@@ -178,7 +178,7 @@
     {
         "id": "273376",
         "cn_title": "在魔咒定义文件中使用structures子谓词会导致世界加载时出现网络协议错误",
-        "version": "1.21",
+        "version": "1.21+",
         "description": "例如，判断某位置或实体是否位于指定的结构中，就会出现此问题",
         "title": "Custom enchantments with \"structures\" subpredicate cause worlds to have 'Network Protocol Error' on attempted load",
         "status": "Confirmed"
@@ -186,7 +186,7 @@
     {
         "id": "295859",
         "cn_title": "展示实体变换和粒子和游戏刻不同步",
-        "version": "1.21.5",
+        "version": "1.21.5+",
         "description": "",
         "title": "Display entity transformation and particles are not synchronized with tick",
         "status": "Confirmed"
