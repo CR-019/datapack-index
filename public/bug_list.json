@@ -192,6 +192,14 @@
         "status": "Confirmed"
     },
     {
+        "id": "277546",
+        "cn_title": "新生成的展示实体需要等待一下才能正常插值",
+        "version": "1.21.1+",
+        "description": "若生成展示实体的瞬间就插值。插值不会工作",
+        "title": "Newly summoned display entities require a delay of about one frame on the client side to start interpolation",
+        "status": "wont_fix"
+    },
+    {
         "id": "307449",
         "cn_title": "夜晚时，地下刷怪笼的自定义光照规则不再生效",
         "version": "26.1-26.2",
