@@ -40,8 +40,10 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - 数据包的验证变的更加严格了。现在，只要有任意无法解析的JSON文件就会导致整个数据包加载失败，而不是像之前一样静默失败。
   - 所有涉及到方块状态的定义，其原本的<str t="Name"/>和<obj t="Properties"/>字段被重命名为<str t="id"/>和<obj t="properties"/>。
 - 命令
-  - `publish`：移除了`gamemode`参数。
-  - `team`：现在`team (join|leave)`的返回值被更改为实际受影响的人数而非选择器选择的人数。
+  - <cmd c="publish"/>：移除了`gamemode`参数。
+  1. 以下命令的返回值被更改为实际受影响的人数而非选择器选择的人数。
+    - <cmd c="team"/>，<cmd c="tag"/>，<cmd c="recipe"/>，<cmd c="enchant"/>，<cmd c="effect"/>，<cmd c="clear"/>，以及<cmd c="scoreboard"/>的`player enable`子命令。
+  - <cmd c="time"/>，<cmd c="item"/>，<cmd c="fillbiome"/>命令现在如果没有造成任何实际更改会执行失败。
 - 数据组件
   - 组件<ns t="swing_animation"/>被分为<ns t="attack_animation"/>和<ns t="interact_animation"/>，分别对应攻击和交互的动画。
   - 移除了<ns t="map_color"/>组件，因为不同的探险家地图现在是不同的物品。
@@ -179,8 +181,8 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 - 粒子
   - 现在，当粒子过多时，游戏不会丢弃新的粒子，而是会随机选择渲染粒子。
 - 命令
-  - `advancement`命令的文本输出有所变化。
-  - `team`中的队伍颜色参数现在严格需要小写下划线的形式（`dark_blue`而不能是`DarkBlue`）。
+  - <cmd c="advancement"/>命令的文本输出有所变化。
+  - <cmd c="team"/>中的队伍颜色参数现在严格需要小写下划线的形式（`dark_blue`而不能是`DarkBlue`）。
 - 游戏内容
   - 在极限模式世界中以旁观模式重生不再会关闭游戏规则`spectators_generate_chunks`。
 - 标签
@@ -225,7 +227,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 - 时间线
   - 增加了必选字段<str t="clock"/>，规定本时间线以哪个世界时钟为准。想要获得原本的行为，应该将<str t="clock"/>定义为<ns t="minecraft:overworld"/>。
 - 命令
-  - `time`命令使用的诸如`day`，`night`等选项代表的时间点不再是硬编码的，而是可以在世界时钟中调整。这意味着诸如`time set day`命令的行为可能会被数据包改变。
+  - <cmd c="time"/>命令使用的诸如`day`，`night`等选项代表的时间点不再是硬编码的，而是可以在世界时钟中调整。这意味着诸如`time set day`命令的行为可能会被数据包改变。
   - 移除了槽位`villager.*`。现在村民与猪灵的物品栏都可以使用`mob.inventory.*`来访问。
 - 配方
   - 部分特殊配方类型都被移除，并以新的，更灵活的配方类型替换。包括<ns t="crafting_special_armordye"/>，<ns t="crafting_special_tippedarrow"/>，<ns t="crafting_special_mapcloning"/>。请[查阅wiki](https://zh.minecraft.wiki/w/?curid=29253)获取详细信息。
@@ -299,7 +301,7 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
 ### 1.21.11
 #### 数据包：
 - 命令
-  - /worldborder的时间参数现在默认使用游戏刻作为单位。
+  - <cmd c="worldborder"/>的时间参数现在默认使用游戏刻作为单位。
   - 现在世界边界由游戏刻而不是现实时间控制。
   - 所有的游戏规则现在使用命名空间ID。所有的原ID被重命名为snake_case。部分游戏规则的含义发生反转。部分游戏规则的值域现在有额外限制。请[查阅Wiki](https://zh.minecraft.wiki/w/?curid=19184#%E6%B8%B8%E6%88%8F%E8%A7%84%E5%88%99%E5%88%97%E8%A1%A8)。
 - NBT
@@ -340,11 +342,11 @@ import bool from '../.vitepress/vue/nbt/boolean.vue'
   - 方块“铁链”的ID重命名：`minecraft:hain` -> `minecraft:iron_chain`
 - 命令
   - `/test pos [<var>]`现在搜索半径由200格更改为250格。`/test clearall [<radius>]`的默认值更改为250格。
-  - `/summon`在和平难度下尝试召唤无法在和平难度生成的敌对生物会执行失败。
-  - `/setworldspawn`和`/spawnpoint`的`<angle>`参数被替换为可选参数`<rotation>`，可以在设置玩家重生时面朝的垂直角度。
-  - `/setworldspawn`现在不止可以在主世界中执行。服务端会在世界出生点执行命令，即使出生点不在主世界。
+  - <cmd c="summon"/>在和平难度下尝试召唤无法在和平难度生成的敌对生物会执行失败。
+  - <cmd c="setworldspawn"/>和<cmd c="spawnpoint"/>的`<angle>`参数被替换为可选参数`<rotation>`，可以在设置玩家重生时面朝的垂直角度。
+  - <cmd c="setworldspawn"/>现在不止可以在主世界中执行。服务端会在世界出生点执行命令，即使出生点不在主世界。
 - 文本组件
-  - 现在尝试使用`run_command`执行`/say`、`​/me`、`​/msg`、`​/tell`、`​/w`、`​/teammsg`和`​/tm`这类署名命令会弹出提示窗，允许玩家复制命令手动执行。
+  - 现在尝试使用`run_command`执行<cmd c="say"/>、<cmd c="me"/>、<cmd c="msg"/>、<cmd c="tell"/>、<cmd c="w"/>、<cmd c="teammsg"/>和<cmd c="tm"/>这类署名命令会弹出提示窗，允许玩家复制命令手动执行。
 - 数据组件
   - `block_attacks`组件，受到为0的伤害现在不会触发抵挡行为，不会进入冷却，也不会因抵挡而受到击退。
   - `profile`组件现在有静态和动态两种行为
