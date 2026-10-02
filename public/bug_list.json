@@ -116,7 +116,7 @@
         "cn_title": "物品修饰器copy_custom_data无法在物品的custom_data根标签使用replace操作",
         "version": "1.17.1+",
         "description": "从旧版的copy_nbt到现在的copy_custom_data，都无法直接设置整个custom_data数据，只能merge",
-        "title": "\"replace\" operation of \"copy_custom_data\" item modifier does not work on root tag",
+        "title": "The `replace` operation of the `copy_custom_data` item modifier type does not work on the root tag",
         "status": "Confirmed"
     },
     {
@@ -198,6 +198,14 @@
         "description": "若生成展示实体的瞬间就插值。插值不会工作",
         "title": "Newly summoned display entities require a delay of about one frame on the client side to start interpolation",
         "status": "wont_fix"
+    },
+    {
+        "id": "311029",
+        "cn_title": "无法在实体谓词的equipment中检查saddle槽位",
+        "version": "26.2+",
+        "description": "谓词的equipment槽位可以检查所有其他槽位，比如body或head，但是不能检查saddle。如有需要应该使用execute if items。",
+        "title": "EntityEquipmentPredicate doesn't support the saddle slot",
+        "status": "invalid"
     },
     {
         "id": "307449",
