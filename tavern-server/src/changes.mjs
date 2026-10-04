@@ -124,7 +124,12 @@ export function applyConvergentChange(db, { nodeId, actorId, patch }) {
         if (!entry) {
           throw new ChangeError(404, "role_not_found", `该条目没有「${role}」这个招募岗位（现有：${list.map((item) => item.role).join("、") || "无"}）`);
         }
-        if ((entry.status ?? "open") === status) {
+        // ⚠️ 改前值必须先取出来再用。`entry` 是 list（也就是 profile.recruit）里的
+        // 对象引用，下面一行改的就是它本身 —— 曾经先赋值再读 `entry.status` 当 from，
+        // 于是每条记录都写成 `from: filled, to: filled`：界面与审计日志里的"改前值"
+        // 全是假的。这种错误不会报错，只会让人以为招募本来就是满的。
+        const previous = entry.status ?? "open";
+        if (previous === status) {
           throw new ChangeError(409, "no_change", `「${role}」已经是 ${recruitLabel(status)}`);
         }
 
@@ -136,7 +141,7 @@ export function applyConvergentChange(db, { nodeId, actorId, patch }) {
           title: `招募「${role}」${recruitLabel(status)}`,
           actorId,
         }));
-        changes.push({ field: `recruit:${role}`, from: entry.status, to: status });
+        changes.push({ field: `recruit:${role}`, from: previous, to: status });
       }
       profile.recruit = list;
     }

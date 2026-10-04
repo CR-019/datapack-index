@@ -93,7 +93,17 @@ function profileOf(project) {
  * 同一 slug 重复投稿 = 新修订（乐观锁基线为当前已发布修订）。
  */
 export function saveSubmission(db, { accountId, project, slug, zipSha256, zipPath, warnings = [] }) {
-  const nodeId = `project:${slug}`;
+  // ⚠️ id 前缀必须跟着 `kind` 走（§5.5 不变量 1：id 形式为 `kind:slug`）。
+  //
+  // 这里曾经写死 `project:${slug}`，而 kind 来自 frontmatter —— 于是设计明确允许的
+  // `kind: event` 投稿会产出「id 前缀是 project、kind 却是 event」的节点。
+  // 后果不是显示错乱那么轻：之后任何人按 `event:xxx` 引用它（relations.json 的
+  // to、includes/parent 边的目标）都会直接 FOREIGN KEY 失败，而报错信息里
+  // 只会说"外键约束失败"，完全不提真正的原因是 id 撒谎了。
+  //
+  // `normalizeSlug` 只产出 `[a-z0-9-]`，不会带冒号，所以这里拼接不会出现双前缀。
+  const kind = project.kind ?? "project";
+  const nodeId = `${kind}:${slug}`;
   const now = nowIso();
   const existing = q.get(db, "SELECT * FROM nodes WHERE id = ?", nodeId);
 

@@ -247,3 +247,26 @@ test("normalizeFiles 分别统计保留与丢弃", () => {
   assert.equal(kept.length, 1);
   assert.deepEqual(dropped.map((item) => item.reason).sort(), ["empty_file", "platform_junk"]);
 });
+
+/* ───────── headcount 的类型（§6.5：number | "不限"） ───────── */
+
+/* ───────── headcount 的类型（§6.5：number | "不限"） ───────── */
+
+test("★ recruit.headcount 是数字，不限才留字符串（曾全被 YAML 子集变成字符串）", () => {
+  // frontmatter 走 YAML 子集解析，所有标量都以字符串抵达 —— 于是
+  // headcount: 3 会变成 "3"，而源码里那句 typeof === "number" 永远走不到。
+  // 设计 §6.5 写的类型是 number | "不限"。
+  const zip = withProject([
+    textEntry("recruit/shader.md", "---\nrole: 着色器\nheadcount: 3\n---\n"),
+    textEntry("recruit/art.md", "---\nrole: 美术\nheadcount: 不限\n---\n"),
+    textEntry("recruit/qa.md", "---\nrole: 测试\n---\n"),
+  ]);
+  const { project, errors } = ingestZip(zip);
+  assert.deepEqual(errors, []);
+
+  const byRole = Object.fromEntries(project.recruit.map((entry) => [entry.role, entry.headcount]));
+  assert.equal(byRole["着色器"], 3);
+  assert.equal(typeof byRole["着色器"], "number");
+  assert.equal(byRole["美术"], "不限", "数不清的保持字符串");
+  assert.equal(byRole["测试"], null, "没写就是未定");
+});

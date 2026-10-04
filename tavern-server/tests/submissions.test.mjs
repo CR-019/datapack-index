@@ -252,3 +252,43 @@ test("平台字段不会被写进公开 profile（防御性）", () => {
     cleanup();
   }
 });
+
+/* ───────── 不变量 1：id 必须与 kind 一致 ───────── */
+
+test("★ 投稿的 id 前缀跟着 kind 走（曾写死 project:，与 kind:event 自相矛盾）", () => {
+  const { db, cleanup } = setup();
+  try {
+    // 设计 §9.1 明确允许 frontmatter 写 kind: event / index，不只是 project
+    const { nodeId } = submit(db, "person:Author", {
+      ...fakeProject({ name: "秋季创作赛" }),
+      kind: "event",
+      time: { start: "2026-09-01", end: "2026-12-31" },
+    });
+
+    // 曾经这里产出 project:xxx 而 kind=event：之后任何人按 event:xxx 引用它
+    // （relations.json 的 to、includes/parent 边的目标）都会 FOREIGN KEY 失败，
+    // 而报错只说"外键约束失败"，完全不提真正原因是 id 撒谎了。
+    assert.ok(nodeId.startsWith("event:"), `id 前缀应与 kind 一致，实际 ${nodeId}`);
+    assert.equal(q.get(db, "SELECT kind FROM nodes WHERE id = ?", nodeId).kind, "event");
+    // 默认 slug 是 "demo"：真正要保证的是别人能按 event:<slug> 引用到它 ——
+    // 那才是 FK 失败那天的实际诉求
+    assert.equal(nodeId, "event:demo");
+    assert.ok(q.get(db, "SELECT 1 AS ok FROM nodes WHERE id = 'event:demo'"));
+  } finally {
+    cleanup();
+  }
+});
+
+test("★ 全库不得出现 id 前缀与 kind 不一致的节点（不变量 1 的全局校验）", () => {
+  const { db, cleanup } = setup();
+  try {
+    submit(db, "person:Author", fakeProject(), "普通项目");
+    submit(db, "person:Author", { ...fakeProject({ name: "合集" }), kind: "index" }, "合集");
+    submit(db, "person:Author", { ...fakeProject({ name: "赛事" }), kind: "event", time: { start: "2026-01-01", end: "2026-02-01" } }, "赛事");
+
+    const bad = q.all(db, "SELECT id, kind FROM nodes").filter((row) => row.id.split(":")[0] !== row.kind);
+    assert.deepEqual(bad, [], `这些节点的 id 前缀与 kind 不一致：${JSON.stringify(bad)}`);
+  } finally {
+    cleanup();
+  }
+});

@@ -154,11 +154,26 @@ function checkRecruit(entries, errors) {
     if (!["open", "filled", "closed"].includes(status)) {
       errors.push({ code: "bad_recruit_status", message: `recruit[${index}] 的 status 只能是 open/filled/closed`, where: "recruit" });
     }
-    const headcount = entry.headcount;
+
+    // `headcount` 的类型是 `number | "不限"`（§6.5）。
+    // frontmatter 走的是 YAML 子集，**所有标量都以字符串抵达**，所以作者写
+    // `headcount: 3` 拿到的是 "3" —— 原先那句 `typeof headcount === "number"`
+    // 因此是个永远走不到的死分支，人数全是字符串。数得清的归数字，数不清的
+    // （"不限"）保持字符串。注意这里和 frontmatter 里"版本号必须留字符串"
+    // 的规则不冲突：版本号有前导零与小数点语义，人数没有。
+    const rawHeadcount = entry.headcount;
+    let headcount = null;
+    if (typeof rawHeadcount === "number" && Number.isFinite(rawHeadcount)) {
+      headcount = rawHeadcount;
+    } else {
+      const text = asString(rawHeadcount);
+      if (text) headcount = /^\d+$/.test(text) ? Number.parseInt(text, 10) : text;
+    }
+
     return {
       role,
       skills: asArray(entry.skills).map(asString).filter(Boolean),
-      headcount: typeof headcount === "number" ? headcount : (asString(headcount) || null),
+      headcount,
       status,
       deadline: asString(entry.deadline) || null,
       contact: asString(entry.contact) || null,

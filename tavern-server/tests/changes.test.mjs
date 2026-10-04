@@ -182,3 +182,32 @@ test("收敛型修改留下的事件出现在时间线里，且可回滚（修�
     cleanup();
   }
 });
+
+/* ───────── 变更记录里的"改前值"必须是真值 ───────── */
+
+test("★ recruit 变更记录的 from 是改前的状态，不是改后的（曾写成 from=to）", () => {
+  const { db, cleanup } = setup();
+  try {
+    const first = applyConvergentChange(db, {
+      nodeId: "project:p", actorId: null, patch: { recruit: [{ role: "美术", status: "filled" }] },
+    });
+    // `entry` 是 profile.recruit 里的对象引用：先赋值再读它当 from，就会得到
+    // from=filled/to=filled。界面与审计日志里的"改前值"于是全是假的——
+    // 不报错，只是让人以为这个岗位本来就是满的。
+    assert.deepEqual(first.changes, [{ field: "recruit:美术", from: "open", to: "filled" }]);
+
+    // 第二轮：from 必须是上一轮的结果
+    const second = applyConvergentChange(db, {
+      nodeId: "project:p", actorId: null, patch: { recruit: [{ role: "美术", status: "closed" }] },
+    });
+    assert.deepEqual(second.changes, [{ field: "recruit:美术", from: "filled", to: "closed" }]);
+
+    // 状态确实落库，没提到的岗位不被动，且其余字段不被顺手抹掉
+    const stored = profileOf(db).recruit;
+    assert.equal(stored.find((item) => item.role === "美术").status, "closed");
+    assert.equal(stored.find((item) => item.role === "着色器").status, "open");
+    assert.deepEqual(stored.find((item) => item.role === "着色器").skills, ["GLSL"]);
+  } finally {
+    cleanup();
+  }
+});
