@@ -10,7 +10,8 @@
  *        · `window.__TAVERN_API_BASE__ = "..."`（headless 测试在页面跑起来前注入，
  *          它比 URL 更能代表"这次测试要打哪个后端"）
  *        · `?api=http://127.0.0.1:9880`（人用：本地同时跑着主库/演示库/走查库时
- *          对照着看一眼，不必开控制台）
+ *          对照着看一眼，不必开控制台）；首次读到时记进 sessionStorage，
+ *          否则一次站内跳转就会把它丢掉、静默换回默认后端。`?api=default` 清除。
  *   2. 静态快照（SNAPSHOT_URLS = 站点基路径下的 /tavern-snapshot.json，
  *      由 `npm run snapshot` 生成并提交，连不上后端时整站照常可读）
  *   3. 都没有 → 抛出 TavernApiError，页面显示人类可读的中文错误提示
@@ -22,28 +23,70 @@
 
 const DEFAULT_API_BASE = "http://127.0.0.1:9878";
 
+/** 覆盖值的记忆键。用它是因为 `?api=` **活不过一次站内跳转**（见下）。 */
+const API_BASE_STORE_KEY = "tavern:api-base";
+
+const safeSession = {
+	get(key) {
+		try { return window.sessionStorage.getItem(key); } catch { return null; }
+	},
+	set(key, value) {
+		try { window.sessionStorage.setItem(key, value); } catch { /* 隐私模式下会抛，忽略即可 */ }
+	},
+	remove(key) {
+		try { window.sessionStorage.removeItem(key); } catch { /* 同上 */ }
+	},
+};
+
+const httpOnly = (value) => {
+	const text = String(value ?? "").trim();
+	return /^https?:\/\//i.test(text) ? text.replace(/\/+$/, "") : null;
+};
+
 /**
- * 基址解析顺序：`window.__TAVERN_API_BASE__` → `?api=` → 默认值。
+ * 基址解析顺序：`window.__TAVERN_API_BASE__` → 查询串 `?api=` → 记住的值 → 默认值。
  *
- * 为什么要有 `?api=`：本地同时跑着好几个库（9878 主库 / 9880 演示库 /
- * 9882 走查库），没有它就只能开控制台手敲变量才能切换，而"看一眼另一个库"
- * 恰恰是最常做的事。只允许 http(s)，避免 `javascript:` 之类的花样。
+ * 为什么查询串排在"记住的值"**前面**：查询串是本次访问的明确意图。反过来
+ * （先看记忆）会导致第一次 `?api=9882` 之后就再也切不动——连 `?api=default`
+ * 都清不掉，因为代码根本走不到读查询串那一步。
+ *
+ * 为什么要 sessionStorage 记一笔：**`?api=` 活不过一次跳转**。
+ * `navigateWithinPage()` 在跨路径时把导航交给 VitePress 的 SPA 路由，
+ * URL 整个换掉，查询串里的 `api` 就没了；而这个常量只在模块加载时算一次。
+ * 结果是从看板点进任何一个条目，数据源会**静默换回默认后端** ——
+ * 页面上看就是"数据突然变了"，最难查的那种。所以读到就记下来，
+ * 本次标签页内后续页面（此时查询串已丢）继续沿用。`?api=default` 清除。
+ *
+ * 只接受 http(s)，避免 `javascript:` 之类的花样。
  */
 function resolveApiBase() {
-	if (typeof window !== "undefined") {
-		if (typeof window.__TAVERN_API_BASE__ === "string" && window.__TAVERN_API_BASE__.trim()) {
-			return window.__TAVERN_API_BASE__.trim().replace(/\/+$/, "");
-		}
-		try {
-			const fromQuery = new URLSearchParams(window.location.search).get("api");
-			if (fromQuery && /^https?:\/\//i.test(fromQuery.trim())) {
-				return fromQuery.trim().replace(/\/+$/, "");
-			}
-		} catch {
-			/* URL 解析失败就用默认值，不值得为此让整页取数挂掉 */
-		}
+	if (typeof window === "undefined") return DEFAULT_API_BASE;
+
+	// 1) 脚本注入（headless 测试在页面脚本跑起来之前注入，优先级最高）
+	if (typeof window.__TAVERN_API_BASE__ === "string" && window.__TAVERN_API_BASE__.trim()) {
+		return window.__TAVERN_API_BASE__.trim().replace(/\/+$/, "");
 	}
-	return DEFAULT_API_BASE;
+
+	// 2) 查询串（显式意图；读到就记下来，供跳转后的页面复用）
+	try {
+		const raw = new URLSearchParams(window.location.search).get("api");
+		if (raw != null) {
+			if (raw.trim().toLowerCase() === "default") {
+				safeSession.remove(API_BASE_STORE_KEY);
+				return DEFAULT_API_BASE;
+			}
+			const resolved = httpOnly(raw);
+			if (resolved) {
+				safeSession.set(API_BASE_STORE_KEY, resolved);
+				return resolved;
+			}
+		}
+	} catch {
+		/* URL 解析失败就用默认值，不值得为此让整页取数挂掉 */
+	}
+
+	// 3) 本次会话记住的覆盖值（跳转后查询串已丢，靠它续上）
+	return safeSession.get(API_BASE_STORE_KEY) || DEFAULT_API_BASE;
 }
 
 /** 活动后端基址（前端所有请求都从这里出发；换成静态兜底时改这一个常量即可）。 */
