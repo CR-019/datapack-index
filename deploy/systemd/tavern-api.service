@@ -1,0 +1,49 @@
+[Unit]
+Description=酒馆看板后端 (tavern-server)
+Documentation=https://github.com/CR-019/datapack-index
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tavern
+Group=tavern
+WorkingDirectory=/opt/tavern-server
+# 秘密只放这里（600，属主 tavern），不进仓库、不进命令行
+EnvironmentFile=/etc/tavern/tavern.env
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning src/server.mjs
+
+Restart=always
+RestartSec=3
+# 给足优雅退出的时间（我们处理 SIGTERM 时会关库）
+KillSignal=SIGTERM
+TimeoutStopSec=15
+
+# ── 权限与文件系统加固：代码目录只读，只有数据目录可写 ──
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+ReadWritePaths=/var/lib/tavern-server
+
+# ── 资源隔离 ──
+# 这台机器同时承载镜像站，看板不许把它拖垮
+MemoryMax=512M
+CPUQuota=50%
+TasksMax=64
+
+# 只绑回环（TAVERN_HOST=127.0.0.1 写在 env 文件里），对外由反代终止 HTTPS
+# 那也让 TAVERN_TRUST_PROXY=1 成为必须 —— 否则限流键会退化成"只有 pin"
+
+[Install]
+WantedBy=multi-user.target

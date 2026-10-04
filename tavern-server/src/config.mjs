@@ -67,6 +67,14 @@ export const config = {
     ? process.env.TAVERN_SESSION_SECURE === "1"
     : isProduction,
 
+  /**
+   * 是否采信 X-Forwarded-For。
+   * 生产一定在反向代理之后，必须为 1 —— 否则限流键会退化成"只有 pin"，
+   * 任何人都能靠故意失败把别人锁在门外（见 http.mjs 的 clientIp）。
+   * 直连（本地开发）时必须为 0，否则客户端可以随便伪造来源 IP 绕过限流。
+   */
+  trustProxy: process.env.TAVERN_TRUST_PROXY === "1",
+
   /** 会话 cookie 名 */
   sessionCookie: "tavern_session",
 

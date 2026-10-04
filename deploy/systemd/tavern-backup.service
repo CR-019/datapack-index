@@ -1,0 +1,19 @@
+[Unit]
+Description=酒馆看板：备份数据库 + 投稿原件 + 快照
+
+[Service]
+Type=oneshot
+User=tavern
+Group=tavern
+WorkingDirectory=/opt/tavern-server
+EnvironmentFile=/etc/tavern/tavern.env
+# ⚠️ --dest 必须改成本机的**异地**挂载点（对象存储挂载 / 另一台机器）。
+#    留在同一块盘上只防误删，不防磁盘故障 —— 而后端是唯一真源。
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning scripts/backup.mjs --dest /mnt/offsite/tavern --keep 30
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/tavern-server /mnt/offsite/tavern
+MemoryMax=256M

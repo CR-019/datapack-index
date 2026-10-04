@@ -1,0 +1,11 @@
+[Unit]
+Description=每日备份酒馆看板（数据库 + 投稿原件 + 快照）
+
+[Timer]
+# 每天 03:41，与快照导出错开
+OnCalendar=*-*-* 03:41:00
+Persistent=true
+RandomizedDelaySec=600
+
+[Install]
+WantedBy=timers.target

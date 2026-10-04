@@ -17,7 +17,9 @@
     "pack": "node --disable-warning=ExperimentalWarning scripts/tavern-pack.mjs",
     "unpack": "node --disable-warning=ExperimentalWarning scripts/tavern-unpack.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
-    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.mjs"
+    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.mjs",
+    "backup": "node --disable-warning=ExperimentalWarning scripts/backup.mjs",
+    "restore": "node --disable-warning=ExperimentalWarning scripts/restore.mjs"
   },
   "dependencies": {}
 }

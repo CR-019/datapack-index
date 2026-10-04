@@ -1,0 +1,12 @@
+[Unit]
+Description=每日导出酒馆看板 L1 快照
+
+[Timer]
+# 每天 04:17（避开整点，也避开镜像站部署时段）
+OnCalendar=*-*-* 04:17:00
+# 服务器重启后若错过时间点，补跑一次
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

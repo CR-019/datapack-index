@@ -3,6 +3,8 @@
  * 生产若接入 Fastify（ADR-007），这一层可直接替换，路由表与 handler 形状保持不变。
  */
 
+import { config } from "./config.mjs";
+
 /**
  * 解码路径段。
  * 绝不能让它抛异常：畸形百分号编码（如 /v1/nodes/%E4%B8%8D）会让 decodeURIComponent
@@ -134,6 +136,26 @@ export function serializeCookie(name, value, { maxAge, secure = false, httpOnly 
   return parts.join("; ");
 }
 
-export function clientIp(req) {
+/**
+ * 取客户端 IP。
+ *
+ * ⚠️ 部署相关：服务前面一定有反向代理（Caddy/Nginx 终止 HTTPS），
+ * 此时 `req.socket.remoteAddress` 永远是 127.0.0.1。若直接拿它当限流键，
+ * "按 pin + IP 锁定" 就退化成"按 pin 锁定" —— **任何人都能故意失败 5 次，
+ * 把某个作者锁在门外**（DoS）。
+ *
+ * 因此只有在明确配置了 TAVERN_TRUST_PROXY=1（即确实有可信反代、且服务只绑回环）
+ * 时才采信 X-Forwarded-For，并取最左边的地址（最初的客户端）。
+ */
+export function clientIp(req, { trustProxy = config.trustProxy } = {}) {
+  if (trustProxy) {
+    const forwarded = req.headers["x-forwarded-for"];
+    if (typeof forwarded === "string" && forwarded.trim()) {
+      const first = forwarded.split(",")[0].trim();
+      if (first) return first;
+    }
+    const real = req.headers["x-real-ip"];
+    if (typeof real === "string" && real.trim()) return real.trim();
+  }
   return req.socket?.remoteAddress ?? "unknown";
 }

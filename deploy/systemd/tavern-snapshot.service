@@ -1,0 +1,20 @@
+[Unit]
+Description=酒馆看板：导出 L1 元数据快照
+Documentation=https://github.com/CR-019/datapack-index
+After=tavern-api.service
+
+[Service]
+Type=oneshot
+User=tavern
+Group=tavern
+WorkingDirectory=/opt/tavern-server
+EnvironmentFile=/etc/tavern/tavern.env
+# 写到暂存区而不是代码目录：代码目录是只读的，回仓由 bot/维护者从暂存区取
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning scripts/snapshot.mjs --out /var/lib/tavern-server/snapshot/tavern-snapshot.json
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/tavern-server
+MemoryMax=256M

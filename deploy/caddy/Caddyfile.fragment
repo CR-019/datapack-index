@@ -1,0 +1,29 @@
+# 酒馆看板后端 · Caddy 片段（备选方案）
+#
+# 与 MCFPM 的部署方式一致（他们的 API 就是 McfpmPackageApi + Caddy，
+# 见 package.afox.moe 的 Server 头）。Caddy 的好处是证书自动签发，
+# 坏处是与宝塔面板的分工需要划清 —— 同一台机器上别让两者都去监听 80/443。
+
+api.vanillalibrary.mcfpp.top {
+	encode zstd gzip
+
+	# 必须 > 投稿 zip 上限（20MB）
+	request_body {
+		max_size 25MB
+	}
+
+	header {
+		X-Robots-Tag "noindex, nofollow"
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+	}
+
+	reverse_proxy 127.0.0.1:9878 {
+		# Caddy 会自动设置 X-Forwarded-For / X-Forwarded-Proto，
+		# 所以服务端要配 TAVERN_TRUST_PROXY=1 才用得上
+		transport http {
+			read_timeout 120s
+		}
+	}
+}
