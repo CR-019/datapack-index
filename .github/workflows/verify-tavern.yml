@@ -10,6 +10,8 @@ on:
       - ".vitepress/vue/tavern/**"
       - "tavern/**"
       - "public/tavern-snapshot.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
       - ".github/workflows/verify-tavern.yml"
   push:
     branches:
@@ -20,6 +22,8 @@ on:
       - ".vitepress/vue/tavern/**"
       - "tavern/**"
       - "public/tavern-snapshot.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
       - ".github/workflows/verify-tavern.yml"
 
 permissions:
@@ -55,3 +59,39 @@ jobs:
         run: |
           npm run seed
           npm run snapshot:check
+
+  # 为什么需要这个 job：本工作流上面那个跑的是后端，**不碰 Vue 组件**；
+  # 而 deploy.yml 只在 master push 时构建站点。也就是说，一个写坏的
+  # StageStrip.vue 可以顺利通过所有 PR 门禁，直到合并后部署时才炸。
+  # 酒馆前端有自己的 Vue 组件与 CSS，必须真的构建一遍。
+  build-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+
+      - name: Enable the pinned package manager
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.13.2 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build VitePress
+        run: pnpm exec vitepress build
+        env:
+          VITEPRESS_BASE: /datapack-index/
+          NODE_OPTIONS: --max-old-space-size=3584
+
+      # 离线兜底文件必须真的进了构建产物——前端连不上后端时全靠它，
+      # 而"文件在 public/ 里"和"它被发布出去了"是两件事。
+      - name: The offline snapshot must reach the built site
+        run: test -s .vitepress/dist/tavern-snapshot.json
