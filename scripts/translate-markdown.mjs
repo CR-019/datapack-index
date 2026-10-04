@@ -20,6 +20,9 @@ const ignoredDirectories = new Set([
   'node_modules',
   'public',
   'en',
+  'notes',
+  'tavern-server',
+  'tavern',
 ])
 
 // Keep terminology that has a precise Minecraft meaning stable across pages.

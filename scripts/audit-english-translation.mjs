@@ -3,7 +3,7 @@ import path from 'node:path'
 
 const root = process.cwd()
 const englishRoot = path.join(root, 'en')
-const ignoredDirectories = new Set(['.git', '.vitepress', 'dist', 'node_modules', 'public', 'en'])
+const ignoredDirectories = new Set(['.git', '.vitepress', 'dist', 'node_modules', 'public', 'en', 'notes', 'tavern-server', 'tavern'])
 const sfcPattern = /<\/?(script|style)\b/giu
 const fenceLinePattern = /^>?[ \t]*(````|```|~~~~|~~~)(?:[A-Za-z0-9_+.-]+)?[ \t]*$/u
 const fencePattern = /(^|\r?\n)\s*(```|~~~)([^\r\n]*)/gu

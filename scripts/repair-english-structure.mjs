@@ -3,7 +3,7 @@ import path from 'node:path'
 
 const root = process.cwd()
 const englishRoot = path.join(root, 'en')
-const ignoredDirectories = new Set(['.git', '.vitepress', 'dist', 'node_modules', 'public', 'en'])
+const ignoredDirectories = new Set(['.git', '.vitepress', 'dist', 'node_modules', 'public', 'en', 'notes', 'tavern-server', 'tavern'])
 
 function collectMarkdown(directory, relativeDirectory = '', results = []) {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {

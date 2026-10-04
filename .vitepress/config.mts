@@ -242,6 +242,7 @@ export default defineConfig({
         nav: [
             { text: "文档", link: "/index/绪论" },
             { text: "前置馆", link: "/wheel/" },
+            { text: "酒馆看板", link: "/tavern/" },
             { text: "《Feature》", link: "/feature/_index" },
             { text: "预览", link: "/preview/" },
             { text: "Wiki", link: "https://zh.minecraft.wiki/" },
@@ -316,7 +317,7 @@ export default defineConfig({
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,
-    srcExclude:["material",".github",".idea"],
+    srcExclude:["material",".github",".idea","notes","tavern-server"],
 
     markdown: {
         languages: [mcfunction, mcdoc, snbt],

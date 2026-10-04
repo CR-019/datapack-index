@@ -17,6 +17,15 @@ export const sidebar: DefaultTheme.SidebarItem[] = [
     ]
   },
   {
+    text: '酒馆看板',
+    collapsed: false,
+    items: [
+      { text: '看板', link: '/tavern/' },
+      { text: '全部条目', link: '/tavern/all' },
+      { text: '标签总览', link: '/tavern/tags' },
+    ]
+  },
+  {
     text: '月刊《Feature》',
     collapsed: false,
     items: [
