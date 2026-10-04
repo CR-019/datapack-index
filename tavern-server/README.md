@@ -148,7 +148,7 @@ echo 'TAVERN_SESSION_SECURE=0' >> .env   # 本地是 HTTP；生产删掉这行
 | `GET` | `/v1/nodes` | 列表：`kind` / `tag` / `state` / `q` / `limit` / `cursor` |
 | `GET` | `/v1/nodes/:id` | 详情（含出边与入边） |
 | `GET` | `/v1/nodes/:id/edges` | 只要边 |
-| `GET` | `/v1/authors`、`/v1/authors/:id` | 作者公开 profile + 其维护/署名/团队成员 |
+| `GET` | `/v1/authors`、`/v1/authors/:id` | 作者公开 profile + 其署名/维护/团队作品与成员（`:id` 需带 `kind:` 前缀，如 `person:Alumopper`） |
 | `GET` | `/v1/tags` | 标签列表（**零成员不进列表**） |
 | `GET` | `/v1/tags/:id` | 标签详情（含成员数） |
 | `GET` | `/v1/tags/:id/members` | 标签成员（读物化表） |
@@ -177,7 +177,8 @@ echo 'TAVERN_SESSION_SECURE=0' >> .env   # 本地是 HTTP；生产删掉这行
 curl -s http://127.0.0.1:9878/v1/status
 curl -s 'http://127.0.0.1:9878/v1/nodes?kind=project&limit=3'
 curl -s 'http://127.0.0.1:9878/v1/tags' | head -30
-curl -s http://127.0.0.1:9878/v1/authors/Alumopper
+# 作者页的 :id 必须带 kind: 前缀（裸名有歧义：person:X 与 team:X 可能同名）
+curl -s http://127.0.0.1:9878/v1/authors/person:Alumopper
 
 # 事件流（只含 public 事件；新种子数据里是空数组，属正常）
 curl -s 'http://127.0.0.1:9878/v1/nodes/project:Floating_UI/events'
