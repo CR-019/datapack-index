@@ -78,12 +78,21 @@ function profileOf(project) {
   return {
     i18n: project.i18n,
     tags: project.tags,
-    facets: { game: project.gameversion, state: "draft" },
+    facets: {
+      game: project.gameversion,
+      state: "draft",
+      // ⚠️ 时间窗属于 `facets.time`（§6.1 的 profile 形状是
+      // `facets: { time?, game[], state }`），**不是顶层 `time`**。
+      // 曾经写在这一层，于是赛事的窗口落在了设计里根本不存在的字段上：
+      // `eventPhasesOf()` 读 `node.facets?.time` 一律读到 null，"报名中 /
+      // 进行中 / 已结束"这套赛事相位派生从来没生效过——而且不报错，只是
+      // 赛事页永远不显示它在哪个阶段（除非该赛事另外挂了 stage 子节点）。
+      ...(project.time ? { time: project.time } : {}),
+    },
     links: project.links,
     repo: project.repo,
     license: project.license,
     cover: project.cover,
-    time: project.time,
     recruit: project.recruit.map((entry) => ({ ...entry, body: undefined })),
   };
 }

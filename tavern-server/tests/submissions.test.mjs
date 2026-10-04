@@ -292,3 +292,26 @@ test("★ 全库不得出现 id 前缀与 kind 不一致的节点（不变量 1 
     cleanup();
   }
 });
+
+/* ───────── 时间窗必须落在 facets.time ───────── */
+
+test("★ 投稿的时间窗写进 facets.time（写顶层 time 会让赛事相位派生永远读不到）", () => {
+  const { db, cleanup } = setup();
+  try {
+    const { nodeId, revisionId } = submit(db, "person:Author", {
+      ...fakeProject({ name: "秋季赛事" }),
+      kind: "event",
+      time: { start: "2026-09-01", end: "2026-12-31", deadline: "2026-10-15" },
+    });
+    publish(db, revisionId);
+    const node = readPublic(db, nodeId);
+
+    // 设计 §6.1 的 profile 形状是 facets: { time?, game[], state } —— 没有顶层 time。
+    // 写在顶层时 eventPhasesOf() 读 node.facets?.time 只会读到 null，
+    // "报名中/进行中/已结束" 于是永远算不出来，而且不报任何错。
+    assert.deepEqual(node.facets.time, { start: "2026-09-01", end: "2026-12-31", deadline: "2026-10-15" });
+    assert.ok(!("time" in node), "顶层不该再留一份 time（两份形状迟早对不上）");
+  } finally {
+    cleanup();
+  }
+});

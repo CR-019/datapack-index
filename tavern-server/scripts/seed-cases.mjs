@@ -28,6 +28,7 @@ import { reviewRevision, saveSubmission } from "../src/submissions.mjs";
 import { appendFact } from "../src/events.mjs";
 import { createStage } from "../src/stages.mjs";
 import { applyConvergentChange } from "../src/changes.mjs";
+import { findPublishedNode } from "../src/read-model.mjs";
 
 const FORCE = process.argv.includes("--force");
 const SCRATCH = path.join(import.meta.dirname, "..", "data", "cases");
@@ -204,20 +205,26 @@ function caseOne(db, staffId, picks = {}) {
       "event:autumn-jam-2026", entry, nowIso());
   }
 
-  // ⑤ 精选作品集：kind=index，成员用 includes
-  insertNode(db, {
-    id: "index:jam-2026-picks", kind: "index",
-    profile: { i18n: { zh: { title: "2026 秋季创作赛·精选作品集" } }, memberRule: "manual", tags: ["精选"] },
-    reason: "索引也只是一条投稿（kind: index），但 index 的成员（includes 边）没有接口可建",
+  // ⑤ 精选作品集：kind=index 同样可以是一条投稿（走真实管线，标签才会被物化）
+  const picksFixture = writeFixture("jam-2026-picks", {
+    meta: {
+      template: 1, kind: "index", name: "2026 秋季创作赛·精选作品集",
+      summary: "把本届入选作品编成一个集子", tags: ["精选"],
+    },
+    body: "精选作品集正文。",
   });
-  insertEdge(db, {
-    from: "index:jam-2026-picks", rel: "includes", to: "project:jam-solo-entry",
-    reason: "索引收录成员靠 includes 边；applyWeakRelations 只处理 related/depends，includes 只能出现在 requests 里而又没人审",
-  });
-  insertEdge(db, {
-    from: "index:jam-2026-picks", rel: "includes", to: "project:jam-team-entry",
-    reason: "同上",
-  });
+  const picksSubmit = submit(db, { fixture: picksFixture, slug: "jam-2026-picks", reviewerId: staffId });
+  out.steps.push({ step: "⑤ 精选作品集（kind: index 走真实投稿）", ...pick(picksSubmit) });
+
+  gap(
+    "让索引收录成员（includes 边）",
+    "索引收录成员靠 includes 边，但没有创建边的接口；" +
+      "applyWeakRelations 只处理 related/depends，而 includes 只能出现在" +
+      "relations.requests 里、又没有人审它",
+  );
+  for (const entry of ["project:jam-solo-entry", "project:jam-team-entry"]) {
+    q.run(db, "INSERT INTO edges (from_id, rel, to_id, created_at) VALUES ('index:jam-2026-picks', 'includes', ?, ?)", entry, nowIso());
+  }
 
   /* ⑥ 四个阶段（这一段全部走真实 API） */
   const stages = [
@@ -259,6 +266,23 @@ function caseOne(db, staffId, picks = {}) {
     patch: { recruit: [{ role: "评委", status: "filled" }] },
   });
   out.steps.push({ step: "⑦ 评委招满（收敛型直通）", changes: filled.changes, events: filled.events.map((e) => e.title) });
+
+  /* ⑧ 一个"刚开赛、还没划分阶段"的赛事：当前阶段只能由时间窗派生
+     —— 这是 `facets.time` 落在正确位置的活证据。它曾经被写在顶层 `time`，
+     而 eventPhasesOf() 读 `node.facets?.time`，于是赛事相位派生从未生效。 */
+  const plainFixture = writeFixture("winter-jam-2027", {
+    meta: {
+      template: 1, kind: "event", name: "2027 冬季创作赛（筹备中）",
+      summary: "刚发布、还没划分阶段，当前阶段由时间窗派生",
+      tags: ["赛事"],
+      time: { start: "2026-09-15", end: "2027-03-31", deadline: "2026-11-30" },
+    },
+    body: "筹备中的赛事。",
+  });
+  const plainSubmit = submit(db, { fixture: plainFixture, slug: "winter-jam-2027", reviewerId: staffId });
+  out.steps.push({ step: "⑧ 没有阶段的赛事（当前阶段靠时间窗派生）", ...pick(plainSubmit) });
+  const plain = findPublishedNode(db, "event:winter-jam-2027");
+  out.derivedPhase = plain?.facets?.phases ?? null;
 
   return out;
 }
@@ -350,6 +374,7 @@ function main() {
   const one = caseOne(db, staff.id);
   for (const step of one.steps) console.log("  ·", step.step, JSON.stringify(step.ok === undefined ? step : { ok: step.ok, nodeId: step.nodeId, status: step.status, errors: step.errors }));
   if (one.futureEventGuard) console.log("  · 未来事件守卫：", one.futureEventGuard);
+  if (one.derivedPhase) console.log("  · 无阶段赛事的当前阶段（靠 facets.time 派生）：", JSON.stringify(one.derivedPhase));
 
   console.log("\n═══ 场景二：发一个作品（招募人员 → 成稿）═══");
   const two = caseTwo(db, staff.id);
