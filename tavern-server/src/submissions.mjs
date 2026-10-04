@@ -63,8 +63,14 @@ export function storeInbox(buffer) {
 
 /* ───────────────── 投稿 ───────────────── */
 
+/**
+ * 修订 id。
+ * ⚠️ 不能只用"内容哈希前几位 + 毫秒"：同一毫秒内用同一份包重复投稿会生成
+ * **完全相同**的 id，撞 revisions.id 的主键（真发生过：快速连续提交同内容的测试红了）。
+ * 因此额外掺入随机字节。
+ */
 function revisionIdFor(sha256) {
-  return `rev_${sha256.slice(0, 16)}_${Date.now().toString(36)}`;
+  return `rev_${sha256.slice(0, 12)}_${Date.now().toString(36)}_${crypto.randomBytes(4).toString("hex")}`;
 }
 
 /** 节点公开 profile：不含正文（正文属于修订快照） */

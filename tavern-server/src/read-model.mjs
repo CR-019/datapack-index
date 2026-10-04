@@ -282,7 +282,52 @@ export function findForbiddenKeys(value, pathPrefix = "") {
   return found;
 }
 
-/** 稳定序列化：键顺序由构造顺序决定，缩进固定 —— 避免无意义的 diff（§10.5） */
+/**
+ * 稳定序列化：**一行一个元素**，避免无意义的 diff（§10.5）。
+ *
+ * 为什么不用 `JSON.stringify(x, null, 1)`：
+ * 那样每个数组元素、每个键都占一行，这份快照会膨胀到 1 万多行，
+ * 每次同步产生的 diff 巨大且无法阅读。改成"一个节点/一条边/一个标签一行"后，
+ * diff 会精确指到变化的那几条记录，而文件本身也只有几百行。
+ */
 export function serializeSnapshot(snapshot) {
-  return `${JSON.stringify(snapshot, null, 1)}\n`;
+  const lines = [];
+  lines.push("{");
+  lines.push(` "schema": ${JSON.stringify(snapshot.schema)},`);
+  lines.push(` "generatedAt": ${JSON.stringify(snapshot.generatedAt)},`);
+  lines.push(` "status": ${JSON.stringify(snapshot.status)},`);
+
+  const arrayBlock = (key, items) => {
+    if (!items.length) {
+      lines.push(` ${JSON.stringify(key)}: [],`);
+      return;
+    }
+    lines.push(` ${JSON.stringify(key)}: [`);
+    items.forEach((item, index) => {
+      const comma = index === items.length - 1 ? "" : ","; // 末项不能有逗号，否则不是合法 JSON
+      lines.push(`  ${JSON.stringify(item)}${comma}`);
+    });
+    lines.push(" ],");
+  };
+
+  arrayBlock("nodes", snapshot.nodes);
+  arrayBlock("edges", snapshot.edges);
+  arrayBlock("tags", snapshot.tags);
+  arrayBlock("timeline", snapshot.timeline);
+
+  // tagMembers 是 { 标签 id: [节点 id...] }，一个标签一行
+  const members = Object.entries(snapshot.tagMembers ?? {});
+  if (!members.length) {
+    lines.push(' "tagMembers": {}');
+  } else {
+    lines.push(' "tagMembers": {');
+    members.forEach(([tagId, ids], index) => {
+      const comma = index === members.length - 1 ? "" : ",";
+      lines.push(`  ${JSON.stringify(tagId)}: ${JSON.stringify(ids)}${comma}`);
+    });
+    lines.push(" }");
+  }
+
+  lines.push("}");
+  return `${lines.join("\n")}\n`;
 }

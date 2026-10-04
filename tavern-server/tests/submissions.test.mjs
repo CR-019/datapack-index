@@ -174,6 +174,21 @@ test("同一 slug 重复投稿不会新建节点，而是追加修订", () => {
   }
 });
 
+test("★ 同一毫秒内用同一份包连续投稿，修订 id 不得碰撞", () => {
+  const { db, cleanup } = setup();
+  try {
+    // 曾经：id = 内容哈希前 16 位 + 毫秒 → 同一毫秒内完全相同，撞主键
+    const ids = [];
+    for (let index = 0; index < 20; index += 1) {
+      ids.push(submit(db, "person:Author", fakeProject({ summary: `第 ${index} 版` })).revisionId);
+    }
+    assert.equal(new Set(ids).size, ids.length, "修订 id 出现重复");
+    assert.equal(q.get(db, "SELECT COUNT(*) AS c FROM revisions").c, 20);
+  } finally {
+    cleanup();
+  }
+});
+
 test("slugify 对中文名回退到稳定哈希（不依赖拼音库）", () => {
   assert.equal(slugify("Floating UI Plus"), "floating-ui-plus");
   const a = slugify("浮空界面");

@@ -627,7 +627,29 @@ export async function fetchNodeIndex() {
 
 /** GET /v1/authors/:id → { author, maintained[], authored[], members[] } */
 export async function fetchAuthor(id) {
-	const data = await load(`/v1/authors/${encodeURIComponent(id)}`);
+	const data = await load(`/v1/authors/${encodeURIComponent(id)}`, {
+		snapshot: (snapshotData) => {
+			// 后端不可用时从快照重建作者页：快照顶层带全量 edges，
+			// 足以算出 TA 维护/署名/所属团队的条目。
+			const all = normalizeItems(snapshotData.nodes);
+			const author = all.find((entry) => entry.id === id && (entry.kind === "person" || entry.kind === "team"));
+			if (!author) return undefined;
+			const edges = Array.isArray(snapshotData.edges) ? snapshotData.edges : [];
+			const collect = (rel) => edges
+				.filter((edge) => edge && edge.from === id && edge.rel === rel)
+				.map((edge) => {
+					const target = all.find((entry) => entry.id === edge.to);
+					return { id: edge.to, role: edge.role ?? null, char: edge.char ?? null, title: target ? nodeTitle(target) : null };
+				});
+			return {
+				schema: snapshotData.schema || 1,
+				author,
+				maintained: collect("maintains"),
+				authored: collect("authored"),
+				members: edges.filter((edge) => edge && edge.from === id && edge.rel === "member").map((edge) => edge.to),
+			};
+		},
+	});
 	if (!data || !data.author) {
 		throw new TavernApiError(`找不到作者「${id}」。`, { kind: "not-found" });
 	}
@@ -660,7 +682,26 @@ export async function fetchTags() {
 
 /** GET /v1/tags/:id/members → { tag, items[] }（注意：标签没有单独的详情端点，详情随成员接口一起返回） */
 export async function fetchTagMembers(id) {
-	const data = await load(`/v1/tags/${encodeURIComponent(id)}/members`);
+	const data = await load(`/v1/tags/${encodeURIComponent(id)}/members`, {
+		snapshot: (snapshotData) => {
+			// 后端不可用时从快照重建：快照里物化了 tagMembers（标签 id → 成员 id 列表），
+			// 详情对象则从 nodes / tags 里取回 —— 否则标签页在后端停机时只能报错。
+			const ids = snapshotData.tagMembers && snapshotData.tagMembers[id];
+			if (!Array.isArray(ids)) return undefined;
+			const all = normalizeItems(snapshotData.nodes);
+			const items = ids.map((nodeId) => all.find((entry) => entry.id === nodeId)).filter(Boolean);
+			const summary = (Array.isArray(snapshotData.tags) ? snapshotData.tags : []).find((entry) => entry.id === id);
+			const tag = summary
+				? {
+					id: summary.id,
+					kind: "tag",
+					i18n: { zh: { title: summary.title } },
+					memberCount: summary.members,
+				}
+				: { id, kind: "tag", i18n: { zh: { title: slugOf(id) } } };
+			return { schema: snapshotData.schema || 1, tag, items };
+		},
+	});
 	return {
 		tag: normalizeNode(data.tag) || { id, kind: "tag", i18n: { zh: { title: slugOf(id) } } },
 		items: normalizeItems(data.items),
