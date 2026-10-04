@@ -13,6 +13,7 @@
 
 import { nowIso } from "./config.mjs";
 import { PUBLISHED_ONLY, parseProfile, q } from "./db.mjs";
+import { listStages, stagePhaseOf, withDerivedFacets } from "./timeline.mjs";
 
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;
@@ -60,17 +61,23 @@ export function publicNode(db, row, { withEdges = false } = {}) {
   return node;
 }
 
-export function findPublishedNode(db, id, { withEdges = true } = {}) {
+export function findPublishedNode(db, id, { withEdges = true, now = new Date() } = {}) {
   const row = q.get(db, `SELECT n.* FROM nodes n WHERE n.id = ? AND ${PUBLISHED_ONLY}`, id);
-  return row ? publicNode(db, row, { withEdges }) : null;
+  if (!row) return null;
+  const node = withDerivedFacets(db, publicNode(db, row, { withEdges }), { now });
+  const stages = listStages(db, id, { now });
+  return stages.length ? { ...node, stages } : node;
 }
 
 /**
  * 已发布节点列表。
- * @param {{ kind?:string, tag?:string, state?:string, q?:string, limit?:number, offset?:number }} filter
+ *
+ * ⚠️ **不变量 13：只显示顶层条目**（没有 parent 边的）。
+ * 阶段是子节点，如果不过滤，一个项目的三个阶段会被读成三个项目。
+ * 这条规则放在读模型里，实时 API 与快照就都自动遵守，前端不必重复实现。
  */
-export function listPublishedNodes(db, { kind, tag, state, search, limit = DEFAULT_LIMIT, offset = 0 } = {}) {
-  const where = [PUBLISHED_ONLY];
+export function listPublishedNodes(db, { kind, tag, state, search, limit = DEFAULT_LIMIT, offset = 0, now = new Date() } = {}) {
+  const where = [PUBLISHED_ONLY, "NOT EXISTS (SELECT 1 FROM edges p WHERE p.from_id = n.id AND p.rel = 'parent')"];
   const params = [];
   if (kind) { where.push("n.kind = ?"); params.push(kind); }
   if (tag) { where.push("n.id IN (SELECT node_id FROM tag_members WHERE tag_id = ?)"); params.push(tag); }
@@ -85,20 +92,49 @@ export function listPublishedNodes(db, { kind, tag, state, search, limit = DEFAU
     ...params, limit, offset,
   );
   return {
-    items: rows.map((row) => publicNode(db, row)),
+    items: rows.map((row) => withDerivedFacets(db, publicNode(db, row), { now })),
     total,
     limit,
     nextCursor: offset + limit < total ? encodeCursor(offset + limit) : null,
   };
 }
 
-/** 快照用：全部已发布节点（含边，便于详情页离线可用） */
-export function allPublishedNodes(db) {
+/** 快照用：全部**顶层**已发布节点（含边与派生 phases，便于详情页离线可用） */
+export function allPublishedNodes(db, { now = new Date() } = {}) {
   const rows = q.all(
     db,
-    `SELECT n.* FROM nodes n WHERE ${PUBLISHED_ONLY} ORDER BY n.id`,
+    `SELECT n.* FROM nodes n WHERE ${PUBLISHED_ONLY}
+       AND NOT EXISTS (SELECT 1 FROM edges p WHERE p.from_id = n.id AND p.rel = 'parent')
+     ORDER BY n.id`,
   );
-  return rows.map((row) => publicNode(db, row, { withEdges: true }));
+  return rows.map((row) => withDerivedFacets(db, publicNode(db, row, { withEdges: true }), { now }));
+}
+
+/** 快照用：全部已发布阶段（带 parentId 与派生 phase），供离线渲染阶段条 */
+export function allStages(db, { now = new Date() } = {}) {
+  const rows = q.all(
+    db,
+    `SELECT n.*, p.to_id AS parentId FROM nodes n
+     JOIN edges p ON p.from_id = n.id AND p.rel = 'parent'
+     WHERE n.kind = 'stage' AND ${PUBLISHED_ONLY}
+     ORDER BY n.id`,
+  );
+  return rows.map((row) => ({
+    ...withDerivedFacets(db, publicNode(db, row), { now }),
+    parentId: row.parentId,
+    phase: stagePhaseOf(publicNode(db, row), now),
+  }));
+}
+
+/** 快照用：公开且未作废的事件 */
+export function materializedEvents(db) {
+  return q.all(
+    db,
+    `SELECT e.id, e.node_id AS nodeId, e.kind, e.at, e.status, e.title, e.body, e.source
+     FROM node_events e JOIN nodes n ON n.id = e.node_id
+     WHERE e.visibility = 'public' AND e.voided_at IS NULL AND n.published_revision_id IS NOT NULL
+     ORDER BY e.at DESC, e.id`,
+  );
 }
 
 export function listAllEdges(db) {
@@ -218,7 +254,22 @@ export function buildStatus(db, { generatedAt = nowIso() } = {}) {
   };
 }
 
+/**
+ * 全局时间轴：**事件流优先，边级时间并列**（ADR-009）。
+ *
+ * 之前只看 `edge.since`，而种子数据里几乎没有边级时间，于是一路退化成按
+ * `created_at` 排——接入事件流后它才真正有内容。
+ */
 export function buildTimeline(db, { limit = DEFAULT_LIMIT } = {}) {
+  const events = q.all(
+    db,
+    `SELECT e.at, e.kind AS rel, e.status, e.node_id AS id, e.title
+     FROM node_events e JOIN nodes n ON n.id = e.node_id
+     WHERE e.visibility = 'public' AND e.voided_at IS NULL AND n.published_revision_id IS NOT NULL
+     ORDER BY e.at DESC LIMIT ?`,
+    limit,
+  ).map((row) => ({ at: row.at, rel: row.rel, status: row.status, id: row.id, title: row.title, origin: "event" }));
+
   const edges = q.all(
     db,
     `SELECT e.since AS at, e.rel, e.status, e.to_id AS id, n.profile_json
@@ -226,9 +277,15 @@ export function buildTimeline(db, { limit = DEFAULT_LIMIT } = {}) {
      WHERE e.since IS NOT NULL AND n.published_revision_id IS NOT NULL
      ORDER BY e.since DESC LIMIT ?`,
     limit,
-  ).map((row) => ({ at: row.at, rel: row.rel, status: row.status, id: row.id, title: title(JSON.parse(row.profile_json)) }));
+  ).map((row) => ({ at: row.at, rel: row.rel, status: row.status, id: row.id, title: title(JSON.parse(row.profile_json)), origin: "edge" }));
 
-  if (edges.length) return { source: "edges", items: edges };
+  if (events.length || edges.length) {
+    const items = [...events, ...edges]
+      .sort((left, right) => String(right.at).localeCompare(String(left.at)) || String(left.id).localeCompare(String(right.id), "en"))
+      .slice(0, limit);
+    const source = events.length && edges.length ? "mixed" : events.length ? "events" : "edges";
+    return { source, items };
+  }
 
   const created = q.all(
     db,
@@ -237,7 +294,7 @@ export function buildTimeline(db, { limit = DEFAULT_LIMIT } = {}) {
     `SELECT n.created_at AS at, n.id, n.profile_json FROM nodes n
      WHERE ${PUBLISHED_ONLY} ORDER BY n.created_at DESC, n.id LIMIT ?`,
     limit,
-  ).map((row) => ({ at: row.at, rel: "created", status: null, id: row.id, title: title(JSON.parse(row.profile_json)) }));
+  ).map((row) => ({ at: row.at, rel: "created", status: null, id: row.id, title: title(JSON.parse(row.profile_json)), origin: "created" }));
 
   return { source: "created_at", items: created };
 }
@@ -252,14 +309,17 @@ export function buildTimeline(db, { limit = DEFAULT_LIMIT } = {}) {
 export function buildSnapshot(db, { generatedAt = nowIso(), timelineLimit = 40 } = {}) {
   const status = buildStatus(db, { generatedAt });
   status.sources = { storage: "sqlite", snapshot: "generated" };
+  const now = new Date(generatedAt);
   return {
     schema: 1,
     generatedAt,
     status,
-    nodes: allPublishedNodes(db),
+    nodes: allPublishedNodes(db, { now }),
     edges: listAllEdges(db),
     tags: listTags(db),
     tagMembers: materializedTagMembers(db),
+    stages: allStages(db, { now }),
+    events: materializedEvents(db),
     timeline: buildTimeline(db, { limit: timelineLimit }).items,
   };
 }
@@ -315,6 +375,8 @@ export function serializeSnapshot(snapshot) {
   arrayBlock("nodes", snapshot.nodes);
   arrayBlock("edges", snapshot.edges);
   arrayBlock("tags", snapshot.tags);
+  arrayBlock("stages", snapshot.stages ?? []);
+  arrayBlock("events", snapshot.events ?? []);
   arrayBlock("timeline", snapshot.timeline);
 
   // tagMembers 是 { 标签 id: [节点 id...] }，一个标签一行

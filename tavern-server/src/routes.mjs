@@ -2,7 +2,10 @@ import { config, nowIso } from "./config.mjs";
 import { q } from "./db.mjs";
 import { PUBLIC_CORS, clientIp, parseCookies, readBody, readJson, sendJson, serializeCookie } from "./http.mjs";
 import { createRouter } from "./http.mjs";
-import { audit, authenticate, clearFailures, createSession, destroySession, rateLimitState, readSession, recordFailure } from "./auth.mjs";
+import { audit, authenticate, canEdit, clearFailures, createSession, destroySession, rateLimitState, readSession, recordFailure } from "./auth.mjs";
+import { countEvents, listEvents } from "./events.mjs";
+import { applyConvergentChange } from "./changes.mjs";
+import { createStage, deleteStage } from "./stages.mjs";
 import { parseMultipart, requireFile } from "./multipart.mjs";
 import { ZIP_LIMITS } from "./zip.mjs";
 import { ingestZip } from "./ingest.mjs";
@@ -288,6 +291,75 @@ export function buildRouter(db) {
       note: typeof body.note === "string" ? body.note.trim() : null,
       reviewerId: ctx.account.id,
     });
+    sendJson(res, 200, { ok: true, ...result }, { "Cache-Control": "no-store" });
+  });
+
+  /* ───────────────── 时间线：事件流（ADR-009） ───────────────── */
+
+  router.get("/v1/nodes/:id/events", ({ res, url, params }) => {
+    const node = findPublishedNode(db, params.id, { withEdges: false });
+    if (!node) throw new HttpError(404, "not_found", "条目不存在或尚未上架");
+    const limit = clampLimit(url.searchParams.get("limit"), 20, 100);
+    sendJson(res, 200, {
+      schema: 1,
+      items: listEvents(db, params.id, { limit }),
+      total: countEvents(db, params.id),
+    }, PUBLIC_CORS);
+  });
+
+  /* ───────────────── 收敛型修改：直通 + 自动追写事件（ADR-009） ───────────────── */
+
+  const requireMaintainer = (req, nodeId) => {
+    const ctx = requireSession(req);
+    if (!canEdit(db, ctx.account.id, nodeId)) {
+      throw new HttpError(403, "forbidden", "你不是该条目的维护者");
+    }
+    return ctx;
+  };
+
+  router.patch("/v1/nodes/:id", async ({ req, res, params }) => {
+    if (!q.get(db, "SELECT 1 AS ok FROM nodes WHERE id = ?", params.id)) {
+      throw new HttpError(404, "not_found", "条目不存在");
+    }
+    const ctx = requireMaintainer(req, params.id);
+    const body = await readJson(req, 256 * 1024);
+    const result = applyConvergentChange(db, { nodeId: params.id, actorId: ctx.account.id, patch: body });
+    sendJson(res, 200, {
+      ok: true,
+      ...result,
+      message: "已生效（收敛型修改直通），并自动记入时间线",
+    }, { "Cache-Control": "no-store" });
+  });
+
+  /* ───────────────── 阶段：子节点式时间切片（ADR-010） ───────────────── */
+
+  router.post("/v1/nodes/:id/stages", async ({ req, res, params }) => {
+    if (!q.get(db, "SELECT 1 AS ok FROM nodes WHERE id = ?", params.id)) {
+      throw new HttpError(404, "not_found", "条目不存在");
+    }
+    const ctx = requireMaintainer(req, params.id);
+    const body = await readJson(req, 64 * 1024);
+    const result = createStage(db, {
+      parentId: params.id,
+      actorId: ctx.account.id,
+      name: body.name,
+      start: body.start ?? body.time?.start,
+      end: body.end ?? body.time?.end,
+      summary: body.summary ?? null,
+      slug: body.slug ?? null,
+    });
+    const node = findPublishedNode(db, params.id);
+    sendJson(res, 201, {
+      ok: true,
+      ...result,
+      phases: node?.facets?.phases ?? [],
+      message: "阶段已创建（名称与时间窗属事实，直通生效；补充正文请走待审修订）",
+    }, { "Cache-Control": "no-store" });
+  });
+
+  router.delete("/v1/nodes/:parentId/stages/:stageId", ({ req, res, params }) => {
+    const ctx = requireMaintainer(req, params.parentId);
+    const result = deleteStage(db, { stageId: params.stageId, actorId: ctx.account.id });
     sendJson(res, 200, { ok: true, ...result }, { "Cache-Control": "no-store" });
   });
 

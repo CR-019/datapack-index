@@ -6,7 +6,7 @@ import test from "node:test";
 
 import { nowIso } from "../src/config.mjs";
 import { openDatabase, q } from "../src/db.mjs";
-import { buildSnapshot, buildStatus, buildTimeline, findForbiddenKeys, listPublishedNodes, listTags, materializedTagMembers, serializeSnapshot } from "../src/read-model.mjs";
+import { buildSnapshot, buildStatus, buildTimeline, findForbiddenKeys, findPublishedNode, listPublishedNodes, listTags, materializedTagMembers, serializeSnapshot } from "../src/read-model.mjs";
 import { reviewRevision, saveSubmission } from "../src/submissions.mjs";
 
 /* ───────── 脚手架 ───────── */
@@ -158,10 +158,17 @@ test("read-model 的源码里不得**查询**私域表（结构级保证）", as
     assert.ok(!queried, `read-model.mjs 查询了私域表 ${table} —— 违反 ADR-008 的表级白名单`);
   }
 
-  // 正向断言：公开域的表确实在被查（否则上面那些断言会因"什么都没查"而空转）
+  // 正向断言：白名单里的四张表确实在被查（否则上面那些断言会因"什么都没查"而空转）
   assert.ok(/\bfrom\s+nodes\b/i.test(source), "应当查询 nodes");
   assert.ok(/\bfrom\s+edges\b/i.test(source) || /\bjoin\s+edges\b/i.test(source), "应当查询 edges");
   assert.ok(/\btag_members\b/i.test(source), "应当查询 tag_members");
+  assert.ok(/\bfrom\s+node_events\b/i.test(source), "应当查询 node_events（时间线要读事件流，ADR-009）");
+
+  // 事件表虽然进了白名单，但**必须过滤 visibility**：内部事件不许外泄
+  assert.ok(
+    /visibility\s*=\s*'public'/i.test(source),
+    "读 node_events 必须限定 visibility = 'public'，否则内部事件会进公开面与快照",
+  );
 });
 
 test("findForbiddenKeys 能识嵌套与数组里的私域键", () => {
@@ -210,6 +217,62 @@ test("已发布节点数 = 快照节点数（不变量 8 的全局校验）", ()
     });
     const published = q.get(db, "SELECT COUNT(*) AS c FROM nodes WHERE published_revision_id IS NOT NULL").c;
     assert.equal(buildSnapshot(db).nodes.length, published);
+  } finally {
+    cleanup();
+  }
+});
+
+/* ───────── 不变量 13：列表只显示顶层条目 ───────── */
+
+test("★ 看板列表不显示阶段（否则一个项目的三个阶段会被读成三个项目）", () => {
+  const { db, cleanup } = setup();
+  try {
+    const now = nowIso();
+    const project = publishOne(db, "WithStages");
+    // 手工挂两个阶段子节点
+    for (const [id, name] of [["stage:withstages-v1", "第一期"], ["stage:withstages-v2", "第二期"]]) {
+      q.run(db, "INSERT INTO nodes (id, kind, profile_json, published_revision_id, created_at, updated_at) VALUES (?, 'stage', ?, ?, ?, ?)",
+        id, JSON.stringify({ name, i18n: { zh: { title: name } }, facets: { time: { start: "2026-01-01", end: "2026-12-31" } } }), `seed_${id}_1`, now, now);
+      q.run(db, "INSERT INTO revisions (id, node_id, snapshot_json, status, created_at) VALUES (?, ?, '{}', 'published', ?)", `seed_${id}_1`, id, now);
+      q.run(db, "INSERT INTO edges (from_id, rel, to_id, created_at) VALUES (?, 'parent', ?, ?)", id, project.nodeId, now);
+    }
+
+    const list = listPublishedNodes(db, { limit: 50 });
+    assert.ok(list.items.some((node) => node.id === project.nodeId), "顶层项目要在列表里");
+    assert.ok(!list.items.some((node) => node.kind === "stage"), "阶段不该出现在看板列表里");
+    assert.equal(q.get(db, "SELECT COUNT(*) AS c FROM nodes WHERE kind='stage' AND published_revision_id IS NOT NULL").c, 2, "阶段本身仍然存在且已发布");
+
+    // 详情页仍要能拿到阶段与派生 phases
+    const detail = findPublishedNode(db, project.nodeId, { now: new Date("2026-06-01T00:00:00Z") });
+    assert.equal(detail.stages.length, 2);
+    assert.deepEqual(detail.facets.phases, ["第一期", "第二期"], "两个窗口都包含 now → 并列阶段");
+    // 直接按 id 访问阶段本身也可以（只是不在列表里）
+    assert.ok(findPublishedNode(db, "stage:withstages-v1"));
+  } finally {
+    cleanup();
+  }
+});
+
+test("快照包含 stages 与 events，且 nodes 只含顶层", () => {
+  const { db, cleanup } = setup();
+  try {
+    const now = nowIso();
+    const project = publishOne(db, "SnapWithStage");
+    q.run(db, "INSERT INTO nodes (id, kind, profile_json, published_revision_id, created_at, updated_at) VALUES ('stage:s1','stage',?, 'seed_stage:s1_1', ?, ?)",
+      JSON.stringify({ name: "一期", i18n: { zh: { title: "一期" } }, facets: { time: { start: "2026-01-01", end: "2026-12-31" } } }), now, now);
+    q.run(db, "INSERT INTO revisions (id, node_id, snapshot_json, status, created_at) VALUES ('seed_stage:s1_1','stage:s1','{}','published',?)", now);
+    q.run(db, "INSERT INTO edges (from_id, rel, to_id, created_at) VALUES ('stage:s1','parent',?,?)", project.nodeId, now);
+    q.run(db, "INSERT INTO node_events (id, node_id, kind, at, title, source, visibility, created_at) VALUES ('evt1', ?, 'milestone', ?, '发布 v1.0', 'manual', 'public', ?)",
+      project.nodeId, now, now);
+    q.run(db, "INSERT INTO node_events (id, node_id, kind, at, title, source, visibility, created_at) VALUES ('evt2', ?, 'note', ?, '内部记录', 'manual', 'internal', ?)",
+      project.nodeId, now, now);
+
+    const snapshot = buildSnapshot(db);
+    assert.ok(snapshot.stages.some((stage) => stage.id === "stage:s1" && stage.parentId === project.nodeId));
+    assert.deepEqual(snapshot.events.map((event) => event.id), ["evt1"], "内部事件不进快照");
+    assert.ok(snapshot.events[0].title === "发布 v1.0");
+    assert.ok(!snapshot.nodes.some((node) => node.kind === "stage"), "快照的 nodes 只含顶层");
+    assert.ok(snapshot.timeline.some((item) => item.title === "发布 v1.0"), "时间轴应含事件");
   } finally {
     cleanup();
   }

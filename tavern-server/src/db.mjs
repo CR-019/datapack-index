@@ -26,12 +26,28 @@ export function applyMigrations(db) {
 
   db.exec("CREATE TABLE IF NOT EXISTS schema_migrations (id TEXT PRIMARY KEY, applied_at TEXT NOT NULL);");
   const applied = new Set(db.prepare("SELECT id FROM schema_migrations").all().map((row) => row.id));
+  const pending = files.filter((file) => !applied.has(file));
+  if (!pending.length) return;
 
-  for (const file of files) {
-    if (applied.has(file)) continue;
-    db.exec(fs.readFileSync(path.join(dir, file), "utf8"));
-    db.prepare("INSERT INTO schema_migrations (id, applied_at) VALUES (?, ?)").run(file, nowIso());
-    process.stdout.write(`[migrate] applied ${file}\n`);
+  // ⚠️ 迁移期间**关闭外键强制**：放宽 CHECK 之类的变更需要重建表，
+  // 而 DROP TABLE nodes 在外键开着时会按 ON DELETE CASCADE 静默删掉子表数据。
+  // PRAGMA foreign_keys 在事务内是空操作，所以必须在执行迁移文件之前设置。
+  db.exec("PRAGMA foreign_keys = OFF;");
+  try {
+    for (const file of pending) {
+      db.exec(fs.readFileSync(path.join(dir, file), "utf8"));
+      db.prepare("INSERT INTO schema_migrations (id, applied_at) VALUES (?, ?)").run(file, nowIso());
+      process.stdout.write(`[migrate] applied ${file}\n`);
+    }
+  } finally {
+    db.exec("PRAGMA foreign_keys = ON;");
+  }
+
+  // 迁移后自检：外键违规就拒绝启动，而不是带着坏数据继续跑
+  const violations = db.prepare("PRAGMA foreign_key_check").all();
+  if (violations.length) {
+    const sample = violations.slice(0, 5).map((row) => `${row.table}(${row.rowid}) → ${row.parent}`).join("；");
+    throw new Error(`迁移后检测到 ${violations.length} 处外键违规，拒绝启动：${sample}`);
   }
 }
 

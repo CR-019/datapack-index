@@ -81,14 +81,14 @@ slug 允许中文（本站既有 URL 就是中文，如 `/index/绪论`），所
 
 | 检查 | 结果 |
 | --- | --- |
-| 迁移 | `001_init.sql` 13 张表建好 |
+| 迁移 | `001_init.sql` 13 张表 → `002` 修订来源 → `003` 事件表并把 `kind` 枚举放进新的 `nodes` 表（迁移期关外键、迁移后 `foreign_key_check` 兜底） |
 | 种子 | 80 作者 + 55 条目 + 73 标签 + 65 `authored` 边 + 55 `maintains` 边 + 112 标签成员 |
 | 引导 | 第一个 staff 账号创建，并**认领了既有作者档案** `CR_019`（不是新建节点） |
-| 公开接口 | `/healthz`、`/v1/status`、`/v1/nodes`（分页 / 筛选）、`/v1/nodes/:id`、`/v1/authors/:id`、`/v1/tags`、`/v1/tags/:id/members`、`/v1/timeline` 全通 |
+| 公开接口 | `/healthz`、`/v1/status`、`/v1/nodes`（分页 / 筛选）、`/v1/nodes/:id`、`/v1/nodes/:id/events`、`/v1/authors/:id`、`/v1/tags`、`/v1/tags/:id/members`、`/v1/timeline` 全通 |
 | 认证 | `pin + token` → `HttpOnly` cookie → `/v1/me` 返回身份与 `maintains` 列表 |
 | 安全 | 错误 pin 与错误 token 返回**同一条**错误信息（无法探测 pin 是否存在）；失败计数与锁定生效；令牌只存哈希 |
 | 重名 | `person:bookshelf` 与 `project:bookshelf` 共存互不干扰 |
-| 回归测试 | `npm test` 4/4 |
+| 回归测试 | `npm test` 185/185 |
 
 ### 跑起来当场抓到的两个真 bug
 
@@ -132,6 +132,7 @@ echo 'TAVERN_SESSION_SECURE=0' >> .env   # 本地是 HTTP；生产删掉这行
 | `GET` | `/v1/tags` | 标签列表（**零成员不进列表**） |
 | `GET` | `/v1/tags/:id` | 标签详情（含成员数） |
 | `GET` | `/v1/tags/:id/members` | 标签成员（读物化表） |
+| `GET` | `/v1/nodes/:id/events` | 某条目的事件流（**只返回 `visibility='public'`**，`limit` ≤ 100） |
 | `GET` | `/v1/timeline` | 时间轴（优先边级 `since`，否则退回创建时间） |
 
 **需会话**（同源，不加通配 CORS）
@@ -142,6 +143,14 @@ echo 'TAVERN_SESSION_SECURE=0' >> .env   # 本地是 HTTP；生产删掉这行
 | `DELETE` | `/v1/auth/session` | 退出（清会话，令牌不受影响） |
 | `GET` | `/v1/me` | 我是谁 + 我维护哪些条目 |
 
+**需维护者权限**（`canEdit`：staff 通吃，否则查 `maintains` 边）
+
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| `PATCH` | `/v1/nodes/:id` | **收敛型直通**（ADR-009）：白名单 `state` / `recruit` / `note`；自动追写事件、同步 `facets.state` 投影、并留一条 `rev_conv_*` 修订供回滚。扩张型字段（正文等）返回 `not_convergent`，必须走投稿 |
+| `POST` | `/v1/nodes/:id/stages` | 新建阶段子节点（ADR-010）：`name` + `start`/`end` 必填，**不许嵌套**（父节点不能是 stage）；名称与时间窗属事实，直通生效 |
+| `DELETE` | `/v1/nodes/:parentId/stages/:stageId` | 删阶段（连带删其 `parent` 边与事件） |
+
 验证一下：
 
 ```bash
@@ -149,6 +158,9 @@ curl -s http://127.0.0.1:9878/v1/status
 curl -s 'http://127.0.0.1:9878/v1/nodes?kind=project&limit=3'
 curl -s 'http://127.0.0.1:9878/v1/tags' | head -30
 curl -s http://127.0.0.1:9878/v1/authors/Alumopper
+
+# 事件流（只含 public 事件；新种子数据里是空数组，属正常）
+curl -s 'http://127.0.0.1:9878/v1/nodes/project:Floating_UI/events'
 
 # 换取会话（把 pin/token 换成 bootstrap 打印的那对）
 curl -i -c /tmp/tavern.jar -X POST http://127.0.0.1:9878/v1/auth/session \
@@ -171,6 +183,10 @@ curl -s -b /tmp/tavern.jar http://127.0.0.1:9878/v1/me
 | **标签成员是算出来的** | `tag_members` 是唯一的派生表，可随时由 `nodes.tags` 重算；`/v1/tags` 用 `HAVING members > 0` 实现"零成员不进公开列表" |
 | **权限由 `maintains` 边说话** | `canEdit()`：staff 通吃，否则查边——不由身份类型决定（ADR-005） |
 | **主体即节点** | bootstrap 同时建 `person` 节点与 `accounts` 行，`accounts.id` 外键指向 `nodes.id`（1:1） |
+| **事件是真相、状态是投影**（ADR-009） | `node_events` 只增不改；`facets.state` 由事件 `recomputeState()` 推出，可随时重算。收敛型直通与「有历史」因此同时成立——不是绕过审计的快捷方式 |
+| **阶段是子节点、时间是算出来的**（ADR-010） | 阶段是一个 `kind=stage` 的节点 + 一条 `child → parent` 的 `parent` 边（**至多一条**）；`facets.phases` 是从阶段时间窗与当前时间**算出来的派生字段**，允许并列、允许空隙、可为空 |
+| **不变量 13 落在读模型**（ADR-010） | `listPublishedNodes()` 自带 `NOT EXISTS (… rel='parent')`，看板列表天然只含顶层。前端不必再实现一遍，也不会因为忘记过滤而漏出阶段 |
+| **公开读模型是表级白名单**（ADR-011） | 公开 SQL 只允许碰 `nodes` / `edges` / `tag_members` / `node_events` 四张表，且 `node_events` 必须带 `visibility='public'`。私域表不是「记得别查」，而是**不在白名单里** |
 
 ---
 
@@ -244,6 +260,7 @@ npm run restore -- <备份目录> --to <目录> --force # 真恢复（覆盖线�
 
 ## 还没做的（下一步）
 
+- **阶段编辑**：目前只有「新建」与「删除」，改时间窗要删了重建
 - **申请与邀请**：`applications` / `invitations` 的接口与一次性激活页
 - **工作台页面**（§7.7）与 `/author` 验证页
 - **素材处理**：尚未接 `sharp` / `svgo`（届时需决定复用主仓库的 `scripts/optimize-images.mjs` 还是自带一份——会影响"能否一条 `mv` 拆走"）
@@ -258,13 +275,18 @@ npm run restore -- <备份目录> --to <目录> --force # 真恢复（覆盖线�
 tavern-server/
 ├── migrations/
 │   ├── 001_init.sql          # 13 张表（对应设计文档 §16 附录 B）
-│   └── 002_revision_source.sql
+│   ├── 002_revision_source.sql
+│   └── 003_events_and_stages.sql
 ├── src/
 │   ├── config.mjs            # 环境变量、.env 加载、安全配置自检
 │   ├── db.mjs                # 打开 + 自动迁移 + 查询包装
 │   ├── http.mjs              # 路由、响应、cookie、CORS
 │   ├── auth.mjs              # 令牌哈希、限流、会话、审计、权限判定
-│   ├── read-model.mjs        # 公开读模型（表级白名单：只查 nodes/edges/tag_members）
+│   ├── read-model.mjs        # 公开读模型（表级白名单）+ 快照序列化
+│   ├── events.mjs            # 事件追加 / 作废 / 状态重算（ADR-009）
+│   ├── timeline.mjs          # 阶段解析、facets 派生、时间轴合并
+│   ├── changes.mjs           # 收敛型直通批处理（白名单 + 自动事件 + 可回滚修订）
+│   ├── stages.mjs            # 阶段子节点：建/删与四条专属校验
 │   ├── zip.mjs               # 零依赖 ZIP 读取器 + 安全闸门
 │   ├── zip-write.mjs         # 零依赖 ZIP 写入器（确定性）
 │   ├── archive.mjs           # pack/unpack（§9.5 双向可逆）
@@ -276,6 +298,6 @@ tavern-server/
 │   ├── routes.mjs            # 全部 handler
 │   └── server.mjs            # 组装与启动
 ├── scripts/                  # bootstrap / seed / reset / snapshot / pack / unpack / check-secrets
-├── tests/                    # 127 个用例（node:test，零测试框架依赖）
+├── tests/                    # 185 个用例（node:test，零测试框架依赖）
 └── data/                     # 运行时数据（gitignore）
 ```

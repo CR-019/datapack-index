@@ -152,15 +152,26 @@ export function audit(db, { actorId = null, tokenId = null, action, target = nul
   );
 }
 
-/** 权限判定：由 maintains 边说话，不由身份类型说话（ADR-005） */
+/**
+ * 权限判定：由 `maintains` 边说话，不由身份类型说话（ADR-005）。
+ *
+ * **阶段（`kind=stage`）继承父节点的维护权**（ADR-010）：阶段是项目的一部分，
+ * 不该要求为每个阶段单独挂一条 maintains 边（那样一改维护者就要改 N 条边）。
+ * 阶段不能再嵌套阶段（不变量 15），所以只会向上走一层。
+ */
 export function canEdit(db, accountId, nodeId) {
   const account = q.get(db, "SELECT role FROM accounts WHERE id = ?", accountId);
   if (!account) return false;
   if (account.role === "staff") return true;
-  const edge = q.get(
-    db,
-    "SELECT 1 AS ok FROM edges WHERE from_id = ? AND rel = 'maintains' AND to_id = ?",
-    accountId, nodeId,
+
+  const hasEdge = (target) => Boolean(
+    q.get(db, "SELECT 1 AS ok FROM edges WHERE from_id = ? AND rel = 'maintains' AND to_id = ?", accountId, target),
   );
-  return Boolean(edge);
+  if (hasEdge(nodeId)) return true;
+
+  const node = q.get(db, "SELECT kind FROM nodes WHERE id = ?", nodeId);
+  if (node?.kind !== "stage") return false;
+
+  const parent = q.get(db, "SELECT to_id AS \"to\" FROM edges WHERE from_id = ? AND rel = 'parent' LIMIT 1", nodeId);
+  return parent?.to ? hasEdge(parent.to) : false;
 }
