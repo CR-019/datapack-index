@@ -55,13 +55,22 @@ if (checkMode) {
     db.close();
     process.exit(1);
   }
-  if (committed === text) {
+
+  // ⚠️ 比较前把行尾归一化。
+  //
+  // 生成器写的是 LF，但 git 的 `core.autocrlf=true`（Windows 上很常见）会在
+  // checkout 时把仓库里那份改写成 CRLF。于是逐字节比较**必然失败**，而失败
+  // 报告会打印两行看起来一模一样的内容（CR 不可见）——"快照已过期"和眼前
+  // 的证据自相矛盾，只能靠猜。这类"只在本地失败、CI 全绿"的假警报最耗人。
+  // 行尾不是快照的内容，比较它没有意义。
+  const committedText = committed.replace(/\r\n/g, "\n");
+  if (committedText === text) {
     process.stdout.write(`✔ 快照与当前代码/数据一致（${snapshot.nodes.length} 节点，${(Buffer.byteLength(text) / 1024).toFixed(1)} KB）\n`);
     db.close();
     process.exit(0);
   }
 
-  const left = committed.split("\n");
+  const left = committedText.split("\n");
   const right = text.split("\n");
   const differences = [];
   for (let index = 0; index < Math.max(left.length, right.length) && differences.length < 5; index += 1) {

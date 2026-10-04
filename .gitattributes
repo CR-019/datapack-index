@@ -1,0 +1,10 @@
+# 生成物：逐字节比对，行尾必须固定
+#
+# `public/tavern-snapshot.json` 由 `npm run snapshot` 确定性生成，
+# CI 用 `npm run snapshot:check` 比对**内容**（见 tavern-server/scripts/snapshot.mjs）。
+# 生成器写 LF，而 Windows 上常见的 `core.autocrlf=true` 会在 checkout 时把仓库里
+# 那份改写成 CRLF —— 一次 `git checkout` 就足以让本地检查报"快照已过期"，
+# 而报告里打印的两行看起来一模一样（CR 不可见）。固定成 LF，两边就对齐了。
+#
+# 注意：快照本身仍然只是"内容 + 换行"的纯文本，把它当二进制反而会让 diff 没法看。
+/public/tavern-snapshot.json text eol=lf
