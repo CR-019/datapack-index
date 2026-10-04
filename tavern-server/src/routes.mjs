@@ -48,7 +48,17 @@ export function buildRouter(db) {
   };
 
   const assertKind = (kind) => {
-    if (kind && !KINDS.has(kind)) throw new HttpError(400, "invalid_kind", `未知的 kind：${kind}`);
+    if (!kind || KINDS.has(kind)) return;
+    // `stage` 是合法 kind，但它不是看板条目（不变量 13）——如果只说"未知的 kind"，
+    // 调用方会以为是自己拼错了，然后去翻文档确认 stage 到底存不存在。直接说清楚。
+    if (kind === "stage") {
+      throw new HttpError(
+        400,
+        "stage_not_listable",
+        "阶段不进看板列表（不变量 13）——它挂在宿主条目的详情里，请读 /v1/nodes/:id 的 stages 字段",
+      );
+    }
+    throw new HttpError(400, "invalid_kind", `未知的 kind：${kind}（可用：${[...KINDS].join(" / ")}）`);
   };
 
   /* ───────────────── 健康与状态（公开） ───────────────── */
