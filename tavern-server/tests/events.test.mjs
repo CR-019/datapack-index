@@ -186,3 +186,48 @@ test("列表支持 limit", () => {
     cleanup();
   }
 });
+
+test("★ total 与 items 口径必须一致（计数不能泄露内部事件的存在）", () => {
+  const { db, cleanup } = setup();
+  try {
+    appendFact(db, { nodeId: "project:pub", kind: "note", title: "公开 A" });
+    appendFact(db, { nodeId: "project:pub", kind: "note", title: "公开 B" });
+    appendFact(db, { nodeId: "project:pub", kind: "note", title: "内部的", visibility: "internal" });
+
+    // 曾经 countEvents 只过滤 voided_at → 公开接口 items 2 条、total 3 条，
+    // 匿名访客因此知道"还藏着一条"。看不见内容 ≠ 看不见数量。
+    assert.equal(countEvents(db, "project:pub"), 2, "默认口径不含内部事件");
+    assert.equal(countEvents(db, "project:pub"), listEvents(db, "project:pub").length);
+
+    // 作废的事件两边都要排除（同一个 filter，不许各写一遍）
+    const doomed = listEvents(db, "project:pub")[0];
+    voidEvent(db, { eventId: doomed.id });
+    assert.equal(countEvents(db, "project:pub"), 1);
+    assert.equal(countEvents(db, "project:pub"), listEvents(db, "project:pub").length);
+
+    // staff 口径要能拿到全部
+    assert.equal(countEvents(db, "project:pub", { includeInternal: true, includeVoided: true }), 3);
+  } finally {
+    cleanup();
+  }
+});
+
+test("★ 公开事件不带 actorId（审计字段属于 staff 侧，快照里也没有）", () => {
+  const { db, cleanup } = setup();
+  try {
+    appendFact(db, { nodeId: "project:pub", kind: "note", title: "有记录人的" });
+    const [event] = listEvents(db, "project:pub");
+
+    // §6.6 把 actor_id 定义为审计字段；公开面暴露它等于公布"这条是哪个账户改的"，
+    // 而且快照的 events 本来就没这个键——留着只会让在线/离线形状对不上。
+    assert.ok(!("actorId" in event), `公开事件不该带 actorId：${Object.keys(event).join(",")}`);
+    assert.ok(!("actor_id" in event));
+    assert.deepEqual(
+      Object.keys(event).sort(),
+      ["at", "body", "id", "kind", "nodeId", "source", "status", "title"],
+      "公开事件的字段集合是被固定的——加字段要同时想清楚快照那一份",
+    );
+  } finally {
+    cleanup();
+  }
+});

@@ -19,7 +19,8 @@
     "check:secrets": "node scripts/check-secrets.mjs",
     "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.mjs",
     "backup": "node --disable-warning=ExperimentalWarning scripts/backup.mjs",
-    "restore": "node --disable-warning=ExperimentalWarning scripts/restore.mjs"
+    "restore": "node --disable-warning=ExperimentalWarning scripts/restore.mjs",
+    "seed:demo": "node --disable-warning=ExperimentalWarning scripts/seed-demo.mjs"
   },
   "dependencies": {}
 }

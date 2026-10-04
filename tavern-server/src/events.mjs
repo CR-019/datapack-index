@@ -137,23 +137,44 @@ export function appendFact(db, input) {
 
 /* ───────────────── 查询 ───────────────── */
 
-export function listEvents(db, nodeId, { limit = 20, includeInternal = false, includeVoided = false } = {}) {
+/**
+ * 事件查询的过滤条件（**唯一**一份，list 与 count 必须共用）。
+ *
+ * 之前 countEvents 只过滤了 `voided_at`，漏了 `visibility`：公开接口于是变成
+ * `items` 里 4 条、`total` 里 5 条——计数本身把"存在一条内部事件"泄了出去。
+ * 与当年 `/v1/status` 匿名暴露账户数是同一类问题：**看不见内容不等于看不见数量**。
+ */
+function eventFilter({ includeInternal = false, includeVoided = false } = {}) {
   const where = ["node_id = ?"];
-  const params = [nodeId];
   if (!includeInternal) where.push("visibility = 'public'");
   if (!includeVoided) where.push("voided_at IS NULL");
+  return where.join(" AND ");
+}
 
+/**
+ * 事件列表。
+ *
+ * ⚠️ **故意不返回 `actor_id`**（设计文档 §6.6 把它定义为审计字段："谁记录的"）。
+ * 审计属于 staff 侧；公开面暴露它等于把「这条是哪个账户改的」发出去，而且快照里
+ * 本来就没有这个字段——留着只会让在线/离线两种形状对不上。
+ */
+export function listEvents(db, nodeId, { limit = 20, includeInternal = false, includeVoided = false } = {}) {
   return q.all(
     db,
-    `SELECT id, node_id AS nodeId, kind, at, status, title, body, source, actor_id AS actorId
-     FROM node_events WHERE ${where.join(" AND ")}
+    `SELECT id, node_id AS nodeId, kind, at, status, title, body, source
+     FROM node_events WHERE ${eventFilter({ includeInternal, includeVoided })}
      ORDER BY at DESC, created_at DESC, id DESC LIMIT ?`,
-    ...params, limit,
+    nodeId, limit,
   );
 }
 
-export function countEvents(db, nodeId) {
-  return q.get(db, "SELECT COUNT(*) AS c FROM node_events WHERE node_id = ? AND voided_at IS NULL", nodeId).c;
+/** 与 listEvents 必须给出一致的口径：同一个 `total` 下的 items 才是完整的 */
+export function countEvents(db, nodeId, { includeInternal = false, includeVoided = false } = {}) {
+  return q.get(
+    db,
+    `SELECT COUNT(*) AS c FROM node_events WHERE ${eventFilter({ includeInternal, includeVoided })}`,
+    nodeId,
+  ).c;
 }
 
 /* ───────────────── 作废（不变量 2：不可改，只能作废） ───────────────── */
