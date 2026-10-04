@@ -178,7 +178,9 @@ try {
     const data = parseFrontmatter(fs.readFileSync(path.join(WHEEL_DIR, file), "utf8"));
     if (!data?.name) { stats.wheelSkipped += 1; continue; }
 
-    const tags = (data.tags ?? []).map(canonicalTag).filter(Boolean);
+    // 去重：既有数据里确实存在重复标签（如 wheel/resources/TL_lite.md 的 ["对话框","对话框","动画"]）
+    const tags = [...new Set((data.tags ?? []).map(canonicalTag).filter(Boolean).map((tag) => tag.toLowerCase()))]
+      .map((key) => tagByKey.get(key));
     const gameversion = data.gameversion ?? [];
 
     publishNode(db, {

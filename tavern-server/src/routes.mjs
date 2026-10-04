@@ -1,12 +1,26 @@
 import { config, nowIso } from "./config.mjs";
-import { PUBLISHED_ONLY, parseProfile, q } from "./db.mjs";
+import { q } from "./db.mjs";
 import { PUBLIC_CORS, clientIp, parseCookies, readBody, readJson, sendJson, serializeCookie } from "./http.mjs";
 import { createRouter } from "./http.mjs";
 import { audit, authenticate, clearFailures, createSession, destroySession, rateLimitState, readSession, recordFailure } from "./auth.mjs";
-import { MultipartError, parseMultipart, requireFile } from "./multipart.mjs";
-import { ZIP_LIMITS, ZipError } from "./zip.mjs";
+import { parseMultipart, requireFile } from "./multipart.mjs";
+import { ZIP_LIMITS } from "./zip.mjs";
 import { ingestZip } from "./ingest.mjs";
-import { SubmissionError, normalizeSlug, pendingQueue, reviewRevision, saveSubmission, storeInbox } from "./submissions.mjs";
+import { normalizeSlug, pendingQueue, reviewRevision, saveSubmission, storeInbox } from "./submissions.mjs";
+import {
+  buildStatus,
+  buildTimeline,
+  clampLimit,
+  decodeCursor,
+  findAuthor,
+  findPublishedNode,
+  findTag,
+  listPublishedAuthors,
+  listPublishedNodes,
+  listTags,
+  publicNode,
+  tagMembers,
+} from "./read-model.mjs";
 
 export class HttpError extends Error {
   constructor(status, code, message) {
@@ -16,45 +30,7 @@ export class HttpError extends Error {
   }
 }
 
-const MAX_LIMIT = 200;
-const DEFAULT_LIMIT = 50;
 const KINDS = new Set(["project", "event", "index", "tag", "person", "team"]);
-
-const encodeCursor = (offset) => Buffer.from(String(offset), "utf8").toString("base64url");
-
-function decodeCursor(cursor) {
-  if (!cursor) return 0;
-  const value = Number(Buffer.from(String(cursor), "base64url").toString("utf8"));
-  return Number.isFinite(value) && value >= 0 ? Math.floor(value) : 0;
-}
-
-function limitOf(url) {
-  const raw = Number(url.searchParams.get("limit") ?? DEFAULT_LIMIT);
-  if (!Number.isFinite(raw) || raw <= 0) return DEFAULT_LIMIT;
-  return Math.min(Math.floor(raw), MAX_LIMIT);
-}
-
-function title(profile) {
-  return profile?.i18n?.zh?.title ?? profile?.i18n?.en?.title ?? null;
-}
-
-/** 公开节点视图：profile 本身即公开数据（ADR-008），这里只做投影 */
-function publicNode(db, row, { withEdges = false } = {}) {
-  const node = parseProfile(row);
-  if (withEdges) {
-    node.edges = q.all(
-      db,
-      "SELECT rel, to_id AS \"to\", ord, role, char, since, until, status, note FROM edges WHERE from_id = ? ORDER BY rel, ord, to_id",
-      row.id,
-    );
-    node.incoming = q.all(
-      db,
-      "SELECT rel, from_id AS \"from\", ord, role, char, since, until, status, note FROM edges WHERE to_id = ? ORDER BY rel, ord, from_id",
-      row.id,
-    );
-  }
-  return node;
-}
 
 export function buildRouter(db) {
   const router = createRouter();
@@ -84,174 +60,88 @@ export function buildRouter(db) {
     }, { ...PUBLIC_CORS, "Cache-Control": "no-store" });
   });
 
-  router.get("/v1/status", ({ res }) => {
-    const byKind = Object.fromEntries(q.all(db, "SELECT kind, COUNT(*) AS c FROM nodes GROUP BY kind").map((r) => [r.kind, r.c]));
-    const byRel = Object.fromEntries(q.all(db, "SELECT rel, COUNT(*) AS c FROM edges GROUP BY rel").map((r) => [r.rel, r.c]));
-    const revisions = Object.fromEntries(q.all(db, "SELECT status, COUNT(*) AS c FROM revisions GROUP BY status").map((r) => [r.status, r.c]));
-    const published = q.get(db, `SELECT COUNT(*) AS c FROM nodes n WHERE ${PUBLISHED_ONLY}`).c;
-    const accounts = q.get(db, "SELECT COUNT(*) AS c FROM accounts").c;
-    const activeTokens = q.get(db, "SELECT COUNT(*) AS c FROM tokens WHERE revoked_at IS NULL").c;
-    sendJson(res, 200, {
-      schema: 1,
-      generatedAt: nowIso(),
-      nodes: { total: Object.values(byKind).reduce((a, b) => a + b, 0), byKind, published },
-      edges: byRel,
-      revisions,
-      private: { accounts, activeTokens },
-      sources: { storage: "sqlite", snapshot: "pending" },
-    }, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=30" });
+  router.get("/v1/status", ({ req, res }) => {
+    const payload = buildStatus(db);
+    // 私域计数只对工作组可见 —— 而且这条查询刻意放在路由里、不进读模型，
+    // 以保持 read-model.mjs 的表级白名单（只碰 nodes / edges / tag_members）
+    const ctx = currentSession(req);
+    if (ctx?.account.role === "staff") {
+      payload.private = {
+        accounts: q.get(db, "SELECT COUNT(*) AS c FROM accounts").c,
+        activeTokens: q.get(db, "SELECT COUNT(*) AS c FROM tokens WHERE revoked_at IS NULL").c,
+      };
+    }
+    sendJson(res, 200, payload, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=30" });
   });
 
   /* ───────────────── 节点（公开只读，仅已发布） ───────────────── */
 
   router.get("/v1/nodes", ({ res, url }) => {
     const kind = url.searchParams.get("kind");
-    const tag = url.searchParams.get("tag");
-    const state = url.searchParams.get("state");
-    const search = url.searchParams.get("q");
     assertKind(kind);
-
-    const where = [PUBLISHED_ONLY];
-    const params = [];
-    if (kind) { where.push("n.kind = ?"); params.push(kind); }
-    if (tag) { where.push("n.id IN (SELECT node_id FROM tag_members WHERE tag_id = ?)"); params.push(tag); }
-    if (state) { where.push("json_extract(n.profile_json, '$.facets.state') = ?"); params.push(state); }
-    if (search) { where.push("n.profile_json LIKE ?"); params.push(`%${search}%`); }
-
-    const clause = where.join(" AND ");
-    const total = q.get(db, `SELECT COUNT(*) AS c FROM nodes n WHERE ${clause}`, ...params).c;
-    const limit = limitOf(url);
-    const offset = decodeCursor(url.searchParams.get("cursor"));
-
-    const rows = q.all(
-      db,
-      `SELECT n.* FROM nodes n WHERE ${clause} ORDER BY n.updated_at DESC, n.id LIMIT ? OFFSET ?`,
-      ...params, limit, offset,
-    );
-
-    sendJson(res, 200, {
-      schema: 1,
-      items: rows.map((row) => publicNode(db, row)),
-      total,
-      limit,
-      nextCursor: offset + limit < total ? encodeCursor(offset + limit) : null,
-    }, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=60" });
+    const result = listPublishedNodes(db, {
+      kind,
+      tag: url.searchParams.get("tag"),
+      state: url.searchParams.get("state"),
+      search: url.searchParams.get("q"),
+      limit: clampLimit(url.searchParams.get("limit")),
+      offset: decodeCursor(url.searchParams.get("cursor")),
+    });
+    sendJson(res, 200, { schema: 1, ...result }, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=60" });
   });
 
   router.get("/v1/nodes/:id", ({ res, params }) => {
-    const row = q.get(db, `SELECT n.* FROM nodes n WHERE n.id = ? AND ${PUBLISHED_ONLY}`, params.id);
-    if (!row) throw new HttpError(404, "not_found", "条目不存在或尚未上架");
-    sendJson(res, 200, { schema: 1, node: publicNode(db, row, { withEdges: true }) }, PUBLIC_CORS);
+    const node = findPublishedNode(db, params.id, { withEdges: true });
+    if (!node) throw new HttpError(404, "not_found", "条目不存在或尚未上架");
+    sendJson(res, 200, { schema: 1, node }, PUBLIC_CORS);
   });
 
   router.get("/v1/nodes/:id/edges", ({ res, params }) => {
-    const row = q.get(db, `SELECT n.* FROM nodes n WHERE n.id = ? AND ${PUBLISHED_ONLY}`, params.id);
-    if (!row) throw new HttpError(404, "not_found", "条目不存在或尚未上架");
-    const node = publicNode(db, row, { withEdges: true });
-    sendJson(res, 200, { schema: 1, id: row.id, edges: node.edges, incoming: node.incoming }, PUBLIC_CORS);
+    const node = findPublishedNode(db, params.id, { withEdges: true });
+    if (!node) throw new HttpError(404, "not_found", "条目不存在或尚未上架");
+    sendJson(res, 200, { schema: 1, id: node.id, edges: node.edges, incoming: node.incoming }, PUBLIC_CORS);
   });
 
   /* ───────────────── 作者（公开 profile） ───────────────── */
 
   router.get("/v1/authors", ({ res, url }) => {
-    const limit = limitOf(url);
-    const offset = decodeCursor(url.searchParams.get("cursor"));
-    const total = q.get(db, `SELECT COUNT(*) AS c FROM nodes n WHERE n.kind IN ('person','team') AND ${PUBLISHED_ONLY}`).c;
-    const rows = q.all(
-      db,
-      `SELECT n.* FROM nodes n WHERE n.kind IN ('person','team') AND ${PUBLISHED_ONLY}
-       ORDER BY json_extract(n.profile_json, '$.name'), n.id LIMIT ? OFFSET ?`,
-      limit, offset,
-    );
-    sendJson(res, 200, {
-      schema: 1,
-      items: rows.map((row) => publicNode(db, row)),
-      total,
-      limit,
-      nextCursor: offset + limit < total ? encodeCursor(offset + limit) : null,
-    }, PUBLIC_CORS);
+    const result = listPublishedAuthors(db, {
+      limit: clampLimit(url.searchParams.get("limit")),
+      offset: decodeCursor(url.searchParams.get("cursor")),
+    });
+    sendJson(res, 200, { schema: 1, ...result }, PUBLIC_CORS);
   });
 
   router.get("/v1/authors/:id", ({ res, params }) => {
-    const row = q.get(db, `SELECT n.* FROM nodes n WHERE n.id = ? AND n.kind IN ('person','team') AND ${PUBLISHED_ONLY}`, params.id);
-    if (!row) throw new HttpError(404, "not_found", "作者不存在");
-    const node = publicNode(db, row);
-    const maintained = q.all(
-      db,
-      `SELECT e.to_id AS id, e.role, n.profile_json FROM edges e JOIN nodes n ON n.id = e.to_id
-       WHERE e.from_id = ? AND e.rel = 'maintains' AND n.published_revision_id IS NOT NULL ORDER BY e.to_id`,
-      params.id,
-    ).map((r) => ({ id: r.id, role: r.role, title: title(JSON.parse(r.profile_json)) }));
-    const authored = q.all(
-      db,
-      `SELECT e.to_id AS id, e.char, n.profile_json FROM edges e JOIN nodes n ON n.id = e.to_id
-       WHERE e.from_id = ? AND e.rel = 'authored' AND n.published_revision_id IS NOT NULL ORDER BY e.to_id`,
-      params.id,
-    ).map((r) => ({ id: r.id, char: r.char, title: title(JSON.parse(r.profile_json)) }));
-    const members = q.all(db, "SELECT to_id AS id FROM edges WHERE from_id = ? AND rel = 'member' ORDER BY to_id", params.id);
-    sendJson(res, 200, { schema: 1, author: node, maintained, authored, members: members.map((m) => m.id) }, PUBLIC_CORS);
+    const payload = findAuthor(db, params.id);
+    if (!payload) throw new HttpError(404, "not_found", "作者不存在");
+    sendJson(res, 200, { schema: 1, ...payload }, PUBLIC_CORS);
   });
 
   /* ───────────────── 标签（成员由查询算出 + 物化） ───────────────── */
 
   router.get("/v1/tags", ({ res }) => {
-    // 零成员标签不进公开列表（§5.1.2）
-    const rows = q.all(
-      db,
-      `SELECT t.id, t.profile_json, COUNT(m.node_id) AS members
-       FROM nodes t LEFT JOIN tag_members m ON m.tag_id = t.id
-       WHERE t.kind = 'tag' AND t.published_revision_id IS NOT NULL
-       GROUP BY t.id HAVING members > 0 ORDER BY members DESC, t.id`,
-    );
-    sendJson(res, 200, {
-      schema: 1,
-      items: rows.map((row) => ({ id: row.id, title: title(JSON.parse(row.profile_json)) ?? row.id, members: row.members })),
-      total: rows.length,
-    }, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=300" });
+    const items = listTags(db);
+    sendJson(res, 200, { schema: 1, items, total: items.length }, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=300" });
   });
 
   router.get("/v1/tags/:id", ({ res, params }) => {
-    const tag = q.get(db, `SELECT n.* FROM nodes n WHERE n.id = ? AND n.kind = 'tag' AND ${PUBLISHED_ONLY}`, params.id);
+    const tag = findTag(db, params.id);
     if (!tag) throw new HttpError(404, "not_found", "标签不存在");
-    const members = q.get(db, "SELECT COUNT(*) AS c FROM tag_members WHERE tag_id = ?", params.id).c;
-    sendJson(res, 200, { schema: 1, tag: { ...publicNode(db, tag), memberCount: members } }, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=300" });
+    sendJson(res, 200, { schema: 1, tag }, { ...PUBLIC_CORS, "Cache-Control": "public, max-age=300" });
   });
 
   router.get("/v1/tags/:id/members", ({ res, params }) => {
-    const tag = q.get(db, `SELECT n.* FROM nodes n WHERE n.id = ? AND n.kind = 'tag' AND ${PUBLISHED_ONLY}`, params.id);
+    const tag = findTag(db, params.id);
     if (!tag) throw new HttpError(404, "not_found", "标签不存在");
-    const rows = q.all(
-      db,
-      `SELECT n.* FROM tag_members m JOIN nodes n ON n.id = m.node_id
-       WHERE m.tag_id = ? AND n.published_revision_id IS NOT NULL ORDER BY n.updated_at DESC, n.id`,
-      params.id,
-    );
-    sendJson(res, 200, { schema: 1, tag: publicNode(db, tag), items: rows.map((row) => publicNode(db, row)) }, PUBLIC_CORS);
+    sendJson(res, 200, { schema: 1, tag, items: tagMembers(db, params.id) }, PUBLIC_CORS);
   });
 
   /* ───────────────── 时间轴 ───────────────── */
 
   router.get("/v1/timeline", ({ res, url }) => {
-    const limit = limitOf(url);
-    // 边级时间优先（加入/参赛时间），没有边级时间的条目退回到 created_at
-    const edges = q.all(
-      db,
-      `SELECT e.since AS at, e.rel, e.status, e.to_id AS id, n.profile_json
-       FROM edges e JOIN nodes n ON n.id = e.to_id
-       WHERE e.since IS NOT NULL AND n.published_revision_id IS NOT NULL
-       ORDER BY e.since DESC LIMIT ?`,
-      limit,
-    ).map((r) => ({ at: r.at, rel: r.rel, status: r.status, id: r.id, title: title(JSON.parse(r.profile_json)) }));
-
-    const fallback = q.all(
-      db,
-      `SELECT n.created_at AS at, 'created' AS rel, n.id, n.profile_json FROM nodes n
-       WHERE ${PUBLISHED_ONLY} ORDER BY n.created_at DESC LIMIT ?`,
-      limit,
-    ).map((r) => ({ at: r.at, rel: r.rel, status: null, id: r.id, title: title(JSON.parse(r.profile_json)) }));
-
-    const items = (edges.length ? edges : fallback).sort((a, b) => String(b.at).localeCompare(String(a.at)));
-    sendJson(res, 200, { schema: 1, source: edges.length ? "edges" : "created_at", items }, PUBLIC_CORS);
+    const { source, items } = buildTimeline(db, { limit: clampLimit(url.searchParams.get("limit")) });
+    sendJson(res, 200, { schema: 1, source, items }, PUBLIC_CORS);
   });
 
   /* ───────────────── 认证：pin + token → 会话 ───────────────── */

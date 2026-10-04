@@ -26,16 +26,6 @@ function resolveApiBase() {
 /** 活动后端基址（前端所有请求都从这里出发；换成静态兜底时改这一个常量即可）。 */
 export const API_BASE = resolveApiBase();
 
-/**
- * 静态兜底快照地址。快照约定为单个 JSON：
- *   { schema, generatedAt, status, nodes: [...], tags: [...], timeline: [...] }
- * 生成快照后把路径登记到这里即可，活动后端不可用时会自动降级。
- * 例：withSiteBase("/tavern-snapshot.json")
- */
-export const SNAPSHOT_URLS = [
-	// withSiteBase("/tavern-snapshot.json"),
-];
-
 /** 站点基路径（VitePress base），用于拼站内链接与 public 资源。 */
 const BASE_URL = (import.meta.env && import.meta.env.BASE_URL) || "/";
 
@@ -47,6 +37,21 @@ export function withSiteBase(path) {
 	if (!value) return `${base}/`;
 	return `${base}${value.startsWith("/") ? value : `/${value}`}`;
 }
+
+/**
+ * 静态兜底快照地址。快照约定为单个 JSON：
+ *   { schema, generatedAt, status, nodes: [...], tags: [...], timeline: [...] }
+ * 活动后端不可用时会自动降级到它。
+ *
+ * ⚠️ 必须定义在 BASE_URL / withSiteBase **之后**：模块顶层的求值顺序是自上而下的，
+ * 放在前面会命中暂时性死区（"Cannot access 'BASE_URL' before initialization"），
+ * 而且是**构建期就炸**，不是运行期。
+ *
+ * 由后端 `npm run snapshot` 生成到 public/tavern-snapshot.json。
+ */
+export const SNAPSHOT_URLS = [
+	withSiteBase("/tavern-snapshot.json"),
+];
 
 /* ------------------------------------------------------------- 错误处理 */
 
@@ -136,7 +141,10 @@ async function readSnapshot() {
 			for (const url of SNAPSHOT_URLS) {
 				try {
 					const data = await requestJson(url, { timeoutMs: 8_000 });
-					if (data && typeof data === "object") return data;
+					if (data && typeof data === "object") {
+						snapshotGeneratedAt = typeof data.generatedAt === "string" ? data.generatedAt : null;
+						return data;
+					}
 				} catch (error) {
 					console.warn("[tavern] 静态快照不可用", url, error);
 				}
@@ -145,6 +153,41 @@ async function readSnapshot() {
 		})();
 	}
 	return snapshotPromise;
+}
+
+/* ------------------------------------------------- 降级状态（供 UI 提示） */
+
+/**
+ * 回退到静态快照时置位。
+ * 设计文档 §11.2 是硬要求：**降级时 UI 必须明确提示"数据可能不是最新"**，
+ * 只打 console.warn 不算 —— 读者无从知道自己看到的是旧数据。
+ */
+let snapshotFallback = null;
+let snapshotGeneratedAt = null;
+const fallbackListeners = new Set();
+
+function markSnapshotFallback(path) {
+	if (snapshotFallback) return; // 只记第一次，避免重复通知
+	snapshotFallback = { path, at: new Date().toISOString(), generatedAt: snapshotGeneratedAt };
+	for (const listener of fallbackListeners) {
+		try {
+			listener(snapshotFallback);
+		} catch (error) {
+			console.warn("[tavern] 降级状态监听者出错", error);
+		}
+	}
+}
+
+/** 订阅"已降级到静态快照"。若当前已处于降级态，会立即回调一次。返回取消订阅函数。 */
+export function onSnapshotFallback(listener) {
+	fallbackListeners.add(listener);
+	if (snapshotFallback) listener(snapshotFallback);
+	return () => fallbackListeners.delete(listener);
+}
+
+/** 当前降级状态；未降级时为 null */
+export function snapshotFallbackState() {
+	return snapshotFallback;
 }
 
 /**
@@ -168,6 +211,7 @@ async function load(path, { ttl = DEFAULT_TTL, timeoutMs, snapshot = null } = {}
 				const value = snapshot(fallback);
 				if (value !== undefined && value !== null) {
 					console.warn(`[tavern] 活动后端不可用，已回退到静态快照：${path}`);
+					markSnapshotFallback(path);
 					return writeCache(key, value);
 				}
 			}

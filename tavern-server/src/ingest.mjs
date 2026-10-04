@@ -241,8 +241,18 @@ export function buildProject(files, { locale = "zh" } = {}) {
     errors.push({ code: "missing_time", message: "赛事（kind: event）必须提供 time.start 与 time.end" });
   }
 
-  // 标签
-  const tags = asArray(data.tags).map(asString).filter(Boolean);
+  // 标签：按小写去重（作者可能写 [UI, ui]，那不该变成两个标签），保留首次出现的写法
+  const rawTags = asArray(data.tags).map(asString).filter(Boolean);
+  const seenTags = new Set();
+  const tags = rawTags.filter((tag) => {
+    const key = tag.toLowerCase();
+    if (seenTags.has(key)) return false;
+    seenTags.add(key);
+    return true;
+  });
+  if (tags.length !== rawTags.length) {
+    warnings.push({ code: "duplicate_tags", message: `标签里有重复项，已去重：${rawTags.join(", ")} → ${tags.join(", ")}` });
+  }
   if (tags.length > LIMITS.maxTags) errors.push({ code: "too_many_tags", message: `标签过多（${tags.length} > ${LIMITS.maxTags}）` });
 
   // 链接

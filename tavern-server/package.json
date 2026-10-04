@@ -12,6 +12,7 @@
     "bootstrap": "node --disable-warning=ExperimentalWarning scripts/bootstrap.mjs",
     "seed": "node --disable-warning=ExperimentalWarning scripts/seed.mjs",
     "reset": "node --disable-warning=ExperimentalWarning scripts/reset.mjs",
+    "snapshot": "node --disable-warning=ExperimentalWarning scripts/snapshot.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.mjs"
   },

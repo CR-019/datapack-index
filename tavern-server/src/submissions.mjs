@@ -98,6 +98,8 @@ export function saveSubmission(db, { accountId, project, slug, zipSha256, zipPat
   db.exec("BEGIN");
   try {
     if (!existing) {
+      // 新建节点：profile 先落库，但 published_revision_id 仍为空，
+      // 所以公开面读不到它（§5.5 不变量 8）。
       q.run(
         db,
         "INSERT INTO nodes (id, kind, profile_json, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
@@ -109,13 +111,11 @@ export function saveSubmission(db, { accountId, project, slug, zipSha256, zipPat
         "INSERT INTO edges (from_id, rel, to_id, role, created_at) VALUES (?, 'maintains', ?, 'owner', ?)",
         accountId, nodeId, now,
       );
-    } else {
-      q.run(
-        db,
-        "UPDATE nodes SET profile_json = ?, updated_at = ? WHERE id = ?",
-        JSON.stringify(profileOf(project)), now, nodeId,
-      );
     }
+    // ⚠️ 已存在的节点：**绝不**在这里改 nodes.profile_json。
+    // 那是公开面唯一读取的字段，投稿动作一旦写它，未审核的内容就会立刻
+    // 出现在公开页（真发生过：tests/submissions.test.mjs 里那条 ★ 用例）。
+    // 公开 profile 只在 reviewRevision 的上架分支里更新。
 
     const revisionId = revisionIdFor(zipSha256);
     q.run(

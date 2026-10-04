@@ -149,6 +149,13 @@ test("没有封面时只给提示，不报错", () => {
   assert.ok(result.warnings.some((warning) => warning.code === "no_cover"));
 });
 
+test("标签去重：大小写不同视为同一个标签（保留首次写法）", () => {
+  const duplicated = MINIMAL.replace("tags: [UI, 展示实体]", "tags: [UI, ui, 展示实体]");
+  const result = ingestZip(withProject([], duplicated));
+  assert.deepEqual(result.project.tags, ["UI", "展示实体"]);
+  assert.ok(result.warnings.some((warning) => warning.code === "duplicate_tags"));
+});
+
 test("危险链接被拒绝", () => {
   const bad = MINIMAL.replace("repo: someone/test", "repo: someone/test\nlinks:\n  - label: x\n    url: javascript:alert(1)");
   assert.ok(codes(ingestZip(withProject([], bad)).errors).includes("unsafe_link"));
