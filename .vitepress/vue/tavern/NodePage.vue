@@ -76,6 +76,11 @@
 						</p>
 					</section>
 
+					<!-- 阶段条与事件流（ADR-010 / ADR-009）：数据缺失时两个组件各自整块不渲染 -->
+					<StageStrip :node="node" />
+
+					<EventFeed :node-id="node.id" :initial-events="initialEvents" />
+
 					<section class="tv-panel" aria-labelledby="tavern-node-rel">
 						<h2 id="tavern-node-rel">关系</h2>
 						<div v-if="relationGroups.length" class="tv-rel-groups">
@@ -104,6 +109,10 @@
 							<div><dt>类型</dt><dd>{{ kindText }}</dd></div>
 							<div><dt>id</dt><dd><code>{{ node.id }}</code></dd></div>
 							<div v-if="stateText"><dt>状态</dt><dd>{{ stateText }}</dd></div>
+							<!-- 当前阶段是集合：并列时用 · 串起来，空集合也是一个正常状态（两段之间的空档） -->
+							<div v-if="phases.length"><dt>当前阶段</dt><dd>{{ phases.join(" · ") }}</dd></div>
+							<div v-else-if="stageCount"><dt>当前阶段</dt><dd>无进行中的阶段</dd></div>
+							<div v-if="stageCount"><dt>阶段</dt><dd>{{ stageCount }} 段</dd></div>
 							<div v-if="games.length"><dt>游戏版本</dt><dd>{{ games.join("、") }}</dd></div>
 							<div v-if="node.repo"><dt>仓库</dt><dd>{{ node.repo }}</dd></div>
 							<div v-if="updated"><dt>最近更新</dt><dd>{{ updated }}</dd></div>
@@ -147,6 +156,8 @@ import { useData } from "vitepress";
 
 import StateBlock from "./StateBlock.vue";
 import TavernNav from "./TavernNav.vue";
+import StageStrip from "./StageStrip.vue";
+import EventFeed from "./EventFeed.vue";
 import "./tavern.css";
 
 import { stringToBadgeColors } from "../../scripts/badgeColor";
@@ -161,8 +172,10 @@ import {
 	kindLabel,
 	kindOf,
 	nodeAvatar,
+	nodeCurrentPhases,
 	nodeGames,
 	nodeLinks,
+	nodeStages,
 	nodeSummary,
 	nodeState,
 	nodeTags,
@@ -177,6 +190,7 @@ import { navigateWithinPage, onQueryChange, readParam } from "./query.mjs";
 const { isDark } = useData();
 
 const node = ref(null);
+const initialEvents = ref([]);
 const nodeIndex = ref(new Map());
 const loading = ref(true);
 const error = ref("");
@@ -193,6 +207,9 @@ const links = computed(() => nodeLinks(node.value));
 const kindText = computed(() => kindLabel(node.value && node.value.kind));
 const stateText = computed(() => stateLabel(nodeState(node.value)));
 const updated = computed(() => formatDate(node.value && node.value.updatedAt));
+/** 当前阶段是**集合**（ADR-010）：0..N 段并列，可能为空。 */
+const phases = computed(() => nodeCurrentPhases(node.value));
+const stageCount = computed(() => nodeStages(node.value).length);
 const initials = computed(() => String(title.value).trim().slice(0, 2).toUpperCase());
 const thumb = computed(() => (thumbFailed.value ? "" : assetHref(nodeAvatar(node.value))));
 const repoUrl = computed(() => (node.value && node.value.repo ? `https://github.com/${node.value.repo}` : ""));
@@ -307,9 +324,11 @@ async function loadFromUrl() {
 	try {
 		const detail = await fetchNode(id);
 		node.value = detail.node;
+		initialEvents.value = detail.events || [];
 		if (typeof document !== "undefined") document.title = `${nodeTitle(detail.node)} | 酒馆看板`;
 	} catch (caught) {
 		node.value = null;
+		initialEvents.value = [];
 		error.value = caught && caught.message ? caught.message : String(caught);
 		console.warn("[tavern] 条目详情加载失败", caught);
 	} finally {

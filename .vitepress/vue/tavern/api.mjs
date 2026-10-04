@@ -5,8 +5,14 @@
  * 静态兜底 JSON —— 只需要改这个文件。
  *
  * 数据源优先级：
- *   1. 活动后端（API_BASE，默认 http://127.0.0.1:9878，可用 window.__TAVERN_API_BASE__ 覆盖）
- *   2. 静态快照（SNAPSHOT_URLS，目前为空数组；生成 public/tavern-snapshot.json 后登记即可）
+ *   1. 活动后端（API_BASE，默认 http://127.0.0.1:9878）
+ *      两种覆盖方式，**脚本注入优先于查询串**：
+ *        · `window.__TAVERN_API_BASE__ = "..."`（headless 测试在页面跑起来前注入，
+ *          它比 URL 更能代表"这次测试要打哪个后端"）
+ *        · `?api=http://127.0.0.1:9880`（人用：本地同时跑着主库/演示库/走查库时
+ *          对照着看一眼，不必开控制台）
+ *   2. 静态快照（SNAPSHOT_URLS = 站点基路径下的 /tavern-snapshot.json，
+ *      由 `npm run snapshot` 生成并提交，连不上后端时整站照常可读）
  *   3. 都没有 → 抛出 TavernApiError，页面显示人类可读的中文错误提示
  *
  * 本模块不 import 任何 UI 框架（不依赖 vue / vitepress），可以单独在 Node 里跑测试。
@@ -16,9 +22,26 @@
 
 const DEFAULT_API_BASE = "http://127.0.0.1:9878";
 
+/**
+ * 基址解析顺序：`window.__TAVERN_API_BASE__` → `?api=` → 默认值。
+ *
+ * 为什么要有 `?api=`：本地同时跑着好几个库（9878 主库 / 9880 演示库 /
+ * 9882 走查库），没有它就只能开控制台手敲变量才能切换，而"看一眼另一个库"
+ * 恰恰是最常做的事。只允许 http(s)，避免 `javascript:` 之类的花样。
+ */
 function resolveApiBase() {
-	if (typeof window !== "undefined" && typeof window.__TAVERN_API_BASE__ === "string" && window.__TAVERN_API_BASE__.trim()) {
-		return window.__TAVERN_API_BASE__.trim().replace(/\/+$/, "");
+	if (typeof window !== "undefined") {
+		if (typeof window.__TAVERN_API_BASE__ === "string" && window.__TAVERN_API_BASE__.trim()) {
+			return window.__TAVERN_API_BASE__.trim().replace(/\/+$/, "");
+		}
+		try {
+			const fromQuery = new URLSearchParams(window.location.search).get("api");
+			if (fromQuery && /^https?:\/\//i.test(fromQuery.trim())) {
+				return fromQuery.trim().replace(/\/+$/, "");
+			}
+		} catch {
+			/* URL 解析失败就用默认值，不值得为此让整页取数挂掉 */
+		}
 	}
 	return DEFAULT_API_BASE;
 }
@@ -229,7 +252,19 @@ async function load(path, { ttl = DEFAULT_TTL, timeoutMs, snapshot = null } = {}
 
 export const KIND_LABELS = { project: "项目", person: "作者", tag: "标签" };
 export const KIND_ORDER = ["project", "person", "tag"];
-export const STATE_LABELS = { active: "活跃", archived: "已归档", draft: "草稿", deprecated: "已废弃" };
+// 生命周期枚举（§6.1，与后端 LIFECYCLE_STATES 逐字一致）：draft / active / paused / done / archived。
+// `active` 统一译作"进行中"（后端自动生成的事件标题是"状态：进行中 → 暂停"，两边得对得上）。
+// 其余几个键不会出现在当前数据里，只作历史 / 别名兜底。
+export const STATE_LABELS = {
+	draft: "草稿",
+	active: "进行中",
+	paused: "暂停",
+	done: "已完结",
+	archived: "已归档",
+	recruiting: "招募中",
+	finished: "已完结",
+	deprecated: "已废弃",
+};
 
 export function kindOf(nodeOrId) {
 	if (nodeOrId && typeof nodeOrId === "object" && nodeOrId.kind) return nodeOrId.kind;
@@ -293,12 +328,254 @@ export function nodeAvatar(node) {
 	return typeof value === "string" && value.trim() ? value.trim() : "";
 }
 
+/* ------------------------------------------------------- 阶段（ADR-010） */
+/*
+ * 阶段是 `kind=stage` 的子节点：自带时间窗、可以有招募、可以有正文（§5.1 形态表）。
+ * 两条设计约束（不变量 14/15）直接决定这里怎么写：
+ *   · **窗口允许重叠** → 因此阶段条要能并列显示，不能假设"同一时刻只有一个阶段"；
+ *   · **阶段之间允许空隙** → 因此不能把相邻阶段硬接起来，空白就是空白；
+ *   · `facets.phases` 是**集合**且**可为空** → 因此界面上永远是"0..N 个"，不是单值。
+ */
+
+export const STAGE_PHASE_LABELS = { past: "已结束", current: "进行中", future: "未开始" };
+export const STAGE_PHASE_ORDER = ["past", "current", "future"];
+
+export function stagePhaseLabel(phase) {
+	if (!phase) return "";
+	return STAGE_PHASE_LABELS[phase] || String(phase);
+}
+
+/** 阶段的时间窗：{ start, end }（毫秒，某一端可以为 null）。两端都不可用返回 null。 */
+export function stageWindow(stage) {
+	const time = (stage && stage.facets && stage.facets.time) || (stage && stage.time) || {};
+	const start = parseTime(time.start);
+	const end = parseTime(time.end);
+	const hasStart = Number.isFinite(start);
+	const hasEnd = Number.isFinite(end);
+	if (!hasStart && !hasEnd) return null;
+	return { start: hasStart ? start : null, end: hasEnd ? end : null };
+}
+
+/**
+ * 阶段的相位。**服务端已经算好并给出 `phase`，直接用它**（在线/离线同形）。
+ * 只在字段缺失时才自己推：先看 `facets.phases` 里有没有它（后端保证这个字段必有），
+ * 最后才退化成"客户端时钟落在窗口哪一侧"——注意假数据的时间窗是 2026 年的，
+ * 客户端时钟比时间窗更不可信，所以它排在最后。
+ */
+export function stagePhase(stage, now = Date.now(), declaredPhases = []) {
+	const declared = stage && typeof stage.phase === "string" ? stage.phase.trim() : "";
+	if (STAGE_PHASE_ORDER.includes(declared)) return declared;
+	const name = stage ? nodeTitle(stage) : "";
+	if (name && Array.isArray(declaredPhases) && declaredPhases.includes(name)) return "current";
+	const window = stageWindow(stage);
+	if (!window) return "";
+	if (window.start != null && now < window.start) return "future";
+	if (window.end != null && now > window.end) return "past";
+	return "current";
+}
+
+/** 阶段的招募（§6.5 结构，可以挂在任意 kind 上）。 */
+export function nodeRecruit(node) {
+	const raw = node && node.recruit;
+	return (Array.isArray(raw) ? raw : []).filter((entry) => entry && typeof entry === "object");
+}
+
+export const RECRUIT_STATUS_LABELS = { open: "招募中", filled: "已招满", closed: "已关闭" };
+
+export function recruitStatusLabel(status) {
+	if (!status) return "";
+	return RECRUIT_STATUS_LABELS[status] || String(status);
+}
+
+/** 单个阶段归一化：补上 name / window / phase / recruit，渲染层就不用到处判空。 */
+export function normalizeStage(stage, { declaredPhases = [], now = Date.now() } = {}) {
+	if (!stage || typeof stage !== "object") return null;
+	return {
+		...stage,
+		id: String(stage.id || ""),
+		kind: stage.kind || "stage",
+		name: nodeTitle(stage),
+		summary: nodeSummary(stage),
+		window: stageWindow(stage),
+		phase: stagePhase(stage, now, declaredPhases),
+		recruit: nodeRecruit(stage),
+	};
+}
+
+/**
+ * 条目下的阶段列表。**保持后端给的顺序**：`phase` 与排序都由后端算好
+ * （窗口起点升序，无窗口的排最后），前端再排一次只会让在线 / 离线两条路径漂移。
+ * 没有 `stages` 键（后端对"没有阶段的节点"就是不给这个键）时返回空数组。
+ */
+export function nodeStages(node) {
+	const raw = node && node.stages;
+	if (!Array.isArray(raw)) return [];
+	const declaredPhases = nodePhases(node);
+	return raw.map((stage) => normalizeStage(stage, { declaredPhases })).filter(Boolean);
+}
+
+/** 「这个节点带了 stages 键吗」——用来区分"没有阶段"与"后端还没上这一版"。 */
+export function nodeStagesDeclared(node) {
+	return Boolean(node) && Object.prototype.hasOwnProperty.call(node, "stages") && node.stages !== undefined;
+}
+
+/** `facets.phases` 原始字段是否是数组（用来区分"字段缺失"与"服务端明确说当前没有阶段"）。 */
+export function nodePhasesDeclared(node) {
+	return Array.isArray(node && node.facets && node.facets.phases);
+}
+
+/** `facets.phases`（集合，0..N，去重去空）—— 不加"当前阶段"这类单值措辞。 */
+export function nodePhases(node) {
+	const raw = node && node.facets && node.facets.phases;
+	const list = Array.isArray(raw) ? raw : typeof raw === "string" ? [raw] : [];
+	const seen = new Set();
+	const result = [];
+	for (const entry of list) {
+		const text = String(entry == null ? "" : entry).trim();
+		if (!text || seen.has(text)) continue;
+		seen.add(text);
+		result.push(text);
+	}
+	return result;
+}
+
+/**
+ * 界面上真正要显示的"当前阶段"集合：
+ *   · 服务端给了 `facets.phases`（哪怕是空数组）→ 以它为准（空数组 = 正处在两段之间的空隙）；
+ *   · 字段缺失（后端还没上线这一版）→ 从 stage 子节点的窗口自己算，算不出来就是空集合。
+ */
+export function nodeCurrentPhases(node, now = Date.now()) {
+	if (nodePhasesDeclared(node)) return nodePhases(node);
+	return nodeStages(node)
+		.filter((stage) => stagePhase(stage, now) === "current")
+		.map((stage) => stage.name)
+		.filter(Boolean);
+}
+
+/* -------------------------------------------------- 事件（ADR-009 / §6.6） */
+
+export const EVENT_KIND_LABELS = {
+	state: "状态",
+	milestone: "里程碑",
+	recruit: "招募",
+	relation: "关系",
+	note: "记录",
+};
+export const EVENT_KIND_ORDER = ["state", "milestone", "recruit", "relation", "note"];
+export const EVENT_SOURCE_LABELS = { manual: "手工记录", derived: "系统自动", import: "导入" };
+
+export function eventKindLabel(kind) {
+	if (!kind) return "事件";
+	return EVENT_KIND_LABELS[kind] || String(kind);
+}
+
+export function eventSourceLabel(source) {
+	if (!source) return "";
+	return EVENT_SOURCE_LABELS[source] || String(source);
+}
+
+/** 事件 `status` 的中文（state 类走生命周期词表，recruit 类走招募词表）。 */
+export function eventStatusLabel(event) {
+	const status = event && event.status;
+	if (!status) return "";
+	if (event.kind === "recruit") return recruitStatusLabel(status);
+	return stateLabel(status);
+}
+
+export function normalizeEvent(event) {
+	if (!event || typeof event !== "object") return null;
+	const at = event.at || event.createdAt || event.created_at || "";
+	const title = typeof event.title === "string" ? event.title : "";
+	return {
+		...event,
+		id: String(event.id || `${at}#${title}`),
+		kind: event.kind || "note",
+		at,
+		title,
+		body: typeof event.body === "string" ? event.body : "",
+		status: event.status == null ? null : event.status,
+		source: event.source || "",
+	};
+}
+
+/** 事件倒序（最新在前）。同一时刻的事件保持后端给的相对顺序，不额外打乱。 */
+export function sortEventsDesc(items) {
+	return [...(Array.isArray(items) ? items : [])].sort((a, b) => {
+		const left = parseTime(a && a.at);
+		const right = parseTime(b && b.at);
+		const hasLeft = Number.isFinite(left);
+		const hasRight = Number.isFinite(right);
+		if (!hasLeft && !hasRight) return 0;
+		if (!hasLeft) return 1; // 没有时间的排到最后，不冒充"最新"
+		if (!hasRight) return -1;
+		return right - left;
+	});
+}
+
 export function formatDate(value) {
 	if (!value) return "";
 	const date = new Date(value);
 	if (Number.isNaN(date.getTime())) return String(value);
 	const pad = (number) => String(number).padStart(2, "0");
 	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+/* --------------------------------------------------------- 时间工具 */
+
+/**
+ * 把日期 / 时间戳字符串解析成毫秒时间戳。
+ * 接受 `2026-01-01`（date，按 UTC 零点解析）与 `2026-09-14T10:00:00.000Z`（datetime）。
+ * 解析不出来返回 NaN —— 调用方一律按"这段没有时间"处理，不要抛错。
+ */
+export function parseTime(value) {
+	if (value == null || value === "") return NaN;
+	if (typeof value === "number") return Number.isFinite(value) ? value : NaN;
+	if (value instanceof Date) return value.getTime();
+	const text = String(value).trim();
+	if (!text) return NaN;
+	const parsed = Date.parse(text);
+	return Number.isNaN(parsed) ? NaN : parsed;
+}
+
+/** `2026-09-14 18:00`（本地时区）；无法解析时原样返回。 */
+export function formatDateTime(value) {
+	const time = parseTime(value);
+	if (!Number.isFinite(time)) return value == null ? "" : String(value);
+	const date = new Date(time);
+	const pad = (number) => String(number).padStart(2, "0");
+	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+/** 相对时间（"3 天前" / "刚刚" / "2 个月后"）；无法解析返回空串。 */
+export function relativeTime(value, now = Date.now()) {
+	const time = parseTime(value);
+	if (!Number.isFinite(time)) return "";
+	const delta = now - time;
+	const abs = Math.abs(delta);
+	const minute = 60_000;
+	const hour = 60 * minute;
+	const day = 24 * hour;
+	if (abs < minute) return "刚刚";
+	let text;
+	if (abs < hour) text = `${Math.floor(abs / minute)} 分钟`;
+	else if (abs < day) text = `${Math.floor(abs / hour)} 小时`;
+	else if (abs < 30 * day) text = `${Math.floor(abs / day)} 天`;
+	else if (abs < 365 * day) text = `${Math.max(1, Math.round(abs / (30.44 * day)))} 个月`;
+	else text = `${(abs / (365.25 * day)).toFixed(1).replace(/\.0$/, "")} 年`;
+	return delta < 0 ? `${text}后` : `${text}前`;
+}
+
+/** 时长（"46 天" / "3 个月" / "1.5 年"）。 */
+export function formatDuration(milliseconds) {
+	const abs = Math.abs(Number(milliseconds));
+	if (!Number.isFinite(abs)) return "";
+	const day = 86_400_000;
+	const days = Math.round(abs / day);
+	if (days < 1) return "不足 1 天";
+	if (days < 60) return `${days} 天`;
+	const months = Math.round(days / 30.44);
+	if (months < 24) return `${months} 个月`;
+	return `${(days / 365.25).toFixed(1).replace(/\.0$/, "")} 年`;
 }
 
 /* -------------------------------------------------------- 游戏版本处理 */
@@ -533,6 +810,11 @@ function normalizeNode(node) {
 		facets: node.facets && typeof node.facets === "object" ? node.facets : {},
 		links: nodeLinks(node),
 		i18n: node.i18n && typeof node.i18n === "object" ? node.i18n : {},
+		// 阶段是子节点（ADR-010），并且**内嵌在节点上**（在线 / 离线同形）。
+		// 归一化后 `stages` 一定是数组，所以"后端到底有没有给这个键"必须在这里先记下来：
+		// 调用方显式传了 stagesDeclared 就用它的（fetchNode 会传），否则看原始对象的键。
+		stagesDeclared: typeof node.stagesDeclared === "boolean" ? node.stagesDeclared : nodeStagesDeclared(node),
+		stages: nodeStages(node),
 	};
 }
 
@@ -591,19 +873,94 @@ export async function fetchAllNodes({ pageSize = 200, maxPages = 12, onProgress 
 	return { items: collected, total };
 }
 
-/** GET /v1/nodes/:id → { node, ... }（含 edges 出边 / incoming 入边） */
+/**
+ * GET /v1/nodes/:id → { node, ... }（含 edges 出边 / incoming 入边）
+ *
+ * 阶段与事件是本次新增的两个维度（ADR-009 / ADR-010）。**阶段的渲染入口是 `node.stages`**
+ * （在线 / 离线同形：快照里每个 node 也内嵌了自己的 stages），所以这里不按顶层 `stages[].parentId`
+ * 去 join —— 顶层数组只用于整体遍历。返回值上的 `events` 只在快照兜底分支里有值
+ * （活动后端走 `/v1/nodes/:id/events` 子资源，由 `fetchNodeEvents` 负责）。
+ * 两者缺失时都是空数组，渲染层据此决定"明确空态"还是"整块不渲染"。
+ */
 export async function fetchNode(id) {
 	const data = await load(`/v1/nodes/${encodeURIComponent(id)}`, {
 		snapshot: (snapshotData) => {
-			const node = normalizeItems(snapshotData.nodes).find((entry) => entry.id === id);
-			return node ? { schema: snapshotData.schema || 1, node } : undefined;
+			const rawNodes = Array.isArray(snapshotData.nodes) ? snapshotData.nodes : [];
+			const rawStages = Array.isArray(snapshotData.stages) ? snapshotData.stages : [];
+			// id 也可能是某个阶段（直接访问 stage 详情页）——快照的 nodes 里没有它，就在顶层 stages 里找。
+			const raw = rawNodes.find((entry) => entry && entry.id === id) || rawStages.find((entry) => entry && entry.id === id);
+			if (!raw) return undefined;
+			// 阶段优先取**节点内嵌**的那份（在线 / 离线同形）；只有老快照没内嵌 stages 时才回退到顶层 join。
+			const stages = Array.isArray(raw.stages) ? raw.stages : rawStages.filter((entry) => entry && entry.parentId === id);
+			const events = (Array.isArray(snapshotData.events) ? snapshotData.events : [])
+				.filter((entry) => entry && entry.nodeId === id)
+				.map(normalizeEvent)
+				.filter(Boolean);
+			return {
+				schema: snapshotData.schema || 1,
+				node: {
+					...raw,
+					stages,
+					// 快照里"这个节点带没带 stages 键"同样要如实记下来（老快照可能只有顶层数组）
+					stagesDeclared: Array.isArray(raw.stages) || stages.length > 0,
+				},
+				stages,
+				events,
+				source: "snapshot",
+			};
 		},
 	});
-	const node = normalizeNode(data.node);
+	if (!data || !data.node) {
+		throw new TavernApiError(`酒馆后端没有返回条目「${id}」的数据。`, { kind: "not-found" });
+	}
+	// 阶段既可能挂在 node 上（契约形状），也可能被后端平铺在响应顶层 —— 两种都认。
+	const rawStages = Array.isArray(data.stages)
+		? data.stages
+		: Array.isArray(data.node.stages)
+			? data.node.stages
+			: [];
+	// 「后端给了 stages 键吗」要在补默认值**之前**判断，否则渲染层分不清
+	// "这个条目暂无阶段"（要明确空态）与"后端还没上这一版"（整块不渲染）。
+	const stagesDeclared = Array.isArray(data.stages) || Array.isArray(data.node.stages);
+	const node = normalizeNode({ ...data.node, stages: rawStages, stagesDeclared });
 	if (!node) {
 		throw new TavernApiError(`酒馆后端没有返回条目「${id}」的数据。`, { kind: "not-found" });
 	}
-	return { ...data, node };
+	return {
+		...data,
+		node,
+		stages: node.stages,
+		events: (Array.isArray(data.events) ? data.events : []).map(normalizeEvent).filter(Boolean),
+		source: data.source || "",
+	};
+}
+
+/**
+ * GET /v1/nodes/:id/events?limit= → { items: [...] }
+ * 事件流是时间线的真相源（ADR-009）：只读、倒序展示、不做筛选以外的加工。
+ * 后端还没有这个端点时（HTTP 404）会抛 kind="not-found" 的 TavernApiError，
+ * 渲染层据此静默不渲染 —— 不报错、也不留空壳。
+ * @param {string} id 条目 id
+ * @param {object} options { limit } 本次要拿多少条（从最新往回数）
+ */
+export async function fetchNodeEvents(id, { limit = 20 } = {}) {
+	const size = Math.max(1, Math.min(200, Number(limit) || 20));
+	const data = await load(`/v1/nodes/${encodeURIComponent(id)}/events?limit=${size}`, {
+		ttl: 45_000,
+		snapshot: (snapshotData) => {
+			const all = Array.isArray(snapshotData.events) ? snapshotData.events : null;
+			if (!all) return undefined;
+			const items = sortEventsDesc(all.filter((entry) => entry && entry.nodeId === id).map(normalizeEvent).filter(Boolean));
+			return { schema: snapshotData.schema || 1, source: "snapshot", items, total: items.length, limit: size };
+		},
+	});
+	const items = sortEventsDesc((Array.isArray(data.items) ? data.items : []).map(normalizeEvent).filter(Boolean));
+	return {
+		source: data.source || "",
+		items,
+		total: Number(data.total) || items.length,
+		limit: size,
+	};
 }
 
 /**

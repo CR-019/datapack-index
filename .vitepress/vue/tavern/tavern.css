@@ -166,7 +166,7 @@
 }
 
 .tv-search-clear:hover {
-	background: var(--vp-c-bg-mute);
+	background: var(--vp-c-bg-alt);
 	color: var(--vp-c-text-1);
 }
 
@@ -980,6 +980,570 @@ a.tv-badge:hover {
 	border: 0;
 }
 
+/* =====================================================================
+   阶段条（StageStrip.vue / ADR-010）
+   —— 横向时间带：所有块的 left/width 都用**同一个时间域**换算成百分比，
+   于是并列阶段靠"分行"表达、空隙靠"什么都不画"表达。纯 CSS 定位，不引图表库。
+   配色全部走 --vp-c-*，亮 / 暗色自动适配。
+   ===================================================================== */
+
+.tv-stage-headline {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 14px;
+}
+
+.tv-stage-headline-label {
+	color: var(--vp-c-text-3);
+	font-size: 12px;
+	letter-spacing: 0.04em;
+}
+
+.tv-stage-headline-sep {
+	color: var(--vp-c-text-3);
+}
+
+.tv-stage-headline-empty {
+	color: var(--vp-c-text-2);
+	font-size: 13px;
+}
+
+.tv-stage-headline-note {
+	margin-left: auto;
+}
+
+.tv-badge--phase {
+	border-color: color-mix(in srgb, var(--vp-c-brand-1) 32%, transparent);
+	background: color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
+	color: var(--vp-c-brand-1);
+	font-weight: 600;
+}
+
+/* ---------------------------------------------------------- 时间带本体 */
+
+.tv-stage-chart {
+	margin: 4px 0 2px;
+	padding: 12px 14px 10px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 12px;
+	background: var(--vp-c-bg);
+}
+
+.tv-stage-axis {
+	position: relative;
+	height: 40px;
+}
+
+.tv-stage-tick {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	color: var(--vp-c-text-3);
+	font-size: 10.5px;
+	line-height: 1.1;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.tv-stage-tick.is-align-center { transform: translateX(-50%); }
+.tv-stage-tick.is-align-start { transform: translateX(-5px); }
+.tv-stage-tick.is-align-end { transform: translateX(calc(-100% + 5px)); }
+
+/* 相邻刻度错开一行，标签就不会互相压 */
+.tv-stage-tick:nth-of-type(even) .tv-stage-tick-label { margin-top: 14px; }
+
+.tv-stage-tick-label {
+	display: inline-block;
+	padding-bottom: 2px;
+	border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.tv-stage-tick.is-now .tv-stage-tick-label {
+	border-bottom-color: var(--vp-c-danger-1);
+	color: var(--vp-c-danger-1);
+	font-weight: 700;
+}
+
+/* 刻度线：从轴底伸进时间带 7px，把标签和它标的位置连起来 */
+.tv-stage-tick::after {
+	position: absolute;
+	bottom: -7px;
+	left: 50%;
+	width: 1px;
+	height: 7px;
+	background: var(--vp-c-divider);
+	content: "";
+}
+
+.tv-stage-tick.is-align-start::after { left: 5px; }
+.tv-stage-tick.is-align-end::after { left: calc(100% - 5px); }
+.tv-stage-tick.is-now::after { background: var(--vp-c-danger-1); }
+
+.tv-stage-lanes {
+	position: relative;
+	border-top: 1px solid var(--vp-c-divider);
+}
+
+.tv-stage-block {
+	position: absolute;
+	display: flex;
+	min-width: 16px;
+	height: 30px;
+	flex-direction: column;
+	justify-content: center;
+	overflow: hidden;
+	padding: 3px 8px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 8px;
+	background: var(--vp-c-bg-soft);
+	color: var(--vp-c-text-2);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.tv-stage-block-name {
+	overflow: hidden;
+	font-size: 11.5px;
+	font-weight: 600;
+	line-height: 1.15;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tv-stage-block-range {
+	overflow: hidden;
+	font-size: 9.5px;
+	line-height: 1.15;
+	opacity: 0.8;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* 已结束：灰化（但仍然整块实心，表示"这段时间确实被阶段覆盖了"） */
+.tv-stage-block.is-past {
+	border-color: color-mix(in srgb, var(--vp-c-text-3) 30%, transparent);
+	background: var(--vp-c-bg-alt);
+	color: var(--vp-c-text-3);
+}
+
+/* 进行中：亮色 + 加粗边框，一眼看出 now 落在哪一段 */
+.tv-stage-block.is-current {
+	border: 2px solid var(--vp-c-brand-1);
+	background: color-mix(in srgb, var(--vp-c-brand-1) 16%, transparent);
+	color: var(--vp-c-brand-1);
+	box-shadow: 0 6px 16px color-mix(in srgb, var(--vp-c-brand-1) 18%, transparent);
+}
+
+/* 未开始：虚线 + 低饱和 */
+.tv-stage-block.is-future {
+	border-style: dashed;
+	background: transparent;
+	color: var(--vp-c-text-3);
+	opacity: 0.9;
+}
+
+.tv-stage-block.is-unknown {
+	border-style: dotted;
+	background: repeating-linear-gradient(45deg, transparent 0 5px, color-mix(in srgb, var(--vp-c-text-3) 10%, transparent) 5px 10px);
+	color: var(--vp-c-text-3);
+}
+
+.tv-stage-block:hover {
+	border-color: var(--vp-c-brand-1);
+	color: var(--vp-c-brand-1);
+}
+
+.tv-stage-block:focus-visible,
+.tv-stage-item-head:focus-visible {
+	outline: 2px solid var(--vp-c-brand-1);
+	outline-offset: 2px;
+}
+
+.tv-stage-block.is-open {
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--vp-c-brand-1) 35%, transparent);
+}
+
+/* "现在"的位置（ADR-010：高亮 now 落在哪一段） */
+.tv-stage-now-line {
+	position: absolute;
+	top: -7px;
+	bottom: -3px;
+	width: 0;
+	border-left: 2px dashed var(--vp-c-danger-1);
+	opacity: 0.75;
+	transform: translateX(-1px);
+	pointer-events: none;
+}
+
+/* 空隙：虚线段 + 斜纹，明说"这里没有阶段"，而不是把两段接起来 */
+.tv-stage-gaprow {
+	position: relative;
+	height: 6px;
+	margin-top: 7px;
+}
+
+.tv-stage-gap {
+	position: absolute;
+	top: 0;
+	height: 6px;
+	border: 1px dashed var(--vp-c-divider);
+	border-radius: 999px;
+	background: repeating-linear-gradient(
+		45deg,
+		transparent 0 4px,
+		color-mix(in srgb, var(--vp-c-text-3) 24%, transparent) 4px 8px
+	);
+}
+
+.tv-stage-gapnote {
+	margin: 10px 0 0;
+}
+
+/* 明确空态：后端有阶段能力，但这个条目还没有阶段（不是塌成一片空白） */
+.tv-stage-empty,
+.tv-event-empty {
+	margin: 0;
+	padding: 14px 16px;
+	border: 1px dashed var(--vp-c-divider);
+	border-radius: 12px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-2);
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+.tv-stage-empty-icon,
+.tv-event-empty-icon {
+	margin-right: 6px;
+}
+
+/* ------------------------------------------------------ 阶段列表 */
+
+.tv-stage-list-title {
+	margin-top: 20px;
+}
+
+.tv-stage-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tv-stage-item {
+	overflow: hidden;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 12px;
+	background: var(--vp-c-bg);
+}
+
+.tv-stage-item.is-current {
+	border-color: color-mix(in srgb, var(--vp-c-brand-1) 45%, transparent);
+}
+
+.tv-stage-item.is-future {
+	border-style: dashed;
+}
+
+.tv-stage-item-head {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	width: 100%;
+	padding: 9px 11px;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.tv-stage-item-head:hover {
+	background: var(--vp-c-bg-soft);
+}
+
+.tv-phase-badge {
+	flex: 0 0 auto;
+	padding: 1px 8px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 999px;
+	color: var(--vp-c-text-3);
+	font-size: 11px;
+}
+
+.tv-phase-badge.is-current {
+	border-color: transparent;
+	background: var(--vp-c-brand-1);
+	color: var(--vp-c-white, #fff);
+	font-weight: 600;
+}
+
+.tv-phase-badge.is-past {
+	background: var(--vp-c-bg-alt);
+}
+
+.tv-phase-badge.is-future {
+	border-style: dashed;
+}
+
+.tv-stage-item-name {
+	font-size: 13.5px;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.tv-stage-item-range,
+.tv-stage-item-span {
+	color: var(--vp-c-text-3);
+	font-size: 11.5px;
+	font-variant-numeric: tabular-nums;
+}
+
+.tv-stage-item-caret {
+	margin-left: auto;
+	color: var(--vp-c-text-3);
+	transition: transform 160ms ease;
+}
+
+.tv-stage-item.is-open .tv-stage-item-caret {
+	transform: rotate(180deg);
+}
+
+/* 迷你刻度：窄屏隐藏时间带后，位置与长度仍然看得见 */
+.tv-stage-mini {
+	position: relative;
+	height: 3px;
+	margin: 0 11px 9px;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--vp-c-text-3) 16%, transparent);
+}
+
+.tv-stage-mini-fill {
+	position: absolute;
+	top: 0;
+	height: 3px;
+	border-radius: 999px;
+	background: var(--vp-c-text-3);
+}
+
+.tv-stage-item.is-current .tv-stage-mini-fill { background: var(--vp-c-brand-1); }
+.tv-stage-item.is-future .tv-stage-mini-fill { background: color-mix(in srgb, var(--vp-c-text-3) 55%, transparent); }
+
+.tv-stage-mini-now {
+	position: absolute;
+	top: -3px;
+	width: 1px;
+	height: 9px;
+	background: var(--vp-c-danger-1);
+}
+
+.tv-stage-detail {
+	display: flex;
+	flex-direction: column;
+	gap: 9px;
+	padding: 11px;
+	border-top: 1px dashed var(--vp-c-divider);
+}
+
+.tv-stage-detail p {
+	margin: 0;
+	color: var(--vp-c-text-2);
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+.tv-stage-kv {
+	font-size: 12.5px;
+}
+
+.tv-stage-recruit h4 {
+	margin: 2px 0 7px;
+	border: 0;
+	padding: 0;
+	color: var(--vp-c-text-2);
+	font-size: 12.5px;
+}
+
+.tv-stage-recruit-list {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tv-stage-recruit-list li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 7px;
+	font-size: 12.5px;
+}
+
+.tv-badge--recruit {
+	border-color: color-mix(in srgb, var(--vp-c-warning-1) 40%, transparent);
+	color: var(--vp-c-warning-1);
+}
+
+.tv-badge--recruit.is-filled {
+	border-color: color-mix(in srgb, var(--vp-c-success-1) 40%, transparent);
+	color: var(--vp-c-success-1);
+}
+
+.tv-badge--recruit.is-closed {
+	border-color: var(--vp-c-divider);
+	color: var(--vp-c-text-3);
+}
+
+/* =====================================================================
+   事件流（EventFeed.vue / ADR-009）
+   —— 倒序时间线：左侧一条细轨 + 圆点，圆点与类型徽标分色。
+   ===================================================================== */
+
+.tv-event-meta {
+	margin-bottom: 12px;
+}
+
+.tv-event-warn {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 12px;
+	padding: 9px 11px;
+	border: 1px solid color-mix(in srgb, var(--vp-c-danger-1) 32%, transparent);
+	border-radius: 10px;
+	background: color-mix(in srgb, var(--vp-c-danger-1) 8%, transparent);
+	color: var(--vp-c-text-2);
+	font-size: 12.5px;
+}
+
+.tv-event-list {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tv-event-list::before {
+	position: absolute;
+	top: 7px;
+	bottom: 12px;
+	left: 5px;
+	width: 1px;
+	background: var(--vp-c-divider);
+	content: "";
+}
+
+.tv-event {
+	position: relative;
+	display: flex;
+	gap: 11px;
+	padding-bottom: 14px;
+}
+
+.tv-event:last-child {
+	padding-bottom: 4px;
+}
+
+.tv-event-dot {
+	position: relative;
+	z-index: 1;
+	flex: 0 0 11px;
+	width: 11px;
+	height: 11px;
+	margin-top: 4px;
+	border: 2px solid var(--vp-c-bg-soft);
+	border-radius: 50%;
+	background: var(--vp-c-text-3);
+}
+
+.tv-event-main {
+	min-width: 0;
+	flex: 1;
+}
+
+.tv-event-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 7px;
+}
+
+.tv-event-time {
+	border-bottom: 1px dotted var(--vp-c-divider);
+	color: var(--vp-c-text-3);
+	font-size: 11.5px;
+	font-variant-numeric: tabular-nums;
+	cursor: help;
+}
+
+.tv-event-kind {
+	padding: 1px 8px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 999px;
+	color: var(--vp-c-text-2);
+	font-size: 11px;
+}
+
+.tv-event-status {
+	padding: 1px 7px;
+	border-radius: 999px;
+	background: var(--vp-c-bg-alt);
+	color: var(--vp-c-text-2);
+	font-size: 11px;
+}
+
+.tv-event-source {
+	color: var(--vp-c-text-3);
+	font-size: 10.5px;
+}
+
+.tv-event-title {
+	margin: 5px 0 0;
+	color: var(--vp-c-text-1);
+	font-size: 13.5px;
+	line-height: 1.55;
+	overflow-wrap: anywhere;
+}
+
+.tv-event-text {
+	margin: 4px 0 0;
+	color: var(--vp-c-text-2);
+	font-size: 12.5px;
+	line-height: 1.7;
+	overflow-wrap: anywhere;
+	white-space: pre-wrap;
+}
+
+.tv-event-foot {
+	display: flex;
+	justify-content: center;
+	margin-top: 6px;
+}
+
+/* 类型分色：state 走品牌色、milestone 绿、recruit 黄、relation 紫、note 灰 */
+.tv-event.is-state .tv-event-dot { background: var(--vp-c-brand-1); }
+.tv-event.is-state .tv-event-kind { border-color: color-mix(in srgb, var(--vp-c-brand-1) 40%, transparent); color: var(--vp-c-brand-1); }
+
+.tv-event.is-milestone .tv-event-dot { background: var(--vp-c-success-1); }
+.tv-event.is-milestone .tv-event-kind { border-color: color-mix(in srgb, var(--vp-c-success-1) 40%, transparent); color: var(--vp-c-success-1); }
+
+.tv-event.is-recruit .tv-event-dot { background: var(--vp-c-warning-1); }
+.tv-event.is-recruit .tv-event-kind { border-color: color-mix(in srgb, var(--vp-c-warning-1) 40%, transparent); color: var(--vp-c-warning-1); }
+
+.tv-event.is-relation .tv-event-dot { background: var(--vp-c-important-1); }
+.tv-event.is-relation .tv-event-kind { border-color: color-mix(in srgb, var(--vp-c-important-1) 40%, transparent); color: var(--vp-c-important-1); }
+
+.tv-event.is-note .tv-event-dot { background: var(--vp-c-text-3); }
+
 /* ------------------------------------------------------------ 响应式 */
 
 @media (max-width: 960px) {
@@ -1042,4 +1606,19 @@ a.tv-badge:hover {
 		max-width: 100%;
 		text-align: left;
 	}
+
+	/* 窄屏：时间带退化成纵向列表（列表项的迷你刻度仍标出位置与相位） */
+	.tv-stage-chart {
+		display: none;
+	}
+
+	.tv-stage-headline-note {
+		margin-left: 0;
+		flex-basis: 100%;
+	}
+
+	.tv-stage-item-head {
+		flex-wrap: wrap;
+	}
 }
+
