@@ -2,8 +2,9 @@
 /**
  * 导出 L1 元数据快照（设计文档 §10.1）。
  *
- *   npm run snapshot                 # 写到 public/tavern-snapshot.json（站点静态兜底）
- *   npm run snapshot -- --out x.json # 写到别处
+ *   npm run snapshot            # 写到 public/tavern-snapshot.json（站点静态兜底）
+ *   npm run snapshot -- --out x.json
+ *   npm run snapshot:check      # 校验仓库里的快照与当前代码+数据是否一致（CI 用）
  *
  * 为什么要有它：
  *   · 后端不可用时，前端自动回退到这份快照（api.mjs 的 SNAPSHOT_URLS）
@@ -26,10 +27,16 @@ function argOf(name, fallback = null) {
   return index >= 0 ? process.argv[index + 1] : fallback;
 }
 
+const checkMode = process.argv.includes("--check");
 const out = argOf("out", path.join(REPO_ROOT, "public", "tavern-snapshot.json"));
 const db = openDatabase();
 
-const generatedAt = nowIso();
+// 校验模式：直接沿用仓库里那份的 generatedAt，把唯一的时间波动抹平，
+// 从而可以做**逐字节**比对（比"忽略某字段再比"更严格，也更好解释）
+const committed = fs.existsSync(out) ? fs.readFileSync(out, "utf8") : null;
+const committedAt = committed ? /"generatedAt":\s*"([^"]+)"/.exec(committed)?.[1] : null;
+const generatedAt = committedAt ?? nowIso();
+
 const snapshot = buildSnapshot(db, { generatedAt });
 
 // 自检：绝不把私域字段写出去
@@ -41,6 +48,36 @@ if (forbidden.length) {
 }
 
 const text = serializeSnapshot(snapshot);
+
+if (checkMode) {
+  if (!committed) {
+    process.stderr.write(`✖ 仓库里没有快照文件：${out}\n   先跑 npm run snapshot 生成一份。\n`);
+    db.close();
+    process.exit(1);
+  }
+  if (committed === text) {
+    process.stdout.write(`✔ 快照与当前代码/数据一致（${snapshot.nodes.length} 节点，${(Buffer.byteLength(text) / 1024).toFixed(1)} KB）\n`);
+    db.close();
+    process.exit(0);
+  }
+
+  const left = committed.split("\n");
+  const right = text.split("\n");
+  const differences = [];
+  for (let index = 0; index < Math.max(left.length, right.length) && differences.length < 5; index += 1) {
+    if (left[index] !== right[index]) differences.push({ line: index + 1, committed: left[index], fresh: right[index] });
+  }
+  process.stderr.write(
+    `\n✖ 仓库里的快照已经过期（重新生成后跑 npm run snapshot 并提交）\n\n` +
+    `   行数：${left.length}（仓库）vs ${right.length}（当前）\n\n` +
+    differences.map((diff) =>
+      `   第 ${diff.line} 行:\n     仓库: ${String(diff.committed).slice(0, 140)}\n     当前: ${String(diff.fresh).slice(0, 140)}\n`,
+    ).join("") +
+    "\n",
+  );
+  db.close();
+  process.exit(1);
+}
 
 // 原子写：先写临时文件再 rename，避免读者看到写了一半的 JSON
 fs.mkdirSync(path.dirname(out), { recursive: true });

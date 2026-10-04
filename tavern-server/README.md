@@ -174,14 +174,51 @@ curl -s -b /tmp/tavern.jar http://127.0.0.1:9878/v1/me
 
 ---
 
+## zip ↔ 目录：双向可逆（§9.5）
+
+```bash
+npm run pack   -- <目录> [输出.zip]      # 目录 → 可投稿的 zip
+npm run unpack -- <投稿.zip> [目标目录]   # zip → 项目目录（并顺手校验内容）
+```
+
+为什么这个性质重要：**zip 是输入形态，仓库归档目录是同一个形态**。任何一份归档都能
+重新打包成可投稿的 zip，任何 zip 也能直接落进仓库；否则每次同步都要做一次有损翻译。
+
+三条已落实的保证：
+
+| 保证 | 说明 |
+| --- | --- |
+| **确定性** | 条目按路径排序、时间戳固定 → 同样输入产出**逐字节相同**的 zip |
+| **对称安全** | 打包前复用读取器的路径校验：我们不但不读危险路径，也绝不*产出*危险路径 |
+| **可被摄取** | `pack` 出来的包必须能被 `ingestZip()` 零错误接受（有专门用例钉住） |
+
+`npm test` 里的 round-trip 用例就是这套约定的**保险丝**：模板改版时它会立刻告诉你旧包还能不能读。
+CI（`.github/workflows/verify-tavern.yml`）另有一条快照同步检查。
+
+## L1 快照
+
+```bash
+npm run snapshot        # 生成 public/tavern-snapshot.json（站点静态兜底）
+npm run snapshot:check  # 校验仓库里的快照与当前代码+数据是否一致（CI 用）
+```
+
+快照形状与前端 `api.mjs` 的约定一致：`{schema, generatedAt, status, nodes, edges, tags, tagMembers, timeline}`。
+后端不可用时前端自动回退到它，并显示降级提示。
+
+**种子数据的时间戳是固定的**（`TAVERN_SEED_TIME`，默认 `2026-01-01T00:00:00.000Z`），
+所以"种子 → 快照"这一整条链是可复现的：CI 能重新生成并与仓库里的那份做**逐字节**比对。
+这也是为什么 `read-model.mjs` 的时间轴查询额外带了 `id` 作为次序打断 —— 时间全部相同时，
+只按时间排序会让 SQLite 返回未定义顺序，快照就不可复现了。
+
+---
+
 ## 还没做的（下一步）
 
-- 投稿闭环：`POST /v1/submissions`（multipart zip）→ 解包流水线（§9.4 八步）
-- 修订与审核：`PATCH /v1/nodes/:id`、`/v1/reviews/*`、批量上架、驳回
-- 申请与邀请：`applications` / `invitations` 的接口与一次性激活页
-- 工作台页面（§7.7）与 `/author` 验证页
-- L1 快照导出 + `tag_members` 物化落盘 + bot PR
-- 素材处理：接 `sharp` / `svgo`（届时需要决定是复用主仓库的 `scripts/optimize-images.mjs` 还是本目录自带一份——会影响"能否一条 `mv` 拆走"）
+- **申请与邀请**：`applications` / `invitations` 的接口与一次性激活页
+- **工作台页面**（§7.7）与 `/author` 验证页
+- **素材处理**：尚未接 `sharp` / `svgo`（届时需决定复用主仓库的 `scripts/optimize-images.mjs` 还是自带一份——会影响"能否一条 `mv` 拆走"）
+- **bot PR 回仓**：L1 快照定期写回仓库（目前是手动 `npm run snapshot`）
+- **部署产物**：systemd 单元、反代配置、备份脚本
 
 ---
 
@@ -189,17 +226,26 @@ curl -s -b /tmp/tavern.jar http://127.0.0.1:9878/v1/me
 
 ```
 tavern-server/
-├── migrations/001_init.sql   # 13 张表（对应设计文档 §16 附录 B）
+├── migrations/
+│   ├── 001_init.sql          # 13 张表（对应设计文档 §16 附录 B）
+│   └── 002_revision_source.sql
 ├── src/
-│   ├── config.mjs            # 环境变量与默认值
+│   ├── config.mjs            # 环境变量、.env 加载、安全配置自检
 │   ├── db.mjs                # 打开 + 自动迁移 + 查询包装
 │   ├── http.mjs              # 路由、响应、cookie、CORS
 │   ├── auth.mjs              # 令牌哈希、限流、会话、审计、权限判定
+│   ├── read-model.mjs        # 公开读模型（表级白名单：只查 nodes/edges/tag_members）
+│   ├── zip.mjs               # 零依赖 ZIP 读取器 + 安全闸门
+│   ├── zip-write.mjs         # 零依赖 ZIP 写入器（确定性）
+│   ├── archive.mjs           # pack/unpack（§9.5 双向可逆）
+│   ├── multipart.mjs         # multipart/form-data 解析
+│   ├── frontmatter.mjs       # YAML 子集解析（版本号保持字符串）
+│   ├── ingest.mjs            # 摄取流水线：归一化 + 校验 + 哈希
+│   ├── submissions.mjs       # 投稿/审核的存储逻辑
+│   ├── scan-secrets.mjs      # 秘密扫描规则
 │   ├── routes.mjs            # 全部 handler
 │   └── server.mjs            # 组装与启动
-├── scripts/
-│   ├── bootstrap.mjs         # 首个 staff 账号（仅本机）
-│   ├── seed.mjs              # 导入既有资产
-│   └── reset.mjs             # 清空本地库
+├── scripts/                  # bootstrap / seed / reset / snapshot / pack / unpack / check-secrets
+├── tests/                    # 127 个用例（node:test，零测试框架依赖）
 └── data/                     # 运行时数据（gitignore）
 ```

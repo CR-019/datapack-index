@@ -13,6 +13,9 @@
     "seed": "node --disable-warning=ExperimentalWarning scripts/seed.mjs",
     "reset": "node --disable-warning=ExperimentalWarning scripts/reset.mjs",
     "snapshot": "node --disable-warning=ExperimentalWarning scripts/snapshot.mjs",
+    "snapshot:check": "node --disable-warning=ExperimentalWarning scripts/snapshot.mjs --check",
+    "pack": "node --disable-warning=ExperimentalWarning scripts/tavern-pack.mjs",
+    "unpack": "node --disable-warning=ExperimentalWarning scripts/tavern-unpack.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.mjs"
   },

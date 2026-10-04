@@ -52,13 +52,27 @@ const fail = (code, message) => {
 
 /* ───────────────────────── 名称与路径 ───────────────────────── */
 
-/** 末位未设置 UTF-8 标志时，中文 Windows 工具通常写的是 GBK；按此回退 */
+/**
+ * 解码条目名。
+ *
+ * 规范说"未设 UTF-8 标志位就是 CP437"，但现实中大量工具（JS/Python 的打包库、
+ * 部分 Windows 工具）写的是 UTF-8 却忘了置位。因此未置位时的策略是：
+ * **先按严格 UTF-8 试解，解不通再退回 GBK**。
+ *
+ * 顺序很重要：反过来的话，UTF-8 中文名会被当成 GBK 解出乱码
+ * （"我的项目" → "鎴戠殑椤圭洰"），而且是静默的。
+ */
 function decodeName(bytes, flags) {
   if (flags & FLAG_UTF8) return new TextDecoder("utf-8", { fatal: false }).decode(bytes);
   try {
-    return new TextDecoder("gbk", { fatal: false }).decode(bytes);
+    // fatal: true → 只要不是合法 UTF-8 就抛错，从而安全地回退
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
   } catch {
-    return Buffer.from(bytes).toString("latin1");
+    try {
+      return new TextDecoder("gbk", { fatal: false }).decode(bytes);
+    } catch {
+      return Buffer.from(bytes).toString("latin1");
+    }
   }
 }
 

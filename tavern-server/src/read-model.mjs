@@ -232,8 +232,10 @@ export function buildTimeline(db, { limit = DEFAULT_LIMIT } = {}) {
 
   const created = q.all(
     db,
+    // 加 id 作为次序打断：种子里所有 created_at 相同（固定时间戳），
+    // 只按时间排序时 SQLite 的返回顺序是未定义的，快照就不可复现了
     `SELECT n.created_at AS at, n.id, n.profile_json FROM nodes n
-     WHERE ${PUBLISHED_ONLY} ORDER BY n.created_at DESC LIMIT ?`,
+     WHERE ${PUBLISHED_ONLY} ORDER BY n.created_at DESC, n.id LIMIT ?`,
     limit,
   ).map((row) => ({ at: row.at, rel: "created", status: null, id: row.id, title: title(JSON.parse(row.profile_json)) }));
 

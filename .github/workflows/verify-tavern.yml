@@ -1,0 +1,57 @@
+name: Verify tavern board
+
+# 酒馆看板后端是**零运行时依赖**的（Node 内置 node:sqlite / node:zlib），
+# 所以这个工作流不需要 pnpm install —— 装依赖那一步本身就是风险面，能免则免。
+
+on:
+  pull_request:
+    paths:
+      - "tavern-server/**"
+      - ".vitepress/vue/tavern/**"
+      - "tavern/**"
+      - "public/tavern-snapshot.json"
+      - ".github/workflows/verify-tavern.yml"
+  push:
+    branches:
+      - master
+      - "feat/**"
+    paths:
+      - "tavern-server/**"
+      - ".vitepress/vue/tavern/**"
+      - "tavern/**"
+      - "public/tavern-snapshot.json"
+      - ".github/workflows/verify-tavern.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24
+
+      - name: Run tests
+        working-directory: tavern-server
+        run: npm test
+
+      - name: Scan for committed secrets
+        working-directory: tavern-server
+        run: npm run check:secrets
+
+      # 这条是快照约定的保险丝：种子数据是可复现的（固定时间戳），
+      # 因此仓库里的快照必须能被当前代码 + 仓库数据重新生成出来。
+      # 任何人改了读模型或种子却忘记更新快照，CI 会立刻打红。
+      - name: Rebuild seed and verify the committed snapshot is in sync
+        working-directory: tavern-server
+        run: |
+          npm run seed
+          npm run snapshot:check

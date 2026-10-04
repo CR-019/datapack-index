@@ -13,7 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { REPO_ROOT, config, nowIso } from "../src/config.mjs";
+import { REPO_ROOT, config } from "../src/config.mjs";
 import { openDatabase, q } from "../src/db.mjs";
 
 const AUTHORS_DIR = path.join(REPO_ROOT, "public", "authors");
@@ -87,8 +87,17 @@ function parseFrontmatter(text) {
 
 /* ───────────────── 写入 ───────────────── */
 
+/**
+ * 固定的种子时间戳。
+ *
+ * 为什么不用 now()：种子数据要能**复现**，否则由它导出的 L1 快照每次都不同，
+ * 仓库里的快照就无法核对（CI 里那条 `git diff --exit-code` 会永远失败）。
+ * 需要真实时间时可用 TAVERN_SEED_TIME 覆盖。
+ */
+const SEED_TIME = process.env.TAVERN_SEED_TIME ?? "2026-01-01T00:00:00.000Z";
+
 function publishNode(db, { id, kind, profile, authorId = null }) {
-  const ts = nowIso();
+  const ts = SEED_TIME;
   q.run(
     db,
     `INSERT INTO nodes (id, kind, profile_json, created_at, updated_at) VALUES (?, ?, ?, ?, ?)
@@ -112,7 +121,7 @@ function addEdge(db, { from, rel, to, ord = null, role = null, char = null, sinc
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(from_id, rel, to_id) DO UPDATE SET
        ord = excluded.ord, role = excluded.role, char = excluded.char, since = excluded.since, note = excluded.note`,
-    from, rel, to, ord, role, char, since, status, note, nowIso(),
+    from, rel, to, ord, role, char, since, status, note, SEED_TIME,
   );
 }
 
@@ -230,7 +239,7 @@ try {
       q.run(
         db,
         "INSERT OR REPLACE INTO tag_members (tag_id, node_id, computed_at) VALUES (?, ?, ?)",
-        tagId, project.id, nowIso(),
+        tagId, project.id, SEED_TIME,
       );
       stats.memberships += 1;
     }
@@ -241,7 +250,7 @@ try {
     "INSERT INTO audit_log (action, target, reason, created_at) VALUES ('seed.import', ?, ?, ?)",
     REPO_ROOT,
     `authors=${stats.authors} projects=${stats.projects}`,
-    nowIso(),
+    SEED_TIME,
   );
 
   db.exec("COMMIT");
