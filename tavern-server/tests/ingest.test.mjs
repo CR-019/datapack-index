@@ -194,20 +194,35 @@ test("招募岗位被解析，缺 role 时报错", () => {
 
 test("relations.json 区分意图（requests）与弱关系（related/depends）", () => {
   const relations = JSON.stringify({
-    requests: [{ rel: "parent", to: "event:autumn-jam-2026", note: "希望参赛" }],
+    requests: [{ rel: "includes", to: "event:autumn-jam-2026", note: "希望参赛" }],
     related: ["project:xiaodou-math"],
     depends: ["project:xiaodou-math"],
   });
   const zip = withProject([textEntry("relations.json", relations)]);
   const { project, errors } = ingestZip(zip);
   assert.deepEqual(errors, []);
-  assert.deepEqual(project.relations.requests, [{ rel: "parent", to: "event:autumn-jam-2026", note: "希望参赛" }]);
+  assert.deepEqual(project.relations.requests, [{ rel: "includes", to: "event:autumn-jam-2026", note: "希望参赛" }]);
   assert.deepEqual(project.relations.related, ["project:xiaodou-math"]);
   assert.deepEqual(project.relations.depends, ["project:xiaodou-math"]);
 });
 
+test("★ requests 只接受 includes：parent 等于要求把自己从看板上抹掉（§5.4.1）", () => {
+  // 这条曾经是允许的，而且设计文档里的例子就是它。但 §5.4.1 把 parent 收窄成
+  // 「组成」，而不变量 13 靠 parent 判断"是否独立条目"——于是 rel: parent 会让
+  // 提交者的作品从看板消失（实测 219 → 218），而作者以为自己只是在报名参赛。
+  const zip = withProject([textEntry("relations.json", JSON.stringify({
+    requests: [{ rel: "parent", to: "event:autumn-jam-2026", note: "希望参赛" }],
+  }))]);
+  const { errors } = ingestZip(zip);
+  assert.ok(codes(errors).includes("bad_request_rel"));
+  // 报错必须说清楚该用什么，否则作者只会以为平台不支持参赛
+  const message = errors.find((error) => error.code === "bad_request_rel").message;
+  assert.match(message, /includes/);
+  assert.match(message, /看板/);
+});
+
 test("relations.json 的目标必须是 kind:slug 形式", () => {
-  const relations = JSON.stringify({ requests: [{ rel: "parent", to: "autumn-jam" }] });
+  const relations = JSON.stringify({ requests: [{ rel: "includes", to: "autumn-jam" }] });
   const zip = withProject([textEntry("relations.json", relations)]);
   assert.ok(codes(ingestZip(zip).errors).includes("bad_request_target"));
 });

@@ -6,11 +6,13 @@ import test from "node:test";
 
 import { nowIso } from "../src/config.mjs";
 import { openDatabase, q } from "../src/db.mjs";
+import { listPublishedNodes } from "../src/read-model.mjs";
 import {
   childrenOf,
   derivePhases,
   eventPhasesOf,
   hasParent,
+  findCompositionViolations,
   listStages,
   openRecruitRoles,
   parseBoundary,
@@ -230,6 +232,41 @@ test("★ 阶段继承父节点的维护权（否则每个阶段都要单独挂�
     // 顶层无关节点不受影响
     makeNode("project:q", "project", { i18n: { zh: { title: "Q" } }, facets: {} });
     assert.equal(canEdit(db, "person:Owner", "project:q"), false);
+  } finally {
+    cleanup();
+  }
+});
+
+/* ───────── 不变量 16：parent 只能表达"组成" ───────── */
+
+test("★ 正常的阶段 parent 边不算违规（阶段本来就是组成部分）", () => {
+  const { db, makeNode, addStage, cleanup } = setup();
+  try {
+    makeNode("project:p", "project", { i18n: { zh: { title: "P" } }, facets: {} });
+    addStage("stage:p-1", "project:p", stageProfile("一期", "2026-01-01", "2026-03-01"));
+    assert.deepEqual(findCompositionViolations(db), []);
+  } finally {
+    cleanup();
+  }
+});
+
+test("★ 作品用 parent 加入赛事会被判违规（那种边会让它从看板静默消失）", () => {
+  const { db, makeNode, cleanup } = setup();
+  try {
+    makeNode("event:jam", "event", { i18n: { zh: { title: "创作赛" } }, facets: {} });
+    makeNode("project:entry", "project", { i18n: { zh: { title: "参赛作品" } }, facets: {} });
+    // 旧文档就是这么教的（§5.4 的例子「参赛作品 → 赛事」），照做的后果是
+    // 不变量 13 把作品当成子节点、从看板列表里剔除——不报错，只是少了东西。
+    q.run(db, "INSERT INTO edges (from_id, rel, to_id, created_at) VALUES ('project:entry','parent','event:jam',?)", nowIso());
+
+    const violations = findCompositionViolations(db);
+    assert.equal(violations.length, 1);
+    assert.deepEqual(
+      { id: violations[0].id, kind: violations[0].kind, parentId: violations[0].parentId },
+      { id: "project:entry", kind: "project", parentId: "event:jam" },
+    );
+    // 同时确认不变量 13 的后果确实发生了（这就是要拦它的理由）
+    assert.ok(!listPublishedNodes(db, { limit: 50 }).items.some((node) => node.id === "project:entry"));
   } finally {
     cleanup();
   }

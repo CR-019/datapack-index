@@ -30,9 +30,38 @@ export function parseBoundary(value, { endOfDay = false } = {}) {
 
 /* ───────────────── 阶段（子节点） ───────────────── */
 
+/**
+ * 能作为"组成部分"存在的 kind（设计 §5.4.1 + 不变量 16）。
+ *
+ * `parent` 只表达**组成**（部分-整体）：组成部分不是独立条目，所以不进看板。
+ * 当前只有 `stage` 满足这一点。集合成员关系（参赛、入集）一律用 `includes`，
+ * **不得**用 `parent` —— 否则那个条目会从看板上消失。
+ *
+ * 加新 kind 进这份白名单，等于宣布"这类东西不再是独立条目"，请想清楚再动。
+ */
+export const COMPOSITION_KINDS = new Set(["stage"]);
+
 /** 某节点是否有父节点（不变量 13 用它把子节点排除出看板列表） */
 export function hasParent(db, nodeId) {
   return Boolean(q.get(db, "SELECT 1 AS ok FROM edges WHERE from_id = ? AND rel = 'parent' LIMIT 1", nodeId));
+}
+
+/**
+ * 找出违反不变量 16 的 `parent` 边（不变量 16 的可执行版本）。
+ *
+ * 为什么需要它：不变量 13 的实现是"没有 parent 边 = 进看板"，它成立的前提是
+ * `parent` **只**表示组成。这个前提一旦被破坏（比如有人照旧文档给参赛作品建
+ * parent 边），后果是**条目静默消失**——不报错，只是看板上少了几件作品，
+ * 而且看起来像数据丢了。所以让 CI 在快照生成时先扫一遍。
+ */
+export function findCompositionViolations(db) {
+  return q.all(
+    db,
+    `SELECT e.from_id AS id, e.to_id AS parentId, n.kind AS kind
+     FROM edges e JOIN nodes n ON n.id = e.from_id
+     WHERE e.rel = 'parent'
+     ORDER BY e.from_id`,
+  ).filter((row) => !COMPOSITION_KINDS.has(row.kind));
 }
 
 export function parentIdOf(db, nodeId) {

@@ -21,6 +21,7 @@ import path from "node:path";
 import { REPO_ROOT, config, nowIso } from "../src/config.mjs";
 import { openDatabase } from "../src/db.mjs";
 import { buildSnapshot, findForbiddenKeys, serializeSnapshot } from "../src/read-model.mjs";
+import { COMPOSITION_KINDS, findCompositionViolations } from "../src/timeline.mjs";
 
 function argOf(name, fallback = null) {
   const index = process.argv.indexOf(`--${name}`);
@@ -31,6 +32,26 @@ const checkMode = process.argv.includes("--check");
 const out = argOf("out", path.join(REPO_ROOT, "public", "tavern-snapshot.json"));
 const db = openDatabase();
 
+// 自检 ①（不变量 16）：`parent` 边只能表达"组成"。
+//
+// 不变量 13 的实现是"没有 parent 边 = 进看板列表"，它成立的前提是 parent
+// **只**表示组成。前提一破，后果是条目**静默消失**——不报错，只是看板上少了
+// 几件作品，看起来像数据丢了（实测过：给参赛作品建 parent 边，219 → 218）。
+// 所以在这里先扫一遍，而不是等有人发现东西不见了。
+const compositionViolations = findCompositionViolations(db);
+if (compositionViolations.length) {
+  process.stderr.write(
+    `✖ 有 parent 边指向了不该作为"组成部分"的 kind（不变量 16 / 设计 §5.4.1）\n` +
+    `   允许的 kind：${[...COMPOSITION_KINDS].join(", ")}\n\n` +
+    compositionViolations.slice(0, 10).map((row) =>
+      `   ${row.id}（kind=${row.kind}） -parent-> ${row.parentId}\n`).join("") +
+    `\n   parent 表示"组成"（该节点不是独立条目，因此不进看板）。\n` +
+    `   集合成员关系（参赛、入集）请改用 includes，否则那些条目已经从看板上消失了。\n`,
+  );
+  db.close();
+  process.exit(1);
+}
+
 // 校验模式：直接沿用仓库里那份的 generatedAt，把唯一的时间波动抹平，
 // 从而可以做**逐字节**比对（比"忽略某字段再比"更严格，也更好解释）
 const committed = fs.existsSync(out) ? fs.readFileSync(out, "utf8") : null;
@@ -39,7 +60,7 @@ const generatedAt = committedAt ?? nowIso();
 
 const snapshot = buildSnapshot(db, { generatedAt });
 
-// 自检：绝不把私域字段写出去
+// 自检 ②：绝不把私域字段写出去
 const forbidden = findForbiddenKeys(snapshot);
 if (forbidden.length) {
   process.stderr.write(`✖ 快照里出现了不该有的键：${forbidden.slice(0, 10).join(", ")}\n`);

@@ -148,16 +148,16 @@ function caseOne(db, staffId, picks = {}) {
   const eventSubmit = submit(db, { fixture: eventFixture, slug: eventSlug, reviewerId: staffId });
   out.steps.push({ step: "① 提交赛事（kind: event）", ...pick(eventSubmit) });
 
-  // ② 个人投稿：一个作者署名的作品，声明想参赛（requests.parent）
+  // ② 个人投稿：一个作者署名的作品，声明想参赛（requests.includes，§5.4.1）
   const soloFixture = writeFixture("jam-solo-entry", {
     meta: { template: 1, kind: "project", name: "参赛作品·独行", summary: "个人投稿的参赛作品", tags: ["赛事投稿"] },
     body: "个人投稿作品正文。",
     extras: {
-      "relations.json": JSON.stringify({ requests: [{ rel: "parent", to: "event:autumn-jam-2026", note: "希望参赛" }] }, null, 2),
+      "relations.json": JSON.stringify({ requests: [{ rel: "includes", to: "event:autumn-jam-2026", note: "希望参赛" }] }, null, 2),
     },
   });
   const soloSubmit = submit(db, { fixture: soloFixture, slug: "jam-solo-entry", reviewerId: staffId });
-  out.steps.push({ step: "② 个人投稿（带 requests.parent）", ...pick(soloSubmit) });
+  out.steps.push({ step: "② 个人投稿（带 requests.includes）", ...pick(soloSubmit) });
 
   // ③ 团队投稿：团队是 kind=team 的节点，成员用 member 边
   const teamId = insertNode(db, {
@@ -175,7 +175,7 @@ function caseOne(db, staffId, picks = {}) {
     meta: { template: 1, kind: "project", name: "参赛作品·同行", summary: "团队投稿的参赛作品", tags: ["赛事投稿"] },
     body: "团队投稿作品正文。",
     extras: {
-      "relations.json": JSON.stringify({ requests: [{ rel: "parent", to: "event:autumn-jam-2026", note: "希望参赛" }] }, null, 2),
+      "relations.json": JSON.stringify({ requests: [{ rel: "includes", to: "event:autumn-jam-2026", note: "希望参赛" }] }, null, 2),
     },
   });
   const teamSubmit = submit(db, { fixture: teamFixture, slug: "jam-team-entry", reviewerId: staffId });
@@ -192,13 +192,13 @@ function caseOne(db, staffId, picks = {}) {
     });
   }
 
-  // ④ 赛事报名：设计里靠 relations.requests 审出来，但没有任何审核它的接口
+  // ④ 赛事报名：投稿时声明了 requests.includes，但没有任何审核它的接口
   gap(
     "把参赛作品挂到赛事上（requests → 真实边）",
-    "ingest 会解析并校验 relations.requests（rel ∈ {parent, includes}），" +
+    "ingest 会解析并校验 relations.requests（rel 只接受 includes，见 §5.4.1），" +
     "submissions.mjs 明确忽略它、且没有「审核入集申请」的接口 —— 意图被解析完就丢在地上。" +
-    "此处只能用设计 §5.4 里 `includes` 的语义手工建边（赛事含作品），" +
-    "因为若照 §5.4 对 `parent` 的例子（参赛作品 → 赛事）建边，作品会立刻从不变量 13 的看板列表里消失",
+    "此处只能手工建边。关系用 `includes`（赛事 → 作品）：v1.11 起 `parent` 只表示组成，" +
+    "照旧文档给参赛作品建 parent 边会让它从看板列表消失（走查还留了一条 CI 不变量专门拦这个）",
   );
   for (const entry of ["project:jam-solo-entry", "project:jam-team-entry"]) {
     q.run(db, "INSERT INTO edges (from_id, rel, to_id, char, created_at) VALUES (?, 'includes', ?, NULL, ?)",

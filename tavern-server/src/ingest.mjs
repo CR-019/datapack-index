@@ -365,8 +365,21 @@ export function buildProject(files, { locale = "zh" } = {}) {
         }
         const rel = asString(entry.rel);
         const to = toIdSlug(entry.to);
-        if (!["parent", "includes"].includes(rel)) {
-          errors.push({ code: "bad_request_rel", message: `relations.requests[${index}].rel 只能是 parent 或 includes` });
+        // ⚠️ 只允许 `includes`（设计 §5.4.1，v1.11）。
+        //
+        // 曾经也允许 `parent`，理由看着很自然："我的作品属于这个赛事"。但 §5.4.1
+        // 把 `parent` 收窄成**组成**（部分-整体），而不变量 13 靠它判断"是否独立
+        // 条目"——于是 `rel: "parent"` 等于让提交者**要求把自己的作品从看板上抹掉**。
+        // 实测过：建一条 parent 边，作品立刻从看板列表消失（219 → 218），按 id 仍可访问。
+        //
+        // 这不是"少支持一种写法"，是拆引信：将来谁实现入集审核接口，
+        // 都不可能因为照抄 relations.json 的老例子而造出 parent 边。
+        if (rel !== "includes") {
+          errors.push({
+            code: "bad_request_rel",
+            message: `relations.requests[${index}].rel 只能是 includes` +
+              (rel === "parent" ? "（parent 表示「组成」，会让该条目从看板消失；想参赛/入集请用 includes）" : ""),
+          });
           return null;
         }
         if (!to) {
