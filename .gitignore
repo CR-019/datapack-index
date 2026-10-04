@@ -13,3 +13,15 @@ cache
 __pycache__
 .DS_Store
 **/.DS_Store/**
+# 内部设计文档（不进仓库，仅本地）
+notes/
+
+# 酒馆看板后端数据
+/tavern-server/data/
+
+# 秘密：绝不进仓库（.env.example 是唯一例外）
+.env
+.env.*
+!.env.example
+*.pem
+*.key

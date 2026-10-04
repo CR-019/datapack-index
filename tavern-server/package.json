@@ -1,0 +1,19 @@
+{
+  "name": "tavern-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "酒馆看板后端（原型）：仓库即真相的备份源 + 投稿/审核 API",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "node --disable-warning=ExperimentalWarning src/server.mjs",
+    "bootstrap": "node --disable-warning=ExperimentalWarning scripts/bootstrap.mjs",
+    "seed": "node --disable-warning=ExperimentalWarning scripts/seed.mjs",
+    "reset": "node --disable-warning=ExperimentalWarning scripts/reset.mjs",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.mjs"
+  },
+  "dependencies": {}
+}
