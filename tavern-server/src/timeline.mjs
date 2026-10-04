@@ -57,6 +57,29 @@ export function stagePhaseOf(stage, now = new Date()) {
   return "current";
 }
 
+/**
+ * 阶段的标准成型（**唯一**一份）。
+ *
+ * 实时 API 走 `listStages`、快照走 `allStages`，两条路径都必须经过这里。
+ * 之前两边各写各的：一个按窗口起点排序、一个按 id 排，一个给 stage 也派生了
+ * `facets.phases`（阶段没有阶段）。结果就是**同一个项目在线看见的阶段条顺序，
+ * 离线后会变**——这类漂移不会报错，只会让人以为数据错了。
+ *
+ * 入参的每一行都必须带 `parentId`（`parseProfile` 是白名单投影，不会透传列）。
+ */
+export function shapeStages(rows, { now = new Date() } = {}) {
+  return rows
+    .map((row) => {
+      const node = parseProfile(row);
+      return { ...node, parentId: row.parentId, phase: stagePhaseOf(node, now) };
+    })
+    .sort((left, right) => {
+      const leftStart = parseBoundary(left.facets?.time?.start) ?? Number.POSITIVE_INFINITY;
+      const rightStart = parseBoundary(right.facets?.time?.start) ?? Number.POSITIVE_INFINITY;
+      return leftStart - rightStart || left.id.localeCompare(right.id, "en");
+    });
+}
+
 /** 某父节点的全部阶段（按窗口起点升序；无窗口的排在最后） */
 export function listStages(db, parentId, { now = new Date(), includeUnpublished = false } = {}) {
   const rows = q.all(
@@ -68,16 +91,7 @@ export function listStages(db, parentId, { now = new Date(), includeUnpublished 
     parentId,
   );
 
-  return rows
-    .map((row) => {
-      const node = parseProfile(row);
-      return { ...node, parentId, phase: stagePhaseOf(node, now) };
-    })
-    .sort((left, right) => {
-      const leftStart = parseBoundary(left.facets?.time?.start) ?? Number.POSITIVE_INFINITY;
-      const rightStart = parseBoundary(right.facets?.time?.start) ?? Number.POSITIVE_INFINITY;
-      return leftStart - rightStart || left.id.localeCompare(right.id, "en");
-    });
+  return shapeStages(rows.map((row) => ({ ...row, parentId })), { now });
 }
 
 /* ───────────────── phases 投影 ───────────────── */

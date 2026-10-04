@@ -277,3 +277,39 @@ test("快照包含 stages 与 events，且 nodes 只含顶层", () => {
     cleanup();
   }
 });
+
+test("★ 快照里节点内嵌的 stages 与实时 API 同形（前端不必写两条分支）", () => {
+  const { db, cleanup } = setup();
+  try {
+    const now = nowIso();
+    const project = publishOne(db, "ParityStages");
+    const other = publishOne(db, "NoStages");
+    for (const [id, name, start] of [["stage:par-a", "第一期", "2026-01-01"], ["stage:par-b", "第二期", "2026-02-01"]]) {
+      q.run(db, "INSERT INTO nodes (id, kind, profile_json, published_revision_id, created_at, updated_at) VALUES (?, 'stage', ?, ?, ?, ?)",
+        id, JSON.stringify({ name, i18n: { zh: { title: name } }, facets: { time: { start, end: "2026-12-31" } } }), `seed_${id}_1`, now, now);
+      q.run(db, "INSERT INTO revisions (id, node_id, snapshot_json, status, created_at) VALUES (?, ?, '{}', 'published', ?)", `seed_${id}_1`, id, now);
+      q.run(db, "INSERT INTO edges (from_id, rel, to_id, created_at) VALUES (?, 'parent', ?, ?)", id, project.nodeId, now);
+    }
+
+    const at = new Date("2026-06-01T00:00:00Z");
+    const snapshot = buildSnapshot(db, { generatedAt: at.toISOString() });
+    const inSnapshot = snapshot.nodes.find((node) => node.id === project.nodeId);
+    const live = findPublishedNode(db, project.nodeId, { now: at });
+
+    // 同一份数据，两种读法必须给出同样的阶段数组——否则前端离线/在线要分叉
+    assert.deepEqual(inSnapshot.stages, live.stages, "快照内嵌 stages 必须与实时 API 完全一致");
+    assert.deepEqual(
+      inSnapshot.stages.map((stage) => stage.id),
+      snapshot.stages.filter((stage) => stage.parentId === project.nodeId).map((stage) => stage.id),
+      "内嵌那份与顶层 stages 数组（按 parentId 过滤）必须指向同一批阶段",
+    );
+    assert.deepEqual(inSnapshot.stages.map((stage) => stage.phase), ["current", "current"], "两个窗口都包含 now → 并列");
+
+    // 没有阶段的节点在两边都**不带** stages 键（消费方统一 `?? []` 即可）
+    assert.ok(!("stages" in (snapshot.nodes.find((node) => node.id === other.nodeId))), "无阶段的节点不该凭空多出 stages 键");
+    assert.ok(!("stages" in findPublishedNode(db, other.nodeId, { now: at })));
+    assert.deepEqual(findPublishedNode(db, project.nodeId, { now: at }).facets.phases, ["第一期", "第二期"]);
+  } finally {
+    cleanup();
+  }
+});

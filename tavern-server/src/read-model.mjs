@@ -13,7 +13,7 @@
 
 import { nowIso } from "./config.mjs";
 import { PUBLISHED_ONLY, parseProfile, q } from "./db.mjs";
-import { listStages, stagePhaseOf, withDerivedFacets } from "./timeline.mjs";
+import { listStages, shapeStages, withDerivedFacets } from "./timeline.mjs";
 
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;
@@ -119,11 +119,8 @@ export function allStages(db, { now = new Date() } = {}) {
      WHERE n.kind = 'stage' AND ${PUBLISHED_ONLY}
      ORDER BY n.id`,
   );
-  return rows.map((row) => ({
-    ...withDerivedFacets(db, publicNode(db, row), { now }),
-    parentId: row.parentId,
-    phase: stagePhaseOf(publicNode(db, row), now),
-  }));
+  // 与实时 API 共用同一个成型函数——顺序与字段都必须一模一样
+  return shapeStages(rows, { now });
 }
 
 /** 快照用：公开且未作废的事件 */
@@ -310,15 +307,31 @@ export function buildSnapshot(db, { generatedAt = nowIso(), timelineLimit = 40 }
   const status = buildStatus(db, { generatedAt });
   status.sources = { storage: "sqlite", snapshot: "generated" };
   const now = new Date(generatedAt);
+
+  // 实时 API 把阶段挂在宿主节点上（`node.stages`），快照也必须一样，
+  // 否则前端离线/在线要走两条分支——同一个组件两套形状，迟早对不上。
+  // 顶层 `stages` 数组保留（带 parentId，便于整体遍历），但节点内那份是权威的渲染入口。
+  const stages = allStages(db, { now });
+  const nodes = allPublishedNodes(db, { now });
+  const byParent = new Map();
+  for (const stage of stages) {
+    if (!byParent.has(stage.parentId)) byParent.set(stage.parentId, []);
+    byParent.get(stage.parentId).push(stage);
+  }
+  for (const node of nodes) {
+    const mine = byParent.get(node.id);
+    if (mine) node.stages = mine;
+  }
+
   return {
     schema: 1,
     generatedAt,
     status,
-    nodes: allPublishedNodes(db, { now }),
+    nodes,
     edges: listAllEdges(db),
     tags: listTags(db),
     tagMembers: materializedTagMembers(db),
-    stages: allStages(db, { now }),
+    stages,
     events: materializedEvents(db),
     timeline: buildTimeline(db, { limit: timelineLimit }).items,
   };
