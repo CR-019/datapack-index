@@ -53,6 +53,26 @@ npm run dev
 npm run reset && npm run seed
 ```
 
+### 想看阶段条与事件流？铺一份演示数据
+
+既有数据里**没有阶段也没有事件**，所以两条新 UI 在真实数据上只能渲染空态——能证明"没报错"，证明不了"能用"。
+演示数据走**独立的库**（不要写进主库，理由见下）：
+
+```bash
+TAVERN_DB=data/demo.db npm run seed          # 先铺基础数据
+TAVERN_DB=data/demo.db npm run seed:demo     # 再加演示阶段与事件
+TAVERN_DB=data/demo.db TAVERN_PORT=9880 npm run dev
+```
+
+| 演示项目 | 展示什么 |
+| --- | --- |
+| `project:demo-alpha` | 四个阶段，其中 **v1.0 开发 与 社区运营 并列**处于进行中 → `facets.phases` 是两个元素的集合，不是单值；另有一条 `internal` 事件用来验证它不会出现在公开接口里 |
+| `project:demo-beta` | 两个阶段之间**刻意留了 4–6 月的空隙** → 验证"允许留白"，不会被当成数据错误 |
+
+⚠️ **演示数据默认拒绝写主库**（要用 `--force` 才行）：进了 `data/tavern.db` 会让 `npm run snapshot:check`
+失败，而且 `public/tavern-snapshot.json` 是**要上线的离线兜底文件**，不能混进编造内容。
+脚本也刻意**不碰任何真实项目**——演示数据必须一眼就能认出来。
+
 ---
 
 ## 命名空间：为什么 id 一定是 `kind:slug`
@@ -297,7 +317,7 @@ tavern-server/
 │   ├── scan-secrets.mjs      # 秘密扫描规则
 │   ├── routes.mjs            # 全部 handler
 │   └── server.mjs            # 组装与启动
-├── scripts/                  # bootstrap / seed / reset / snapshot / pack / unpack / check-secrets
+├── scripts/                  # bootstrap / seed / seed-demo / reset / snapshot / pack / unpack / check-secrets / backup / restore
 ├── tests/                    # 185 个用例（node:test，零测试框架依赖）
 └── data/                     # 运行时数据（gitignore）
 ```
