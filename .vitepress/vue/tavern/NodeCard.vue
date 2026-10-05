@@ -3,7 +3,7 @@
 		<div class="tv-card-head">
 			<div class="tv-card-thumb" aria-hidden="true">
 				<img v-if="thumb" :src="thumb" alt="" loading="lazy" @error="thumbFailed = true" />
-				<span v-else>{{ initials }}</span>
+				<span v-else class="tv-thumb-placeholder" :style="thumbStyle">{{ initials }}</span>
 			</div>
 			<div class="tv-card-titlewrap">
 				<h3 class="tv-card-title">
@@ -84,6 +84,16 @@ const kindText = computed(() => kindLabel(props.node.kind));
 const stateText = computed(() => stateLabel(nodeState(props.node)));
 const detailUrl = computed(() => linkForNode(props.node));
 const initials = computed(() => String(title.value).trim().slice(0, 2).toUpperCase());
+
+/** 无封面时的彩色首字占位（与主页卡片、前置馆占位图同一套派生色）。 */
+const thumbStyle = computed(() => {
+	const surface = isDark && isDark.value ? "#1b1b1f" : "#ffffff";
+	const colors = stringToBadgeColors(title.value, surface);
+	return {
+		background: `linear-gradient(135deg, ${colors.background}, ${colors.border})`,
+		color: colors.text,
+	};
+});
 const thumb = computed(() => (thumbFailed.value ? "" : assetHref(nodeAvatar(props.node))));
 
 const footerText = computed(() => {

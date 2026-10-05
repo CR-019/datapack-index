@@ -21,7 +21,7 @@
 			<header class="tv-detail-hero">
 				<div class="tv-hero-thumb" aria-hidden="true">
 					<img v-if="thumb" :src="thumb" alt="" @error="thumbFailed = true" />
-					<span v-else>{{ initials }}</span>
+					<span v-else class="tv-thumb-placeholder" :style="thumbStyle">{{ initials }}</span>
 				</div>
 				<div class="tv-hero-body">
 					<div class="tv-title-row">
@@ -211,6 +211,16 @@ const updated = computed(() => formatDate(node.value && node.value.updatedAt));
 const phases = computed(() => nodeCurrentPhases(node.value));
 const stageCount = computed(() => nodeStages(node.value).length);
 const initials = computed(() => String(title.value).trim().slice(0, 2).toUpperCase());
+
+/** 无封面时的彩色首字占位（与卡片缩略图同一套派生色）。 */
+const thumbStyle = computed(() => {
+	const surface = isDark && isDark.value ? "#1b1b1f" : "#ffffff";
+	const colors = stringToBadgeColors(title.value, surface);
+	return {
+		background: `linear-gradient(135deg, ${colors.background}, ${colors.border})`,
+		color: colors.text,
+	};
+});
 const thumb = computed(() => (thumbFailed.value ? "" : assetHref(nodeAvatar(node.value))));
 const repoUrl = computed(() => (node.value && node.value.repo ? `https://github.com/${node.value.repo}` : ""));
 const rawUrl = computed(() => (node.value ? `${API_BASE}/v1/nodes/${encodeURIComponent(node.value.id)}` : ""));
@@ -238,6 +248,16 @@ function relationLabel(rel, direction) {
 	return table[rel] || `${rel}（${direction === "in" ? "入边" : "出边"}）`;
 }
 
+/**
+ * 把边上的 id 翻成可展示的关系项。
+ *
+ * ⚠️ 可见性：边可以指向**未上架**的节点（后端接口只保证"边存在"，不保证两端都已上架），
+ * 而公开面只能出现已上架条目。所以：
+ *   · 索引可用、目标不在索引里 → 判为未上架，**整条不显示**（连裸 id 也不显示，
+ *     否则等于把"存在一个未上架的 xxx"泄露出去，链接还会 404）；
+ *   · 索引不可用（接口失败 / 还没拿到）→ 无法判断，保持旧的退化行为（显示 slug），
+ *     宁可弱一点，也不要因为一次请求失败就把关系区整块清空。
+ */
 function resolve(id) {
 	const found = nodeIndex.value.get(id);
 	if (found) {
@@ -248,6 +268,7 @@ function resolve(id) {
 			kind: kindOf(found),
 		};
 	}
+	if (nodeIndex.value.size) return null;          // 有索引却查不到 = 未上架
 	return { id, title: slugOf(id), avatar: "", kind: kindOf(id) };
 }
 
@@ -266,6 +287,7 @@ function buildGroups(edges, direction) {
 		if (!id) continue;
 		if (!grouped.has(rel)) grouped.set(rel, []);
 		const resolved = resolve(id);
+		if (!resolved) continue;                     // 未上架的目标：不展示
 		const note = edge.role || edge.char || edge.note || "";
 		grouped.get(rel).push({ ...resolved, href: hrefFor(resolved), note });
 	}

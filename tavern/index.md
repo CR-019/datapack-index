@@ -6,7 +6,7 @@ title: 酒馆看板
 ---
 
 <script setup>
-import BoardPage from '/.vitepress/vue/tavern/BoardPage.vue'
+import HomePage from '/.vitepress/vue/tavern/HomePage.vue'
 </script>
 
-<BoardPage />
+<HomePage />

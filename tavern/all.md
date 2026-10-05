@@ -6,7 +6,7 @@ title: 全部条目
 ---
 
 <script setup>
-import AllNodesPage from '/.vitepress/vue/tavern/AllNodesPage.vue'
+import BoardPage from '/.vitepress/vue/tavern/BoardPage.vue'
 </script>
 
-<AllNodesPage />
+<BoardPage />

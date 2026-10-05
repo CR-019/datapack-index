@@ -118,13 +118,18 @@
 
 .tv-search-input {
 	width: 100%;
-	height: 44px;
+	height: 48px;
 	padding: 0 44px 0 42px;
 	border: 1px solid var(--vp-c-divider);
-	border-radius: 22px;
+	border-radius: 24px;
 	background: var(--vp-c-bg);
+	box-shadow: 0 8px 24px rgba(12, 24, 40, .06);
 	color: var(--vp-c-text-1);
 	font-size: 15px;
+}
+
+html.dark .tv-search-input {
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
 }
 
 .tv-search-input::placeholder {
@@ -205,15 +210,20 @@
 	opacity: 0.55;
 }
 
+/* 主按钮 = 前置馆的蓝色胶囊（与主页搜索按钮同一颗，全站只有这一处高饱和色） */
 .tv-btn--primary {
+	min-height: 42px;
+	padding: 0 22px;
 	border-color: transparent;
-	background: var(--vp-c-brand-1);
-	color: var(--vp-c-white, #fff);
+	border-radius: 999px;
+	background: #1e90ff;
+	color: #fff;
+	font-weight: 600;
 }
 
 .tv-btn--primary:hover:not(:disabled) {
-	background: var(--vp-c-brand-2);
-	color: var(--vp-c-white, #fff);
+	background: #297fe6;
+	color: #fff;
 }
 
 .tv-facet-toggle {
@@ -374,22 +384,39 @@
 	list-style: none;
 }
 
+/*
+ * 卡片规格 = 前置馆 ResultCard（wheel/ResultCard.vue 的 scoped CSS）：
+ *   2px 极浅描边 + 18px 圆角 + 极浅横向渐变底 + 悬停上浮 4px / 10-30 柔阴影。
+ * 这套值现在**全站统一**（主页 / 全部条目 / 作者页 / 标签页共用同一批类），
+ * 所以调的时候只改这里一处 —— 别在页面级再覆盖一遍，那正是两处漂移的起点。
+ */
 .tv-card {
 	display: flex;
 	flex-direction: column;
 	gap: 9px;
 	height: 100%;
-	padding: 15px 16px;
-	border: 1px solid var(--vp-c-divider);
-	border-radius: 16px;
-	background: var(--vp-c-bg-soft);
+	padding: 15px 18px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 18px;
+	background: linear-gradient(90deg, #fefeff 0%, #ffffff 60%);
+	box-shadow: 0 3px 10px rgba(12, 24, 40, .04);
 	transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
+html.dark .tv-card {
+	border-color: rgba(255, 255, 255, .06);
+	background: linear-gradient(90deg, #1b1b1f 0%, #1c1c20 60%);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, .5);
+}
+
 .tv-card:hover {
-	border-color: color-mix(in srgb, var(--vp-c-brand-1) 45%, transparent);
-	box-shadow: 0 10px 26px rgba(12, 24, 40, 0.09);
-	transform: translateY(-3px);
+	border-color: color-mix(in srgb, var(--vp-c-brand-1) 40%, transparent);
+	box-shadow: 0 10px 30px rgba(12, 24, 40, .08);
+	transform: translateY(-4px);
+}
+
+html.dark .tv-card:hover {
+	box-shadow: 0 7px 20px rgba(0, 0, 0, .6);
 }
 
 .tv-card:focus-within {
@@ -404,23 +431,42 @@
 
 .tv-card-thumb {
 	display: grid;
-	flex: 0 0 42px;
-	width: 42px;
-	height: 42px;
+	flex: 0 0 48px;
+	width: 48px;
+	height: 48px;
 	place-items: center;
 	overflow: hidden;
-	border: 1px solid var(--vp-c-divider);
+	border: 1px solid rgba(16, 24, 32, .04);
 	border-radius: 10px;
-	background: var(--vp-c-bg);
+	background: var(--vp-c-bg-soft);
 	color: var(--vp-c-text-2);
-	font-size: 15px;
+	box-shadow: 0 2px 6px rgba(12, 24, 40, .04);
+	font-size: 16px;
 	font-weight: 700;
+}
+
+html.dark .tv-card-thumb {
+	border-color: rgba(255, 255, 255, .04);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, .5);
 }
 
 .tv-card-thumb img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+/* 无封面时的彩色首字占位：颜色由标题哈希派生（与前置馆 ResultCard / InfoCard 同款）。
+   圆角 inherit —— 48px 的卡片缩略图与 92px 的详情页大图共用同一个类。 */
+.tv-thumb-placeholder {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	border-radius: inherit;
+	font-weight: 700;
+	box-shadow: inset 0 -6px 12px rgba(0, 0, 0, .06);
 }
 
 .tv-card-titlewrap {
@@ -529,10 +575,14 @@ a.tv-badge:hover {
 
 .tv-state {
 	padding: 56px 20px;
-	border: 1px dashed var(--vp-c-divider);
-	border-radius: 16px;
+	border: 2px dashed rgba(16, 24, 32, .08);
+	border-radius: 18px;
 	background: var(--vp-c-bg-soft);
 	text-align: center;
+}
+
+html.dark .tv-state {
+	border-color: rgba(255, 255, 255, .08);
 }
 
 .tv-state--error {
@@ -729,10 +779,15 @@ a.tv-badge:hover {
 }
 
 .tv-panel {
-	padding: 16px 18px;
-	border: 1px solid var(--vp-c-divider);
-	border-radius: 14px;
-	background: var(--vp-c-bg-soft);
+	padding: 18px 20px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 18px;
+	background: linear-gradient(90deg, #fefeff 0%, #ffffff 60%);
+}
+
+html.dark .tv-panel {
+	border-color: rgba(255, 255, 255, .06);
+	background: linear-gradient(90deg, #1b1b1f 0%, #1c1c20 60%);
 }
 
 .tv-panel--plain {
@@ -1026,9 +1081,13 @@ a.tv-badge:hover {
 .tv-stage-chart {
 	margin: 4px 0 2px;
 	padding: 12px 14px 10px;
-	border: 1px solid var(--vp-c-divider);
-	border-radius: 12px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 16px;
 	background: var(--vp-c-bg);
+}
+
+html.dark .tv-stage-chart {
+	border-color: rgba(255, 255, 255, .06);
 }
 
 .tv-stage-axis {
@@ -1622,3 +1681,686 @@ a.tv-badge:hover {
 	}
 }
 
+
+/* =============================================================================
+   主页（门户）  —— HomePage.vue / EventBanner.vue / HomeProjectCard.vue
+   -----------------------------------------------------------------------------
+   版式是新的，零件全是旧的：卡片用 .tv-card、面板用 .tv-panel、
+   阶段条用 .tv-stage-chart + .tv-stage-block、徽章用 .tv-badge。
+   这里只补主页独有的那几个。
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- 顶部 */
+
+.tv-home-search { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
+.tv-home-search .tv-search { flex: 1 1 320px; }
+.tv-home-hint { margin: 10px 0 0; color: var(--vp-c-text-3); font-size: 13px; line-height: 1.7; }
+
+/* -------------------------------------------------------------- 区块头 */
+
+.tv-home-sec { margin-top: 44px; }
+.tv-home-sechead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 2px; }
+.tv-home-sechead h2 { margin: 0; border: 0; padding: 0; font-size: 22px; line-height: 1.3; }
+
+.tv-home-count {
+	display: inline-flex;
+	align-items: center;
+	min-height: 23px;
+	padding: 2px 9px;
+	border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 26%, transparent);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent);
+	color: var(--vp-c-brand-1);
+	font-size: 11.5px;
+	font-variant-numeric: tabular-nums;
+}
+
+.tv-home-more { margin-left: auto; font-size: 13px; }
+
+.tv-home-group {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 10px;
+	margin: 22px 0 -4px;
+	border: 0;
+	padding: 0;
+	color: var(--vp-c-text-2);
+	font-size: 14px;
+}
+
+.tv-home-group span { color: var(--vp-c-text-3); font-size: 13px; font-weight: 400; }
+
+.tv-home-empty {
+	margin-top: 14px;
+	padding: 20px 22px;
+	border: 2px dashed rgba(16, 24, 32, .08);
+	border-radius: 18px;
+	background: linear-gradient(90deg, #fefeff 0%, #ffffff 60%);
+}
+
+html.dark .tv-home-empty {
+	border-color: rgba(255, 255, 255, .08);
+	background: linear-gradient(90deg, #1b1b1f 0%, #1c1c20 60%);
+}
+
+.tv-home-empty p { margin: 0; color: var(--vp-c-text-2); font-size: 14px; line-height: 1.7; }
+.tv-home-empty p + p { margin-top: 7px; }
+
+/* 卡片网格：比「全部条目」的两列更松，窄屏自然折成一列 */
+.tv-home-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+
+/* ------------------------------------------------------ 徽章补充（三态） */
+
+.tv-badge--live {
+	border-color: color-mix(in srgb, var(--vp-c-brand-1) 32%, transparent);
+	background: color-mix(in srgb, var(--vp-c-brand-1) 10%, transparent);
+	color: var(--vp-c-brand-1);
+	font-weight: 600;
+}
+
+.tv-badge--open {
+	border-color: color-mix(in srgb, var(--vp-c-success-1) 30%, transparent);
+	background: color-mix(in srgb, var(--vp-c-success-1) 10%, transparent);
+	color: var(--vp-c-success-1);
+	font-weight: 600;
+}
+
+.tv-badge--soon {
+	border-color: color-mix(in srgb, var(--vp-c-warning-1) 35%, transparent);
+	background: color-mix(in srgb, var(--vp-c-warning-1) 10%, transparent);
+	color: var(--vp-c-warning-1);
+	font-weight: 600;
+}
+
+.tv-badge--dim { color: var(--vp-c-text-3); }
+
+/* ============================================================ 赛事 banner */
+
+.tv-ev {
+	display: grid;
+	grid-template-columns: 232px minmax(0, 1fr);
+	margin-top: 14px;
+	overflow: hidden;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 18px;
+	background: linear-gradient(90deg, #fefeff 0%, #ffffff 60%);
+	box-shadow: 0 3px 10px rgba(12, 24, 40, .04);
+	transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+html.dark .tv-ev {
+	border-color: rgba(255, 255, 255, .06);
+	background: linear-gradient(90deg, #1b1b1f 0%, #1c1c20 60%);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, .5);
+}
+
+.tv-ev:hover {
+	border-color: color-mix(in srgb, var(--vp-c-brand-1) 40%, transparent);
+	box-shadow: 0 10px 30px rgba(12, 24, 40, .08);
+	transform: translateY(-4px);
+}
+
+html.dark .tv-ev:hover {
+	box-shadow: 0 7px 20px rgba(0, 0, 0, .6);
+}
+
+/* 还没到时间窗：虚线边框 + 素封面，一眼能和「正在进行」分开 */
+.tv-ev.is-soon { border-style: dashed; }
+.tv-ev.is-past { opacity: .8; }
+
+.tv-ev-cover {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 16px;
+	border-right: 1px solid rgba(16, 24, 32, .05);
+	/* 真正的底色是组件内联的"标题派生色"渐变（ColorSet 那套）；
+	   这条只是 JS 没跑起来时的兜底，保证封面不会是一片空白 */
+	background: color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
+}
+
+html.dark .tv-ev-cover {
+	border-right-color: rgba(255, 255, 255, .05);
+}
+
+.tv-ev.is-soon .tv-ev-cover { background: var(--vp-c-bg-alt); }
+
+.tv-ev-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.tv-ev-kind {
+	align-self: flex-start;
+	display: inline-flex;
+	align-items: center;
+	min-height: 23px;
+	padding: 2px 9px;
+	border: 1px solid rgba(16, 24, 32, .06);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .72);
+	color: inherit;
+	font-size: 11.5px;
+	font-weight: 600;
+}
+
+html.dark .tv-ev-kind {
+	border-color: rgba(255, 255, 255, .08);
+	background: rgba(0, 0, 0, .3);
+}
+
+.tv-ev-mark {
+	display: block;
+	width: auto;
+	height: auto;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	font-size: 46px;
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.02em;
+}
+
+.tv-ev-cover-note { color: var(--vp-c-text-3); font-size: 11px; line-height: 1.5; }
+
+.tv-ev-main { min-width: 0; padding: 16px 20px; }
+.tv-ev-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.tv-ev-title { margin: 0; border: 0; padding: 0; font-size: 20px; line-height: 1.3; }
+.tv-ev-title a { color: var(--vp-c-text-1); }
+.tv-ev-title a:hover { color: var(--vp-c-brand-1); text-decoration: none; }
+.tv-ev-countdown { color: var(--vp-c-text-2); font-size: 13px; font-variant-numeric: tabular-nums; }
+.tv-ev-summary { margin: 7px 0 0; color: var(--vp-c-text-2); font-size: 14px; }
+
+.tv-ev-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 14px;
+	margin: 8px 0 0;
+	color: var(--vp-c-text-3);
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+/* 阶段条：外壳沿用详情页的 .tv-stage-chart，这里只补「今天」竖线与两端刻度 */
+.tv-ev-stage { margin-top: 14px; }
+
+.tv-ev-stagehead {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 8px;
+	margin: 0 0 5px;
+	font-size: 13px;
+	color: var(--vp-c-text-3);
+}
+
+.tv-ev-chart { margin-top: 4px; }
+
+.tv-chart-ticks {
+	position: relative;
+	height: 15px;
+	margin-top: 6px;
+	color: var(--vp-c-text-3);
+	font-size: 11px;
+	font-variant-numeric: tabular-nums;
+}
+
+.tv-chart-ticks span { position: absolute; white-space: nowrap; }
+.tv-chart-ticks span:last-child { transform: translateX(-100%); }
+
+.tv-nowline {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 2px;
+	background: var(--vp-c-brand-1);
+	pointer-events: none;
+}
+
+.tv-nowline-label {
+	position: absolute;
+	top: -16px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 0 5px;
+	border-radius: 5px;
+	background: var(--vp-c-brand-1);
+	color: var(--vp-c-bg);
+	font-size: 10.5px;
+	line-height: 15px;
+	white-space: nowrap;
+}
+
+.tv-ev-derived {
+	margin-top: 12px;
+	padding: 10px 13px;
+	border: 1px dashed var(--vp-c-divider);
+	border-radius: 10px;
+	color: var(--vp-c-text-3);
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+/* ------------------------------------------------------------- 作品墙 */
+
+.tv-ev-works { margin-top: 14px; }
+.tv-ev-workshead { display: flex; align-items: baseline; gap: 8px; margin: 0; font-size: 13px; }
+.tv-works-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 7px; }
+
+.tv-work {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	min-width: 190px;
+	padding: 8px 12px 8px 9px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 14px;
+	background: var(--vp-c-bg);
+	box-shadow: 0 2px 8px rgba(12, 24, 40, .04);
+	transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.tv-work:hover {
+	border-color: color-mix(in srgb, var(--vp-c-brand-1) 45%, transparent);
+	box-shadow: 0 10px 26px rgba(12, 24, 40, .09);
+	text-decoration: none;
+	transform: translateY(-2px);
+}
+
+.tv-work-ini {
+	display: grid;
+	flex: none;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 10px;
+	background: color-mix(in srgb, var(--vp-c-brand-1) 10%, transparent);
+	color: var(--vp-c-brand-1);
+	font-size: 13.5px;
+	font-weight: 700;
+}
+
+.tv-work-text { display: flex; min-width: 0; flex-direction: column; }
+.tv-work-title { color: var(--vp-c-text-1); font-size: 14px; line-height: 1.35; }
+.tv-work-by { color: var(--vp-c-text-3); font-size: 12px; }
+
+/* ----------------------------------------------------------- banner 页脚 */
+
+.tv-ev-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 16px;
+	margin-top: 14px;
+	padding-top: 12px;
+	border-top: 1px solid var(--vp-c-divider);
+	color: var(--vp-c-text-3);
+	font-size: 13px;
+}
+
+.tv-ev-roles { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tv-ev-feed { display: inline-flex; flex-wrap: wrap; gap: 6px 14px; }
+.tv-ev-feed i { font-style: normal; font-variant-numeric: tabular-nums; }
+.tv-ev-go { margin-left: auto; }
+
+/* ------------------------------------------------------- 刚结束的那一行 */
+
+.tv-home-ended {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 14px;
+	margin-top: 16px;
+	padding: 12px 16px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 18px;
+	background: linear-gradient(90deg, #fefeff 0%, #ffffff 60%);
+	color: var(--vp-c-text-3);
+	font-size: 13px;
+}
+
+.tv-home-ended strong { color: var(--vp-c-text-2); }
+.tv-ended-item { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 7px; }
+.tv-ended-item a { color: var(--vp-c-text-2); }
+.tv-ended-item a:hover { color: var(--vp-c-brand-1); }
+.tv-ended-item time { font-size: 12px; font-variant-numeric: tabular-nums; }
+
+/* ============================================================ 作品卡片 */
+
+.tv-home-card { gap: 10px; }
+.tv-home-label { margin: 0; color: var(--vp-c-text-3); font-size: 12.5px; }
+
+/* ---- 想找的队友 ---- */
+
+.tv-home-roles { display: flex; flex-direction: column; gap: 6px; }
+
+.tv-role {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 11px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 14px;
+	background: var(--vp-c-bg);
+	font-size: 13px;
+}
+
+.tv-role.is-open {
+	border-color: color-mix(in srgb, var(--vp-c-success-1) 32%, transparent);
+	background: color-mix(in srgb, var(--vp-c-success-1) 7%, transparent);
+}
+
+.tv-role-name { color: var(--vp-c-text-1); font-weight: 600; }
+.tv-role-want { color: var(--vp-c-text-2); }
+.tv-role-meta { margin-left: auto; color: var(--vp-c-text-3); font-size: 12px; font-variant-numeric: tabular-nums; }
+.tv-role-stage { color: var(--vp-c-text-3); font-size: 12px; }
+
+/* ---- 迷你阶段条 ---- */
+
+.tv-home-stage { display: flex; flex-direction: column; gap: 5px; }
+.tv-mini { position: relative; min-height: 24px; }
+
+.tv-mini-block {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	height: 24px;
+	overflow: hidden;
+	padding: 0 7px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 7px;
+	background: var(--vp-c-bg-soft);
+	color: var(--vp-c-text-3);
+	font-size: 11px;
+	white-space: nowrap;
+}
+
+.tv-mini-block.is-current {
+	border: 2px solid var(--vp-c-brand-1);
+	background: color-mix(in srgb, var(--vp-c-brand-1) 16%, transparent);
+	color: var(--vp-c-brand-1);
+	font-weight: 600;
+}
+
+.tv-mini-block.is-future { border-style: dashed; background: transparent; }
+
+/* 没有阶段记录：虚线占位，不进时间轴（没有日期就没有"位置"这一说） */
+.tv-mini-block.is-unknown {
+	position: static;
+	display: inline-flex;
+	justify-content: center;
+	width: 100%;
+	border-style: dashed;
+	background: transparent;
+}
+
+.tv-mini-range { margin: 0; font-size: 11px; }
+
+/* ---- 最近动态 ---- */
+
+.tv-home-feed { display: flex; flex-direction: column; gap: 4px; color: var(--vp-c-text-3); font-size: 12.5px; }
+.tv-home-feed ul { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.tv-home-feed li { display: flex; gap: 9px; }
+.tv-home-feed i { flex: none; font-style: normal; font-variant-numeric: tabular-nums; opacity: .9; }
+
+/* ============================================================ 底部三栏 */
+
+.tv-home-cols {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+	gap: 18px;
+	margin-top: 44px;
+}
+
+.tv-home-feedlist { margin: 0; padding: 0; list-style: none; }
+.tv-home-feedlist li { display: flex; gap: 10px; padding: 3px 0; font-size: 13px; }
+.tv-home-feedlist time { flex: none; color: var(--vp-c-text-3); font-variant-numeric: tabular-nums; }
+
+.tv-home-feedkind {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	min-height: 19px;
+	padding: 0 6px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 6px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-3);
+	font-size: 11px;
+}
+
+.tv-home-feedowner { color: var(--vp-c-text-3); }
+.tv-home-tagcloud { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tv-home-tagcloud a {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	min-height: 23px;
+	padding: 2px 9px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 999px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-2);
+	font-size: 11.5px;
+}
+
+.tv-home-tagcloud a:hover { border-color: var(--vp-c-brand-1); color: var(--vp-c-brand-1); text-decoration: none; }
+
+.tv-home-tagcloud a.is-big {
+	border-color: color-mix(in srgb, var(--vp-c-brand-1) 32%, transparent);
+	background: color-mix(in srgb, var(--vp-c-brand-1) 10%, transparent);
+	color: var(--vp-c-brand-1);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.tv-home-tagcloud a span { opacity: .6; }
+.tv-home-links { margin: 0; padding: 0; list-style: none; }
+.tv-home-links li { padding: 3px 0; font-size: 13px; }
+.tv-home-links li span { color: var(--vp-c-text-3); }
+
+@media (max-width: 960px) {
+	/* 窄屏：banner 改成上下两段，封面横过来（阶段条在窄屏本来就退化成列表） */
+	.tv-ev { grid-template-columns: minmax(0, 1fr); }
+
+	.tv-ev-cover {
+		flex-direction: row;
+		align-items: center;
+		border-right: 0;
+		border-bottom: 1px solid var(--vp-c-divider);
+	}
+
+	.tv-ev-cover-note { display: none; }
+	.tv-ev-mark { font-size: 34px; }
+}
+
+/* =============================================================================
+   酒馆观感（对齐前置馆）  —— 作用范围 = **酒馆的所有页面**，不含图书馆其它板块
+   -----------------------------------------------------------------------------
+   参照系：前置馆（wheel）的搜索页。它的语言是：
+     · 居中大标题（clamp(30px,5vw,46px) / font-weight 800）+ 一枚像素物品图当 logo
+     · 胶囊搜索框（48px 高 / 圆角 24px / 白底 + 0 8px 24px 柔阴影）+ 蓝色胶囊主按钮
+     · 卡片：2px 极浅描边 + 18px 圆角 + 极浅渐变底 + 悬停上浮 4px + 10/30 柔阴影
+     · 缺图时用**彩色首字占位**（颜色由标题哈希派生），而不是灰方块
+
+   范围说明：本文件只被酒馆的六个页面 import（HomePage / BoardPage / NodePage /
+   AuthorPage / TagPage / TagListPage），类名一律 tv- 前缀 —— 所以这里改多少，
+   图书馆的其它板块（首页 / 索引 / 月刊 / 前置馆自己的样式）都不受影响。
+   共享规格（卡片 / 面板 / 缩略图 / 搜索框 / 主按钮）写在各自的**基类**里，
+   页面级只补差异 —— 别在这里再覆盖一遍基类，那正是两处漂移的起点。
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- 页头 */
+
+.tv-home-hero {
+	position: relative;
+	padding: 26px 0 30px;
+	text-align: center;
+	background:
+		radial-gradient(120% 240px at 50% 0%,
+			color-mix(in srgb, var(--vp-c-brand-1) 7%, transparent), transparent 72%);
+}
+
+.tv-home-logo {
+	/* display:block 是站的基底样式给的（img 默认被设成块级），
+	   于是父级的 text-align:center 对它无效 —— 必须自己 margin 居中 */
+	display: block;
+	margin: 0 auto 10px;
+	height: 84px;
+	width: auto;
+	/* 像素物品图放大会糊，按像素块放 —— 前置馆的 logo 也是物品图 */
+	image-rendering: pixelated;
+}
+
+.tv-home-title {
+	margin: 10px 0 0;
+	border: 0;
+	padding: 0;
+	font-size: clamp(30px, 4.6vw, 46px);
+	font-weight: 800;
+	line-height: 1.06;
+	letter-spacing: -0.01em;
+}
+
+/* 统计：从前置馆的"极简"里来 —— 白底圆角块 + 一点柔阴影，比灰底更亮堂 */
+.tv-home-stats {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+	margin: 20px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tv-home-stat {
+	min-width: 104px;
+	padding: 9px 16px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 14px;
+	background: var(--vp-c-bg);
+	box-shadow: 0 4px 14px rgba(12, 24, 40, .05);
+}
+
+html.dark .tv-home-stat {
+	border-color: rgba(255, 255, 255, .06);
+	background: var(--vp-c-bg-soft);
+	box-shadow: none;
+}
+
+.tv-home-stat-value {
+	display: block;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.2;
+	font-variant-numeric: tabular-nums;
+}
+
+.tv-home-stat-label {
+	color: var(--vp-c-text-3);
+	font-size: 12px;
+}
+
+/* ------------------------------------------------------------ 搜索行 */
+
+.tv-home-searchrow {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	width: min(760px, 100%);
+	margin: 22px auto 0;
+}
+
+.tv-home-searchbox {
+	position: relative;
+	display: flex;
+	flex: 1;
+	align-items: center;
+	gap: 10px;
+	height: 48px;
+	padding: 0 16px;
+	min-width: 0;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 24px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-3);
+	box-shadow: 0 8px 24px rgba(12, 24, 40, .06);
+}
+
+.tv-home-searchbox:focus-within {
+	border-color: var(--vp-c-brand-1);
+	outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 16%, transparent);
+}
+
+html.dark .tv-home-searchbox {
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+}
+
+/* .tv-search-icon 是给旧的 .tv-search（position:relative + input 左内边距）写的绝对定位；
+   在这里它是 flex 子项，必须回到文档流里，否则它不占位、直接盖在 placeholder 上 */
+.tv-home-searchbox .tv-search-icon {
+	position: static;
+	flex: none;
+	transform: none;
+}
+
+.tv-home-searchinput {
+	flex: 1;
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--vp-c-text-1);
+	font-size: 15px;
+	font-family: inherit;
+}
+
+.tv-home-searchinput::placeholder { color: var(--vp-c-text-3); }
+
+/* 主按钮：前置馆的 #1e90ff 胶囊（全站唯一一处高饱和色，起"点睛"作用） */
+.tv-home-go {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 48px;
+	padding: 0 22px;
+	border: 0;
+	border-radius: 24px;
+	background: #1e90ff;
+	color: #fff;
+	font-family: inherit;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 160ms ease, transform 160ms ease;
+}
+
+.tv-home-go:hover { background: #297fe6; transform: translateY(-1px); }
+
+.tv-home-secondary {
+	display: inline-flex;
+	align-items: center;
+	height: 48px;
+	padding: 0 20px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 24px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-1);
+	font-size: 15px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.tv-home-secondary:hover {
+	border-color: var(--vp-c-brand-1);
+	color: var(--vp-c-brand-1);
+	text-decoration: none;
+}
+
+.tv-home-hint { margin: 14px auto 0; max-width: 660px; color: var(--vp-c-text-3); font-size: 13px; }

@@ -1,13 +1,14 @@
 <template>
 	<div class="tv-page">
-		<TavernNav :crumbs="[{ label: '全部条目', href: allUrl }]" />
+		<TavernNav :crumbs="[{ label: '全部条目' }]" />
 
 		<header class="tv-hero">
 			<div class="tv-hero-main">
-				<h1 class="tv-title">酒馆看板</h1>
+				<h1 class="tv-title">全部条目</h1>
 				<p class="tv-subtitle">
-					香草图书馆「酒馆」数据后端的只读看板：搜索条目，按类型 / 标签 / 游戏版本 / 状态筛选，
-					点进卡片可以看条目详情、维护者与署名作者。所有筛选条件都写进 URL，链接可以直接分享。
+					酒馆里所有条目按类型 / 标签 / 游戏版本 / 状态筛选，搜索名称、简介、标签、条目 id 或仓库坐标。
+					所有筛选条件都写进 URL，链接可以直接分享。
+					想看「现在有什么正在进行」，回<a :href="boardUrl">酒馆看板</a>。
 				</p>
 			</div>
 			<ul v-if="stats.length" class="tv-stats">
@@ -185,8 +186,8 @@ import TavernNav from "./TavernNav.vue";
 import "./tavern.css";
 
 import {
-	KIND_ORDER,
 	allHref,
+	boardHref,
 	filterNodes,
 	facetCounts,
 	fetchAllNodes,
@@ -197,6 +198,7 @@ import {
 	gameVersionOptions,
 	kindLabel,
 	kindOf,
+	kindOptionsOf,
 	linkForNode,
 	nodeState,
 	nodeTags,
@@ -227,6 +229,8 @@ const filters = reactive({
 });
 
 const allUrl = computed(() => allHref());
+/** 这里就是「全部条目」，回主页的链接指向 /tavern/ */
+const boardUrl = computed(() => boardHref());
 
 /* --------------------------------------------------------- URL ⇄ 状态 */
 
@@ -363,9 +367,12 @@ const tagBaseOptions = computed(() => {
 		.map(([title]) => ({ key: `tag:${title.toLowerCase()}`, label: title }));
 });
 
+/** 数据里真实出现过的类型（含赛事 / 合集 / 团队 —— 它们在 KIND_ORDER 里没有）。 */
+const availableKinds = computed(() => kindOptionsOf(nodes.value));
+
 /** 类型 / 状态的联动计数（统计时排除自身的分面）。 */
 const kindStateCounts = computed(() => facetCounts(nodes.value, filterPayload.value, {
-	kinds: KIND_ORDER,
+	kinds: availableKinds.value,
 	states: availableStates.value,
 }));
 
@@ -379,7 +386,7 @@ const tagCounts = computed(() => {
 	return result;
 });
 
-const kindOptions = computed(() => KIND_ORDER.map((kind) => ({
+const kindOptions = computed(() => availableKinds.value.map((kind) => ({
 	key: kind,
 	label: kindLabel(kind),
 	count: kindStateCounts.value.kind[kind] || 0,

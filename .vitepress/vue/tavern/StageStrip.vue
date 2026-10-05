@@ -189,9 +189,9 @@
  */
 import { computed, ref } from "vue";
 
+import { DAY, percentOf, placeableStages, stageBands, stageGaps, stageKey, stageDomain } from "./chart.mjs";
 import {
 	formatDate,
-	formatDuration,
 	nodeCurrentPhases,
 	nodePhasesDeclared,
 	nodeStages,
@@ -200,148 +200,24 @@ import {
 	stagePhaseLabel,
 } from "./api.mjs";
 
-const DAY = 86_400_000;
-
-const props = defineProps({
-	node: { type: Object, default: null },
-});
-
-/** 实例创建时取一次"现在"，避免同一次交互里 now 抖动导致时间带重排。 */
-const now = ref(Date.now());
-const openKeys = ref([]);
-
-const stages = computed(() => nodeStages(props.node));
-// 「当前阶段」以 **facets.phases** 为准（后端推导好、必有字段，可并列、可为空）。
-// 客户端时钟不可信：假数据的时间窗是 2026 年的，拿 now 比窗口只会得到错的高亮。
-const phases = computed(() => nodeCurrentPhases(props.node));
-/**
- * 后端有阶段能力吗？有就渲染（没有阶段时给明确空态），没有才整块不渲染（向后兼容）。
- * ⚠️ 归一化后的节点上 `stages` 一定是数组，所以不能直接看键是否存在 ——
- * 以归一化时记下的 `stagesDeclared` 为准（原始节点才回退到"看键"）。
- */
-const supported = computed(() => {
-	const node = props.node;
-	if (!node) return false;
-	const declared = typeof node.stagesDeclared === "boolean" ? node.stagesDeclared : nodeStagesDeclared(node);
-	return declared || nodePhasesDeclared(node);
-});
-
 /** 有时间窗的（能画上时间带）/ 没有时间窗的（只进列表）。 */
-const placed = computed(() => stages.value.filter((stage) => stage.window));
+const placed = computed(() => placeableStages(stages.value));
 
-/** 阶段在列表与时间带之间的同一个身份键。 */
-function stageKey(stage) {
-	return stage.id || `name:${stage.name}`;
-}
-
-function percent(time, space) {
-	if (!space || !space.span) return 0;
-	const value = ((time - space.min) / space.span) * 100;
-	return Math.max(0, Math.min(100, value));
-}
-
-/** 共享时间域：所有阶段的并集 ∪ {now}；单日窗口时撑开一天，避免除零。 */
-const domain = computed(() => {
-	const list = placed.value;
-	if (!list.length) return null;
-	let min = Infinity;
-	let max = -Infinity;
-	for (const stage of list) {
-		const start = stage.window.start != null ? stage.window.start : stage.window.end;
-		const end = stage.window.end != null ? stage.window.end : now.value;
-		min = Math.min(min, start, end);
-		max = Math.max(max, start, end);
-	}
-	min = Math.min(min, now.value);
-	max = Math.max(max, now.value);
-	if (max - min < DAY) {
-		min -= DAY / 2;
-		max += DAY / 2;
-	}
-	return { min, max, span: max - min };
-});
-
-const bands = computed(() => {
-	const space = domain.value;
-	if (!space) return [];
-	const nowMs = now.value;
-	const items = placed.value.map((stage) => {
-		const openEnded = stage.window.end == null;
-		const start = stage.window.start != null ? stage.window.start : stage.window.end;
-		const end = Math.max(openEnded ? nowMs : stage.window.end, start);
-		return { stage, start, end, openEnded };
-	});
-	// 起点升序 → 区间图贪心着色：能塞进"已经空出来的行"就复用，否则新开一行。
-	// 行数就是最大重叠深度，于是并列阶段天然各占一行，首尾相接的阶段共用一行。
-	items.sort((a, b) => a.start - b.start || a.end - b.end);
-	const laneEnds = [];
-	for (const item of items) {
-		let lane = laneEnds.findIndex((value) => value <= item.start);
-		if (lane === -1) {
-			lane = laneEnds.length;
-			laneEnds.push(item.end);
-		} else {
-			laneEnds[lane] = item.end;
-		}
-		item.lane = lane;
-	}
-	const laneCount = Math.max(1, laneEnds.length);
-	return items.map((item) => {
-		const left = percent(item.start, space);
-		const right = percent(item.end, space);
-		const stage = item.stage;
-		const rangeText = item.openEnded
-			? `${formatDate(item.start)} → 至今`
-			: `${formatDate(item.start)} → ${formatDate(item.end)}`;
-		return {
-			key: stageKey(stage),
-			stage,
-			name: stage.name,
-			phase: stage.phase,
-			lane: item.lane,
-			left,
-			width: Math.max(right - left, 0.8),
-			rangeText,
-			spanText: formatDuration(item.end - item.start),
-			start: item.start,
-			end: item.end,
-			openEnded: item.openEnded,
-			laneCount,
-			tooltip: `${stage.name}｜${stagePhaseLabel(stage.phase) || "相位未知"}｜${rangeText}`,
-		};
-	});
-});
+/*
+ * 时间域 / 分道 / 百分比都来自 chart.mjs（主页的赛事 banner 用同一份计算）。
+ * 这里只负责把结果摆进 DOM —— 两处各写一份几何，迟早画出不一样的高亮。
+ */
+const domain = computed(() => stageDomain(placed.value, now.value));
+const bands = computed(() => stageBands(placed.value, { now: now.value }));
 
 const laneCount = computed(() => bands.value.reduce((max, band) => Math.max(max, band.laneCount), 1));
 const nowLeft = computed(() => {
 	const space = domain.value;
-	return space ? Math.max(0, Math.min(100, percent(now.value, space))) : 0;
+	return space ? Math.max(0, Math.min(100, percentOf(now.value, space))) : 0;
 });
 
 /** 空隙：把阶段区间并起来后的补集（只算阶段之间真正的洞，两端不算）。 */
-const gaps = computed(() => {
-	const space = domain.value;
-	if (!space) return [];
-	const merged = [];
-	for (const span of [...bands.value].sort((a, b) => a.start - b.start)) {
-		const last = merged[merged.length - 1];
-		if (last && span.start <= last.end) last.end = Math.max(last.end, span.end);
-		else merged.push({ start: span.start, end: span.end });
-	}
-	const result = [];
-	for (let index = 0; index < merged.length - 1; index += 1) {
-		const start = merged[index].end;
-		const end = merged[index + 1].start;
-		if (end - start < DAY) continue; // 首尾相接（甚至同一天）不当作空档
-		result.push({
-			key: `${Math.round(start / DAY)}-${Math.round(end / DAY)}`,
-			left: percent(start, space),
-			width: Math.max(percent(end, space) - percent(start, space), 0.4),
-			text: `${formatDate(start)} → ${formatDate(end)}（${formatDuration(end - start)}）`,
-		});
-	}
-	return result;
-});
+const gaps = computed(() => stageGaps(bands.value, domain.value, { now: now.value }));
 
 /** 刻度：各阶段窗口边界 + "现在"；同一天只留一个，"现在"优先。 */
 const ticks = computed(() => {
@@ -363,7 +239,7 @@ const ticks = computed(() => {
 	times.sort((a, b) => a.time - b.time);
 	const full = times.length <= 7; // 刻度多的时候缩到"年-月"，免得标签互相压
 	return times.map((tick) => {
-		const left = percent(tick.time, space);
+		const left = percentOf(tick.time, space);
 		return {
 			key: `${tick.isNow ? "now" : "tick"}-${Math.round(tick.time / DAY)}`,
 			kind: tick.isNow ? "now" : "boundary",

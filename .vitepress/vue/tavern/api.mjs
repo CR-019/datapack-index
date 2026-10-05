@@ -89,9 +89,6 @@ function resolveApiBase() {
 	return safeSession.get(API_BASE_STORE_KEY) || DEFAULT_API_BASE;
 }
 
-/** 活动后端基址（前端所有请求都从这里出发；换成静态兜底时改这一个常量即可）。 */
-export const API_BASE = resolveApiBase();
-
 /** 站点基路径（VitePress base），用于拼站内链接与 public 资源。 */
 const BASE_URL = (import.meta.env && import.meta.env.BASE_URL) || "/";
 
@@ -293,8 +290,34 @@ async function load(path, { ttl = DEFAULT_TTL, timeoutMs, snapshot = null } = {}
 
 /* --------------------------------------------------------- 类型归一化 */
 
-export const KIND_LABELS = { project: "项目", person: "作者", tag: "标签" };
+export const KIND_LABELS = {
+	project: "项目",
+	person: "作者",
+	tag: "标签",
+	// 下面几个在旧数据里还不存在，但数据模型里是一等公民（赛事 / 索引 / 团队 / 阶段），
+	// 主页会渲染赛事 banner，`kindLabel("event")` 不能吐回一个英文单词。
+	event: "赛事",
+	index: "合集",
+	team: "团队",
+	stage: "阶段",
+};
 export const KIND_ORDER = ["project", "person", "tag"];
+
+/**
+ * 实际数据里出现过的 kind（按 KIND_ORDER 优先、其余按名称）。
+ * 全部条目页的类型分面用它 —— 光靠 KIND_ORDER 的话，赛事/合集/团队
+ * 会在数据里存在却在筛选器里查无此物（主页的「全部赛事 →」正好会踩到）。
+ */
+export function kindOptionsOf(items) {
+	const present = new Set();
+	for (const node of Array.isArray(items) ? items : []) {
+		const kind = kindOf(node);
+		if (kind) present.add(kind);
+	}
+	const ordered = KIND_ORDER.filter((kind) => present.has(kind));
+	const rest = [...present].filter((kind) => !KIND_ORDER.includes(kind)).sort((a, b) => a.localeCompare(b, "en"));
+	return [...ordered, ...rest];
+}
 // 生命周期枚举（§6.1，与后端 LIFECYCLE_STATES 逐字一致）：draft / active / paused / done / archived。
 // `active` 统一译作"进行中"（后端自动生成的事件标题是"状态：进行中 → 暂停"，两边得对得上）。
 // 其余几个键不会出现在当前数据里，只作历史 / 别名兜底。
@@ -423,7 +446,7 @@ export function nodeRecruit(node) {
 	return (Array.isArray(raw) ? raw : []).filter((entry) => entry && typeof entry === "object");
 }
 
-export const RECRUIT_STATUS_LABELS = { open: "招募中", filled: "已招满", closed: "已关闭" };
+export const RECRUIT_STATUS_LABELS = { open: "还在招", filled: "已招满", closed: "不招了" };
 
 export function recruitStatusLabel(status) {
 	if (!status) return "";
@@ -493,6 +516,97 @@ export function nodeCurrentPhases(node, now = Date.now()) {
 		.filter((stage) => stagePhase(stage, now) === "current")
 		.map((stage) => stage.name)
 		.filter(Boolean);
+}
+
+/* --------------------------------------- 时间窗与招队友（主页的核心判据） */
+/*
+ * 主页要把条目分成「正在进行 / 即将开始 / 已结束」三类。判据不能只看
+ * `facets.phases`：那个字段在**有阶段**的赛事上返回的是阶段名（"投稿期"），
+ * 拿它判"是不是结束了"会判错。所以这里直接读 `facets.time` 的时间窗，
+ * 与后端 eventPhasesOf() 的窗口口径对齐（end / deadline 都算到当天结束）。
+ */
+
+/**
+ * 只给日期（`2026-12-31`）时按**本地日历**的当天边界算；带时间的原样返回。
+ *
+ * 为什么不能拿 `parseTime()` 加一天：`parseTime` 按文档是把日期串当 **UTC 零点**解析的，
+ * 而 `formatDate()` 用本地日历读数。两者一混，在东八区（UTC+8）就会整体后移一天 ——
+ * 界面上就是「截尾 2026-12-31」被显示成 `2027-01-01`、「截稿 10-15」显示成 `10-16`。
+ * 这里直接按"哪一天"构造本地边界，`start` / `end` / `deadline` 三处口径一致。
+ *
+ * @param {*} value 日期串 / 时间串 / 时间戳
+ * @param {boolean} end true = 当天 23:59:59.999，false = 当天 00:00:00.000
+ */
+function dayBoundary(value, end = false) {
+	const raw = typeof value === "string" ? value.trim() : "";
+	const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+	if (match) {
+		const [, year, month, day] = match;
+		return end
+			? new Date(Number(year), Number(month) - 1, Number(day), 23, 59, 59, 999).getTime()
+			: new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0, 0).getTime();
+	}
+	return parseTime(value);
+}
+
+export const WINDOW_PHASE_LABELS = { live: "进行中", soon: "即将开始", past: "已结束", unknown: "时间窗待补" };
+
+export function windowPhaseLabel(phase) {
+	return WINDOW_PHASE_LABELS[phase] || "";
+}
+
+/** 条目的时间窗：{ start, end, deadline }（毫秒，缺失为 null）。没有窗口返回 null。 */
+export function nodeWindow(node) {
+	const time = (node && node.facets && node.facets.time) || null;
+	if (!time || typeof time !== "object") return null;
+	const start = dayBoundary(time.start);
+	const end = dayBoundary(time.end, true);
+	const deadline = dayBoundary(time.deadline, true);
+	const pick = (value) => (Number.isFinite(value) ? value : null);
+	const window = { start: pick(start), end: pick(end), deadline: pick(deadline) };
+	return window.start == null && window.end == null ? null : window;
+}
+
+/**
+ * 粗粒度窗口相位：`live` / `soon` / `past`；没有时间窗时 `unknown`。
+ * 只有一端有值时另一侧不设限（"长期进行"也能有个说法）。
+ */
+export function windowPhase(node, now = Date.now()) {
+	const window = nodeWindow(node);
+	if (!window) return "unknown";
+	if (window.start != null && now < window.start) return "soon";
+	if (window.end != null && now > window.end) return "past";
+	return "live";
+}
+
+/**
+ * 还在招的队友位（status=open 且未过 deadline）。
+ * 与后端 openRecruitRoles() 同规则 —— 过了截止日自动不再算，纯计算，不需要谁去下架。
+ */
+export function openRecruitRoles(node, now = Date.now()) {
+	return nodeRecruit(node)
+		.filter((entry) => (entry.status ?? "open") === "open")
+		.filter((entry) => {
+			const deadline = dayBoundary(entry.deadline, true);
+			return !Number.isFinite(deadline) || now <= deadline;
+		});
+}
+
+/** 已经开始招、但已经招满/停止的队友位（主页上弱化显示，当一条事实）。 */
+export function closedRecruitRoles(node) {
+	return nodeRecruit(node).filter((entry) => (entry.status ?? "open") !== "open");
+}
+
+/** 「招队友」这件事的汇总：{ open: [...], closed: [...] }。 */
+export function recruitSummary(node, now = Date.now()) {
+	return { open: openRecruitRoles(node, now), closed: closedRecruitRoles(node) };
+}
+
+/** 距截止还有多少天（负数表示已过期）；没有截止日返回 null。 */
+export function daysUntilDeadline(node, now = Date.now()) {
+	const window = nodeWindow(node);
+	if (!window || window.deadline == null) return null;
+	return Math.ceil((window.deadline - now) / 86_400_000);
 }
 
 /* -------------------------------------------------- 事件（ADR-009 / §6.6） */
@@ -1023,6 +1137,59 @@ export async function fetchNodeIndex() {
 		const empty = new Map();
 		return writeCache(key, empty);
 	}
+}
+
+/* ------------------------------------------- 主页用的批量取数与动态筛选 */
+
+/**
+ * 批量取条目详情（`fetchNode`）：阶段、出边/入边、事件都只在详情接口里。
+ *
+ * 为什么不是全量取：主页真正需要详情的只有几个赛事 + 几张作品卡片（阶段条要用），
+ * 而列表接口为了省掉 N+1 查询刻意**不带阶段**（快照里倒是内嵌了）。所以按需取，
+ * 并发限 4、单个失败只丢那一张卡片（退化成列表字段），不拖垮整页。
+ *
+ * @returns {Map<string, object>} id → `fetchNode` 的结果（缺 = 取失败）
+ */
+export async function fetchNodeBriefs(ids, { concurrency = 4 } = {}) {
+	const list = [...new Set((Array.isArray(ids) ? ids : []).filter(Boolean))];
+	const result = new Map();
+	let cursor = 0;
+	const worker = async () => {
+		while (cursor < list.length) {
+			const id = list[cursor];
+			cursor += 1;
+			try {
+				result.set(id, await fetchNode(id));
+			} catch (error) {
+				console.warn(`[tavern] 详情取数失败，该卡片退化为列表字段：${id}`, error);
+			}
+		}
+	};
+	await Promise.all(Array.from({ length: Math.min(concurrency, list.length) }, worker));
+	return result;
+}
+
+/**
+ * 从 `/v1/timeline` 的结果里筛出**真正的动态**。
+ *
+ * 时间线把两类东西混在一起（后端 `buildTimeline`）：
+ *   · `origin === "event"` —— 事件流（"招满了""发布了 v1.0"），这才是"有动静"；
+ *   · 其余（`created` 之类）—— 边的时间戳，等于"什么时候进库的"，不是作品的活动。
+ * 混着用会让"最近很活跃"退化成"最近被导入"，所以主页只认前者。
+ *
+ * @param {Array} items `/v1/timeline` 的 items
+ * @param {object} options { since: 毫秒下限, rels: 只保留这些事件类型 }
+ */
+export function recentActivity(items, { since = 0, rels = null } = {}) {
+	return (Array.isArray(items) ? items : [])
+		.filter((entry) => entry && entry.id)
+		.filter((entry) => (entry.origin ? entry.origin === "event" : true))
+		.filter((entry) => !rels || rels.includes(entry.rel))
+		.filter((entry) => {
+			const at = parseTime(entry.at);
+			return Number.isFinite(at) && at >= since;
+		})
+		.sort((a, b) => parseTime(b.at) - parseTime(a.at));
 }
 
 /** GET /v1/authors/:id → { author, maintained[], authored[], members[] } */

@@ -21,7 +21,7 @@
 			<header class="tv-detail-hero">
 				<div class="tv-hero-thumb">
 					<img v-if="avatar" :src="avatar" :alt="`${displayName} 的头像`" @error="avatarFailed = true" />
-					<span v-else aria-hidden="true">{{ initials }}</span>
+					<span v-else class="tv-thumb-placeholder" :style="thumbStyle" aria-hidden="true">{{ initials }}</span>
 				</div>
 				<div class="tv-hero-body">
 					<div class="tv-title-row">
@@ -98,7 +98,9 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useData } from "vitepress";
 
+import { stringToBadgeColors } from "../../scripts/badgeColor";
 import NodeCard from "./NodeCard.vue";
 import StateBlock from "./StateBlock.vue";
 import TavernNav from "./TavernNav.vue";
@@ -135,6 +137,18 @@ const ROLE_LABELS = { owner: "所有者", maintainer: "维护者", contributor: 
 const allUrl = computed(() => allHref());
 const displayName = computed(() => nameOfAuthor(author.value) || currentId.value.replace(/^person:/, ""));
 const initials = computed(() => String(displayName.value).trim().slice(0, 2).toUpperCase());
+
+const { isDark } = useData();
+
+/** 没有头像时的彩色首字占位（与卡片缩略图同一套派生色）。 */
+const thumbStyle = computed(() => {
+	const surface = isDark && isDark.value ? "#1b1b1f" : "#ffffff";
+	const colors = stringToBadgeColors(displayName.value, surface);
+	return {
+		background: `linear-gradient(135deg, ${colors.background}, ${colors.border})`,
+		color: colors.text,
+	};
+});
 const avatar = computed(() => (avatarFailed.value ? "" : assetHref(nodeAvatar(author.value))));
 const stateText = computed(() => stateLabel(nodeState(author.value)));
 const socialLinks = computed(() => {

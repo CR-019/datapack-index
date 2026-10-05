@@ -171,7 +171,7 @@ test("没有 stage 时回退：招募中（并尊重 deadline）", () => {
   const { db, cleanup } = setup();
   try {
     const phases = derivePhases(db, { id: "project:none", ...open }, { now: new Date("2026-05-01T00:00:00Z") });
-    assert.deepEqual(phases, ["招募中"]);
+    assert.deepEqual(phases, ["招队友中"]);
   } finally {
     cleanup();
   }

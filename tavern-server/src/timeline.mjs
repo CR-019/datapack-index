@@ -166,7 +166,9 @@ export function derivePhases(db, node, { now = new Date() } = {}) {
 
   const phases = [];
   if (node.kind === "event") phases.push(...eventPhasesOf(node, now));
-  if (openRecruitRoles(node, now).length) phases.push("招募中");
+  // 界面词表：这是「作品在找一起做的人」，不是招聘岗位，所以是「招队友中」。
+  // 它会被前端直接渲染成徽章，所以数据里一个词、界面上另一个词是不行的。
+  if (openRecruitRoles(node, now).length) phases.push("招队友中");
   return phases;
 }
 
