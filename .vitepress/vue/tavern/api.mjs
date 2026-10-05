@@ -951,6 +951,9 @@ export const TAVERN_PATHS = {
 	tag: "/tavern/tag",
 	author: "/tavern/a",
 	all: "/tavern/all",
+	/** 投稿工作台（作者侧）与凭证管理台（工作组侧）—— 同一条流程的两端 */
+	submit: "/tavern/submit",
+	admin: "/tavern/admin",
 };
 
 function hrefWithQuery(path, params) {
@@ -985,6 +988,20 @@ export function tagHref(id) {
 
 export function authorHref(id) {
 	return withSiteBase(hrefWithQuery(TAVERN_PATHS.author, { id }));
+}
+
+/** 投稿工作台（作者侧）。 */
+export function submitHref() {
+	return withSiteBase(TAVERN_PATHS.submit);
+}
+
+/**
+ * 凭证管理台（工作组侧）。
+ * 刻意不放进公共侧边栏：它是私域页面，摆到导航上只会引来一串点进去被拒的访问；
+ * 入口放在工作组登录后的界面上（投稿工作台第 0 步）。
+ */
+export function adminHref() {
+	return withSiteBase(TAVERN_PATHS.admin);
 }
 
 /** 按条目类型给出「点进去看详情」的地址：项目→条目页，作者→作者页，标签→标签页。 */

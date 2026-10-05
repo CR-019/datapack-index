@@ -22,6 +22,8 @@
 					<div v-if="account" class="tv-wb-account">
 						<span class="tv-badge tv-badge--open">已登录</span>
 						<span><b>{{ account.pin }}</b>（{{ account.role === "staff" ? "工作组" : "作者" }}）</span>
+						<!-- 工作组登录后才露出管理台入口：它是私域页面，不需要摆在公共导航上 -->
+						<a v-if="account.role === 'staff'" class="tv-btn" :href="adminUrl">凭证管理台（给别人签发 pin + token）</a>
 						<button class="tv-btn" type="button" @click="signOut">退出</button>
 					</div>
 					<form v-else class="tv-wb-auth" @submit.prevent="signIn">
@@ -284,7 +286,7 @@ import "./tavern.css";
 import { renderRuntimeMarkdown, validateRuntimeMarkdown } from "../wheel/runtimeMarkdown.mjs";
 import { LIMITS, WORKBENCH_TYPES, archiveName, buildProjectEntries, emptyDraft, normalizeSlug, normalizeTags, slugify, typeOf, validateDraft } from "./workbench-model.mjs";
 import { zipFiles } from "./zipwriter.mjs";
-import { WRITE_API_BASE, withSiteBase } from "./api.mjs";
+import { WRITE_API_BASE, adminHref, withSiteBase } from "./api.mjs";
 
 const DRAFT_KEY = "tavern:workbench:draft";
 const SUBMISSIONS_KEY = "tavern:workbench:submissions";
@@ -310,6 +312,7 @@ const bodyIssues = ref([]);
 const skippedFiles = ref([]);
 
 const type = computed(() => typeOf(draft.kind));
+const adminUrl = adminHref();
 // 显示的 id 必须等于**真正会落库的那个**：手填的 slug 要过一遍后端同一套归一化
 // （`Atlas_Map` → `atlas-map`），归一化后什么都不剩就让预检去报错，而不是显示一个假 id。
 const effectiveSlug = computed(() => (String(draft.slug ?? "").trim() ? normalizeSlug(draft.slug) : slugify(draft.name)));

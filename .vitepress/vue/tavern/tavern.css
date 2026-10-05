@@ -2593,3 +2593,106 @@ html.dark .tv-home-searchbox {
 @media (max-width: 760px) {
 	.tv-wb-recruit { grid-template-columns: 1fr 1fr; }
 }
+
+/* ============================================================================
+   凭证管理台（AdminPage.vue，§7.4）
+   与工作台共用零件（.tv-panel / .tv-wb-auth / .tv-btn），只补它独有的三块：
+   一次性明文、主体与令牌清单、审计尾巴。
+   ========================================================================== */
+
+.tv-admin { display: flex; flex-direction: column; gap: 18px; max-width: 1040px; margin-top: 22px; }
+
+/* 一次性明文：整块要显眼到"你只有这一次机会" */
+.tv-admin-secret {
+	margin-top: 16px;
+	padding: 16px 18px;
+	border: 2px solid color-mix(in srgb, var(--vp-c-brand-1) 34%, transparent);
+	border-radius: 16px;
+	background: color-mix(in srgb, var(--vp-c-brand-1) 6%, transparent);
+}
+
+.tv-admin-secret h3 { margin: 0 0 6px; font-size: 16px; }
+.tv-admin-secret-grid {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 8px 14px;
+	align-items: center;
+	margin: 12px 0;
+}
+.tv-admin-secret-grid dt { color: var(--vp-c-text-3); font-size: 12.5px; font-weight: 600; }
+.tv-admin-secret-grid dd { margin: 0; min-width: 0; }
+
+.tv-admin-secret-grid code {
+	display: inline-block;
+	padding: 6px 10px;
+	border-radius: 10px;
+	background: var(--vp-c-bg);
+	font-family: var(--vp-font-family-mono);
+	font-size: 15px;
+	/* user-select: all —— 点一下就能整段选中，省得手动拖选时漏掉一个字符 */
+	user-select: all;
+	word-break: break-all;
+}
+
+.tv-admin-secret-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.tv-admin-confirm { display: flex; align-items: center; gap: 7px; color: var(--vp-c-text-2); font-size: 13px; }
+.tv-admin-confirm input { margin: 0; }
+
+/* 主体与令牌清单 */
+.tv-admin-subjects { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
+
+.tv-admin-subject {
+	padding: 12px 14px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 16px;
+	background: var(--vp-c-bg);
+}
+
+html.dark .tv-admin-subject { border-color: rgba(255, 255, 255, .08); }
+
+.tv-admin-subject-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13.5px; }
+.tv-admin-pin { font-family: var(--vp-font-family-mono); font-size: 14px; }
+.tv-admin-subject-id { font-family: var(--vp-font-family-mono); font-size: 11.5px; }
+/* 头部有一到两个按钮（停用/恢复、签发新令牌）：整组靠右。只有第一个吃 auto —— 否则两个各自 auto 会被推到两端 */
+.tv-admin-subject-head .tv-btn { margin-left: 0; }
+.tv-admin-subject-head .tv-btn:first-of-type { margin-left: auto; }
+.tv-admin-subject-head .tv-btn + .tv-btn { margin-left: 6px; }
+/* 停用是"这个人现在进不来"，要一眼看出来 —— 但不用危险色：它是常规运维动作，不是错误 */
+.tv-admin-subject.is-suspended { opacity: .72; }
+
+.tv-admin-tokens { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.tv-admin-tokens li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 10px;
+	padding: 7px 10px;
+	border-radius: 12px;
+	background: var(--vp-c-bg-soft);
+	font-size: 12.5px;
+}
+.tv-admin-tokens li.is-revoked { opacity: .62; }
+.tv-admin-tokens .tv-btn { margin-left: auto; }
+.tv-admin-token-id { color: var(--vp-c-text-3); font-family: var(--vp-font-family-mono); font-size: 11.5px; }
+
+/* 审计尾巴 */
+.tv-admin-trail { display: flex; flex-direction: column; gap: 6px; margin: 0; padding-left: 20px; font-size: 13px; }
+.tv-admin-trail li { color: var(--vp-c-text-2); }
+.tv-admin-trail b { color: var(--vp-c-text-1); }
+.tv-admin-trail-reason { font-size: 12px; }
+
+/* 管理台的下拉框：工作台只用到 input/textarea，这里的 select 要自己对齐 */
+.tv-admin .tv-wb-field select {
+	padding: 9px 12px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 12px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-1);
+	font-family: inherit;
+	font-size: 14px;
+}
+.tv-admin .tv-wb-field select:focus { border-color: var(--vp-c-brand-1); outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 16%, transparent); }
+
+@media (max-width: 760px) {
+	.tv-admin-secret-grid { grid-template-columns: minmax(0, 1fr); }
+}

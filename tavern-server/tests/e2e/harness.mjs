@@ -21,21 +21,13 @@ import { spawn, spawnSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 
+import { createSubject, issueToken } from "../../src/credentials.mjs";
+
 export const SERVER_ROOT = path.resolve(import.meta.dirname, "..", "..");
 export const REPO_ROOT = path.resolve(SERVER_ROOT, "..");
 const DIST = path.join(REPO_ROOT, ".vitepress", "dist");
 const TMP = path.join(SERVER_ROOT, "tests", "e2e", ".tmp");
 
-const PEPPER = (() => {
-	const envPath = path.join(SERVER_ROOT, ".env");
-	if (fs.existsSync(envPath)) {
-		const match = fs.readFileSync(envPath, "utf8").match(/TAVERN_TOKEN_PEPPER=(.+)/);
-		if (match) return match[1].trim();
-	}
-	return process.env.TAVERN_TOKEN_PEPPER ?? "dev-pepper-CHANGE-ME";
-})();
-
-const tokenHash = (token) => crypto.createHash("sha256").update(`${token}${PEPPER}`).digest("hex");
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /** 找一个空闲端口（避免多个 case 撞车）。 */
@@ -174,35 +166,59 @@ function prepareDatabase(source) {
 	return dbPath;
 }
 
-/** 给夹具库装上三个主体 + 各自的令牌，返回明文令牌与 pin（明文只在这里存在）。 */
+/**
+ * 给夹具库装上三个主体 + 各自的令牌，返回明文令牌与 pin（明文只在这里存在）。
+ *
+ * ⚠️ 这里**不再自己拼 `sha256(token + pepper)` 再往 `tokens` 表插一行**（曾经就是这样）。
+ * 那种写法有两处要害：
+ *   · 它是一份**独立实现的认证规则**。签发逻辑（`src/credentials.mjs`）改了而夹具没改，
+ *     用例照样全绿 —— 绿的还是假的那一套。
+ *   · 它让"签发"这条真路径在**所有**用例里都被绕过：没有一条用例能发现
+ *     "签发出的令牌根本换不到会话"这种事。
+ * 现在两条路都用产品代码：已有账号走「补发令牌」，没有账号的既有主体走「认领并签发」。
+ */
 function installPrincipals(dbPath, { staffNode = null, authorNode = "person:Alumopper", otherNode = "person:Amber" } = {}) {
 	const db = new DatabaseSync(dbPath);
-	const now = new Date().toISOString();
-	const existingStaff = db.prepare("SELECT id, pin FROM accounts WHERE role = 'staff' LIMIT 1").get();
 	const principals = {};
 	const tokens = {};
 	const pins = {};
 
+	const staffAccount = db.prepare("SELECT id, pin FROM accounts WHERE role = 'staff' LIMIT 1").get();
+	const staffId = staffAccount?.id ?? staffNode ?? "person:Cases";
+
 	const plan = [
-		["staff", existingStaff?.id ?? staffNode ?? "person:Cases", "staff", existingStaff?.pin ?? "e2e-staff"],
+		["staff", staffId, "staff", staffAccount?.pin ?? "e2e-staff"],
 		["author", authorNode, "author", "e2e-author"],
 		["other", otherNode, "author", "e2e-other"],
 	];
-	for (const [key, accountId, role, fallbackPin] of plan) {
-		const node = db.prepare("SELECT id FROM nodes WHERE id = ?").get(accountId);
-		if (!node) throw new Error(`夹具库缺少主体节点：${accountId}`);
-		const account = db.prepare("SELECT id, pin, role FROM accounts WHERE id = ?").get(accountId);
-		const pin = account?.pin ?? fallbackPin;
-		if (!account) {
-			db.prepare("INSERT INTO accounts (id, pin, role, status, created_at) VALUES (?,?,?,?,?)")
-				.run(accountId, pin, role, "active", now);
+	for (const [key, nodeId, role, fallbackPin] of plan) {
+		const account = db.prepare("SELECT id, pin, role FROM accounts WHERE id = ?").get(nodeId);
+		if (account) {
+			// 已有账号（bootstrap 建的 staff、走查脚本认领过的作者）→ 签发新令牌，不碰账号
+			const issued = issueToken(db, {
+				accountId: nodeId, label: `e2e ${key}`,
+				actorId: db.prepare("SELECT id FROM accounts WHERE role = 'staff' LIMIT 1").get()?.id ?? null,
+				reason: "e2e 夹具",
+			});
+			principals[key] = { id: nodeId, pin: account.pin, role: account.role };
+			tokens[key] = issued.plaintext;
+		} else {
+			const node = db.prepare("SELECT id, kind FROM nodes WHERE id = ?").get(nodeId);
+			if (!node) throw new Error(`夹具库缺少主体节点：${nodeId}`);
+			// 认领既有主体（种子里那 80 位作者都没有账号）—— nodeId 形如 `kind:显示名`
+			const issued = createSubject(db, {
+				pin: fallbackPin,
+				name: nodeId.slice(node.kind.length + 1),
+				kind: node.kind,
+				role,
+				label: `e2e ${key}`,
+				actorId: db.prepare("SELECT id FROM accounts WHERE role = 'staff' LIMIT 1").get()?.id ?? null,
+				reason: "e2e 夹具",
+			});
+			principals[key] = { id: issued.subject.id, pin: issued.subject.pin, role: issued.subject.role };
+			tokens[key] = issued.token.plaintext;
 		}
-		const token = crypto.randomBytes(20).toString("hex");
-		db.prepare("INSERT INTO tokens (id, account_id, label, hash, created_at) VALUES (?,?,?,?,?)")
-			.run(`tok_e2e_${key}_${crypto.randomBytes(3).toString("hex")}`, accountId, `e2e ${key}`, tokenHash(token), now);
-		principals[key] = { id: accountId, pin, role: db.prepare("SELECT role FROM accounts WHERE pin = ?").get(pin).role };
-		tokens[key] = token;
-		pins[key] = pin;
+		pins[key] = principals[key].pin;
 	}
 	db.close();
 	return { principals, tokens, pins };
@@ -329,7 +345,13 @@ export async function createEnv({ useCases = true, browser = false, injections =
 		let payload = null;
 		const text = await response.text();
 		try { payload = JSON.parse(text); } catch { payload = text; }
-		return { status: response.status, payload, cookie: (response.headers.get("set-cookie") ?? "").match(/^([^=]+=[^;]+)/)?.[1] ?? "" };
+		return {
+			status: response.status,
+			payload,
+			cookie: (response.headers.get("set-cookie") ?? "").match(/^([^=]+=[^;]+)/)?.[1] ?? "",
+			// 响应头也带回来：CORS 与 no-store 这类约定只能从头上验（凭证链路用例要用）
+			headers: response.headers,
+		};
 	}
 
 	const api = {
@@ -345,6 +367,27 @@ export async function createEnv({ useCases = true, browser = false, injections =
 		tags: () => request("/v1/tags"),
 		queue: (cookie) => request("/v1/reviews/queue", { cookie }),
 		review: (cookie, revisionId, action, note) => request(`/v1/reviews/${encodeURIComponent(revisionId)}`, { method: "POST", cookie, body: { action, note } }),
+		/*
+		 * 凭证管理（仅工作组）：本文件里的 `pins` / `tokens` 是**夹具直接插库**造出来的，
+		 * 走不到"签发"这条真路径；所以链路用例必须用下面这几条去拿到**真的签发结果**。
+		 */
+		credentials: (cookie) => request("/v1/credentials", { cookie }),
+		createAuthor: (cookie, body) => request("/v1/authors", { method: "POST", cookie, body }),
+		issueToken: (cookie, accountId, label) => request(`/v1/credentials/${encodeURIComponent(accountId)}/tokens`, { method: "POST", cookie, body: { label } }),
+		revokeToken: (cookie, accountId, tokenId, reason) => request(
+			`/v1/credentials/${encodeURIComponent(accountId)}/tokens/${encodeURIComponent(tokenId)}${reason ? `?reason=${encodeURIComponent(reason)}` : ""}`,
+			{ method: "DELETE", cookie },
+		),
+		/** 轮换 = 补发新的 + 吊销旧的，一步到位 */
+		rotateToken: (cookie, accountId, tokenId, label) => request(
+			`/v1/credentials/${encodeURIComponent(accountId)}/tokens/${encodeURIComponent(tokenId)}/rotate`,
+			{ method: "POST", cookie, body: { label } },
+		),
+		/** 停用 / 恢复账号（`suspended` 与吊销令牌是分开的一档） */
+		setStatus: (cookie, accountId, status, reason) => request(
+			`/v1/credentials/${encodeURIComponent(accountId)}/status`,
+			{ method: "POST", cookie, body: { status, reason } },
+		),
 		patch: (cookie, id, patch) => request(`/v1/nodes/${encodeURIComponent(id)}`, { method: "PATCH", cookie, body: patch }),
 		/**
 		 * 投稿。`slug` 决定节点身份：不传就按 name 派生 ——
@@ -578,6 +621,50 @@ export const PAGE_SET_INPUT = `(selector, value) => {
   el.dispatchEvent(new Event('change', { bubbles: true }));
   return true;
 }`;
+
+/** 页面上有没有这个元素。 */
+export const pageHas = (browser, selector) => browser.evaluate(`document.querySelector(${JSON.stringify(selector)}) !== null`);
+
+/** 页面上某个元素（没有就是空串）。 */
+export const pageText = (browser, selector) => browser.evaluate(`(document.querySelector(${JSON.stringify(selector)})?.innerText ?? '').replace(/\\s+/g, ' ').trim()`);
+
+/**
+ * 在带登录区（`.tv-wb-auth`）的页面上登录 —— 投稿工作台与凭证管理台共用同一套零件，
+ * 所以两处用同一份实现：登录这块曾经在工作台里悄悄坏过一次（令牌用完不清干净），
+ * 两份实现就是"改了一处、另一处照样是旧行为"。
+ *
+ * 已经是登录态时**先退出**：不然页面上根本没有登录表单，报错会长得像"选择器写错了"。
+ */
+export async function pageSignIn(browser, pin, token) {
+	if (await pageHas(browser, ".tv-wb-account")) await pageSignOut(browser);
+	await browser.evaluate(`(${PAGE_WAIT})("document.querySelector('.tv-wb-auth input[type=\\"password\\"]') !== null", 8000)`);
+	await browser.evaluate(`(() => {
+		const set = ${PAGE_SET_INPUT};
+		set('.tv-wb-auth input[type="text"]', ${JSON.stringify(pin)});
+		set('.tv-wb-auth input[type="password"]', ${JSON.stringify(token)});
+		return true;
+	})()`);
+	await browser.evaluate("document.querySelector('.tv-wb-auth button[type=\"submit\"]').click()");
+	const ok = await browser.evaluate(`(${PAGE_WAIT})("document.querySelector('.tv-wb-account') !== null", 10000)`);
+	if (!ok) {
+		throw new Error(`登录没成功（pin=${pin}）：${await browser.evaluate("document.querySelector('.tv-wb-error')?.innerText ?? '（没有错误提示）'")}`);
+	}
+}
+
+/**
+ * 退出。按**文本**找按钮：`.tv-wb-account` 里除了退出按钮，工作组还多一个管理台链接，
+ * 按位置取会随界面调整而错位。
+ */
+export async function pageSignOut(browser) {
+	const clicked = await browser.evaluate(`(() => {
+		const button = [...document.querySelectorAll('.tv-wb-account button')].find((el) => el.textContent.trim() === '退出');
+		if (!button) return false;
+		button.click();
+		return true;
+	})()`);
+	if (!clicked) throw new Error("找不到「退出」按钮");
+	await browser.evaluate(`(${PAGE_WAIT})("document.querySelector('.tv-wb-auth') !== null", 8000)`);
+}
 
 /** 点一个元素（按文本或选择器）。 */
 export const PAGE_CLICK = `(selector) => {

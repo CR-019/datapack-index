@@ -6,6 +6,7 @@ import { audit, authenticate, canEdit, clearFailures, createSession, destroySess
 import { countEvents, listEvents } from "./events.mjs";
 import { applyConvergentChange } from "./changes.mjs";
 import { createStage, deleteStage } from "./stages.mjs";
+import { createSubject, credentialConsole, issueToken, revokeCredential, rotateCredential, setAccountStatus } from "./credentials.mjs";
 import { parseMultipart, requireFile } from "./multipart.mjs";
 import { ZIP_LIMITS } from "./zip.mjs";
 import { ingestZip } from "./ingest.mjs";
@@ -35,6 +36,15 @@ export class HttpError extends Error {
 
 const KINDS = new Set(["project", "event", "index", "tag", "person", "team"]);
 
+/**
+ * 审计里的"为什么"：可以不给（那就用默认文案），但不能要多少给多少 ——
+ * 这条字符串会落进 `audit_log.reason`、进备份、进运维视野，不是输入框。
+ */
+function auditReason(raw, fallback) {
+  const text = typeof raw === "string" ? raw.trim() : "";
+  return text ? Array.from(text).slice(0, 200).join("") : fallback;
+}
+
 export function buildRouter(db) {
   const router = createRouter();
   const cookieName = config.sessionCookie;
@@ -44,6 +54,15 @@ export function buildRouter(db) {
   const requireSession = (req) => {
     const ctx = currentSession(req);
     if (!ctx) throw new HttpError(401, "unauthenticated", "未登录或会话已失效");
+    return ctx;
+  };
+
+  // 工作组专属动作（审核、凭证签发）共用这一道门。放在最前面只是为了聚拢身份判定：
+  // 这些 handler 都在 `buildRouter` 返回之后才被调用，所以把它们写在前面或后面
+  // 在运行期没有区别 —— 别把顺序当成必要条件。
+  const requireStaff = (req) => {
+    const ctx = requireSession(req);
+    if (ctx.account.role !== "staff") throw new HttpError(403, "forbidden", "只有工作组成员可以执行这个操作");
     return ctx;
   };
 
@@ -222,6 +241,128 @@ export function buildRouter(db) {
     }, { "Cache-Control": "no-store" });
   });
 
+  /* ───────────────── 凭证签发与吊销（仅工作组，§7.4 / FR-13 / FR-16） ─────────────────
+   *
+   * 系统没有公开注册，所有身份都源自这里。三条路径的分工：
+   *   · `POST /v1/authors`          —— 建**主体**（设计 §12 的接口表就是这条路径）：
+   *                                    主体节点 + 账号 + 首枚令牌，一次签发完
+   *   · `POST …/:id/tokens`         —— 给已有主体补发一枚令牌（换设备、多人共用一个 pin）
+   *   · `DELETE …/:id/tokens/:tid`  —— 吊销，**立即**失效（连带其派生会话）
+   *   · `POST …/:id/tokens/:tid/rotate` —— 轮换：补发新的 + 吊销旧的一步到位
+   *   · `POST …/:id/status`         —— 停用 / 恢复账号（`suspended`，与吊销令牌分开的一档）
+   *
+   * 为什么是 `/v1/authors` 而不是 `/v1/credentials`：被创建的东西是**主体**
+   * （person/team 节点，公开面看得见），令牌只是它的附属物；设计文档 §12 的接口表
+   * 也是这么列的。而读它们（含令牌元数据）走 `/v1/credentials` —— 那是私有域视图，
+   * 不该挂在公开的 `/v1/authors` 集合上。
+   *
+   * ⚠️ 返回体里的 `token.plaintext` 是**明文令牌唯一一次出现的地方**（ADR-004）。
+   *    所以这里必须 `no-store`：否则明文会进浏览器缓存/代理缓存。
+   */
+
+  router.get("/v1/credentials", ({ req, res }) => {
+    requireStaff(req);
+    sendJson(res, 200, credentialConsole(db), { "Cache-Control": "no-store" });
+  });
+
+  router.post("/v1/authors", async ({ req, res }) => {
+    const ctx = requireStaff(req);
+    const body = await readJson(req, 64 * 1024);
+    const forced = typeof body.force === "boolean" ? body.force : null;
+    if (forced !== null) {
+      // 这一条不是矫情：签发接口收到不认识的字段时**静默忽略**，会让调用方以为自己
+      // 打开了某个开关（比如"强制覆盖已认领的主体"），而实际什么都没发生。
+      throw new HttpError(400, "unsupported_field", "签发接口不支持 force：覆盖已认领的主体只能由人在本机决定（见 scripts/bootstrap.mjs）");
+    }
+    const created = createSubject(db, {
+      pin: body.pin,
+      name: body.name,
+      kind: body.kind,
+      role: body.role,
+      label: body.label,
+      email: body.email,
+      actorId: ctx.account.id,
+      reason: auditReason(body.reason, "工作组在管理台签发"),
+    });
+    sendJson(res, 201, {
+      ok: true,
+      ...created,
+      message: created.claimed
+        ? "已认领既有主体并签发凭证 —— 明文令牌只显示这一次，请立刻交给本人并让他自己保存。"
+        : "主体与凭证都已创建 —— 明文令牌只显示这一次，请立刻交给本人并让他自己保存。",
+    }, { "Cache-Control": "no-store" });
+  });
+
+  router.post("/v1/credentials/:id/tokens", async ({ req, res, params }) => {
+    const ctx = requireStaff(req);
+    const body = await readJson(req, 64 * 1024);
+    const issued = issueToken(db, {
+      accountId: params.id,
+      label: body.label,
+      actorId: ctx.account.id,
+      reason: auditReason(body.reason, "工作组在管理台补发"),
+    });
+    sendJson(res, 201, {
+      ok: true,
+      subject: { id: issued.accountId, pin: issued.pin, role: issued.role },
+      token: issued,
+      message: "新令牌已签发 —— 明文只显示这一次。旧令牌不受影响，如需停用请单独吊销。",
+    }, { "Cache-Control": "no-store" });
+  });
+
+  router.delete("/v1/credentials/:id/tokens/:tokenId", ({ req, res, params, url }) => {
+    const ctx = requireStaff(req);
+    const revoked = revokeCredential(db, {
+      accountId: params.id,
+      tokenId: params.tokenId,
+      actorId: ctx.account.id,
+      reason: auditReason(url.searchParams.get("reason"), "工作组在管理台吊销"),
+    });
+    sendJson(res, 200, {
+      ok: true,
+      ...revoked,
+      message: `已吊销「${revoked.label}」，其派生会话（${revoked.killedSessions} 个）同时失效。`,
+    }, { "Cache-Control": "no-store" });
+  });
+
+  /* 轮换 = 补发 + 吊销旧的，一步到位（给"旧凭证已泄露，必须立刻作废"这类收尾用）。
+   * 默认仍是两步走：先补发、确认本人能用，再吊销旧的 —— 见 credentials.mjs 里的注释。 */
+  router.post("/v1/credentials/:id/tokens/:tokenId/rotate", async ({ req, res, params }) => {
+    const ctx = requireStaff(req);
+    const body = await readJson(req, 64 * 1024);
+    const rotated = rotateCredential(db, {
+      accountId: params.id,
+      tokenId: params.tokenId,
+      label: body.label,
+      actorId: ctx.account.id,
+      reason: auditReason(body.reason, "工作组在管理台轮换"),
+    });
+    sendJson(res, 201, {
+      ok: true,
+      ...rotated,
+      message: `已轮换：旧令牌（${rotated.revokedLabel}）作废，其派生会话（${rotated.killedSessions} 个）同时失效 —— 请立刻把新明文交给本人，否则他登不进来。`,
+    }, { "Cache-Control": "no-store" });
+  });
+
+  /* 停用 / 恢复账号（与吊销令牌分开的一档：人离开了，作品还在） */
+  router.post("/v1/credentials/:id/status", async ({ req, res, params }) => {
+    const ctx = requireStaff(req);
+    const body = await readJson(req, 64 * 1024);
+    const changed = setAccountStatus(db, {
+      accountId: params.id,
+      status: body.status,
+      actorId: ctx.account.id,
+      reason: auditReason(body.reason, "工作组在管理台操作"),
+    });
+    sendJson(res, 200, {
+      ok: true,
+      ...changed,
+      message: changed.status === "suspended"
+        ? `账号「${changed.pin}」已停用：名下的会话（${changed.killedSessions} 个）已清除，令牌保留 —— 恢复即可继续用。已上架的内容不受影响。`
+        : `账号「${changed.pin}」已恢复：他自己重新登录即可（令牌一直保留着，不需要重新签发）。`,
+    }, { "Cache-Control": "no-store" });
+  });
+
   /* ───────────────── 投稿：multipart zip → 待审修订 ───────────────── */
 
   router.post("/v1/submissions", async ({ req, res }) => {
@@ -274,12 +415,6 @@ export function buildRouter(db) {
   });
 
   /* ───────────────── 审核（仅工作组） ───────────────── */
-
-  const requireStaff = (req) => {
-    const ctx = requireSession(req);
-    if (ctx.account.role !== "staff") throw new HttpError(403, "forbidden", "只有工作组成员可以执行审核操作");
-    return ctx;
-  };
 
   router.get("/v1/reviews/queue", ({ req, res }) => {
     requireStaff(req);

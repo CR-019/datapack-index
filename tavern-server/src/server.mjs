@@ -2,7 +2,7 @@ import http from "node:http";
 
 import { assertSecureConfig, config, warnInsecureConfig } from "./config.mjs";
 import { openDatabase } from "./db.mjs";
-import { PUBLIC_CORS, sendJson, sendText } from "./http.mjs";
+import { PUBLIC_CORS, isPublicRead, sendJson, sendText } from "./http.mjs";
 import { HttpError, buildRouter } from "./routes.mjs";
 
 // 配置自检：宁可起不来，也不要带着可预测的密钥对外服务（开源仓库里
@@ -24,12 +24,11 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === "OPTIONS") {
-      res.writeHead(204, PUBLIC_CORS);
+      res.writeHead(204, isPublicRead(req, url.pathname) ? PUBLIC_CORS : {});
       return res.end();
     }
 
-    // 写接口与身份相关路径不加通配 CORS（只有公开只读面才允许跨域）
-    isPublic = !url.pathname.startsWith("/v1/auth") && url.pathname !== "/v1/me";
+    isPublic = isPublicRead(req, url.pathname);
     const headers = isPublic ? PUBLIC_CORS : {};
 
     // 路由匹配也在 try 内 —— 任何匹配期的异常都不允许打掉进程

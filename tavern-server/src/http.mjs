@@ -88,6 +88,37 @@ export const PUBLIC_CORS = {
   "Access-Control-Allow-Headers": "If-None-Match",
 };
 
+/**
+ * 身份与私域路径：无论什么方法都不加通配 CORS。
+ * 会话 cookie 是 `HttpOnly` + `SameSite=Lax`，跨站写请求本来就带不上它；
+ * 但"请求发不出去"和"浏览器允许读回响应"是两件事，这里把后者也堵上。
+ */
+export const PRIVATE_PREFIXES = ["/v1/auth", "/v1/me", "/v1/credentials"];
+
+const CORS_METHODS = new Set(["GET", "HEAD"]);
+
+/**
+ * 通配 CORS 只给**公开只读面**：路径不在私域前缀里，且方法确实是只读的。
+ *
+ * 曾经判据只有"路径前缀"一条，于是所有写接口（`POST /v1/submissions`、
+ * `PATCH /v1/nodes/:id`、`POST /v1/nodes/:id/stages`，以及后来加的签发接口）
+ * 都带着 `Access-Control-Allow-Origin: *` 回包。写接口只服务同源前端
+ * （作者中心与 API 同源，§7.7），没有任何调用方需要通配 CORS，却让
+ * "任何站点都能从浏览器里读回响应"成立。改成按**方法**判之后，就不会再有
+ * 下一个写接口因为忘了加前缀而漏出去。
+ *
+ * 放在 http.mjs 而不是 server.mjs：server.mjs 一被 import 就会 listen，
+ * 于是这条规则就没法在测试里单独验（只能起真服务）。规则本身是纯函数，
+ * 就该待在纯模块里。
+ */
+export function isPublicRead(req, pathname) {
+  const requested = String(
+    req?.method === "OPTIONS" ? (req?.headers?.["access-control-request-method"] ?? "GET") : req?.method,
+  ).toUpperCase();
+  if (!CORS_METHODS.has(requested)) return false;
+  return !PRIVATE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
 export function readBody(req, limitBytes = 1024 * 1024) {
   return new Promise((resolve, reject) => {
     const chunks = [];

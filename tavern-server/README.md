@@ -163,6 +163,17 @@ echo 'TAVERN_SESSION_SECURE=0' >> .env   # 本地是 HTTP；生产删掉这行
 | `DELETE` | `/v1/auth/session` | 退出（清会话，令牌不受影响） |
 | `GET` | `/v1/me` | 我是谁 + 我维护哪些条目 |
 
+**需工作组权限**（`staff` 会话；**不加通配 CORS**）
+
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| `GET` | `/v1/credentials` | 凭证管理台一屏：所有主体 + 每枚令牌的状态（签发时间 / 最后使用 / 是否吊销）+ 最近凭证类审计。**永不返回哈希，也永不返回明文** |
+| `POST` | `/v1/authors` | **建主体并签发首枚凭证**（设计 §12 的接口表就是这条路径）：`pin` + `name` + `kind`(person/team) + `role`(author/staff) + `label` + `reason`。已存在但未认领的主体走**认领**（既有档案与条目归属一个字都不动）。返回体里的 `token.plaintext` 是明文令牌**唯一一次**出现的地方 |
+| `POST` | `/v1/credentials/:id/tokens` | 给已有主体**补发**一枚令牌（换设备、团队里再加一个人）。旧令牌不受影响 |
+| `POST` | `/v1/credentials/:id/tokens/:tokenId/rotate` | **轮换**：签发新的 + 吊销旧的一步到位（旧凭证已泄露时用）。默认做法仍是两步：先补发、确认本人能用，再吊销旧的 |
+| `DELETE` | `/v1/credentials/:id/tokens/:tokenId` | **吊销**，立即生效并连带清除由它派生的会话。拒绝吊销**最后一枚**工作组凭证（否则谁也进不来了） |
+| `POST` | `/v1/credentials/:id/status` | **停用 / 恢复账号**（`{"status":"suspended"\|"active"}`）。停用会当场清掉名下会话，但**令牌保留** —— 恢复即可继续用；已上架内容不受影响（人离开了，作品还在）。拒绝停用**最后一个有效的工作组成员** |
+
 **需维护者权限**（`canEdit`：staff 通吃，否则查 `maintains` 边）
 
 | 方法 | 路径 | 说明 |
@@ -187,7 +198,22 @@ curl -s 'http://127.0.0.1:9878/v1/nodes/project:Floating_UI/events'
 curl -i -c /tmp/tavern.jar -X POST http://127.0.0.1:9878/v1/auth/session \
   -H 'Content-Type: application/json' -d '{"pin":"cr019","token":"<TOKEN>"}'
 curl -s -b /tmp/tavern.jar http://127.0.0.1:9878/v1/me
+
+# 签发一对凭证（工作组）：明文 token 只在这里出现一次
+curl -s -b /tmp/tavern.jar -X POST http://127.0.0.1:9878/v1/authors \
+  -H 'Content-Type: application/json' \
+  -d '{"pin":"alumopper","name":"Alumopper","role":"author","label":"阿罗的笔记本"}'
+# 本人拿这对凭证登录（投稿工作台第 0 步做的就是这件事）
+curl -i -c /tmp/author.jar -X POST http://127.0.0.1:9878/v1/auth/session \
+  -H 'Content-Type: application/json' -d '{"pin":"alumopper","token":"<上一步打印的那串>"}'
+# 管理台一屏；吊销一枚令牌（连带掐掉由它派生的会话）
+curl -s -b /tmp/tavern.jar http://127.0.0.1:9878/v1/credentials
+curl -s -b /tmp/tavern.jar -X DELETE \
+  http://127.0.0.1:9878/v1/credentials/person:Alumopper/tokens/<tokenId>
 ```
+
+网页版的同一条链路在 `tavern/admin`（签发）→ `tavern/submit`（填写）两个页面，
+走查用例见 `tests/e2e/cases/06-credential-chain.mjs`（接口）与 `07-credential-chain-browser.mjs`（界面）。
 
 ---
 
@@ -207,6 +233,10 @@ curl -s -b /tmp/tavern.jar http://127.0.0.1:9878/v1/me
 | **事件是真相、状态是投影**（ADR-009） | `node_events` 只增不改；`facets.state` 由事件 `recomputeState()` 推出，可随时重算。收敛型直通与「有历史」因此同时成立——不是绕过审计的快捷方式 |
 | **阶段是子节点、时间是算出来的**（ADR-010） | 阶段是一个 `kind=stage` 的节点 + 一条 `child → parent` 的 `parent` 边（**至多一条**）；`facets.phases` 是从阶段时间窗与当前时间**算出来的派生字段**，允许并列、允许空隙、可为空 |
 | **不变量 13 落在读模型**（ADR-010） | `listPublishedNodes()` 自带 `NOT EXISTS (… rel='parent')`，看板列表天然只含顶层。前端不必再实现一遍，也不会因为忘记过滤而漏出阶段 |
+| **签发是一条真接口，不是"手工插一行"**（§7.4 / FR-16） | `src/credentials.mjs`：建主体 + 账号 + 首枚令牌走同一个事务；每笔都写 `audit_log`（谁签发了谁必须可查）；明文只在响应体里出现一次，库里只有 `sha256(token+pepper)` —— 与 bootstrap 共用 `hashToken()`，没有第二份哈希实现 |
+| **最后一枚工作组凭证不许吊销** | 没有密码找回，且 bootstrap 见到已有 staff 会拒绝执行：吊销光了就真的没人进得来。所以宁可当场拒绝，让人先签新的再吊销旧的。同理**不许停用最后一个有效的工作组成员** —— 那是账号级封锁，连"换一枚令牌登录"的退路都没有 |
+| **停用账号与吊销令牌是两档** | 停用（`accounts.status='suspended'`）断的是"这个人现在能不能进系统"，与手里有几枚令牌无关，且**不动令牌**：恢复时改一个字段就行，不必重新签发、重新交付。吊销是收回某一枚写权限。两者都连带清会话（`readSession` 本来就会因 `status != 'active'` 拒绝，停用时再把会话行删掉，不留永远不会被认领的行） |
+| **通配 CORS 只给公开只读面** | 判据从"路径前缀"改成"**方法**"（`http.mjs` 的 `isPublicRead`）：写接口（投稿、审核、签发、收敛型 PATCH）与身份/私域路径一律不带 `Access-Control-Allow-Origin`。写接口只服务同源前端（§7.7），没有一个调用方需要它 |
 | **公开读模型是表级白名单**（ADR-011） | 公开 SQL 只允许碰 `nodes` / `edges` / `tag_members` / `node_events` 四张表，且 `node_events` 必须带 `visibility='public'`。私域表不是「记得别查」，而是**不在白名单里** |
 
 ---
@@ -283,7 +313,8 @@ npm run restore -- <备份目录> --to <目录> --force # 真恢复（覆盖线�
 
 - **阶段编辑**：目前只有「新建」与「删除」，改时间窗要删了重建
 - **申请与邀请**：`applications` / `invitations` 的接口与一次性激活页
-- **工作台页面**（§7.7）与 `/author` 验证页
+- **审核台界面**：审核目前只有接口（`GET /v1/reviews/queue` + `POST /v1/reviews/:id`），还没有队列/差异视图页面 —— 工作组成员要审稿得用 curl
+- **`/author` 会话验证页**：`/v1/me` 有了，但还没有那个"我到底登录了没有"的页面
 - **素材处理**：尚未接 `sharp` / `svgo`（届时需决定复用主仓库的 `scripts/optimize-images.mjs` 还是自带一份——会影响"能否一条 `mv` 拆走"）
 - **bot PR 回仓**：L1 快照定期写回仓库（目前是手动 `npm run snapshot`）
 - **部署产物**：systemd 单元、反代配置、备份脚本

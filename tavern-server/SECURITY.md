@@ -30,6 +30,7 @@
 | --- | --- | --- |
 | **凭证验证**（`POST /v1/auth/session`） | 在线爆破、账号枚举 | 32 字符 ≈190 bit 令牌；按 `pin + IP` 限流与连续失败锁定；错误 pin 与错误 token 返回**同一条**信息 |
 | **令牌存储** | 库被读走 → 凭证泄露 | 只存 `sha256(token + pepper)`；明文只在签发时出现一次；胡椒走环境变量（缺失或过弱拒绝启动） |
+| **凭证签发**（`POST /v1/authors`、`POST|DELETE /v1/credentials/{id}/tokens…`、`POST /v1/credentials/{id}/status`） | 一次调用就造出一个可写身份、也能让一个人当场进不来 —— 这是"公开注册"的替代品，也是权限面最集中的一处 | 只认工作组会话（`requireStaff`）；明文令牌只在签发响应里出现**一次**且 `Cache-Control: no-store`（它不进列表接口、不进审计、不进日志）；每笔签发/轮换/吊销/停用都写 `audit_log`（谁对谁做了什么可查）；pin 查重不区分大小写；**拒绝吊销最后一枚工作组凭证、拒绝停用最后一个有效的工作组成员**（没有密码找回，把自己关在门外就没人能开）；写接口不带通配 CORS |
 | **会话** | cookie 被窃、跨站请求 | `HttpOnly + SameSite=Lax`；生产强制 `Secure`；吊销令牌连带吊销会话 |
 | **投稿上传（zip）** | **本项目最大的攻击面** | 隔离解压（`inbox/`，绝不在最终路径解压）、路径穿越与符号链接拒绝、zip bomb 压缩比上限、文件数与总量上限、类型白名单、未审素材与公开路径物理隔离 |
 | **未审内容外泄** | 草稿被公开 | 公开接口只读 `published_revision_id` 非空的节点；`accounts`/`tokens`/`sessions`/`recovery_codes` 独立成表，导出路径**只连接 `nodes` 与 `edges`** |
