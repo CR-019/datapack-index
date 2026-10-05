@@ -14,6 +14,7 @@ import path from "node:path";
 
 import { canEdit } from "./auth.mjs";
 import { config, nowIso } from "./config.mjs";
+import { appendFact } from "./events.mjs";
 import { q } from "./db.mjs";
 
 export class SubmissionError extends Error {
@@ -300,6 +301,19 @@ export function reviewRevision(db, { revisionId, action, note = null, reviewerId
       "INSERT INTO audit_log (actor_id, action, target, reason, created_at) VALUES (?, 'revision.published', ?, ?, ?)",
       reviewerId, revision.node_id, note ?? "上架", now,
     );
+
+    // ⚠️ 上架本身也是一件**已发生的事实**，必须进事件流（ADR-009「审核通过上架时自动
+    //    补一条 milestone」，§6.6 的事件对照表给了确切的形状）。
+    //    漏掉它的后果不是"少一行日志"：新上架的条目没有任何事件 → 主页按
+    //    「有阶段 ∪ 有招募 ∪ 近期有事件」判"有动静"时看不见它，作者会觉得
+    //    "我审过了怎么主页上没我"。这是走查 e2e 时实测出来的。
+    appendFact(db, {
+      nodeId: revision.node_id,
+      kind: "milestone",
+      title: "内容更新",
+      source: "derived",
+      actorId: reviewerId,
+    });
 
     db.exec("COMMIT");
     return { status: "published", nodeId: revision.node_id, revisionId };

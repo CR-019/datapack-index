@@ -2364,3 +2364,232 @@ html.dark .tv-home-searchbox {
 }
 
 .tv-home-hint { margin: 14px auto 0; max-width: 660px; color: var(--vp-c-text-3); font-size: 13px; }
+
+/* =============================================================================
+   投稿工作台（SubmitPage.vue）
+   -----------------------------------------------------------------------------
+   与站内其它页同一套语言：2px 极浅描边 / 18px 圆角 / 蓝色胶囊主按钮。
+   ========================================================================== */
+
+.tv-workbench-hero {
+	padding: 22px 0 18px;
+	border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.tv-workbench-hero h1 {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	font-size: clamp(26px, 3.4vw, 38px);
+	line-height: 1.16;
+}
+
+.tv-workbench-hero p {
+	max-width: 720px;
+	margin: 10px 0 0;
+	color: var(--vp-c-text-2);
+	font-size: 15px;
+	line-height: 1.7;
+}
+
+.tv-workbench-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 320px;
+	gap: 18px;
+	margin-top: 22px;
+	align-items: start;
+}
+
+.tv-wb-step { margin-bottom: 18px; }
+
+.tv-wb-step h2 {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.tv-wb-stepno {
+	display: grid;
+	place-items: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--vp-c-brand-1) 14%, transparent);
+	color: var(--vp-c-brand-1);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.tv-wb-hint { margin: 0 0 12px; color: var(--vp-c-text-3); font-size: 13px; line-height: 1.7; }
+.tv-wb-hint code { padding: 1px 5px; border-radius: 4px; background: var(--vp-c-bg-soft); font-size: 12px; }
+
+/* 类型卡 */
+.tv-wb-types { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 4px 0 12px; }
+
+.tv-wb-type {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 14px 16px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 16px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-1);
+	font-family: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.tv-wb-type:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--vp-c-brand-1) 40%, transparent); }
+
+.tv-wb-type.is-active {
+	border-color: var(--vp-c-brand-1);
+	background: color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent);
+	box-shadow: 0 6px 18px color-mix(in srgb, var(--vp-c-brand-1) 16%, transparent);
+}
+
+.tv-wb-type-label { font-size: 16px; font-weight: 700; }
+.tv-wb-type-kind { color: var(--vp-c-text-3); font-family: var(--vp-font-family-mono); font-size: 11.5px; }
+.tv-wb-type-hint { color: var(--vp-c-text-2); font-size: 13px; line-height: 1.6; }
+
+/* 表单 */
+.tv-wb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 14px; }
+.tv-wb-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.tv-wb-field--wide { grid-column: 1 / -1; }
+.tv-wb-field > span { color: var(--vp-c-text-2); font-size: 13px; font-weight: 600; }
+.tv-wb-field > span em { margin-left: 6px; color: var(--vp-c-text-3); font-size: 11.5px; font-style: normal; font-weight: 400; }
+.tv-wb-field-label { color: var(--vp-c-text-2); font-size: 13px; font-weight: 600; }
+
+.tv-wb-field input,
+.tv-wb-field textarea,
+.tv-wb-recruit input,
+.tv-wb-recruit select,
+.tv-wb-auth input,
+.tv-wb-recruit input[type="date"] {
+	padding: 9px 12px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 12px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-1);
+	font-family: inherit;
+	font-size: 14px;
+}
+
+.tv-wb-field input:focus,
+.tv-wb-field textarea:focus,
+.tv-wb-auth input:focus,
+.tv-wb-recruit input:focus { border-color: var(--vp-c-brand-1); outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 16%, transparent); }
+
+.tv-wb-field textarea { resize: vertical; line-height: 1.7; }
+.tv-wb-slug { color: var(--vp-c-text-3); font-family: var(--vp-font-family-mono); font-size: 12px; }
+.tv-wb-slug b { color: var(--vp-c-brand-1); }
+
+.tv-wb-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tv-wb-tags button { cursor: pointer; }
+
+/* 登录 */
+.tv-wb-auth { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.tv-wb-auth label { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--vp-c-text-2); }
+.tv-wb-auth input { min-width: 200px; }
+.tv-wb-account { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 14px; }
+
+/* 拖图 */
+.tv-wb-drop {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+	padding: 18px;
+	border: 2px dashed rgba(16, 24, 32, .12);
+	border-radius: 16px;
+	background: var(--vp-c-bg);
+	color: var(--vp-c-text-3);
+	font-size: 14px;
+}
+
+.tv-wb-drop.is-over { border-color: var(--vp-c-brand-1); background: color-mix(in srgb, var(--vp-c-brand-1) 6%, transparent); }
+.tv-wb-drop p { margin: 0; }
+
+.tv-wb-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 12px 0 0; padding: 0; list-style: none; }
+
+.tv-wb-thumbs li {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 10px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 14px;
+	background: var(--vp-c-bg);
+}
+
+.tv-wb-thumbs li.is-cover { border-color: var(--vp-c-brand-1); }
+.tv-wb-thumbs img { width: 100%; height: 96px; object-fit: cover; border-radius: 10px; }
+.tv-wb-thumb-meta { display: flex; flex-direction: column; font-size: 12px; }
+.tv-wb-thumb-name { color: var(--vp-c-text-2); font-family: var(--vp-font-family-mono); overflow-wrap: anywhere; }
+.tv-wb-thumb-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+/* 正文与预览 */
+.tv-wb-body-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.tv-wb-preview { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+.tv-wb-preview-body {
+	flex: 1;
+	min-height: 200px;
+	max-height: 520px;
+	overflow: auto;
+	padding: 12px 14px;
+	border: 1px solid var(--vp-c-divider);
+	border-radius: 12px;
+	background: var(--vp-c-bg);
+	font-size: 14px;
+	line-height: 1.75;
+}
+
+.tv-wb-preview-body > :first-child { margin-top: 0; }
+
+/* 招募行 */
+.tv-wb-recruit { display: grid; grid-template-columns: 1.4fr .7fr 1.4fr 1fr auto auto; gap: 8px; margin-bottom: 8px; align-items: center; }
+.tv-wb-recruit input, .tv-wb-recruit select { min-width: 0; }
+
+/* 预检结果 */
+.tv-wb-check { padding: 12px 14px; border-radius: 14px; border: 2px solid transparent; font-size: 13.5px; }
+.tv-wb-check.is-ok { border-color: color-mix(in srgb, var(--vp-c-success-1) 30%, transparent); background: color-mix(in srgb, var(--vp-c-success-1) 7%, transparent); }
+.tv-wb-check.is-bad { border-color: color-mix(in srgb, var(--vp-c-danger-1) 30%, transparent); background: color-mix(in srgb, var(--vp-c-danger-1) 6%, transparent); }
+.tv-wb-check ul { margin: 6px 0 0; padding-left: 18px; }
+.tv-wb-check li { margin: 2px 0; color: var(--vp-c-text-2); }
+
+.tv-wb-submit-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.tv-wb-submit-message { margin: 12px 0 0; font-size: 13.5px; color: var(--vp-c-success-1); }
+.tv-wb-submit-message.is-bad { color: var(--vp-c-danger-1); }
+.tv-wb-error { margin: 8px 0 0; padding-left: 18px; color: var(--vp-c-danger-1); font-size: 13px; }
+
+/* 侧栏 */
+.tv-wb-side { position: sticky; top: 18px; display: flex; flex-direction: column; gap: 18px; }
+.tv-wb-sublist { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+
+.tv-wb-sublist li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 8px;
+	padding: 10px 12px;
+	border: 2px solid rgba(16, 24, 32, .06);
+	border-radius: 14px;
+	background: var(--vp-c-bg);
+	font-size: 13px;
+}
+
+.tv-wb-sub-title { font-weight: 600; }
+.tv-wb-sub-meta { display: flex; gap: 8px; margin-left: auto; color: var(--vp-c-text-3); font-size: 12px; }
+.tv-wb-sub-meta .is-bad { color: var(--vp-c-danger-1); }
+
+@media (max-width: 1100px) {
+	.tv-workbench-layout { grid-template-columns: minmax(0, 1fr); }
+	.tv-wb-side { position: static; }
+}
+
+@media (max-width: 760px) {
+	.tv-wb-recruit { grid-template-columns: 1fr 1fr; }
+}

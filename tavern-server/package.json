@@ -18,6 +18,8 @@
     "unpack": "node --disable-warning=ExperimentalWarning scripts/tavern-unpack.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.mjs",
+    "e2e": "node --disable-warning=ExperimentalWarning tests/e2e/run.mjs",
+    "e2e:browser": "node --disable-warning=ExperimentalWarning tests/e2e/run.mjs --browser",
     "backup": "node --disable-warning=ExperimentalWarning scripts/backup.mjs",
     "restore": "node --disable-warning=ExperimentalWarning scripts/restore.mjs",
     "seed:demo": "node --disable-warning=ExperimentalWarning scripts/seed-demo.mjs",

@@ -19,6 +19,9 @@ notes/
 # 酒馆看板后端数据
 /tavern-server/data/
 
+# E2E 走查的临时目录（夹具库、投稿 zip、Chrome profile）—— 每次运行重造，不进仓库
+/tavern-server/tests/e2e/.tmp/
+
 # 秘密：绝不进仓库（.env.example 是唯一例外）
 .env
 .env.*

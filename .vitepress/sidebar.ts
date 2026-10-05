@@ -23,6 +23,7 @@ export const sidebar: DefaultTheme.SidebarItem[] = [
       { text: '看板', link: '/tavern/' },
       { text: '全部条目', link: '/tavern/all' },
       { text: '标签总览', link: '/tavern/tags' },
+      { text: '投稿工作台', link: '/tavern/submit' },
     ]
   },
   {

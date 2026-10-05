@@ -47,6 +47,12 @@ jobs:
         working-directory: tavern-server
         run: npm test
 
+      # E2E 走查（专题）：每条用例一个独立夹具库 + 独立服务进程，全程真实 HTTP。
+      # 这里只跑后端部分 —— 浏览器用例要站点构建产物，放下面那个 job。
+      - name: End-to-end walkthrough (backend cases)
+        working-directory: tavern-server
+        run: npm run e2e
+
       - name: Scan for committed secrets
         working-directory: tavern-server
         run: npm run check:secrets
@@ -95,3 +101,9 @@ jobs:
       # 而"文件在 public/ 里"和"它被发布出去了"是两件事。
       - name: The offline snapshot must reach the built site
         run: test -s .vitepress/dist/tavern-snapshot.json
+
+      # 有了构建产物，就能跑**带浏览器**的那几条 E2E（工作台交互、页面层泄露检查）。
+      # runner 自带 Chrome，所以不需要额外装东西。
+      - name: End-to-end walkthrough (with browser)
+        working-directory: tavern-server
+        run: npm run e2e -- --browser

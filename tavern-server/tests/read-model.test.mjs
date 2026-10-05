@@ -269,8 +269,16 @@ test("快照包含 stages 与 events，且 nodes 只含顶层", () => {
 
     const snapshot = buildSnapshot(db);
     assert.ok(snapshot.stages.some((stage) => stage.id === "stage:s1" && stage.parentId === project.nodeId));
-    assert.deepEqual(snapshot.events.map((event) => event.id), ["evt1"], "内部事件不进快照");
-    assert.ok(snapshot.events[0].title === "发布 v1.0");
+    // 只断言"内部事件不在里面"，不再逐项比对整张表：`publishOne` 走的是真实审核路径，
+    // 而按 ADR-009，上架本身会追加一条 milestone（"内容更新"）—— 那是**该出现**的事件。
+    const eventIds = snapshot.events.map((event) => event.id);
+    assert.ok(eventIds.includes("evt1"), "手工事件应在快照里");
+    assert.ok(!eventIds.includes("evt2"), "内部事件不进快照");
+    assert.equal(snapshot.events.find((event) => event.id === "evt1").title, "发布 v1.0");
+    assert.ok(
+      snapshot.events.some((event) => event.title === "内容更新" && event.source === "derived"),
+      "上架应自动补一条 milestone 事件（ADR-009 / §6.6 事件对照表）",
+    );
     assert.ok(!snapshot.nodes.some((node) => node.kind === "stage"), "快照的 nodes 只含顶层");
     assert.ok(snapshot.timeline.some((item) => item.title === "发布 v1.0"), "时间轴应含事件");
   } finally {

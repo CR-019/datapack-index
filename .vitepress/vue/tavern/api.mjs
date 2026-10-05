@@ -89,6 +89,54 @@ function resolveApiBase() {
 	return safeSession.get(API_BASE_STORE_KEY) || DEFAULT_API_BASE;
 }
 
+/**
+ * 回环地址判定（写接口专用的白名单）。
+ *
+ * ⚠️ 为什么写接口的 `?api=` 覆盖必须限定回环地址：读接口的覆盖只影响"看到什么数据"，
+ * 而写接口要发 `/v1/auth/session`，body 里是**明文 pin + token**（令牌按设计就是密码）。
+ * 于是 `https://站点/tavern/submit?api=https://evil.tld` 这样一条链接，就足以让作者
+ * "正常登录"、凭证却 POST 到攻击者的服务器 —— 攻击者只要让服务端回一个允许 CORS 的
+ * 预检，浏览器就会真的把 body 发出去，而作者看不出任何异常。
+ *
+ * 本机开发用的是 `?api=http://127.0.0.1:9878`，所以白名单只放回环：既保住开发便利，
+ * 又让"把凭证骗到别的域名"这件事在浏览器里就做不到。
+ */
+function isLoopbackUrl(value) {
+	try {
+		const url = new URL(value);
+		if (url.protocol !== "http:" && url.protocol !== "https:") return false;
+		const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, "");
+		return host === "localhost" || host === "::1" || /^127\./.test(host) || host.endsWith(".localhost");
+	} catch {
+		return false;
+	}
+}
+
+/** 活动后端基址（前端所有请求都从这里出发；换成静态兜底时改这一个常量即可）。 */
+export const API_BASE = resolveApiBase();
+
+/**
+ * 写接口基址（投稿工作台用）。
+ *
+ * ⚠️ 与读接口**不是一个默认值**，这是刻意的：按设计 §7.7，作者中心必须与 API **同源**
+ * 部署（cookie 才可用、才不需要 CORS 与 CSRF 的妥协）。所以这里默认取 `location.origin`，
+ * 本地开发用 `?api=http://127.0.0.1:9878` 覆盖（**只接受回环地址**，理由见 isLoopbackUrl）。
+ * 如果页面被部署到了站点域名而 API 在另一个域名上，这里会打不通 —— 那是部署问题，
+ * 界面会把这件事直说，而不是悄悄失败。
+ */
+export const WRITE_API_BASE = (() => {
+	if (typeof window === "undefined") return DEFAULT_API_BASE;
+	if (typeof window.__TAVERN_WRITE_API_BASE__ === "string" && window.__TAVERN_WRITE_API_BASE__.trim()) {
+		return window.__TAVERN_WRITE_API_BASE__.trim().replace(/\/+$/, "");
+	}
+	try {
+		const raw = new URLSearchParams(window.location.search).get("api");
+		const resolved = raw == null ? null : httpOnly(raw);
+		if (resolved && isLoopbackUrl(resolved)) return resolved;
+	} catch { /* 解析失败就用同源 */ }
+	return window.location.origin;
+})();
+
 /** 站点基路径（VitePress base），用于拼站内链接与 public 资源。 */
 const BASE_URL = (import.meta.env && import.meta.env.BASE_URL) || "/";
 

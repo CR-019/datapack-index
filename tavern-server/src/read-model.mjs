@@ -47,14 +47,37 @@ const title = (profile) => profile?.i18n?.zh?.title ?? profile?.i18n?.en?.title 
 export function publicNode(db, row, { withEdges = false } = {}) {
   const node = parseProfile(row);
   if (withEdges) {
+    /*
+     * ⚠️ 边的**另一端**要按可见性过滤，但**不能一刀切**：
+     *
+     *   · 指向**内容条目**（project / event / index / tag / stage）却未上架的边必须挡掉 ——
+     *     否则公开接口会递出 `project:something-unreleased` 这样的裸 id，等于告诉所有人
+     *     "存在这么一个还没上架的东西、它叫什么"，前端照着渲染还是一条必然 404 的死链。
+     *     与 ADR-011「计数不能泄露内部事件的存在」是同一条道理：看不见内容 ≠ 看不见它存在。
+     *   · 指向**人/团队**（person / team）的边保留：`maintains` 是问责信息（不变量 11 要求
+     *     每个已发布条目至少有一条），`authored` 是署名。为了藏一个未上架的档案 id
+     *     而把维护者整段抹掉，是拿"少说一句"换"说不清谁负责"，不划算。
+     *
+     * 边界放在读模型里，所有消费者（实时 API / 快照 / 前端）自动一致 ——
+     * 前端各自实现过一次，也确实漏过一次。
+     */
+    const VISIBLE_OTHER_END = (column) => `EXISTS (
+      SELECT 1 FROM nodes other
+       WHERE other.id = ${column}
+         AND (other.published_revision_id IS NOT NULL OR other.kind IN ('person', 'team'))
+    )`;
     node.edges = q.all(
       db,
-      "SELECT rel, to_id AS \"to\", ord, role, char, since, until, status, note FROM edges WHERE from_id = ? ORDER BY rel, ord, to_id",
+      `SELECT rel, to_id AS "to", ord, role, char, since, until, status, note FROM edges
+        WHERE from_id = ? AND ${VISIBLE_OTHER_END("to_id")}
+        ORDER BY rel, ord, to_id`,
       row.id,
     );
     node.incoming = q.all(
       db,
-      "SELECT rel, from_id AS \"from\", ord, role, char, since, until, status, note FROM edges WHERE to_id = ? ORDER BY rel, ord, from_id",
+      `SELECT rel, from_id AS "from", ord, role, char, since, until, status, note FROM edges
+        WHERE to_id = ? AND ${VISIBLE_OTHER_END("from_id")}
+        ORDER BY rel, ord, from_id`,
       row.id,
     );
   }
