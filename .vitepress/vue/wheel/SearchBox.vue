@@ -98,7 +98,7 @@ export default {
 			return this.isEnglish ? "Vanilla Wheel" : "香草前置馆";
 		},
 		siteSubtitle() {
-				return this.isEnglish ? "Repository packages with the legacy catalog as a fallback" : "软件仓库动态索引，原有资料静态兜底";
+				return this.isEnglish ? "Repository packages with the legacy catalog as a fallback" : "挑选最香草的前置";
 		},
 		searchPlaceholder() {
 			return this.isEnglish ? "Search name, author, tag, or coordinate" : "搜索名称、作者、标签或 Maven 坐标";

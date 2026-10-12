@@ -43,7 +43,7 @@ export default {
 	computed: {
 		isEnglish() { return String(this.lang || "").startsWith("en"); },
 		siteTitle() { return this.isEnglish ? "Vanilla Wheel · All Packages" : "香草前置馆 · 全部资源"; },
-			siteSubtitle() { return this.isEnglish ? "Repository packages with the legacy catalog as a fallback" : "软件仓库动态索引，原有资料静态兜底"; },
+			siteSubtitle() { return this.isEnglish ? "Repository packages with the legacy catalog as a fallback" : "挑选最香草的前置"; },
 		backLabel() { return this.isEnglish ? "Back to search" : "返回搜索页面"; },
 		submitLabel() { return this.isEnglish ? "Submit" : "投稿"; },
 		loadingLabel() { return this.isEnglish ? "Loading the package index…" : "正在获取软件包索引…"; },
