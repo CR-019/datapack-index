@@ -2,13 +2,18 @@
 title: 'Tess：快速搭建自定义容器的数据包工具'
 ---
 
+<script setup>
+import ns from '/.vitepress/vue/nbt/namespace.vue'
+import obj from '/.vitepress/vue/nbt/object.vue'
+</script>
+
 <FeatureHead
   title="Tess：快速搭建自定义容器的数据包工具"
   authorName="Genkihuh"
 />
 
-# Tess：快速搭建自定义容器的数据包工具
 ## 前言
+
 ### 1. 介绍
 自定义容器一直是mc原版模组编写里既重要又繁琐的一环。借助 Tess ，数据包和地图作者可以快速搭建自己的自定义容器逻辑，使自定义容器不再卡住编写进度，并将自定义容器变为通用性强、使用便捷的开发工具。
 
@@ -27,18 +32,18 @@ Tess 仅支持维护拥有 27 个槽位的木桶容器，但是通常这已经�
 
 约定：
 
-1. 下文所称的**作为命令执行者**的“自定义容器”，均指维护木桶容器的物品展示实体`item_display`，而非木桶方块。
+1. 下文所称的**作为命令执行者**的“自定义容器”，均指维护木桶容器的物品展示实体<ns t='item_display'/>，而非木桶方块。
 2. 下文所称的**ui组件/ui物品**，指组成自定义容器页面、在页面刷新时得以保留且不能被玩家拾取的物品。非ui物品即指玩家真正拥有的物品。
 
 ### 1. 定义ui组件
-所有的定义都需要保存在物品组件 ```"minecraft:custom_data".tess```的路径下。下文提到需要填写的参数，默认是放在这个路径。
+所有的定义都需要保存在物品组件<ns t='custom_data'/>**.**<obj t="tess" />的路径下。下文提到需要填写的参数，默认是放在这个路径。
 
 所有的ui组件都需要以下两个参数: ```type``` 和 ```if_ui```。其中，```if_ui```必须填写为 **true**。
-```json
-"custom_data": {
-  "tess":{
-    "type":"xxx",
-    "if_ui":true
+```snbt
+custom_data: {
+  tess:{
+    type: "xxx",
+    if_ui: true
    }
 }
 ```
@@ -52,7 +57,9 @@ Tess 仅支持维护拥有 27 个槽位的木桶容器，但是通常这已经�
 |**goto**(跳转)  |跳转到指定界面   |
 |**void**(空槽)  |必要的占位物品，界面加载完成后会被清除|
 
-边框组件 **border** 仅需要注意原版的组件配置，比如物品模型、隐藏 tooltip 等。Tess 提供了模型为空气的 border 战利品表```tess:bdr```，方便开发者调用: 
+#### border (边框)
+
+边框组件 **border** 仅需要注意原版的组件配置，比如物品模型、隐藏 tooltip 等。Tess 提供了模型为空气的 border 战利品表```tess:bdr```，方便开发者调用:
 ```json
 {
   "pools": [{
@@ -80,6 +87,10 @@ Tess 仅支持维护拥有 27 个槽位的木桶容器，但是通常这已经�
   }]
 }
 ```
+
+
+#### button(按钮)
+
 对于按钮组件 **button** ，需要参数：```click_event```，在玩家**用光标选中**按钮时执行**默认位置为自定义容器位置**的指令。
 
 ```click_event``` 是一个复合标签，其中有两个参数：
@@ -102,6 +113,9 @@ Tess 仅支持维护拥有 27 个槽位的木桶容器，但是通常这已经�
   }
 }
 ```
+
+#### generator（生成器）
+
 对于生成器组件 **generator** ，需要以下参数：
 
 ```page_index```：页面索引。需要保证一个自定义容器中可能出现的各个生成器的索引不重复，否则会出现冲突。以自定义容器为执行者（使用上文的`machine`模式按钮，以及下文的函数接口），执行`scoreboard players get @s tess.current_index`来获取自定义容器当前的页面索引。
@@ -122,8 +136,10 @@ Tess 通过加载战利品表来加载ui组件。```gui```内必须有 27 个元
     ]
   }
 }
-
 ```
+
+#### goto（跳转）
+
 对于跳转组件 **goto** ，需要参数```to```：一个 **generator** 的战利品表。Tess 保证从 A 页面跳转到 B 页面时，保存 A 页面的非ui物品，同时加载 B 页面已保存的物品。
 ```json
 "custom_data": {
@@ -133,10 +149,11 @@ Tess 通过加载战利品表来加载ui组件。```gui```内必须有 27 个元
     "to": "eg:generator"
   }
 }
-
 ```
 
-空槽 **void** 同 **border** 一样，无需额外的配置且 Tess 已定义了一份战利品表```tess:void```: 
+#### void（空槽）
+
+空槽 **void** 同 **border** 一样，无需额外的配置且 Tess 已定义了一份战利品表```tess:void```:
 ```json
 {
   "pools": [
@@ -166,8 +183,8 @@ Tess 通过加载战利品表来加载ui组件。```gui```内必须有 27 个元
     }
   ]
 }
-
 ```
+
 
 ### 2.放置自定义容器
 使用刷怪蛋召唤拥有参数的**带有标签**`tess.load`的 **marker** 实体，Tess 系统检测到该 `marker`，自动实例化自定义容器，召唤`item_display` 并放置木桶。以战利品表为例：
@@ -343,16 +360,16 @@ Tess 本身没有自带的合成组件，因为我考虑到不同数据包或地
     ↓
 循环匹配合成配方 //检测配方的方法在原版有很多，我个人倾向于使用mc26.3新增的slot_source
     ↓
-          输入槽物品是否匹配？            
+          输入槽物品是否匹配？
 ├──────────────────┤
 │是                                  │否
 ↓                                    ↓
 是否第一次匹配？         是否存在某个配方的标记？
-//即是否存在该配方对应标记         
+//即是否存在该配方对应标记
 │                      ├─是 →如果输出槽为对应
-│                       配方成品，清空输出槽， 
+│                       配方成品，清空输出槽，
 │                       否则弹出输出槽的物品//cmd的pop
-│                       
+│
 ├─是 → 清除其他配方标记，打上该配方对应标记，
 │        在输出槽更新成品
 └─否 → 如果成品不存在于输出槽:
@@ -371,13 +388,13 @@ Tess 本身没有自带的合成组件，因为我考虑到不同数据包或地
     ↓
 循环匹配合成配方 //检测配方的方法在原版有很多，我个人倾向于使用mc26.3新增的slot_source
     ↓
-          输入槽物品是否匹配？            
+          输入槽物品是否匹配？
 ├──────────────────┤
 │是                                  │否
 ↓                                    ↓
 是否第一次匹配？         隐藏输出槽按钮的tooltip
-//即是否存在该配方对应标记         
-│                                      
+//即是否存在该配方对应标记
+│
 ├─是 → 清除其他配方标记，打上该配方对应标记，
           输出槽按钮的物品模型变为成品的模型，
           并且显示其tooltip。//cmd的modify操作
@@ -398,6 +415,119 @@ Tess 本身没有自带的合成组件，因为我考虑到不同数据包或地
 `item_display`嵌入方块内时会变黑，因为`item_display`会渲染使用实体原点位置方块的光照，而木桶不透明（即光照为 0），箱子这种透明容器又容易互相合并、造成bug。在 Tess 中，我默认渲染的方块亮度为15，这会导致夜晚时看起来很奇怪。你可以通过`#minecraft:tess/loaded`接口来修改加载容器后，`item_display`的亮度。
 
 我想到的办法是可以通过检测相邻方块的光照，来判断自定义容器渲染哪个光照。但是，这样做很复杂，而且性能不好，不同场景的需求也不一样。也许之后我找到好的办法后，会解决这个问题。
+
+### 附录：mcdoc
+
+以下是上述NBT结构的[Mcdoc](../0/content)描述文件：
+
+```mcdoc
+dispatch minecraft:storage["tess:cmd"] to struct{
+    quests?: [Quest],
+}
+
+struct Quest{
+    /// 操作
+    opt: struct{
+        [TessOperationTypes]: true,
+    },
+    /// 来源
+    source?: any,
+    /// 目标槽位
+    target?: byte,
+}
+
+enum(string) TessOperationTypes {
+    /// 在当前页面的指定槽位target添加一个ui物品source
+    add = "add",
+    /// 删除当前页面一个槽位target的ui物品
+    remove = "remove",
+    /// 在当前页面的指定槽位target施加一个物品修饰器source
+    modify = "modify",
+    /// 在当前页面，弹出指定槽位target的非ui物品，将其变为掉落物形式
+    pop = "pop",
+    /// 设置当前页面为主页面
+    set_home = "set_home",
+    /// 立刻跳转到主页面
+    go_home = "go_home",
+}
+
+dispatch mcdoc:custom_data[tess] to struct{
+    /// 是否为UI物品组件
+    if_ui?: true,
+    /// UI物品组件的类型
+    type?: TessUIComponents,
+    ...tess:components[[type]],
+}
+
+/// Marker数据
+dispatch tess:components[%none] to struct{
+    /// 方块的模型
+    model: (#[id=item] string |#[id=item_definition] string ),
+    /// 破坏自定义容器掉落的物品
+    machine_loot: #[id=loot_table] string,
+    /// 自定义容器的初始界面。需要一个生成器的战利品表
+    home: #[id=loot_table] string,
+    /// 放置容器执行的命令，执行者为自定义容器
+    place_event: #[command(empty="allowed")] string,
+    /// 破坏容器执行的命令，执行者为自定义容器
+    destroy_event: #[command(empty="allowed")] string,
+    /// 打开容器时播放的声音
+    open_sound: #[id="sound_event"] string,
+    /// 文本组件，用于显示自定义容器的名称
+    machine_name:::java::util::text::Text,
+    /// 追加给机器实体标签
+    tags: [#[tag] string],
+}
+
+enum(string) TessUIComponents{
+    /// 勾勒ui的轮廓
+    border = "border",
+    /// 玩家用鼠标指针选中按钮时，执行一些指令
+    button = "button",
+    /// 用于ui界面的生成
+    generator = "generator",
+    /// 跳转到指定界面
+    goto = "goto",
+    /// 必要的占位物品，界面加载完成后会被清除
+    void = "void"
+}
+
+dispatch tess:components[border, void] to struct {}
+dispatch tess:components[button] to struct {
+    /// 点击按钮时触发的事件
+    click_event: struct{
+        /// 执行的命令
+        command: #[command] string,
+        /// 执行模式
+        mode: TessClickEventMode,
+    }
+}
+
+enum(string) TessClickEventMode{
+    /// 执行者为触发点击事件的玩家
+    self = "self",
+    /// 执行者为自定义容器实体
+    machine = "machine"
+}
+
+dispatch tess:components[generator] to struct {
+    /// 页面索引。需要保证一个自定义容器中可能出现的各个生成器的索引不重复
+    page_index: int,
+    /// 必须为27元素的列表，规定每个格子
+    gui: [GeneratorGUIElements] @ 27,
+}
+
+struct GeneratorGUIElements{
+    /// 该格子的物品，需要为战利品表的ID
+    I: #[id=loot_table] string,
+}
+
+dispatch tess:components[goto] to struct {
+    /// 一个generator物品的战利品表
+    to: #[id=loot_table] string,
+}
+```
+
 
 ## 结尾
 总算写完文档了！这是我发布的第一个数据包，~~想不到我发布的第一个数据包会是一个轮子~~，所以难免（或者在我心里，很可能）会有各种bug和需要优化的地方。我接受一切形式的批评，如需要交流请访问我的[bilibili主页](https://space.bilibili.com/372325957?spm_id_from=333.1007.0.0)。

@@ -1,20 +1,25 @@
 ---
 title: '世界生成里的一些技术细节'
 ---
-
+<script setup>
+import ns from '/.vitepress/vue/nbt/namespace.vue'
+import obj from '/.vitepress/vue/nbt/object.vue'
+</script>
 <FeatureHead
   title="世界生成里的一些技术细节"
   authorName="卡儿3058"
 />
 
 
-#### 1. `exclusion_zone`（指定此结构集的结构不能放置在哪个结构集附近）这个参数是有问题的
+#### 1. <obj t='exclusion_zone'/>参数的问题
 
 实验版本：1.21.1
 
+结构集中的<obj t='exclusion_zone'/>可以指定此结构集的结构不能放置在哪个结构集附近
+
 因为MC世界生成是分阶段的，而这个不放置在某结构附近，是在结构网格化计算是否有可能放置的阶段就计算好的。至于附近是不是真的有指定结构集，那是放置阶段的事。然而众所周知MC世界生成有很多因素会导致结构存在但是实际未放置，但是它从来不会检测是不是真的放了。
 
-因此它是最容易导致 “方圆20个区块未见其他结构，但是这个结构就是生成不了”，甚至可能导致满世界都找不到这个结构。
+因此它可能导致明明方圆20个区块未见其他结构，但是这个结构就是生成不了，甚至可能导致满世界都找不到这个结构。
 
 此问题尤其在非常规化世界下（比如空岛世界，细碎的生物群系分布，洞穴世界）尤其明显，如果你发现了你的结构参数怎么看怎么对，就是无法生成，那可能是这个参数导致的。
 
@@ -29,7 +34,7 @@ title: '世界生成里的一些技术细节'
 boolean shouldExclude(StructurePlacementCalculator calculator, int centerChunkX, int centerChunkZ)
 ```
 
-参数只有 `StructurePlacementCalculator`（种子 + 各结构集的 spacing/separation/salt）与区块坐标，拿不到 `Level` / `ChunkAccess` / `StructureStart` ，它在物理上不可能检查结构是否真的放置。（[yarn 1.21.11 javadoc](https://maven.fabricmc.net/docs/yarn-1.21.11+build.1/net/minecraft/world/gen/chunk/placement/StructurePlacement.ExclusionZone.html)）	
+参数只有 `StructurePlacementCalculator`（种子 + 各结构集的 spacing/separation/salt）与区块坐标，拿不到 `Level` / `ChunkAccess` / `StructureStart` ，它在物理上不可能检查结构是否真的放置。（[yarn 1.21.11 javadoc](https://maven.fabricmc.net/docs/yarn-1.21.11+build.1/net/minecraft/world/gen/chunk/placement/StructurePlacement.ExclusionZone.html)）
 
 
 
@@ -37,7 +42,7 @@ boolean shouldExclude(StructurePlacementCalculator calculator, int centerChunkX,
 
 实验版本：1.21.1
 
-像林地府邸、下界要塞、海底神殿、女巫小屋这种，结构底部包含硬编码生成的柱子，它是很有问题的。因为这些柱子，mojang根本没写生成上限，这些柱子会在生成后一直向下延伸直到找到固体方块或者世界底部。此问题同样在非常规化世界里尤其明显。 
+像林地府邸、下界要塞、海底神殿、女巫小屋这种，结构底部包含硬编码生成的柱子，它是很有问题的。因为这些柱子，mojang根本没写生成上限，这些柱子会在生成后一直向下延伸直到找到固体方块或者世界底部。此问题同样在非常规化世界里尤其明显。
 
 ![下界要塞加地形前后](.\图片\下界要塞加地形前后.jpg)
 
@@ -45,7 +50,7 @@ boolean shouldExclude(StructurePlacementCalculator calculator, int centerChunkX,
 
 理想情况：是柱子底端应该属于结构底端，可能会缩短柱子。
 
-实际表现为：要塞按房间生成，除了关键的房间（比如要塞拐弯处）必须有柱子，其他的每个房间的底部都会添加地形，这让整个要塞都被结构包裹了。好处是大片柱子没了，坏处是包了这么多地形看着很奇怪。 
+实际表现为：要塞按房间生成，除了关键的房间（比如要塞拐弯处）必须有柱子，其他的每个房间的底部都会添加地形，这让整个要塞都被结构包裹了。好处是大片柱子没了，坏处是包了这么多地形看着很奇怪。
 
 ![林地府邸加地形前后](.\图片\林地府邸加地形前后.jpg)
 
@@ -57,11 +62,11 @@ boolean shouldExclude(StructurePlacementCalculator calculator, int centerChunkX,
 
 有BUG号报告过此种长柱子，mojang对此的定义是 "设计性的"：
 
-| 报告                                                      | 状态                                            | 内容                                                         |
-| --------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------ |
-| [MC-263525](https://mojira.dev/MC-263525)                 | **Confirmed / Open**，影响 1.20.1、1.21、1.21.7 | 林地府邸会生成"超高的圆石地基"，附带种子与坐标               |
-| [MC-125010](https://mojira.dev/MC-125010)                 | Resolved / **Works As Intended**                | 下界要塞的柱子"一直延伸到基岩"；评论确认"柱子碰到下界岩就停" |
-| [MCPE-176515](https://bugs.mojang.com/browse/MCPE-176515) | —                                               | 基岩版：府邸地基"没有一直生成到底部"（同一机制的另一面）     |
+| 报告 | 状态 | 内容 |
+| -------------------------- | ----------------------------- | -------------------- |
+| [MC-263525](https://mojira.dev/MC-263525)        | 已确认 | 林地府邸会生成超高的圆石地基               |
+| [MC-125010](https://mojira.dev/MC-125010)        | 有意为之 | 下界要塞的柱子一直延伸到基岩 |
+| [MCPE-176515](https://mojira.dev/MCPE-176515) | 未确认 | 基岩版：府邸地基没有一直生成到底部（同一机制的另一面）     |
 
 对于 "给结构下方/周围添加地形"，它的语义单位是 `StructurePiece`：每个片段拿自己的包围盒去和地表混合，"结构底端"在每个片段眼里就是它自己的底面。
 
@@ -70,22 +75,17 @@ boolean shouldExclude(StructurePlacementCalculator calculator, int centerChunkX,
 像林地府邸，就是一层/一室一个片段，按Y轴向上堆叠，每层各长一块，每层都有自己的"底面"，各自垫了一层地形，于是外面看像汉堡包。
 
 
-
 #### 3. 包含硬编码的结构文件无法屏蔽
 
 实验版本：1.21.1
 
 数据包在元数据文件里使用 `filter`（包过滤器）字段排除原版数据包文件时，无法排除类型为硬编码的结构（比如要塞、海底神殿、沙漠神殿），会直接导致数据包验证失败。猜测原因是这部分结构使用的函数没有完全解耦，想屏蔽他们只能在相同路径建立相同名称的文件，写成完全不生成。但是 `locate` 命令参数里仍然会读到它们。
 
-
-
 #### 4. 部分mod直接抄了原版的生成逻辑，同样会有未解耦问题
 
 实验版本：1.21.1
 
 像灾变mod的沉沦之城这种硬编码类型结构，我发现我把它源生成的结构集写成空的后，它就无法放置了。必须在源结构集里保留它，即使它在当前存档里完全无法生成。推测也是灾变直接抄了或者引用了原版的世界生成机制，然后同样触发了未完全解耦的代码。
-
-
 
 #### 5. 结构集里的盐（密码学）
 
