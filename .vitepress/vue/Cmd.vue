@@ -5,11 +5,12 @@ const props = defineProps({
   c: { type: String, required: true }
 })
 
-const href = computed(() => `https://zh.minecraft.wiki/w/命令/${encodeURIComponent(props.c)}`)
+const command = computed(() => props.c.split(' ')[0])
+const href = computed(() => `https://zh.minecraft.wiki/w/命令/${encodeURIComponent(command.value)}`)
 </script>
 
 <template>
-  <a class="cmd-inline" :href="href" target="_blank" rel="noopener noreferrer"><code class="cmd-inline-text">/{{ c }}</code></a>
+  <a class="cmd-inline" :href="href" target="_blank" rel="noopener noreferrer"><code class="cmd-inline-text"><span class="cmd-inline-prefix">/{{ command }}</span>{{ c.slice(command.length) }}</code></a>
 </template>
 
 <style scoped>
@@ -32,6 +33,10 @@ a.cmd-inline {
 
 a.cmd-inline:hover {
   color: var(--vp-c-brand-2);
+  text-decoration: none;
+}
+
+a.cmd-inline:hover .cmd-inline-prefix {
   text-decoration: underline;
 }
 
