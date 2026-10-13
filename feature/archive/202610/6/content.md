@@ -5,13 +5,16 @@ title: 'Model-On-Datapack — 用新的 /compute 跑微型中文对话'
 <FeatureHead
   title="Model-On-Datapack — 用新的 /compute 跑微型中文对话"
   authorName="古镇天Gugle"
-  resourceLink = ../_assets/model-on-datapack.zip
 />
 
 我们在纯原版数据包中实现了一个字节级微型Transformer的真实前向推理。\
 所有矩阵乘法和计算均由26.3新增的<cmd c="compute"/>和上下文浮点数提供器完成。
 
 ## 模型
+
+::: tip 下载
+在这里[下载本文介绍的数据包](https://github.com/CR-019/datapack-index/raw/refs/heads/lib-hosting/feature/202610/model-on-datapack.zip)（[备用载点](https://gitee.com/Dahesor/server_resourcepacks/raw/lib/feature/202610/model-on-datapack.zip)）
+:::
 
 | 项 | 值 |
 |------------|---|
