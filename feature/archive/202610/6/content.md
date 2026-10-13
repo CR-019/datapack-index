@@ -5,6 +5,7 @@ title: 'Model-On-Datapack — 用新的 /compute 跑微型中文对话'
 <FeatureHead
   title="Model-On-Datapack — 用新的 /compute 跑微型中文对话"
   authorName="古镇天Gugle"
+  resourceLink = ../_assets/model-on-datapack.zip
 />
 
 我们在纯原版数据包中实现了一个字节级微型Transformer的真实前向推理。\

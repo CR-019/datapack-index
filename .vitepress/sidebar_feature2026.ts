@@ -493,8 +493,9 @@ export const sidebar_202610: DefaultTheme.Sidebar = [
   {
     text: '洞见 Insights',
     items: [
-      { text: '在世界生成方面搞点花活', link: '/feature/archive/202610/1/content' },
-      { text: '世界生成里的一些技术细节', link: '/feature/archive/202610/2/content' },
+      { text: '数值提供器的性能边界', link: '/feature/archive/202610/1/content' },
+      { text: '在世界生成方面搞点花活', link: '/feature/archive/202610/2/content' },
+      { text: '世界生成里的一些技术细节', link: '/feature/archive/202610/3/content' },
     ]
   },
   {

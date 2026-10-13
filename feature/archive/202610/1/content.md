@@ -1,455 +1,311 @@
 ---
-title: '在世界生成方面搞点花活'
+title: '数值提供器的性能边界：26.3 中数据存取与计算性能测试'
 ---
-<script setup>
-import ns from '/.vitepress/vue/nbt/namespace.vue'
-import obj from '/.vitepress/vue/nbt/object.vue'
-</script>
+
 <FeatureHead
-  title="在世界生成方面搞点花活"
-  authorName="卡儿3058"
-  cover='../_assets/1.jpg'
+  title="数值提供器的性能边界：26.3 中数据存取与计算性能测试"
+  authorName="徐木弦"
+  :extraAuthors="['小豆8593']"
+  cover="../_assets/1.png"
 />
 
+## 摘要
 
-世界生成检测不了光亮？原版草方块生成机制是什么？表面规则里可以手搓实现列表随机？众所周知：不是花活，就是狠活；想要搞点有意思的，就得硬着头皮搞硬核的。今天我们就把这个黑箱拆开看看原理。
+26.3 对数值提供器进行了大幅扩展，使其能够通过 `/compute`、`/data` 等命令参与数据传递与数值计算。NP 在功能上可以部分替代传统的记分板运算、`/random` 以及部分控制流实现，但功能上的替代关系并不意味着性能上的替代关系。本文使用小豆所开发的 Perf 1.4 数据包，在 Minecraft 26.3 环境下分别对记分板分数转存为命令存储数据以及 NP 数值计算两类场景进行性能测试。
 
-### 1.在被遮挡的表面零散放置方块
+## 1. 引言
 
-实验版本：1.21.1
+26.3 对于数据包领域是一个破坏性更改较严重的版本，其破坏主要集中于谓词系统，进而影响进度、战利品表、物品修饰器和魔咒等依赖谓词的内容。不过，26.3 并非是完全破坏性的版本，它还强化了数值提供器（下文简称 NP），使之成为可写注册表，使部分游戏行为能够被 NP 控制。
 
-假设我有这样一个多层空岛世界：
+先前 NP 只能在战利品表系统内部使用，作用范围有限；从 26.3 起，NP 提供的值可经由 `/compute`、`/data` 等命令输出到其他媒介。这意味着游戏增加了一些数据转存的手段。以分数转存为命令存储数据为例，通用的方法为
 
-![空岛概览](./%E5%9B%BE%E7%89%87/%E7%A9%BA%E5%B2%9B%E6%A6%82%E8%A7%88.jpg)
-
-下层空岛被高层空岛遮挡的地方太暗了，容易刷怪还看不清，我想在这部分区域放一些光源（图中是已放置好的效果）。
-
-众所周知，原版世界生成里并没有能检测光亮或者是否被遮挡的东西。
-
-已放置地物里有一个<obj t="environment_scan" />函数可以逐层检查，但是它最大只能检查32步。而且我们不能假设空岛最大间距有多高，因为空岛生成高度上至256下至负高度，这显然不现实。
-
-噪声设置里有一个表面规则<obj t="stone_depth" />函数，可以检测上方地表或者下方的天花板。但是实际上空岛之间的空旷区域是密度函数为负值产生的，而非"洞穴"，所以这个也用不了。
-
-那么，我是否可以换一种思路：虽然我无法检测"被遮挡"，但是我可以检测"没有被遮挡"。地物或结构可以使用"高度图"来保证它被放置在"世界的上表面"。于是，我可以先把方块满世界随机零散的铺开，然后再使用结构或地物把"没有被遮挡"的部分方块替换回去。这样留下来的方块，就是放置在了"被遮挡区域"。
-
-那么，表面规则阶段如何使用随机数呢？注意到噪声是一种随机数，把它弄得零散一些，就能当随机数用了。比如我让GPT帮我生成的这个噪声，起名叫`scattered_random`：
-
-```json
-{
-  "firstOctave": 0,
-  "amplitudes": [1.0, 1.0, 0.5]
-}
+```mcfunction
+execute store result storage ... run scoreboard players get ...
 ```
 
-若噪声值非负则放置泥土，否则放置石头，可以发现这个噪声确实很零碎：
+类型为 `score` 的 NP 可以返回分数，从 26.3 起配合 `/data ... compute` 可直接将分数传入命令存储：
 
-![零碎噪声正负值](./%E5%9B%BE%E7%89%87/%E9%9B%B6%E7%A2%8E%E5%99%AA%E5%A3%B0%E6%AD%A3%E8%B4%9F%E5%80%BC.jpg)
-
-因为噪声值通常都是集中在0附近，所以直接按自己想要的密度采样一个合适的区间，就得到了基于噪声的随机数。
-
-::: details json配置，效果是：在草方块上随机零散放置菌光体
-
-```json
-{
-  "type": "minecraft:sequence",
-  "sequence": [
-    {
-      "type": "minecraft:condition",
-      "if_true": {
-        "type": "minecraft:noise_threshold",
-        "noise": "aetherial_islands:scattered_random",
-        "max_threshold": 0.0023,
-        "min_threshold": 0
-      },
-      "then_run": {
-        "type": "minecraft:block",
-        "result_state": {
-          "Name": "minecraft:shroomlight"
-        }
-      }
-    },
-    {
-      "type": "minecraft:block",
-      "result_state": {
-        "Name": "minecraft:grass_block",
-        "Properties": {
-          "snowy": "false"
-        }
-      }
-    }
-  ]
-}
+```mcfunction
+data modify storage ... set compute default integer {score:"...",target:...,type:"minecraft:score"}
 ```
 
-:::
+随机数生成的功能也可以由 NP 实现，例如：
 
-那么，方块铺好了，该使用什么样的东西把它替换回去呢？
-
-首先我想到了结构，因为结构可以直接在结构文件里定义生成范围，不用去修改生物群系。\
-但是，原版的结构即使把最小间距设为0，平均间距设为1，依然很稀疏，而且原版有刻意的防止结构之间过近的算法，结构过密会导致世界生成很卡。\
-所以我换成了用地物。
-
-换成地物的话，首先我想到了地物的<obj t="netherrack_replace_blobs" />函数。其效果是：用一个方块替换特定半径内的所有目标方块。若放置失败，则向下移动，直到找到目标方块后再生成。
-
-但是实际上这个地物的放置方式有问题，那就是它只能检测放置点及其下方的方块是否符合替换条件，而且替换形状是一个八面体，即"用曼哈顿距离定义的球"：
-
-![八面体状替换方块](./%E5%9B%BE%E7%89%87/%E5%85%AB%E9%9D%A2%E4%BD%93%E7%8A%B6%E6%9B%BF%E6%8D%A2%E6%96%B9%E5%9D%97.jpg)
-
-那么还有其他方法吗？
-
-实际上，对于世界生成替换方块，我更推荐"disk"函数生成的圆盘：
-
-```json
-{
-    "type": "minecraft:disk",
-    "config": {
-        "half_height": （0≤值≤4）圆盘的半高,
-        "radius": （0≤值≤8）圆盘的半径,
-        "state_provider": {<圆盘使用的方块>},
-        "target": {<方块谓词，决定方块在此处是否可以放置>}
-    }
-}
+```mcfunction
+compute default integer {max:100,min:1,type:"minecraft:uniform"}
 ```
 
-圆盘可以在组成圆盘的每个方块的位置都检测一次方块谓词，可以定义多种规则，它更自由。
+像这样使用均匀分布随机数的整数提供器可以做到和 `/random` 一样的效果。除此之外，新 NP 还可以部分代替像 `execute if` 这样的控制流语句。`conditional` 类型的 NP 可以直接用于实现 if-else 语句，而 `number_dispatcher` 类型则可以实现 switch-break 效果。以往的控制流语句通常需要开发者在函数内书写一长串 `execute if`，如果将其合并到一个 NP 内，可以大幅度减小命令链长度。
 
-图：用淡绿色羊毛替换了草方块，用玻璃替换了菌光体：
+从 NP 本身功能的角度来说，新 NP 还提供了包括但不限于四则运算、绝对值、算术平方根、幂运算、三角函数在内的很多种初等运算。在 26.3 以前，用数据包实现计算通常使用的是 `scoreboard players operation`，这个模块只能用于计算整数，且涉及的运算只有四则运算、求余、赋值、取较大或较小值、交换。如果要计算浮点数，开发者会将原数据缩放一定倍率，以整数形式放到记分板中。开发者还可以使用非记分板的方式实现部分计算，例如生成展示实体，将被除数写为 `transformation` 矩阵形式主对角线上的前三个元素，除数写为最后一个元素，应用修改后 `transformation.scale` 即是除法运算的结果。引入新的 NP 之后，数据包即有了对浮点数计算、更多初等运算的直接支持，从表面上看似乎会对传统记分板运算造成不小冲击。
 
-![圆盘替换效果](./%E5%9B%BE%E7%89%87/%E5%9C%86%E7%9B%98%E6%9B%BF%E6%8D%A2%E6%95%88%E6%9E%9C.jpg)
+然而，功能上的替代关系并不意味着性能上的替代关系。NP 与记分板虽然都可以完成部分数值计算和数据传递，但二者的执行机制、数据类型以及命令调用方式并不相同。因此，对于数据包开发者而言，一个更实际的问题并不是“NP 能否实现原本由记分板完成的功能”，而是在实际使用中，什么样的任务适合交给 NP，什么样的任务仍然适合使用记分板。
 
-配置如下：
+本文主要从两个具有代表性的场景对这一问题进行测试。首先，针对数据转存这一 26.3 中较为重要的新用途，比较传统的 `execute store` 与 NP 直接获取记分板值的方式，考察 NP 是否能够在数据转存场景中替代原有的命令组合。其次，针对 NP 新增的计算能力，通过逐渐增加计算量的方式测试 NP 与传统记分板运算的执行性能，以观察计算规模对两种方案性能差异的影响。
 
-::: details 配置详情
+## 2. 实验设计
 
-```json
-{
-    "type": "minecraft:disk",
-    "config": {
-        "half_height": 4,
-        "radius": 8,
-        "state_provider": {
-            "fallback": {
-                "type": "minecraft:simple_state_provider",
-                "state": {
-                    "Name": "minecraft:lime_wool"
-                }
-            },
-            "rules": [
-                {
-                    "if_true": {
-                        "type": "matching_blocks",
-                        "blocks": ["minecraft:shroomlight"]
-                    },
-                    "then": {
-                        "type": "simple_state_provider",
-                        "state": {
-                            "Name": "minecraft:glass"
-                        }
-                    }
-                }
-            ]
-        },
-        "target": {
-            "type": "matching_blocks",
-            "blocks": [
-                "minecraft:shroomlight",
-                "minecraft:grass_block"
-            ]
-        }
-    }
-}
+本研究使用 [Perf 数据包](https://github.com/xiaodou8593/perf_1.4) 以测试性能，其版本号 1.4，开发者为 [小豆 8593](https://github.com/xiaodou8593)。实验环境如下表所示：
+
+**表 1：测试环境**
+| 变量 | 参数 |
+| --- | --- |
+| CPU | i7-14650HX |
+| GPU | GeForce RTX 4060 |
+| Java 版本 | 25.0.1 |
+| 游戏版本 | 26.3 |
+
+### 2.1 实验内容
+
+研究设计了两个实验：**记分板分数转存为命令存储数据性能实验** 和 **NP 计算性能实验**。对于前者，笔者一共设计了 12 条用于测试的命令，由于部分命令的开销过小，故每条命令在一次测试中运行 1000000 次，各自测试 10 遍。这 12 条命令为：
+
+**表 2：记分板分数转存为命令存储数据性能实验**
+| 实验组编号 | 命令 |
+| --- | --- |
+| spr | `compute default integer np_exam:get_player_score` |
+| spi | `compute default integer {score:"bench",target:"this",type:"minecraft:score"}` |
+| sp | `scoreboard players get @s bench` |
+| sspr | `data modify storage bench:test new set compute default integer np_exam:get_player_score` |
+| sspi | `data modify storage bench:test new set compute default integer {score:"bench",target:"this",type:"minecraft:score"}` |
+| ssp | `execute store result storage bench:test old int 1 run scoreboard players get @s bench` |
+| sfr | `compute default integer np_exam:get_fake_name_score` |
+| sfi | `compute default integer {score:"bench",target:{name:"#fake_name",type:"minecraft:fixed"},type:"minecraft:score"}` |
+| sf | `scoreboard players get #fake_name bench` |
+| ssfr | `data modify storage bench:test new set compute default integer np_exam:get_fake_name_score` |
+| ssfi | `data modify storage bench:test new set compute default integer {score:"bench",target:{name:"#fake_name",type:"minecraft:fixed"},type:"minecraft:score"}` |
+| ssf | `execute store result storage bench:test old int 1 run scoreboard players get #fake_name bench` |
+
+实验从三个维度综合对比了这些写法的性能：一是对比用 NP 获取分数和用 `/scoreboard` 直接获取分数这两种形式，同时还设计了内联形式和 JSON 注册项形式的对比；二是对比仅求值和将值写入 NBT 的情况；三是对比分数来源为上下文内的执行者和假名的情况。
+
+![](./image/实验维度设计.png)
+**图 1：实验维度设计**
+
+第二套实验测试了 NP 运算功能和记分板运算模块的性能，实验设置三种受试命令。第一种为传统记分板运算模块：
+
+```mcfunction
+scoreboard players operation #result bench += #add bench
 ```
 
-:::
+第二种为将多个加数直接放入同一个 NP 中的扁平 NP：
 
-若地物是用地物放置器放置的，那么游戏会在每个可生成地物的区块的西北下角作为地物的初始生成位置。\
-这样，再多叠加一些圆盘，再让每个都随机偏移一下，都放置在 `WORLD_SURFACE_WG` 高度图，这样可以替换掉大部分"没有被遮挡"的方块。
-
-虽然不算严格意义上的100%替换，也是一种很好的"蒙特卡洛式"解决方案：没有被替换掉的就当是边界条件好了，整体上可以接受。\
-缺点就是需要修改每一个会在岛屿地表生成草方块的生物群系，在它们的同一生成阶段都加上这个地物。
-
-效果预览（菌光体的放置）：
-
-![效果2](./%E5%9B%BE%E7%89%87/%E6%95%88%E6%9E%9C2.jpg)
-
-### 2.原版世界生成，地表草方块的生成原理
-
-实验版本：26.2
-
-那么，怎么在世界地表放置方块呢？或许可以参考一下原版草方块的生成方法？
-
-实际上原版并没有一个可以严格意义上保证方块放置在地表的功能（表面规则条件没有高度图）。在表面规则里，原版放置草方块有三个主要条件：
-
-```json
-{
-  "type": "minecraft:condition",
-  "if_true": {
-    "type": "minecraft:above_preliminary_surface"  //条件1
-  },
-  "then_run": {
-    "type": "minecraft:condition",
-    "if_true": {
-        "type": "minecraft:stone_depth",  //条件2
-        "offset": 0,
-        "add_surface_depth": false,
-        "secondary_depth_range": 0,
-        "surface_type": "floor"
-    },
-    "then_run": {
-        "type": "minecraft:condition",
-        "if_true": {
-            "type": "minecraft:water",  //条件3
-            "offset": 0,
-            "add_stone_depth": false,
-            "surface_depth_multiplier": 0
-        },
-        "then_run": {
-            "type": "minecraft:block",
-            "result_state": {
-                "Name": "minecraft:grass_block"
-            }
-        }
-    }
-  }
-}
+```mcfunction
+compute default integer {inputs:[1,1,1],type:"minecraft:add"}
 ```
 
-核心就是<ns t="minecraft:above_preliminary_surface"/>函数，其功能是：检查当前位置是否高于初步地表高度。初步地表高度由噪声设置<nbt :i='["d","str","object"]' t='noise_router.preliminary_surface_level'/>产生的地表高度插值后，向下偏移8格，再加上表面厚度后的值。其中表面厚度基于噪声<ns t="minecraft:surface"/>计算而来。
+第三种为通过 NP 嵌套实现连续计算的嵌套 NP：
 
-也就是说，初步地表是由密度函数计算而来的，然后由于噪声的不确定性，偏移8格是作为一个合适余量设置的，就是"宁要放在地下，也不要漏放了地表"。然后再检查这个位置"是否是地板"，然后检查是不是水下，就可以放置了。其他的就是针对各生物群系的修修补补了。
-
-由于<obj t="stone_depth"/>函数是把洞穴底部和世界表面都作为"地板"来返回的，因此就能看到如下情况：
-
-![洞穴里的草方块](./%E5%9B%BE%E7%89%87/%E6%B4%9E%E7%A9%B4%E9%87%8C%E7%9A%84%E8%8D%89%E6%96%B9%E5%9D%97.jpg)
-
-像这样放置在地下的草方块或地表没有成功放置草方块的情况，就是"合理的边界情况"了。因为要严格意义上扫描地表比较耗算力，这种是直接借用了已有结果组合而来的，算是一种省性能的方案。
-
-### 3.世界各处零散生成随机方块
-
-实验版本：26.2
-
-此效果的相关数据包：https://github.com/kaer-3058/gold_in_wilderness_mcdatapack
-
-设计灵感来源于这个视频：
-
-[【Minecraft】当《我的世界》每一层都是随机方块，能通关吗？！-哔哩哔哩](https://b23.tv/fNgpJPV)
-
-那么随机来源是什么呢？当然还是噪声。然后发现由于噪声不能缓存，因此每一层随机貌似做不了，但是可以试试每个位置随机。
-
-**1**. 让gpt设计了一个很零碎的噪声，这样采样可以足够随机。便是上文那个"scattered_random"噪声。
-
-**2**. 让gpt对噪声采样，得到噪声的主体的值分布区间。
-
-![GPT采样噪声分布区间](./%E5%9B%BE%E7%89%87/GPT%E9%87%87%E6%A0%B7%E5%99%AA%E5%A3%B0%E5%88%86%E5%B8%83%E5%8C%BA%E9%97%B4.jpg)
-
-实际上这个值还是略微保守，这是按置信率98%计算的，可以更大一点。
-
-**3**. 让gpt写了个Python脚本从官网获取方块id。
-
-::: details Python内容
-
-```python
-"""Export vanilla Minecraft block IDs for a selected Java Edition version.
-
-The program uses Mojang's official version manifest and client JAR files.
-It needs only Python's standard library and writes one ID per line as:
-["minecraft:stone"]
-"""
-
-from __future__ import annotations
-
-import json
-import re
-import sys
-import urllib.error
-import urllib.request
-import zipfile
-from pathlib import Path
-
-
-MANIFEST_URL = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
-VERSION_PATTERN = re.compile(r"^[0-9]+(?:\.[0-9]+)*(?:[-+][0-9A-Za-z.-]+)?$")
-BLOCKSTATE_PATTERN = re.compile(r"^assets/minecraft/blockstates/([^/]+)\.json$")
-
-
-def download_json(url: str) -> dict:
-    request = urllib.request.Request(
-        url,
-        headers={"User-Agent": "minecraft-block-id-exporter/1.0"},
-    )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return json.load(response)
-
-
-def get_client_url(version: str) -> str:
-    manifest = download_json(MANIFEST_URL)
-    for version_entry in manifest.get("versions", []):
-        if version_entry.get("id") == version:
-            version_metadata = download_json(version_entry["url"])
-            return version_metadata["downloads"]["client"]["url"]
-    raise ValueError(
-        f"找不到版本 {version!r}。请确认这是 Minecraft Java Edition 的有效版本号。"
-    )
-
-
-def get_block_ids(client_jar: Path) -> list[str]:
-    with zipfile.ZipFile(client_jar) as archive:
-        block_ids = {
-            match.group(1)
-            for file_name in archive.namelist()
-            if (match := BLOCKSTATE_PATTERN.match(file_name))
-        }
-    return [f"minecraft:{name}" for name in sorted(block_ids)]
-
-
-def download_client(version: str, target: Path) -> None:
-    url = get_client_url(version)
-    request = urllib.request.Request(
-        url,
-        headers={"User-Agent": "minecraft-block-id-exporter/1.0"},
-    )
-    with urllib.request.urlopen(request, timeout=120) as response:
-        target.write_bytes(response.read())
-
-
-def main() -> int:
-    version = sys.argv[1].strip() if len(sys.argv) > 1 else input(
-        "请输入 Minecraft Java 版本号（例如 1.20.1）："
-    ).strip()
-
-    if not VERSION_PATTERN.fullmatch(version):
-        print("版本号格式不正确，例如：1.20.1 或 1.21", file=sys.stderr)
-        return 2
-
-    output_path = Path.cwd() / f"minecraft_{version}_block_ids.txt"
-    cache_dir = Path.cwd() / ".minecraft_block_id_cache"
-    client_jar = cache_dir / f"client-{version}.jar"
-
-    try:
-        cache_dir.mkdir(exist_ok=True)
-        if not client_jar.exists():
-            print(f"正在从 Mojang 官方服务器下载 {version} 客户端...")
-            download_client(version, client_jar)
-
-        block_ids = get_block_ids(client_jar)
-        if not block_ids:
-            raise ValueError("客户端 JAR 中没有找到方块状态文件，可能不是受支持的版本。")
-
-        output_path.write_text(
-            "\n".join(f'["{block_id}"]' for block_id in block_ids) + "\n",
-            encoding="utf-8",
-        )
-    except (urllib.error.URLError, urllib.error.HTTPError, KeyError, ValueError, zipfile.BadZipFile) as error:
-        print(f"处理失败：{error}", file=sys.stderr)
-        if client_jar.exists() and client_jar.stat().st_size == 0:
-            client_jar.unlink()
-        return 1
-
-    print(f"已输出 {len(block_ids)} 个方块 ID：{output_path}")
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+```mcfunction
+compute default integer {inputs:[1,{inputs:[1,1],type:"minecraft:add"}],type:"minecraft:add"}
 ```
 
-:::
+三种方案均用于实现连续加法，区别在于计算过程的组织方式。记分板方案通过多次执行 `scoreboard players operation` 完成连续运算；扁平 NP 将多个操作数置于同一个 add 提供器中；嵌套 NP 则通过提供器之间的嵌套关系构造计算树。
 
-但这个列表有点问题，例如展示框id也在列表里。
+实验的自变量为计算深度，即连续加法中包含的运算层数。为便于定义，设最基本的 $1+1$ 为 1 层计算，则 $1+1+1$ 为 2 层，$1+1+1+1$ 为 3 层，以此类推。换言之，若表达式包含 $(n+1)$ 个 1，则其计算深度为 $n$。
 
-**4**. 图：噪声值的分布的MC版可视化
+实验测试计算深度 1 ~ 10。对于每一个计算深度，均构造具有相同数学结果的计算任务，并分别采用上述三种方式执行，从而比较在计算量逐渐增加的情况下三种实现方式的性能变化。每种各测试 1000000 次。
 
-![零碎噪声的值的分布可视化](./%E5%9B%BE%E7%89%87/%E9%9B%B6%E7%A2%8E%E5%99%AA%E5%A3%B0%E7%9A%84%E5%80%BC%E7%9A%84%E5%88%86%E5%B8%83%E5%8F%AF%E8%A7%86%E5%8C%96.jpg)
+### 2.2 实验过程
 
-按照非保守理论区间，即按`[-1,1]`为基底估计的噪声分布区间（minecraft内部是按照保守的[-2,2]计算），然后把这个区间正值部分按五段均分，从0到区间边缘的着色为：黑色、棕色、灰色、淡灰色、白色，基底是砂岩。\
-负值部分按绝对值划分，与正值部分相同着色。
+[Perf 数据包](https://github.com/xiaodou8593/perf_1.4) 允许用户在自己的数据包内测试性能，测试在专用数据包内的命名空间 `np_exam` 下进行。在该命名空间内的 `function` 文件夹下按住 Shift 点鼠标右键，运行 Powershell，执行 `pip3 install mcf-mot`。以上为初次执行前安装数据包的步骤，若已安装完成，则只需要在命名空间 `function` 文件夹下运行 Powershell。
 
-可以看出，**minecraft噪声的值的分布不是均匀分布**，是一个较多值趋近于0附近的分布，可以近似为正态分布。
+以 spr 实验组为例，接下来依次执行：
 
-于是，假设噪声值服从正态分布，然后对其按照概率密度拆分区间，拆分数等于方块随机列表长度，这样一段噪声区间可以对应一种方块。
+```
+mot
+push perf_folder
+run
+creisp spr/_start*
+stop
+pop
+```
 
-以下是一段比较无聊的数学计算：
+至此 `function` 文件夹内会出现以下结构：
 
-::: details 数学计算
+<div class="nbttree">
 
-取正态分布的CDF（累计分布函数）为 $F(x)$ ，其反函数为 $F^{-1}(x)$ 。
+📂 function
+- 📂 spr
+  - 📄 _print.mcfunction
+  - 📄 _start.mcfunction
+  - 📄 loop.mcfunction
 
-设采样区间为 $[a,b]$ ，按正态分布近似。均值：
+</div>
 
-$$
-\mu=\frac{1}{n}
-$$
+将 `data\np_exam\function\spr\_start.mcfunction` 的内容修改为：
 
-标准差：
+```mcfunction
+#np_exam:spr/_start
+# 开始模板测试
 
-$$
-\sigma=\frac{b-a}{2F^{-1}\left(1-\frac{1}{n}\right)}
-$$
+# 设置为文件夹名
+data modify storage perf:io testing set value "np_exam:spr"
 
-则每个区间的分界值为：
+# 设置测试环境(例如在这里设置实体数量)
+scoreboard players set @a bench 1
+tag @e remove test_as_entity
+tag Mu_xian add test_as_entity
 
-$$
-b_k=\mu+\sigma \cdot F^{-1}\left(\mu+\frac{\left(1-\frac{2}{n} \right)k}{n} \right)
-$$
+# 设置开始测试延后时间(防止上一步消耗过大使tps波动)
+scoreboard players set perf_start int 10
 
-正态分布的PDF（概率密度函数）为：
+# 设置测试次数(测试多少个tick)
+scoreboard players set perf_cnt int 10
 
-$$
-\frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
-$$
+# 设置单次测试递归次数(值必须整除10000000)
+scoreboard players set perf_n int 1000000
+```
 
-有高斯误差函数，定义为：
+`data\np_exam\function\spr\loop.mcfunction` 的内容修改为：
 
-$$
-\mathrm{erf}(x)=\frac{2}{\sqrt{\pi}}\int_0^x{e^{-t^2}\,\mathrm{d}t}
-$$
+```mcfunction
+#np_exam:spr/loop
 
-因此正态分布的CDF为：
+# 在这里写测试命令
+compute default integer np_exam:get_player_score
 
-$$
-F(x)=\frac{1}{2}\left(1+\mathrm{erf}\left(\frac{x-\mu}{\sigma \sqrt{2}} \right) \right)
-$$
+scoreboard players remove perf_loop int 1
+execute if score perf_loop int matches 1.. run function np_exam:spr/loop
+```
 
-于是就有：
+以相同方式创建记分板分数转存为命令存储数据性能实验的其他 11 个受试命令，然后在 Powershell 内依次执行：
 
-$$
-F^{-1}(x)=\mu+\sigma \sqrt{2}\,\mathrm{erf}^{-1}(2x-1)
-$$
+```
+push perf_cfolder
+run
+creisp scoreboard_get/_start*
+stop
+pop
+```
 
-有逆误差函数的近似公式：
+对于新增的函数 `data\np_exam\function\scoreboard_get\_start.mcfunction`，将其内容修改为：
 
-$$
-\mathrm{erf}^{-1}\left( x \right) \approx \mathrm{sgn} \left( x \right) \cdot \sqrt{\sqrt{\left( \frac{2}{\pi a}+\frac{\ln \left( 1-x^2 \right)}{2} \right) ^2-\frac{\ln \left( 1-x^2 \right)}{a}}-\left( \frac{2}{\pi a}+\frac{\ln \left( 1-x^2 \right)}{2} \right)}
-$$
+```mcfunction
+#np_exam:scoreboard_get/_start
+# 添加测试项目
 
-常数a的一个较好的取值是0.147。
+data modify storage perf:io afk prepend value "np_exam:ssf"
+data modify storage perf:io afk prepend value "np_exam:ssfi"
+data modify storage perf:io afk prepend value "np_exam:ssfr"
+data modify storage perf:io afk prepend value "np_exam:sf"
+data modify storage perf:io afk prepend value "np_exam:sfi"
+data modify storage perf:io afk prepend value "np_exam:sfr"
+data modify storage perf:io afk prepend value "np_exam:ssp"
+data modify storage perf:io afk prepend value "np_exam:sspi"
+data modify storage perf:io afk prepend value "np_exam:sspr"
+data modify storage perf:io afk prepend value "np_exam:sp"
+data modify storage perf:io afk prepend value "np_exam:spi"
+data modify storage perf:io afk prepend value "np_exam:spr"
+data modify storage perf:io afk prepend value "powerload"
+```
 
-公式来源：https://en.wikipedia.org/wiki/Error_function#Approximation_with_elementary_functions
+以包含这套实验的所有内容。
 
-于是便可以计算采样区间分界值 $b_k$ 了。
+接下来在游戏中初始化：`function perf:_init` 以准备必要的执行环境，随后执行 `function np_exam:scoreboard_get/_start`，即可开始实验，由于实验设置了重复进行 10 次，因此该命令在一次实验结束后会反复执行。
 
-问题来了，计算标准差时需要分布函数的逆函数，而计算分布函数的逆函数需要方差，这不自相矛盾吗？实际上，我计算方差时使用的是标准正态分布的分布函数的逆函数，即：
+![](./image/实验画面.png)
+**图 2：实验画面**
 
-$$
-\sqrt{2}\,\mathrm{erf}^{-1}(2x-1)
-$$
+## 3. 结果分析
 
-:::
+### 3.1 记分板分数转存为命令存储数据性能实验
 
-**5**. 然后计算得到这些区间分界值，就得到了随机表。
+首先将数据按 10 次重复测试汇总并查看各方案的平均执行时间，结果列于下表：
 
-![mma计算得到的分界值](./%E5%9B%BE%E7%89%87/mma%E8%AE%A1%E7%AE%97%E5%BE%97%E5%88%B0%E7%9A%84%E5%88%86%E7%95%8C%E5%80%BC.jpg)
+**表 3：记分板分数转存为命令存储数据性能实验**
 
-**6**. 我直接在噪声设置的表面规则里塞了一整个随机表。
+| 实验 | 平均执行时间（ms） | 相对性能 |
+| --- | --- | --- |
+| spr | 502.7 | 1.829 |
+| spi | 499.1 | 1.803 |
+| sp | 358.7 | 0.762 |
+| sspr | 923.3 | 4.945 |
+| sspi | 943.8 | 5.099 |
+| ssp | 563.3 | 2.279 |
+| sfr | 515.3 | 1.922 |
+| sfi | 509.0 | 1.875 |
+| sf | 347.2 | 0.677 |
+| ssfr | 919.4 | 4.916 |
+| ssfi | 927.9 | 4.98 |
+| ssf | 535.1 | 2.068 |
 
-![json里的随机表](./%E5%9B%BE%E7%89%87/json%E9%87%8C%E7%9A%84%E9%9A%8F%E6%9C%BA%E8%A1%A8.jpg)
+![](./image/不同数据转存方案的平均执行时间.png)
+**图 3：不同数据转存方案的平均执行时间**
 
-综上，零碎噪声+正态分布近似+按概率密度分配噪声值区间，就得到了近似于均匀分布的随机数。这样就做到了在表面规则里手搓列表随机。
+以执行者为例，在仅获取记分板分数、而不进行后续数据存储的情况下，传统的 `scoreboard players get` 平均执行时间为 358.7，而内联和注册项 NP 实现分别为 502.7 和 499.1，约为前者的 1.40 倍和 1.39 倍。由此可见，即使三者完成的任务基本相同，NP 在这一场景下仍具有更高的执行开销。内联和注册项 NP 实现之间的差异较小，说明在本测试中，将 `score` 提供器写成独立注册项或直接使用内联 `score` 提供器，并未产生数量级上的性能差异。
 
-理论上应该还有更好的近似方法，然而我概率论实际上也是浅学的。鉴于真的使用数理统计方法去严格检验噪声的分布的工作量较大，所以这方面工作如果有读者感兴趣可以来完善一下。
+当进一步将结果写入命令存储时，两种方案之间的性能差距进一步扩大。传统 `execute store` 方案平均执行时间为 563.3，而使用 NP 的两种方案分别为 923.3 和 943.8，约为传统方案的 1.64 倍和 1.68 倍。这一结果说明，在本实验条件下，使用 `data ... set compute` 直接完成分数到命令存储的转存，并没有表现出相对于传统 `execute store` 方案的性能优势。
 
-**7**. 最后，如果直接在世界上每个位置生成，因为方块实体和不完整方块太多，会非常卡。因此我采用了基于对噪声采样的随机零散生成。
+为进一步考察分数持有者对结果的影响，实验还测试了作为假名的记分板目标。写入 NBT 时，两种 NP 方案的平均执行时间分别为 919.4 和 927.9，二者差异约为 0.9%。与前述结果相似，改变分数持有者的指定方式并未导致明显的性能变化。因此，本实验中观察到的 NP 与传统记分板方案之间的性能差异，不能简单归因于执行者与固定名称目标之间的差异。
 
-效果预览（随机方块的放置）：
+上述数据描述的都是测试过程中的绝对耗时，为使性能测试结果更具有参考价值，需要将原始结果换算为相对耗时。[Perf 数据包](https://github.com/xiaodou8593/perf_1.4) 使用的参考基准为 `scoreboard players add`，计算公式是
 
-![效果1](./%E5%9B%BE%E7%89%87/%E6%95%88%E6%9E%9C1.jpg)
+$$ \mathrm{this.scb\_add} = \cfrac{\mathrm{this.avg} - \mathrm{base.avg}}{ \mathrm{scb\_add.avg} - \mathrm{base.avg}} $$
+
+根据该式，所有受试命令的性能都可以表示为相对于 `scoreboard players add` 的性能，即社区中常用的表述“一条命令相当于多少条 `scoreboard`”。显然相对条数越多，性能越差；反之则越好。12 条受试命令的相对性能具体结果可见表 3 的第 3 列，条形图见图 4。
+
+![](./image/受试命令相对于scoreboard%20add的性能.png)
+**图 4：受试命令相对于scoreboard add的性能**
+
+NP 的直接数据转存能力在功能上减少了命令数量，但在本实验中没有带来性能优势。从图 4 可以很明显看到，在相同变量中，两种 NP 实现的相对性能均比 `/scoreboard` 差。从仅求值而言，spr 和 spi 组的高度均大于对照的 sp，若加上存入 NBT 的操作，sspr 和 sspi 的高度同样大于 ssp。
+
+### 3.2 NP 计算性能实验
+
+![](./image/计算深度对不同计算方案执行时间的影响.png)
+**图 5：计算深度对不同计算方案执行时间的影响**
+
+图 5 展示了三种计算方式在不同计算深度下的平均执行时间。其中每个数据点表示 1000000 次重复执行的平均耗时，其上下包络的浅色区域表示数据波动的程度，上界为测试中的最大耗时，下界表示最小耗时。可见记分板的耗时随着计算深度近似线性增长；扁平 NP 的耗时基本保持在一个相对稳定的范围内；嵌套 NP 则介于二者之间，但随着嵌套层数增加，后段出现明显增长。
+
+同样将耗时转换为归一化的相对性能，并绘制其趋势线，结果如图 6 所示：
+
+![](./image/计算实验归一化性能趋势.png)
+**图 6：计算实验归一化性能趋势**
+
+传统记分板运算的执行时间随计算深度增加而持续增长。计算深度由 1 增加至 10 时，平均执行时间由 506 增加至 1735，增加约 2.43 倍。除个别测试波动外，其增长趋势近似线性。其原因是显然的：每加一次计算，就要增加一条 `/scoreboard` 命令，实验结果和理论很吻合。
+
+与记分板方案不同，扁平 NP 的执行时间并未随着计算深度增加而持续增长。计算深度由 1 增加至 10 后，其平均执行时间仍主要分布在 600 ~ 700 的范围内，仅存在一定的测试波动。这是因为扁平 NP 将增加的加法操作作为同一个 add 提供器的输入，而不是将每一次加法分别转化为一次 `/compute` 命令调用。因而，随着输入操作数增加，外部命令调用次数并没有同步增加。
+
+在上一个实验中，NP 的性能均劣于记分板，但在本实验环境下，记分板与 NP 的性能关系在计算深度由 1 增加至 2 时发生反转。深度 1 时两种 NP 方案均慢于记分板，而深度 2 及以上时，扁平 NP 的平均执行时间开始低于记分板。该深度不应视为普遍适用的性能临界值，但说明随着计算量增加，NP 的固定调用开销能够被更多计算任务摊薄。
+
+嵌套 NP 的结果与扁平 NP 不同，其执行时间随深度增加的数据表现出更明显的噪声，并在较高计算深度下呈现增长趋势。深度 7 ~ 10 时，平均执行时间由 678 增加至 851。这说明 NP 的性能优势并不单纯取决于“计算量”，还与计算任务在 NP 中的组织方式有关。扁平 NP 将多个操作数置于同一个提供器中，可以在一次调用中完成整个加法；嵌套 NP 则需要逐层解析和计算嵌套的提供器结构，因此随着嵌套层数增加，其结构处理开销可能逐渐显现。因此，本实验显示出明显不同的扩展特征：记分板的执行时间主要随命令数量增长，扁平 NP 则能够在单次 NP 调用中容纳更多计算，而嵌套 NP 的性能则受到嵌套结构增加的影响。
+
+## 4. 思考与展望
+
+本文的实验结果表明，26.3 对 NP 的强化并不意味着其能够在所有场景下取代传统的记分板运算。NP 的性能特点与其功能特点并不完全一致：虽然 NP 能够减小命令链长度，并提供比记分板更加丰富的数值计算能力，但在简单的数据获取与数据转存任务中，NP 的执行开销反而明显高于传统方法。因此，对于 NP 而言，数据的存取本身可能是其性能上的主要瓶颈之一。
+
+这一点在本文的第一组实验中表现得较为明显。当任务仅涉及从记分板获取一个数值，或者将记分板中的数值转存至命令存储时，基于 NP 的方案均没有表现出性能优势。尤其是在记分板分数转存为命令存储数据性能实验中，NP 虽然可以通过 `data ... set compute` 将数据直接写入目标位置，从命令结构上省去了传统 `execute store` 所需的中间过程，但这种命令数量上的简化并没有转化为执行时间上的优势。这说明在评价 NP 时，不能仅以“能够用更少的命令实现相同功能”作为性能优劣的依据。
+
+相比之下，NP 计算性能实验体现出了 NP 在计算密集型任务中的另一面。传统记分板方案需要将每一次加法作为独立的 `scoreboard players operation` 执行，因此随着计算深度增加，执行时间近似持续增长。而将多个运算组织到同一个 NP 中之后，可以在一次 compute 调用中完成更多计算，外部命令调用次数不会随计算量同步增加。因此，NP 的固定开销能够随着计算量增加而被逐渐摊薄。在本实验条件下，简单计算时记分板仍具有性能优势，但随着计算任务变得更加密集，NP 开始表现出更明显的性能潜力。
+
+由此可以将本文得到的 NP 性能特征概括为：NP 的优势并不主要来自更高效的数据存取，而来自将计算过程聚合到一次调用中的能力。**对于单次、简单的数值操作，传统记分板可能仍然是更合适的实现方式；而对于包含大量连续运算、能够将较多计算过程组织在一个 NP 中的任务，NP 则更有可能发挥其性能优势。** 因此，26.3 中 NP 的强化更适合被理解为对数据包计算工具箱的扩展，而不是对传统记分板运算的简单替代。同时，NP 的更新并没有扩张数据包的能力边界，因为 NP 现在提供的计算放在以前也可以实现，社区更是诞生了功能完善的数学库。不得不否认的是，以前需要数据包作者自己搭建一整套数学计算基础设施，现在游戏本身提供了直接的数值计算接口，这确实是利好开发者的。
+
+不过，本文的实验仍然具有明显的局限性。本文主要考察了整数分数获取、分数转存以及加法运算，并以不同计算深度作为主要变量；实验结果不能直接推广到所有 NP 类型和所有数据包场景。例如，不同数学运算的实现开销可能存在差异，浮点数运算、随机数生成、三角函数、条件分支以及 `number_dispatcher` 等 NP 的性能特征仍有待进一步研究。同时，NP 的嵌套方式、输入数量、数据类型、不同目标媒介之间的数据传递，以及不同复杂度的 NP 组合，也可能对最终性能产生影响。
+
+此外，本文只测试了单一计算机环境与特定游戏版本下的表现。Minecraft 的实现细节、Java 版本、运行环境以及未来版本对 NP 内部实现的调整，都可能导致实际性能发生变化。因此，本文的测试结果更适合用于揭示 NP 性能的基本趋势，**仅作参考使用**，而不应被视为适用于所有环境的固定性能参数。
+
+作为目前针对 26.3 数值提供器性能的初步测试，本文更希望建立一个后续研究的起点，而非给出 NP 性能的最终结论。未来可以进一步针对不同 NP 类型建立更加完整的基准测试体系，例如分别研究数据存取开销、单次运算开销、嵌套开销、不同运算类型的开销以及不同计算规模下的扩展规律，并进一步比较 NP 与记分板、`/random`、`/execute` 等传统数据包技术在不同任务中的性能差异。随着测试场景的扩展，也许能够进一步回答一个更具体的问题：对于一个给定的数据包任务，应当在什么样的计算规模与数据流结构下选择 NP，而在什么情况下继续使用传统方法。
+
+## 作者声明
+
+徐木弦：实验、计算、绘图、文章撰写。
+
+小豆 8593：提供测试数据包。
+
+## 利益冲突声明
+
+笔者声明，他们没有已知的可能影响本文所报告工作的竞争性经济利益或个人关系。
+
+## 参考文献
+
+[1] [Alumopper. 香草快讯 - Mojang Spotlight - 2026年09月[J/OL]. Feature, 2026, 9(2).](https://cr-019.github.io/datapack-index/feature/archive/202609/spotlight/content.html)
+
+[2] [Doom_Decapitator. 数据包和命令入门学习-初学者如何快速适应[J/OL]. Feature, 2025, 5(1).](https://cr-019.github.io/datapack-index/feature/archive/202505/4/content.html)
+
+[3] [伊桑桑桑桑桑. 从宏到 NBT：Minecraft 26.3数据包性能实测[J/OL]. Feature, 2026, 9(2).](https://cr-019.github.io/datapack-index/feature/archive/202609/0/content.html)
+
+[4] [小豆8593. VVE3 引擎教程——自定义物理小车[J/OL]. Feature, 2026, 8(2).](https://cr-019.github.io/datapack-index/feature/archive/202608/0/content.html)
+
+[5] [Dahesor. 数据包优化原则以及分析方式简述[J/OL]. Feature, 2025, 4(1).](https://cr-019.github.io/datapack-index/feature/archive/202504/3/content.html)
+
+[6] [我吃大白菜. 一条命令值多少钱：原版数据包性能优化的源码级参考[J/OL]. Feature, 2026, 8(2).](https://cr-019.github.io/datapack-index/feature/archive/202608/2/content.html)
+
+[7] [小豆8593. 《MOT 无人机实例教程》摘要[J/OL]. Feature, 2025, 10(1).](https://cr-019.github.io/datapack-index/feature/archive/202510/0/content.html)

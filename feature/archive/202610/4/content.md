@@ -10,6 +10,7 @@ import obj from '/.vitepress/vue/nbt/object.vue'
 <FeatureHead
   title="Tess：快速搭建自定义容器的数据包工具"
   authorName="Genkihuh"
+  resourceLink = ../_assets/Tess示例文件.zip
 />
 
 ## 前言
