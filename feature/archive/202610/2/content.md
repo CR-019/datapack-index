@@ -8,7 +8,7 @@ import obj from '/.vitepress/vue/nbt/object.vue'
 <FeatureHead
   title="在世界生成方面搞点花活"
   authorName="卡儿3058"
-  cover='../_assets/1.jpg'
+  cover='../_assets/2.jpg'
 />
 
 

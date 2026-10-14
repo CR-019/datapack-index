@@ -476,7 +476,7 @@ export const sidebar_202610: DefaultTheme.Sidebar = [
   },
   {
     text: '封二',
-    link: '/feature/archive/202609/ifc/content'
+    link: '/feature/archive/202610/ifc/content'
   },
   {
     text: '精选 Featured',
