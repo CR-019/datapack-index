@@ -249,6 +249,19 @@ dispatch minecraft:storage["tut:example"] to struct{
 ```
 如果必选项不存在，大憨批会报错。
 
+## 特殊键名
+
+在mcdoc中，键名的标准十分严格，比如必须使用字母，开头不能有下划线，不能使用关键字，不能使用`.`等等。\
+如果需要使用这些特殊键名，需要使用引号包围，类似
+```mcdoc
+struct Example{
+    "any": any,
+    "string": string,
+    "__illegal": any,
+    "整点薯条": any,
+}
+```
+
 ## 数值范围
 
 所有的数值类型，字符串和列表都可以在后面加一个`@ <value>`或`@ <min>..<max>`来限制值的范围。\
