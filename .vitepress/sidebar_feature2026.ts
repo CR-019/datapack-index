@@ -424,6 +424,7 @@ export const sidebar_202609: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202609' },
       { text: '上一刊', link: '/feature/index/202608' },
+      { text: '下一刊', link: '/feature/index/202610' },
     ]
   },
   {
@@ -452,6 +453,57 @@ export const sidebar_202609: DefaultTheme.Sidebar = [
       { text: '全实体“乘骑座位高度”探究', link: '/feature/archive/202609/6/content' },
       { text: '浅谈原版地图常见的一些问题', link: '/feature/archive/202609/7/content' },
       { text: '从宏到 NBT：Minecraft 26.3数据包性能实测', link: '/feature/archive/202609/0/content' }
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+
+export const sidebar_202610: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.10',
+    items: [
+      { text: '目录', link: '/feature/index/202610' },
+      { text: '上一刊', link: '/feature/index/202609' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202610/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '大憨批之mcdoc进阶', link: '/feature/archive/202610/0/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Mojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年10月', link: '/feature/archive/202610/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '数值提供器的性能边界', link: '/feature/archive/202610/1/content' },
+      { text: '在世界生成方面搞点花活', link: '/feature/archive/202610/2/content' },
+      { text: '世界生成里的一些技术细节', link: '/feature/archive/202610/3/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: 'Tess：快速搭建自定义容器的数据包工具', link: '/feature/archive/202610/4/content' },
+      { text: '运输矿车GUI', link: '/feature/archive/202610/5/content' },
+      { text: 'Model-On-Datapack — 用新/compute跑微型中文对话', link: '/feature/archive/202610/6/content' },
     ]
   },
   {
