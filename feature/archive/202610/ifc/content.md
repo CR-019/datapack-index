@@ -15,19 +15,19 @@ const { isDark } = useData()
 ## 命令快闪 Command Flashlight
 
 
-> 几小时前，我偶然发现了一个可能对你们很多人都很有用的技巧： **如果另一个数据包存在，就禁用某些资源使其不包含在某个标签中，但如果它不存在，也不会破坏整个标签。**  
->假设你有一个函数标签，你希望它当且仅当某个数据包不存在时，在 #tick 下运行。  
-#tick：  
+> 几小时前，我偶然发现了一个可能对你们很多人都很有用的技巧： **如果另一个数据包存在，就禁用某些资源使其不包含在某个标签中，但如果它不存在，也不会破坏整个标签。**
+>假设你有一个函数标签，你希望它当且仅当某个数据包不存在时，在 #tick 下运行。
+#tick：
 ```json
-{ "values": [ { "id": "#ns:conditional_tick", "required": false } ] } 
-```  
+{ "values": [ { "id": "#ns:conditional_tick", "required": false } ] }
+```
 
-#ns:conditional_tick：  
+#ns:conditional_tick：
 ```json
-{ "values": [ "foo:bar1" "foo:bar2" ... "ns:conditional_tags/tick/<pack_name>" <- 这才是酷的地方 ] } 
-```  
+{ "values": [ "foo:bar1" "foo:bar2" ... "ns:conditional_tags/tick/<pack_name>" <- 这才是酷的地方 ] }
+```
 
-你可以在各个依赖数据包中，在指定路径（ns:conditional_tags/tick/<pack_name>）放置一个空资源，<pack_name> 使用它们各自的名称或标识符。  
+你可以在各个依赖数据包中，在指定路径（ns:conditional_tags/tick/<pack_name>）放置一个空资源，<pack_name> 使用它们各自的名称或标识符。
 然后，只需在控制数据包中过滤 `ns:conditional_tags` 的路径，所有资源就会从 #tick 标签中移除，而不会破坏其他数据包。
 
 
