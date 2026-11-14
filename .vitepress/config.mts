@@ -43,6 +43,7 @@ import{
     sidebar_202608,
     sidebar_202609,
     sidebar_202610,
+    sidebar_202611,
 }from "./sidebar_feature2026"
 import { sidebar_en } from "./sidebar_en"
 
@@ -298,6 +299,7 @@ export default defineConfig({
             "/feature/archive/202608": sidebar_202608,
             "/feature/archive/202609": sidebar_202609,
             "/feature/archive/202610": sidebar_202610,
+            "/feature/archive/202611": sidebar_202611,
             "/feature/": sidebar_feature,
         },
 

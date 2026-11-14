@@ -472,6 +472,7 @@ export const sidebar_202610: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202610' },
       { text: '上一刊', link: '/feature/index/202609' },
+      { text: '下一刊', link: '/feature/index/202611' },
     ]
   },
   {
@@ -504,6 +505,57 @@ export const sidebar_202610: DefaultTheme.Sidebar = [
       { text: 'Tess：快速搭建自定义容器的数据包工具', link: '/feature/archive/202610/4/content' },
       { text: '运输矿车GUI', link: '/feature/archive/202610/5/content' },
       { text: 'Model-On-Datapack — 用新/compute跑微型中文对话', link: '/feature/archive/202610/6/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202611: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.11',
+    items: [
+      { text: '目录', link: '/feature/index/202611' },
+      { text: '上一刊', link: '/feature/index/202610' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202611/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: 'MCFPP：面向 Minecraft 数据包的高级编程语言', link: '/feature/archive/202611/0/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Mojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年11月', link: '/feature/archive/202611/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: 'Minecraft 中的像素通信与刚体模拟', link: '/feature/archive/202611/1/content' },
+      { text: '用数据包造一台街机：多实例架构', link: '/feature/archive/202611/2/content' },
+      { text: '基于 stopwatch 实现任务动态预算控制', link: '/feature/archive/202611/3/content' },
+      { text: '从锄头到甘蔗催熟剂：block_transformer 还能这么玩？', link: '/feature/archive/202611/4/content' },
+      { text: '基础篇 - 帧缓冲', link: '/feature/archive/202611/5/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: 'Fimel Card：把桌游聚会搬进 Minecraft', link: '/feature/archive/202611/6/content' },
+      { text: 'Simple Replay：数据包玩家回放系统', link: '/feature/archive/202611/7/content' },
     ]
   },
   {
