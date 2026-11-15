@@ -6,8 +6,8 @@ pageClass: h2-no-border
 <script setup>
 import { useData } from 'vitepress'
 const { isDark } = useData()
-// 确认本期 Discussion 编号后填写；目录、封二与 Spotlight 共用。
-const discussionNumber = ''
+// 本期目录与封二共用讨论 #105。
+const discussionNumber = '105'
 </script>
 
 # 封二

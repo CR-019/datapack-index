@@ -42,7 +42,7 @@ description: 整理香草图书馆《Feature》月刊的新一期文稿，沿用
 - `feature/index/YYYYMM.md`：`JournalHead`、栏目与 `IndexCompatible` 卡片。index 页封面使用仓库已有占位图，必要时复制到当期 `_asset/` 并镜像到 public；不要自行设计封面或借用旧刊正式封面。编辑名单未提供时传空数组，避免组件默认的虚构名字。
 - `.vitepress/sidebar_featureYYYY.ts`：新增/更新 `sidebar_YYYYMM`，包括目录、相邻期、封二和各栏目文章。
 - 编辑整期时，始终预留 `ifc/content.md`（封二）与 `spotlight/content.md`（香草快讯），并接入目录及当期侧栏。尚未收稿时明确标注“编辑中”，只留栏目骨架，不编造正文、署名、版本或摘要；Spotlight 署名未定时先用普通大标题，收到稿件后再转为 `SpotlightHead`。
-- 目录、封二和 Spotlight 均预留 `<ClientOnly>` 包裹的 `GiscusComment`，使用 `useData().isDark` 切换主题，同一期可共用一个 Discussion。编号未定时保留 `discussionNumber = ''`，用 `v-if="discussionNumber"` 禁止挂载；不能借用上期编号，也不能因未取得编号就省略评论组件。确认编号后同步填写三页。
+- 目录和封二均预留 `<ClientOnly>` 包裹的 `GiscusComment`，使用 `useData().isDark` 切换主题，同一期可共用一个 Discussion。编号未定时保留 `discussionNumber = ''`，用 `v-if="discussionNumber"` 禁止挂载；不能借用上期编号，也不能因未取得编号就省略评论组件。确认编号后同步填写这两页。Spotlight 不设置评论区，也不添加仅用于评论的脚本、主题状态或讨论编号。
 - 需要新建 Discussion 时，先检索 `CR-019/datapack-index` 的现有讨论，避免重复；使用已验证的仓库、分类与编号。用户已允许按需建立 Discussion 时可在现有授权范围内创建；缺少 GitHub 登录或所需权限时，告知所需授权，先完成本地预留，不泄露或索取令牌明文。
 - `.vitepress/config.mts`：导入该期侧栏，并在通用 `/feature/` 匹配之前注册 `/feature/archive/YYYYMM`。跨年时按既有模式建立新的年度侧栏文件。
 - 上一期侧栏：当新刊确实可访问时补“下一刊”，新刊补“上一刊”；不要预先指向不存在的未来期。

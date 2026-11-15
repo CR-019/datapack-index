@@ -2,13 +2,6 @@
 title: '香草快讯 - Mojang Spotlight - 2026年11月'
 ---
 
-<script setup>
-import { useData } from 'vitepress'
-const { isDark } = useData()
-// 确认本期 Discussion 编号后填写；目录、封二与 Spotlight 共用。
-const discussionNumber = ''
-</script>
-
 <SpotlightHead
   title="香草快讯 - Mojang Spotlight - 2026年11月"
   authorName="Alumopper"
@@ -80,23 +73,3 @@ const discussionNumber = ''
 * 26.4-snapshot-6：[https://www.minecraft.net/en-us/article/minecraft-26-4-snapshot-6](https://www.minecraft.net/en-us/article/minecraft-26-4-snapshot-6)
 * 26.4-snapshot-7：[https://www.minecraft.net/en-us/article/minecraft-26-4-snapshot-7](https://www.minecraft.net/en-us/article/minecraft-26-4-snapshot-7)
 * 26.4-snapshot-8：[https://www.minecraft.net/en-us/article/minecraft-26-4-snapshot-8](https://www.minecraft.net/en-us/article/minecraft-26-4-snapshot-8)
-
-<ClientOnly>
-  <GiscusComment
-    v-if="discussionNumber"
-    repo="CR-019/datapack-index"
-    repoId="R_kgDONRhuqw"
-    category="闲聊 Chats"
-    categoryId="DIC_kwDONRhuq84CkchW"
-    mapping="number"
-    :term="discussionNumber"
-    :strict="false"
-    :reactionsEnabled="true"
-    emitMetadata="0"
-    inputPosition="top"
-    :theme="isDark ? 'dark' : 'light'"
-    lang="zh-CN"
-    loading="lazy"
-    class="giscus-wrapper"
-  />
-</ClientOnly>

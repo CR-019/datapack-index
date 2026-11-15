@@ -90,6 +90,6 @@
 
 ## 评论区与英文页
 
-目录、封二和 Spotlight 使用 `<ClientOnly>` 包裹 `GiscusComment`，并用 `useData().isDark` 切换主题。`mapping="number"` 对应的 `term` 是 GitHub Discussion 编号，不是月份或期号。同一期可以共用一个讨论，但不能套用上期编号。缺少新讨论信息时仍预留完整组件：在 `<script setup>` 中定义 `const discussionNumber = ''`，组件使用 `v-if="discussionNumber"` 和 `:term="discussionNumber"`，避免挂载无效评论区。取得真实编号后同步填写三页；创建前先检索现有讨论，缺少 GitHub 登录或权限时告知用户所需授权。
+目录和封二使用 `<ClientOnly>` 包裹 `GiscusComment`，并用 `useData().isDark` 切换主题。`mapping="number"` 对应的 `term` 是 GitHub Discussion 编号，不是月份或期号。同一期可以共用一个讨论，但不能套用上期编号。缺少新讨论信息时仍预留完整组件：在 `<script setup>` 中定义 `const discussionNumber = ''`，组件使用 `v-if="discussionNumber"` 和 `:term="discussionNumber"`，避免挂载无效评论区。取得真实编号后同步填写这两页；创建前先检索现有讨论，缺少 GitHub 登录或权限时告知用户所需授权。Spotlight 不设置评论区，也不保留仅用于评论的脚本和讨论编号。
 
 英文导航有独立的显式映射，中文导航更新不意味着英文文章和导航已经齐全。用户要求英文同步时检查 `en/feature/`、`.vitepress/sidebar_en.ts` 及翻译脚本支持的文件筛选，不在普通中文文稿整理中扩大到全仓翻译。
