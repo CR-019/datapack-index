@@ -98,14 +98,15 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #36d959,
-    #cf5cff 60%
+    #775cff,
+    #775cff 60%
   );
   --vp-home-hero-image-size: cover;
   --vp-home-hero-image-background-image: radial-gradient(
     circle at center,
-    #36d95950 15%,
-    #5cff80d0 70%
+    #775cff00 10%,
+    #b5a7ff 45%,
+    #775cff00 
   );
   --vp-home-hero-image-filter: blur(44px);
 }
@@ -115,13 +116,14 @@
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
     #ffe35c,
-    #cf5cff 60%
+    #775cff 60%
   );
   --vp-home-hero-image-size: cover;
   --vp-home-hero-image-background-image: radial-gradient(
     circle at center,
-    #306abf50 15%,
-    #5c9fffd0 70%
+    #775cff00 10%,
+    #5b3aff90 45%,
+    #775cff00 
   );
   --vp-home-hero-image-filter: blur(44px);
 }
@@ -129,19 +131,19 @@
 
 
 .VPButton.medium.brand {
-  background-color: #cf5cff; /* 例如：改为红色 */
+  background-color: #775cff; /* 例如：改为红色 */
   color: white;
-  border-color: #cf5cff;
+  border-color: #775cff;
 }
 
 .VPButton.medium.brand:hover {
-  background-color: #b04bdb;
+  background-color: #907aff;
   color: white;
-  border-color: #b04bdb;
+  border-color: #907aff;
 }
 
 .VPLink.link.no-icon.VPFeature:hover{
-  border-color: #cf5cff;
+  border-color: #775cff;
 }
 
 
