@@ -548,7 +548,7 @@ export const sidebar_202611: DefaultTheme.Sidebar = [
       { text: '用数据包造一台街机：多实例架构', link: '/feature/archive/202611/2/content' },
       { text: '基于 stopwatch 实现任务动态预算控制', link: '/feature/archive/202611/3/content' },
       { text: '从锄头到甘蔗催熟剂：block_transformer 还能这么玩？', link: '/feature/archive/202611/4/content' },
-      { text: '基础篇 - 帧缓冲', link: '/feature/archive/202611/5/content' },
+      { text: '着色器基础篇 - 帧缓冲', link: '/feature/archive/202611/5/content' },
     ]
   },
   {

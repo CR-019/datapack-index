@@ -22,7 +22,7 @@ title: 'Simple Replay：数据包玩家回放系统'
 ## 2. 安装与准备
 
 1. 将数据包文件夹或压缩包放入世界的 `datapacks` 目录，确保根目录直接包含 `pack.mcmeta` 和 `data`。
-2. 进入世界后执行 `/reload`，再用 `/datapack list enabled` 确认已启用。
+2. 进入世界后执行<cmd c='reload'/>，再用<cmd c='datapack list enabled'/>确认已启用。
 3. 执行以下命令查看游戏内中文帮助：
 
 ```mcfunction
@@ -31,7 +31,7 @@ title: 'Simple Replay：数据包玩家回放系统'
 
 目标版本为 **Minecraft Java 26.1.2 至 26.2**，当前主要在 26.2 环境中开发和验证。安装或更新前建议备份世界和已有录像。
 
-创建录制、播放和管理录像需要执行 `/function` 的权限；普通玩家可以用 `/trigger replay.join` 加入多人录制。录像库和设置由整个世界共用，同一时间只允许一个录制会话，准备中的录制也会占用这个名额。
+创建录制、播放和管理录像需要执行<cmd c='function'/>的权限；普通玩家可以用<cmd c='trigger replay.join'/>加入多人录制。录像库和设置由整个世界共用，同一时间只允许一个录制会话，准备中的录制也会占用这个名额。
 
 ## 3. 录制与保存
 

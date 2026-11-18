@@ -202,10 +202,10 @@
     {
         "id": "311029",
         "cn_title": "无法在实体谓词的equipment中检查saddle槽位",
-        "version": "26.2+",
+        "version": "26.2~26.3",
         "description": "谓词的equipment槽位可以检查所有其他槽位，比如body或head，但是不能检查saddle。如有需要应该使用execute if items。",
-        "title": "Entity \"equipment\" predicate doesn't support the saddle slot",
-        "status": "Confirmed"
+        "title": "The `equipment` entity predicate doesn't support the saddle slot",
+        "status": "fixed"
     },
     {
         "id": "307449",

@@ -6,6 +6,7 @@ import { compile as compileTemplate, errorMessages as vueCompilerErrorMessages }
 import { Marked, Renderer } from 'marked'
 import { transformNbtTree } from '../markdown/nbt-tree.mjs'
 import katex from 'katex'
+import { mcfpp } from '../highlights/mcfpp'
 import { mcfunction } from '../highlights/mcfuntion'
 import { mcdoc } from '../highlights/mcdoc/mcdoc'
 import { snbt } from '../highlights/snbt'
@@ -499,6 +500,7 @@ async function getPreviewHighlighter() {
       await highlighter.loadLanguage(mcfunction)
       await highlighter.loadLanguage(mcdoc)
       await highlighter.loadLanguage(snbt)
+      await highlighter.loadLanguage(mcfpp)
       return highlighter
     }).catch((error) => {
       previewHighlighterPromise = null

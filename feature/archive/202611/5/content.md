@@ -1,9 +1,9 @@
 ---
-title: '基础篇 - 帧缓冲'
+title: '着色器基础篇 - 帧缓冲'
 ---
 
 <FeatureHead
-  title="基础篇 - 帧缓冲"
+  title="着色器基础篇 - 帧缓冲"
   authorName="轩宇1725"
 />
 

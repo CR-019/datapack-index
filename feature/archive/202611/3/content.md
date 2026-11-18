@@ -27,9 +27,9 @@ title: '基于 stopwatch 实现任务动态预算控制'
 
 明明已经把计算分散开了，为什么耗时还是这样忽高忽低？
 
-## 为什么会出现这种波浪
+## 何波浪
 
-原因是：**每 tick 执行的任务数量固定，但每个任务的开销不同。**
+原因是，虽然**每 tick 执行的任务数量固定，但每个任务的开销不同**。
 
 例如，面团相关任务要处理连通性、支撑和下落，蛋液相关任务要处理流动和重力。具体实现很复杂，这里简化成两类任务，假设轻任务（蛋液模拟）一次需要 **200μs**，重任务（面团模拟）一次需要 **800μs**。
 
@@ -75,7 +75,7 @@ title: '基于 stopwatch 实现任务动态预算控制'
 
 ## 用 stopwatch 测量已用时间
 
-本文使用 Minecraft Java 26.3 的 `stopwatch` 命令计时。
+本文使用 Minecraft Java 26.3 的<cmd c='stopwatch'/>命令计时。
 
 初始化时创建计时器：
 
@@ -151,4 +151,4 @@ execute store result score wall_ms temp run stopwatch query cooking:work 1000
 
 ---
 
-**适用版本**：Minecraft Java 26.3  
+**适用版本**：Minecraft Java 26.3

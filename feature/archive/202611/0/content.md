@@ -144,7 +144,7 @@ data Skill {
         return this.damage * this.level
     }
 }
-                                                       
+
 func useSkill() {
     var fireball = Skill(3)
     var damage = fireball.getDamage()

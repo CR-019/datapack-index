@@ -11,6 +11,7 @@ import { compile } from "@vue/compiler-dom";
 import { computed, defineComponent, markRaw, ref, shallowRef, watch } from "vue";
 import { useData } from "vitepress";
 
+import { mcfpp } from "../../highlights/mcfpp";
 import { mcfunction } from "../../highlights/mcfuntion";
 import { mcdoc } from "../../highlights/mcdoc/mcdoc";
 import { snbt } from "../../highlights/snbt";
@@ -38,6 +39,7 @@ async function getHighlighter() {
 			await highlighter.loadLanguage(mcfunction);
 			await highlighter.loadLanguage(mcdoc);
 			await highlighter.loadLanguage(snbt);
+			await highlighter.loadLanguage(mcfpp);
 			return highlighter;
 		});
 	}

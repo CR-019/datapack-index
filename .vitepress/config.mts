@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from "vitepress";
 import { sidebar } from "./sidebar";
+import { mcfpp } from "./highlights/mcfpp";
 import { mcfunction } from "./highlights/mcfuntion";
 import { mcdoc } from "./highlights/mcdoc/mcdoc";
 import { snbt } from "./highlights/snbt";
@@ -323,7 +324,7 @@ export default defineConfig({
     srcExclude:["material",".github",".idea"],
 
     markdown: {
-        languages: [mcfunction, mcdoc, snbt],
+        languages: [mcfunction, mcdoc, snbt, mcfpp],
 
         shikiSetup: async (shiki) => {
             await shiki.loadLanguage(mcfunction);

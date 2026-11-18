@@ -33,7 +33,7 @@ title: '香草快讯 - Mojang Spotlight - 2026年11月'
 
 ## 命令格式
 
-### `/effect`
+### <cmd c='effect'/>
 
 现在支持接受状态效果标签作为参数。
 
