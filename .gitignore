@@ -13,6 +13,7 @@ cache
 __pycache__
 .DS_Store
 **/.DS_Store/**
+.agents
 
 # Feature 投稿主站收录审核材料
 /.temp/feature-main-site-review/

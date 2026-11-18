@@ -1,4 +1,0 @@
-interface:
-  display_name: "《Feature》文稿编辑"
-  short_description: "沿用香草图书馆的目录、Vue 组件和资源约定整理 Feature 月刊文稿"
-  default_prompt: "使用 $vanilla-feature-editor，根据本仓库往期格式整理本期《Feature》的投稿，检查 Vue 排版、署名、资源引用及本次范围内的期刊导航。"
