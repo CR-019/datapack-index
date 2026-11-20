@@ -1,0 +1,113 @@
+[
+  {
+    "issue": "202601",
+    "video": "F:\\ywc\\月刊《Feature》\\202601\\字幕.mp4",
+    "url": "https://www.bilibili.com/video/BV1tBk4B8Exk",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202601.m4a",
+    "duration_seconds": 250.845011,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "08758627754d5bd36c8d6740571bbb797d5837e48d9a7275e389498268b5df1e"
+  },
+  {
+    "issue": "202602",
+    "video": "F:\\ywc\\月刊《Feature》\\202602\\Feature2026-02.mp4",
+    "url": "https://www.bilibili.com/video/BV158f3BBEU3",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202602.m4a",
+    "duration_seconds": 279.428934,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "dc47ab8bac19ec10fad770ebe58634f97616145518a67c7077bb9dbe74474763"
+  },
+  {
+    "issue": "202603",
+    "video": "F:\\ywc\\月刊《Feature》\\202603\\1.mp4",
+    "url": "https://www.bilibili.com/video/BV15hAPzbEP6",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202603.m4a",
+    "duration_seconds": 313.27,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "afa306f1ad491b57d3a0b11bf12c6fa6d59084bad5a4f77f11709604a77fc5a0"
+  },
+  {
+    "issue": "202604",
+    "video": "F:\\ywc\\月刊《Feature》\\202604\\Feature2026-04.mp4",
+    "url": "https://www.bilibili.com/video/BV1NEojBeERk",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202604.m4a",
+    "duration_seconds": 313.074649,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "3514ab3cd2b4166b5c6680b079c40574b1dfaa7ac50892218193d19d7bf77da1"
+  },
+  {
+    "issue": "202605",
+    "video": "F:\\ywc\\月刊《Feature》\\202605\\1.mp4",
+    "url": "https://space.bilibili.com/85292644/lists/7206186?type=season",
+    "url_note": "期刊页使用合集链接，以本地月目录成片为参考",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202605.m4a",
+    "duration_seconds": 400.971995,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "4c5f439147ee86a7f70fd109f461a1d1a80b24e6140e142044a7c5b862779d2f"
+  },
+  {
+    "issue": "202606",
+    "video": "F:\\ywc\\月刊《Feature》\\202606\\202606.mp4",
+    "url": "https://www.bilibili.com/video/BV1WW7g6EEp4/",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202606.m4a",
+    "duration_seconds": 418.539683,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "bd029e6ac3976d8665f1874700422ebdabfa7879a995ad3ab66948e1eaed191d"
+  },
+  {
+    "issue": "202607",
+    "video": "F:\\ywc\\月刊《Feature》\\202607\\202607.mp4",
+    "url_note": "7月期刊 coverLink 误指6月视频；本次以7月本地成片和口播稿为准",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202607.m4a",
+    "duration_seconds": 348.438639,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "5cacbe202726ff6cd6c8ec258db6a6b040d91baf92d94a2d785cee38eca7a592"
+  },
+  {
+    "issue": "202608",
+    "video": "F:\\ywc\\月刊《Feature》\\202608\\H201.mp4",
+    "url": "https://www.bilibili.com/video/BV1kmbL64EsL",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202608.m4a",
+    "duration_seconds": 224.0,
+    "source_audio_codec": "aac",
+    "sample_rate": "48000",
+    "channels": 2,
+    "sha256": "de387a62dfbd4a191d1b8577397eb01c78587ebee71bcb47eaa1f4850faadb30"
+  },
+  {
+    "issue": "202609",
+    "video": "F:\\ywc\\月刊《Feature》\\202609\\202609271437(4).mp4",
+    "url": "https://www.bilibili.com/video/BV1j4Yc6JEi2",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202609.m4a",
+    "duration_seconds": 307.710998,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "d9b0db01531af6e7b7ac8f15c8852438a9eb3cee03678358c6f504e5e916f39d"
+  },
+  {
+    "issue": "202610",
+    "video": "F:\\ywc\\月刊《Feature》\\202610\\202610291436(4).mp4",
+    "url": "https://www.bilibili.com/video/BV1FfxH6YEoT",
+    "audio": "F:\\ywc\\月刊《Feature》\\_参考音频\\202601-202610\\202610.m4a",
+    "duration_seconds": 394.041995,
+    "source_audio_codec": "aac",
+    "sample_rate": "44100",
+    "channels": 2,
+    "sha256": "7c9975b6845951a47c3cf3a015c0b8f2c9fbe6497ec99ef2fea87588db9ffb8a"
+  }
+]
